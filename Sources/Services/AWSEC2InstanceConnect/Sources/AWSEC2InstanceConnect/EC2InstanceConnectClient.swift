@@ -71,6 +71,7 @@ public final class EC2InstanceConnectClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfig
     let serviceName = "EC2 Instance Connect"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use EC2InstanceConnectClient.EC2InstanceConnectClientConfig instead")
     public typealias Config = EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
@@ -80,6 +81,7 @@ public final class EC2InstanceConnectClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: EC2InstanceConnectClient.EC2InstanceConnectClientConfig) instead")
@@ -194,7 +196,7 @@ extension EC2InstanceConnectClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EC2 Instance Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -249,7 +251,7 @@ extension EC2InstanceConnectClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EC2 Instance Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -425,7 +427,7 @@ extension EC2InstanceConnectClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EC2 Instance Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -480,7 +482,7 @@ extension EC2InstanceConnectClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "EC2 Instance Connect")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -660,8 +662,6 @@ extension EC2InstanceConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSSHPublicKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -673,6 +673,8 @@ extension EC2InstanceConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2 Instance Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2InstanceConnect")
@@ -745,8 +747,6 @@ extension EC2InstanceConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendSerialConsoleSSHPublicKeyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2 Instance Connect", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -758,6 +758,8 @@ extension EC2InstanceConnectClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendSerialConsoleSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2 Instance Connect"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutput>(serviceID: serviceName, version: EC2InstanceConnectClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2InstanceConnect")

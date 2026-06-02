@@ -71,6 +71,7 @@ public final class Route53RecoveryClusterClient: AWSClientRuntime.AWSServiceClie
     let client: ClientRuntime.SdkHttpClient
     public let config: Route53RecoveryClusterClient.Route53RecoveryClusterClientConfig
     let serviceName = "Route53 Recovery Cluster"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use Route53RecoveryClusterClient.Route53RecoveryClusterClientConfig instead")
     public typealias Config = Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration
@@ -80,6 +81,7 @@ public final class Route53RecoveryClusterClient: AWSClientRuntime.AWSServiceClie
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: Route53RecoveryClusterClient.Route53RecoveryClusterClientConfig) instead")
@@ -194,7 +196,7 @@ extension Route53RecoveryClusterClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53 Recovery Cluster")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -249,7 +251,7 @@ extension Route53RecoveryClusterClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53 Recovery Cluster")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -425,7 +427,7 @@ extension Route53RecoveryClusterClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53 Recovery Cluster")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -480,7 +482,7 @@ extension Route53RecoveryClusterClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53 Recovery Cluster")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -663,8 +665,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoutingControlStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53 Recovery Cluster", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -676,6 +676,8 @@ extension Route53RecoveryClusterClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRoutingControlStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53 Recovery Cluster"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoutingControlStateInput, GetRoutingControlStateOutput>(serviceID: serviceName, version: Route53RecoveryClusterClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53RecoveryCluster")
@@ -746,8 +748,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingControlsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53 Recovery Cluster", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -759,6 +759,8 @@ extension Route53RecoveryClusterClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRoutingControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53 Recovery Cluster"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(serviceID: serviceName, version: Route53RecoveryClusterClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53RecoveryCluster")
@@ -830,8 +832,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53 Recovery Cluster", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -843,6 +843,8 @@ extension Route53RecoveryClusterClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRoutingControlStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53 Recovery Cluster"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStateInput, UpdateRoutingControlStateOutput>(serviceID: serviceName, version: Route53RecoveryClusterClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53RecoveryCluster")
@@ -915,8 +917,6 @@ extension Route53RecoveryClusterClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlStatesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53 Recovery Cluster", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -928,6 +928,8 @@ extension Route53RecoveryClusterClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRoutingControlStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53 Recovery Cluster"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRoutingControlStatesInput, UpdateRoutingControlStatesOutput>(serviceID: serviceName, version: Route53RecoveryClusterClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53RecoveryCluster")

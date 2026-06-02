@@ -73,6 +73,7 @@ public final class MarketplaceAgreementClient: AWSClientRuntime.AWSServiceClient
     let client: ClientRuntime.SdkHttpClient
     public let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfig
     let serviceName = "Marketplace Agreement"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use MarketplaceAgreementClient.MarketplaceAgreementClientConfig instead")
     public typealias Config = MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
@@ -82,6 +83,7 @@ public final class MarketplaceAgreementClient: AWSClientRuntime.AWSServiceClient
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: MarketplaceAgreementClient.MarketplaceAgreementClientConfig) instead")
@@ -196,7 +198,7 @@ extension MarketplaceAgreementClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Agreement")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension MarketplaceAgreementClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Agreement")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension MarketplaceAgreementClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Agreement")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension MarketplaceAgreementClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Marketplace Agreement")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -661,8 +663,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -674,6 +674,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -740,8 +742,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -753,6 +753,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -819,8 +821,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -832,6 +832,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -897,8 +899,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -910,6 +910,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -976,8 +978,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementInput, CancelAgreementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementInput, CancelAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -989,6 +989,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementInput, CancelAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementInput, CancelAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelAgreementInput, CancelAgreementOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1055,8 +1057,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1068,6 +1068,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1134,8 +1136,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1147,6 +1147,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1215,8 +1217,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgreementRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1228,6 +1228,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1293,8 +1295,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgreementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1306,6 +1306,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1371,8 +1373,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1384,6 +1384,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1449,8 +1451,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementEntitlementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1462,6 +1462,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1527,8 +1529,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1540,6 +1540,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1616,8 +1618,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1629,6 +1629,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1694,8 +1696,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingAdjustmentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1707,6 +1707,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1771,8 +1773,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementCancellationRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1784,6 +1784,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1848,8 +1850,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementChargesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1861,6 +1861,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementChargesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -1926,8 +1928,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementInvoiceLineItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1939,6 +1939,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2003,8 +2005,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementPaymentRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2016,6 +2016,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2080,8 +2082,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingAdjustmentRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2093,6 +2093,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2159,8 +2161,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2172,6 +2172,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2238,8 +2240,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2251,6 +2251,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2426,8 +2428,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgreementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2439,6 +2439,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAgreementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2506,8 +2508,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2519,6 +2519,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2586,8 +2588,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2599,6 +2599,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")
@@ -2665,8 +2667,6 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePurchaseOrdersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2678,6 +2678,8 @@ extension MarketplaceAgreementClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Marketplace Agreement"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(serviceID: serviceName, version: MarketplaceAgreementClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MarketplaceAgreement")

@@ -73,6 +73,7 @@ public final class SustainabilityClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: SustainabilityClient.SustainabilityClientConfig
     let serviceName = "Sustainability"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use SustainabilityClient.SustainabilityClientConfig instead")
     public typealias Config = SustainabilityClient.SustainabilityClientConfiguration
@@ -82,6 +83,7 @@ public final class SustainabilityClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: SustainabilityClient.SustainabilityClientConfig) instead")
@@ -199,7 +201,7 @@ extension SustainabilityClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Sustainability")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -256,7 +258,7 @@ extension SustainabilityClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Sustainability")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -437,7 +439,7 @@ extension SustainabilityClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Sustainability")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -494,7 +496,7 @@ extension SustainabilityClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Sustainability")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -671,8 +673,6 @@ extension SustainabilityClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEstimatedCarbonEmissionsOutput>(GetEstimatedCarbonEmissionsOutput.httpOutput(from:), GetEstimatedCarbonEmissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEstimatedCarbonEmissionsInput, GetEstimatedCarbonEmissionsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEstimatedCarbonEmissionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Sustainability", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -682,6 +682,8 @@ extension SustainabilityClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEstimatedCarbonEmissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEstimatedCarbonEmissionsInput, GetEstimatedCarbonEmissionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEstimatedCarbonEmissionsInput, GetEstimatedCarbonEmissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Sustainability"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEstimatedCarbonEmissionsInput, GetEstimatedCarbonEmissionsOutput>(serviceID: serviceName, version: SustainabilityClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Sustainability")
@@ -743,8 +745,6 @@ extension SustainabilityClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEstimatedCarbonEmissionsDimensionValuesOutput>(GetEstimatedCarbonEmissionsDimensionValuesOutput.httpOutput(from:), GetEstimatedCarbonEmissionsDimensionValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEstimatedCarbonEmissionsDimensionValuesInput, GetEstimatedCarbonEmissionsDimensionValuesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEstimatedCarbonEmissionsDimensionValuesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Sustainability", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -754,6 +754,8 @@ extension SustainabilityClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEstimatedCarbonEmissionsDimensionValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEstimatedCarbonEmissionsDimensionValuesInput, GetEstimatedCarbonEmissionsDimensionValuesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEstimatedCarbonEmissionsDimensionValuesInput, GetEstimatedCarbonEmissionsDimensionValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Sustainability"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEstimatedCarbonEmissionsDimensionValuesInput, GetEstimatedCarbonEmissionsDimensionValuesOutput>(serviceID: serviceName, version: SustainabilityClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Sustainability")

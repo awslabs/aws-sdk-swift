@@ -73,6 +73,7 @@ public final class CognitoIdentityProviderClient: AWSClientRuntime.AWSServiceCli
     let client: ClientRuntime.SdkHttpClient
     public let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfig
     let serviceName = "Cognito Identity Provider"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use CognitoIdentityProviderClient.CognitoIdentityProviderClientConfig instead")
     public typealias Config = CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
@@ -82,6 +83,7 @@ public final class CognitoIdentityProviderClient: AWSClientRuntime.AWSServiceCli
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfig) instead")
@@ -196,7 +198,7 @@ extension CognitoIdentityProviderClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cognito Identity Provider")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -251,7 +253,7 @@ extension CognitoIdentityProviderClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cognito Identity Provider")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -427,7 +429,7 @@ extension CognitoIdentityProviderClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cognito Identity Provider")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -482,7 +484,7 @@ extension CognitoIdentityProviderClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Cognito Identity Provider")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -629,6 +631,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserImportInProgressException` : This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
@@ -665,8 +668,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddCustomAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -678,6 +679,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddCustomAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -744,8 +747,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddUserPoolClientSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -757,6 +758,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddUserPoolClientSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddUserPoolClientSecretInput, AddUserPoolClientSecretOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -791,6 +794,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -827,8 +831,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminAddUserToGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -840,6 +842,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminAddUserToGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -879,6 +883,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyFailedAttemptsException` : This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -918,8 +923,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminConfirmSignUpOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -931,6 +934,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminConfirmSignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -970,6 +975,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -1011,8 +1017,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminCreateUserInput, AdminCreateUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminCreateUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1024,6 +1028,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminCreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminCreateUserInput, AdminCreateUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1058,6 +1064,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1094,8 +1101,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDeleteUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1107,6 +1112,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1141,6 +1148,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1177,8 +1185,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDeleteUserAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1190,6 +1196,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDeleteUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1225,6 +1233,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1261,8 +1270,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDisableProviderForUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1274,6 +1281,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDisableProviderForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1308,6 +1317,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1344,8 +1354,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDisableUserInput, AdminDisableUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDisableUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1357,6 +1365,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminDisableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminDisableUserInput, AdminDisableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1391,6 +1401,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1427,8 +1438,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminEnableUserInput, AdminEnableUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminEnableUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1440,6 +1449,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminEnableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminEnableUserInput, AdminEnableUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1475,6 +1486,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1511,8 +1523,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminForgetDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1524,6 +1534,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminForgetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1559,6 +1571,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func adminGetDevice(input: AdminGetDeviceInput) async throws -> AdminGetDeviceOutput {
@@ -1594,8 +1607,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminGetDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1607,6 +1618,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminGetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1641,6 +1654,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1677,8 +1691,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminGetUserInput, AdminGetUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminGetUserInput, AdminGetUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminGetUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1690,6 +1702,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminGetUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminGetUserInput, AdminGetUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminGetUserInput, AdminGetUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminGetUserInput, AdminGetUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1730,6 +1744,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `MFAMethodNotFoundException` : This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -1771,8 +1786,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminInitiateAuthOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1784,6 +1797,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminInitiateAuthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1820,6 +1835,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -1856,8 +1872,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminLinkProviderForUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1869,6 +1883,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminLinkProviderForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1904,6 +1920,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func adminListDevices(input: AdminListDevicesInput) async throws -> AdminListDevicesOutput {
@@ -1939,8 +1956,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListDevicesInput, AdminListDevicesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListDevicesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1952,6 +1967,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminListDevicesInput, AdminListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -1986,6 +2003,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2022,8 +2040,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListGroupsForUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2035,6 +2051,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListGroupsForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2069,6 +2087,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2106,8 +2125,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListUserAuthEventsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2119,6 +2136,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminListUserAuthEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2153,6 +2172,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2189,8 +2209,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminRemoveUserFromGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2202,6 +2220,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminRemoveUserFromGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2241,6 +2261,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
@@ -2279,8 +2300,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminResetUserPasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2292,6 +2311,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminResetUserPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2336,6 +2357,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `MFAMethodNotFoundException` : This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
@@ -2378,8 +2400,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminRespondToAuthChallengeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2391,6 +2411,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminRespondToAuthChallengeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2425,6 +2447,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
@@ -2462,8 +2485,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserMFAPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2475,6 +2496,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserMFAPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2510,6 +2533,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -2547,8 +2571,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserPasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2560,6 +2582,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2594,6 +2618,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
     public func adminSetUserSettings(input: AdminSetUserSettingsInput) async throws -> AdminSetUserSettingsOutput {
@@ -2629,8 +2654,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2642,6 +2665,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminSetUserSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2676,6 +2701,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2713,8 +2739,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateAuthEventFeedbackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2726,6 +2750,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2761,6 +2787,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2797,8 +2824,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateDeviceStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2810,6 +2835,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateDeviceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2852,6 +2879,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
@@ -2890,8 +2918,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateUserAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2903,6 +2929,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUpdateUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -2946,6 +2974,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -2982,8 +3011,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUserGlobalSignOutOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2995,6 +3022,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AdminUserGlobalSignOutOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3027,6 +3056,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `SoftwareTokenMFANotFoundException` : This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
     public func associateSoftwareToken(input: AssociateSoftwareTokenInput) async throws -> AssociateSoftwareTokenOutput {
@@ -3060,8 +3090,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSoftwareTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3073,6 +3101,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSoftwareTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3106,6 +3136,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
@@ -3143,8 +3174,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangePasswordInput, ChangePasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangePasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3156,6 +3185,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ChangePasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ChangePasswordInput, ChangePasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ChangePasswordInput, ChangePasswordOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3188,6 +3219,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `WebAuthnChallengeNotFoundException` : This exception is thrown when the challenge from StartWebAuthn registration has expired.
@@ -3227,8 +3259,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteWebAuthnRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3240,6 +3270,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteWebAuthnRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3275,6 +3307,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -3312,8 +3345,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3325,6 +3356,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3361,6 +3394,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidPasswordException` : This exception is thrown when Amazon Cognito encounters an invalid password.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyFailedAttemptsException` : This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
@@ -3400,8 +3434,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmForgotPasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3413,6 +3445,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmForgotPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3449,6 +3483,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyFailedAttemptsException` : This exception is thrown when the user has made too many failed attempts for a given action, such as sign-in.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -3486,8 +3521,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmSignUpOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3499,6 +3532,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConfirmSignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3535,6 +3570,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutput {
@@ -3570,8 +3606,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3583,6 +3617,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGroupInput, CreateGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGroupInput, CreateGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3654,8 +3690,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentityProviderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3667,6 +3701,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3704,6 +3740,7 @@ extension CognitoIdentityProviderClient {
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `ManagedLoginBrandingExistsException` : This exception is thrown when you attempt to apply a managed login branding style to an app client that already has an assigned style.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func createManagedLoginBranding(input: CreateManagedLoginBrandingInput) async throws -> CreateManagedLoginBrandingOutput {
@@ -3739,8 +3776,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedLoginBrandingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3752,6 +3787,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3787,6 +3824,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func createResourceServer(input: CreateResourceServerInput) async throws -> CreateResourceServerOutput {
@@ -3822,8 +3860,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceServerInput, CreateResourceServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3835,6 +3871,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResourceServerInput, CreateResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3871,6 +3909,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TermsExistsException` : Terms document names must be unique to the app client. This exception is thrown when you attempt to create terms documents with a duplicate TermsName.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -3907,8 +3946,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTermsInput, CreateTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTermsInput, CreateTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3920,6 +3957,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTermsInput, CreateTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTermsInput, CreateTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTermsInput, CreateTermsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -3955,6 +3994,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -3991,8 +4031,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4004,6 +4042,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4079,8 +4119,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolInput, CreateUserPoolOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4092,6 +4130,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserPoolInput, CreateUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4129,6 +4169,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `ScopeDoesNotExistException` : This exception is thrown when the specified scope doesn't exist.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -4165,8 +4206,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolClientOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4178,6 +4217,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4215,6 +4256,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     public func createUserPoolDomain(input: CreateUserPoolDomainInput) async throws -> CreateUserPoolDomainOutput {
         var config = config
@@ -4249,8 +4291,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4262,10 +4302,98 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateUserPoolDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateUserPoolReplica` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Creates a replica of an existing user pool in a specified Amazon Web Services Region. The replica enables multi-region replication for high availability and disaster recovery. To create a replica, you must have permissions to create user pools in the target Region. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    ///
+    /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+    ///
+    /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateUserPoolReplicaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateUserPoolReplicaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    /// - `UserPoolTaggingException` : This exception is thrown when a user pool tag can't be set or updated.
+    public func createUserPoolReplica(input: CreateUserPoolReplicaInput) async throws -> CreateUserPoolReplicaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CognitoIdentityProviderClient.createUserPoolReplicaOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createUserPoolReplica")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolReplicaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateUserPoolReplicaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.CreateUserPoolReplica"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateUserPoolReplicaInput, CreateUserPoolReplicaOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateUserPoolReplica")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4296,6 +4424,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
@@ -4331,8 +4460,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4344,6 +4471,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGroupInput, DeleteGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGroupInput, DeleteGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4415,8 +4544,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityProviderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4428,6 +4555,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4463,6 +4592,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteManagedLoginBranding(input: DeleteManagedLoginBrandingInput) async throws -> DeleteManagedLoginBrandingOutput {
@@ -4498,8 +4628,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedLoginBrandingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4511,6 +4639,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4545,6 +4675,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteResourceServer(input: DeleteResourceServerInput) async throws -> DeleteResourceServerOutput {
@@ -4580,8 +4711,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4593,6 +4722,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4628,6 +4759,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteTerms(input: DeleteTermsInput) async throws -> DeleteTermsOutput {
@@ -4663,8 +4795,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTermsInput, DeleteTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTermsInput, DeleteTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4676,6 +4806,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTermsInput, DeleteTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTermsInput, DeleteTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTermsInput, DeleteTermsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4707,6 +4839,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -4743,8 +4876,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4756,6 +4887,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserInput, DeleteUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserInput, DeleteUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4787,6 +4920,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -4823,8 +4957,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4836,6 +4968,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4866,6 +5000,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserImportInProgressException` : This exception is thrown when you're trying to modify a user pool while a user import job is in progress for that pool.
@@ -4902,8 +5037,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4915,6 +5048,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -4946,6 +5081,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func deleteUserPoolClient(input: DeleteUserPoolClientInput) async throws -> DeleteUserPoolClientOutput {
@@ -4981,8 +5117,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolClientOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4994,6 +5128,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5059,8 +5195,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolClientSecretOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5072,6 +5206,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolClientSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolClientSecretInput, DeleteUserPoolClientSecretOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5103,6 +5239,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     public func deleteUserPoolDomain(input: DeleteUserPoolDomainInput) async throws -> DeleteUserPoolDomainOutput {
         var config = config
@@ -5137,8 +5274,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5150,10 +5285,95 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteUserPoolDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteUserPoolReplica` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Deletes a secondary replica user pool. You can only delete replicas that are in the INACTIVE status. This operation must be called from the primary Region. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    ///
+    /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+    ///
+    /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserPoolReplicaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteUserPoolReplicaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func deleteUserPoolReplica(input: DeleteUserPoolReplicaInput) async throws -> DeleteUserPoolReplicaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CognitoIdentityProviderClient.deleteUserPoolReplicaOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteUserPoolReplica")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolReplicaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteUserPoolReplicaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.DeleteUserPoolReplica"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteUserPoolReplicaInput, DeleteUserPoolReplicaOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteUserPoolReplica")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5182,6 +5402,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -5216,8 +5437,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebAuthnCredentialOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5229,6 +5448,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebAuthnCredentialOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5294,8 +5515,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityProviderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5307,6 +5526,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5337,6 +5558,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeManagedLoginBranding(input: DescribeManagedLoginBrandingInput) async throws -> DescribeManagedLoginBrandingOutput {
@@ -5372,8 +5594,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedLoginBrandingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5385,6 +5605,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5415,6 +5637,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeManagedLoginBrandingByClient(input: DescribeManagedLoginBrandingByClientInput) async throws -> DescribeManagedLoginBrandingByClientOutput {
@@ -5450,8 +5673,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedLoginBrandingByClientOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5463,6 +5684,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeManagedLoginBrandingByClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5493,6 +5716,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeResourceServer(input: DescribeResourceServerInput) async throws -> DescribeResourceServerOutput {
@@ -5528,8 +5752,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5541,6 +5763,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5571,6 +5795,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
@@ -5607,8 +5832,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRiskConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5620,6 +5843,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRiskConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5654,6 +5879,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeTerms(input: DescribeTermsInput) async throws -> DescribeTermsOutput {
@@ -5689,8 +5915,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTermsInput, DescribeTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTermsInput, DescribeTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5702,6 +5926,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTermsInput, DescribeTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTermsInput, DescribeTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTermsInput, DescribeTermsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5732,6 +5958,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeUserImportJob(input: DescribeUserImportJobInput) async throws -> DescribeUserImportJobOutput {
@@ -5767,8 +5994,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5780,6 +6005,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5814,6 +6041,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolTaggingException` : This exception is thrown when a user pool tag can't be set or updated.
@@ -5850,8 +6078,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5863,6 +6089,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5897,6 +6125,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func describeUserPoolClient(input: DescribeUserPoolClientInput) async throws -> DescribeUserPoolClientOutput {
@@ -5932,8 +6161,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolClientOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5945,6 +6172,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -5979,6 +6208,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     public func describeUserPoolDomain(input: DescribeUserPoolDomainInput) async throws -> DescribeUserPoolDomainOutput {
         var config = config
@@ -6013,8 +6243,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6026,6 +6254,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6058,6 +6288,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -6094,8 +6325,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ForgetDeviceInput, ForgetDeviceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ForgetDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6107,6 +6336,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ForgetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ForgetDeviceInput, ForgetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6144,6 +6375,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
@@ -6180,8 +6412,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ForgotPasswordInput, ForgotPasswordOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ForgotPasswordOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6193,6 +6423,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ForgotPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ForgotPasswordInput, ForgotPasswordOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6227,6 +6459,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func getCSVHeader(input: GetCSVHeaderInput) async throws -> GetCSVHeaderOutput {
@@ -6262,8 +6495,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCSVHeaderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6275,6 +6506,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCSVHeaderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6307,6 +6540,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -6343,8 +6577,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6356,6 +6588,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeviceInput, GetDeviceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDeviceInput, GetDeviceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6390,6 +6624,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
@@ -6425,8 +6660,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupInput, GetGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6438,6 +6671,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGroupInput, GetGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGroupInput, GetGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGroupInput, GetGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6503,8 +6738,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityProviderByIdentifierOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6516,6 +6749,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityProviderByIdentifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6585,8 +6820,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogDeliveryConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6598,6 +6831,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6631,6 +6866,7 @@ extension CognitoIdentityProviderClient {
     /// __Possible Exceptions:__
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     public func getSigningCertificate(input: GetSigningCertificateInput) async throws -> GetSigningCertificateOutput {
         var config = config
@@ -6665,8 +6901,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningCertificateOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6678,6 +6912,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSigningCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6710,6 +6946,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidLambdaResponseException` : This exception is thrown when Amazon Cognito encounters an invalid Lambda response.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `RefreshTokenReuseException` : This exception is throw when your application requests token refresh with a refresh token that has been invalidated by refresh-token rotation.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -6747,8 +6984,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTokensFromRefreshTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6760,6 +6995,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTokensFromRefreshTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6790,6 +7027,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func getUICustomization(input: GetUICustomizationInput) async throws -> GetUICustomizationOutput {
@@ -6825,8 +7063,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUICustomizationInput, GetUICustomizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUICustomizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6838,6 +7074,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUICustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUICustomizationInput, GetUICustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6869,6 +7107,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -6905,8 +7144,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserInput, GetUserOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6918,6 +7155,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserInput, GetUserOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserInput, GetUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserInput, GetUserOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -6955,6 +7194,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -6993,8 +7233,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserAttributeVerificationCodeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7006,6 +7244,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserAttributeVerificationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7044,6 +7284,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -7080,8 +7321,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserAuthFactorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7093,6 +7332,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserAuthFactorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7173,8 +7414,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserPoolMfaConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7186,6 +7425,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetUserPoolMfaConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7226,6 +7467,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -7261,8 +7503,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GlobalSignOutInput, GlobalSignOutOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GlobalSignOutOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7274,6 +7514,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GlobalSignOutOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GlobalSignOutInput, GlobalSignOutOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7310,6 +7552,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -7349,8 +7592,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateAuthInput, InitiateAuthOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateAuthInput, InitiateAuthOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateAuthOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7362,6 +7603,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitiateAuthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitiateAuthInput, InitiateAuthOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InitiateAuthInput, InitiateAuthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InitiateAuthInput, InitiateAuthOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7394,6 +7637,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -7430,8 +7674,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7443,6 +7685,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDevicesInput, ListDevicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDevicesInput, ListDevicesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7477,6 +7721,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
@@ -7512,8 +7757,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7525,6 +7768,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGroupsInput, ListGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGroupsInput, ListGroupsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7594,8 +7839,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProvidersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7607,6 +7850,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIdentityProvidersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7641,6 +7886,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listResourceServers(input: ListResourceServersInput) async throws -> ListResourceServersOutput {
@@ -7676,8 +7922,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceServersInput, ListResourceServersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceServersInput, ListResourceServersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceServersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7689,6 +7933,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceServersInput, ListResourceServersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceServersInput, ListResourceServersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceServersInput, ListResourceServersOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7719,6 +7965,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -7754,8 +8001,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7767,6 +8012,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7801,6 +8048,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listTerms(input: ListTermsInput) async throws -> ListTermsOutput {
@@ -7836,8 +8084,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTermsInput, ListTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTermsInput, ListTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7849,6 +8095,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTermsInput, ListTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTermsInput, ListTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTermsInput, ListTermsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7883,6 +8131,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listUserImportJobs(input: ListUserImportJobsInput) async throws -> ListUserImportJobsOutput {
@@ -7918,8 +8167,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserImportJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7931,6 +8178,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -7996,8 +8245,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolClientSecretsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8009,6 +8256,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolClientSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserPoolClientSecretsInput, ListUserPoolClientSecretsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8043,6 +8292,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listUserPoolClients(input: ListUserPoolClientsInput) async throws -> ListUserPoolClientsOutput {
@@ -8078,8 +8328,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolClientsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8091,10 +8339,95 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolClientsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUserPoolClients")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListUserPoolReplicas` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Lists all replicas for a user pool, including both primary and secondary replicas. We recommend using pagination to ensure that the operation returns quickly and successfully. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    ///
+    /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+    ///
+    /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListUserPoolReplicasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListUserPoolReplicasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func listUserPoolReplicas(input: ListUserPoolReplicasInput) async throws -> ListUserPoolReplicasOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CognitoIdentityProviderClient.listUserPoolReplicasOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listUserPoolReplicas")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolReplicasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListUserPoolReplicasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.ListUserPoolReplicas"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolReplicasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserPoolReplicasInput, ListUserPoolReplicasOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListUserPoolReplicas")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8159,8 +8492,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolsInput, ListUserPoolsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8172,6 +8503,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUserPoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUserPoolsInput, ListUserPoolsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8206,6 +8539,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutput {
@@ -8241,8 +8575,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8254,6 +8586,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsersInput, ListUsersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUsersInput, ListUsersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUsersInput, ListUsersOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8288,6 +8622,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listUsersInGroup(input: ListUsersInGroupInput) async throws -> ListUsersInGroupOutput {
@@ -8323,8 +8658,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersInGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8336,6 +8669,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListUsersInGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8368,6 +8703,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func listWebAuthnCredentials(input: ListWebAuthnCredentialsInput) async throws -> ListWebAuthnCredentialsOutput {
@@ -8401,8 +8737,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebAuthnCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8414,6 +8748,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWebAuthnCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8451,6 +8787,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
@@ -8487,8 +8824,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendConfirmationCodeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8500,6 +8835,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendConfirmationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8541,6 +8878,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `MFAMethodNotFoundException` : This exception is thrown when Amazon Cognito can't find a multi-factor authentication (MFA) method.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordHistoryPolicyViolationException` : The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
@@ -8581,8 +8919,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondToAuthChallengeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8594,6 +8930,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RespondToAuthChallengeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8624,6 +8962,7 @@ extension CognitoIdentityProviderClient {
     /// - `ForbiddenException` : This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnauthorizedException` : Exception that is thrown when the request isn't authorized. This can happen due to an invalid access token in the request.
     /// - `UnsupportedOperationException` : Exception that is thrown when you attempt to perform an operation that isn't enabled for the user pool client.
@@ -8659,8 +8998,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeTokenInput, RevokeTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeTokenInput, RevokeTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8672,6 +9009,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeTokenInput, RevokeTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeTokenInput, RevokeTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeTokenInput, RevokeTokenOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8738,8 +9077,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLogDeliveryConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8751,6 +9088,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8780,7 +9119,7 @@ extension CognitoIdentityProviderClient {
     /// * IP-address denylist and allowlist
     ///
     ///
-    /// To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the [ Plus tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-plus.html).
+    /// To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the [ Plus tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-plus.html). In secondary regions for user pools with multi-region replication, only the SourceARN and From attributes of NotifyConfiguration can be modified to configure region-specific SES integration. All other risk configuration settings must match the existing values to maintain consistency across replicas.
     ///
     /// - Parameter input: [no documentation found] (Type: `SetRiskConfigurationInput`)
     ///
@@ -8794,6 +9133,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidEmailRoleAccessPolicyException` : This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserPoolAddOnNotEnabledException` : This exception is thrown when user pool add-ons aren't enabled.
@@ -8830,8 +9170,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetRiskConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8843,6 +9181,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetRiskConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8877,6 +9217,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func setUICustomization(input: SetUICustomizationInput) async throws -> SetUICustomizationOutput {
@@ -8912,8 +9253,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUICustomizationInput, SetUICustomizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUICustomizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8925,6 +9264,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUICustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetUICustomizationInput, SetUICustomizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -8956,6 +9297,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
@@ -8991,8 +9333,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserMFAPreferenceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9004,6 +9344,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserMFAPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9038,6 +9380,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func setUserPoolMfaConfig(input: SetUserPoolMfaConfigInput) async throws -> SetUserPoolMfaConfigOutput {
@@ -9073,8 +9416,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserPoolMfaConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9086,6 +9427,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserPoolMfaConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9117,6 +9460,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `UserNotConfirmedException` : This exception is thrown when a user isn't confirmed successfully.
@@ -9152,8 +9496,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserSettingsInput, SetUserSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9165,6 +9507,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetUserSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetUserSettingsInput, SetUserSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9203,6 +9547,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UnexpectedLambdaException` : This exception is thrown when Amazon Cognito encounters an unexpected exception with Lambda.
@@ -9239,8 +9584,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignUpInput, SignUpOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignUpInput, SignUpOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignUpOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9252,6 +9595,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SignUpInput, SignUpOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SignUpInput, SignUpOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SignUpInput, SignUpOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9282,6 +9627,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -9318,8 +9664,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartUserImportJobInput, StartUserImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartUserImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9331,6 +9675,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartUserImportJobInput, StartUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9363,6 +9709,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `WebAuthnConfigurationMissingException` : This exception is thrown when a user pool doesn't have a configured relying party id or a user pool domain.
@@ -9398,8 +9745,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWebAuthnRegistrationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9411,6 +9756,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartWebAuthnRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9441,6 +9788,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PreconditionNotMetException` : This exception is thrown when a precondition is not met.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -9477,8 +9825,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopUserImportJobInput, StopUserImportJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopUserImportJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9490,6 +9836,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopUserImportJobInput, StopUserImportJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9520,6 +9868,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -9555,8 +9904,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9568,6 +9915,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9598,6 +9947,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -9633,8 +9983,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9646,6 +9994,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9676,6 +10026,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     /// - `UserNotFoundException` : This exception is thrown when a user isn't found.
@@ -9711,8 +10062,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthEventFeedbackOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9724,6 +10073,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9756,6 +10107,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -9792,8 +10144,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9805,6 +10155,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeviceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9839,6 +10191,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutput {
@@ -9874,8 +10227,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9887,6 +10238,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGroupInput, UpdateGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGroupInput, UpdateGroupOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -9958,8 +10311,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityProviderOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9971,6 +10322,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10006,6 +10359,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func updateManagedLoginBranding(input: UpdateManagedLoginBrandingInput) async throws -> UpdateManagedLoginBrandingOutput {
@@ -10041,8 +10395,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedLoginBrandingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10054,6 +10406,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10088,6 +10442,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func updateResourceServer(input: UpdateResourceServerInput) async throws -> UpdateResourceServerOutput {
@@ -10123,8 +10478,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10136,6 +10489,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10171,6 +10526,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TermsExistsException` : Terms document names must be unique to the app client. This exception is thrown when you attempt to create terms documents with a duplicate TermsName.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -10207,8 +10563,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTermsInput, UpdateTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTermsInput, UpdateTermsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10220,6 +10574,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTermsInput, UpdateTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTermsInput, UpdateTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTermsInput, UpdateTermsOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10259,6 +10615,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -10297,8 +10654,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10310,6 +10665,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10328,7 +10685,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `UpdateUserPool` operation on the `CognitoIdentityProvider` service.
     ///
-    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make. With the exception of UserPoolTier, if you don't provide a value for an attribute, Amazon Cognito sets it to its default value. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    /// Updates the configuration of a user pool. To avoid setting parameters to Amazon Cognito defaults, construct this API request to pass the existing configuration of your user pool, modified to include the changes that you want to make. If you don't provide a value for an attribute, Amazon Cognito sets it to its default value. In secondary regions for user pools with multi-region replication, regional configurations for email, SMS, Lambda functions, and tags can be updated. Both global and regional settings must be provided as inputs, with global settings required to match existing values to maintain consistency across replicas. This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
     /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
     ///
@@ -10349,6 +10706,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     /// - `InvalidSmsRoleTrustRelationshipException` : This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TierChangeNotAllowedException` : This exception is thrown when you've attempted to change your feature plan but the operation isn't permitted.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -10387,8 +10745,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10400,6 +10756,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10437,6 +10795,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidOAuthFlowException` : This exception is thrown when the specified OAuth flow is not valid.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `ScopeDoesNotExistException` : This exception is thrown when the specified scope doesn't exist.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -10473,8 +10832,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolClientOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10486,6 +10843,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10522,6 +10881,7 @@ extension CognitoIdentityProviderClient {
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
     public func updateUserPoolDomain(input: UpdateUserPoolDomainInput) async throws -> UpdateUserPoolDomainOutput {
@@ -10557,8 +10917,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10570,10 +10928,95 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateUserPoolDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateUserPoolReplica` operation on the `CognitoIdentityProvider` service.
+    ///
+    /// Updates replica-specific settings for a user pool replica. You can modify the status to activate or deactivate the replica. This request can be made in both primary and secondary regions of the user pool. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    ///
+    /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
+    ///
+    /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserPoolReplicaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateUserPoolReplicaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
+    /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
+    /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
+    /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
+    public func updateUserPoolReplica(input: UpdateUserPoolReplicaInput) async throws -> UpdateUserPoolReplicaOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CognitoIdentityProviderClient.updateUserPoolReplicaOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateUserPoolReplica")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cognito-idp")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolReplicaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserPoolReplicaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>(overrides: ["X-Amz-Target": "AWSCognitoIdentityProviderService.UpdateUserPoolReplica"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserPoolReplicaInput, UpdateUserPoolReplicaOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateUserPoolReplica")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -10604,6 +11047,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidUserPoolConfigurationException` : This exception is thrown when the user pool configuration is not valid.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `SoftwareTokenMFANotFoundException` : This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
@@ -10641,8 +11085,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifySoftwareTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10654,6 +11096,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifySoftwareTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")
@@ -10689,6 +11133,7 @@ extension CognitoIdentityProviderClient {
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
+    /// - `OperationNotEnabledException` : This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
     /// - `PasswordResetRequiredException` : This exception is thrown when a password reset is required.
     /// - `ResourceNotFoundException` : This exception is thrown when the Amazon Cognito service can't find the requested resource.
     /// - `TooManyRequestsException` : This exception is thrown when the user has made too many requests for a given operation.
@@ -10725,8 +11170,6 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyUserAttributeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cognito Identity Provider", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10738,6 +11181,8 @@ extension CognitoIdentityProviderClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<VerifyUserAttributeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Cognito Identity Provider"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(serviceID: serviceName, version: CognitoIdentityProviderClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CognitoIdentityProvider")

@@ -71,6 +71,7 @@ public final class BackupGatewayClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: BackupGatewayClient.BackupGatewayClientConfig
     let serviceName = "Backup Gateway"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use BackupGatewayClient.BackupGatewayClientConfig instead")
     public typealias Config = BackupGatewayClient.BackupGatewayClientConfiguration
@@ -80,6 +81,7 @@ public final class BackupGatewayClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: BackupGatewayClient.BackupGatewayClientConfig) instead")
@@ -194,7 +196,7 @@ extension BackupGatewayClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Backup Gateway")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -249,7 +251,7 @@ extension BackupGatewayClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Backup Gateway")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -425,7 +427,7 @@ extension BackupGatewayClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Backup Gateway")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -480,7 +482,7 @@ extension BackupGatewayClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Backup Gateway")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -657,8 +659,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateGatewayToServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -670,6 +670,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateGatewayToServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -733,8 +735,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -746,6 +746,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGatewayInput, CreateGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGatewayInput, CreateGatewayOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -810,8 +812,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -823,6 +823,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -889,8 +891,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -902,6 +902,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -967,8 +969,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateGatewayFromServerOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -980,6 +980,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1044,8 +1046,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBandwidthRateLimitScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1057,6 +1057,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1121,8 +1123,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayInput, GetGatewayOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1134,6 +1134,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGatewayInput, GetGatewayOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGatewayInput, GetGatewayOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1198,8 +1200,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorInput, GetHypervisorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1211,6 +1211,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHypervisorInput, GetHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHypervisorInput, GetHypervisorOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1275,8 +1277,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorPropertyMappingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1288,6 +1288,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1352,8 +1354,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVirtualMachineOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1365,6 +1365,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1430,8 +1432,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportHypervisorConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1443,6 +1443,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1506,8 +1508,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1519,6 +1519,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGatewaysInput, ListGatewaysOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGatewaysInput, ListGatewaysOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1582,8 +1584,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHypervisorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1595,6 +1595,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHypervisorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1659,8 +1661,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1672,6 +1672,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1735,8 +1737,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualMachinesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1748,6 +1748,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1812,8 +1814,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBandwidthRateLimitScheduleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1825,6 +1825,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1891,8 +1893,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutHypervisorPropertyMappingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1904,6 +1904,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -1969,8 +1971,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMaintenanceStartTimeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1982,6 +1982,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2047,8 +2049,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVirtualMachinesMetadataSyncOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2060,6 +2060,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2124,8 +2126,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2137,6 +2137,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2202,8 +2204,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestHypervisorConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2215,6 +2215,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2279,8 +2281,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2292,6 +2292,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2357,8 +2359,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayInformationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2370,6 +2370,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2434,8 +2436,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewaySoftwareNowOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2447,6 +2447,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")
@@ -2513,8 +2515,6 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHypervisorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Backup Gateway", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2526,6 +2526,8 @@ extension BackupGatewayClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Backup Gateway"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(serviceID: serviceName, version: BackupGatewayClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BackupGateway")

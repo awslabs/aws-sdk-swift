@@ -24,7 +24,6 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
-import enum AWSClientRuntime.LongPollingBackoffProvider
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
 import enum ClientRuntime.DefaultTelemetry
@@ -718,7 +717,6 @@ extension SigninClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
-        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOAuth2TokenInput, CreateOAuth2TokenOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
