@@ -6253,7 +6253,7 @@ extension Inspector2ClientTypes {
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public var resourceType: [Inspector2ClientTypes.CoverageStringFilter]?
-        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED, EC2_AGENTLESS, and EC2_INSPECTOR_AGENT_BASED.
         public var scanMode: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public var scanStatusCode: [Inspector2ClientTypes.CoverageStringFilter]?
@@ -6546,12 +6546,14 @@ extension Inspector2ClientTypes {
 
     public enum ScanMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ec2Agentless
+        case ec2InspectorAgentBased
         case ec2SsmAgentBased
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanMode] {
             return [
                 .ec2Agentless,
+                .ec2InspectorAgentBased,
                 .ec2SsmAgentBased
             ]
         }
@@ -6564,6 +6566,7 @@ extension Inspector2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ec2Agentless: return "EC2_AGENTLESS"
+            case .ec2InspectorAgentBased: return "EC2_INSPECTOR_AGENT_BASED"
             case .ec2SsmAgentBased: return "EC2_SSM_AGENT_BASED"
             case let .sdkUnknown(s): return s
             }
@@ -8029,13 +8032,17 @@ extension Inspector2ClientTypes {
 
     /// Enables agent-based scanning, which scans instances that are not managed by SSM.
     public struct Ec2Configuration: Swift.Sendable {
+        /// Whether to activate Amazon Inspector VM scanner for Amazon EC2 scanning.
+        public var activateVMScanner: Swift.Bool?
         /// The scan method that is applied to the instance.
         /// This member is required.
         public var scanMode: Inspector2ClientTypes.Ec2ScanMode?
 
         public init(
+            activateVMScanner: Swift.Bool? = nil,
             scanMode: Inspector2ClientTypes.Ec2ScanMode? = nil
         ) {
+            self.activateVMScanner = activateVMScanner
             self.scanMode = scanMode
         }
     }
@@ -8091,15 +8098,74 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum VMScannerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VMScannerStatus] {
+            return [
+                .failed,
+                .pending,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The state of the Amazon Inspector VM scanner.
+    public struct VMScannerState: Swift.Sendable {
+        /// Whether the VM scanner is activated.
+        public var activated: Swift.Bool?
+        /// The date and time the VM scanner was activated.
+        public var activatedAt: Foundation.Date?
+        /// The status of the VM scanner.
+        public var status: Inspector2ClientTypes.VMScannerStatus?
+
+        public init(
+            activated: Swift.Bool? = nil,
+            activatedAt: Foundation.Date? = nil,
+            status: Inspector2ClientTypes.VMScannerStatus? = nil
+        ) {
+            self.activated = activated
+            self.activatedAt = activatedAt
+            self.status = status
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Details about the state of the EC2 scan configuration for your environment.
     public struct Ec2ConfigurationState: Swift.Sendable {
         /// An object that contains details about the state of the Amazon EC2 scan mode.
         public var scanModeState: Inspector2ClientTypes.Ec2ScanModeState?
+        /// An object that contains details about the state of the Amazon Inspector VM scanner.
+        public var vmScannerState: Inspector2ClientTypes.VMScannerState?
 
         public init(
-            scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil
+            scanModeState: Inspector2ClientTypes.Ec2ScanModeState? = nil,
+            vmScannerState: Inspector2ClientTypes.VMScannerState? = nil
         ) {
             self.scanModeState = scanModeState
+            self.vmScannerState = vmScannerState
         }
     }
 }
@@ -16450,6 +16516,7 @@ extension Inspector2ClientTypes.Ec2Configuration {
 
     static func write(value: Inspector2ClientTypes.Ec2Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["activateVMScanner"].write(value.activateVMScanner)
         try writer["scanMode"].write(value.scanMode)
     }
 }
@@ -16460,6 +16527,7 @@ extension Inspector2ClientTypes.Ec2ConfigurationState {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = Inspector2ClientTypes.Ec2ConfigurationState()
         value.scanModeState = try reader["scanModeState"].readIfPresent(with: Inspector2ClientTypes.Ec2ScanModeState.read(from:))
+        value.vmScannerState = try reader["vmScannerState"].readIfPresent(with: Inspector2ClientTypes.VMScannerState.read(from:))
         return value
     }
 }
@@ -17842,6 +17910,18 @@ extension Inspector2ClientTypes.ValidationExceptionField {
         var value = Inspector2ClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.VMScannerState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.VMScannerState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.VMScannerState()
+        value.activated = try reader["activated"].readIfPresent()
+        value.activatedAt = try reader["activatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }

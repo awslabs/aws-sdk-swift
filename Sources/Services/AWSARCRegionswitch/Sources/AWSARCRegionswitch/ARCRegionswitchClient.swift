@@ -1547,6 +1547,7 @@ extension ARCRegionswitchClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// - `IllegalArgumentException` : The request processing has an invalid argument.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The specified resource was not found. HTTP Status Code: 404
     public func listRoute53HealthChecks(input: ListRoute53HealthChecksInput) async throws -> ListRoute53HealthChecksOutput {
