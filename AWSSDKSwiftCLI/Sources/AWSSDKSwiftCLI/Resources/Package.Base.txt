@@ -301,7 +301,7 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
             .AWSClientRuntime,
             .SmithyTestUtil,
         ],
-        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
+        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/\(service.name)/Tests/\(testName)"
     )
 }
 

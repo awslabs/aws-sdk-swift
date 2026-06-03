@@ -28,7 +28,7 @@ class PackageManifestJSONIntegration : SwiftIntegration {
             return
         }
 
-        delegator.useFileWriter("Dependencies.json") { writer ->
+        delegator.useFileWriter("${ctx.settings.moduleName}/Dependencies.json") { writer ->
             writer.setIndentText("  ") // two spaces
             writer.openBlock("{", "}") {
                 // Write the path to the model as "modelPath".

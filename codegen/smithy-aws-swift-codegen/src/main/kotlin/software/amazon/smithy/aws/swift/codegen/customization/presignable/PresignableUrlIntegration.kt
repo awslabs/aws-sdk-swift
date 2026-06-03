@@ -32,7 +32,7 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
-import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 internal val PRESIGNABLE_URL_OPERATIONS: Map<String, Set<String>> =
     mapOf(
@@ -85,14 +85,14 @@ class PresignableUrlIntegration(
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            val filename = SDKFileUtils(ctx.settings).modelFilePath("$inputType+Presigner")
             delegator.useFileWriter(filename) { writer ->
                 val serviceConfig = AWSServiceConfig(writer, protocolGenerationContext)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-URL as a method for service client object
             val symbol = protocolGenerationContext.symbolProvider.toSymbol(protocolGenerationContext.service)
-            val clientFilename = "Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            val clientFilename = "${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
             protocolGenerationContext.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignURLAPIInServiceClient(writer, symbol.name, op, inputType)
             }
@@ -279,7 +279,7 @@ class PresignableUrlIntegration(
         val inputSymbol = ctx.symbolProvider.toSymbol(inputShape)
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
-        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
+        val filename = SDKFileUtils(ctx.settings).modelFilePath("${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol =
             Symbol
                 .builder()
@@ -315,7 +315,7 @@ class PresignableUrlIntegration(
         val inputSymbol = ctx.symbolProvider.toSymbol(inputShape)
         val outputSymbol = ctx.symbolProvider.toSymbol(outputShape)
         val outputErrorSymbol = Symbol.builder().name(operationErrorName).build()
-        val filename = ModelFileUtils.filename(ctx.settings, "${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
+        val filename = SDKFileUtils(ctx.settings).modelFilePath("${inputSymbol.name}+QueryItemMiddlewareForPresignUrl")
         val headerMiddlewareSymbol =
             Symbol
                 .builder()

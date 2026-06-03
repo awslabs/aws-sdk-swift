@@ -19,7 +19,7 @@ class RulesBasedAuthSchemeResolverGenerator {
     private val AUTH_SCHEME_RESOLVER = "AuthSchemeResolver"
 
     fun render(ctx: ProtocolGenerator.GenerationContext) {
-        ctx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/$AUTH_SCHEME_RESOLVER.swift") {
+        ctx.delegator.useFileWriter("${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/$AUTH_SCHEME_RESOLVER.swift") {
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
         }

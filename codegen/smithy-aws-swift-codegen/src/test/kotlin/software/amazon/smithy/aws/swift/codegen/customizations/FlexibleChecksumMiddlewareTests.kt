@@ -12,7 +12,7 @@ class FlexibleChecksumMiddlewareTests {
     @Test
     fun `Test that FlexibleChecksumsRequestMiddleware is properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<SomeOperationInput, SomeOperationOutput>(requestChecksumRequired: true, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-request-algorithm"))
@@ -23,7 +23,7 @@ class FlexibleChecksumMiddlewareTests {
     @Test
     fun `Test that FlexibleChecksumsResponseMiddleware is properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/ChecksumTestsClient.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationInput, SomeOperationOutput>(validationMode: input.validationMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC32C", "CRC32", "SHA1", "SHA256"]))

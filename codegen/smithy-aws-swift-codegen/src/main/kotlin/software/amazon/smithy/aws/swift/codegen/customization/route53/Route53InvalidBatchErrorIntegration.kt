@@ -10,7 +10,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     override fun enabledForService(
@@ -43,7 +43,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        val filename = ModelFileUtils.filename(ctx.settings, "ChangeResourceRecordSetsOutputError+Customization")
+        val filename = SDKFileUtils(ctx.settings).modelFilePath("ChangeResourceRecordSetsOutputError+Customization")
         delegator.useFileWriter(filename) { writer ->
             renderCustomInvalidBatchError(writer)
             renderInvalidChangeBatch(writer)

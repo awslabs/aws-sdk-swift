@@ -21,7 +21,7 @@ class AuthTokenGeneratorIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        delegator.useFileWriter("Sources/${ctx.settings.moduleName}/AuthTokenGenerator.swift") { writer ->
+        delegator.useFileWriter("${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/AuthTokenGenerator.swift") { writer ->
             val authTokenGeneratorWrapperClass =
                 """
                 @_spi(AuthTokenGenerator) import class AWSClientRuntime.AuthTokenGenerator

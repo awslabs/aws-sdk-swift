@@ -29,7 +29,7 @@ class S3ExpressIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        delegator.useFileWriter("Sources/AWSS3/S3Client+S3Express.swift") { writer ->
+        delegator.useFileWriter("${ctx.settings.moduleName}/Sources/AWSS3/S3Client+S3Express.swift") { writer ->
             writer.write("")
             writer.openBlock(
                 "public struct S3ExpressCreateSessionClient: \$N, \$N {",
