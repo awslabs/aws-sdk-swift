@@ -248,12 +248,14 @@ extension CostExplorerClientTypes {
     public enum AnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customCommitment
         case maxSavings
+        case targetAverageCoverage
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisType] {
             return [
                 .customCommitment,
-                .maxSavings
+                .maxSavings,
+                .targetAverageCoverage
             ]
         }
 
@@ -266,6 +268,7 @@ extension CostExplorerClientTypes {
             switch self {
             case .customCommitment: return "CUSTOM_COMMITMENT"
             case .maxSavings: return "MAX_SAVINGS"
+            case .targetAverageCoverage: return "TARGET_AVERAGE_COVERAGE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -451,6 +454,8 @@ extension CostExplorerClientTypes {
         /// The time period associated with the analysis.
         /// This member is required.
         public var lookBackTimePeriod: CostExplorerClientTypes.DateInterval?
+        /// Specifies the target Savings Plans coverage as a percentage from 10 to 100. This field is required when AnalysisType is TARGET_AVERAGE_COVERAGE. It defines the target average hourly coverage that the recommended Savings Plans commitment should achieve over the lookback period.
+        public var savingsPlansTargetCoverage: Swift.Int?
         /// Savings Plans to include in the analysis.
         /// This member is required.
         public var savingsPlansToAdd: [CostExplorerClientTypes.SavingsPlans]?
@@ -462,6 +467,7 @@ extension CostExplorerClientTypes {
             accountScope: CostExplorerClientTypes.AccountScope? = nil,
             analysisType: CostExplorerClientTypes.AnalysisType? = nil,
             lookBackTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+            savingsPlansTargetCoverage: Swift.Int? = nil,
             savingsPlansToAdd: [CostExplorerClientTypes.SavingsPlans]? = nil,
             savingsPlansToExclude: [Swift.String]? = nil
         ) {
@@ -469,6 +475,7 @@ extension CostExplorerClientTypes {
             self.accountScope = accountScope
             self.analysisType = analysisType
             self.lookBackTimePeriod = lookBackTimePeriod
+            self.savingsPlansTargetCoverage = savingsPlansTargetCoverage
             self.savingsPlansToAdd = savingsPlansToAdd
             self.savingsPlansToExclude = savingsPlansToExclude
         }
