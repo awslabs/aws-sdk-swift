@@ -58,7 +58,7 @@ class PresignerGenerator : SwiftIntegration {
             }
             // Expose presign-request as a method for service client object
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-            val clientFilename = "${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            val clientFilename = SDKFileUtils(ctx.settings).sourcesDirFilePath(symbol.name)
             protoCtx.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }

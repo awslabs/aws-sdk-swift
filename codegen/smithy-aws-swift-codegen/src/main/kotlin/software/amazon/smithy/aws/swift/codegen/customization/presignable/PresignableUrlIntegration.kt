@@ -92,7 +92,7 @@ class PresignableUrlIntegration(
             }
             // Expose presign-URL as a method for service client object
             val symbol = protocolGenerationContext.symbolProvider.toSymbol(protocolGenerationContext.service)
-            val clientFilename = "${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            val clientFilename = SDKFileUtils(ctx.settings).sourcesDirFilePath(symbol.name)
             protocolGenerationContext.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignURLAPIInServiceClient(writer, symbol.name, op, inputType)
             }

@@ -12,6 +12,7 @@ import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class RulesBasedAuthSchemeResolverGenerator {
@@ -19,7 +20,8 @@ class RulesBasedAuthSchemeResolverGenerator {
     private val AUTH_SCHEME_RESOLVER = "AuthSchemeResolver"
 
     fun render(ctx: ProtocolGenerator.GenerationContext) {
-        ctx.delegator.useFileWriter("${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/$AUTH_SCHEME_RESOLVER.swift") {
+        val filename = SDKFileUtils(ctx.settings).sourcesDirFilePath(AUTH_SCHEME_RESOLVER)
+        ctx.delegator.useFileWriter(filename) {
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
         }

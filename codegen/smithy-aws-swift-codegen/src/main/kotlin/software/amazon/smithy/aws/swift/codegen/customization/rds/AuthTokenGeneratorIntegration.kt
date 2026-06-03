@@ -13,6 +13,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectShape
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 class AuthTokenGeneratorIntegration : SwiftIntegration {
     override fun enabledForService(
@@ -25,7 +26,8 @@ class AuthTokenGeneratorIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        delegator.useFileWriter("${ctx.settings.moduleName}/Sources/${ctx.settings.moduleName}/AuthTokenGenerator.swift") { writer ->
+        val filename = SDKFileUtils(ctx.settings).sourcesDirFilePath("AuthTokenGenerator")
+        delegator.useFileWriter(filename) { writer ->
             val authTokenGeneratorWrapperClass =
                 """
                 @_spi(AuthTokenGenerator) import class AWSClientRuntime.AuthTokenGenerator
