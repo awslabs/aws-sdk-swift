@@ -1851,11 +1851,11 @@ extension ChimeSDKVoiceClientTypes {
 public struct CreateVoiceConnectorInput: Swift.Sendable {
     /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value: us-east-1 .
     public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
-    /// The connectors for use with Amazon Connect. The following options are available:
+    /// The connectors for use with Connect Customer. The following options are available:
     ///
-    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.
+    /// * CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration.
     ///
-    /// * CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+    /// * CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration.
     public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
     /// The name of the Voice Connector.
     /// This member is required.
@@ -1893,7 +1893,7 @@ extension ChimeSDKVoiceClientTypes {
         public var awsRegion: ChimeSDKVoiceClientTypes.VoiceConnectorAwsRegion?
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
         public var createdTimestamp: Foundation.Date?
-        /// The connectors for use with Amazon Connect.
+        /// The connectors for use with Connect Customer.
         public var integrationType: ChimeSDKVoiceClientTypes.VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public var name: Swift.String?

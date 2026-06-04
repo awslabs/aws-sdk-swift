@@ -3042,8 +3042,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
     ///
-    /// * description
-    ///
     /// * id
     ///
     /// * partition
@@ -3368,10 +3366,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * resource.rdsDbInstanceDetails.publiclyAccessible
     ///
-    /// * resource.rdsDbInstanceDetails.tags.key
-    ///
-    /// * resource.rdsDbInstanceDetails.tags.value
-    ///
     /// * resource.rdsDbInstanceDetails.vpcId
     ///
     /// * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -3467,8 +3461,6 @@ public struct CreateFilterInput: Swift.Sendable {
     /// * schemaVersion
     ///
     /// * service.action.actionType
-    ///
-    /// * service.action.awsApiCallAction.affectedResources
     ///
     /// * service.action.awsApiCallAction.api
     ///
@@ -3757,10 +3749,6 @@ public struct CreateFilterInput: Swift.Sendable {
     /// * service.archived
     ///
     /// * service.count
-    ///
-    /// * service.detection.anomaly.profiles
-    ///
-    /// * service.detection.anomaly.unusual.behavior
     ///
     /// * service.detection.sequence.actors.id
     ///
@@ -4294,8 +4282,6 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     ///
     /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
-    ///
-    /// * title
     ///
     /// * type
     ///
@@ -13135,8 +13121,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     /// * createdAt Type: Timestamp in Unix Epoch millisecond format. Ex: 1486685375000
     ///
-    /// * description
-    ///
     /// * id
     ///
     /// * partition
@@ -13461,10 +13445,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     /// * resource.rdsDbInstanceDetails.publiclyAccessible
     ///
-    /// * resource.rdsDbInstanceDetails.tags.key
-    ///
-    /// * resource.rdsDbInstanceDetails.tags.value
-    ///
     /// * resource.rdsDbInstanceDetails.vpcId
     ///
     /// * resource.rdsDbInstanceDetails.vpcSecurityGroups.status
@@ -13560,8 +13540,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     /// * schemaVersion
     ///
     /// * service.action.actionType
-    ///
-    /// * service.action.awsApiCallAction.affectedResources
     ///
     /// * service.action.awsApiCallAction.api
     ///
@@ -13850,10 +13828,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     /// * service.archived
     ///
     /// * service.count
-    ///
-    /// * service.detection.anomaly.profiles
-    ///
-    /// * service.detection.anomaly.unusual.behavior
     ///
     /// * service.detection.sequence.actors.id
     ///
@@ -14387,8 +14361,6 @@ public struct UpdateFilterInput: Swift.Sendable {
     ///
     ///
     /// For more information, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
-    ///
-    /// * title
     ///
     /// * type
     ///

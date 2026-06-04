@@ -715,7 +715,7 @@ public struct ConnectorAuthenticationException: ClientRuntime.ModeledError, AWSC
 
 extension AppflowClientTypes {
 
-    /// The connector metadata specific to Amazon Connect Customer Profiles.
+    /// The connector metadata specific to Connect Customer Customer Profiles.
     public struct CustomerProfilesMetadata: Swift.Sendable {
 
         public init() { }
@@ -984,7 +984,7 @@ extension AppflowClientTypes {
     public struct ConnectorMetadata: Swift.Sendable {
         /// The connector metadata specific to Amplitude.
         public var amplitude: AppflowClientTypes.AmplitudeMetadata?
-        /// The connector metadata specific to Amazon Connect Customer Profiles.
+        /// The connector metadata specific to Connect Customer Customer Profiles.
         public var customerProfiles: AppflowClientTypes.CustomerProfilesMetadata?
         /// The connector metadata specific to Datadog.
         public var datadog: AppflowClientTypes.DatadogMetadata?
@@ -4736,12 +4736,12 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes {
 
-    /// The properties that are applied when Amazon Connect Customer Profiles is used as a destination.
+    /// The properties that are applied when Connect Customer Customer Profiles is used as a destination.
     public struct CustomerProfilesDestinationProperties: Swift.Sendable {
-        /// The unique name of the Amazon Connect Customer Profiles domain.
+        /// The unique name of the Connect Customer Customer Profiles domain.
         /// This member is required.
         public var domainName: Swift.String?
-        /// The object specified in the Amazon Connect Customer Profiles flow destination.
+        /// The object specified in the Connect Customer Customer Profiles flow destination.
         public var objectTypeName: Swift.String?
 
         public init(
@@ -5262,7 +5262,7 @@ extension AppflowClientTypes {
     public struct DestinationConnectorProperties: Swift.Sendable {
         /// The properties that are required to query the custom Connector.
         public var customConnector: AppflowClientTypes.CustomConnectorDestinationProperties?
-        /// The properties required to query Amazon Connect Customer Profiles.
+        /// The properties required to query Connect Customer Customer Profiles.
         public var customerProfiles: AppflowClientTypes.CustomerProfilesDestinationProperties?
         /// The properties required to query Amazon EventBridge.
         public var eventBridge: AppflowClientTypes.EventBridgeDestinationProperties?
@@ -7048,9 +7048,9 @@ public struct ResetConnectorMetadataCacheInput: Swift.Sendable {
     public var apiVersion: Swift.String?
     /// Use this parameter if you want to reset cached metadata about the details for an individual entity. If you don't include this parameter in your request, Amazon AppFlow only resets cached metadata about entity names, not entity details.
     public var connectorEntityName: Swift.String?
-    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
+    /// The name of the connector profile that you want to reset cached metadata for. You can omit this parameter if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you must include this parameter in your request.
     public var connectorProfileName: Swift.String?
-    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Amazon Connect, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
+    /// The type of connector to reset cached metadata for. You must include this parameter in your request if you're resetting the cache for any of the following connectors: Connect Customer, Amazon EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the cache for any other connector, you can omit this parameter from your request.
     public var connectorType: AppflowClientTypes.ConnectorType?
     /// Use this parameter only if you’re resetting the cached metadata about a nested entity. Only some connectors support nested entities. A nested entity is one that has another entity as a parent. To use this parameter, specify the name of the parent entity. To look up the parent-child relationship of entities, you can send a ListConnectorEntities request that omits the entitiesPath parameter. Amazon AppFlow will return a list of top-level entities. For each one, it indicates whether the entity has nested entities. Then, in a subsequent ListConnectorEntities request, you can specify a parent entity name for the entitiesPath parameter. Amazon AppFlow will return a list of the child entities for that parent.
     public var entitiesPath: Swift.String?

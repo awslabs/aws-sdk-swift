@@ -1898,7 +1898,7 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
-    /// Describes an Amazon Connect client add-in.
+    /// Describes an Connect Customer client add-in.
     public struct ConnectClientAddIn: Swift.Sendable {
         /// The client add-in identifier.
         public var addInId: Swift.String?
@@ -2212,7 +2212,7 @@ public struct CreateConnectClientAddInInput: Swift.Sendable {
     /// The directory identifier for which to configure the client add-in.
     /// This member is required.
     public var resourceId: Swift.String?
-    /// The endpoint URL of the Amazon Connect client add-in.
+    /// The endpoint URL of the Connect Customer client add-in.
     /// This member is required.
     public var url: Swift.String?
 
@@ -8234,7 +8234,7 @@ public struct UpdateConnectClientAddInInput: Swift.Sendable {
     /// The directory identifier for which the client add-in is configured.
     /// This member is required.
     public var resourceId: Swift.String?
-    /// The endpoint URL of the Amazon Connect client add-in.
+    /// The endpoint URL of the Connect Customer client add-in.
     public var url: Swift.String?
 
     public init(

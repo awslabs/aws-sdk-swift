@@ -14323,6 +14323,30 @@ public struct CreateSecurityConfigurationOutput: Swift.Sendable {
     }
 }
 
+/// The operation is not available in the region.
+public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "OperationNotSupportedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension GlueClientTypes {
 
     /// The SessionCommand that runs the job.
@@ -14338,6 +14362,35 @@ extension GlueClientTypes {
         ) {
             self.name = name
             self.pythonVersion = pythonVersion
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum SessionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case livy
+        case sparkConnect
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionType] {
+            return [
+                .livy,
+                .sparkConnect
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .livy: return "LIVY"
+            case .sparkConnect: return "SPARK_CONNECT"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -14371,6 +14424,8 @@ public struct CreateSessionInput: Swift.Sendable {
     public var role: Swift.String?
     /// The name of the SecurityConfiguration structure to be used with the session
     public var securityConfiguration: Swift.String?
+    /// The type of session to create.
+    public var sessionType: GlueClientTypes.SessionType?
     /// The map of key value pairs (tags) belonging to the session.
     public var tags: [Swift.String: Swift.String]?
     /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
@@ -14401,6 +14456,7 @@ public struct CreateSessionInput: Swift.Sendable {
         requestOrigin: Swift.String? = nil,
         role: Swift.String? = nil,
         securityConfiguration: Swift.String? = nil,
+        sessionType: GlueClientTypes.SessionType? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeout: Swift.Int? = nil,
         workerType: GlueClientTypes.WorkerType? = nil
@@ -14417,6 +14473,7 @@ public struct CreateSessionInput: Swift.Sendable {
         self.requestOrigin = requestOrigin
         self.role = role
         self.securityConfiguration = securityConfiguration
+        self.sessionType = sessionType
         self.tags = tags
         self.timeout = timeout
         self.workerType = workerType
@@ -14504,6 +14561,8 @@ extension GlueClientTypes {
         public var role: Swift.String?
         /// The name of the SecurityConfiguration structure to be used with the session.
         public var securityConfiguration: Swift.String?
+        /// The type of the session.
+        public var sessionType: GlueClientTypes.SessionType?
         /// The session status.
         public var status: GlueClientTypes.SessionStatus?
         /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
@@ -14528,6 +14587,7 @@ extension GlueClientTypes {
             progress: Swift.Double = 0.0,
             role: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
+            sessionType: GlueClientTypes.SessionType? = nil,
             status: GlueClientTypes.SessionStatus? = nil,
             workerType: GlueClientTypes.WorkerType? = nil
         ) {
@@ -14549,6 +14609,7 @@ extension GlueClientTypes {
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
+            self.sessionType = sessionType
             self.status = status
             self.workerType = workerType
         }
@@ -15291,30 +15352,6 @@ public struct CreateTriggerOutput: Swift.Sendable {
         name: Swift.String? = nil
     ) {
         self.name = name
-    }
-}
-
-/// The operation is not available in the region.
-public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "OperationNotSupportedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -19637,6 +19674,68 @@ public struct GetCustomEntityTypeOutput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum GlueResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case job
+        case session
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlueResourceType] {
+            return [
+                .job,
+                .session
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .job: return "JOB"
+            case .session: return "SESSION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDashboardUrlInput: Swift.Sendable {
+    /// The origin of the request.
+    public var requestOrigin: Swift.String?
+    /// The unique identifier of the resource for which to retrieve the dashboard URL.
+    /// This member is required.
+    public var resourceId: Swift.String?
+    /// The type of the resource. Valid values are SESSION and JOB.
+    /// This member is required.
+    public var resourceType: GlueClientTypes.GlueResourceType?
+
+    public init(
+        requestOrigin: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: GlueClientTypes.GlueResourceType? = nil
+    ) {
+        self.requestOrigin = requestOrigin
+        self.resourceId = resourceId
+        self.resourceType = resourceType
+    }
+}
+
+public struct GetDashboardUrlOutput: Swift.Sendable {
+    /// The URL for the Spark monitoring dashboard.
+    /// This member is required.
+    public var url: Swift.String?
+
+    public init(
+        url: Swift.String? = nil
+    ) {
+        self.url = url
+    }
+}
+
 public struct GetDatabaseInput: Swift.Sendable {
     /// The ID of the Data Catalog in which the database resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
@@ -22934,6 +23033,56 @@ public struct GetSessionOutput: Swift.Sendable {
         session: GlueClientTypes.Session? = nil
     ) {
         self.session = session
+    }
+}
+
+public struct GetSessionEndpointInput: Swift.Sendable {
+    /// The unique identifier of the interactive session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Contains the Spark Connect endpoint details for an interactive session, including the URL and authentication credentials.
+    public struct SessionEndpoint: Swift.Sendable {
+        /// The authentication token to include in requests to the Spark Connect endpoint.
+        /// This member is required.
+        public var authToken: Swift.String?
+        /// The time at which the authentication token expires.
+        /// This member is required.
+        public var authTokenExpirationTime: Foundation.Date?
+        /// The Spark Connect endpoint URL for the session.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            authToken: Swift.String? = nil,
+            authTokenExpirationTime: Foundation.Date? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.authToken = authToken
+            self.authTokenExpirationTime = authTokenExpirationTime
+            self.url = url
+        }
+    }
+}
+
+public struct GetSessionEndpointOutput: Swift.Sendable {
+    /// The Spark Connect endpoint details for the session.
+    /// This member is required.
+    public var sparkConnect: GlueClientTypes.SessionEndpoint?
+
+    public init(
+        sparkConnect: GlueClientTypes.SessionEndpoint? = nil
+    ) {
+        self.sparkConnect = sparkConnect
     }
 }
 
@@ -27173,6 +27322,30 @@ public struct ResumeWorkflowRunOutput: Swift.Sendable {
     ) {
         self.nodeIds = nodeIds
         self.runId = runId
+    }
+}
+
+/// The session is currently busy processing another request and cannot accept new operations.
+public struct SessionBusyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SessionBusyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 

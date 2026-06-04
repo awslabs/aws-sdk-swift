@@ -10852,7 +10852,7 @@ public struct SignalResourceInput: Swift.Sendable {
     /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
     /// This member is required.
     public var status: CloudFormationClientTypes.ResourceSignalStatus?
-    /// A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     /// This member is required.
     public var uniqueId: Swift.String?
 
