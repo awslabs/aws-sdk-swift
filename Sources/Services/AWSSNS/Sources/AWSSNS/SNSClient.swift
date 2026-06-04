@@ -766,7 +766,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
@@ -3170,7 +3170,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
@@ -3315,7 +3315,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.

@@ -14866,7 +14866,7 @@ extension SageMakerClient {
 
     /// Performs the `DescribeModelCard` operation on the `SageMaker` service.
     ///
-    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
+    /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card. To retrieve only metadata about a model card without requiring kms:Decrypt permission on the associated customer-managed Amazon Web Services KMS key, set IncludedData to MetadataOnly. The default is AllData, which returns the full model card Content and requires kms:Decrypt permission when a customer-managed key is configured.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeModelCardInput`)
     ///
@@ -15088,7 +15088,7 @@ extension SageMakerClient {
 
     /// Performs the `DescribeModelPackage` operation on the `SageMaker` service.
     ///
-    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. If you provided a KMS Key ID when you created your model package, you will see the [KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html) API call in your CloudTrail logs when you use this API. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
+    /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. If you provided a KMS Key ID when you created your model package, you will see the [KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html) API call in your CloudTrail logs when you use this API. To call this operation without requiring kms:Decrypt permission on the customer-managed key, set IncludedData to MetadataOnly; the response is returned with the embedded ModelCard.ModelCardContent field sanitized. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeModelPackageInput`)
     ///

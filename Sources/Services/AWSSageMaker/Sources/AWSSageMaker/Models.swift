@@ -39606,7 +39606,45 @@ public struct DescribeModelBiasJobDefinitionOutput: Swift.Sendable {
     }
 }
 
+extension SageMakerClientTypes {
+
+    public enum IncludedData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allData
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludedData] {
+            return [
+                .allData,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allData: return "AllData"
+            case .metadataOnly: return "MetadataOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeModelCardInput: Swift.Sendable {
+    /// Specifies the level of model card data to include in the response. Use this parameter to call DescribeModelCard without requiring kms:Decrypt permission on the customer-managed Amazon Web Services KMS key.
+    ///
+    /// * AllData: Returns the full model card Content. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the model card. This is the default.
+    ///
+    /// * MetadataOnly: Returns the model card with sanitized Content that includes only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. For the list of fields preserved in the response, see Content.
+    ///
+    ///
+    /// If you don't specify a value, SageMaker returns AllData.
+    public var includedData: SageMakerClientTypes.IncludedData?
     /// The name or Amazon Resource Name (ARN) of the model card to describe.
     /// This member is required.
     public var modelCardName: Swift.String?
@@ -39614,9 +39652,11 @@ public struct DescribeModelCardInput: Swift.Sendable {
     public var modelCardVersion: Swift.Int?
 
     public init(
+        includedData: SageMakerClientTypes.IncludedData? = nil,
         modelCardName: Swift.String? = nil,
         modelCardVersion: Swift.Int? = nil
     ) {
+        self.includedData = includedData
         self.modelCardName = modelCardName
         self.modelCardVersion = modelCardVersion
     }
@@ -39664,7 +39704,20 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeModelCardOutput: Swift.Sendable {
-    /// The content of the model card.
+    /// The content of the model card. Content is provided as a string in the [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema). When you set IncludedData to MetadataOnly in the request, SageMaker returns a sanitized version of Content that includes only the following JSON paths, when present in the model card:
+    ///
+    /// * model_overview.model_id
+    ///
+    /// * model_overview.model_name
+    ///
+    /// * intended_uses.risk_rating
+    ///
+    /// * model_package_details.model_package_group_name
+    ///
+    /// * model_package_details.model_package_arn
+    ///
+    ///
+    /// All other fields are removed from Content when IncludedData is MetadataOnly, including model description, training details, evaluation details, business details, and additional information. To retrieve the complete Content, set IncludedData to AllData or omit the parameter.
     /// This member is required.
     public var content: Swift.String?
     /// Information about the user who created or modified a SageMaker resource.
@@ -39934,13 +39987,24 @@ public struct DescribeModelExplainabilityJobDefinitionOutput: Swift.Sendable {
 }
 
 public struct DescribeModelPackageInput: Swift.Sendable {
+    /// Specifies the level of model package data to include in the response. Use this parameter to call DescribeModelPackage on a model package that has an associated model card without requiring kms:Decrypt permission on the customer-managed KMS key associated with the embedded model card.
+    ///
+    /// * AllData: Returns the full model package response, including the unredacted ModelCard.ModelCardContent. This option requires kms:Decrypt permission on the customer-managed key, if one is associated with the embedded model card. This is the default.
+    ///
+    /// * MetadataOnly: Returns the full model package response, but with the embedded ModelCard.ModelCardContent sanitized to include only a small set of unencrypted metadata fields. This option does not require kms:Decrypt permission. All other top-level response fields, including InferenceSpecification, ModelMetrics, DriftCheckBaselines, and SecurityConfig, are returned unchanged. For the list of fields preserved within ModelCardContent, see [ModelCard](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeModelPackage.html#sagemaker-DescribeModelPackage-response-ModelCard).
+    ///
+    ///
+    /// If you don't specify a value, SageMaker returns AllData.
+    public var includedData: SageMakerClientTypes.IncludedData?
     /// The name or Amazon Resource Name (ARN) of the model package to describe. When you specify a name, the name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
     /// This member is required.
     public var modelPackageName: Swift.String?
 
     public init(
+        includedData: SageMakerClientTypes.IncludedData? = nil,
         modelPackageName: Swift.String? = nil
     ) {
+        self.includedData = includedData
         self.modelPackageName = modelPackageName
     }
 }
@@ -40055,7 +40119,20 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var metadataProperties: SageMakerClientTypes.MetadataProperties?
     /// The approval status of the model package.
     public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
-    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html).
+    /// The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see [Model package model card schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html#model-card-schema). For more information about the model card associated with the model package, see [View the Details of a Model Version](https://docs.aws.amazon.com/sagemaker/latest/dg/model-registry-details.html). When you set IncludedData to MetadataOnly in the request, ModelCardStatus is preserved and ModelCardContent is sanitized to include only the following JSON paths, when present in the model card:
+    ///
+    /// * model_overview.model_id
+    ///
+    /// * model_overview.model_name
+    ///
+    /// * intended_uses.risk_rating
+    ///
+    /// * model_package_details.model_package_group_name
+    ///
+    /// * model_package_details.model_package_arn
+    ///
+    ///
+    /// Because the ModelPackageModelCard schema does not include model_package_details and limits model_overview to model_creator and model_artifact, the sanitized ModelCardContent for a model package typically contains only intended_uses.risk_rating if it was provided when the model card was created. To retrieve the complete ModelCardContent, set IncludedData to AllData or omit the parameter.
     public var modelCard: SageMakerClientTypes.ModelPackageModelCard?
     /// A structure describing the current state of the model in its life cycle.
     public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
@@ -45850,6 +45927,7 @@ extension SageMakerClientTypes {
         case hyperParameterTuningJob
         case image
         case imageVersion
+        case job
         case model
         case modelCard
         case modelPackage
@@ -45872,6 +45950,7 @@ extension SageMakerClientTypes {
                 .hyperParameterTuningJob,
                 .image,
                 .imageVersion,
+                .job,
                 .model,
                 .modelCard,
                 .modelPackage,
@@ -45900,6 +45979,7 @@ extension SageMakerClientTypes {
             case .hyperParameterTuningJob: return "HyperParameterTuningJob"
             case .image: return "Image"
             case .imageVersion: return "ImageVersion"
+            case .job: return "Job"
             case .model: return "Model"
             case .modelCard: return "ModelCard"
             case .modelPackage: return "ModelPackage"
@@ -47024,6 +47104,73 @@ extension SageMakerClientTypes {
             self.jobName = jobName
             self.status = status
             self.stepType = stepType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Search shape for Job. Mirrors DescribeJobResponse fields. If you update DescribeJobResponse, update this structure as well.
+    public struct Job: Swift.Sendable {
+        /// The date and time that the job was created.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the job ended.
+        public var endTime: Foundation.Date?
+        /// If the job failed, the reason it failed.
+        public var failureReason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the job.
+        public var jobArn: Swift.String?
+        /// The category of the job.
+        public var jobCategory: SageMakerClientTypes.JobCategory?
+        /// The JSON configuration document for the job.
+        public var jobConfigDocument: Swift.String?
+        /// The schema version used for the job configuration document.
+        public var jobConfigSchemaVersion: Swift.String?
+        /// The name of the job.
+        public var jobName: Swift.String?
+        /// The current status of the job.
+        public var jobStatus: SageMakerClientTypes.JobStatus?
+        /// The date and time that the job was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The ARN of the IAM role associated with the job.
+        public var roleArn: Swift.String?
+        /// The detailed secondary status of the job, providing more granular information about the job's progress.
+        public var secondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+        /// A list of secondary status transitions for the job, with timestamps and optional status messages.
+        public var secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]?
+        /// The tags associated with the job.
+        public var tags: [SageMakerClientTypes.Tag]?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            failureReason: Swift.String? = nil,
+            jobArn: Swift.String? = nil,
+            jobCategory: SageMakerClientTypes.JobCategory? = nil,
+            jobConfigDocument: Swift.String? = nil,
+            jobConfigSchemaVersion: Swift.String? = nil,
+            jobName: Swift.String? = nil,
+            jobStatus: SageMakerClientTypes.JobStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            roleArn: Swift.String? = nil,
+            secondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]? = nil,
+            tags: [SageMakerClientTypes.Tag]? = nil
+        ) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.failureReason = failureReason
+            self.jobArn = jobArn
+            self.jobCategory = jobCategory
+            self.jobConfigDocument = jobConfigDocument
+            self.jobConfigSchemaVersion = jobConfigSchemaVersion
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.roleArn = roleArn
+            self.secondaryStatus = secondaryStatus
+            self.secondaryStatusTransitions = secondaryStatusTransitions
+            self.tags = tags
         }
     }
 }
@@ -58104,6 +58251,8 @@ extension SageMakerClientTypes {
         public var featureMetadata: SageMakerClientTypes.FeatureMetadata?
         /// The properties of a hyperparameter tuning job.
         public var hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?
+        /// Search shape for Job. Mirrors DescribeJobResponse fields. If you update DescribeJobResponse, update this structure as well.
+        public var job: SageMakerClientTypes.Job?
         /// A model displayed in the Amazon SageMaker Model Dashboard.
         public var model: SageMakerClientTypes.ModelDashboardModel?
         /// An Amazon SageMaker Model Card that documents details about a machine learning model.
@@ -58140,6 +58289,7 @@ extension SageMakerClientTypes {
             featureGroup: SageMakerClientTypes.FeatureGroup? = nil,
             featureMetadata: SageMakerClientTypes.FeatureMetadata? = nil,
             hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity? = nil,
+            job: SageMakerClientTypes.Job? = nil,
             model: SageMakerClientTypes.ModelDashboardModel? = nil,
             modelCard: SageMakerClientTypes.ModelCard? = nil,
             modelPackage: SageMakerClientTypes.ModelPackage? = nil,
@@ -58157,6 +58307,7 @@ extension SageMakerClientTypes {
             self.featureGroup = featureGroup
             self.featureMetadata = featureMetadata
             self.hyperParameterTuningJob = hyperParameterTuningJob
+            self.job = job
             self.model = model
             self.modelCard = modelCard
             self.modelPackage = modelPackage
