@@ -17,7 +17,7 @@ env:
   AWS_SWIFT_SDK_BATCH_TOTAL: 8
 
 jobs:
-  codegen-build-test:
+  codegen-build-test-apple:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: macos-26-xlarge
     env:
