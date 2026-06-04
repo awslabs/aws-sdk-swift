@@ -1274,6 +1274,8 @@ extension EMRClientTypes {
 
 /// This input identifies an Amazon EMR resource and a list of tags to attach.
 public struct AddTagsInput: Swift.Sendable {
+    /// The ID of the cluster that scopes the tag operation. Required when the resource being tagged is a session-scoped resource.
+    public var clusterId: Swift.String?
     /// The Amazon EMR resource identifier to which tags will be added. For example, a cluster identifier or an Amazon EMR Studio ID.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -1282,9 +1284,11 @@ public struct AddTagsInput: Swift.Sendable {
     public var tags: [EMRClientTypes.Tag]?
 
     public init(
+        clusterId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         tags: [EMRClientTypes.Tag]? = nil
     ) {
+        self.clusterId = clusterId
         self.resourceId = resourceId
         self.tags = tags
     }
@@ -1715,6 +1719,25 @@ public struct CancelStepsOutput: Swift.Sendable {
 
 extension EMRClientTypes {
 
+    /// Describes the certificate authority used to establish an mTLS connection to the Spark Connect server when connecting directly over VPC peering.
+    public struct CertificateAuthority: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the certificate authority in Amazon Web Services Private CA that issued the Spark Connect server certificate.
+        public var certificateArn: Swift.String?
+        /// The PEM-encoded root CA certificate data. Provide this certificate to your client's trust store when connecting directly to the Spark Connect server over VPC peering.
+        public var certificateData: Swift.String?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            certificateData: Swift.String? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.certificateData = certificateData
+        }
+    }
+}
+
+extension EMRClientTypes {
+
     /// Holds CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
     public struct CloudWatchLogConfiguration: Swift.Sendable {
         /// Specifies if CloudWatch logging is enabled.
@@ -1932,20 +1955,20 @@ extension EMRClientTypes {
     public struct S3LoggingConfiguration: Swift.Sendable {
         /// A map that specifies the upload policy for each log type. The key is the log type, and the value is the upload policy. Valid log types:
         ///
-        /// * system-logs: System-level logs including daemon logs, bootstrap logs, and other infrastructure logs.
+        /// * system-logs: EMR Daemon logs.
         ///
-        /// * application-logs: Application-level logs from frameworks like Hadoop, Spark, Hive, etc.
+        /// * application-logs: Framework logs from Hadoop, Spark, Hive and other applications running on the cluster.
         ///
-        /// * persistent-ui-logs: Logs for persistent application UIs like Spark History Server.
+        /// * persistent-ui-logs: Logs required for persistent application UIs such as Spark History Server and Tez UI.
         ///
         ///
         /// Valid upload policies:
         ///
-        /// * emr-managed: Logs are uploaded to both the EMR-managed S3 bucket and the customer-specified S3 bucket (if LogUri is provided).
+        /// * emr-managed: Standard behavior. Logs are uploaded to S3 bucket as configured in your LogUri, with certain logs retained by the service for operational support and troubleshooting purposes.
         ///
-        /// * on-customer-s3only: Logs are uploaded only to the customer-specified S3 bucket. Requires LogUri to be specified in the cluster configuration.
+        /// * on-customer-s3only: Logs are uploaded only to the customer-specified S3 bucket. This requires you to specify a LogUri when creating the cluster. Persistent-ui-logs cannot have on-customer-s3only policy. Allowed policies for persistent-ui-logs are emr-managed and disabled.
         ///
-        /// * disabled: Log upload is disabled for this log type.
+        /// * disabled: No S3 upload for this log type.
         public var logTypeUploadPolicy: [Swift.String: EMRClientTypes.LogUploadPolicyValue]?
 
         public init(
@@ -4495,6 +4518,214 @@ public struct GetPersistentAppUIPresignedURLOutput: Swift.Sendable {
     }
 }
 
+/// Input to the GetSession operation.
+public struct GetSessionInput: Swift.Sendable {
+    /// The ID of the cluster that the session belongs to.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.clusterId = clusterId
+        self.sessionId = sessionId
+    }
+}
+
+extension EMRClientTypes {
+
+    /// The CloudWatch Logs configuration for a session.
+    public struct SessionCloudWatchLoggingConfiguration: Swift.Sendable {
+        /// Whether CloudWatch Logs is enabled for the session.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the logs published to CloudWatch Logs.
+        public var encryptionKeyArn: Swift.String?
+        /// The name of the log group where session logs are published.
+        public var logGroup: Swift.String?
+        /// The prefix applied to the log stream name where session logs are published.
+        public var logStreamNamePrefix: Swift.String?
+        /// A map of log component names (for example, SPARK_DRIVER, SPARK_EXECUTOR) to the list of log types to publish for that component (for example, stdout, stderr).
+        public var logTypes: [Swift.String: [Swift.String]]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            logGroup: Swift.String? = nil,
+            logStreamNamePrefix: Swift.String? = nil,
+            logTypes: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroup = logGroup
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// The Amazon EMR-managed logging configuration for a session.
+    public struct SessionManagedLoggingConfiguration: Swift.Sendable {
+        /// Whether Amazon EMR-managed logging is enabled for the session.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the managed logs.
+        public var encryptionKeyArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionKeyArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// The Amazon S3 logging configuration for a session.
+    public struct SessionS3LoggingConfiguration: Swift.Sendable {
+        /// Whether Amazon S3 logging is enabled for the session.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt logs published to Amazon S3.
+        public var encryptionKeyArn: Swift.String?
+        /// A map of log component names (for example, SPARK_DRIVER, SPARK_EXECUTOR) to the list of log types to publish for that component (for example, stdout, stderr).
+        public var logTypes: [Swift.String: [Swift.String]]?
+        /// The Amazon S3 destination URI where session logs are published.
+        public var logUri: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            logTypes: [Swift.String: [Swift.String]]? = nil,
+            logUri: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logTypes = logTypes
+            self.logUri = logUri
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// The monitoring configuration for a session. Controls where session logs are published.
+    public struct SessionMonitoringConfiguration: Swift.Sendable {
+        /// The CloudWatch Logs configuration for the session.
+        public var cloudWatchLoggingConfiguration: EMRClientTypes.SessionCloudWatchLoggingConfiguration?
+        /// The Amazon EMR-managed logging configuration for the session.
+        public var managedLoggingConfiguration: EMRClientTypes.SessionManagedLoggingConfiguration?
+        /// The Amazon S3 logging configuration for the session.
+        public var s3LoggingConfiguration: EMRClientTypes.SessionS3LoggingConfiguration?
+
+        public init(
+            cloudWatchLoggingConfiguration: EMRClientTypes.SessionCloudWatchLoggingConfiguration? = nil,
+            managedLoggingConfiguration: EMRClientTypes.SessionManagedLoggingConfiguration? = nil,
+            s3LoggingConfiguration: EMRClientTypes.SessionS3LoggingConfiguration? = nil
+        ) {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
+            self.managedLoggingConfiguration = managedLoggingConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    public enum SessionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case busy
+        case failed
+        case idle
+        case started
+        case starting
+        case submitted
+        case terminated
+        case terminating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionState] {
+            return [
+                .busy,
+                .failed,
+                .idle,
+                .started,
+                .starting,
+                .submitted,
+                .terminated,
+                .terminating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .busy: return "BUSY"
+            case .failed: return "FAILED"
+            case .idle: return "IDLE"
+            case .started: return "STARTED"
+            case .starting: return "STARTING"
+            case .submitted: return "SUBMITTED"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Input to the GetSessionEndpoint operation.
+public struct GetSessionEndpointInput: Swift.Sendable {
+    /// The ID of the cluster that the session belongs to.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.clusterId = clusterId
+        self.sessionId = sessionId
+    }
+}
+
+/// Output of the GetSessionEndpoint operation.
+public struct GetSessionEndpointOutput: Swift.Sendable {
+    /// A time-limited authentication token used to connect to the Spark Connect endpoint.
+    public var authToken: Swift.String?
+    /// The time at which the authentication token expires. After this time, call GetSessionEndpoint again to obtain a new token.
+    public var authTokenExpirationTime: Foundation.Date?
+    /// Username and password used to authenticate with the Spark Connect server when connecting directly over VPC peering.
+    public var credentials: EMRClientTypes.Credentials?
+    /// The Spark Connect endpoint URL to use in the PySpark client.
+    /// This member is required.
+    public var endpoint: Swift.String?
+
+    public init(
+        authToken: Swift.String? = nil,
+        authTokenExpirationTime: Foundation.Date? = nil,
+        credentials: EMRClientTypes.Credentials? = nil,
+        endpoint: Swift.String? = nil
+    ) {
+        self.authToken = authToken
+        self.authTokenExpirationTime = authTokenExpirationTime
+        self.credentials = credentials
+        self.endpoint = endpoint
+    }
+}
+
 public struct GetStudioSessionMappingInput: Swift.Sendable {
     /// The globally unique identifier (GUID) of the user or group. For more information, see [UserId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId) and [GroupId](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-GroupId) in the IAM Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
     public var identityId: Swift.String?
@@ -5491,6 +5722,31 @@ public struct ListSecurityConfigurationsOutput: Swift.Sendable {
     }
 }
 
+/// Input to the ListSessions operation.
+public struct ListSessionsInput: Swift.Sendable {
+    /// The ID of the cluster to list sessions for.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The maximum number of sessions to return in each page of results.
+    public var maxResults: Swift.Int?
+    /// The pagination token returned by a previous ListSessions call. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// An optional filter that limits the results to sessions in the specified states.
+    public var sessionStates: [EMRClientTypes.SessionState]?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sessionStates: [EMRClientTypes.SessionState]? = nil
+    ) {
+        self.clusterId = clusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sessionStates = sessionStates
+    }
+}
+
 /// This input determines which steps to list.
 public struct ListStepsInput: Swift.Sendable {
     /// The identifier of the cluster for which to list the steps.
@@ -6006,6 +6262,8 @@ public struct RemoveManagedScalingPolicyOutput: Swift.Sendable {
 
 /// This input identifies an Amazon EMR resource and a list of tags to remove.
 public struct RemoveTagsInput: Swift.Sendable {
+    /// The ID of the cluster that scopes the tag operation. Required when the resource being untagged is a session-scoped resource.
+    public var clusterId: Swift.String?
     /// The Amazon EMR resource identifier from which tags will be removed. For example, a cluster identifier or an Amazon EMR Studio ID.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -6014,9 +6272,11 @@ public struct RemoveTagsInput: Swift.Sendable {
     public var tagKeys: [Swift.String]?
 
     public init(
+        clusterId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     ) {
+        self.clusterId = clusterId
         self.resourceId = resourceId
         self.tagKeys = tagKeys
     }
@@ -6239,6 +6499,35 @@ public struct StartNotebookExecutionOutput: Swift.Sendable {
     }
 }
 
+/// Output of the StartSession operation.
+public struct StartSessionOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the session.
+    public var accountId: Swift.String?
+    /// The output contains the ARN of the session.
+    public var arn: Swift.String?
+    /// The ID of the cluster that the session was started on.
+    public var clusterId: Swift.String?
+    /// The output contains the ID of the session.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The state of the session at the time the request returned. When a session is first created, it enters the SUBMITTED state.
+    public var state: EMRClientTypes.SessionState?
+
+    public init(
+        accountId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        clusterId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        state: EMRClientTypes.SessionState? = nil
+    ) {
+        self.accountId = accountId
+        self.arn = arn
+        self.clusterId = clusterId
+        self.id = id
+        self.state = state
+    }
+}
+
 public struct StopNotebookExecutionInput: Swift.Sendable {
     /// The unique identifier of the notebook execution.
     /// This member is required.
@@ -6261,6 +6550,47 @@ public struct TerminateJobFlowsInput: Swift.Sendable {
         jobFlowIds: [Swift.String]? = nil
     ) {
         self.jobFlowIds = jobFlowIds
+    }
+}
+
+/// Input to the TerminateSession operation.
+public struct TerminateSessionInput: Swift.Sendable {
+    /// The ID of the cluster that the session belongs to.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the session to terminate.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.clusterId = clusterId
+        self.sessionId = sessionId
+    }
+}
+
+/// Output of the TerminateSession operation.
+public struct TerminateSessionOutput: Swift.Sendable {
+    /// The ID of the cluster that the session belonged to.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The ID of the terminated session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The state of the session after the terminate request has been accepted.
+    /// This member is required.
+    public var state: EMRClientTypes.SessionState?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        state: EMRClientTypes.SessionState? = nil
+    ) {
+        self.clusterId = clusterId
+        self.sessionId = sessionId
+        self.state = state
     }
 }
 
@@ -6445,6 +6775,8 @@ extension EMRClientTypes {
         public var securityConfiguration: Swift.String?
         /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf.
         public var serviceRole: Swift.String?
+        /// Indicates whether Spark Connect sessions are enabled on the cluster.
+        public var sessionEnabled: Swift.Bool?
         /// The current status details about the cluster.
         public var status: EMRClientTypes.ClusterStatus?
         /// Specifies the number of steps that can be executed concurrently.
@@ -6489,6 +6821,7 @@ extension EMRClientTypes {
             scaleDownBehavior: EMRClientTypes.ScaleDownBehavior? = nil,
             securityConfiguration: Swift.String? = nil,
             serviceRole: Swift.String? = nil,
+            sessionEnabled: Swift.Bool? = nil,
             status: EMRClientTypes.ClusterStatus? = nil,
             stepConcurrencyLevel: Swift.Int? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
@@ -6526,6 +6859,7 @@ extension EMRClientTypes {
             self.scaleDownBehavior = scaleDownBehavior
             self.securityConfiguration = securityConfiguration
             self.serviceRole = serviceRole
+            self.sessionEnabled = sessionEnabled
             self.status = status
             self.stepConcurrencyLevel = stepConcurrencyLevel
             self.tags = tags
@@ -6717,6 +7051,142 @@ extension EMRClientTypes {
     }
 }
 
+extension EMRClientTypes {
+
+    /// Detailed information about a Spark Connect session.
+    public struct Session: Swift.Sendable {
+        /// The Amazon Web Services account ID that owns the session.
+        public var accountId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the session.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The certificate authority used to establish an mTLS connection to the Spark Connect server when connecting directly over VPC peering.
+        public var certificateAuthority: EMRClientTypes.CertificateAuthority?
+        /// The ID of the cluster that the session belongs to.
+        /// This member is required.
+        public var clusterId: Swift.String?
+        /// The date and time that the session was created.
+        public var createdAt: Foundation.Date?
+        /// The date and time that the session was terminated or failed.
+        public var endedAt: Foundation.Date?
+        /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+        public var engineConfigurations: [EMRClientTypes.Configuration]?
+        /// The execution role ARN for the session. Amazon EMR uses this role to access Amazon Web Services resources on your behalf during session execution.
+        public var executionRoleArn: Swift.String?
+        /// The ID of the session.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date and time that the session last entered the IDLE state.
+        public var idleSince: Foundation.Date?
+        /// The monitoring configuration for the session.
+        public var monitoringConfiguration: EMRClientTypes.SessionMonitoringConfiguration?
+        /// The name of the session, if one was provided at creation time.
+        public var name: Swift.String?
+        /// The Amazon EMR release label of the cluster that the session is running on.
+        public var releaseLabel: Swift.String?
+        /// The Spark Connect server URL for the session. Use this URL with the Credentials returned by GetSessionEndpoint to connect directly to the session over VPC peering.
+        public var serverUrl: Swift.String?
+        /// The idle timeout, in minutes. If the session is idle for this duration, Amazon EMR automatically terminates it.
+        public var sessionIdleTimeoutInMinutes: Swift.Int?
+        /// The date and time that the session entered the STARTED state.
+        public var startedAt: Foundation.Date?
+        /// The current state of the session. Valid values are SUBMITTED, STARTING, STARTED, IDLE, BUSY, TERMINATING, TERMINATED, and FAILED.
+        /// This member is required.
+        public var state: EMRClientTypes.SessionState?
+        /// A human-readable message describing the most recent state change.
+        public var stateChangeReason: Swift.String?
+        /// The tags associated with the session.
+        public var tags: [EMRClientTypes.Tag]?
+        /// The date and time that the session was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            accountId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            certificateAuthority: EMRClientTypes.CertificateAuthority? = nil,
+            clusterId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
+            engineConfigurations: [EMRClientTypes.Configuration]? = nil,
+            executionRoleArn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            idleSince: Foundation.Date? = nil,
+            monitoringConfiguration: EMRClientTypes.SessionMonitoringConfiguration? = nil,
+            name: Swift.String? = nil,
+            releaseLabel: Swift.String? = nil,
+            serverUrl: Swift.String? = nil,
+            sessionIdleTimeoutInMinutes: Swift.Int? = nil,
+            startedAt: Foundation.Date? = nil,
+            state: EMRClientTypes.SessionState? = nil,
+            stateChangeReason: Swift.String? = nil,
+            tags: [EMRClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.accountId = accountId
+            self.arn = arn
+            self.certificateAuthority = certificateAuthority
+            self.clusterId = clusterId
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.engineConfigurations = engineConfigurations
+            self.executionRoleArn = executionRoleArn
+            self.id = id
+            self.idleSince = idleSince
+            self.monitoringConfiguration = monitoringConfiguration
+            self.name = name
+            self.releaseLabel = releaseLabel
+            self.serverUrl = serverUrl
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+            self.startedAt = startedAt
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Input to the StartSession operation.
+public struct StartSessionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client request token, the service returns the original response without performing the operation again.
+    public var clientRequestToken: Swift.String?
+    /// The ID of the cluster on which to start the session.
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The configuration overrides for the session. Only runtime configuration overrides are supported.
+    public var engineConfigurations: [EMRClientTypes.Configuration]?
+    /// The execution role ARN for the session. Amazon EMR uses this role to access Amazon Web Services resources on your behalf during session execution.
+    public var executionRoleArn: Swift.String?
+    /// The monitoring configuration that controls where session logs are published, such as Amazon S3, CloudWatch, or managed logging.
+    public var monitoringConfiguration: EMRClientTypes.SessionMonitoringConfiguration?
+    /// An optional name for the session.
+    public var name: Swift.String?
+    /// The idle timeout, in minutes. If the session is idle for this duration, Amazon EMR EC2 automatically terminates it.
+    public var sessionIdleTimeoutInMinutes: Swift.Int?
+    /// The tags to assign to the session.
+    public var tags: [EMRClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        clusterId: Swift.String? = nil,
+        engineConfigurations: [EMRClientTypes.Configuration]? = nil,
+        executionRoleArn: Swift.String? = nil,
+        monitoringConfiguration: EMRClientTypes.SessionMonitoringConfiguration? = nil,
+        name: Swift.String? = nil,
+        sessionIdleTimeoutInMinutes: Swift.Int? = nil,
+        tags: [EMRClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.clusterId = clusterId
+        self.engineConfigurations = engineConfigurations
+        self.executionRoleArn = executionRoleArn
+        self.monitoringConfiguration = monitoringConfiguration
+        self.name = name
+        self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+        self.tags = tags
+    }
+}
+
 /// This output contains the description of the cluster.
 public struct DescribeClusterOutput: Swift.Sendable {
     /// This output contains the details for the requested cluster.
@@ -6743,6 +7213,19 @@ public struct GetBlockPublicAccessConfigurationOutput: Swift.Sendable {
     ) {
         self.blockPublicAccessConfiguration = blockPublicAccessConfiguration
         self.blockPublicAccessConfigurationMetadata = blockPublicAccessConfigurationMetadata
+    }
+}
+
+/// Output of the GetSession operation.
+public struct GetSessionOutput: Swift.Sendable {
+    /// The output displays information about the session.
+    /// This member is required.
+    public var session: EMRClientTypes.Session?
+
+    public init(
+        session: EMRClientTypes.Session? = nil
+    ) {
+        self.session = session
     }
 }
 
@@ -6912,6 +7395,22 @@ public struct AddInstanceGroupsInput: Swift.Sendable {
     ) {
         self.instanceGroups = instanceGroups
         self.jobFlowId = jobFlowId
+    }
+}
+
+/// Output of the ListSessions operation.
+public struct ListSessionsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent ListSessions call to retrieve the next page of results. This field is absent when there are no more results.
+    public var nextToken: Swift.String?
+    /// The sessions that match the request.
+    public var sessions: [EMRClientTypes.Session]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [EMRClientTypes.Session]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
     }
 }
 
@@ -7238,6 +7737,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var securityConfiguration: Swift.String?
     /// The IAM role that Amazon EMR assumes in order to access Amazon Web Services resources on your behalf. If you've created a custom service role path, you must specify it for the service role when you launch your cluster.
     public var serviceRole: Swift.String?
+    /// Indicates whether Spark Connect sessions are enabled on the cluster. When set to true, you can start Spark Connect sessions using the StartSession operation.
+    public var sessionEnabled: Swift.Bool?
     /// Specifies the number of steps that can be executed concurrently. The default value is 1. The maximum value is 256.
     public var stepConcurrencyLevel: Swift.Int?
     /// The Amazon Resource Name (ARN) of the runtime role for steps specified in the RunJobFlow request. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:iam::account-id:role/role-name. For example, arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN. This parameter applies only to steps included in the Steps parameter of this RunJobFlow request. It does not apply to steps added later to the cluster.
@@ -7284,6 +7785,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         scaleDownBehavior: EMRClientTypes.ScaleDownBehavior? = nil,
         securityConfiguration: Swift.String? = nil,
         serviceRole: Swift.String? = nil,
+        sessionEnabled: Swift.Bool? = nil,
         stepConcurrencyLevel: Swift.Int? = nil,
         stepExecutionRoleArn: Swift.String? = nil,
         steps: [EMRClientTypes.StepConfig]? = nil,
@@ -7319,6 +7821,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.scaleDownBehavior = scaleDownBehavior
         self.securityConfiguration = securityConfiguration
         self.serviceRole = serviceRole
+        self.sessionEnabled = sessionEnabled
         self.stepConcurrencyLevel = stepConcurrencyLevel
         self.stepExecutionRoleArn = stepExecutionRoleArn
         self.steps = steps

@@ -138,7 +138,7 @@ extension IvsClientTypes {
         /// Ad configuration ARN.
         /// This member is required.
         public var arn: Swift.String?
-        /// List of integration configurations with media tailor resources.
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see [Generate and Sign IVS Playback Tokens](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html).
         /// This member is required.
         public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
         /// Ad configuration name. Defaults to “”.
@@ -167,7 +167,7 @@ extension IvsClientTypes {
         /// Ad configuration ARN.
         /// This member is required.
         public var arn: Swift.String?
-        /// List of integration configurations with media tailor resources.
+        /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see [Generate and Sign IVS Playback Tokens](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html).
         /// This member is required.
         public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
         /// Ad configuration name. Defaults to “”.
@@ -201,7 +201,7 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
         public internal(set) var cacheControl: Swift.String? = nil
         ///
         public internal(set) var contentSecurityPolicy: Swift.String? = nil
-        ///
+        /// The service is temporarily unavailable.
         public internal(set) var exceptionMessage: Swift.String? = nil
         ///
         public internal(set) var strictTransportSecurity: Swift.String? = nil
@@ -577,7 +577,7 @@ extension IvsClientTypes {
         public var srt: IvsClientTypes.Srt?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html).
         public var type: IvsClientTypes.ChannelType?
 
         public init(
@@ -1213,7 +1213,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 public struct CreateAdConfigurationInput: Swift.Sendable {
-    /// List of integration configurations with media tailor resources.
+    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see [Generate and Sign IVS Playback Tokens](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html).
     /// This member is required.
     public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
     /// Ad configuration name. Defaults to “”.
@@ -1267,7 +1267,7 @@ public struct CreateChannelInput: Swift.Sendable {
     public var recordingConfigurationArn: Swift.String?
     /// Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     public var tags: [Swift.String: Swift.String]?
-    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
+    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html).
     public var type: IvsClientTypes.ChannelType?
 
     public init(
@@ -2470,7 +2470,7 @@ public struct InsertAdBreakInput: Swift.Sendable {
     /// ARN of the channel into which the ad break is inserted.
     /// This member is required.
     public var channelArn: Swift.String?
-    /// Maximum duration of the ad break, in seconds.
+    /// Duration of the ad break, in seconds.
     /// This member is required.
     public var durationSeconds: Swift.Int?
 
@@ -2580,7 +2580,7 @@ extension IvsClientTypes {
         public var recordingConfigurationArn: Swift.String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String: Swift.String]?
-        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
+        /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html).
         public var type: IvsClientTypes.ChannelType?
 
         public init(
@@ -3211,6 +3211,38 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateAdConfigurationInput: Swift.Sendable {
+    /// ARN of the ad configuration to be updated.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see [Generate and Sign IVS Playback Tokens](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/private-channels-generate-tokens.html).
+    public var mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]?
+    /// Ad configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        mediaTailorPlaybackConfigurations: [IvsClientTypes.MediaTailorPlaybackConfiguration]? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.mediaTailorPlaybackConfigurations = mediaTailorPlaybackConfigurations
+        self.name = name
+    }
+}
+
+public struct UpdateAdConfigurationOutput: Swift.Sendable {
+    /// Object specifying the updated ad configuration.
+    /// This member is required.
+    public var adConfiguration: IvsClientTypes.AdConfiguration?
+
+    public init(
+        adConfiguration: IvsClientTypes.AdConfiguration? = nil
+    ) {
+        self.adConfiguration = adConfiguration
+    }
+}
+
 public struct UpdateChannelInput: Swift.Sendable {
     /// ARN of the ad configuration associated with the channel.
     public var adConfigurationArn: Swift.String?
@@ -3235,7 +3267,7 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var preset: IvsClientTypes.TranscodePreset?
     /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. If this is set to an empty string, recording is disabled.
     public var recordingConfigurationArn: Swift.String?
-    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
+    /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyUserGuide/channel-types.html).
     public var type: IvsClientTypes.ChannelType?
 
     public init(
@@ -3608,6 +3640,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAdConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAdConfigurationInput) -> Swift.String? {
+        return "/UpdateAdConfiguration"
+    }
+}
+
 extension UpdateChannelInput {
 
     static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
@@ -3952,6 +3991,16 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateAdConfigurationInput {
+
+    static func write(value: UpdateAdConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["mediaTailorPlaybackConfigurations"].writeList(value.mediaTailorPlaybackConfigurations, memberWritingClosure: IvsClientTypes.MediaTailorPlaybackConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
     }
 }
 
@@ -4458,6 +4507,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAdConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAdConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAdConfigurationOutput()
+        value.adConfiguration = try reader["adConfiguration"].readIfPresent(with: IvsClientTypes.AdConfiguration.read(from:))
+        return value
     }
 }
 
@@ -5128,6 +5189,27 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAdConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
