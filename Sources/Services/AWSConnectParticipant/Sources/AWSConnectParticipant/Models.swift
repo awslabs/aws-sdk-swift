@@ -534,7 +534,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         public internal(set) var message: Swift.String? = nil
         /// The identifier of the resource.
         public internal(set) var resourceId: Swift.String? = nil
-        /// The type of Amazon Connect resource.
+        /// The type of Connect Customer resource.
         public internal(set) var resourceType: ConnectParticipantClientTypes.ResourceType? = nil
     }
 

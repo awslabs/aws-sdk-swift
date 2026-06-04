@@ -3413,12 +3413,43 @@ extension ConfigClientTypes {
 
 extension ConfigClientTypes {
 
+    public enum RuleEvaluationVisibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case external
+        case `internal`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleEvaluationVisibility] {
+            return [
+                .external,
+                .internal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .external: return "EXTERNAL"
+            case .internal: return "INTERNAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
     /// Defines which resources trigger an evaluation for an Config rule. The scope can include one or more resource types, a combination of a tag key and value, or a combination of one resource type and one resource ID. Specify a scope to constrain which resources trigger an evaluation for a rule. Otherwise, evaluations for the rule are triggered when any resource in your recording group changes in configuration.
     public struct Scope: Swift.Sendable {
         /// The ID of the only Amazon Web Services resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes.
         public var complianceResourceId: Swift.String?
         /// The resource types of only those Amazon Web Services resources that you want to trigger an evaluation for the rule. You can only specify one type if you also specify a resource ID for ComplianceResourceId.
         public var complianceResourceTypes: [Swift.String]?
+        /// The service principals of the Amazon Web Services services for the rule. The field is populated only if the service-linked rule is created by a service. The field is empty if you create your own rule.
+        public var servicePrincipals: [Swift.String]?
         /// The tag key that is applied to only those Amazon Web Services resources that you want to trigger an evaluation for the rule.
         public var tagKey: Swift.String?
         /// The tag value applied to only those Amazon Web Services resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue, you must also specify a value for TagKey.
@@ -3427,11 +3458,13 @@ extension ConfigClientTypes {
         public init(
             complianceResourceId: Swift.String? = nil,
             complianceResourceTypes: [Swift.String]? = nil,
+            servicePrincipals: [Swift.String]? = nil,
             tagKey: Swift.String? = nil,
             tagValue: Swift.String? = nil
         ) {
             self.complianceResourceId = complianceResourceId
             self.complianceResourceTypes = complianceResourceTypes
+            self.servicePrincipals = servicePrincipals
             self.tagKey = tagKey
             self.tagValue = tagValue
         }
@@ -3647,6 +3680,8 @@ extension ConfigClientTypes {
         ///
         /// By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
         public var maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency?
+        /// Indicates whether you can get [Evaluation]s for the Config rule. You can get [Evaluation]s for the Amazon Web Services Config rule if this value is EXTERNAL. You cannot get [Evaluation]s for the Amazon Web Services Config rule if this value is INTERNAL.
+        public var ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility?
         /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
         public var scope: ConfigClientTypes.Scope?
         /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier, and the notifications that cause the function to evaluate your Amazon Web Services resources.
@@ -3663,6 +3698,7 @@ extension ConfigClientTypes {
             evaluationModes: [ConfigClientTypes.EvaluationModeConfiguration]? = nil,
             inputParameters: Swift.String? = nil,
             maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency? = nil,
+            ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility? = nil,
             scope: ConfigClientTypes.Scope? = nil,
             source: ConfigClientTypes.Source? = nil
         ) {
@@ -3675,6 +3711,7 @@ extension ConfigClientTypes {
             self.evaluationModes = evaluationModes
             self.inputParameters = inputParameters
             self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
             self.scope = scope
             self.source = source
         }
@@ -5740,11 +5777,15 @@ extension ConfigClientTypes {
     public struct DescribeConfigRulesFilters: Swift.Sendable {
         /// The mode of an evaluation. The valid values are Detective or Proactive.
         public var evaluationMode: ConfigClientTypes.EvaluationMode?
+        /// Filters the results by RuleEvaluationVisibility.
+        public var ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility?
 
         public init(
-            evaluationMode: ConfigClientTypes.EvaluationMode? = nil
+            evaluationMode: ConfigClientTypes.EvaluationMode? = nil,
+            ruleEvaluationVisibility: ConfigClientTypes.RuleEvaluationVisibility? = nil
         ) {
             self.evaluationMode = evaluationMode
+            self.ruleEvaluationVisibility = ruleEvaluationVisibility
         }
     }
 }
