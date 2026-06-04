@@ -72,6 +72,7 @@ public final class Route53ResolverClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: Route53ResolverClient.Route53ResolverClientConfig
     let serviceName = "Route53Resolver"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use Route53ResolverClient.Route53ResolverClientConfig instead")
     public typealias Config = Route53ResolverClient.Route53ResolverClientConfiguration
@@ -81,6 +82,7 @@ public final class Route53ResolverClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: Route53ResolverClient.Route53ResolverClientConfig) instead")
@@ -195,7 +197,7 @@ extension Route53ResolverClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53Resolver")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension Route53ResolverClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53Resolver")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension Route53ResolverClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53Resolver")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension Route53ResolverClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Route53Resolver")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -662,8 +664,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFirewallRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -675,6 +675,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateFirewallRuleGroupInput, AssociateFirewallRuleGroupOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -742,8 +744,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResolverEndpointIpAddressOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -755,6 +755,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResolverEndpointIpAddressInput, AssociateResolverEndpointIpAddressOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -823,8 +825,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResolverQueryLogConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -836,6 +836,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResolverQueryLogConfigInput, AssociateResolverQueryLogConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -904,8 +906,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -917,10 +917,246 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateResolverRuleInput, AssociateResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateResolverRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchCreateFirewallRule` operation on the `Route53Resolver` service.
+    ///
+    /// Creates multiple DNS Firewall rules in the specified rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateFirewallRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateFirewallRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    public func batchCreateFirewallRule(input: BatchCreateFirewallRuleInput) async throws -> BatchCreateFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.batchCreateFirewallRuleOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateFirewallRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53resolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateFirewallRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.BatchCreateFirewallRule"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateFirewallRuleInput, BatchCreateFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateFirewallRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDeleteFirewallRule` operation on the `Route53Resolver` service.
+    ///
+    /// Deletes multiple DNS Firewall rules from the specified rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteFirewallRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchDeleteFirewallRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    public func batchDeleteFirewallRule(input: BatchDeleteFirewallRuleInput) async throws -> BatchDeleteFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.batchDeleteFirewallRuleOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteFirewallRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53resolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteFirewallRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.BatchDeleteFirewallRule"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteFirewallRuleInput, BatchDeleteFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteFirewallRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchUpdateFirewallRule` operation on the `Route53Resolver` service.
+    ///
+    /// Updates multiple DNS Firewall rules in the specified rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateFirewallRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateFirewallRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    public func batchUpdateFirewallRule(input: BatchUpdateFirewallRuleInput) async throws -> BatchUpdateFirewallRuleOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.batchUpdateFirewallRuleOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateFirewallRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53resolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateFirewallRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateFirewallRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>(overrides: ["X-Amz-Target": "Route53Resolver.BatchUpdateFirewallRule"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateFirewallRuleInput, BatchUpdateFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateFirewallRule")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -983,8 +1219,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallDomainListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -996,6 +1230,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFirewallDomainListInput, CreateFirewallDomainListOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1063,8 +1299,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1076,6 +1310,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFirewallRuleInput, CreateFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1142,8 +1378,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1155,6 +1389,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateFirewallRuleGroupInput, CreateFirewallRuleGroupOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1221,8 +1457,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOutpostResolverOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1234,6 +1468,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOutpostResolverInput, CreateOutpostResolverOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1306,8 +1542,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResolverEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1319,6 +1553,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResolverEndpointInput, CreateResolverEndpointOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1388,8 +1624,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResolverQueryLogConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1401,6 +1635,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResolverQueryLogConfigInput, CreateResolverQueryLogConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1470,8 +1706,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1483,6 +1717,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResolverRuleInput, CreateResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1548,8 +1784,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallDomainListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1561,6 +1795,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallDomainListInput, DeleteFirewallDomainListOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1626,8 +1862,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1639,6 +1873,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallRuleInput, DeleteFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1705,8 +1941,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1718,6 +1952,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteFirewallRuleGroupInput, DeleteFirewallRuleGroupOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1784,8 +2020,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOutpostResolverOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1797,6 +2031,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOutpostResolverInput, DeleteOutpostResolverOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1866,8 +2102,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResolverEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1879,6 +2113,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResolverEndpointInput, DeleteResolverEndpointOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -1945,8 +2181,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResolverQueryLogConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1958,6 +2192,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResolverQueryLogConfigInput, DeleteResolverQueryLogConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2024,8 +2260,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2037,6 +2271,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResolverRuleInput, DeleteResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2103,8 +2339,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFirewallRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2116,6 +2350,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateFirewallRuleGroupInput, DisassociateFirewallRuleGroupOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2182,8 +2418,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResolverEndpointIpAddressOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2195,6 +2429,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResolverEndpointIpAddressInput, DisassociateResolverEndpointIpAddressOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2265,8 +2501,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResolverQueryLogConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2278,6 +2512,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResolverQueryLogConfigInput, DisassociateResolverQueryLogConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2343,8 +2579,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2356,6 +2590,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateResolverRuleInput, DisassociateResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2421,8 +2657,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFirewallConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2434,6 +2668,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFirewallConfigInput, GetFirewallConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2498,8 +2734,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFirewallDomainListOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2511,6 +2745,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFirewallDomainListInput, GetFirewallDomainListOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2575,8 +2811,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFirewallRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2588,6 +2822,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFirewallRuleGroupInput, GetFirewallRuleGroupOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2652,8 +2888,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFirewallRuleGroupAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2665,6 +2899,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFirewallRuleGroupAssociationInput, GetFirewallRuleGroupAssociationOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2730,8 +2966,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFirewallRuleGroupPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2743,6 +2977,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFirewallRuleGroupPolicyInput, GetFirewallRuleGroupPolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2808,8 +3044,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostResolverOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2821,6 +3055,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOutpostResolverInput, GetOutpostResolverOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2887,8 +3123,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverConfigInput, GetResolverConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2900,6 +3134,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverConfigInput, GetResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverConfigInput, GetResolverConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -2966,8 +3202,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverDnssecConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2979,6 +3213,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverDnssecConfigInput, GetResolverDnssecConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3043,8 +3279,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3056,6 +3290,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverEndpointInput, GetResolverEndpointOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3122,8 +3358,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverQueryLogConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3135,6 +3369,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverQueryLogConfigInput, GetResolverQueryLogConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3201,8 +3437,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverQueryLogConfigAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3214,6 +3448,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverQueryLogConfigAssociationInput, GetResolverQueryLogConfigAssociationOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3279,8 +3515,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverQueryLogConfigPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3292,6 +3526,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverQueryLogConfigPolicyInput, GetResolverQueryLogConfigPolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3356,8 +3592,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRuleInput, GetResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3369,6 +3603,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRuleInput, GetResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverRuleInput, GetResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3433,8 +3669,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverRuleAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3446,6 +3680,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRuleAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverRuleAssociationInput, GetResolverRuleAssociationOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3510,8 +3746,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverRulePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3523,6 +3757,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResolverRulePolicyInput, GetResolverRulePolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3596,8 +3832,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportFirewallDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3609,6 +3843,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportFirewallDomainsInput, ImportFirewallDomainsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3673,8 +3909,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3686,6 +3920,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallConfigsInput, ListFirewallConfigsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3750,8 +3986,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallDomainListsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3763,6 +3997,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallDomainListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallDomainListsInput, ListFirewallDomainListsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3828,8 +4064,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3841,6 +4075,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallDomainsInput, ListFirewallDomainsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3905,8 +4141,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallRuleGroupAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3918,6 +4152,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleGroupAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallRuleGroupAssociationsInput, ListFirewallRuleGroupAssociationsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -3982,8 +4218,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3995,10 +4229,89 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallRuleGroupsInput, ListFirewallRuleGroupsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFirewallRuleGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListFirewallRuleTypes` operation on the `Route53Resolver` service.
+    ///
+    /// Retrieves the available rule types that can be used in DNS Firewall rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleTypesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListFirewallRuleTypesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified Resolver operation. This error can also be thrown when a customer has reached the 5120 character limit for a resource policy for CloudWatch Logs.
+    /// - `InternalServiceErrorException` : We encountered an unknown error. Try again in a few minutes.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD, REMOVE, or REPLACE a domain.
+    public func listFirewallRuleTypes(input: ListFirewallRuleTypesInput) async throws -> ListFirewallRuleTypesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53ResolverClient.listFirewallRuleTypesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFirewallRuleTypes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53resolver")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallRuleTypesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallRuleTypesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(overrides: ["X-Amz-Target": "Route53Resolver.ListFirewallRuleTypes"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRuleTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallRuleTypesInput, ListFirewallRuleTypesOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFirewallRuleTypes")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4060,8 +4373,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4073,6 +4384,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFirewallRulesInput, ListFirewallRulesOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4138,8 +4451,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutpostResolversOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4151,6 +4462,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOutpostResolversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOutpostResolversInput, ListOutpostResolversOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4218,8 +4531,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4231,6 +4542,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverConfigsInput, ListResolverConfigsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4297,8 +4610,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverDnssecConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4310,6 +4621,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverDnssecConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverDnssecConfigsInput, ListResolverDnssecConfigsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4375,8 +4688,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverEndpointIpAddressesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4388,6 +4699,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverEndpointIpAddressesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverEndpointIpAddressesInput, ListResolverEndpointIpAddressesOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4453,8 +4766,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverEndpointsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4466,6 +4777,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverEndpointsInput, ListResolverEndpointsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4532,8 +4845,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverQueryLogConfigAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4545,6 +4856,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverQueryLogConfigAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverQueryLogConfigAssociationsInput, ListResolverQueryLogConfigAssociationsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4611,8 +4924,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverQueryLogConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4624,6 +4935,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverQueryLogConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverQueryLogConfigsInput, ListResolverQueryLogConfigsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4689,8 +5002,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverRuleAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4702,6 +5013,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverRuleAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverRuleAssociationsInput, ListResolverRuleAssociationsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4767,8 +5080,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResolverRulesInput, ListResolverRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolverRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4780,6 +5091,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResolverRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResolverRulesInput, ListResolverRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResolverRulesInput, ListResolverRulesOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4846,8 +5159,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4859,6 +5170,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -4924,8 +5237,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFirewallRuleGroupPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4937,6 +5248,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFirewallRuleGroupPolicyInput, PutFirewallRuleGroupPolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5003,8 +5316,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResolverQueryLogConfigPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5016,6 +5327,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResolverQueryLogConfigPolicyInput, PutResolverQueryLogConfigPolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5081,8 +5394,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResolverRulePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5094,6 +5405,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResolverRulePolicyInput, PutResolverRulePolicyOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5161,8 +5474,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5174,6 +5485,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5239,8 +5552,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5252,6 +5563,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5317,8 +5630,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5330,6 +5641,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallConfigInput, UpdateFirewallConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5397,8 +5710,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5410,6 +5721,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallDomainsInput, UpdateFirewallDomainsOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5476,8 +5789,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5489,6 +5800,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallRuleInput, UpdateFirewallRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5555,8 +5868,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallRuleGroupAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5568,6 +5879,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFirewallRuleGroupAssociationInput, UpdateFirewallRuleGroupAssociationOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5635,8 +5948,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOutpostResolverOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5648,6 +5959,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOutpostResolverInput, UpdateOutpostResolverOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5717,8 +6030,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5730,6 +6041,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResolverConfigInput, UpdateResolverConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5796,8 +6109,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverDnssecConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5809,6 +6120,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResolverDnssecConfigInput, UpdateResolverDnssecConfigOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5875,8 +6188,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverEndpointOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5888,6 +6199,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResolverEndpointInput, UpdateResolverEndpointOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")
@@ -5956,8 +6269,6 @@ extension Route53ResolverClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Resolver", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5969,6 +6280,8 @@ extension Route53ResolverClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Resolver"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResolverRuleInput, UpdateResolverRuleOutput>(serviceID: serviceName, version: Route53ResolverClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Resolver")

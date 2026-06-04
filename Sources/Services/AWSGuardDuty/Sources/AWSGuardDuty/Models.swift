@@ -2030,6 +2030,26 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan for a point-in-time recovery resource.
+    public struct ContinuousScanDetails: Swift.Sendable {
+        /// The timestamp representing the end of the time range to scan.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The timestamp representing the start of the time range to scan. Reserved for internal use.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     public enum CoverageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case healthy
         case unhealthy
@@ -9425,6 +9445,10 @@ extension GuardDutyClientTypes {
         public var addressFamily: Swift.String?
         /// Example of the command line involved in the suspicious activity.
         public var commandLineExample: Swift.String?
+        /// Represents the type of file operation that triggered the finding, such as Write, Delete, Rename, Link, or Symlink.
+        public var fileOperation: Swift.String?
+        /// The path of the sensitive file that was modified. Modification includes write, delete, rename, link, or symlink operations. This field is indexed for filtering.
+        public var filePath: Swift.String?
         /// Represents the type of mounted fileSystem.
         public var fileSystemType: Swift.String?
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
@@ -9451,6 +9475,8 @@ extension GuardDutyClientTypes {
         public var mountSource: Swift.String?
         /// The path in the container that is mapped to the host directory.
         public var mountTarget: Swift.String?
+        /// All file paths modified by the same process that triggered the finding, up to a maximum of 25 paths.
+        public var relatedFilePaths: [Swift.String]?
         /// The path in the container that modified the release agent file.
         public var releaseAgentPath: Swift.String?
         /// The path to the leveraged runc implementation.
@@ -9475,6 +9501,8 @@ extension GuardDutyClientTypes {
         public init(
             addressFamily: Swift.String? = nil,
             commandLineExample: Swift.String? = nil,
+            fileOperation: Swift.String? = nil,
+            filePath: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
             ianaProtocolNumber: Swift.Int? = nil,
@@ -9488,6 +9516,7 @@ extension GuardDutyClientTypes {
             moduleSha256: Swift.String? = nil,
             mountSource: Swift.String? = nil,
             mountTarget: Swift.String? = nil,
+            relatedFilePaths: [Swift.String]? = nil,
             releaseAgentPath: Swift.String? = nil,
             runcBinaryPath: Swift.String? = nil,
             scriptPath: Swift.String? = nil,
@@ -9501,6 +9530,8 @@ extension GuardDutyClientTypes {
         ) {
             self.addressFamily = addressFamily
             self.commandLineExample = commandLineExample
+            self.fileOperation = fileOperation
+            self.filePath = filePath
             self.fileSystemType = fileSystemType
             self.flags = flags
             self.ianaProtocolNumber = ianaProtocolNumber
@@ -9514,6 +9545,7 @@ extension GuardDutyClientTypes {
             self.moduleSha256 = moduleSha256
             self.mountSource = mountSource
             self.mountTarget = mountTarget
+            self.relatedFilePaths = relatedFilePaths
             self.releaseAgentPath = releaseAgentPath
             self.runcBinaryPath = runcBinaryPath
             self.scriptPath = scriptPath
@@ -10383,6 +10415,7 @@ extension GuardDutyClientTypes {
         case ec2Instance
         case ec2RecoveryPoint
         case s3Bucket
+        case s3PointInTimeRecovery
         case s3RecoveryPoint
         case sdkUnknown(Swift.String)
 
@@ -10395,6 +10428,7 @@ extension GuardDutyClientTypes {
                 .ec2Instance,
                 .ec2RecoveryPoint,
                 .s3Bucket,
+                .s3PointInTimeRecovery,
                 .s3RecoveryPoint
             ]
         }
@@ -10413,9 +10447,30 @@ extension GuardDutyClientTypes {
             case .ec2Instance: return "EC2_INSTANCE"
             case .ec2RecoveryPoint: return "EC2_RECOVERY_POINT"
             case .s3Bucket: return "S3_BUCKET"
+            case .s3PointInTimeRecovery: return "S3_POINT_IN_TIME_RECOVERY"
             case .s3RecoveryPoint: return "S3_RECOVERY_POINT"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+    public struct ScanConfigurationContinuousScanDetails: Swift.Sendable {
+        /// The timestamp representing the end of the time range that was scanned.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The timestamp representing the start of the time range that was scanned.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
         }
     }
 }
@@ -10426,11 +10481,15 @@ extension GuardDutyClientTypes {
     public struct ScanConfigurationRecoveryPoint: Swift.Sendable {
         /// The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.
         public var backupVaultName: Swift.String?
+        /// The time range within the continuous backup in Amazon Web Services Backup that was scanned for a point-in-time recovery resource.
+        public var continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails?
 
         public init(
-            backupVaultName: Swift.String? = nil
+            backupVaultName: Swift.String? = nil,
+            continuousScanDetails: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails? = nil
         ) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
     }
 }
@@ -12827,11 +12886,15 @@ extension GuardDutyClientTypes {
         /// The name of the Amazon Web Services Backup vault that contains the name of the recovery point to be scanned.
         /// This member is required.
         public var backupVaultName: Swift.String?
+        /// Contains information about the time range within the continuous backup in Amazon Web Services Backup to scan.
+        public var continuousScanDetails: GuardDutyClientTypes.ContinuousScanDetails?
 
         public init(
-            backupVaultName: Swift.String? = nil
+            backupVaultName: Swift.String? = nil,
+            continuousScanDetails: GuardDutyClientTypes.ContinuousScanDetails? = nil
         ) {
             self.backupVaultName = backupVaultName
+            self.continuousScanDetails = continuousScanDetails
         }
     }
 }
@@ -19326,6 +19389,15 @@ extension GuardDutyClientTypes.ContainerInstanceDetails {
     }
 }
 
+extension GuardDutyClientTypes.ContinuousScanDetails {
+
+    static func write(value: GuardDutyClientTypes.ContinuousScanDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension GuardDutyClientTypes.Country {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Country {
@@ -21152,6 +21224,7 @@ extension GuardDutyClientTypes.RecoveryPoint {
     static func write(value: GuardDutyClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["backupVaultName"].write(value.backupVaultName)
+        try writer["continuousScanDetails"].write(value.continuousScanDetails, with: GuardDutyClientTypes.ContinuousScanDetails.write(value:to:))
     }
 }
 
@@ -21325,6 +21398,9 @@ extension GuardDutyClientTypes.RuntimeContext {
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.commandLineExample = try reader["commandLineExample"].readIfPresent()
         value.threatFilePath = try reader["threatFilePath"].readIfPresent()
+        value.fileOperation = try reader["fileOperation"].readIfPresent()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.relatedFilePaths = try reader["relatedFilePaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -21500,12 +21576,24 @@ extension GuardDutyClientTypes.ScanConfiguration {
     }
 }
 
+extension GuardDutyClientTypes.ScanConfigurationContinuousScanDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationContinuousScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanConfigurationContinuousScanDetails()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.ScanConfigurationRecoveryPoint()
         value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        value.continuousScanDetails = try reader["continuousScanDetails"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationContinuousScanDetails.read(from:))
         return value
     }
 }

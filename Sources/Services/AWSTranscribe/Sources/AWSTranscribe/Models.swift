@@ -310,6 +310,7 @@ extension TranscribeClientTypes {
     public enum LanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case abGe
         case afZa
+        case amEt
         case arAe
         case arSa
         case astEs
@@ -323,6 +324,7 @@ extension TranscribeClientTypes {
         case ckbIq
         case ckbIr
         case csCz
+        case cyGb
         case cyWl
         case daDk
         case deCh
@@ -338,29 +340,36 @@ extension TranscribeClientTypes {
         case enWl
         case enZa
         case esEs
+        case esMx
         case esUs
         case etEe
         case etEt
         case euEs
+        case faAf
         case faIr
         case fiFi
         case frCa
         case frFr
+        case gaIe
+        case gdGb
         case glEs
         case guIn
         case haNg
         case heIl
         case hiIn
         case hrHr
+        case htHt
         case huHu
         case hyAm
         case idId
         case isIs
         case itIt
         case jaJp
+        case jvId
         case kabDz
         case kaGe
         case kkKz
+        case kmKh
         case knIn
         case koKr
         case kyKg
@@ -375,6 +384,8 @@ extension TranscribeClientTypes {
         case mrIn
         case msMy
         case mtMt
+        case myMm
+        case neNp
         case nlNl
         case noNo
         case orIn
@@ -390,6 +401,7 @@ extension TranscribeClientTypes {
         case skSk
         case slSi
         case soSo
+        case sqAl
         case srRs
         case suId
         case svSe
@@ -419,6 +431,7 @@ extension TranscribeClientTypes {
             return [
                 .abGe,
                 .afZa,
+                .amEt,
                 .arAe,
                 .arSa,
                 .astEs,
@@ -432,6 +445,7 @@ extension TranscribeClientTypes {
                 .ckbIq,
                 .ckbIr,
                 .csCz,
+                .cyGb,
                 .cyWl,
                 .daDk,
                 .deCh,
@@ -447,29 +461,36 @@ extension TranscribeClientTypes {
                 .enWl,
                 .enZa,
                 .esEs,
+                .esMx,
                 .esUs,
                 .etEe,
                 .etEt,
                 .euEs,
+                .faAf,
                 .faIr,
                 .fiFi,
                 .frCa,
                 .frFr,
+                .gaIe,
+                .gdGb,
                 .glEs,
                 .guIn,
                 .haNg,
                 .heIl,
                 .hiIn,
                 .hrHr,
+                .htHt,
                 .huHu,
                 .hyAm,
                 .idId,
                 .isIs,
                 .itIt,
                 .jaJp,
+                .jvId,
                 .kabDz,
                 .kaGe,
                 .kkKz,
+                .kmKh,
                 .knIn,
                 .koKr,
                 .kyKg,
@@ -484,6 +505,8 @@ extension TranscribeClientTypes {
                 .mrIn,
                 .msMy,
                 .mtMt,
+                .myMm,
+                .neNp,
                 .nlNl,
                 .noNo,
                 .orIn,
@@ -499,6 +522,7 @@ extension TranscribeClientTypes {
                 .skSk,
                 .slSi,
                 .soSo,
+                .sqAl,
                 .srRs,
                 .suId,
                 .svSe,
@@ -534,6 +558,7 @@ extension TranscribeClientTypes {
             switch self {
             case .abGe: return "ab-GE"
             case .afZa: return "af-ZA"
+            case .amEt: return "am-ET"
             case .arAe: return "ar-AE"
             case .arSa: return "ar-SA"
             case .astEs: return "ast-ES"
@@ -547,6 +572,7 @@ extension TranscribeClientTypes {
             case .ckbIq: return "ckb-IQ"
             case .ckbIr: return "ckb-IR"
             case .csCz: return "cs-CZ"
+            case .cyGb: return "cy-GB"
             case .cyWl: return "cy-WL"
             case .daDk: return "da-DK"
             case .deCh: return "de-CH"
@@ -562,29 +588,36 @@ extension TranscribeClientTypes {
             case .enWl: return "en-WL"
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
+            case .esMx: return "es-MX"
             case .esUs: return "es-US"
             case .etEe: return "et-EE"
             case .etEt: return "et-ET"
             case .euEs: return "eu-ES"
+            case .faAf: return "fa-AF"
             case .faIr: return "fa-IR"
             case .fiFi: return "fi-FI"
             case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
+            case .gaIe: return "ga-IE"
+            case .gdGb: return "gd-GB"
             case .glEs: return "gl-ES"
             case .guIn: return "gu-IN"
             case .haNg: return "ha-NG"
             case .heIl: return "he-IL"
             case .hiIn: return "hi-IN"
             case .hrHr: return "hr-HR"
+            case .htHt: return "ht-HT"
             case .huHu: return "hu-HU"
             case .hyAm: return "hy-AM"
             case .idId: return "id-ID"
             case .isIs: return "is-IS"
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
+            case .jvId: return "jv-ID"
             case .kabDz: return "kab-DZ"
             case .kaGe: return "ka-GE"
             case .kkKz: return "kk-KZ"
+            case .kmKh: return "km-KH"
             case .knIn: return "kn-IN"
             case .koKr: return "ko-KR"
             case .kyKg: return "ky-KG"
@@ -599,6 +632,8 @@ extension TranscribeClientTypes {
             case .mrIn: return "mr-IN"
             case .msMy: return "ms-MY"
             case .mtMt: return "mt-MT"
+            case .myMm: return "my-MM"
+            case .neNp: return "ne-NP"
             case .nlNl: return "nl-NL"
             case .noNo: return "no-NO"
             case .orIn: return "or-IN"
@@ -614,6 +649,7 @@ extension TranscribeClientTypes {
             case .skSk: return "sk-SK"
             case .slSi: return "sl-SI"
             case .soSo: return "so-SO"
+            case .sqAl: return "sq-AL"
             case .srRs: return "sr-RS"
             case .suId: return "su-ID"
             case .svSe: return "sv-SE"

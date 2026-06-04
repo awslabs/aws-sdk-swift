@@ -82,6 +82,7 @@ public final class BedrockRuntimeClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: BedrockRuntimeClient.BedrockRuntimeClientConfig
     let serviceName = "Bedrock Runtime"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use BedrockRuntimeClient.BedrockRuntimeClientConfig instead")
     public typealias Config = BedrockRuntimeClient.BedrockRuntimeClientConfiguration
@@ -91,6 +92,7 @@ public final class BedrockRuntimeClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: BedrockRuntimeClient.BedrockRuntimeClientConfig) instead")
@@ -205,7 +207,7 @@ extension BedrockRuntimeClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Bedrock Runtime")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -260,7 +262,7 @@ extension BedrockRuntimeClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Bedrock Runtime")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -436,7 +438,7 @@ extension BedrockRuntimeClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Bedrock Runtime")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -491,7 +493,7 @@ extension BedrockRuntimeClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Bedrock Runtime")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -667,8 +669,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyGuardrailOutput>(ApplyGuardrailOutput.httpOutput(from:), ApplyGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyGuardrailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -679,6 +679,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -744,8 +746,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseOutput>(ConverseOutput.httpOutput(from:), ConverseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseInput, ConverseOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -756,6 +756,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseInput, ConverseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseInput, ConverseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseInput, ConverseOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -821,8 +823,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseStreamOutput>(ConverseStreamOutput.httpOutput(from:), ConverseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseStreamInput, ConverseStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -833,6 +833,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseStreamInput, ConverseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseStreamInput, ConverseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ConverseStreamInput, ConverseStreamOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -908,8 +910,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountTokensOutput>(CountTokensOutput.httpOutput(from:), CountTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountTokensInput, CountTokensOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountTokensOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -920,6 +920,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CountTokensInput, CountTokensOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CountTokensInput, CountTokensOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CountTokensInput, CountTokensOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -977,8 +979,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAsyncInvokeOutput>(GetAsyncInvokeOutput.httpOutput(from:), GetAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAsyncInvokeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -989,6 +989,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -1056,8 +1058,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelOutput>(InvokeModelOutput.httpOutput(from:), InvokeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelInput, InvokeModelOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1068,6 +1068,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelInput, InvokeModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelInput, InvokeModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelInput, InvokeModelOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -1136,8 +1138,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithBidirectionalStreamOutput>(InvokeModelWithBidirectionalStreamOutput.httpOutput(from:), InvokeModelWithBidirectionalStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithBidirectionalStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1148,6 +1148,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -1216,8 +1218,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithResponseStreamOutput>(InvokeModelWithResponseStreamOutput.httpOutput(from:), InvokeModelWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithResponseStreamOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1228,6 +1228,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -1286,8 +1288,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAsyncInvokesOutput>(ListAsyncInvokesOutput.httpOutput(from:), ListAsyncInvokesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAsyncInvokesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1298,6 +1298,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")
@@ -1363,8 +1365,6 @@ extension BedrockRuntimeClient {
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAsyncInvokeOutput>(StartAsyncInvokeOutput.httpOutput(from:), StartAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAsyncInvokeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Runtime", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1375,6 +1375,8 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Runtime"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(serviceID: serviceName, version: BedrockRuntimeClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockRuntime")

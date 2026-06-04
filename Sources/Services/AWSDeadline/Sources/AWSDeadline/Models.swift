@@ -202,7 +202,6 @@ extension DeadlineClientTypes {
 extension DeadlineClientTypes {
 
     public enum AcceleratorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// GPU accelerator type.
         case gpu
         case sdkUnknown(Swift.String)
 
@@ -5901,6 +5900,38 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    /// Specifies the persistent EBS volume configuration for workers in a service managed fleet.
+    public struct PersistentVolumeConfiguration: Swift.Sendable {
+        /// The IOPS per persistent volume. The default is 3000.
+        public var iops: Swift.Int?
+        /// The number of hours a persistent volume can remain unused before it is deleted. The default is 168 (7 days).
+        public var lastUsedTtlHours: Swift.Int?
+        /// The file system path where the persistent volume is mounted on the worker instance.
+        /// This member is required.
+        public var mountPath: Swift.String?
+        /// The persistent volume size in GiB. The default is 250.
+        public var sizeGiB: Swift.Int?
+        /// The throughput per persistent volume in MiB. The default is 125.
+        public var throughputMiB: Swift.Int?
+
+        public init(
+            iops: Swift.Int? = 3000,
+            lastUsedTtlHours: Swift.Int? = 168,
+            mountPath: Swift.String? = nil,
+            sizeGiB: Swift.Int? = 250,
+            throughputMiB: Swift.Int? = 125
+        ) {
+            self.iops = iops
+            self.lastUsedTtlHours = lastUsedTtlHours
+            self.mountPath = mountPath
+            self.sizeGiB = sizeGiB
+            self.throughputMiB = throughputMiB
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The configuration options for a service managed fleet's VPC.
     public struct VpcConfiguration: Swift.Sendable {
         /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
@@ -5926,6 +5957,8 @@ extension DeadlineClientTypes {
         /// The instance market options for the service managed EC2 fleet.
         /// This member is required.
         public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
+        /// The persistent volume configuration for the service managed EC2 fleet.
+        public var persistentVolumeConfiguration: DeadlineClientTypes.PersistentVolumeConfiguration?
         /// The storage profile ID for the service managed EC2 fleet.
         public var storageProfileId: Swift.String?
         /// The VPC configuration for the service managed EC2 fleet.
@@ -5935,12 +5968,14 @@ extension DeadlineClientTypes {
             autoScalingConfiguration: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration? = nil,
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
             instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
+            persistentVolumeConfiguration: DeadlineClientTypes.PersistentVolumeConfiguration? = nil,
             storageProfileId: Swift.String? = nil,
             vpcConfiguration: DeadlineClientTypes.VpcConfiguration? = nil
         ) {
             self.autoScalingConfiguration = autoScalingConfiguration
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
+            self.persistentVolumeConfiguration = persistentVolumeConfiguration
             self.storageProfileId = storageProfileId
             self.vpcConfiguration = vpcConfiguration
         }
@@ -6284,7 +6319,7 @@ public struct CreateMonitorInput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
-    /// The AWS Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor.
+    /// The Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor.
     public var identityCenterRegion: Swift.String?
     /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     /// This member is required.
@@ -7558,6 +7593,281 @@ extension UpdateFleetInput: Swift.CustomDebugStringConvertible {
 public struct UpdateFleetOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteVolumeInput: Swift.Sendable {
+    /// The farm ID of the farm that contains the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet that contains the volume.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The volume ID of the volume to delete.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.volumeId = volumeId
+    }
+}
+
+public struct DeleteVolumeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetVolumeInput: Swift.Sendable {
+    /// The farm ID of the farm that contains the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet that contains the volume.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The volume ID of the volume to retrieve.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.volumeId = volumeId
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The state of a persistent volume.
+    public enum VolumeState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case inUse
+        case pendingAttachment
+        case pendingCreation
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeState] {
+            return [
+                .available,
+                .inUse,
+                .pendingAttachment,
+                .pendingCreation,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .inUse: return "IN_USE"
+            case .pendingAttachment: return "PENDING_ATTACHMENT"
+            case .pendingCreation: return "PENDING_CREATION"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The EBS volume type.
+    public enum EbsVolumeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gp3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EbsVolumeType] {
+            return [
+                .gp3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gp3: return "gp3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
+public struct GetVolumeOutput: Swift.Sendable {
+    /// The worker ID of the worker the volume is attached to.
+    public var attachedWorkerId: Swift.String?
+    /// The Availability Zone ID of the volume.
+    /// This member is required.
+    public var availabilityZoneId: Swift.String?
+    /// The date and time the resource was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The date and time the volume expires and will be deleted.
+    public var expiresAt: Foundation.Date?
+    /// The farm ID of the farm that contains the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet that contains the volume.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The IOPS of the volume.
+    public var iops: Swift.Int?
+    /// The date and time the volume was last assigned to a worker.
+    public var lastAssignedAt: Foundation.Date?
+    /// The date and time the volume was last released from a worker.
+    public var lastReleasedAt: Foundation.Date?
+    /// The volume size in GiB.
+    /// This member is required.
+    public var sizeGiB: Swift.Int?
+    /// The state of the volume.
+    /// This member is required.
+    public var state: DeadlineClientTypes.VolumeState?
+    /// The throughput of the volume in MiB.
+    public var throughputMiB: Swift.Int?
+    /// The volume ID.
+    /// This member is required.
+    public var volumeId: Swift.String?
+    /// The EBS volume type.
+    /// This member is required.
+    public var volumeType: DeadlineClientTypes.EbsVolumeType?
+
+    public init(
+        attachedWorkerId: Swift.String? = nil,
+        availabilityZoneId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        expiresAt: Foundation.Date? = nil,
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        iops: Swift.Int? = nil,
+        lastAssignedAt: Foundation.Date? = nil,
+        lastReleasedAt: Foundation.Date? = nil,
+        sizeGiB: Swift.Int? = nil,
+        state: DeadlineClientTypes.VolumeState? = nil,
+        throughputMiB: Swift.Int? = nil,
+        volumeId: Swift.String? = nil,
+        volumeType: DeadlineClientTypes.EbsVolumeType? = nil
+    ) {
+        self.attachedWorkerId = attachedWorkerId
+        self.availabilityZoneId = availabilityZoneId
+        self.createdAt = createdAt
+        self.expiresAt = expiresAt
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.iops = iops
+        self.lastAssignedAt = lastAssignedAt
+        self.lastReleasedAt = lastReleasedAt
+        self.sizeGiB = sizeGiB
+        self.state = state
+        self.throughputMiB = throughputMiB
+        self.volumeId = volumeId
+        self.volumeType = volumeType
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListVolumesInput: Swift.Sendable {
+    /// The farm ID of the farm that contains the fleet.
+    /// This member is required.
+    public var farmId: Swift.String?
+    /// The fleet ID of the fleet that contains the volumes.
+    /// This member is required.
+    public var fleetId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+
+    public init(
+        farmId: Swift.String? = nil,
+        fleetId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.farmId = farmId
+        self.fleetId = fleetId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The summary of a persistent volume.
+    public struct VolumeSummary: Swift.Sendable {
+        /// The worker ID of the worker the volume is attached to.
+        public var attachedWorkerId: Swift.String?
+        /// The Availability Zone ID of the volume.
+        /// This member is required.
+        public var availabilityZoneId: Swift.String?
+        /// The farm ID of the farm that contains the fleet.
+        /// This member is required.
+        public var farmId: Swift.String?
+        /// The fleet ID of the fleet that contains the volume.
+        /// This member is required.
+        public var fleetId: Swift.String?
+        /// The volume size in GiB.
+        /// This member is required.
+        public var sizeGiB: Swift.Int?
+        /// The state of the volume.
+        /// This member is required.
+        public var state: DeadlineClientTypes.VolumeState?
+        /// The volume ID.
+        /// This member is required.
+        public var volumeId: Swift.String?
+
+        public init(
+            attachedWorkerId: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            farmId: Swift.String? = nil,
+            fleetId: Swift.String? = nil,
+            sizeGiB: Swift.Int? = nil,
+            state: DeadlineClientTypes.VolumeState? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.attachedWorkerId = attachedWorkerId
+            self.availabilityZoneId = availabilityZoneId
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.sizeGiB = sizeGiB
+            self.state = state
+            self.volumeId = volumeId
+        }
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListVolumesOutput: Swift.Sendable {
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+    /// The volumes on the list.
+    /// This member is required.
+    public var volumes: [DeadlineClientTypes.VolumeSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        volumes: [DeadlineClientTypes.VolumeSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.volumes = volumes
+    }
 }
 
 public struct DeleteWorkerInput: Swift.Sendable {
@@ -12374,7 +12684,7 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
-    /// The AWS Region where IAM Identity Center is enabled.
+    /// The Region where IAM Identity Center is enabled.
     public var identityCenterRegion: Swift.String?
     /// The unique identifier for the monitor.
     /// This member is required.
@@ -12481,7 +12791,7 @@ extension DeadlineClientTypes {
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         /// This member is required.
         public var identityCenterInstanceArn: Swift.String?
-        /// The AWS Region where IAM Identity Center is enabled.
+        /// The Region where IAM Identity Center is enabled.
         public var identityCenterRegion: Swift.String?
         /// The unique identifier for the monitor.
         /// This member is required.
@@ -14498,6 +14808,22 @@ extension DeleteStorageProfileInput {
     }
 }
 
+extension DeleteVolumeInput {
+
+    static func urlPathProvider(_ value: DeleteVolumeInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let fleetId = value.fleetId else {
+            return nil
+        }
+        guard let volumeId = value.volumeId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/fleets/\(fleetId.urlPercentEncoding())/volumes/\(volumeId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteWorkerInput {
 
     static func urlPathProvider(_ value: DeleteWorkerInput) -> Swift.String? {
@@ -14871,6 +15197,22 @@ extension GetTaskInput {
             return nil
         }
         return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/queues/\(queueId.urlPercentEncoding())/jobs/\(jobId.urlPercentEncoding())/steps/\(stepId.urlPercentEncoding())/tasks/\(taskId.urlPercentEncoding())"
+    }
+}
+
+extension GetVolumeInput {
+
+    static func urlPathProvider(_ value: GetVolumeInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let fleetId = value.fleetId else {
+            return nil
+        }
+        guard let volumeId = value.volumeId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/fleets/\(fleetId.urlPercentEncoding())/volumes/\(volumeId.urlPercentEncoding())"
     }
 }
 
@@ -15711,6 +16053,35 @@ extension ListTasksInput {
 extension ListTasksInput {
 
     static func queryItemProvider(_ value: ListTasksInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListVolumesInput {
+
+    static func urlPathProvider(_ value: ListVolumesInput) -> Swift.String? {
+        guard let farmId = value.farmId else {
+            return nil
+        }
+        guard let fleetId = value.fleetId else {
+            return nil
+        }
+        return "/2023-10-12/farms/\(farmId.urlPercentEncoding())/fleets/\(fleetId.urlPercentEncoding())/volumes"
+    }
+}
+
+extension ListVolumesInput {
+
+    static func queryItemProvider(_ value: ListVolumesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -17179,6 +17550,13 @@ extension DeleteStorageProfileOutput {
     }
 }
 
+extension DeleteVolumeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVolumeOutput {
+        return DeleteVolumeOutput()
+    }
+}
+
 extension DeleteWorkerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkerOutput {
@@ -17629,6 +18007,31 @@ extension GetTaskOutput {
     }
 }
 
+extension GetVolumeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVolumeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVolumeOutput()
+        value.attachedWorkerId = try reader["attachedWorkerId"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.iops = try reader["iops"].readIfPresent()
+        value.lastAssignedAt = try reader["lastAssignedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastReleasedAt = try reader["lastReleasedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sizeGiB = try reader["sizeGiB"].readIfPresent() ?? 0
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.throughputMiB = try reader["throughputMiB"].readIfPresent()
+        value.volumeId = try reader["volumeId"].readIfPresent() ?? ""
+        value.volumeType = try reader["volumeType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetWorkerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWorkerOutput {
@@ -18009,6 +18412,19 @@ extension ListTasksOutput {
         var value = ListTasksOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.tasks = try reader["tasks"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListVolumesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVolumesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVolumesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.VolumeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -19050,6 +19466,25 @@ enum DeleteStorageProfileOutputError {
     }
 }
 
+enum DeleteVolumeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteWorkerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19468,6 +19903,24 @@ enum GetStorageProfileForQueueOutputError {
 }
 
 enum GetTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetVolumeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -19983,6 +20436,24 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListVolumesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -22106,6 +22577,29 @@ extension DeadlineClientTypes.PathMappingRule {
     }
 }
 
+extension DeadlineClientTypes.PersistentVolumeConfiguration {
+
+    static func write(value: DeadlineClientTypes.PersistentVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iops"].write(value.iops)
+        try writer["lastUsedTtlHours"].write(value.lastUsedTtlHours)
+        try writer["mountPath"].write(value.mountPath)
+        try writer["sizeGiB"].write(value.sizeGiB)
+        try writer["throughputMiB"].write(value.throughputMiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.PersistentVolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.PersistentVolumeConfiguration()
+        value.sizeGiB = try reader["sizeGiB"].readIfPresent() ?? 250
+        value.iops = try reader["iops"].readIfPresent() ?? 3000
+        value.throughputMiB = try reader["throughputMiB"].readIfPresent() ?? 125
+        value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
+        value.lastUsedTtlHours = try reader["lastUsedTtlHours"].readIfPresent() ?? 168
+        return value
+    }
+}
+
 extension DeadlineClientTypes.PosixUser {
 
     static func write(value: DeadlineClientTypes.PosixUser?, to writer: SmithyJSON.Writer) throws {
@@ -22440,6 +22934,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         try writer["autoScalingConfiguration"].write(value.autoScalingConfiguration, with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.write(value:to:))
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
+        try writer["persistentVolumeConfiguration"].write(value.persistentVolumeConfiguration, with: DeadlineClientTypes.PersistentVolumeConfiguration.write(value:to:))
         try writer["storageProfileId"].write(value.storageProfileId)
         try writer["vpcConfiguration"].write(value.vpcConfiguration, with: DeadlineClientTypes.VpcConfiguration.write(value:to:))
     }
@@ -22451,6 +22946,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: DeadlineClientTypes.VpcConfiguration.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.persistentVolumeConfiguration = try reader["persistentVolumeConfiguration"].readIfPresent(with: DeadlineClientTypes.PersistentVolumeConfiguration.read(from:))
         value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2AutoScalingConfiguration.read(from:))
         return value
     }
@@ -23029,6 +23525,22 @@ extension DeadlineClientTypes.VCpuCountRange {
         var value = DeadlineClientTypes.VCpuCountRange()
         value.min = try reader["min"].readIfPresent() ?? 0
         value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.VolumeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.VolumeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.VolumeSummary()
+        value.volumeId = try reader["volumeId"].readIfPresent() ?? ""
+        value.farmId = try reader["farmId"].readIfPresent() ?? ""
+        value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.sizeGiB = try reader["sizeGiB"].readIfPresent() ?? 0
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent() ?? ""
+        value.attachedWorkerId = try reader["attachedWorkerId"].readIfPresent()
         return value
     }
 }

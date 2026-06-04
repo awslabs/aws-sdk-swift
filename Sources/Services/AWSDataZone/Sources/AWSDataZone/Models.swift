@@ -5273,6 +5273,31 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties used when creating a connection.
+    public struct VpcPropertiesInput: Swift.Sendable {
+        /// The security group ID of the VPC connection. Must match the pattern ^sg-[a-z0-9]+$. Maximum length of 32.
+        public var securityGroupId: Swift.String?
+        /// The subnet IDs of the VPC connection. You can specify between 1 and 16 subnet IDs.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC. Must match the pattern ^vpc-[a-z0-9]+$. Maximum length of 32.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Amazon MWAA properties.
     public struct WorkflowsMwaaPropertiesInput: Swift.Sendable {
         /// The MWAA environment name.
@@ -5325,6 +5350,8 @@ extension DataZoneClientTypes {
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesInput)
         /// The lakehouse properties of a connection.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesInput)
+        /// The VPC properties of a connection.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5779,6 +5806,40 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties returned in responses.
+    public struct VpcPropertiesOutput: Swift.Sendable {
+        /// The Amazon Web Services Glue connection names associated with the VPC connection.
+        public var glueConnectionNames: [Swift.String]?
+        /// The security group ID of the VPC connection.
+        public var securityGroupId: Swift.String?
+        /// The status of the VPC connection.
+        /// This member is required.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+        /// The subnet IDs of the VPC connection.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            glueConnectionNames: [Swift.String]? = nil,
+            securityGroupId: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.glueConnectionNames = glueConnectionNames
+            self.securityGroupId = securityGroupId
+            self.status = status
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Amazon MWAA properties.
     public struct WorkflowsMwaaPropertiesOutput: Swift.Sendable {
         /// The MWAA environment name.
@@ -5831,6 +5892,8 @@ extension DataZoneClientTypes {
         case workflowsserverlessproperties(DataZoneClientTypes.WorkflowsServerlessPropertiesOutput)
         /// The lakehouse properties of a connection.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesOutput)
+        /// The VPC properties of a connection.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6027,6 +6090,29 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The VPC connection properties used when updating a connection.
+    public struct VpcPropertiesPatch: Swift.Sendable {
+        /// The security group ID of the VPC connection.
+        public var securityGroupId: Swift.String?
+        /// The subnet IDs of the VPC connection.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupId: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupId = securityGroupId
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The connection properties patch.
     public enum ConnectionPropertiesPatch: Swift.Sendable {
         /// The Amazon Athena properties of a connection properties patch.
@@ -6047,6 +6133,8 @@ extension DataZoneClientTypes {
         case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
         /// The lakehouse properties of a connection properties patch.
         case lakehouseproperties(DataZoneClientTypes.LakehousePropertiesPatch)
+        /// The VPC properties of a connection properties patch.
+        case vpcproperties(DataZoneClientTypes.VpcPropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6104,6 +6192,7 @@ extension DataZoneClientTypes {
         case sqlserver
         case teradata
         case vertica
+        case vpc
         case workflowsMwaa
         case sdkUnknown(Swift.String)
 
@@ -6130,6 +6219,7 @@ extension DataZoneClientTypes {
                 .sqlserver,
                 .teradata,
                 .vertica,
+                .vpc,
                 .workflowsMwaa
             ]
         }
@@ -6162,6 +6252,7 @@ extension DataZoneClientTypes {
             case .sqlserver: return "SQLSERVER"
             case .teradata: return "TERADATA"
             case .vertica: return "VERTICA"
+            case .vpc: return "VPC"
             case .workflowsMwaa: return "WORKFLOWS_MWAA"
             case let .sdkUnknown(s): return s
             }
@@ -14581,7 +14672,44 @@ extension DataZoneClientTypes {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The details of the resource configuration.
+    public struct ResourceConfiguration: Swift.Sendable {
+        /// The description of the resource configuration.
+        public var description: Swift.String?
+        /// The identifier of the resource configuration.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The name of the resource configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameters of the resource configuration.
+        /// This member is required.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The Amazon Web Services Region of the resource configuration.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            identifier: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.description = description
+            self.identifier = identifier
+            self.name = name
+            self.parameters = parameters
+            self.region = region
+        }
+    }
+}
+
 public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
+    /// Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    public var allowUserProvidedConfigurations: Swift.Bool?
     /// The timestamp of when this blueprint was created.
     public var createdAt: Foundation.Date?
     /// The ID of the Amazon DataZone domain where this blueprint exists.
@@ -14602,10 +14730,13 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
     public var provisioningRoleArn: Swift.String?
     /// The regional parameters of the blueprint.
     public var regionalParameters: [Swift.String: [Swift.String: Swift.String]]?
+    /// The resource configurations of the environment blueprint.
+    public var resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]?
     /// The timestamp of when this blueprint was upated.
     public var updatedAt: Foundation.Date?
 
     public init(
+        allowUserProvidedConfigurations: Swift.Bool? = nil,
         createdAt: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
@@ -14615,8 +14746,10 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
         regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
+        resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.allowUserProvidedConfigurations = allowUserProvidedConfigurations
         self.createdAt = createdAt
         self.domainId = domainId
         self.enabledRegions = enabledRegions
@@ -14626,6 +14759,7 @@ public struct GetEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
         self.regionalParameters = regionalParameters
+        self.resourceConfigurations = resourceConfigurations
         self.updatedAt = updatedAt
     }
 }
@@ -14654,6 +14788,8 @@ extension DataZoneClientTypes {
 
     /// The configuration details of an environment blueprint.
     public struct EnvironmentBlueprintConfigurationItem: Swift.Sendable {
+        /// Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+        public var allowUserProvidedConfigurations: Swift.Bool?
         /// The timestamp of when an environment blueprint was created.
         public var createdAt: Foundation.Date?
         /// The identifier of the Amazon DataZone domain in which an environment blueprint exists.
@@ -14674,10 +14810,13 @@ extension DataZoneClientTypes {
         public var provisioningRoleArn: Swift.String?
         /// The regional parameters of the environment blueprint.
         public var regionalParameters: [Swift.String: [Swift.String: Swift.String]]?
+        /// The resource configurations of the environment blueprint.
+        public var resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]?
         /// The timestamp of when the environment blueprint was updated.
         public var updatedAt: Foundation.Date?
 
         public init(
+            allowUserProvidedConfigurations: Swift.Bool? = nil,
             createdAt: Foundation.Date? = nil,
             domainId: Swift.String? = nil,
             enabledRegions: [Swift.String]? = nil,
@@ -14687,8 +14826,10 @@ extension DataZoneClientTypes {
             provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
             provisioningRoleArn: Swift.String? = nil,
             regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
+            resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.allowUserProvidedConfigurations = allowUserProvidedConfigurations
             self.createdAt = createdAt
             self.domainId = domainId
             self.enabledRegions = enabledRegions
@@ -14698,6 +14839,7 @@ extension DataZoneClientTypes {
             self.provisioningConfigurations = provisioningConfigurations
             self.provisioningRoleArn = provisioningRoleArn
             self.regionalParameters = regionalParameters
+            self.resourceConfigurations = resourceConfigurations
             self.updatedAt = updatedAt
         }
     }
@@ -14718,7 +14860,39 @@ public struct ListEnvironmentBlueprintConfigurationsOutput: Swift.Sendable {
     }
 }
 
+extension DataZoneClientTypes {
+
+    /// The resource configuration that is used to configure the environment blueprint.
+    public struct PutResourceConfiguration: Swift.Sendable {
+        /// The description of the resource configuration.
+        public var description: Swift.String?
+        /// The name of the resource configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameters of the resource configuration.
+        /// This member is required.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The Amazon Web Services Region of the resource configuration.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.region = region
+        }
+    }
+}
+
 public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
+    /// Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    public var allowUserProvidedConfigurations: Swift.Bool?
     /// The identifier of the Amazon DataZone domain.
     /// This member is required.
     public var domainIdentifier: Swift.String?
@@ -14740,8 +14914,11 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
     public var provisioningRoleArn: Swift.String?
     /// The regional parameters in the environment blueprint.
     public var regionalParameters: [Swift.String: [Swift.String: Swift.String]]?
+    /// The resource configurations of the environment blueprint.
+    public var resourceConfigurations: [DataZoneClientTypes.PutResourceConfiguration]?
 
     public init(
+        allowUserProvidedConfigurations: Swift.Bool? = nil,
         domainIdentifier: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
         environmentBlueprintIdentifier: Swift.String? = nil,
@@ -14750,8 +14927,10 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         manageAccessRoleArn: Swift.String? = nil,
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
-        regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil
+        regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
+        resourceConfigurations: [DataZoneClientTypes.PutResourceConfiguration]? = nil
     ) {
+        self.allowUserProvidedConfigurations = allowUserProvidedConfigurations
         self.domainIdentifier = domainIdentifier
         self.enabledRegions = enabledRegions
         self.environmentBlueprintIdentifier = environmentBlueprintIdentifier
@@ -14761,10 +14940,13 @@ public struct PutEnvironmentBlueprintConfigurationInput: Swift.Sendable {
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
         self.regionalParameters = regionalParameters
+        self.resourceConfigurations = resourceConfigurations
     }
 }
 
 public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
+    /// Specifies whether user-provided resource configurations are allowed for the environment blueprint.
+    public var allowUserProvidedConfigurations: Swift.Bool?
     /// The timestamp of when the environment blueprint was created.
     public var createdAt: Foundation.Date?
     /// The identifier of the Amazon DataZone domain.
@@ -14785,10 +14967,13 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
     public var provisioningRoleArn: Swift.String?
     /// The regional parameters in the environment blueprint.
     public var regionalParameters: [Swift.String: [Swift.String: Swift.String]]?
+    /// The resource configurations of the environment blueprint.
+    public var resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]?
     /// The timestamp of when the environment blueprint was updated.
     public var updatedAt: Foundation.Date?
 
     public init(
+        allowUserProvidedConfigurations: Swift.Bool? = nil,
         createdAt: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
         enabledRegions: [Swift.String]? = nil,
@@ -14798,8 +14983,10 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         provisioningConfigurations: [DataZoneClientTypes.ProvisioningConfiguration]? = nil,
         provisioningRoleArn: Swift.String? = nil,
         regionalParameters: [Swift.String: [Swift.String: Swift.String]]? = nil,
+        resourceConfigurations: [DataZoneClientTypes.ResourceConfiguration]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.allowUserProvidedConfigurations = allowUserProvidedConfigurations
         self.createdAt = createdAt
         self.domainId = domainId
         self.enabledRegions = enabledRegions
@@ -14809,6 +14996,7 @@ public struct PutEnvironmentBlueprintConfigurationOutput: Swift.Sendable {
         self.provisioningConfigurations = provisioningConfigurations
         self.provisioningRoleArn = provisioningRoleArn
         self.regionalParameters = regionalParameters
+        self.resourceConfigurations = resourceConfigurations
         self.updatedAt = updatedAt
     }
 }
@@ -30009,6 +30197,7 @@ extension PutEnvironmentBlueprintConfigurationInput {
 
     static func write(value: PutEnvironmentBlueprintConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowUserProvidedConfigurations"].write(value.allowUserProvidedConfigurations)
         try writer["enabledRegions"].writeList(value.enabledRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["environmentRolePermissionBoundary"].write(value.environmentRolePermissionBoundary)
         try writer["globalParameters"].writeMap(value.globalParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -30016,6 +30205,7 @@ extension PutEnvironmentBlueprintConfigurationInput {
         try writer["provisioningConfigurations"].writeList(value.provisioningConfigurations, memberWritingClosure: DataZoneClientTypes.ProvisioningConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["provisioningRoleArn"].write(value.provisioningRoleArn)
         try writer["regionalParameters"].writeMap(value.regionalParameters, valueWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["resourceConfigurations"].writeList(value.resourceConfigurations, memberWritingClosure: DataZoneClientTypes.PutResourceConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -31872,6 +32062,7 @@ extension GetEnvironmentBlueprintConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEnvironmentBlueprintConfigurationOutput()
+        value.allowUserProvidedConfigurations = try reader["allowUserProvidedConfigurations"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31881,6 +32072,7 @@ extension GetEnvironmentBlueprintConfigurationOutput {
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
         value.regionalParameters = try reader["regionalParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceConfigurations = try reader["resourceConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -32935,6 +33127,7 @@ extension PutEnvironmentBlueprintConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PutEnvironmentBlueprintConfigurationOutput()
+        value.allowUserProvidedConfigurations = try reader["allowUserProvidedConfigurations"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -32944,6 +33137,7 @@ extension PutEnvironmentBlueprintConfigurationOutput {
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningRoleArn = try reader["provisioningRoleArn"].readIfPresent()
         value.regionalParameters = try reader["regionalParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceConfigurations = try reader["resourceConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -38347,6 +38541,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
             case let .sparkglueproperties(sparkglueproperties):
                 try writer["sparkGlueProperties"].write(sparkglueproperties, with: DataZoneClientTypes.SparkGluePropertiesInput.write(value:to:))
+            case let .vpcproperties(vpcproperties):
+                try writer["vpcProperties"].write(vpcproperties, with: DataZoneClientTypes.VpcPropertiesInput.write(value:to:))
             case let .workflowsmwaaproperties(workflowsmwaaproperties):
                 try writer["workflowsMwaaProperties"].write(workflowsmwaaproperties, with: DataZoneClientTypes.WorkflowsMwaaPropertiesInput.write(value:to:))
             case let .workflowsserverlessproperties(workflowsserverlessproperties):
@@ -38389,6 +38585,8 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .workflowsserverlessproperties(try reader["workflowsServerlessProperties"].read(with: DataZoneClientTypes.WorkflowsServerlessPropertiesOutput.read(from:)))
             case "lakehouseProperties":
                 return .lakehouseproperties(try reader["lakehouseProperties"].read(with: DataZoneClientTypes.LakehousePropertiesOutput.read(from:)))
+            case "vpcProperties":
+                return .vpcproperties(try reader["vpcProperties"].read(with: DataZoneClientTypes.VpcPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -38418,6 +38616,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
+            case let .vpcproperties(vpcproperties):
+                try writer["vpcProperties"].write(vpcproperties, with: DataZoneClientTypes.VpcPropertiesPatch.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -39065,8 +39265,10 @@ extension DataZoneClientTypes.EnvironmentBlueprintConfigurationItem {
         value.manageAccessRoleArn = try reader["manageAccessRoleArn"].readIfPresent()
         value.enabledRegions = try reader["enabledRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.regionalParameters = try reader["regionalParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.allowUserProvidedConfigurations = try reader["allowUserProvidedConfigurations"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceConfigurations = try reader["resourceConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.provisioningConfigurations = try reader["provisioningConfigurations"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ProvisioningConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -41231,6 +41433,17 @@ extension DataZoneClientTypes.ProvisioningProperties {
     }
 }
 
+extension DataZoneClientTypes.PutResourceConfiguration {
+
+    static func write(value: DataZoneClientTypes.PutResourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["region"].write(value.region)
+    }
+}
+
 extension DataZoneClientTypes.RecommendationConfiguration {
 
     static func write(value: DataZoneClientTypes.RecommendationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -41560,6 +41773,20 @@ extension DataZoneClientTypes.Resource {
         value.name = try reader["name"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ResourceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ResourceConfiguration()
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -42713,6 +42940,40 @@ extension DataZoneClientTypes.UserProfileSummary {
         value.status = try reader["status"].readIfPresent()
         value.details = try reader["details"].readIfPresent(with: DataZoneClientTypes.UserProfileDetails.read(from:))
         return value
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.VpcPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupId"].write(value.securityGroupId)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.VpcPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.VpcPropertiesOutput()
+        value.vpcId = try reader["vpcId"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.securityGroupId = try reader["securityGroupId"].readIfPresent()
+        value.glueConnectionNames = try reader["glueConnectionNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.VpcPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.VpcPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupId"].write(value.securityGroupId)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
     }
 }
 

@@ -1011,6 +1011,73 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes {
 
+    public enum Durability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case async
+        case `default`
+        case disabled
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Durability] {
+            return [
+                .async,
+                .default,
+                .disabled,
+                .sync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .async: return "async"
+            case .default: return "default"
+            case .disabled: return "disabled"
+            case .sync: return "sync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    public enum EffectiveDurability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case async
+        case disabled
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EffectiveDurability] {
+            return [
+                .async,
+                .disabled,
+                .sync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .async: return "async"
+            case .disabled: return "disabled"
+            case .sync: return "sync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
     /// The name of the Global datastore and role of this replication group in the Global datastore.
     public struct GlobalReplicationGroupInfo: Swift.Sendable {
         /// The name of the Global datastore
@@ -1609,11 +1676,43 @@ extension ElastiCacheClientTypes {
 
 extension ElastiCacheClientTypes {
 
+    public enum StorageEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case sseElasticache
+        case sseKms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageEncryptionType] {
+            return [
+                .none,
+                .sseElasticache,
+                .sseKms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .sseElasticache: return "sse-elasticache"
+            case .sseKms: return "sse-kms"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
     /// Contains all of the attributes of a specific Valkey or Redis OSS replication group.
     public struct ReplicationGroup: Swift.Sendable {
         /// The ARN (Amazon Resource Name) of the replication group.
         public var arn: Swift.String?
-        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables encryption at-rest on the cluster when set to true. In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the effective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. Default: true when using Valkey, false when using Redis OSS
         public var atRestEncryptionEnabled: Swift.Bool?
         /// A flag that enables using an AuthToken (password) when issuing Valkey or Redis OSS commands. Default: false
         public var authTokenEnabled: Swift.Bool?
@@ -1635,6 +1734,10 @@ extension ElastiCacheClientTypes {
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
         /// The user supplied description of the replication group.
         public var description: Swift.String?
+        /// The durability setting of the replication group. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+        public var durability: ElastiCacheClientTypes.Durability?
+        /// The effective durability of the replication group. When Durability is set to default, the service resolves the actual durability based on the engine version, cluster mode, and other parameters. This field reflects the resolved value. For more information, see [Configuring Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ConfiguringDurability.html).
+        public var effectiveDurability: ElastiCacheClientTypes.EffectiveDurability?
         /// The engine used in a replication group. The options are valkey, memcached or redis.
         public var engine: Swift.String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
@@ -1669,6 +1772,8 @@ extension ElastiCacheClientTypes {
         public var snapshottingClusterId: Swift.String?
         /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
         public var status: Swift.String?
+        /// Indicates the type of encryption for data stored at rest in the replication group. The value is none if at-rest encryption is not enabled, sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
+        public var storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType?
         /// A flag that enables in-transit encryption when set to true. Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
         public var transitEncryptionEnabled: Swift.Bool?
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
@@ -1689,6 +1794,8 @@ extension ElastiCacheClientTypes {
             configurationEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
             dataTiering: ElastiCacheClientTypes.DataTieringStatus? = nil,
             description: Swift.String? = nil,
+            durability: ElastiCacheClientTypes.Durability? = nil,
+            effectiveDurability: ElastiCacheClientTypes.EffectiveDurability? = nil,
             engine: Swift.String? = nil,
             globalReplicationGroupInfo: ElastiCacheClientTypes.GlobalReplicationGroupInfo? = nil,
             ipDiscovery: ElastiCacheClientTypes.IpDiscovery? = nil,
@@ -1706,6 +1813,7 @@ extension ElastiCacheClientTypes {
             snapshotWindow: Swift.String? = nil,
             snapshottingClusterId: Swift.String? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil,
             transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
             userGroupIds: [Swift.String]? = nil
@@ -1722,6 +1830,8 @@ extension ElastiCacheClientTypes {
             self.configurationEndpoint = configurationEndpoint
             self.dataTiering = dataTiering
             self.description = description
+            self.durability = durability
+            self.effectiveDurability = effectiveDurability
             self.engine = engine
             self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.ipDiscovery = ipDiscovery
@@ -1739,6 +1849,7 @@ extension ElastiCacheClientTypes {
             self.snapshotWindow = snapshotWindow
             self.snapshottingClusterId = snapshottingClusterId
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.transitEncryptionMode = transitEncryptionMode
             self.userGroupIds = userGroupIds
@@ -2170,6 +2281,8 @@ extension ElastiCacheClientTypes {
         public var cacheSubnetGroupName: Swift.String?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
+        /// The durability setting of the cluster when the snapshot was taken. When restoring from this snapshot, the cluster uses this durability setting unless overridden in the restore request. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+        public var durability: ElastiCacheClientTypes.Durability?
         /// The name of the cache engine (memcached or redis) used by the source cluster.
         public var engine: Swift.String?
         /// The version of the cache engine version that is used by the source cluster.
@@ -2236,6 +2349,7 @@ extension ElastiCacheClientTypes {
             cacheParameterGroupName: Swift.String? = nil,
             cacheSubnetGroupName: Swift.String? = nil,
             dataTiering: ElastiCacheClientTypes.DataTieringStatus? = nil,
+            durability: ElastiCacheClientTypes.Durability? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -2265,6 +2379,7 @@ extension ElastiCacheClientTypes {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.dataTiering = dataTiering
+            self.durability = durability
             self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -3935,7 +4050,7 @@ public struct ReplicationGroupAlreadyExistsFault: ClientRuntime.ModeledError, AW
 
 /// Represents the input of a CreateReplicationGroup operation.
 public struct CreateReplicationGroupInput: Swift.Sendable {
-    /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group. Required: Only available when creating a replication group in an Amazon VPC using Valkey 7.2 and later, Redis OSS version 3.2.6, or Redis OSS 4.x and later. Default: true when using Valkey, false when using Redis OSS
+    /// A flag that enables encryption at-rest on the replication group when set to true. In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the effective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. Default: true when using Valkey, false when using Redis OSS
     public var atRestEncryptionEnabled: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true. For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup. Password constraints:
     ///
@@ -4007,6 +4122,8 @@ public struct CreateReplicationGroupInput: Swift.Sendable {
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
     public var dataTieringEnabled: Swift.Bool?
+    /// Specifies the durability setting for the replication group. When set to default, the service determines the effective durability based on the engine version, cluster mode, and other parameters. The resolved setting is reflected in the EffectiveDurability property of the replication group. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+    public var durability: ElastiCacheClientTypes.Durability?
     /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
     public var engine: Swift.String?
     /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
@@ -4102,6 +4219,7 @@ public struct CreateReplicationGroupInput: Swift.Sendable {
         cacheSubnetGroupName: Swift.String? = nil,
         clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
         dataTieringEnabled: Swift.Bool? = nil,
+        durability: ElastiCacheClientTypes.Durability? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         globalReplicationGroupId: Swift.String? = nil,
@@ -4142,6 +4260,7 @@ public struct CreateReplicationGroupInput: Swift.Sendable {
         self.cacheSubnetGroupName = cacheSubnetGroupName
         self.clusterMode = clusterMode
         self.dataTieringEnabled = dataTieringEnabled
+        self.durability = durability
         self.engine = engine
         self.engineVersion = engineVersion
         self.globalReplicationGroupId = globalReplicationGroupId
@@ -4356,7 +4475,7 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The version of the cache engine that will be used to create the serverless cache.
     public var majorEngineVersion: Swift.String?
-    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with ipv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+    /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
     public var networkType: ElastiCacheClientTypes.NetworkType?
     /// A list of the one or more VPC security groups to be associated with the serverless cache. The security group will authorize traffic access for the VPC end-point (private-link). If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC end-point.
     public var securityGroupIds: [Swift.String]?
@@ -4443,6 +4562,8 @@ extension ElastiCacheClientTypes {
         public var snapshotRetentionLimit: Swift.Int?
         /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
         public var status: Swift.String?
+        /// Indicates the type of encryption for data stored at rest in the serverless cache. Serverless caches are always encrypted at rest. The value is sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
+        public var storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType?
         /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
         public var subnetIds: [Swift.String]?
         /// The identifier of the user group associated with the serverless cache. Available for Valkey and Redis OSS only. Default is NULL.
@@ -4465,6 +4586,7 @@ extension ElastiCacheClientTypes {
             serverlessCacheName: Swift.String? = nil,
             snapshotRetentionLimit: Swift.Int? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType? = nil,
             subnetIds: [Swift.String]? = nil,
             userGroupId: Swift.String? = nil
         ) {
@@ -4484,6 +4606,7 @@ extension ElastiCacheClientTypes {
             self.serverlessCacheName = serverlessCacheName
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.subnetIds = subnetIds
             self.userGroupId = userGroupId
         }
@@ -8266,6 +8389,8 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
+    /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+    public var durability: ElastiCacheClientTypes.Durability?
     /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
     /// The upgraded version of the cache engine to be run on the clusters in the replication group. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/SelectEngine.html#VersionManagement)), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
@@ -8338,6 +8463,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
         cacheParameterGroupName: Swift.String? = nil,
         cacheSecurityGroupNames: [Swift.String]? = nil,
         clusterMode: ElastiCacheClientTypes.ClusterMode? = nil,
+        durability: ElastiCacheClientTypes.Durability? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         ipDiscovery: ElastiCacheClientTypes.IpDiscovery? = nil,
@@ -8369,6 +8495,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
         self.cacheParameterGroupName = cacheParameterGroupName
         self.cacheSecurityGroupNames = cacheSecurityGroupNames
         self.clusterMode = clusterMode
+        self.durability = durability
         self.engine = engine
         self.engineVersion = engineVersion
         self.ipDiscovery = ipDiscovery
@@ -9857,6 +9984,7 @@ extension CreateReplicationGroupInput {
         try writer["CacheSubnetGroupName"].write(value.cacheSubnetGroupName)
         try writer["ClusterMode"].write(value.clusterMode)
         try writer["DataTieringEnabled"].write(value.dataTieringEnabled)
+        try writer["Durability"].write(value.durability)
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["GlobalReplicationGroupId"].write(value.globalReplicationGroupId)
@@ -10545,6 +10673,7 @@ extension ModifyReplicationGroupInput {
         try writer["CacheParameterGroupName"].write(value.cacheParameterGroupName)
         try writer["CacheSecurityGroupNames"].writeList(value.cacheSecurityGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "CacheSecurityGroupName", isFlattened: false)
         try writer["ClusterMode"].write(value.clusterMode)
+        try writer["Durability"].write(value.durability)
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["IpDiscovery"].write(value.ipDiscovery)
@@ -14795,6 +14924,7 @@ extension ElastiCacheClientTypes.ReplicationGroup {
         value.atRestEncryptionEnabled = try reader["AtRestEncryptionEnabled"].readIfPresent()
         value.memberClustersOutpostArns = try reader["MemberClustersOutpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReplicationGroupOutpostArn", isFlattened: false)
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
         value.userGroupIds = try reader["UserGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.logDeliveryConfigurations = try reader["LogDeliveryConfigurations"].readListIfPresent(memberReadingClosure: ElastiCacheClientTypes.LogDeliveryConfiguration.read(from:), memberNodeInfo: "LogDeliveryConfiguration", isFlattened: false)
@@ -14806,6 +14936,8 @@ extension ElastiCacheClientTypes.ReplicationGroup {
         value.transitEncryptionMode = try reader["TransitEncryptionMode"].readIfPresent()
         value.clusterMode = try reader["ClusterMode"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
+        value.durability = try reader["Durability"].readIfPresent()
+        value.effectiveDurability = try reader["EffectiveDurability"].readIfPresent()
         return value
     }
 }
@@ -14928,6 +15060,7 @@ extension ElastiCacheClientTypes.ServerlessCache {
         value.fullEngineVersion = try reader["FullEngineVersion"].readIfPresent()
         value.cacheUsageLimits = try reader["CacheUsageLimits"].readIfPresent(with: ElastiCacheClientTypes.CacheUsageLimits.read(from:))
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SecurityGroupId", isFlattened: false)
         value.endpoint = try reader["Endpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
         value.readerEndpoint = try reader["ReaderEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
@@ -15035,6 +15168,7 @@ extension ElastiCacheClientTypes.Snapshot {
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
         value.dataTiering = try reader["DataTiering"].readIfPresent()
+        value.durability = try reader["Durability"].readIfPresent()
         return value
     }
 }

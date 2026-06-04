@@ -3365,6 +3365,7 @@ extension SageMakerClientTypes {
         case mlP5e48xlarge
         case mlP548xlarge
         case mlP54xlarge
+        case mlP6B20048xlarge
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AIRecommendationInstanceType] {
@@ -3407,7 +3408,8 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
-                .mlP54xlarge
+                .mlP54xlarge,
+                .mlP6B20048xlarge
             ]
         }
 
@@ -3457,6 +3459,7 @@ extension SageMakerClientTypes {
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlP54xlarge: return "ml.p5.4xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13567,6 +13570,36 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The deletion policy for the Amazon FSx for Lustre file system used in the shared environment of restricted instance groups (RIG).
+    public enum ClusterFSxLustreDeletionPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleteIfNotUsed
+        case keep
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterFSxLustreDeletionPolicy] {
+            return [
+                .deleteIfNotUsed,
+                .keep
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteIfNotUsed: return "DeleteIfNotUsed"
+            case .keep: return "Keep"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching an Amazon FSx for OpenZFS file system to instances in a SageMaker HyperPod cluster instance group.
     public struct ClusterFsxOpenZfsConfig: Swift.Sendable {
         /// The DNS name of the Amazon FSx for OpenZFS file system.
@@ -14886,6 +14919,86 @@ extension SageMakerClientTypes {
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanStatus = trainingPlanStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The shared environment configuration for the restricted instance groups (RIG).
+    public struct ClusterSharedEnvironmentConfig: Swift.Sendable {
+        /// Configuration settings for an Amazon FSx for Lustre file system in the shared environment.
+        /// This member is required.
+        public var fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        /// This member is required.
+        public var fSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+
+        public init(
+            fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            fSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil
+        ) {
+            self.fSxLustreConfig = fSxLustreConfig
+            self.fSxLustreDeletionPolicy = fSxLustreDeletionPolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public struct ClusterRestrictedInstanceGroupsConfig: Swift.Sendable {
+        /// The shared environment configuration for the restricted instance groups (RIG).
+        /// This member is required.
+        public var sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfig?
+
+        public init(
+            sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfig? = nil
+        ) {
+            self.sharedEnvironmentConfig = sharedEnvironmentConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The shared environment configuration details for the restricted instance groups (RIG).
+    public struct ClusterSharedEnvironmentConfigDetails: Swift.Sendable {
+        /// The current Amazon FSx for Lustre file system configuration in the shared environment.
+        public var currentFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The current deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        public var currentFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+        /// The desired Amazon FSx for Lustre file system configuration in the shared environment.
+        public var desiredFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The desired deletion policy for the Amazon FSx for Lustre file system in the shared environment.
+        public var desiredFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy?
+
+        public init(
+            currentFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            currentFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil,
+            desiredFSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            desiredFSxLustreDeletionPolicy: SageMakerClientTypes.ClusterFSxLustreDeletionPolicy? = nil
+        ) {
+            self.currentFSxLustreConfig = currentFSxLustreConfig
+            self.currentFSxLustreDeletionPolicy = currentFSxLustreDeletionPolicy
+            self.desiredFSxLustreConfig = desiredFSxLustreConfig
+            self.desiredFSxLustreDeletionPolicy = desiredFSxLustreDeletionPolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The output configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public struct ClusterRestrictedInstanceGroupsConfigOutput: Swift.Sendable {
+        /// The shared environment configuration details for the restricted instance groups (RIG).
+        /// This member is required.
+        public var sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfigDetails?
+
+        public init(
+            sharedEnvironmentConfig: SageMakerClientTypes.ClusterSharedEnvironmentConfigDetails? = nil
+        ) {
+            self.sharedEnvironmentConfig = sharedEnvironmentConfig
         }
     }
 }
@@ -17398,6 +17511,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
     /// The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
@@ -17427,6 +17542,7 @@ public struct CreateClusterInput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
@@ -17439,6 +17555,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tags = tags
         self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
@@ -20110,6 +20227,36 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Indicates whether a home EFS file system is created for the domain.
+    public enum HomeEfsFileSystemCreation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HomeEfsFileSystemCreation] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum TagPropagation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -20159,6 +20306,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// A collection of Domain settings.
     public var domainSettings: SageMakerClientTypes.DomainSettings?
+    /// Indicates whether to create a home EFS file system for the domain. Defaults to Enabled. Set to Disabled to skip EFS creation and reduce domain creation time. You can enable EFS later by calling UpdateDomain.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// Use KmsKeyId.
     @available(*, deprecated, message: "This property is deprecated, use KmsKeyId instead.")
     public var homeEfsFileSystemKmsKeyId: Swift.String?
@@ -20181,6 +20330,7 @@ public struct CreateDomainInput: Swift.Sendable {
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainName: Swift.String? = nil,
         domainSettings: SageMakerClientTypes.DomainSettings? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -20195,6 +20345,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.defaultUserSettings = defaultUserSettings
         self.domainName = domainName
         self.domainSettings = domainSettings
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
         self.kmsKeyId = kmsKeyId
         self.subnetIds = subnetIds
@@ -24564,6 +24715,83 @@ public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    public enum JobCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentRft
+        case agentRftEvaluation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobCategory] {
+            return [
+                .agentRft,
+                .agentRftEvaluation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentRft: return "AgentRFT"
+            case .agentRftEvaluation: return "AgentRFTEvaluation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateJobInput: Swift.Sendable {
+    /// The category of the job. The category determines the type of workload that the job runs.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON configuration document for the job. The document must conform to the schema specified by JobConfigSchemaVersion. Use DescribeJobSchemaVersion to retrieve the schema for validation.
+    /// This member is required.
+    public var jobConfigDocument: Swift.String?
+    /// The version of the configuration schema to use for the job configuration document. Use ListJobSchemaVersions to get available schema versions for a job category.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+    /// The name of the job. The name must be unique within your account and Amazon Web Services Region.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the job. The role must have the necessary permissions to access the resources required by the job configuration.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// An array of key-value pairs to apply to the job as tags. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigDocument: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigDocument = jobConfigDocument
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        self.jobName = jobName
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateJobOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+
+    public init(
+        jobArn: Swift.String? = nil
+    ) {
+        self.jobArn = jobArn
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Provided configuration information for the worker UI for a labeling job. Provide either HumanTaskUiArn or UiTemplateS3Uri. For named entity recognition, 3D point cloud and video frame labeling jobs, use HumanTaskUiArn. For all other Ground Truth built-in task types and custom task types, use UiTemplateS3Uri to specify the location of a worker task template in Amazon S3.
     public struct UiConfig: Swift.Sendable {
         /// The ARN of the worker task template used to render the worker UI and tools for labeling job tasks. Use this parameter when you are creating a labeling job for named entity recognition, 3D point cloud and video frame labeling jobs. Use your labeling job task type to select one of the following ARNs and use it with this parameter when you create a labeling job. Replace aws-region with the Amazon Web Services Region you are creating your labeling job in. For example, replace aws-region with us-west-1 if you create a labeling job in US West (N. California). Named Entity Recognition Use the following HumanTaskUiArn for named entity recognition labeling jobs: arn:aws:sagemaker:aws-region:394669845002:human-task-ui/NamedEntityRecognition 3D Point Cloud HumanTaskUiArns Use this HumanTaskUiArn for 3D point cloud object detection and 3D point cloud object detection adjustment labeling jobs.
@@ -28055,7 +28283,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// The name of the new notebook instance.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
-    /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
+    /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2023-v1.
     public var platformIdentifier: Swift.String?
     /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
@@ -32460,6 +32688,28 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteJobInput: Swift.Sendable {
+    /// The category of the job to delete.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to delete.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+public struct DeleteJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteMlflowAppInput: Swift.Sendable {
     /// The ARN of the MLflow App to delete.
     /// This member is required.
@@ -34025,6 +34275,8 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfigOutput?
     /// The current configuration for managed tier checkpointing on the HyperPod cluster. For example, this shows whether the feature is enabled and the percentage of cluster memory allocated for checkpoint storage.
     public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
@@ -34043,6 +34295,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfigOutput? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
@@ -34058,6 +34311,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
     }
@@ -34883,6 +35137,8 @@ public struct DescribeDomainOutput: Swift.Sendable {
     public var domainSettings: SageMakerClientTypes.DomainSettings?
     /// The failure reason.
     public var failureReason: Swift.String?
+    /// Indicates whether a home EFS file system is created for the domain.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// The ID of the Amazon Elastic File System managed by this Domain.
     public var homeEfsFileSystemId: Swift.String?
     /// Use KmsKeyId.
@@ -34921,6 +35177,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         domainName: Swift.String? = nil,
         domainSettings: SageMakerClientTypes.DomainSettings? = nil,
         failureReason: Swift.String? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         homeEfsFileSystemId: Swift.String? = nil,
         homeEfsFileSystemKmsKeyId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -34945,6 +35202,7 @@ public struct DescribeDomainOutput: Swift.Sendable {
         self.domainName = domainName
         self.domainSettings = domainSettings
         self.failureReason = failureReason
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.homeEfsFileSystemId = homeEfsFileSystemId
         self.homeEfsFileSystemKmsKeyId = homeEfsFileSystemKmsKeyId
         self.kmsKeyId = kmsKeyId
@@ -38264,6 +38522,275 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
         self.roleArn = roleArn
         self.status = status
         self.stoppingConditions = stoppingConditions
+    }
+}
+
+public struct DescribeJobInput: Swift.Sendable {
+    /// The category of the job.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to describe.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleteFailed
+        case deleting
+        case failed
+        case inProgress
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatus] {
+            return [
+                .completed,
+                .deleteFailed,
+                .deleting,
+                .failed,
+                .inProgress,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum JobSecondaryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case deleteFailed
+        case deleting
+        case downloading
+        case evaluating
+        case failed
+        case interrupted
+        case maxRuntimeExceeded
+        case pending
+        case restarting
+        case starting
+        case stopped
+        case stopping
+        case training
+        case uploading
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobSecondaryStatus] {
+            return [
+                .completed,
+                .deleteFailed,
+                .deleting,
+                .downloading,
+                .evaluating,
+                .failed,
+                .interrupted,
+                .maxRuntimeExceeded,
+                .pending,
+                .restarting,
+                .starting,
+                .stopped,
+                .stopping,
+                .training,
+                .uploading
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .downloading: return "Downloading"
+            case .evaluating: return "Evaluating"
+            case .failed: return "Failed"
+            case .interrupted: return "Interrupted"
+            case .maxRuntimeExceeded: return "MaxRuntimeExceeded"
+            case .pending: return "Pending"
+            case .restarting: return "Restarting"
+            case .starting: return "Starting"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case .training: return "Training"
+            case .uploading: return "Uploading"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Represents a secondary status transition for a job. Jobs progress through multiple secondary statuses during execution. Each transition records the status, start time, optional end time, and an optional message with additional details.
+    public struct JobSecondaryStatusTransition: Swift.Sendable {
+        /// The date and time that the status transition ended.
+        public var endTime: Foundation.Date?
+        /// The date and time that the status transition started.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The secondary status of the job at this transition point.
+        /// This member is required.
+        public var status: SageMakerClientTypes.JobSecondaryStatus?
+        /// A detailed message about the status transition.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct DescribeJobOutput: Swift.Sendable {
+    /// The date and time that the job was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The date and time that the job ended.
+    public var endTime: Foundation.Date?
+    /// If the job failed, the reason it failed.
+    public var failureReason: Swift.String?
+    /// The Amazon Resource Name (ARN) of the job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The category of the job.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON configuration document for the job.
+    public var jobConfigDocument: Swift.String?
+    /// The schema version used for the job configuration document.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+    /// The name of the job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The current status of the job.
+    /// This member is required.
+    public var jobStatus: SageMakerClientTypes.JobStatus?
+    /// The date and time that the job was last modified.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The ARN of the IAM role associated with the job.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The detailed secondary status of the job, providing more granular information about the job's progress. Secondary statuses may change between releases.
+    /// This member is required.
+    public var secondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+    /// A list of secondary status transitions for the job, with timestamps and optional status messages.
+    /// This member is required.
+    public var secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]?
+    /// The tags associated with the job.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        endTime: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        jobArn: Swift.String? = nil,
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigDocument: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        jobStatus: SageMakerClientTypes.JobStatus? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        roleArn: Swift.String? = nil,
+        secondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+        secondaryStatusTransitions: [SageMakerClientTypes.JobSecondaryStatusTransition]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.creationTime = creationTime
+        self.endTime = endTime
+        self.failureReason = failureReason
+        self.jobArn = jobArn
+        self.jobCategory = jobCategory
+        self.jobConfigDocument = jobConfigDocument
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        self.jobName = jobName
+        self.jobStatus = jobStatus
+        self.lastModifiedTime = lastModifiedTime
+        self.roleArn = roleArn
+        self.secondaryStatus = secondaryStatus
+        self.secondaryStatusTransitions = secondaryStatusTransitions
+        self.tags = tags
+    }
+}
+
+public struct DescribeJobSchemaVersionInput: Swift.Sendable {
+    /// The category of the job schema to describe.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The version of the schema to retrieve. If not specified, the latest version is returned.
+    public var jobConfigSchemaVersion: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
+    }
+}
+
+public struct DescribeJobSchemaVersionOutput: Swift.Sendable {
+    /// The category of the job schema.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The JSON schema document that defines the structure of the job configuration.
+    /// This member is required.
+    public var jobConfigSchema: Swift.String?
+    /// The version of the schema.
+    /// This member is required.
+    public var jobConfigSchemaVersion: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobConfigSchema: Swift.String? = nil,
+        jobConfigSchemaVersion: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobConfigSchema = jobConfigSchema
+        self.jobConfigSchemaVersion = jobConfigSchemaVersion
     }
 }
 
@@ -42313,6 +42840,8 @@ extension SageMakerClientTypes {
     public struct ReservedCapacitySummary: Swift.Sendable {
         /// The availability zone for the reserved capacity.
         public var availabilityZone: Swift.String?
+        /// The Availability Zone ID of the reserved capacity.
+        public var availabilityZoneId: Swift.String?
         /// The number of whole hours in the total duration for this reserved capacity.
         public var durationHours: Swift.Int?
         /// The additional minutes beyond whole hours in the total duration for this reserved capacity.
@@ -42342,6 +42871,7 @@ extension SageMakerClientTypes {
 
         public init(
             availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             durationHours: Swift.Int? = nil,
             durationMinutes: Swift.Int? = nil,
             endTime: Foundation.Date? = nil,
@@ -42355,6 +42885,7 @@ extension SageMakerClientTypes {
             ultraServerType: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.durationHours = durationHours
             self.durationMinutes = durationMinutes
             self.endTime = endTime
@@ -46499,6 +47030,87 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Provides summary information about a job configuration schema version.
+    public struct JobConfigSchemaVersionSummary: Swift.Sendable {
+        /// The version of the job configuration schema.
+        /// This member is required.
+        public var jobConfigSchemaVersion: Swift.String?
+
+        public init(
+            jobConfigSchemaVersion: Swift.String? = nil
+        ) {
+            self.jobConfigSchemaVersion = jobConfigSchemaVersion
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata for a SageMaker job step.
+    public struct JobStepMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker job that was run by this step execution.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Provides summary information about a job, returned by the ListJobs operation. Use DescribeJob to get full details for a specific job.
+    public struct JobSummary: Swift.Sendable {
+        /// The date and time that the job was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the job ended.
+        public var endTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the job.
+        /// This member is required.
+        public var jobArn: Swift.String?
+        /// The category of the job.
+        /// This member is required.
+        public var jobCategory: SageMakerClientTypes.JobCategory?
+        /// The name of the job.
+        /// This member is required.
+        public var jobName: Swift.String?
+        /// The secondary status of the job, providing more granular information about the job's progress. Secondary statuses may change between releases.
+        /// This member is required.
+        public var jobSecondaryStatus: SageMakerClientTypes.JobSecondaryStatus?
+        /// The current status of the job.
+        /// This member is required.
+        public var jobStatus: SageMakerClientTypes.JobStatus?
+        /// The date and time that the job was last modified.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            jobArn: Swift.String? = nil,
+            jobCategory: SageMakerClientTypes.JobCategory? = nil,
+            jobName: Swift.String? = nil,
+            jobSecondaryStatus: SageMakerClientTypes.JobSecondaryStatus? = nil,
+            jobStatus: SageMakerClientTypes.JobStatus? = nil,
+            lastModifiedTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.jobArn = jobArn
+            self.jobCategory = jobCategory
+            self.jobName = jobName
+            self.jobSecondaryStatus = jobSecondaryStatus
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Provides counts for human-labeled tasks in the labeling job.
     public struct LabelCountersForWorkteam: Swift.Sendable {
         /// The total number of data objects labeled by a human worker.
@@ -49799,6 +50411,110 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct ListJobsInput: Swift.Sendable {
+    /// A filter that returns only jobs created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// A filter that returns only jobs created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// The category of jobs to list.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// A filter that returns only jobs modified after the specified time.
+    public var lastModifiedTimeAfter: Foundation.Date?
+    /// A filter that returns only jobs modified before the specified time.
+    public var lastModifiedTimeBefore: Foundation.Date?
+    /// The maximum number of jobs to return in the response. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// A string in the job name to filter results. Only jobs whose name contains the specified string are returned.
+    public var nameContains: Swift.String?
+    /// If the previous response was truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+    /// The field to sort results by.
+    public var sortBy: SageMakerClientTypes.SortBy?
+    /// The sort order for results. Valid values are Ascending and Descending.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// A filter that returns only jobs with the specified status.
+    public var statusEquals: SageMakerClientTypes.JobStatus?
+
+    public init(
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        lastModifiedTimeAfter: Foundation.Date? = nil,
+        lastModifiedTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.SortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        statusEquals: SageMakerClientTypes.JobStatus? = nil
+    ) {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.jobCategory = jobCategory
+        self.lastModifiedTimeAfter = lastModifiedTimeAfter
+        self.lastModifiedTimeBefore = lastModifiedTimeBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statusEquals = statusEquals
+    }
+}
+
+public struct ListJobsOutput: Swift.Sendable {
+    /// An array of JobSummary objects that provide summary information about the jobs.
+    /// This member is required.
+    public var jobSummaries: [SageMakerClientTypes.JobSummary]?
+    /// If the response is truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobSummaries: [SageMakerClientTypes.JobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobSummaries = jobSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListJobSchemaVersionsInput: Swift.Sendable {
+    /// The category of job schemas to list.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The maximum number of schema versions to return in the response. The default value is 5.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListJobSchemaVersionsOutput: Swift.Sendable {
+    /// An array of JobConfigSchemaVersionSummary objects listing the available schema versions.
+    /// This member is required.
+    public var jobConfigSchemas: [SageMakerClientTypes.JobConfigSchemaVersionSummary]?
+    /// If the response is truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        jobConfigSchemas: [SageMakerClientTypes.JobConfigSchemaVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.jobConfigSchemas = jobConfigSchemas
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListLabelingJobsInput: Swift.Sendable {
     /// A filter that returns only labeling jobs created after the specified time (timestamp).
     public var creationTimeAfter: Foundation.Date?
@@ -52862,6 +53578,8 @@ extension SageMakerClientTypes {
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The metadata of the inference component used in pipeline execution step.
         public var inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata?
+        /// The metadata for a SageMaker job used in a pipeline execution step.
+        public var job: SageMakerClientTypes.JobStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
         public var lambda: SageMakerClientTypes.LambdaStepMetadata?
         /// The metadata of the lineage used in pipeline execution step.
@@ -52911,6 +53629,7 @@ extension SageMakerClientTypes {
             endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata? = nil,
+            job: SageMakerClientTypes.JobStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
             lineage: SageMakerClientTypes.LineageMetadata? = nil,
             model: SageMakerClientTypes.ModelStepMetadata? = nil,
@@ -52934,6 +53653,7 @@ extension SageMakerClientTypes {
             self.endpointConfig = endpointConfig
             self.fail = fail
             self.inferenceComponent = inferenceComponent
+            self.job = job
             self.lambda = lambda
             self.lineage = lineage
             self.model = model
@@ -58100,6 +58820,28 @@ public struct StopInferenceRecommendationsJobInput: Swift.Sendable {
     }
 }
 
+public struct StopJobInput: Swift.Sendable {
+    /// The category of the job to stop.
+    /// This member is required.
+    public var jobCategory: SageMakerClientTypes.JobCategory?
+    /// The name of the job to stop.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        jobCategory: SageMakerClientTypes.JobCategory? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.jobCategory = jobCategory
+        self.jobName = jobName
+    }
+}
+
+public struct StopJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StopLabelingJobInput: Swift.Sendable {
     /// The name of the labeling job to stop.
     /// This member is required.
@@ -58364,6 +59106,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
+    /// The configuration for the restricted instance groups (RIG) in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig?
     /// Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
     public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
 
@@ -58377,6 +59121,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
+        restrictedInstanceGroupsConfig: SageMakerClientTypes.ClusterRestrictedInstanceGroupsConfig? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil
     ) {
         self.autoScaling = autoScaling
@@ -58388,6 +59133,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.restrictedInstanceGroupsConfig = restrictedInstanceGroupsConfig
         self.tieredStorageConfig = tieredStorageConfig
     }
 }
@@ -58696,6 +59442,8 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var domainId: Swift.String?
     /// A collection of DomainSettings configuration values to update.
     public var domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate?
+    /// Indicates whether to create a home EFS file system for the domain. You can change from Disabled to Enabled to provision EFS on demand, but you cannot change from Enabled to Disabled.
+    public var homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation?
     /// The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
     public var subnetIds: [Swift.String]?
     /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
@@ -58710,6 +59458,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         defaultUserSettings: SageMakerClientTypes.UserSettings? = nil,
         domainId: Swift.String? = nil,
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
+        homeEfsFileSystemCreation: SageMakerClientTypes.HomeEfsFileSystemCreation? = nil,
         subnetIds: [Swift.String]? = nil,
         tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
         vpcId: Swift.String? = nil
@@ -58720,6 +59469,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         self.defaultUserSettings = defaultUserSettings
         self.domainId = domainId
         self.domainSettingsForUpdate = domainSettingsForUpdate
+        self.homeEfsFileSystemCreation = homeEfsFileSystemCreation
         self.subnetIds = subnetIds
         self.tagPropagation = tagPropagation
         self.vpcId = vpcId

@@ -72,6 +72,7 @@ public final class OrganizationsClient: AWSClientRuntime.AWSServiceClient {
     let client: ClientRuntime.SdkHttpClient
     public let config: OrganizationsClient.OrganizationsClientConfig
     let serviceName = "Organizations"
+    let retryStrategy: SmithyRetries.DefaultRetryStrategy
 
     @available(*, deprecated, message: "Use OrganizationsClient.OrganizationsClientConfig instead")
     public typealias Config = OrganizationsClient.OrganizationsClientConfiguration
@@ -81,6 +82,7 @@ public final class OrganizationsClient: AWSClientRuntime.AWSServiceClient {
         ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
+        self.retryStrategy = SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions)
     }
 
     @available(*, deprecated, message: "Use init(config: OrganizationsClient.OrganizationsClientConfig) instead")
@@ -195,7 +197,7 @@ extension OrganizationsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Organizations")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -250,7 +252,7 @@ extension OrganizationsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Organizations")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -426,7 +428,7 @@ extension OrganizationsClient {
             self.signingRegion = signingRegion
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Organizations")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -481,7 +483,7 @@ extension OrganizationsClient {
             self.signingRegion = try await AWSClientRuntime.AWSClientConfigDefaultsProvider.region(region)
             self.endpointResolver = try endpointResolver ?? DefaultEndpointResolver()
             self.telemetryProvider = telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider
-            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts)
+            self.retryStrategyOptions = try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(awsRetryMode, maxAttempts, sdkID: "Organizations")
             self.clientLogMode = clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode()
             self.endpoint = endpoint
             self.idempotencyTokenGenerator = idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator()
@@ -626,7 +628,7 @@ extension OrganizationsClient {
     /// * Approve all features request (ENABLE_ALL_FEATURES)
     ///
     ///
-    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide.
+    /// For more information, see [Responding to invitations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_accept-decline-invite.html) and [Enabling all features](https://docs.aws.amazon.com/organizations/latest/userguide/manage-begin-all-features-standard-migration.html#manage-approve-all-features-invite) in the Organizations User Guide. When a handshake is accepted, Organizations logs membership events in CloudTrail, available only in the management account's event history. If the account was standalone and joined a new organization, an AccountJoinedOrganization event is logged with joinedMethod:Invited and joinedTime fields. If the account departed one organization and joined another, both an AccountDepartedOrganization event with departedMethod:Left and departedTime and an AccountJoinedOrganization event with joinedMethod:Invited and joinedTime are logged in their respective management accounts.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptHandshakeInput`)
     ///
@@ -773,7 +775,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -874,8 +878,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -887,6 +889,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AcceptHandshakeInput, AcceptHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -1051,7 +1055,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1156,8 +1162,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachPolicyInput, AttachPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachPolicyInput, AttachPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1169,6 +1173,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachPolicyInput, AttachPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachPolicyInput, AttachPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachPolicyInput, AttachPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -1209,7 +1215,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1309,8 +1317,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelHandshakeInput, CancelHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1322,6 +1328,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelHandshakeInput, CancelHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelHandshakeInput, CancelHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -1356,6 +1364,9 @@ extension OrganizationsClient {
     /// * To reinstate a closed account, contact Amazon Web Services Support within the 90-day grace period while the account is in SUSPENDED status.
     ///
     /// * If the Amazon Web Services account you attempt to close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request will close both accounts. To learn important pre-closure details, see [ Closing an Amazon Web Services GovCloud (US) account](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/Closing-govcloud-account.html) in the Amazon Web Services GovCloud User Guide.
+    ///
+    ///
+    /// After the permanent termination of the account after the 90-day waiting period, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Cleaned and departedTime. This event is available only in the management account's event history.
     ///
     /// - Parameter input: [no documentation found] (Type: `CloseAccountInput`)
     ///
@@ -1474,7 +1485,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1575,8 +1588,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CloseAccountInput, CloseAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloseAccountInput, CloseAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1588,6 +1599,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CloseAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CloseAccountInput, CloseAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CloseAccountInput, CloseAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CloseAccountInput, CloseAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -1613,7 +1626,7 @@ extension OrganizationsClient {
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration) in the Organizations User Guide.
     ///
     ///
-    /// The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. You can only call this operation from the management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
+    /// Additionally, the AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history. This event includes joinedMethod:Created and joinedTime fields to provide context on how and when the account joined the organization. The user who calls the API to create an account must have the organizations:CreateAccount permission. If you enabled all features in the organization, Organizations creates the required service-linked role named AWSServiceRoleForOrganizations. For more information, see [Organizations and service-linked roles](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html#orgs_integrate_services-using_slrs) in the Organizations User Guide. If the request includes tags, then the requester must have the organizations:TagResource permission. Organizations preconfigures the new member account with a role (named OrganizationAccountAccessRole by default) that grants users in the management account administrator permissions in the new member account. Principals in the management account can assume the role. Organizations clones the company name and address information for the new account from the organization's management account. You can only call this operation from the management account. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
     ///
     /// * When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account, such as a payment method is not automatically collected. If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -1741,7 +1754,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -1842,8 +1857,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountInput, CreateAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountInput, CreateAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -1855,6 +1868,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAccountInput, CreateAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAccountInput, CreateAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAccountInput, CreateAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -1898,7 +1913,7 @@ extension OrganizationsClient {
     /// * Check the CloudTrail log for the CreateAccountResult event. For information on using CloudTrail with Organizations, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
     ///
     ///
-    /// When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
+    /// Additionally, the AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history only for the linked commercial account. This event includes joinedMethod:Created and joinedTime fields to provide context on how and when the account joined the organization. When you call the CreateGovCloudAccount action, you create two accounts: a standalone account in the Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region for billing and support purposes. The account in the commercial Region is automatically a member of the organization whose credentials made the request. Both accounts are associated with the same email address. A role is created in the new account in the commercial Region that allows the management account in the organization in the commercial Region to assume it. An Amazon Web Services GovCloud (US) account is then created and associated with the commercial account that you just created. A role is also created in the new Amazon Web Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US) account that is associated with the management account of the commercial organization. For more information and to view a diagram that explains how account access works, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide. For more information about creating accounts, see [Creating a member account in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html) in the Organizations User Guide.
     ///
     /// * When you create an account in an organization using the Organizations console, API, or CLI commands, the information required for the account to operate as a standalone account is not automatically collected. This includes a payment method and signing the end user license agreement (EULA). If you must remove an account from your organization later, you can do so only after you provide the missing information. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -2026,7 +2041,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2127,8 +2144,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGovCloudAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2140,6 +2155,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGovCloudAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGovCloudAccountInput, CreateGovCloudAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -2158,7 +2175,7 @@ extension OrganizationsClient {
 
     /// Performs the `CreateOrganization` operation on the `Organizations` service.
     ///
-    /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies.
+    /// Creates an Amazon Web Services organization. The account whose user is calling the CreateOrganization operation automatically becomes the [management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) of the new organization. This operation must be called using credentials from the account that is to become the new organization's management account. The principal must also have the relevant IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the new organization is created with all features enabled and service control policies automatically enabled in the root. If you instead choose to create the organization supporting only the consolidated billing features by setting the FeatureSet parameter to CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization policies. The AccountJoinedOrganization event is logged in CloudTrail and is available only in the management account's event history. This event includes joinedMethod:Invited and joinedTime fields to provide context on how and when the account joined the organization.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOrganizationInput`)
     ///
@@ -2275,7 +2292,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2375,8 +2394,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2388,6 +2405,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -2523,7 +2542,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2624,8 +2645,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrganizationalUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2637,6 +2656,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOrganizationalUnitInput, CreateOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -2772,7 +2793,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -2875,8 +2898,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyInput, CreatePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -2888,6 +2909,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePolicyInput, CreatePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePolicyInput, CreatePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -2928,7 +2951,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3028,8 +3053,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3041,6 +3064,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeclineHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeclineHandshakeInput, DeclineHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -3059,7 +3084,7 @@ extension OrganizationsClient {
 
     /// Performs the `DeleteOrganization` operation on the `Organizations` service.
     ///
-    /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts.
+    /// Deletes the organization. You can delete an organization only by using credentials from the management account. The organization must be empty of member accounts. When an organization is deleted, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Left and departedTime. This event is available only in the management account's event history.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationInput`)
     ///
@@ -3175,7 +3200,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3276,8 +3303,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3289,6 +3314,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -3327,7 +3354,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3429,8 +3458,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationalUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3442,6 +3469,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteOrganizationalUnitInput, DeleteOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -3480,7 +3509,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -3583,8 +3614,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3596,6 +3625,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePolicyInput, DeletePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePolicyInput, DeletePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -3759,8 +3790,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -3772,6 +3801,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -3908,7 +3939,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4009,8 +4042,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDelegatedAdministratorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4022,6 +4053,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterDelegatedAdministratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterDelegatedAdministratorInput, DeregisterDelegatedAdministratorOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4060,7 +4093,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4160,8 +4195,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountInput, DescribeAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountInput, DescribeAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4173,6 +4206,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountInput, DescribeAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountInput, DescribeAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountInput, DescribeAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4211,7 +4246,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4312,8 +4349,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCreateAccountStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4325,6 +4360,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCreateAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCreateAccountStatusInput, DescribeCreateAccountStatusOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4459,7 +4496,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4561,8 +4600,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectivePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4574,6 +4611,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeEffectivePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeEffectivePolicyInput, DescribeEffectivePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4612,7 +4651,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4712,8 +4753,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHandshakeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4725,6 +4764,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHandshakeInput, DescribeHandshakeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4790,8 +4831,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4803,6 +4842,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4840,7 +4881,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -4941,8 +4984,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationalUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -4954,6 +4995,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeOrganizationalUnitInput, DescribeOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -4991,7 +5034,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5093,8 +5138,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePolicyInput, DescribePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePolicyInput, DescribePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5106,6 +5149,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribePolicyInput, DescribePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribePolicyInput, DescribePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribePolicyInput, DescribePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -5268,8 +5313,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5281,6 +5324,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -5318,7 +5363,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5420,8 +5467,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResponsibilityTransferOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5433,6 +5478,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeResponsibilityTransferInput, DescribeResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -5567,7 +5614,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5672,8 +5721,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachPolicyInput, DetachPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachPolicyInput, DetachPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5685,6 +5732,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachPolicyInput, DetachPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachPolicyInput, DetachPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachPolicyInput, DetachPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -5828,7 +5877,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -5929,8 +5980,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAWSServiceAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -5942,6 +5991,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableAWSServiceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableAWSServiceAccessInput, DisableAWSServiceAccessOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -6076,7 +6127,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6180,8 +6233,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisablePolicyTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6193,6 +6244,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisablePolicyTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisablePolicyTypeInput, DisablePolicyTypeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -6327,7 +6380,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6428,8 +6483,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAWSServiceAccessOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6441,6 +6494,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAWSServiceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAWSServiceAccessInput, EnableAWSServiceAccessOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -6602,7 +6657,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6702,8 +6759,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAllFeaturesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6715,6 +6770,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableAllFeaturesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableAllFeaturesInput, EnableAllFeaturesOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -6849,7 +6906,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -6954,8 +7013,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnablePolicyTypeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -6967,6 +7024,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnablePolicyTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnablePolicyTypeInput, EnablePolicyTypeOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -7131,7 +7190,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7231,8 +7292,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteAccountToOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7244,6 +7303,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InviteAccountToOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteAccountToOrganizationInput, InviteAccountToOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -7406,7 +7467,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7507,8 +7570,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteOrganizationToTransferResponsibilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7520,6 +7581,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InviteOrganizationToTransferResponsibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<InviteOrganizationToTransferResponsibilityInput, InviteOrganizationToTransferResponsibilityOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -7538,7 +7601,7 @@ extension OrganizationsClient {
 
     /// Performs the `LeaveOrganization` operation on the `Organizations` service.
     ///
-    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. You can only call from operation from a member account.
+    /// Removes a member account from its parent organization. This version of the operation is performed by the account that wants to leave. To remove a member account as a user in the management account, use [RemoveAccountFromOrganization] instead. You can only call from operation from a member account. When an account leaves an organization, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Left and departedTime. This event is available only in the management account's event history.
     ///
     /// * The management account in an organization with all features enabled can set service control policies (SCPs) that can restrict what administrators of member accounts can do. This includes preventing them from successfully calling LeaveOrganization and leaving the organization.
     ///
@@ -7676,7 +7739,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -7777,8 +7842,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LeaveOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -7790,6 +7853,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<LeaveOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<LeaveOrganizationInput, LeaveOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -7923,7 +7988,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8024,8 +8091,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAWSServiceAccessForOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8037,6 +8102,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAWSServiceAccessForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAWSServiceAccessForOrganizationInput, ListAWSServiceAccessForOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -8074,7 +8141,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8174,8 +8243,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsInput, ListAccountsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8187,6 +8254,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsInput, ListAccountsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsInput, ListAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsInput, ListAccountsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -8224,7 +8293,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8325,8 +8396,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsForParentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8338,6 +8407,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsForParentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsForParentInput, ListAccountsForParentOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -8472,7 +8543,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8573,8 +8646,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountsWithInvalidEffectivePolicyInput, ListAccountsWithInvalidEffectivePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsWithInvalidEffectivePolicyInput, ListAccountsWithInvalidEffectivePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsWithInvalidEffectivePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8586,6 +8657,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAccountsWithInvalidEffectivePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAccountsWithInvalidEffectivePolicyInput, ListAccountsWithInvalidEffectivePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAccountsWithInvalidEffectivePolicyInput, ListAccountsWithInvalidEffectivePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAccountsWithInvalidEffectivePolicyInput, ListAccountsWithInvalidEffectivePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -8623,7 +8696,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8724,8 +8799,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChildrenInput, ListChildrenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChildrenInput, ListChildrenOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChildrenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8737,6 +8810,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChildrenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListChildrenInput, ListChildrenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListChildrenInput, ListChildrenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChildrenInput, ListChildrenOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -8774,7 +8849,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -8875,8 +8952,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCreateAccountStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -8888,6 +8963,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCreateAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCreateAccountStatusInput, ListCreateAccountStatusOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -9021,7 +9098,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9122,8 +9201,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegatedAdministratorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9135,6 +9212,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDelegatedAdministratorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedAdministratorsInput, ListDelegatedAdministratorsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -9270,7 +9349,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9371,8 +9452,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDelegatedServicesForAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9384,6 +9463,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDelegatedServicesForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDelegatedServicesForAccountInput, ListDelegatedServicesForAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -9519,7 +9600,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9620,8 +9703,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEffectivePolicyValidationErrorsInput, ListEffectivePolicyValidationErrorsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEffectivePolicyValidationErrorsInput, ListEffectivePolicyValidationErrorsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEffectivePolicyValidationErrorsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9633,6 +9714,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEffectivePolicyValidationErrorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEffectivePolicyValidationErrorsInput, ListEffectivePolicyValidationErrorsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEffectivePolicyValidationErrorsInput, ListEffectivePolicyValidationErrorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEffectivePolicyValidationErrorsInput, ListEffectivePolicyValidationErrorsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -9670,7 +9753,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9770,8 +9855,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHandshakesForAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9783,6 +9866,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHandshakesForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForAccountInput, ListHandshakesForAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -9821,7 +9906,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -9921,8 +10008,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHandshakesForOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -9934,6 +10019,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListHandshakesForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListHandshakesForOrganizationInput, ListHandshakesForOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10067,7 +10154,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10169,8 +10258,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInboundResponsibilityTransfersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10182,6 +10269,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInboundResponsibilityTransfersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInboundResponsibilityTransfersInput, ListInboundResponsibilityTransfersOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10219,7 +10308,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10320,8 +10411,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationalUnitsForParentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10333,6 +10422,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationalUnitsForParentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationalUnitsForParentInput, ListOrganizationalUnitsForParentOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10466,7 +10557,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10567,8 +10660,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutboundResponsibilityTransfersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10580,6 +10671,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOutboundResponsibilityTransfersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOutboundResponsibilityTransfersInput, ListOutboundResponsibilityTransfersOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10618,7 +10711,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10718,8 +10813,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListParentsInput, ListParentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListParentsInput, ListParentsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListParentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10731,6 +10824,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListParentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListParentsInput, ListParentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListParentsInput, ListParentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListParentsInput, ListParentsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10768,7 +10863,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -10869,8 +10966,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPoliciesInput, ListPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesInput, ListPoliciesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -10882,6 +10977,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPoliciesInput, ListPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPoliciesInput, ListPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesInput, ListPoliciesOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -10919,7 +11016,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11021,8 +11120,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesForTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11034,6 +11131,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPoliciesForTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPoliciesForTargetInput, ListPoliciesForTargetOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -11071,7 +11170,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11171,8 +11272,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRootsInput, ListRootsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRootsInput, ListRootsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRootsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11184,6 +11283,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRootsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRootsInput, ListRootsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRootsInput, ListRootsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRootsInput, ListRootsOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -11232,7 +11333,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11333,8 +11436,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11346,6 +11447,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -11383,7 +11486,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11485,8 +11590,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsForPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11498,6 +11601,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTargetsForPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -11539,7 +11644,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11640,8 +11747,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MoveAccountInput, MoveAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MoveAccountInput, MoveAccountOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MoveAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11653,6 +11758,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<MoveAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<MoveAccountInput, MoveAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<MoveAccountInput, MoveAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<MoveAccountInput, MoveAccountOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -11787,7 +11894,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -11888,8 +11997,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -11901,6 +12008,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -12037,7 +12146,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12138,8 +12249,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDelegatedAdministratorOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12151,6 +12260,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDelegatedAdministratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterDelegatedAdministratorInput, RegisterDelegatedAdministratorOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -12169,7 +12280,7 @@ extension OrganizationsClient {
 
     /// Performs the `RemoveAccountFromOrganization` operation on the `Organizations` service.
     ///
-    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with [LeaveOrganization] instead.
+    /// Removes the specified account from the organization. The removed account becomes a standalone account that isn't a member of any organization. It's no longer subject to any policies and is responsible for its own bill payments. The organization's management account is no longer charged for any expenses accrued by the member account after it's removed from the organization. You can only call this operation from the management account. Member accounts can remove themselves with [LeaveOrganization] instead. When an account is removed from an organization, Organizations logs a membership event in CloudTrail. The event is an AccountDepartedOrganization event with departedMethod:Removed and departedTime. This event is available only in the management account's event history.
     ///
     /// * You can remove an account from your organization only if the account is configured with the information required to operate as a standalone account. When you create an account in an organization using the Organizations console, API, or CLI commands, the information required of standalone accounts is not automatically collected. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
     ///
@@ -12292,7 +12403,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12393,8 +12506,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAccountFromOrganizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12406,6 +12517,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveAccountFromOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveAccountFromOrganizationInput, RemoveAccountFromOrganizationOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -12551,7 +12664,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12652,8 +12767,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12665,6 +12778,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -12799,7 +12914,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -12903,8 +13020,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateResponsibilityTransferOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -12916,6 +13031,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TerminateResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TerminateResponsibilityTransferInput, TerminateResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -13061,7 +13178,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13162,8 +13281,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13175,6 +13292,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -13214,7 +13333,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13315,8 +13436,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationalUnitOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13328,6 +13447,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOrganizationalUnitInput, UpdateOrganizationalUnitOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -13463,7 +13584,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13567,8 +13690,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13580,6 +13701,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePolicyInput, UpdatePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePolicyInput, UpdatePolicyOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")
@@ -13713,7 +13836,9 @@ extension OrganizationsClient {
     ///
     /// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
     ///
-    /// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
+    /// * END_DATE_TOO_EARLY: You provided an invalid end date. The end date is too early.
+    ///
+    /// * END_DATE_TOO_LATE: You provided an invalid end date. The end date is too late.
     ///
     /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
     ///
@@ -13815,8 +13940,6 @@ extension OrganizationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResponsibilityTransferOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Organizations", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
@@ -13828,6 +13951,8 @@ extension OrganizationsClient {
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Organizations"))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateResponsibilityTransferInput, UpdateResponsibilityTransferOutput>(serviceID: serviceName, version: OrganizationsClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Organizations")

@@ -940,7 +940,7 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes {
 
-    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [OpenIdConnectConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html) structure, which is a parameter of [ListIdentitySources](http://amazonaws.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    /// The token type that you want to process from your OIDC identity provider. Your policy store can process either identity (ID) or access tokens from a given OIDC identity source. This data type is part of a [OpenIdConnectConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_OpenIdConnectConfigurationItem.html) structure, which is a parameter of [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
     public enum OpenIdConnectTokenSelectionItem: Swift.Sendable {
         /// The OIDC configuration for processing access tokens. Contains allowed audience claims, for example https://auth.example.com, and the claim that you want to map to the principal, for example sub.
         case accesstokenonly(VerifiedPermissionsClientTypes.OpenIdConnectAccessTokenConfigurationItem)
@@ -1696,15 +1696,57 @@ public struct DeletePolicyStoreOutput: Swift.Sendable {
     public init() { }
 }
 
+extension VerifiedPermissionsClientTypes {
+
+    /// The deletion mode for a resource. The valid values are:
+    ///
+    /// * SoftDelete – The resource enters the PendingDeletion state. This is the default behavior.
+    ///
+    /// * HardDelete – The resource is immediately deleted, bypassing the PendingDeletion state.
+    public enum DeletionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hardDelete
+        case softDelete
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionMode] {
+            return [
+                .hardDelete,
+                .softDelete
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hardDelete: return "HardDelete"
+            case .softDelete: return "SoftDelete"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DeletePolicyStoreAliasInput: Swift.Sendable {
     /// Specifies the name of the policy store alias that you want to delete. The alias name must always be prefixed with policy-store-alias/.
     /// This member is required.
     public var aliasName: Swift.String?
+    /// Specifies the deletion mode for the policy store alias. The valid values are:
+    ///
+    /// * SoftDelete – The policy store alias enters the PendingDeletion state. This is the default behavior when no deletionMode is specified.
+    ///
+    /// * HardDelete – The policy store alias is immediately deleted, bypassing the PendingDeletion state.
+    public var deletionMode: VerifiedPermissionsClientTypes.DeletionMode?
 
     public init(
-        aliasName: Swift.String? = nil
+        aliasName: Swift.String? = nil,
+        deletionMode: VerifiedPermissionsClientTypes.DeletionMode? = nil
     ) {
         self.aliasName = aliasName
+        self.deletionMode = deletionMode
     }
 }
 
