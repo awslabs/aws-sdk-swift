@@ -827,6 +827,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSagemakerEdge](/sdk-for-swift/latest/api/awssagemakeredge/documentation/awssagemakeredge)
 
+[AWSSagemakerJobRuntime](/sdk-for-swift/latest/api/awssagemakerjobruntime/documentation/awssagemakerjobruntime)
+
 [AWSSavingsplans](/sdk-for-swift/latest/api/awssavingsplans/documentation/awssavingsplans)
 
 [AWSScheduler](/sdk-for-swift/latest/api/awsscheduler/documentation/awsscheduler)

@@ -125,6 +125,13 @@ jobs:
             | xcbeautify
           cd ..
 
+  apple-ci-complete:
+    needs: apple-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success
+        run: echo "apple-ci passed"
+
   linux-ci:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
@@ -196,3 +203,11 @@ jobs:
           cd aws-sdk-swift/codegen/
           swift test
           cd ..
+
+  linux-ci-complete:
+    needs: linux-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success
+        run: echo "linux-ci passed"
+

@@ -1030,6 +1030,56 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum PropagateTagsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Tags specified in ExplicitTags are applied to managed resources at launch.
+        case explicit
+        /// Tag propagation is disabled. No tags are applied to managed resources.
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropagateTagsMode] {
+            return [
+                .explicit,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .explicit: return "Explicit"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Configuration for tag propagation to managed resources launched by the capacity provider.
+    public struct PropagateTags: Swift.Sendable {
+        /// A list of tags to apply to managed resources when Mode is set to Explicit. You can specify up to 40 tags.
+        public var explicitTags: [Swift.String: Swift.String]?
+        /// The tag propagation mode. Set to Explicit to propagate the tags specified in ExplicitTags to managed resources. Set to None to disable tag propagation.
+        public var mode: LambdaClientTypes.PropagateTagsMode?
+
+        public init(
+            explicitTags: [Swift.String: Swift.String]? = nil,
+            mode: LambdaClientTypes.PropagateTagsMode? = nil
+        ) {
+            self.explicitTags = explicitTags
+            self.mode = mode
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// VPC configuration that specifies the network settings for compute instances managed by the capacity provider.
     public struct CapacityProviderVpcConfig: Swift.Sendable {
         /// A list of security group IDs that control network access for compute instances managed by the capacity provider.
@@ -1062,6 +1112,8 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
     /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources.
     /// This member is required.
     public var permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig?
+    /// The tag propagation configuration for the capacity provider. Specifies tags to apply to managed resources at launch.
+    public var propagateTags: LambdaClientTypes.PropagateTags?
     /// A list of tags to associate with the capacity provider.
     public var tags: [Swift.String: Swift.String]?
     /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
@@ -1074,6 +1126,7 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
         instanceRequirements: LambdaClientTypes.InstanceRequirements? = nil,
         kmsKeyArn: Swift.String? = nil,
         permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
+        propagateTags: LambdaClientTypes.PropagateTags? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
     ) {
@@ -1082,6 +1135,7 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
         self.instanceRequirements = instanceRequirements
         self.kmsKeyArn = kmsKeyArn
         self.permissionsConfig = permissionsConfig
+        self.propagateTags = propagateTags
         self.tags = tags
         self.vpcConfig = vpcConfig
     }
@@ -1140,6 +1194,8 @@ extension LambdaClientTypes {
         /// The permissions configuration for the capacity provider.
         /// This member is required.
         public var permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig?
+        /// Configuration for tag propagation to managed resources launched by the capacity provider.
+        public var propagateTags: LambdaClientTypes.PropagateTags?
         /// The current state of the capacity provider.
         /// This member is required.
         public var state: LambdaClientTypes.CapacityProviderState?
@@ -1154,6 +1210,7 @@ extension LambdaClientTypes {
             kmsKeyArn: Swift.String? = nil,
             lastModified: Swift.String? = nil,
             permissionsConfig: LambdaClientTypes.CapacityProviderPermissionsConfig? = nil,
+            propagateTags: LambdaClientTypes.PropagateTags? = nil,
             state: LambdaClientTypes.CapacityProviderState? = nil,
             vpcConfig: LambdaClientTypes.CapacityProviderVpcConfig? = nil
         ) {
@@ -1163,6 +1220,7 @@ extension LambdaClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.permissionsConfig = permissionsConfig
+            self.propagateTags = propagateTags
             self.state = state
             self.vpcConfig = vpcConfig
         }
@@ -1379,13 +1437,17 @@ public struct UpdateCapacityProviderInput: Swift.Sendable {
     public var capacityProviderName: Swift.String?
     /// The updated scaling configuration for the capacity provider.
     public var capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig?
+    /// Configuration for tag propagation to managed resources launched by the capacity provider.
+    public var propagateTags: LambdaClientTypes.PropagateTags?
 
     public init(
         capacityProviderName: Swift.String? = nil,
-        capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil
+        capacityProviderScalingConfig: LambdaClientTypes.CapacityProviderScalingConfig? = nil,
+        propagateTags: LambdaClientTypes.PropagateTags? = nil
     ) {
         self.capacityProviderName = capacityProviderName
         self.capacityProviderScalingConfig = capacityProviderScalingConfig
+        self.propagateTags = propagateTags
     }
 }
 
@@ -13369,6 +13431,7 @@ extension CreateCapacityProviderInput {
         try writer["InstanceRequirements"].write(value.instanceRequirements, with: LambdaClientTypes.InstanceRequirements.write(value:to:))
         try writer["KmsKeyArn"].write(value.kmsKeyArn)
         try writer["PermissionsConfig"].write(value.permissionsConfig, with: LambdaClientTypes.CapacityProviderPermissionsConfig.write(value:to:))
+        try writer["PropagateTags"].write(value.propagateTags, with: LambdaClientTypes.PropagateTags.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: LambdaClientTypes.CapacityProviderVpcConfig.write(value:to:))
     }
@@ -13619,6 +13682,7 @@ extension UpdateCapacityProviderInput {
     static func write(value: UpdateCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CapacityProviderScalingConfig"].write(value.capacityProviderScalingConfig, with: LambdaClientTypes.CapacityProviderScalingConfig.write(value:to:))
+        try writer["PropagateTags"].write(value.propagateTags, with: LambdaClientTypes.PropagateTags.write(value:to:))
     }
 }
 
@@ -17551,6 +17615,7 @@ extension LambdaClientTypes.CapacityProvider {
         value.capacityProviderScalingConfig = try reader["CapacityProviderScalingConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderScalingConfig.read(from:))
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
+        value.propagateTags = try reader["PropagateTags"].readIfPresent(with: LambdaClientTypes.PropagateTags.read(from:))
         return value
     }
 }
@@ -18690,6 +18755,23 @@ extension LambdaClientTypes.OperationUpdate {
         try writer["SubType"].write(value.subType)
         try writer["Type"].write(value.type)
         try writer["WaitOptions"].write(value.waitOptions, with: LambdaClientTypes.WaitOptions.write(value:to:))
+    }
+}
+
+extension LambdaClientTypes.PropagateTags {
+
+    static func write(value: LambdaClientTypes.PropagateTags?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExplicitTags"].writeMap(value.explicitTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.PropagateTags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.PropagateTags()
+        value.mode = try reader["Mode"].readIfPresent()
+        value.explicitTags = try reader["ExplicitTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

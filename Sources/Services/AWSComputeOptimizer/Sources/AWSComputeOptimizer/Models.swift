@@ -2301,6 +2301,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationVolumeType
         case currentMonthlyPrice
         case currentPerformanceRisk
+        case effectiveRecommendationPreferencesLookbackPeriod
         case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case lastRefreshTimestamp
@@ -2340,6 +2341,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationVolumeType,
                 .currentMonthlyPrice,
                 .currentPerformanceRisk,
+                .effectiveRecommendationPreferencesLookbackPeriod,
                 .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .lastRefreshTimestamp,
@@ -2385,6 +2387,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationVolumeType: return "CurrentConfigurationVolumeType"
             case .currentMonthlyPrice: return "CurrentMonthlyPrice"
             case .currentPerformanceRisk: return "CurrentPerformanceRisk"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
             case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .lastRefreshTimestamp: return "LastRefreshTimestamp"
@@ -2805,6 +2808,7 @@ extension ComputeOptimizerClientTypes {
         case currentServiceConfigurationMemory
         case currentServiceConfigurationTaskDefinitionArn
         case currentServiceContainerConfigurations
+        case effectiveRecommendationPreferencesLookbackPeriod
         case effectiveRecommendationPreferencesSavingsEstimationMode
         case finding
         case findingReasonCodes
@@ -2837,6 +2841,7 @@ extension ComputeOptimizerClientTypes {
                 .currentServiceConfigurationMemory,
                 .currentServiceConfigurationTaskDefinitionArn,
                 .currentServiceContainerConfigurations,
+                .effectiveRecommendationPreferencesLookbackPeriod,
                 .effectiveRecommendationPreferencesSavingsEstimationMode,
                 .finding,
                 .findingReasonCodes,
@@ -2875,6 +2880,7 @@ extension ComputeOptimizerClientTypes {
             case .currentServiceConfigurationMemory: return "CurrentServiceConfigurationMemory"
             case .currentServiceConfigurationTaskDefinitionArn: return "CurrentServiceConfigurationTaskDefinitionArn"
             case .currentServiceContainerConfigurations: return "CurrentServiceContainerConfigurations"
+            case .effectiveRecommendationPreferencesLookbackPeriod: return "EffectiveRecommendationPreferencesLookBackPeriod"
             case .effectiveRecommendationPreferencesSavingsEstimationMode: return "EffectiveRecommendationPreferencesSavingsEstimationMode"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
@@ -4168,12 +4174,16 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for Amazon EBS volumes.
     public struct EBSEffectiveRecommendationPreferences: Swift.Sendable {
+        /// The number of days for which utilization metrics were analyzed for the volume.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon EBS volumes.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode?
 
         public init(
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.EBSSavingsEstimationMode? = nil
         ) {
+            self.lookBackPeriod = lookBackPeriod
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -5459,12 +5469,16 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the effective recommendation preferences for Amazon ECS services.
     public struct ECSEffectiveRecommendationPreferences: Swift.Sendable {
+        /// The number of days the Amazon ECS service utilization metrics were analyzed.
+        public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
         /// Describes the savings estimation mode preference applied for calculating savings opportunity for Amazon ECS services.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode?
 
         public init(
+            lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference? = nil,
             savingsEstimationMode: ComputeOptimizerClientTypes.ECSSavingsEstimationMode? = nil
         ) {
+            self.lookBackPeriod = lookBackPeriod
             self.savingsEstimationMode = savingsEstimationMode
         }
     }
@@ -5862,7 +5876,7 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Sendable {
     public var enhancedInfrastructureMetrics: ComputeOptimizerClientTypes.EnhancedInfrastructureMetrics?
     /// The provider of the external metrics recommendation preference. Considers all applicable preferences that you might have set at the account and organization level. If the preference is applied in the latest recommendation refresh, an object with a valid source value appears in the response. If the preference isn't applied to the recommendations already, then this object doesn't appear in the response. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the [GetEC2InstanceRecommendations] actions. For more information, see [Enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/external-metrics-ingestion.html) in the Compute Optimizer User Guide.
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
-    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    /// The number of days the utilization metrics of the Amazon Web Services resource are analyzed. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations, GetEC2InstanceRecommendations, GetEBSVolumeRecommendations, GetECSServiceRecommendations, or GetRDSDatabaseRecommendations actions.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
     public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
@@ -8579,13 +8593,23 @@ public struct PutRecommendationPreferencesInput: Swift.Sendable {
     public var externalMetricsPreference: ComputeOptimizerClientTypes.ExternalMetricsPreference?
     /// The status of the inferred workload types recommendation preference to create or update. The inferred workload type feature is active by default. To deactivate it, create a recommendation preference. Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see [Inferred workload types](https://docs.aws.amazon.com/compute-optimizer/latest/ug/inferred-workload-types.html) in the Compute Optimizer User Guide.
     public var inferredWorkloadTypes: ComputeOptimizerClientTypes.InferredWorkloadTypesPreference?
-    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed. When this preference isn't specified, we use the default value DAYS_14. You can only set this preference for the Amazon EC2 instance, Auto Scaling group, Amazon EBS volume, Amazon ECS service on Fargate, Amazon RDS DB instance, and Aurora DB cluster storage resource types.
     ///
-    /// * Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.
+    /// * Lookback period preferences for Amazon EC2 instances, Amazon EBS volumes, Amazon ECS services, Amazon RDS DB instances, and Aurora DB cluster storage resource types can be set at the organization, account, and resource levels.
     ///
     /// * Auto Scaling group lookback preferences can only be set at the resource level.
+    ///
+    /// * Amazon EBS volume lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Amazon ECS service on Fargate lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Amazon RDS DB instance lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Aurora DB cluster storage lookback preferences can be set at the organization, account, and resource levels.
+    ///
+    /// * Changing the lookback period for Amazon EBS volumes to 14 days does not affect the 32-day lookback period used to determine whether an Amazon EBS volume is unattached.
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
-    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
+    /// The preference to control which resource type values are considered when generating rightsizing recommendations. You can specify this preference as a combination of include and exclude lists. You must specify either an includeList or excludeList. If the preference is an empty set of resource type values, an error occurs. You can only set this preference for the Amazon EC2 instance, Auto Scaling group, Amazon EBS volume, Amazon ECS service, Amazon RDS DB instance, and Aurora DB cluster storage resource types.
     public var preferredResources: [ComputeOptimizerClientTypes.PreferredResource]?
     /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
     /// This member is required.

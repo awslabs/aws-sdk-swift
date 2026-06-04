@@ -130,6 +130,13 @@ jobs:
             test 2>&1 \
             | xcbeautify
 
+  apple-int-complete:
+    needs: apple-int
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success
+        run: echo "apple-int passed"
+
   linux-int:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
@@ -201,3 +208,11 @@ jobs:
         run: |
           cd aws-sdk-swift/IntegrationTests
           swift test
+
+  linux-int-complete:
+    needs: linux-int
+    runs-on: ubuntu-latest
+    steps:
+      - name: Success
+        run: echo "linux-int passed"
+
