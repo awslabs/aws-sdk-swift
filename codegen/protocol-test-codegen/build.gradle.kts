@@ -71,9 +71,6 @@ tasks.named("smithyBuild") {
     outputs.upToDateWhen { false }
 }
 
-// Run smithyBuild automatically.
-tasks["build"].finalizedBy(tasks["smithyBuild"])
-
 enabledProtocols.forEach {
     tasks.register<ProtocolTestTask>("testProtocol-${it.projectionName}") {
         dependsOn(tasks.build)

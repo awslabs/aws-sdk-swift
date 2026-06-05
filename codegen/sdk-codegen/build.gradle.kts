@@ -274,8 +274,7 @@ tasks.register("generate-smithy-build") {
     }
 }
 
-// Run smithyBuild automatically.
-tasks["build"]
-    .dependsOn(tasks["generate-smithy-build"])
-    .finalizedBy(tasks["smithyBuild"])
+tasks.named("smithyBuild") {
+    dependsOn("generate-smithy-build")
+}
 
