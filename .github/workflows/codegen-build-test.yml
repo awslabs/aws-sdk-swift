@@ -17,7 +17,7 @@ env:
   AWS_SWIFT_SDK_BATCH_TOTAL: 8
 
 jobs:
-  codegen-build-test:
+  codegen-build-test-apple:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: macos-26
     strategy:
@@ -96,8 +96,89 @@ jobs:
         if: matrix.group == '4'
         run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
 
+  codegen-build-test-al2023:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04-arm
+    container: swift:6.3-amazonlinux2023
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - 1
+          - 2
+          - 3
+          - 4
+    steps:
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v6
+        with:
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
+      - name: Cache Gradle
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: 2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            2-${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts', 'gradle/wrapper/gradle-wrapper.properties') }}
+            2-${{ runner.os }}-gradle-
+      - name: Cache Swift
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/org.swift.swiftpm
+          key: 1-${{ runner.os }}-swift-6.3-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          restore-keys: |
+            1-${{ runner.os }}-swift-6.3-al2023-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift-6.3-al2023-spm-
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: corretto
+          java-version: 17
+      - name: Install Native Dependencies
+        run: ./aws-sdk-swift/scripts/ci_steps/install_native_linux_dependencies.sh
+      - name: Tools Versions
+        run: ./aws-sdk-swift/scripts/ci_steps/log_tool_versions.sh
+      - name: Code-Generate SDK
+        run: |
+          cd aws-sdk-swift
+          ./scripts/ci_steps/codegen_sdk.sh
+      - name: Test Batch 1/8
+        if: matrix.group == '1'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=0 swift test
+      - name: Test Batch 2/8
+        if: matrix.group == '1'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=1 swift test
+      - name: Test Batch 3/8
+        if: matrix.group == '2'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=2 swift test
+      - name: Test Batch 4/8
+        if: matrix.group == '2'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=3 swift test
+      - name: Test Batch 5/8
+        if: matrix.group == '3'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=4 swift test
+      - name: Test Batch 6/8
+        if: matrix.group == '3'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=5 swift test
+      - name: Test Batch 7/8
+        if: matrix.group == '4'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=6 swift test
+      - name: Test Batch 8/8
+        if: matrix.group == '4'
+        run: cd aws-sdk-swift && AWS_SWIFT_SDK_BATCH_NUMBER=7 swift test
+
   codegen-build-test-complete:
-    needs: codegen-build-test
+    needs:
+      - codegen-build-test-apple
+      - codegen-build-test-al2023
     runs-on: ubuntu-latest
     steps:
       - name: Succeeded
