@@ -2713,7 +2713,7 @@ extension MediaConvertClient {
 
     /// Performs the `TagResource` operation on the `MediaConvert` service.
     ///
-    /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Add tags to a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -2787,7 +2787,7 @@ extension MediaConvertClient {
 
     /// Performs the `UntagResource` operation on the `MediaConvert` service.
     ///
-    /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Remove tags from a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///

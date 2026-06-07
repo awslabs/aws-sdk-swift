@@ -5165,6 +5165,74 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+    public enum CmafIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followCustom
+        case followIframe
+        case followSegmentation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafIntervalCadence] {
+            return [
+                .followCustom,
+                .followIframe,
+                .followSegmentation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followCustom: return "FOLLOW_CUSTOM"
+            case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Settings for one image-based trick play variant. Each variant produces its own set of JPEG tile images and corresponding manifest entries.
+    public struct CmafImageBasedTrickPlayVariant: Swift.Sendable {
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+        public var intervalCadence: MediaConvertClientTypes.CmafIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
+        public var thumbnailHeight: Swift.Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails. If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate. For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public var thumbnailInterval: Swift.Double?
+        /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
+        public var thumbnailWidth: Swift.Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
+        public var tileHeight: Swift.Int?
+        /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
+        public var tileWidth: Swift.Int?
+
+        public init(
+            intervalCadence: MediaConvertClientTypes.CmafIntervalCadence? = nil,
+            thumbnailHeight: Swift.Int? = nil,
+            thumbnailInterval: Swift.Double? = nil,
+            thumbnailWidth: Swift.Int? = nil,
+            tileHeight: Swift.Int? = nil,
+            tileWidth: Swift.Int? = nil
+        ) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// If your input video has accurate color space metadata, or if you don't know about color space: Keep the default value, Follow. MediaConvert will automatically detect your input color space. If your input video has metadata indicating the wrong color space, or has missing metadata: Specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate: Choose Force HDR 10. Specify correct values in the input HDR 10 metadata settings. For more information about HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr. When you specify an input color space, MediaConvert uses the following color space metadata, which includes color primaries, transfer characteristics, and matrix coefficients:
     ///
     /// * HDR 10: BT.2020, PQ, BT.2020 non-constant
@@ -5267,6 +5335,74 @@ extension MediaConvertClientTypes {
         ) {
             self.manifestNameModifier = manifestNameModifier
             self.selectedOutputs = selectedOutputs
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+    public enum DashIsoIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followCustom
+        case followIframe
+        case followSegmentation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashIsoIntervalCadence] {
+            return [
+                .followCustom,
+                .followIframe,
+                .followSegmentation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followCustom: return "FOLLOW_CUSTOM"
+            case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Settings for one image-based trick play variant. Each variant produces its own set of JPEG tile images and corresponding manifest entries.
+    public struct DashIsoImageBasedTrickPlayVariant: Swift.Sendable {
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+        public var intervalCadence: MediaConvertClientTypes.DashIsoIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
+        public var thumbnailHeight: Swift.Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails. If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate. For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public var thumbnailInterval: Swift.Double?
+        /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
+        public var thumbnailWidth: Swift.Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
+        public var tileHeight: Swift.Int?
+        /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
+        public var tileWidth: Swift.Int?
+
+        public init(
+            intervalCadence: MediaConvertClientTypes.DashIsoIntervalCadence? = nil,
+            thumbnailHeight: Swift.Int? = nil,
+            thumbnailInterval: Swift.Double? = nil,
+            thumbnailWidth: Swift.Int? = nil,
+            tileHeight: Swift.Int? = nil,
+            tileWidth: Swift.Int? = nil
+        ) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
         }
     }
 }
@@ -5485,6 +5621,74 @@ extension MediaConvertClientTypes {
             self.customLanguageCode = customLanguageCode
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+    public enum HlsIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followCustom
+        case followIframe
+        case followSegmentation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsIntervalCadence] {
+            return [
+                .followCustom,
+                .followIframe,
+                .followSegmentation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followCustom: return "FOLLOW_CUSTOM"
+            case .followIframe: return "FOLLOW_IFRAME"
+            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Settings for one image-based trick play variant. Each variant produces its own set of JPEG tile images and corresponding manifest entries.
+    public struct HlsImageBasedTrickPlayVariant: Swift.Sendable {
+        /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
+        public var intervalCadence: MediaConvertClientTypes.HlsIntervalCadence?
+        /// Height of each thumbnail within each tile image, in pixels. Leave blank to maintain aspect ratio with thumbnail width. If following the aspect ratio would lead to a total tile height greater than 4096, then the job will be rejected. Must be divisible by 2.
+        public var thumbnailHeight: Swift.Int?
+        /// Enter the interval, in seconds, that MediaConvert uses to generate thumbnails. If the interval you enter doesn't align with the output frame rate, MediaConvert automatically rounds the interval to align with the output frame rate. For example, if the output frame rate is 29.97 frames per second and you enter 5, MediaConvert uses a 150 frame interval to generate thumbnails.
+        public var thumbnailInterval: Swift.Double?
+        /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
+        public var thumbnailWidth: Swift.Int?
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
+        public var tileHeight: Swift.Int?
+        /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
+        public var tileWidth: Swift.Int?
+
+        public init(
+            intervalCadence: MediaConvertClientTypes.HlsIntervalCadence? = nil,
+            thumbnailHeight: Swift.Int? = nil,
+            thumbnailInterval: Swift.Double? = nil,
+            thumbnailWidth: Swift.Int? = nil,
+            tileHeight: Swift.Int? = nil,
+            tileWidth: Swift.Int? = nil
+        ) {
+            self.intervalCadence = intervalCadence
+            self.thumbnailHeight = thumbnailHeight
+            self.thumbnailInterval = thumbnailInterval
+            self.thumbnailWidth = thumbnailWidth
+            self.tileHeight = tileHeight
+            self.tileWidth = tileWidth
         }
     }
 }
@@ -8943,36 +9147,6 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
-    public enum HlsClearLead: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [HlsClearLead] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConvertClientTypes {
-
     /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
     public enum CmafEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aesCtr
@@ -9239,8 +9413,8 @@ extension MediaConvertClientTypes {
 
     /// Settings for CMAF encryption
     public struct CmafEncryptionSettings: Swift.Sendable {
-        /// Enable Clear Lead DRM to reduce video startup latency by leaving the first segment unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. When enabled, the first output segment remains fully unencrypted, and encryption begins at the start of the second segment. The HLS manifest will omit #EXT-X-KEY tags during the clear segment and insert the first #EXT-X-KEY immediately before the first encrypted fragment. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec. Choose Enabled to activate Clear Lead DRM optimization. Choose Disabled to use standard encryption where all segments are encrypted from the beginning.
-        public var clearLead: MediaConvertClientTypes.HlsClearLead?
+        /// Reduce video startup latency by leaving initial segments unencrypted while DRM license retrieval occurs in parallel. This optimization allows immediate playback startup while maintaining content protection for the remainder of the stream. Specify the number of initial segments to leave unencrypted. Omit this field to disable Clear Lead. The HLS manifest will omit #EXT-X-KEY tags during clear segments and insert the first #EXT-X-KEY immediately before the first encrypted segment. Because encryption is applied at the fragment level, the actual duration of unencrypted content may be slightly longer than expected if the segment length is not evenly divisible by the fragment length. In such cases, encryption begins at the next fragment boundary after the specified clear lead segments, rather than at the exact segment boundary. This feature is supported exclusively for CMAF HLS (fMP4) outputs and is compatible with all existing key provider integrations (SPEKE v1, SPEKE v2, and Static Key encryption). Supported codecs: H.264, H.265, and AV1 video codecs, and AAC audio codec.
+        public var clearLeadSegments: Swift.Int?
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public var constantInitializationVector: Swift.String?
         /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample or AES_CTR.
@@ -9255,7 +9429,7 @@ extension MediaConvertClientTypes {
         public var type: MediaConvertClientTypes.CmafKeyProviderType?
 
         public init(
-            clearLead: MediaConvertClientTypes.HlsClearLead? = nil,
+            clearLeadSegments: Swift.Int? = nil,
             constantInitializationVector: Swift.String? = nil,
             encryptionMethod: MediaConvertClientTypes.CmafEncryptionType? = nil,
             initializationVectorInManifest: MediaConvertClientTypes.CmafInitializationVectorInManifest? = nil,
@@ -9263,7 +9437,7 @@ extension MediaConvertClientTypes {
             staticKeyProvider: MediaConvertClientTypes.StaticKeyProvider? = nil,
             type: MediaConvertClientTypes.CmafKeyProviderType? = nil
         ) {
-            self.clearLead = clearLead
+            self.clearLeadSegments = clearLeadSegments
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.initializationVectorInManifest = initializationVectorInManifest
@@ -9276,12 +9450,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest, MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest, MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. When you enable Write HLS manifest, MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest, MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     public enum CmafImageBasedTrickPlay: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case advanced
         case `none`
         case thumbnail
         case thumbnailAndFullframe
+        case variants
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CmafImageBasedTrickPlay] {
@@ -9289,7 +9464,8 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe
+                .thumbnailAndFullframe,
+                .variants
             ]
         }
 
@@ -9304,39 +9480,7 @@ extension MediaConvertClientTypes {
             case .none: return "NONE"
             case .thumbnail: return "THUMBNAIL"
             case .thumbnailAndFullframe: return "THUMBNAIL_AND_FULLFRAME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConvertClientTypes {
-
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
-    public enum CmafIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case followCustom
-        case followIframe
-        case followSegmentation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CmafIntervalCadence] {
-            return [
-                .followCustom,
-                .followIframe,
-                .followSegmentation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .followCustom: return "FOLLOW_CUSTOM"
-            case .followIframe: return "FOLLOW_IFRAME"
-            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case .variants: return "VARIANTS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9355,7 +9499,7 @@ extension MediaConvertClientTypes {
         public var thumbnailInterval: Swift.Double?
         /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
         public var thumbnailWidth: Swift.Int?
-        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
         public var tileHeight: Swift.Int?
         /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
         public var tileWidth: Swift.Int?
@@ -9795,10 +9939,12 @@ extension MediaConvertClientTypes {
         public var encryption: MediaConvertClientTypes.CmafEncryptionSettings?
         /// Specify the length, in whole seconds, of the mp4 fragments. When you don't specify a value, MediaConvert defaults to 2. Related setting: Use Fragment length control to specify whether the encoder enforces this value strictly.
         public var fragmentLength: Swift.Int?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. When you enable Write HLS manifest, MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest, MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. When you enable Write HLS manifest, MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. When you enable Write DASH manifest, MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public var imageBasedTrickPlay: MediaConvertClientTypes.CmafImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public var imageBasedTrickPlaySettings: MediaConvertClientTypes.CmafImageBasedTrickPlaySettings?
+        /// Specify multiple image-based trick play variants. Each entry creates a separate set of JPEG tile images with its own resolution, tile layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS when using this setting.
+        public var imageBasedTrickPlayVariants: [MediaConvertClientTypes.CmafImageBasedTrickPlayVariant]?
         /// When set to GZIP, compresses HLS playlist.
         public var manifestCompression: MediaConvertClientTypes.CmafManifestCompression?
         /// Indicates whether the output manifest should use floating point values for segment duration.
@@ -9845,6 +9991,7 @@ extension MediaConvertClientTypes {
             fragmentLength: Swift.Int? = nil,
             imageBasedTrickPlay: MediaConvertClientTypes.CmafImageBasedTrickPlay? = nil,
             imageBasedTrickPlaySettings: MediaConvertClientTypes.CmafImageBasedTrickPlaySettings? = nil,
+            imageBasedTrickPlayVariants: [MediaConvertClientTypes.CmafImageBasedTrickPlayVariant]? = nil,
             manifestCompression: MediaConvertClientTypes.CmafManifestCompression? = nil,
             manifestDurationFormat: MediaConvertClientTypes.CmafManifestDurationFormat? = nil,
             minBufferTime: Swift.Int? = nil,
@@ -9874,6 +10021,7 @@ extension MediaConvertClientTypes {
             self.fragmentLength = fragmentLength
             self.imageBasedTrickPlay = imageBasedTrickPlay
             self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
+            self.imageBasedTrickPlayVariants = imageBasedTrickPlayVariants
             self.manifestCompression = manifestCompression
             self.manifestDurationFormat = manifestDurationFormat
             self.minBufferTime = minBufferTime
@@ -10036,12 +10184,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     public enum DashIsoImageBasedTrickPlay: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case advanced
         case `none`
         case thumbnail
         case thumbnailAndFullframe
+        case variants
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashIsoImageBasedTrickPlay] {
@@ -10049,7 +10198,8 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe
+                .thumbnailAndFullframe,
+                .variants
             ]
         }
 
@@ -10064,39 +10214,7 @@ extension MediaConvertClientTypes {
             case .none: return "NONE"
             case .thumbnail: return "THUMBNAIL"
             case .thumbnailAndFullframe: return "THUMBNAIL_AND_FULLFRAME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConvertClientTypes {
-
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
-    public enum DashIsoIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case followCustom
-        case followIframe
-        case followSegmentation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DashIsoIntervalCadence] {
-            return [
-                .followCustom,
-                .followIframe,
-                .followSegmentation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .followCustom: return "FOLLOW_CUSTOM"
-            case .followIframe: return "FOLLOW_IFRAME"
-            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case .variants: return "VARIANTS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10115,7 +10233,7 @@ extension MediaConvertClientTypes {
         public var thumbnailInterval: Swift.Double?
         /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
         public var thumbnailWidth: Swift.Int?
-        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
         public var tileHeight: Swift.Int?
         /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
         public var tileWidth: Swift.Int?
@@ -10375,10 +10493,12 @@ extension MediaConvertClientTypes {
         public var fragmentLength: Swift.Int?
         /// Supports HbbTV specification as indicated
         public var hbbtvCompliance: MediaConvertClientTypes.DashIsoHbbtvCompliance?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. MediaConvert adds an entry in the .mpd manifest for each set of images that you generate. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public var imageBasedTrickPlay: MediaConvertClientTypes.DashIsoImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public var imageBasedTrickPlaySettings: MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings?
+        /// Specify multiple image-based trick play variants. Each entry creates a separate set of JPEG tile images with its own resolution, tile layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS when using this setting.
+        public var imageBasedTrickPlayVariants: [MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant]?
         /// Minimum time of initially buffered media that is needed to ensure smooth playout.
         public var minBufferTime: Swift.Int?
         /// Keep this setting at the default value of 0, unless you are troubleshooting a problem with how devices play back the end of your video asset. If you know that player devices are hanging on the final segment of your video because the length of your final segment is too short, use this setting to specify a minimum final segment length, in seconds. Choose a value that is greater than or equal to 1 and less than your segment length. When you specify a value for this setting, the encoder will combine any final segment that is shorter than the length that you specify with the previous segment. For example, your segment length is 3 seconds and your final segment is .5 seconds without a minimum final segment length; when you set the minimum final segment length to 1, your final segment is 3.5 seconds.
@@ -10413,6 +10533,7 @@ extension MediaConvertClientTypes {
             hbbtvCompliance: MediaConvertClientTypes.DashIsoHbbtvCompliance? = nil,
             imageBasedTrickPlay: MediaConvertClientTypes.DashIsoImageBasedTrickPlay? = nil,
             imageBasedTrickPlaySettings: MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings? = nil,
+            imageBasedTrickPlayVariants: [MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant]? = nil,
             minBufferTime: Swift.Int? = nil,
             minFinalSegmentLength: Swift.Double? = nil,
             mpdManifestBandwidthType: MediaConvertClientTypes.DashIsoMpdManifestBandwidthType? = nil,
@@ -10436,6 +10557,7 @@ extension MediaConvertClientTypes {
             self.hbbtvCompliance = hbbtvCompliance
             self.imageBasedTrickPlay = imageBasedTrickPlay
             self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
+            self.imageBasedTrickPlayVariants = imageBasedTrickPlayVariants
             self.minBufferTime = minBufferTime
             self.minFinalSegmentLength = minFinalSegmentLength
             self.mpdManifestBandwidthType = mpdManifestBandwidthType
@@ -10813,12 +10935,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+    /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     public enum HlsImageBasedTrickPlay: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case advanced
         case `none`
         case thumbnail
         case thumbnailAndFullframe
+        case variants
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HlsImageBasedTrickPlay] {
@@ -10826,7 +10949,8 @@ extension MediaConvertClientTypes {
                 .advanced,
                 .none,
                 .thumbnail,
-                .thumbnailAndFullframe
+                .thumbnailAndFullframe,
+                .variants
             ]
         }
 
@@ -10841,39 +10965,7 @@ extension MediaConvertClientTypes {
             case .none: return "NONE"
             case .thumbnail: return "THUMBNAIL"
             case .thumbnailAndFullframe: return "THUMBNAIL_AND_FULLFRAME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaConvertClientTypes {
-
-    /// The cadence MediaConvert follows for generating thumbnails. If set to FOLLOW_IFRAME, MediaConvert generates thumbnails for each IDR frame in the output (matching the GOP cadence). If set to FOLLOW_CUSTOM, MediaConvert generates thumbnails according to the interval you specify in thumbnailInterval. If set to FOLLOW_SEGMENTATION, MediaConvert generates thumbnail playlist entries that align exactly with video segment boundaries. FOLLOW_SEGMENTATION requires 1x1 tiling.
-    public enum HlsIntervalCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case followCustom
-        case followIframe
-        case followSegmentation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [HlsIntervalCadence] {
-            return [
-                .followCustom,
-                .followIframe,
-                .followSegmentation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .followCustom: return "FOLLOW_CUSTOM"
-            case .followIframe: return "FOLLOW_IFRAME"
-            case .followSegmentation: return "FOLLOW_SEGMENTATION"
+            case .variants: return "VARIANTS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10892,7 +10984,7 @@ extension MediaConvertClientTypes {
         public var thumbnailInterval: Swift.Double?
         /// Width of each thumbnail within each tile image, in pixels. Default is 312. Must be divisible by 8.
         public var thumbnailWidth: Swift.Int?
-        /// Number of thumbnails in each column of a tile image. Set a value between 2 and 2048. Must be divisible by 2.
+        /// Number of thumbnails in each column of a tile image. Set a value between 1 and 2048.
         public var tileHeight: Swift.Int?
         /// Number of thumbnails in each row of a tile image. Set a value between 1 and 512.
         public var tileWidth: Swift.Int?
@@ -11251,10 +11343,12 @@ extension MediaConvertClientTypes {
         public var directoryStructure: MediaConvertClientTypes.HlsDirectoryStructure?
         /// DRM settings.
         public var encryption: MediaConvertClientTypes.HlsEncryptionSettings?
-        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
+        /// Specify whether MediaConvert generates images for trick play. Keep the default value, None, to not generate any images. Choose Thumbnail to generate tiled thumbnails. Choose Thumbnail and full frame to generate tiled thumbnails and full-resolution images of single frames. Choose Advanced to customize thumbnail and tile settings for a single trick play variant. Choose Variants to specify multiple trick play variants, each with its own thumbnail and tile settings. MediaConvert creates a child manifest for each set of images that you generate and adds corresponding entries to the parent manifest. A common application for these images is Roku trick mode. The thumbnails and full-frame images that MediaConvert creates with this feature are compatible with this Roku specification: https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
         public var imageBasedTrickPlay: MediaConvertClientTypes.HlsImageBasedTrickPlay?
         /// Tile and thumbnail settings applicable when imageBasedTrickPlay is ADVANCED
         public var imageBasedTrickPlaySettings: MediaConvertClientTypes.HlsImageBasedTrickPlaySettings?
+        /// Specify multiple image-based trick play variants. Each entry creates a separate set of JPEG tile images with its own resolution, tile layout, and cadence settings. Set imageBasedTrickPlay to VARIANTS when using this setting.
+        public var imageBasedTrickPlayVariants: [MediaConvertClientTypes.HlsImageBasedTrickPlayVariant]?
         /// When set to GZIP, compresses HLS playlist.
         public var manifestCompression: MediaConvertClientTypes.HlsManifestCompression?
         /// Indicates whether the output manifest should use floating point values for segment duration.
@@ -11306,6 +11400,7 @@ extension MediaConvertClientTypes {
             encryption: MediaConvertClientTypes.HlsEncryptionSettings? = nil,
             imageBasedTrickPlay: MediaConvertClientTypes.HlsImageBasedTrickPlay? = nil,
             imageBasedTrickPlaySettings: MediaConvertClientTypes.HlsImageBasedTrickPlaySettings? = nil,
+            imageBasedTrickPlayVariants: [MediaConvertClientTypes.HlsImageBasedTrickPlayVariant]? = nil,
             manifestCompression: MediaConvertClientTypes.HlsManifestCompression? = nil,
             manifestDurationFormat: MediaConvertClientTypes.HlsManifestDurationFormat? = nil,
             minFinalSegmentLength: Swift.Double? = nil,
@@ -11339,6 +11434,7 @@ extension MediaConvertClientTypes {
             self.encryption = encryption
             self.imageBasedTrickPlay = imageBasedTrickPlay
             self.imageBasedTrickPlaySettings = imageBasedTrickPlaySettings
+            self.imageBasedTrickPlayVariants = imageBasedTrickPlayVariants
             self.manifestCompression = manifestCompression
             self.manifestDurationFormat = manifestDurationFormat
             self.minFinalSegmentLength = minFinalSegmentLength
@@ -23019,6 +23115,7 @@ extension MediaConvertClientTypes {
         case avi
         case matroska
         case mp4
+        case mpegps
         case mpegts
         case mxf
         case quicktime
@@ -23031,6 +23128,7 @@ extension MediaConvertClientTypes {
                 .avi,
                 .matroska,
                 .mp4,
+                .mpegps,
                 .mpegts,
                 .mxf,
                 .quicktime,
@@ -23049,6 +23147,7 @@ extension MediaConvertClientTypes {
             case .avi: return "avi"
             case .matroska: return "matroska"
             case .mp4: return "mp4"
+            case .mpegps: return "mpegps"
             case .mpegts: return "mpegts"
             case .mxf: return "mxf"
             case .quicktime: return "quicktime"
@@ -23093,6 +23192,8 @@ extension MediaConvertClientTypes {
         public var frameRate: MediaConvertClientTypes.FrameRate?
         /// The language code of the audio track, in three character ISO 639-3 format.
         public var languageCode: Swift.String?
+        /// The number of audio objects in an object-based or immersive audio track. This field is present for codecs that support object-based audio, such as E-AC-3 with Joint Object Coding (JOC) or IAMF. This field is null when the audio track does not contain object-based audio metadata.
+        public var objectCount: Swift.Int?
         /// The sample rate of the audio track.
         public var sampleRate: Swift.Int?
 
@@ -23102,6 +23203,7 @@ extension MediaConvertClientTypes {
             channels: Swift.Int? = nil,
             frameRate: MediaConvertClientTypes.FrameRate? = nil,
             languageCode: Swift.String? = nil,
+            objectCount: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
         ) {
             self.bitDepth = bitDepth
@@ -23109,6 +23211,7 @@ extension MediaConvertClientTypes {
             self.channels = channels
             self.frameRate = frameRate
             self.languageCode = languageCode
+            self.objectCount = objectCount
             self.sampleRate = sampleRate
         }
     }
@@ -23128,6 +23231,7 @@ extension MediaConvertClientTypes {
         case hevc
         case jpeg2000
         case mjpeg
+        case mp2
         case mp3
         case mp4v
         case mpeg1
@@ -23159,6 +23263,7 @@ extension MediaConvertClientTypes {
                 .hevc,
                 .jpeg2000,
                 .mjpeg,
+                .mp2,
                 .mp3,
                 .mp4v,
                 .mpeg1,
@@ -23196,6 +23301,7 @@ extension MediaConvertClientTypes {
             case .hevc: return "HEVC"
             case .jpeg2000: return "JPEG2000"
             case .mjpeg: return "MJPEG"
+            case .mp2: return "MP2"
             case .mp3: return "MP3"
             case .mp4v: return "MP4V"
             case .mpeg1: return "MPEG1"
@@ -23333,6 +23439,25 @@ extension MediaConvertClientTypes {
             case .unspecified: return "UNSPECIFIED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
+    public struct ContentLightLevel: Swift.Sendable {
+        /// Maximum content light level (MaxCLL), in cd/m².
+        public var maxContentLightLevel: Swift.Int?
+        /// Maximum frame-average light level (MaxFALL), in cd/m².
+        public var maxFrameAverageLightLevel: Swift.Int?
+
+        public init(
+            maxContentLightLevel: Swift.Int? = nil,
+            maxFrameAverageLightLevel: Swift.Int? = nil
+        ) {
+            self.maxContentLightLevel = maxContentLightLevel
+            self.maxFrameAverageLightLevel = maxFrameAverageLightLevel
         }
     }
 }
@@ -23508,6 +23633,8 @@ extension MediaConvertClientTypes {
         public var codedFrameRate: MediaConvertClientTypes.FrameRate?
         /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
+        /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
+        public var contentLightLevel: MediaConvertClientTypes.ContentLightLevel?
         /// The height in pixels as coded by the codec. This represents the actual encoded video height as specified in the video stream headers.
         public var height: Swift.Int?
         /// The codec level or tier that specifies the maximum processing requirements and capabilities. Levels define constraints such as maximum bit rate, frame rate, and resolution.
@@ -23516,6 +23643,8 @@ extension MediaConvertClientTypes {
         public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
         /// The codec profile used to encode the video. Profiles define specific feature sets and capabilities within a codec standard. For example, H.264 profiles include Baseline, Main, and High, each supporting different encoding features and complexity levels.
         public var profile: Swift.String?
+        /// The clockwise rotation angle of the video, in degrees, as specified in the codec bitstream via a Display Orientation SEI message (payload type 47 for both H.264 and H.265). This field is null when the video essence does not contain a Display Orientation SEI message or when the rotation is 0 degrees.
+        public var rotation: Swift.Int?
         /// The scanning method specified in the video essence, indicating whether the video uses progressive or interlaced scanning.
         public var scanType: Swift.String?
         /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
@@ -23528,10 +23657,12 @@ extension MediaConvertClientTypes {
             chromaSubsampling: Swift.String? = nil,
             codedFrameRate: MediaConvertClientTypes.FrameRate? = nil,
             colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
+            contentLightLevel: MediaConvertClientTypes.ContentLightLevel? = nil,
             height: Swift.Int? = nil,
             level: Swift.String? = nil,
             matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
             profile: Swift.String? = nil,
+            rotation: Swift.Int? = nil,
             scanType: Swift.String? = nil,
             transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
             width: Swift.Int? = nil
@@ -23540,13 +23671,85 @@ extension MediaConvertClientTypes {
             self.chromaSubsampling = chromaSubsampling
             self.codedFrameRate = codedFrameRate
             self.colorPrimaries = colorPrimaries
+            self.contentLightLevel = contentLightLevel
             self.height = height
             self.level = level
             self.matrixCoefficients = matrixCoefficients
             self.profile = profile
+            self.rotation = rotation
             self.scanType = scanType
             self.transferCharacteristics = transferCharacteristics
             self.width = width
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Mastering display color volume metadata (SMPTE ST 2086). Describes the color volume of the display used to master the content. Chromaticity coordinates are in units of 0.00002. Luminance values are in units of 0.0001 cd/m².
+    public struct MasteringDisplayColorVolume: Swift.Sendable {
+        /// Blue primary chromaticity x coordinate, in units of 0.00002.
+        public var bluePrimaryX: Swift.Int?
+        /// Blue primary chromaticity y coordinate, in units of 0.00002.
+        public var bluePrimaryY: Swift.Int?
+        /// Green primary chromaticity x coordinate, in units of 0.00002.
+        public var greenPrimaryX: Swift.Int?
+        /// Green primary chromaticity y coordinate, in units of 0.00002.
+        public var greenPrimaryY: Swift.Int?
+        /// Maximum display mastering luminance, in units of 0.0001 cd/m².
+        public var maxLuminance: Swift.Int?
+        /// Minimum display mastering luminance, in units of 0.0001 cd/m².
+        public var minLuminance: Swift.Int?
+        /// Red primary chromaticity x coordinate, in units of 0.00002.
+        public var redPrimaryX: Swift.Int?
+        /// Red primary chromaticity y coordinate, in units of 0.00002.
+        public var redPrimaryY: Swift.Int?
+        /// White point chromaticity x coordinate, in units of 0.00002.
+        public var whitePointX: Swift.Int?
+        /// White point chromaticity y coordinate, in units of 0.00002.
+        public var whitePointY: Swift.Int?
+
+        public init(
+            bluePrimaryX: Swift.Int? = nil,
+            bluePrimaryY: Swift.Int? = nil,
+            greenPrimaryX: Swift.Int? = nil,
+            greenPrimaryY: Swift.Int? = nil,
+            maxLuminance: Swift.Int? = nil,
+            minLuminance: Swift.Int? = nil,
+            redPrimaryX: Swift.Int? = nil,
+            redPrimaryY: Swift.Int? = nil,
+            whitePointX: Swift.Int? = nil,
+            whitePointY: Swift.Int? = nil
+        ) {
+            self.bluePrimaryX = bluePrimaryX
+            self.bluePrimaryY = bluePrimaryY
+            self.greenPrimaryX = greenPrimaryX
+            self.greenPrimaryY = greenPrimaryY
+            self.maxLuminance = maxLuminance
+            self.minLuminance = minLuminance
+            self.redPrimaryX = redPrimaryX
+            self.redPrimaryY = redPrimaryY
+            self.whitePointX = whitePointX
+            self.whitePointY = whitePointY
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// HDR (High Dynamic Range) metadata extracted from the container, including mastering display color volume and content light level information. This metadata is present in HDR10 and similar HDR content.
+    public struct HdrMetadata: Swift.Sendable {
+        /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
+        public var contentLightLevel: MediaConvertClientTypes.ContentLightLevel?
+        /// Mastering display color volume metadata (SMPTE ST 2086). Describes the color volume of the display used to master the content. Chromaticity coordinates are in units of 0.00002. Luminance values are in units of 0.0001 cd/m².
+        public var masteringDisplayColorVolume: MediaConvertClientTypes.MasteringDisplayColorVolume?
+
+        public init(
+            contentLightLevel: MediaConvertClientTypes.ContentLightLevel? = nil,
+            masteringDisplayColorVolume: MediaConvertClientTypes.MasteringDisplayColorVolume? = nil
+        ) {
+            self.contentLightLevel = contentLightLevel
+            self.masteringDisplayColorVolume = masteringDisplayColorVolume
         }
     }
 }
@@ -23565,10 +23768,14 @@ extension MediaConvertClientTypes {
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
         /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public var frameRate: MediaConvertClientTypes.FrameRate?
+        /// HDR (High Dynamic Range) metadata extracted from the container, including mastering display color volume and content light level information. This metadata is present in HDR10 and similar HDR content.
+        public var hdrMetadata: MediaConvertClientTypes.HdrMetadata?
         /// The height of the video track, in pixels.
         public var height: Swift.Int?
         /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
         public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
+        /// The clockwise rotation angle of the video track, in degrees, as derived from container-level metadata (e.g. the MP4 tkhd transformation matrix or the Matroska ProjectionPoseRoll element). Common values are 90, 180, and 270. This field is null when no rotation metadata is present or when the rotation is 0 degrees. For MP4, non-standard transformation matrices also yield null.
+        public var rotation: Swift.Int?
         /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
         public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
         /// The width of the video track, in pixels.
@@ -23580,8 +23787,10 @@ extension MediaConvertClientTypes {
             codecMetadata: MediaConvertClientTypes.CodecMetadata? = nil,
             colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
             frameRate: MediaConvertClientTypes.FrameRate? = nil,
+            hdrMetadata: MediaConvertClientTypes.HdrMetadata? = nil,
             height: Swift.Int? = nil,
             matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
+            rotation: Swift.Int? = nil,
             transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
             width: Swift.Int? = nil
         ) {
@@ -23590,8 +23799,10 @@ extension MediaConvertClientTypes {
             self.codecMetadata = codecMetadata
             self.colorPrimaries = colorPrimaries
             self.frameRate = frameRate
+            self.hdrMetadata = hdrMetadata
             self.height = height
             self.matrixCoefficients = matrixCoefficients
+            self.rotation = rotation
             self.transferCharacteristics = transferCharacteristics
             self.width = width
         }
@@ -23643,7 +23854,7 @@ extension MediaConvertClientTypes {
     public struct Container: Swift.Sendable {
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, or MPEG-TS. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, or MPEG-PS. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
         public var startTimecode: Swift.String?
@@ -27624,6 +27835,7 @@ extension MediaConvertClientTypes.AudioProperties {
         value.channels = try reader["channels"].readIfPresent()
         value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
         value.languageCode = try reader["languageCode"].readIfPresent()
+        value.objectCount = try reader["objectCount"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
         return value
     }
@@ -28150,7 +28362,7 @@ extension MediaConvertClientTypes.CmafEncryptionSettings {
 
     static func write(value: MediaConvertClientTypes.CmafEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clearLead"].write(value.clearLead)
+        try writer["clearLeadSegments"].write(value.clearLeadSegments)
         try writer["constantInitializationVector"].write(value.constantInitializationVector)
         try writer["encryptionMethod"].write(value.encryptionMethod)
         try writer["initializationVectorInManifest"].write(value.initializationVectorInManifest)
@@ -28162,7 +28374,7 @@ extension MediaConvertClientTypes.CmafEncryptionSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CmafEncryptionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.CmafEncryptionSettings()
-        value.clearLead = try reader["clearLead"].readIfPresent()
+        value.clearLeadSegments = try reader["clearLeadSegments"].readIfPresent()
         value.constantInitializationVector = try reader["constantInitializationVector"].readIfPresent()
         value.encryptionMethod = try reader["encryptionMethod"].readIfPresent()
         value.initializationVectorInManifest = try reader["initializationVectorInManifest"].readIfPresent()
@@ -28189,6 +28401,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         try writer["fragmentLength"].write(value.fragmentLength)
         try writer["imageBasedTrickPlay"].write(value.imageBasedTrickPlay)
         try writer["imageBasedTrickPlaySettings"].write(value.imageBasedTrickPlaySettings, with: MediaConvertClientTypes.CmafImageBasedTrickPlaySettings.write(value:to:))
+        try writer["imageBasedTrickPlayVariants"].writeList(value.imageBasedTrickPlayVariants, memberWritingClosure: MediaConvertClientTypes.CmafImageBasedTrickPlayVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["manifestCompression"].write(value.manifestCompression)
         try writer["manifestDurationFormat"].write(value.manifestDurationFormat)
         try writer["minBufferTime"].write(value.minBufferTime)
@@ -28222,6 +28435,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         value.fragmentLength = try reader["fragmentLength"].readIfPresent()
         value.imageBasedTrickPlay = try reader["imageBasedTrickPlay"].readIfPresent()
         value.imageBasedTrickPlaySettings = try reader["imageBasedTrickPlaySettings"].readIfPresent(with: MediaConvertClientTypes.CmafImageBasedTrickPlaySettings.read(from:))
+        value.imageBasedTrickPlayVariants = try reader["imageBasedTrickPlayVariants"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.CmafImageBasedTrickPlayVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.manifestCompression = try reader["manifestCompression"].readIfPresent()
         value.manifestDurationFormat = try reader["manifestDurationFormat"].readIfPresent()
         value.minBufferTime = try reader["minBufferTime"].readIfPresent()
@@ -28257,6 +28471,31 @@ extension MediaConvertClientTypes.CmafImageBasedTrickPlaySettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CmafImageBasedTrickPlaySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.CmafImageBasedTrickPlaySettings()
+        value.intervalCadence = try reader["intervalCadence"].readIfPresent()
+        value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
+        value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
+        value.thumbnailWidth = try reader["thumbnailWidth"].readIfPresent()
+        value.tileHeight = try reader["tileHeight"].readIfPresent()
+        value.tileWidth = try reader["tileWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.CmafImageBasedTrickPlayVariant {
+
+    static func write(value: MediaConvertClientTypes.CmafImageBasedTrickPlayVariant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intervalCadence"].write(value.intervalCadence)
+        try writer["thumbnailHeight"].write(value.thumbnailHeight)
+        try writer["thumbnailInterval"].write(value.thumbnailInterval)
+        try writer["thumbnailWidth"].write(value.thumbnailWidth)
+        try writer["tileHeight"].write(value.tileHeight)
+        try writer["tileWidth"].write(value.tileWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CmafImageBasedTrickPlayVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.CmafImageBasedTrickPlayVariant()
         value.intervalCadence = try reader["intervalCadence"].readIfPresent()
         value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
         value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
@@ -28323,10 +28562,12 @@ extension MediaConvertClientTypes.CodecMetadata {
         value.chromaSubsampling = try reader["chromaSubsampling"].readIfPresent()
         value.codedFrameRate = try reader["codedFrameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
         value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
+        value.contentLightLevel = try reader["contentLightLevel"].readIfPresent(with: MediaConvertClientTypes.ContentLightLevel.read(from:))
         value.height = try reader["height"].readIfPresent()
         value.level = try reader["level"].readIfPresent()
         value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
         value.profile = try reader["profile"].readIfPresent()
+        value.rotation = try reader["rotation"].readIfPresent()
         value.scanType = try reader["scanType"].readIfPresent()
         value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
@@ -28436,6 +28677,17 @@ extension MediaConvertClientTypes.ContainerSettings {
     }
 }
 
+extension MediaConvertClientTypes.ContentLightLevel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ContentLightLevel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ContentLightLevel()
+        value.maxContentLightLevel = try reader["maxContentLightLevel"].readIfPresent()
+        value.maxFrameAverageLightLevel = try reader["maxFrameAverageLightLevel"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.DashAdditionalManifest {
 
     static func write(value: MediaConvertClientTypes.DashAdditionalManifest?, to writer: SmithyJSON.Writer) throws {
@@ -28486,6 +28738,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         try writer["hbbtvCompliance"].write(value.hbbtvCompliance)
         try writer["imageBasedTrickPlay"].write(value.imageBasedTrickPlay)
         try writer["imageBasedTrickPlaySettings"].write(value.imageBasedTrickPlaySettings, with: MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings.write(value:to:))
+        try writer["imageBasedTrickPlayVariants"].writeList(value.imageBasedTrickPlayVariants, memberWritingClosure: MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minBufferTime"].write(value.minBufferTime)
         try writer["minFinalSegmentLength"].write(value.minFinalSegmentLength)
         try writer["mpdManifestBandwidthType"].write(value.mpdManifestBandwidthType)
@@ -28513,6 +28766,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         value.hbbtvCompliance = try reader["hbbtvCompliance"].readIfPresent()
         value.imageBasedTrickPlay = try reader["imageBasedTrickPlay"].readIfPresent()
         value.imageBasedTrickPlaySettings = try reader["imageBasedTrickPlaySettings"].readIfPresent(with: MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings.read(from:))
+        value.imageBasedTrickPlayVariants = try reader["imageBasedTrickPlayVariants"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.minBufferTime = try reader["minBufferTime"].readIfPresent()
         value.minFinalSegmentLength = try reader["minFinalSegmentLength"].readIfPresent()
         value.mpdManifestBandwidthType = try reader["mpdManifestBandwidthType"].readIfPresent()
@@ -28542,6 +28796,31 @@ extension MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.DashIsoImageBasedTrickPlaySettings()
+        value.intervalCadence = try reader["intervalCadence"].readIfPresent()
+        value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
+        value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
+        value.thumbnailWidth = try reader["thumbnailWidth"].readIfPresent()
+        value.tileHeight = try reader["tileHeight"].readIfPresent()
+        value.tileWidth = try reader["tileWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant {
+
+    static func write(value: MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intervalCadence"].write(value.intervalCadence)
+        try writer["thumbnailHeight"].write(value.thumbnailHeight)
+        try writer["thumbnailInterval"].write(value.thumbnailInterval)
+        try writer["thumbnailWidth"].write(value.thumbnailWidth)
+        try writer["tileHeight"].write(value.tileHeight)
+        try writer["tileWidth"].write(value.tileWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DashIsoImageBasedTrickPlayVariant()
         value.intervalCadence = try reader["intervalCadence"].readIfPresent()
         value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
         value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
@@ -29521,6 +29800,17 @@ extension MediaConvertClientTypes.Hdr10Plus {
     }
 }
 
+extension MediaConvertClientTypes.HdrMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HdrMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.HdrMetadata()
+        value.contentLightLevel = try reader["contentLightLevel"].readIfPresent(with: MediaConvertClientTypes.ContentLightLevel.read(from:))
+        value.masteringDisplayColorVolume = try reader["masteringDisplayColorVolume"].readIfPresent(with: MediaConvertClientTypes.MasteringDisplayColorVolume.read(from:))
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.HlsAdditionalManifest {
 
     static func write(value: MediaConvertClientTypes.HlsAdditionalManifest?, to writer: SmithyJSON.Writer) throws {
@@ -29605,6 +29895,7 @@ extension MediaConvertClientTypes.HlsGroupSettings {
         try writer["encryption"].write(value.encryption, with: MediaConvertClientTypes.HlsEncryptionSettings.write(value:to:))
         try writer["imageBasedTrickPlay"].write(value.imageBasedTrickPlay)
         try writer["imageBasedTrickPlaySettings"].write(value.imageBasedTrickPlaySettings, with: MediaConvertClientTypes.HlsImageBasedTrickPlaySettings.write(value:to:))
+        try writer["imageBasedTrickPlayVariants"].writeList(value.imageBasedTrickPlayVariants, memberWritingClosure: MediaConvertClientTypes.HlsImageBasedTrickPlayVariant.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["manifestCompression"].write(value.manifestCompression)
         try writer["manifestDurationFormat"].write(value.manifestDurationFormat)
         try writer["minFinalSegmentLength"].write(value.minFinalSegmentLength)
@@ -29642,6 +29933,7 @@ extension MediaConvertClientTypes.HlsGroupSettings {
         value.encryption = try reader["encryption"].readIfPresent(with: MediaConvertClientTypes.HlsEncryptionSettings.read(from:))
         value.imageBasedTrickPlay = try reader["imageBasedTrickPlay"].readIfPresent()
         value.imageBasedTrickPlaySettings = try reader["imageBasedTrickPlaySettings"].readIfPresent(with: MediaConvertClientTypes.HlsImageBasedTrickPlaySettings.read(from:))
+        value.imageBasedTrickPlayVariants = try reader["imageBasedTrickPlayVariants"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HlsImageBasedTrickPlayVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.manifestCompression = try reader["manifestCompression"].readIfPresent()
         value.manifestDurationFormat = try reader["manifestDurationFormat"].readIfPresent()
         value.minFinalSegmentLength = try reader["minFinalSegmentLength"].readIfPresent()
@@ -29678,6 +29970,31 @@ extension MediaConvertClientTypes.HlsImageBasedTrickPlaySettings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsImageBasedTrickPlaySettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.HlsImageBasedTrickPlaySettings()
+        value.intervalCadence = try reader["intervalCadence"].readIfPresent()
+        value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
+        value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
+        value.thumbnailWidth = try reader["thumbnailWidth"].readIfPresent()
+        value.tileHeight = try reader["tileHeight"].readIfPresent()
+        value.tileWidth = try reader["tileWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.HlsImageBasedTrickPlayVariant {
+
+    static func write(value: MediaConvertClientTypes.HlsImageBasedTrickPlayVariant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["intervalCadence"].write(value.intervalCadence)
+        try writer["thumbnailHeight"].write(value.thumbnailHeight)
+        try writer["thumbnailInterval"].write(value.thumbnailInterval)
+        try writer["thumbnailWidth"].write(value.thumbnailWidth)
+        try writer["tileHeight"].write(value.tileHeight)
+        try writer["tileWidth"].write(value.tileWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsImageBasedTrickPlayVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.HlsImageBasedTrickPlayVariant()
         value.intervalCadence = try reader["intervalCadence"].readIfPresent()
         value.thumbnailHeight = try reader["thumbnailHeight"].readIfPresent()
         value.thumbnailInterval = try reader["thumbnailInterval"].readIfPresent()
@@ -30437,6 +30754,25 @@ extension MediaConvertClientTypes.M3u8Settings {
         value.timedMetadataPid = try reader["timedMetadataPid"].readIfPresent()
         value.transportStreamId = try reader["transportStreamId"].readIfPresent()
         value.videoPid = try reader["videoPid"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.MasteringDisplayColorVolume {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.MasteringDisplayColorVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.MasteringDisplayColorVolume()
+        value.bluePrimaryX = try reader["bluePrimaryX"].readIfPresent()
+        value.bluePrimaryY = try reader["bluePrimaryY"].readIfPresent()
+        value.greenPrimaryX = try reader["greenPrimaryX"].readIfPresent()
+        value.greenPrimaryY = try reader["greenPrimaryY"].readIfPresent()
+        value.maxLuminance = try reader["maxLuminance"].readIfPresent()
+        value.minLuminance = try reader["minLuminance"].readIfPresent()
+        value.redPrimaryX = try reader["redPrimaryX"].readIfPresent()
+        value.redPrimaryY = try reader["redPrimaryY"].readIfPresent()
+        value.whitePointX = try reader["whitePointX"].readIfPresent()
+        value.whitePointY = try reader["whitePointY"].readIfPresent()
         return value
     }
 }
@@ -32123,8 +32459,10 @@ extension MediaConvertClientTypes.VideoProperties {
         value.codecMetadata = try reader["codecMetadata"].readIfPresent(with: MediaConvertClientTypes.CodecMetadata.read(from:))
         value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
         value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.hdrMetadata = try reader["hdrMetadata"].readIfPresent(with: MediaConvertClientTypes.HdrMetadata.read(from:))
         value.height = try reader["height"].readIfPresent()
         value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
+        value.rotation = try reader["rotation"].readIfPresent()
         value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
         return value
