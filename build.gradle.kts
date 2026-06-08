@@ -29,7 +29,7 @@ tasks.register<JavaExec>("ktlint") {
     description = "Check Kotlin code style."
     group = "Verification"
     classpath = configurations.getByName("ktlint")
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = lintPaths
 }
 
@@ -37,7 +37,7 @@ tasks.register<JavaExec>("ktlintFormat") {
     description = "Auto fix Kotlin code style violations"
     group = "formatting"
     classpath = configurations.getByName("ktlint")
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = listOf("-F") + lintPaths
 }
 
