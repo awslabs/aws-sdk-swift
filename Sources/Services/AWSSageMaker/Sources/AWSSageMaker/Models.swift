@@ -3128,15 +3128,43 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The MLflow tracking configuration for logging metrics and parameters to a SageMaker managed MLflow tracking server.
+    public struct AIMlflowConfig: Swift.Sendable {
+        /// The MLflow experiment name used for tracking.
+        public var mlflowExperimentName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the SageMaker managed MLflow resource.
+        /// This member is required.
+        public var mlflowResourceArn: Swift.String?
+        /// The MLflow run name used for tracking.
+        public var mlflowRunName: Swift.String?
+
+        public init(
+            mlflowExperimentName: Swift.String? = nil,
+            mlflowResourceArn: Swift.String? = nil,
+            mlflowRunName: Swift.String? = nil
+        ) {
+            self.mlflowExperimentName = mlflowExperimentName
+            self.mlflowResourceArn = mlflowResourceArn
+            self.mlflowRunName = mlflowRunName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The output configuration for an AI benchmark job.
     public struct AIBenchmarkOutputConfig: Swift.Sendable {
+        /// The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The Amazon S3 URI where benchmark results are stored.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.s3OutputLocation = s3OutputLocation
         }
     }
@@ -3167,15 +3195,19 @@ extension SageMakerClientTypes {
     public struct AIBenchmarkOutputResult: Swift.Sendable {
         /// The CloudWatch log information for the benchmark job.
         public var cloudWatchLogs: [SageMakerClientTypes.AICloudWatchLogs]?
+        /// The MLflow tracking configuration for the job.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The Amazon S3 URI where benchmark results are stored.
         /// This member is required.
         public var s3OutputLocation: Swift.String?
 
         public init(
             cloudWatchLogs: [SageMakerClientTypes.AICloudWatchLogs]? = nil,
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
             self.cloudWatchLogs = cloudWatchLogs
+            self.mlflowConfig = mlflowConfig
             self.s3OutputLocation = s3OutputLocation
         }
     }
@@ -3867,15 +3899,19 @@ extension SageMakerClientTypes {
 
     /// The output configuration for an AI recommendation job.
     public struct AIRecommendationOutputConfig: Swift.Sendable {
+        /// The MLflow tracking configuration for the job. If you don't specify this parameter, MLflow tracking is disabled.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The name or Amazon Resource Name (ARN) of the model package group where the optimized model is registered as a new model package version.
         public var modelPackageGroupIdentifier: Swift.String?
         /// The Amazon S3 URI where recommendation results are stored.
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             modelPackageGroupIdentifier: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.modelPackageGroupIdentifier = modelPackageGroupIdentifier
             self.s3OutputLocation = s3OutputLocation
         }
@@ -3886,6 +3922,8 @@ extension SageMakerClientTypes {
 
     /// The output configuration for an AI recommendation job, including the S3 location for results and the model package group for deployment.
     public struct AIRecommendationOutputResult: Swift.Sendable {
+        /// The MLflow tracking configuration for the job.
+        public var mlflowConfig: SageMakerClientTypes.AIMlflowConfig?
         /// The name or Amazon Resource Name (ARN) of the model package group where deployment-ready model packages are registered.
         public var modelPackageGroupIdentifier: Swift.String?
         /// The Amazon S3 URI where the recommendation job writes its output results.
@@ -3893,9 +3931,11 @@ extension SageMakerClientTypes {
         public var s3OutputLocation: Swift.String?
 
         public init(
+            mlflowConfig: SageMakerClientTypes.AIMlflowConfig? = nil,
             modelPackageGroupIdentifier: Swift.String? = nil,
             s3OutputLocation: Swift.String? = nil
         ) {
+            self.mlflowConfig = mlflowConfig
             self.modelPackageGroupIdentifier = modelPackageGroupIdentifier
             self.s3OutputLocation = s3OutputLocation
         }

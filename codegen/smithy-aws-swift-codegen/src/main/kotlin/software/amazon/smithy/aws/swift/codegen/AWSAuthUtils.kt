@@ -82,6 +82,8 @@ open class AWSAuthUtils(
         }
     }
 
+    override val useSmithySigV4: Boolean = false
+
     override fun addAdditionalSchemes(
         writer: SwiftWriter,
         authSchemeList: MutableList<String>,
