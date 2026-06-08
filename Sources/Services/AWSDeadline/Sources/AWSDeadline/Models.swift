@@ -817,6 +817,8 @@ public struct AssociateMemberToFarmInput: Swift.Sendable {
     /// The ID of the farm to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+    public var identityCenterRegion: Swift.String?
     /// The identity store ID of the member to associate with the farm.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -832,12 +834,14 @@ public struct AssociateMemberToFarmInput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
         principalId: Swift.String? = nil,
         principalType: DeadlineClientTypes.DeadlinePrincipalType? = nil
     ) {
         self.farmId = farmId
+        self.identityCenterRegion = identityCenterRegion
         self.identityStoreId = identityStoreId
         self.membershipLevel = membershipLevel
         self.principalId = principalId
@@ -858,6 +862,8 @@ public struct AssociateMemberToFleetInput: Swift.Sendable {
     /// The ID of the fleet to associate with a member.
     /// This member is required.
     public var fleetId: Swift.String?
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+    public var identityCenterRegion: Swift.String?
     /// The member's identity store ID to associate with the fleet.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -874,6 +880,7 @@ public struct AssociateMemberToFleetInput: Swift.Sendable {
     public init(
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
         principalId: Swift.String? = nil,
@@ -881,6 +888,7 @@ public struct AssociateMemberToFleetInput: Swift.Sendable {
     ) {
         self.farmId = farmId
         self.fleetId = fleetId
+        self.identityCenterRegion = identityCenterRegion
         self.identityStoreId = identityStoreId
         self.membershipLevel = membershipLevel
         self.principalId = principalId
@@ -898,6 +906,8 @@ public struct AssociateMemberToJobInput: Swift.Sendable {
     /// The farm ID of the job to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+    public var identityCenterRegion: Swift.String?
     /// The member's identity store ID to associate with the job.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -919,6 +929,7 @@ public struct AssociateMemberToJobInput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
@@ -927,6 +938,7 @@ public struct AssociateMemberToJobInput: Swift.Sendable {
         queueId: Swift.String? = nil
     ) {
         self.farmId = farmId
+        self.identityCenterRegion = identityCenterRegion
         self.identityStoreId = identityStoreId
         self.jobId = jobId
         self.membershipLevel = membershipLevel
@@ -946,6 +958,8 @@ public struct AssociateMemberToQueueInput: Swift.Sendable {
     /// The farm ID of the queue to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+    public var identityCenterRegion: Swift.String?
     /// The member's identity store ID to associate with the queue.
     /// This member is required.
     public var identityStoreId: Swift.String?
@@ -964,6 +978,7 @@ public struct AssociateMemberToQueueInput: Swift.Sendable {
 
     public init(
         farmId: Swift.String? = nil,
+        identityCenterRegion: Swift.String? = nil,
         identityStoreId: Swift.String? = nil,
         membershipLevel: DeadlineClientTypes.MembershipLevel? = nil,
         principalId: Swift.String? = nil,
@@ -971,6 +986,7 @@ public struct AssociateMemberToQueueInput: Swift.Sendable {
         queueId: Swift.String? = nil
     ) {
         self.farmId = farmId
+        self.identityCenterRegion = identityCenterRegion
         self.identityStoreId = identityStoreId
         self.membershipLevel = membershipLevel
         self.principalId = principalId
@@ -16577,6 +16593,7 @@ extension AssociateMemberToFarmInput {
 
     static func write(value: AssociateMemberToFarmInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["identityStoreId"].write(value.identityStoreId)
         try writer["membershipLevel"].write(value.membershipLevel)
         try writer["principalType"].write(value.principalType)
@@ -16587,6 +16604,7 @@ extension AssociateMemberToFleetInput {
 
     static func write(value: AssociateMemberToFleetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["identityStoreId"].write(value.identityStoreId)
         try writer["membershipLevel"].write(value.membershipLevel)
         try writer["principalType"].write(value.principalType)
@@ -16597,6 +16615,7 @@ extension AssociateMemberToJobInput {
 
     static func write(value: AssociateMemberToJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["identityStoreId"].write(value.identityStoreId)
         try writer["membershipLevel"].write(value.membershipLevel)
         try writer["principalType"].write(value.principalType)
@@ -16607,6 +16626,7 @@ extension AssociateMemberToQueueInput {
 
     static func write(value: AssociateMemberToQueueInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["identityCenterRegion"].write(value.identityCenterRegion)
         try writer["identityStoreId"].write(value.identityStoreId)
         try writer["membershipLevel"].write(value.membershipLevel)
         try writer["principalType"].write(value.principalType)
