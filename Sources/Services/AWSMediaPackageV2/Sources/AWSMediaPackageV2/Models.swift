@@ -1263,6 +1263,35 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum DashAudioTimelinePattern: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case patterned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashAudioTimelinePattern] {
+            return [
+                .none,
+                .patterned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .patterned: return "PATTERNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). Use this configuration to set a custom availability start time for your DASH manifest.
     public enum DashAvailabilityStartTimeConfiguration: Swift.Sendable {
         /// The fixed availability start time for the DASH manifest, in ISO 8601 date-time format. The value must have hourly granularity, meaning that the minutes, seconds, and fractional seconds must be zero. The value must be on or after 2024-01-01T00:00:00Z and must be at least 14 days before the current time.
@@ -1774,6 +1803,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Create a DASH manifest configuration.
     public struct CreateDashManifestConfiguration: Swift.Sendable {
+        /// How MediaPackage represents the audio timeline in the DASH manifest. This setting applies DASH Segment Duration Patternization, as defined in the MPEG-DASH specification, to audio adaptation sets. When set to PATTERNED, MediaPackage uses a pattern-based segment template for audio, which reduces manifest size by expressing repeating segment durations as a pattern instead of listing each segment individually. When set to NONE, the manifest contains an explicit timeline that lists each audio segment. Valid values: NONE | PATTERNED For information about audio timeline patterns, see [DASH audio timeline pattern](https://docs.aws.amazon.com/mediapackage/latest/userguide/dash-audio-timeline-pattern.html) in the Elemental MediaPackage v2 User Guide.
+        public var audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
         public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URLs to use for retrieving segments.
@@ -1817,6 +1848,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern? = nil,
             availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
@@ -1837,6 +1869,7 @@ extension MediaPackageV2ClientTypes {
             uriPathType: MediaPackageV2ClientTypes.UriPathType? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
@@ -2528,7 +2561,9 @@ extension MediaPackageV2ClientTypes {
     public enum ScteFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alternateContentOpportunity
         case `break`
+        case callAdServer
         case chapter
+        case contentIdentification
         case distributorAdvertisement
         case distributorAdBlock
         case distributorOverlayPlacementOpportunity
@@ -2549,7 +2584,9 @@ extension MediaPackageV2ClientTypes {
             return [
                 .alternateContentOpportunity,
                 .break,
+                .callAdServer,
                 .chapter,
+                .contentIdentification,
                 .distributorAdvertisement,
                 .distributorAdBlock,
                 .distributorOverlayPlacementOpportunity,
@@ -2576,7 +2613,9 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .alternateContentOpportunity: return "ALTERNATE_CONTENT_OPPORTUNITY"
             case .break: return "BREAK"
+            case .callAdServer: return "CALL_AD_SERVER"
             case .chapter: return "CHAPTER"
+            case .contentIdentification: return "CONTENT_IDENTIFICATION"
             case .distributorAdvertisement: return "DISTRIBUTOR_ADVERTISEMENT"
             case .distributorAdBlock: return "DISTRIBUTOR_AD_BLOCK"
             case .distributorOverlayPlacementOpportunity: return "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
@@ -2805,6 +2844,8 @@ extension MediaPackageV2ClientTypes {
 
     /// Retrieve the DASH manifest configuration.
     public struct GetDashManifestConfiguration: Swift.Sendable {
+        /// How MediaPackage represents the audio timeline in the DASH manifest, using DASH Segment Duration Patternization for audio adaptation sets. PATTERNED indicates that MediaPackage uses a pattern-based segment template for audio, reducing manifest size. NONE indicates that the manifest contains an explicit timeline for each audio segment.
+        public var audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern?
         /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
         public var availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration?
         /// The base URL to use for retrieving segments.
@@ -2851,6 +2892,7 @@ extension MediaPackageV2ClientTypes {
         public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
 
         public init(
+            audioTimelinePattern: MediaPackageV2ClientTypes.DashAudioTimelinePattern? = nil,
             availabilityStartTimeConfiguration: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration? = nil,
             baseUrls: [MediaPackageV2ClientTypes.DashBaseUrl]? = nil,
             compactness: MediaPackageV2ClientTypes.DashCompactness? = nil,
@@ -2872,6 +2914,7 @@ extension MediaPackageV2ClientTypes {
             url: Swift.String? = nil,
             utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
         ) {
+            self.audioTimelinePattern = audioTimelinePattern
             self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
@@ -6586,6 +6629,7 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.CreateDashManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AudioTimelinePattern"].write(value.audioTimelinePattern)
         try writer["AvailabilityStartTimeConfiguration"].write(value.availabilityStartTimeConfiguration, with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.write(value:to:))
         try writer["BaseUrls"].writeList(value.baseUrls, memberWritingClosure: MediaPackageV2ClientTypes.DashBaseUrl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Compactness"].write(value.compactness)
@@ -6955,6 +6999,7 @@ extension MediaPackageV2ClientTypes.GetDashManifestConfiguration {
         value.programInformation = try reader["ProgramInformation"].readIfPresent(with: MediaPackageV2ClientTypes.DashProgramInformation.read(from:))
         value.dvbSettings = try reader["DvbSettings"].readIfPresent(with: MediaPackageV2ClientTypes.DashDvbSettings.read(from:))
         value.compactness = try reader["Compactness"].readIfPresent()
+        value.audioTimelinePattern = try reader["AudioTimelinePattern"].readIfPresent()
         value.subtitleConfiguration = try reader["SubtitleConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.read(from:))
         value.uriPathType = try reader["UriPathType"].readIfPresent()
         value.availabilityStartTimeConfiguration = try reader["AvailabilityStartTimeConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.DashAvailabilityStartTimeConfiguration.read(from:))

@@ -444,12 +444,45 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration for backing up centralized metrics data to a secondary region.
+    public struct MetricsBackupConfiguration: Swift.Sendable {
+        /// Metrics specific backup destination region within the primary destination account to which metrics data should be centralized.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            region: Swift.String? = nil
+        ) {
+            self.region = region
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration for centralization destination metrics, including backup settings.
+    public struct DestinationMetricsConfiguration: Swift.Sendable {
+        /// Configuration defining the backup region for the metrics backup destination.
+        public var backupConfiguration: ObservabilityAdminClientTypes.MetricsBackupConfiguration?
+
+        public init(
+            backupConfiguration: ObservabilityAdminClientTypes.MetricsBackupConfiguration? = nil
+        ) {
+            self.backupConfiguration = backupConfiguration
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration specifying the primary destination for centralized telemetry data.
     public struct CentralizationRuleDestination: Swift.Sendable {
         /// The destination account (within the organization) to which the telemetry data should be centralized.
         public var account: Swift.String?
         /// Log specific configuration for centralization destination log groups.
         public var destinationLogsConfiguration: ObservabilityAdminClientTypes.DestinationLogsConfiguration?
+        /// Metric specific configuration for centralization destination metrics.
+        public var destinationMetricsConfiguration: ObservabilityAdminClientTypes.DestinationMetricsConfiguration?
         /// The primary destination region to which telemetry data should be centralized.
         /// This member is required.
         public var region: Swift.String?
@@ -457,10 +490,12 @@ extension ObservabilityAdminClientTypes {
         public init(
             account: Swift.String? = nil,
             destinationLogsConfiguration: ObservabilityAdminClientTypes.DestinationLogsConfiguration? = nil,
+            destinationMetricsConfiguration: ObservabilityAdminClientTypes.DestinationMetricsConfiguration? = nil,
             region: Swift.String? = nil
         ) {
             self.account = account
             self.destinationLogsConfiguration = destinationLogsConfiguration
+            self.destinationMetricsConfiguration = destinationMetricsConfiguration
             self.region = region
         }
     }
@@ -521,6 +556,21 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Configuration for selecting source metrics for centralization.
+    public struct SourceMetricsConfiguration: Swift.Sendable {
+        /// The filter expression that selects which source metrics to centralize. Currently, only * (all metrics) is supported. Other values return a validation error.
+        public var metricsSelectionCriteria: Swift.String?
+
+        public init(
+            metricsSelectionCriteria: Swift.String? = nil
+        ) {
+            self.metricsSelectionCriteria = metricsSelectionCriteria
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration specifying the source of telemetry data to be centralized.
     public struct CentralizationRuleSource: Swift.Sendable {
         /// The list of source regions from which telemetry data should be centralized.
@@ -530,15 +580,19 @@ extension ObservabilityAdminClientTypes {
         public var scope: Swift.String?
         /// Log specific configuration for centralization source log groups.
         public var sourceLogsConfiguration: ObservabilityAdminClientTypes.SourceLogsConfiguration?
+        /// Metric specific configuration for centralization source metrics.
+        public var sourceMetricsConfiguration: ObservabilityAdminClientTypes.SourceMetricsConfiguration?
 
         public init(
             regions: [Swift.String]? = nil,
             scope: Swift.String? = nil,
-            sourceLogsConfiguration: ObservabilityAdminClientTypes.SourceLogsConfiguration? = nil
+            sourceLogsConfiguration: ObservabilityAdminClientTypes.SourceLogsConfiguration? = nil,
+            sourceMetricsConfiguration: ObservabilityAdminClientTypes.SourceMetricsConfiguration? = nil
         ) {
             self.regions = regions
             self.scope = scope
             self.sourceLogsConfiguration = sourceLogsConfiguration
+            self.sourceMetricsConfiguration = sourceMetricsConfiguration
         }
     }
 }
@@ -5219,6 +5273,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
         guard let value else { return }
         try writer["Account"].write(value.account)
         try writer["DestinationLogsConfiguration"].write(value.destinationLogsConfiguration, with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.write(value:to:))
+        try writer["DestinationMetricsConfiguration"].write(value.destinationMetricsConfiguration, with: ObservabilityAdminClientTypes.DestinationMetricsConfiguration.write(value:to:))
         try writer["Region"].write(value.region)
     }
 
@@ -5228,6 +5283,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleDestination {
         value.region = try reader["Region"].readIfPresent() ?? ""
         value.account = try reader["Account"].readIfPresent()
         value.destinationLogsConfiguration = try reader["DestinationLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationLogsConfiguration.read(from:))
+        value.destinationMetricsConfiguration = try reader["DestinationMetricsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.DestinationMetricsConfiguration.read(from:))
         return value
     }
 }
@@ -5239,6 +5295,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSource {
         try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Scope"].write(value.scope)
         try writer["SourceLogsConfiguration"].write(value.sourceLogsConfiguration, with: ObservabilityAdminClientTypes.SourceLogsConfiguration.write(value:to:))
+        try writer["SourceMetricsConfiguration"].write(value.sourceMetricsConfiguration, with: ObservabilityAdminClientTypes.SourceMetricsConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.CentralizationRuleSource {
@@ -5247,6 +5304,7 @@ extension ObservabilityAdminClientTypes.CentralizationRuleSource {
         value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.scope = try reader["Scope"].readIfPresent()
         value.sourceLogsConfiguration = try reader["SourceLogsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceLogsConfiguration.read(from:))
+        value.sourceMetricsConfiguration = try reader["SourceMetricsConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.SourceMetricsConfiguration.read(from:))
         return value
     }
 }
@@ -5342,6 +5400,21 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         value.logsEncryptionConfiguration = try reader["LogsEncryptionConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.read(from:))
         value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
         value.logGroupNameConfiguration = try reader["LogGroupNameConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.DestinationMetricsConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.DestinationMetricsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.MetricsBackupConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.DestinationMetricsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.DestinationMetricsConfiguration()
+        value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.MetricsBackupConfiguration.read(from:))
         return value
     }
 }
@@ -5529,6 +5602,21 @@ extension ObservabilityAdminClientTypes.LogsEncryptionConfiguration {
     }
 }
 
+extension ObservabilityAdminClientTypes.MetricsBackupConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.MetricsBackupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.MetricsBackupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.MetricsBackupConfiguration()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ObservabilityAdminClientTypes.MskMonitoringParameters {
 
     static func write(value: ObservabilityAdminClientTypes.MskMonitoringParameters?, to writer: SmithyJSON.Writer) throws {
@@ -5635,6 +5723,21 @@ extension ObservabilityAdminClientTypes.SourceLogsConfiguration {
         value.logGroupSelectionCriteria = try reader["LogGroupSelectionCriteria"].readIfPresent() ?? "*"
         value.dataSourceSelectionCriteria = try reader["DataSourceSelectionCriteria"].readIfPresent()
         value.encryptedLogGroupStrategy = try reader["EncryptedLogGroupStrategy"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.SourceMetricsConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.SourceMetricsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricsSelectionCriteria"].write(value.metricsSelectionCriteria)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.SourceMetricsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.SourceMetricsConfiguration()
+        value.metricsSelectionCriteria = try reader["MetricsSelectionCriteria"].readIfPresent()
         return value
     }
 }

@@ -3022,15 +3022,31 @@ extension ComputeOptimizerClientTypes {
         case savingsOpportunityAfterDiscount
         case tags
         case utilizationMetricsActiveConnectionCountMaximum
+        case utilizationMetricsCacheHitsSum
+        case utilizationMetricsCacheMissesSum
+        case utilizationMetricsConsumedReadCapacityUnitsSum
+        case utilizationMetricsConsumedWriteCapacityUnitsSum
         case utilizationMetricsCpuMaximum
+        case utilizationMetricsCurrConnectionsSum
         case utilizationMetricsDatabaseConnectionsMaximum
+        case utilizationMetricsDatabaseConnectionsSum
         case utilizationMetricsEbsVolumeReadIopsMaximum
         case utilizationMetricsEbsVolumeWriteIopsMaximum
+        case utilizationMetricsElastiCacheProcessingUnitsSum
+        case utilizationMetricsEngineCpuUtilizationMaximum
+        case utilizationMetricsGetTypeCmdsSum
+        case utilizationMetricsInvocationsSum
+        case utilizationMetricsIsIdleMinimum
+        case utilizationMetricsKeyspaceHitsSum
+        case utilizationMetricsKeyspaceMissesSum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
+        case utilizationMetricsNewConnectionsSum
         case utilizationMetricsPacketsInFromDestinationMaximum
         case utilizationMetricsPacketsInFromSourceMaximum
+        case utilizationMetricsSetTypeCmdsSum
+        case utilizationMetricsUserConnectedSum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
         case utilizationMetricsVolumeWriteOpsPerSecondMaximum
         case sdkUnknown(Swift.String)
@@ -3049,15 +3065,31 @@ extension ComputeOptimizerClientTypes {
                 .savingsOpportunityAfterDiscount,
                 .tags,
                 .utilizationMetricsActiveConnectionCountMaximum,
+                .utilizationMetricsCacheHitsSum,
+                .utilizationMetricsCacheMissesSum,
+                .utilizationMetricsConsumedReadCapacityUnitsSum,
+                .utilizationMetricsConsumedWriteCapacityUnitsSum,
                 .utilizationMetricsCpuMaximum,
+                .utilizationMetricsCurrConnectionsSum,
                 .utilizationMetricsDatabaseConnectionsMaximum,
+                .utilizationMetricsDatabaseConnectionsSum,
                 .utilizationMetricsEbsVolumeReadIopsMaximum,
                 .utilizationMetricsEbsVolumeWriteIopsMaximum,
+                .utilizationMetricsElastiCacheProcessingUnitsSum,
+                .utilizationMetricsEngineCpuUtilizationMaximum,
+                .utilizationMetricsGetTypeCmdsSum,
+                .utilizationMetricsInvocationsSum,
+                .utilizationMetricsIsIdleMinimum,
+                .utilizationMetricsKeyspaceHitsSum,
+                .utilizationMetricsKeyspaceMissesSum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
+                .utilizationMetricsNewConnectionsSum,
                 .utilizationMetricsPacketsInFromDestinationMaximum,
                 .utilizationMetricsPacketsInFromSourceMaximum,
+                .utilizationMetricsSetTypeCmdsSum,
+                .utilizationMetricsUserConnectedSum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum
             ]
@@ -3082,15 +3114,31 @@ extension ComputeOptimizerClientTypes {
             case .savingsOpportunityAfterDiscount: return "SavingsOpportunityAfterDiscount"
             case .tags: return "Tags"
             case .utilizationMetricsActiveConnectionCountMaximum: return "UtilizationMetricsActiveConnectionCountMaximum"
+            case .utilizationMetricsCacheHitsSum: return "UtilizationMetricsCacheHitsSum"
+            case .utilizationMetricsCacheMissesSum: return "UtilizationMetricsCacheMissesSum"
+            case .utilizationMetricsConsumedReadCapacityUnitsSum: return "UtilizationMetricsConsumedReadCapacityUnitsSum"
+            case .utilizationMetricsConsumedWriteCapacityUnitsSum: return "UtilizationMetricsConsumedWriteCapacityUnitsSum"
             case .utilizationMetricsCpuMaximum: return "UtilizationMetricsCpuMaximum"
+            case .utilizationMetricsCurrConnectionsSum: return "UtilizationMetricsCurrConnectionsSum"
             case .utilizationMetricsDatabaseConnectionsMaximum: return "UtilizationMetricsDatabaseConnectionsMaximum"
+            case .utilizationMetricsDatabaseConnectionsSum: return "UtilizationMetricsDatabaseConnectionsSum"
             case .utilizationMetricsEbsVolumeReadIopsMaximum: return "UtilizationMetricsEBSVolumeReadIOPSMaximum"
             case .utilizationMetricsEbsVolumeWriteIopsMaximum: return "UtilizationMetricsEBSVolumeWriteIOPSMaximum"
+            case .utilizationMetricsElastiCacheProcessingUnitsSum: return "UtilizationMetricsElastiCacheProcessingUnitsSum"
+            case .utilizationMetricsEngineCpuUtilizationMaximum: return "UtilizationMetricsEngineCPUUtilizationMaximum"
+            case .utilizationMetricsGetTypeCmdsSum: return "UtilizationMetricsGetTypeCmdsSum"
+            case .utilizationMetricsInvocationsSum: return "UtilizationMetricsInvocationsSum"
+            case .utilizationMetricsIsIdleMinimum: return "UtilizationMetricsIsIdleMinimum"
+            case .utilizationMetricsKeyspaceHitsSum: return "UtilizationMetricsKeyspaceHitsSum"
+            case .utilizationMetricsKeyspaceMissesSum: return "UtilizationMetricsKeyspaceMissesSum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
+            case .utilizationMetricsNewConnectionsSum: return "UtilizationMetricsNewConnectionsSum"
             case .utilizationMetricsPacketsInFromDestinationMaximum: return "UtilizationMetricsPacketsInFromDestinationMaximum"
             case .utilizationMetricsPacketsInFromSourceMaximum: return "UtilizationMetricsPacketsInFromSourceMaximum"
+            case .utilizationMetricsSetTypeCmdsSum: return "UtilizationMetricsSetTypeCmdsSum"
+            case .utilizationMetricsUserConnectedSum: return "UtilizationMetricsUserConnectedSum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
             case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
             case let .sdkUnknown(s): return s
@@ -4849,28 +4897,40 @@ extension ComputeOptimizerClientTypes {
     public enum RecommendationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auroraDbClusterStorage
         case autoScalingGroup
+        case documentDbCluster
+        case dynamoDbTable
         case ebsVolume
         case ec2Instance
         case ecsService
+        case elastiCacheCluster
         case lambdaFunction
         case license
+        case memoryDbCluster
         case natGateway
         case rdsDbInstance
         case rdsDbInstanceStorage
+        case sageMakerEndpoint
+        case workspaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationSourceType] {
             return [
                 .auroraDbClusterStorage,
                 .autoScalingGroup,
+                .documentDbCluster,
+                .dynamoDbTable,
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .elastiCacheCluster,
                 .lambdaFunction,
                 .license,
+                .memoryDbCluster,
                 .natGateway,
                 .rdsDbInstance,
-                .rdsDbInstanceStorage
+                .rdsDbInstanceStorage,
+                .sageMakerEndpoint,
+                .workspaces
             ]
         }
 
@@ -4883,14 +4943,20 @@ extension ComputeOptimizerClientTypes {
             switch self {
             case .auroraDbClusterStorage: return "AuroraDBClusterStorage"
             case .autoScalingGroup: return "AutoScalingGroup"
+            case .documentDbCluster: return "DocumentDBCluster"
+            case .dynamoDbTable: return "DynamoDBTable"
             case .ebsVolume: return "EbsVolume"
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
+            case .elastiCacheCluster: return "ElastiCacheCluster"
             case .lambdaFunction: return "LambdaFunction"
             case .license: return "License"
+            case .memoryDbCluster: return "MemoryDBCluster"
             case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RdsDBInstance"
             case .rdsDbInstanceStorage: return "RdsDBInstanceStorage"
+            case .sageMakerEndpoint: return "SageMakerEndpoint"
+            case .workspaces: return "WorkSpaces"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6121,21 +6187,33 @@ extension ComputeOptimizerClientTypes {
 
     public enum IdleRecommendationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoScalingGroup
+        case documentDbCluster
+        case dynamoDbTable
         case ebsVolume
         case ec2Instance
         case ecsService
+        case elastiCacheCluster
+        case memoryDbCluster
         case natGateway
         case rdsDbInstance
+        case sageMakerEndpoint
+        case workspaces
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdleRecommendationResourceType] {
             return [
                 .autoScalingGroup,
+                .documentDbCluster,
+                .dynamoDbTable,
                 .ebsVolume,
                 .ec2Instance,
                 .ecsService,
+                .elastiCacheCluster,
+                .memoryDbCluster,
                 .natGateway,
-                .rdsDbInstance
+                .rdsDbInstance,
+                .sageMakerEndpoint,
+                .workspaces
             ]
         }
 
@@ -6147,11 +6225,17 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoScalingGroup: return "AutoScalingGroup"
+            case .documentDbCluster: return "DocumentDBCluster"
+            case .dynamoDbTable: return "DynamoDBTable"
             case .ebsVolume: return "EBSVolume"
             case .ec2Instance: return "EC2Instance"
             case .ecsService: return "ECSService"
+            case .elastiCacheCluster: return "ElastiCacheCluster"
+            case .memoryDbCluster: return "MemoryDBCluster"
             case .natGateway: return "NatGateway"
             case .rdsDbInstance: return "RDSDBInstance"
+            case .sageMakerEndpoint: return "SageMakerEndpoint"
+            case .workspaces: return "WorkSpaces"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6276,17 +6360,52 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes {
 
+    /// Describes the dimension of an idle resource utilization metric.
+    public struct IdleDimension: Swift.Sendable {
+        /// The name of the dimension key.
+        public var key: Swift.String?
+        /// The value of the dimension.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+
     public enum IdleMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeConnectionCount
+        case cacheHits
+        case cacheMisses
+        case consumedChangeDataCaptureUnits
+        case consumedReadCapacityUnits
+        case consumedWriteCapacityUnits
         case cpu
+        case currConnections
         case databaseConnections
         case ebsVolumeReadIops
         case ebsVolumeWriteIops
+        case elastiCacheProcessingUnits
+        case engineCpuUtilization
+        case getTypeCmds
+        case invocations
+        case isIdle
+        case keyspaceHits
+        case keyspaceMisses
         case memory
         case networkInBytesPerSecond
         case networkOutBytesPerSecond
+        case newConnections
         case packetsInFromDestination
         case packetsInFromSource
+        case setTypeCmds
+        case userConnected
         case volumeReadOpsPerSecond
         case volumeWriteOpsPerSecond
         case sdkUnknown(Swift.String)
@@ -6294,15 +6413,31 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [IdleMetricName] {
             return [
                 .activeConnectionCount,
+                .cacheHits,
+                .cacheMisses,
+                .consumedChangeDataCaptureUnits,
+                .consumedReadCapacityUnits,
+                .consumedWriteCapacityUnits,
                 .cpu,
+                .currConnections,
                 .databaseConnections,
                 .ebsVolumeReadIops,
                 .ebsVolumeWriteIops,
+                .elastiCacheProcessingUnits,
+                .engineCpuUtilization,
+                .getTypeCmds,
+                .invocations,
+                .isIdle,
+                .keyspaceHits,
+                .keyspaceMisses,
                 .memory,
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
+                .newConnections,
                 .packetsInFromDestination,
                 .packetsInFromSource,
+                .setTypeCmds,
+                .userConnected,
                 .volumeReadOpsPerSecond,
                 .volumeWriteOpsPerSecond
             ]
@@ -6316,15 +6451,31 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .activeConnectionCount: return "ActiveConnectionCount"
+            case .cacheHits: return "CacheHits"
+            case .cacheMisses: return "CacheMisses"
+            case .consumedChangeDataCaptureUnits: return "ConsumedChangeDataCaptureUnits"
+            case .consumedReadCapacityUnits: return "ConsumedReadCapacityUnits"
+            case .consumedWriteCapacityUnits: return "ConsumedWriteCapacityUnits"
             case .cpu: return "CPU"
+            case .currConnections: return "CurrConnections"
             case .databaseConnections: return "DatabaseConnections"
             case .ebsVolumeReadIops: return "EBSVolumeReadIOPS"
             case .ebsVolumeWriteIops: return "EBSVolumeWriteIOPS"
+            case .elastiCacheProcessingUnits: return "ElastiCacheProcessingUnits"
+            case .engineCpuUtilization: return "EngineCPUUtilization"
+            case .getTypeCmds: return "GetTypeCmds"
+            case .invocations: return "Invocations"
+            case .isIdle: return "IsIdle"
+            case .keyspaceHits: return "KeyspaceHits"
+            case .keyspaceMisses: return "KeyspaceMisses"
             case .memory: return "Memory"
             case .networkInBytesPerSecond: return "NetworkInBytesPerSecond"
             case .networkOutBytesPerSecond: return "NetworkOutBytesPerSecond"
+            case .newConnections: return "NewConnections"
             case .packetsInFromDestination: return "PacketsInFromDestination"
             case .packetsInFromSource: return "PacketsInFromSource"
+            case .setTypeCmds: return "SetTypeCmds"
+            case .userConnected: return "UserConnected"
             case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
             case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
             case let .sdkUnknown(s): return s
@@ -6337,6 +6488,8 @@ extension ComputeOptimizerClientTypes {
 
     /// Describes the utilization metric of an idle resource.
     public struct IdleUtilizationMetric: Swift.Sendable {
+        /// The dimensions of the utilization metric.
+        public var dimensions: [ComputeOptimizerClientTypes.IdleDimension]?
         /// The name of the utilization metric.
         public var name: ComputeOptimizerClientTypes.IdleMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
@@ -6345,10 +6498,12 @@ extension ComputeOptimizerClientTypes {
         public var value: Swift.Double
 
         public init(
+            dimensions: [ComputeOptimizerClientTypes.IdleDimension]? = nil,
             name: ComputeOptimizerClientTypes.IdleMetricName? = nil,
             statistic: ComputeOptimizerClientTypes.MetricStatistic? = nil,
             value: Swift.Double = 0.0
         ) {
+            self.dimensions = dimensions
             self.name = name
             self.statistic = statistic
             self.value = value
