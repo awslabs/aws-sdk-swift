@@ -2357,6 +2357,8 @@ extension OmicsClientTypes {
 
     /// A per-run configuration that overrides or merges with fields from DefaultRunSetting for a specific run.
     public struct InlineSetting: Swift.Sendable {
+        /// Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). Overrides defaultRunSetting.engineSettings for this run.
+        public var engineSettings: Smithy.Document?
         /// An optional user-friendly name for this run.
         public var name: Swift.String?
         /// The expected AWS account ID of the owner of the output S3 bucket for this run.
@@ -2374,6 +2376,7 @@ extension OmicsClientTypes {
         public var runTags: [Swift.String: Swift.String]?
 
         public init(
+            engineSettings: Smithy.Document? = nil,
             name: Swift.String? = nil,
             outputBucketOwnerId: Swift.String? = nil,
             outputUri: Swift.String? = nil,
@@ -2382,6 +2385,7 @@ extension OmicsClientTypes {
             runSettingId: Swift.String? = nil,
             runTags: [Swift.String: Swift.String]? = nil
         ) {
+            self.engineSettings = engineSettings
             self.name = name
             self.outputBucketOwnerId = outputBucketOwnerId
             self.outputUri = outputUri
@@ -4245,6 +4249,8 @@ extension OmicsClientTypes {
         public var cacheId: Swift.String?
         /// Optional configuration name to use for the workflow run.
         public var configurationName: Swift.String?
+        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+        public var engineSettings: Smithy.Document?
         /// The verbosity level for CloudWatch Logs emitted during each run.
         public var logLevel: OmicsClientTypes.RunLogLevel?
         /// An optional user-friendly name applied to each workflow run. Can be overridden per run.
@@ -4286,6 +4292,7 @@ extension OmicsClientTypes {
             cacheBehavior: OmicsClientTypes.CacheBehavior? = nil,
             cacheId: Swift.String? = nil,
             configurationName: Swift.String? = nil,
+            engineSettings: Smithy.Document? = nil,
             logLevel: OmicsClientTypes.RunLogLevel? = nil,
             name: Swift.String? = nil,
             networkingMode: OmicsClientTypes.NetworkingMode? = nil,
@@ -4307,6 +4314,7 @@ extension OmicsClientTypes {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.configurationName = configurationName
+            self.engineSettings = engineSettings
             self.logLevel = logLevel
             self.name = name
             self.networkingMode = networkingMode
@@ -16719,6 +16727,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         try writer["cacheBehavior"].write(value.cacheBehavior)
         try writer["cacheId"].write(value.cacheId)
         try writer["configurationName"].write(value.configurationName)
+        try writer["engineSettings"].write(value.engineSettings)
         try writer["logLevel"].write(value.logLevel)
         try writer["name"].write(value.name)
         try writer["networkingMode"].write(value.networkingMode)
@@ -16761,6 +16770,7 @@ extension OmicsClientTypes.DefaultRunSetting {
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
         value.networkingMode = try reader["networkingMode"].readIfPresent()
         value.configurationName = try reader["configurationName"].readIfPresent()
+        value.engineSettings = try reader["engineSettings"].readIfPresent()
         return value
     }
 }
@@ -17018,6 +17028,7 @@ extension OmicsClientTypes.InlineSetting {
 
     static func write(value: OmicsClientTypes.InlineSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["engineSettings"].write(value.engineSettings)
         try writer["name"].write(value.name)
         try writer["outputBucketOwnerId"].write(value.outputBucketOwnerId)
         try writer["outputUri"].write(value.outputUri)

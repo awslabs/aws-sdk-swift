@@ -3927,6 +3927,7 @@ extension ListTagsForResourceOutput: Swift.CustomDebugStringConvertible {
 extension MgnClientTypes {
 
     public enum SourceEnvironment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsDiscoveryCollector
         case ciscoAci
         case fortigateFirewall
         case logicalModel
@@ -3938,6 +3939,7 @@ extension MgnClientTypes {
 
         public static var allCases: [SourceEnvironment] {
             return [
+                .awsDiscoveryCollector,
                 .ciscoAci,
                 .fortigateFirewall,
                 .logicalModel,
@@ -3955,6 +3957,7 @@ extension MgnClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsDiscoveryCollector: return "AWS_DISCOVERY_COLLECTOR"
             case .ciscoAci: return "CISCO_ACI"
             case .fortigateFirewall: return "FORTIGATE_FIREWALL"
             case .logicalModel: return "LOGICAL_MODEL"

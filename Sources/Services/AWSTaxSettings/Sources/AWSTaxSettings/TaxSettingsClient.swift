@@ -781,7 +781,7 @@ extension TaxSettingsClient {
     ///
     /// * If you specify decisionNumber, you must specify the ppnExceptionDesignationCode in the indonesiaAdditionalInfo field of the additionalTaxInformation object. If the taxRegistrationNumberType is set to NPWP or NITKU, valid values for ppnExceptionDesignationCode are either 01, 02, 03, 07, or 08. For other taxRegistrationNumberType values, ppnExceptionDesignationCode must be either 01, 07, or 08.
     ///
-    /// * If ppnExceptionDesignationCode is 07, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
+    /// * If ppnExceptionDesignationCode is 07 or 08, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Kenya
@@ -808,6 +808,13 @@ extension TaxSettingsClient {
     /// * Amazon Web Services reserves the right to seek additional information and/or take other actions to support your self-declaration as appropriate.
     ///
     /// * Amazon Web Services is currently registered under the following service tax codes. You must include at least one of the service tax codes in the service tax code strings to declare yourself as an authorized registered business reseller. Taxable service and service tax codes: Consultancy - 9907061674 Training or coaching service - 9907071685 IT service - 9907101676 Digital services and electronic medium - 9907121690
+    ///
+    ///
+    /// Mexico
+    ///
+    /// * You must provide a Constancia de Situación fiscal (CSF) document in the verificationDetails field.
+    ///
+    /// * You do not need to provide address and legal name. These will be populated based on your tax registration number.
     ///
     ///
     /// Nepal
@@ -861,6 +868,31 @@ extension TaxSettingsClient {
     /// Ukraine
     ///
     /// * The sector valid values are Business and Individual.
+    ///
+    ///
+    /// Philippines
+    ///
+    /// * You can optionally specify the isVatRegistered in the philippinesAdditionalInfo field of the additionalTaxInformation object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
+    ///
+    ///
+    /// Belgium
+    ///
+    /// * You can optionally specify the peppolId in the belgiumAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Chile
+    ///
+    /// * You can optionally specify the documentType and businessActivity in the chileAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// France
+    ///
+    /// * You must specify the sirenNumber in the franceAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Poland
+    ///
+    /// * You can optionally specify the taxRegistrationNumberType in the polandAdditionalInfo field of the additionalTaxInformation object. Valid values are EUTaxRegistrationNumber, LocalTaxRegistrationNumber, or LocalRegistrationNumber.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchPutTaxRegistrationInput`)
     ///
@@ -1634,9 +1666,9 @@ extension TaxSettingsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : The access is denied for the Amazon Web ServicesSupport API.
-    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
-    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
+    /// - `AccessDeniedException` : The access is denied for the Amazon Web Services Support API.
+    /// - `AttachmentUploadException` : Failed to upload the tax exemption document to Amazon Web Services Support case.
+    /// - `CaseCreationLimitExceededException` : You've exceeded the Amazon Web Services Support case creation limit for your account.
     /// - `InternalServerException` : The exception thrown when an unexpected error occurs when processing a request.
     /// - `ResourceNotFoundException` : The exception thrown when the input doesn't have a resource associated to it.
     /// - `ValidationException` : The exception when the input doesn't pass validation for at least one of the input parameters.
@@ -1796,7 +1828,7 @@ extension TaxSettingsClient {
     ///
     /// * If you specify decisionNumber, you must specify the ppnExceptionDesignationCode in the indonesiaAdditionalInfo field of the additionalTaxInformation object. If the taxRegistrationNumberType is set to NPWP or NITKU, valid values for ppnExceptionDesignationCode are either 01, 02, 03, 07, or 08. For other taxRegistrationNumberType values, ppnExceptionDesignationCode must be either 01, 07, or 08.
     ///
-    /// * If ppnExceptionDesignationCode is 07, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
+    /// * If ppnExceptionDesignationCode is 07 or 08, you must specify the decisionNumber in the indonesiaAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Kenya
@@ -1823,6 +1855,13 @@ extension TaxSettingsClient {
     /// * Amazon Web Services reserves the right to seek additional information and/or take other actions to support your self-declaration as appropriate.
     ///
     /// * Amazon Web Services is currently registered under the following service tax codes. You must include at least one of the service tax codes in the service tax code strings to declare yourself as an authorized registered business reseller. Taxable service and service tax codes: Consultancy - 9907061674 Training or coaching service - 9907071685 IT service - 9907101676 Digital services and electronic medium - 9907121690
+    ///
+    ///
+    /// Mexico
+    ///
+    /// * You must provide a Constancia de Situación fiscal (CSF) document in the verificationDetails field.
+    ///
+    /// * You do not need to provide address and legal name. These will be populated based on your tax registration number.
     ///
     ///
     /// Nepal
@@ -1876,6 +1915,31 @@ extension TaxSettingsClient {
     /// Ukraine
     ///
     /// * The sector valid values are Business and Individual.
+    ///
+    ///
+    /// Philippines
+    ///
+    /// * You can optionally specify the isVatRegistered in the philippinesAdditionalInfo field of the additionalTaxInformation object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
+    ///
+    ///
+    /// Belgium
+    ///
+    /// * You can optionally specify the peppolId in the belgiumAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Chile
+    ///
+    /// * You can optionally specify the documentType and businessActivity in the chileAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// France
+    ///
+    /// * You must specify the sirenNumber in the franceAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Poland
+    ///
+    /// * You can optionally specify the taxRegistrationNumberType in the polandAdditionalInfo field of the additionalTaxInformation object. Valid values are EUTaxRegistrationNumber, LocalTaxRegistrationNumber, or LocalRegistrationNumber.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutTaxRegistrationInput`)
     ///
