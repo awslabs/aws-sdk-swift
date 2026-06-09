@@ -17,6 +17,7 @@ import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 class S3ExpressIntegration : SwiftIntegration {
     override fun enabledForService(
@@ -29,7 +30,10 @@ class S3ExpressIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
-        delegator.useFileWriter("Sources/AWSS3/S3Client+S3Express.swift") { writer ->
+        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
+        if (!service.allOperations.any { it.name == "CreateSession" }) return
+        val filename = SDKFileUtils(ctx.settings).sourcesDirFilePath("S3Client+S3Express")
+        delegator.useFileWriter(filename) { writer ->
             writer.write("")
             writer.openBlock(
                 "public struct S3ExpressCreateSessionClient: \$N, \$N {",

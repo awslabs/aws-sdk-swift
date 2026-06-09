@@ -16,7 +16,7 @@ class PresignableUrlIntegrationTests {
     @Test
     fun `S3 PutObject operation stack contains the PutObjectPresignedURLMiddleware`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/PutObjectInput+Presigner.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/PutObjectInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         builder.serialize(PutObjectPresignedURLMiddleware())
@@ -30,7 +30,7 @@ class PresignableUrlIntegrationTests {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift",
+                "Example/Sources/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

@@ -12,7 +12,7 @@ class S3ExpiresTest {
     @Test
     fun `001 test S3 output members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooOutput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct FooOutput: Swift.Sendable {
@@ -34,7 +34,7 @@ public struct FooOutput: Swift.Sendable {
     @Test
     fun `002 test S3 input members named expires are changed to string type`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#S3", "S3")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooInput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/FooInput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct FooInput: Swift.Sendable {
@@ -56,7 +56,7 @@ public struct FooInput: Swift.Sendable {
     @Test
     fun `003 test non-S3 output members named expires are not changed`() {
         val context = setupTests("s3-expires.smithy", "com.amazonaws.s3#Bar", "Bar")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/FooOutput.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/FooOutput.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct FooOutput: Swift.Sendable {

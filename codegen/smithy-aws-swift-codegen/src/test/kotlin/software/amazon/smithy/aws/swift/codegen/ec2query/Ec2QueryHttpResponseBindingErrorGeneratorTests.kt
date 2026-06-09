@@ -20,7 +20,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift",
+                "Example/Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -46,7 +46,7 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `003 ComplexError+Init`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ComplexError+Init.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/ComplexError+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexError {
@@ -69,7 +69,7 @@ extension ComplexError {
     @Test
     fun `004 ComplexError constructor conforms to AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/ComplexError.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/ComplexError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -103,7 +103,7 @@ public struct ComplexError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
     @Test
     fun `005 AwsEc2+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "Sources/Example/models/AwsEc2+HTTPServiceError.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "Example/Sources/Example/models/AwsEc2+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 func httpServiceError(baseError: ClientRuntime.EC2QueryError) throws -> Swift.Error? {

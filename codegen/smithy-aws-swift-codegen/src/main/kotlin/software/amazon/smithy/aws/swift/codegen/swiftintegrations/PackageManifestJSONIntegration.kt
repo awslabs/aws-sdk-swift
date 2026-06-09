@@ -8,6 +8,7 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.targetName
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 class PackageManifestJSONIntegration : SwiftIntegration {
     // Highest possible order so this integration runs last.
@@ -28,7 +29,8 @@ class PackageManifestJSONIntegration : SwiftIntegration {
             return
         }
 
-        delegator.useFileWriter("Dependencies.json") { writer ->
+        val filename = SDKFileUtils(ctx.settings).rootDirFilePath("Dependencies", "json")
+        delegator.useFileWriter(filename) { writer ->
             writer.setIndentText("  ") // two spaces
             writer.openBlock("{", "}") {
                 // Write the path to the model as "modelPath".

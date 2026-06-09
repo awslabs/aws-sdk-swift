@@ -29,7 +29,7 @@ class Route53InvalidBatchErrorIntegrationTests {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift",
+                "Example/Sources/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
