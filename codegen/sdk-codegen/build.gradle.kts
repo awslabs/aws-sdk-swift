@@ -6,15 +6,14 @@
 // This build file has been adapted from the Go v2 SDK, here:
 // https://github.com/aws/aws-sdk-go-v2/blob/master/codegen/sdk-codegen/build.gradle.kts
 
-import software.amazon.smithy.gradle.tasks.SmithyBuild
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import java.nio.charset.Charset
 import java.util.Properties
-import kotlin.streams.toList
 
 plugins {
-    id("software.amazon.smithy") version "0.5.3"
+    java
+    id("software.amazon.smithy.gradle.smithy-base")
 }
 
 val smithyVersion: String by project
@@ -26,15 +25,10 @@ dependencies {
 // This project doesn't produce a JAR.
 tasks["jar"].enabled = false
 
-// Run the SmithyBuild task manually since this project needs the built JAR
-tasks["smithyBuildJar"].enabled = false
-
-tasks.create<SmithyBuild>("buildSdk") {
-    addRuntimeClasspath = true
-}
-
 // force rebuild every time while developing
-tasks["buildSdk"].outputs.upToDateWhen { false }
+tasks.named("smithyBuild") {
+    outputs.upToDateWhen { false }
+}
 
 buildscript {
     val smithyVersion: String by project
@@ -156,7 +150,7 @@ fun discoverServices(): List<AwsService> {
             val serviceApi = service.getTrait(software.amazon.smithy.aws.traits.ServiceTrait::class.java).orNull()
                 ?: error { "Expected aws.api#service trait attached to model ${file.absolutePath}" }
             val (name, version, _) = file.name.split(".")
-            val packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.capitalize()}"
+            val packageName = "AWS${serviceApi.sdkId.filterNot { it.isWhitespace() }.replaceFirstChar { it.titlecase() }}"
 
             logger.info("discovered service: ${serviceApi.sdkId}")
 
@@ -165,7 +159,7 @@ fun discoverServices(): List<AwsService> {
                 packageName = packageName,
                 packageVersion = packageVersion,
                 modelFile = file,
-                projectionName = name + "." + version.toLowerCase(),
+                projectionName = name + "." + version.lowercase(),
                 sdkId = serviceApi.sdkId,
                 gitRepo = "https://github.com/awslabs/aws-sdk-swift",
                 visibility = "public",
@@ -180,7 +174,7 @@ fun discoverServices(): List<AwsService> {
                     packageName = "Internal$packageName",
                     packageVersion = packageVersion,
                     modelFile = file,
-                    projectionName = "${name}.${version.toLowerCase()}_internal",
+                    projectionName = "${name}.${version.lowercase()}_internal",
                     sdkId = serviceApi.sdkId,
                     gitRepo = "https://github.com/awslabs/aws-sdk-swift",
                     visibility = "package",
@@ -223,7 +217,7 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 
 val AwsService.outputDir: String
-    get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/$packageName").absolutePath
+    get() = project.layout.buildDirectory.dir("smithyprojections/${project.name}/${projectionName}/swift-codegen/$packageName").get().asFile.absolutePath
 
 val AwsService.sourcesDir: String
     get() = when (this.internalClient) {
@@ -237,7 +231,7 @@ val AwsService.sourcesDir: String
 val AwsService.modelExtrasDir: String
     get() = rootProject.file("$packageName/Tests/AdditionalServiceTests/$packageName/models").absolutePath
 
-task("stageSdks") {
+tasks.register("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK artifacts from build directory to correct locations"
     doLast {
@@ -280,8 +274,7 @@ tasks.register("generate-smithy-build") {
     }
 }
 
-// Run the `buildSdk` automatically.
-tasks["build"]
-    .dependsOn(tasks["generate-smithy-build"])
-    .finalizedBy(tasks["buildSdk"])
+tasks.named("smithyBuild") {
+    dependsOn("generate-smithy-build")
+}
 

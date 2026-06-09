@@ -1168,7 +1168,7 @@ extension WorkSpacesClient {
 
     /// Performs the `CreateConnectClientAddIn` operation on the `WorkSpaces` service.
     ///
-    /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
+    /// Creates a client-add-in for Connect Customer within a directory. You can create only one Connect Customer client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateConnectClientAddInInput`)
     ///
@@ -2118,7 +2118,7 @@ extension WorkSpacesClient {
 
     /// Performs the `DeleteConnectClientAddIn` operation on the `WorkSpaces` service.
     ///
-    /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
+    /// Deletes a client-add-in for Connect Customer that is configured within a directory.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConnectClientAddInInput`)
     ///
@@ -3266,7 +3266,7 @@ extension WorkSpacesClient {
 
     /// Performs the `DescribeConnectClientAddIns` operation on the `WorkSpaces` service.
     ///
-    /// Retrieves a list of Amazon Connect client add-ins that have been created.
+    /// Retrieves a list of Connect Customer client add-ins that have been created.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeConnectClientAddInsInput`)
     ///
@@ -7169,7 +7169,7 @@ extension WorkSpacesClient {
 
     /// Performs the `UpdateConnectClientAddIn` operation on the `WorkSpaces` service.
     ///
-    /// Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.
+    /// Updates a Connect Customer client add-in. Use this action to update the name and endpoint URL of a Connect Customer client add-in.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConnectClientAddInInput`)
     ///

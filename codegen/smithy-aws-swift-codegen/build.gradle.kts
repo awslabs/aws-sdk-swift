@@ -32,6 +32,7 @@ dependencies {
     implementation("software.amazon.smithy:smithy-protocol-test-traits:$smithyVersion")
     implementation("software.amazon.smithy:smithy-protocol-traits:$smithyVersion")
     testImplementation("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestVersion")
     implementation("software.amazon.smithy:smithy-rules-engine:$smithyVersion")
     implementation("software.amazon.smithy:smithy-aws-endpoints:$smithyVersion")
@@ -78,9 +79,10 @@ tasks.test {
 // Configure jacoco (code coverage) to generate an HTML report
 tasks.jacocoTestReport {
     reports {
-        xml.isEnabled = false
-        csv.isEnabled = false
-        html.destination = file("$buildDir/reports/jacoco")
+        xml.required.set(false)
+        csv.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jacoco"))
     }
 }
 

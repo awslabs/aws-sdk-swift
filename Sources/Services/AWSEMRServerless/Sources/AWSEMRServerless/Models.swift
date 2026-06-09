@@ -139,6 +139,8 @@ extension EMRServerlessClientTypes {
 
     /// The applied image configuration.
     public struct ImageConfiguration: Swift.Sendable {
+        /// Boolean value indicating if the digest resolution is application level or workload level. If true, a custom image URI is resolved at application start time and all workloads submitted will use that image digest. If false, the custom image URI is resolved at the workload submission time.
+        public var applicationLevelDigestResolution: Swift.Bool?
         /// The image URI.
         /// This member is required.
         public var imageUri: Swift.String?
@@ -146,9 +148,11 @@ extension EMRServerlessClientTypes {
         public var resolvedImageDigest: Swift.String?
 
         public init(
+            applicationLevelDigestResolution: Swift.Bool? = nil,
             imageUri: Swift.String? = nil,
             resolvedImageDigest: Swift.String? = nil
         ) {
+            self.applicationLevelDigestResolution = applicationLevelDigestResolution
             self.imageUri = imageUri
             self.resolvedImageDigest = resolvedImageDigest
         }
@@ -657,12 +661,16 @@ extension EMRServerlessClientTypes {
 
     /// The image configuration.
     public struct ImageConfigurationInput: Swift.Sendable {
+        /// Boolean value indicating if the digest resolution is application level or workload level. If true, a custom image URI is resolved at application start time and all workloads submitted will use that image digest. If false, the custom image URI is resolved at the workload submission time.
+        public var applicationLevelDigestResolution: Swift.Bool?
         /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
         public var imageUri: Swift.String?
 
         public init(
+            applicationLevelDigestResolution: Swift.Bool? = nil,
             imageUri: Swift.String? = nil
         ) {
+            self.applicationLevelDigestResolution = applicationLevelDigestResolution
             self.imageUri = imageUri
         }
     }
@@ -1603,7 +1611,7 @@ public struct GetSessionEndpointOutput: Swift.Sendable {
     /// The output contains the ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// Authentication token for accessing the session endpoint.
+    /// The authentication token for connecting to the session endpoint. Call GetSessionEndpoint again to obtain a new token before it expires.
     /// This member is required.
     public var authToken: Swift.String?
     /// The expiration time of the authentication token.
@@ -2240,6 +2248,8 @@ extension EMRServerlessClientTypes {
         public var executionRole: Swift.String?
         /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
         public var executionTimeoutMinutes: Swift.Int?
+        /// The applied image configuration.
+        public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
         /// The job driver for the job run.
         /// This member is required.
         public var jobDriver: EMRServerlessClientTypes.JobDriver?
@@ -2276,6 +2286,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the job run was updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
+        /// The specification applied to each worker type. Includes the JobRun-level ImageConfiguration when the applicationLevelDigestResolution is false for the application.
+        public var workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecification]?
 
         public init(
             applicationId: Swift.String? = nil,
@@ -2291,6 +2303,7 @@ extension EMRServerlessClientTypes {
             executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
             executionRole: Swift.String? = nil,
             executionTimeoutMinutes: Swift.Int? = 0,
+            imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
             jobRunId: Swift.String? = nil,
             mode: EMRServerlessClientTypes.JobRunMode? = nil,
@@ -2305,7 +2318,8 @@ extension EMRServerlessClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             totalExecutionDurationSeconds: Swift.Int? = nil,
             totalResourceUtilization: EMRServerlessClientTypes.TotalResourceUtilization? = nil,
-            updatedAt: Foundation.Date? = nil
+            updatedAt: Foundation.Date? = nil,
+            workerTypeSpecifications: [Swift.String: EMRServerlessClientTypes.WorkerTypeSpecification]? = nil
         ) {
             self.applicationId = applicationId
             self.arn = arn
@@ -2320,6 +2334,7 @@ extension EMRServerlessClientTypes {
             self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
+            self.imageConfiguration = imageConfiguration
             self.jobDriver = jobDriver
             self.jobRunId = jobRunId
             self.mode = mode
@@ -2335,6 +2350,7 @@ extension EMRServerlessClientTypes {
             self.totalExecutionDurationSeconds = totalExecutionDurationSeconds
             self.totalResourceUtilization = totalResourceUtilization
             self.updatedAt = updatedAt
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
     }
 }
@@ -3971,6 +3987,7 @@ extension EMRServerlessClientTypes.ImageConfiguration {
         var value = EMRServerlessClientTypes.ImageConfiguration()
         value.imageUri = try reader["imageUri"].readIfPresent() ?? ""
         value.resolvedImageDigest = try reader["resolvedImageDigest"].readIfPresent()
+        value.applicationLevelDigestResolution = try reader["applicationLevelDigestResolution"].readIfPresent()
         return value
     }
 }
@@ -3979,6 +3996,7 @@ extension EMRServerlessClientTypes.ImageConfigurationInput {
 
     static func write(value: EMRServerlessClientTypes.ImageConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["applicationLevelDigestResolution"].write(value.applicationLevelDigestResolution)
         try writer["imageUri"].write(value.imageUri)
     }
 }
@@ -4095,6 +4113,8 @@ extension EMRServerlessClientTypes.JobRun {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.queuedDurationMilliseconds = try reader["queuedDurationMilliseconds"].readIfPresent()
+        value.imageConfiguration = try reader["imageConfiguration"].readIfPresent(with: EMRServerlessClientTypes.ImageConfiguration.read(from:))
+        value.workerTypeSpecifications = try reader["workerTypeSpecifications"].readMapIfPresent(valueReadingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

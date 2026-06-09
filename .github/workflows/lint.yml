@@ -19,8 +19,15 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v6
+        with:
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY: ${{ secrets.STAGING_PARTNER_REPO_PRIVATE_DEPLOY_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Lint smithy-aws-swift-codegen
-        run: ./gradlew ktlint
+        run: cd aws-sdk-swift && ./gradlew ktlint
 
   swiftlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
