@@ -2301,7 +2301,12 @@ private var smithySwiftDependency: Package.Dependency {
 }
 
 private var crtDependency: Package.Dependency {
-    .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+    return if useLocalDeps {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
+    } else {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    }
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
