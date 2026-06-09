@@ -6144,6 +6144,99 @@ public struct ListCustomModelsOutput: Swift.Sendable {
     }
 }
 
+public struct GetAccountDataRetentionInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension BedrockClientTypes {
+
+    /// The data retention mode for the account. Valid values are:
+    ///
+    /// * default – The standard data handling for the model applies.
+    ///
+    /// * none – Zero data retention.
+    ///
+    /// * provider_data_share – Data may be shared with the model provider.
+    ///
+    /// * inherit – No data retention mode is set at this scope.
+    public enum DataRetentionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case inherit
+        case `none`
+        case providerDataShare
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataRetentionMode] {
+            return [
+                .default,
+                .inherit,
+                .none,
+                .providerDataShare
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "default"
+            case .inherit: return "inherit"
+            case .none: return "none"
+            case .providerDataShare: return "provider_data_share"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetAccountDataRetentionOutput: Swift.Sendable {
+    /// The data retention mode configured for the account.
+    /// This member is required.
+    public var mode: BedrockClientTypes.DataRetentionMode?
+    /// The time at which the data retention mode was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        mode: BedrockClientTypes.DataRetentionMode? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.mode = mode
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct PutAccountDataRetentionInput: Swift.Sendable {
+    /// The data retention mode to set for the account.
+    /// This member is required.
+    public var mode: BedrockClientTypes.DataRetentionMode?
+
+    public init(
+        mode: BedrockClientTypes.DataRetentionMode? = nil
+    ) {
+        self.mode = mode
+    }
+}
+
+public struct PutAccountDataRetentionOutput: Swift.Sendable {
+    /// The data retention mode set for the account.
+    /// This member is required.
+    public var mode: BedrockClientTypes.DataRetentionMode?
+    /// The time at which the data retention mode was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        mode: BedrockClientTypes.DataRetentionMode? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.mode = mode
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct DeleteEnforcedGuardrailConfigurationInput: Swift.Sendable {
     /// Unique ID for the account enforced configuration.
     /// This member is required.
@@ -14640,6 +14733,13 @@ extension ExportAutomatedReasoningPolicyVersionInput {
     }
 }
 
+extension GetAccountDataRetentionInput {
+
+    static func urlPathProvider(_ value: GetAccountDataRetentionInput) -> Swift.String? {
+        return "/data-retention"
+    }
+}
+
 extension GetAdvancedPromptOptimizationJobInput {
 
     static func urlPathProvider(_ value: GetAdvancedPromptOptimizationJobInput) -> Swift.String? {
@@ -15722,6 +15822,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutAccountDataRetentionInput {
+
+    static func urlPathProvider(_ value: PutAccountDataRetentionInput) -> Swift.String? {
+        return "/data-retention"
+    }
+}
+
 extension PutEnforcedGuardrailConfigurationInput {
 
     static func urlPathProvider(_ value: PutEnforcedGuardrailConfigurationInput) -> Swift.String? {
@@ -16207,6 +16314,14 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["resourceARN"].write(value.resourceARN)
+    }
+}
+
+extension PutAccountDataRetentionInput {
+
+    static func write(value: PutAccountDataRetentionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
     }
 }
 
@@ -16750,6 +16865,19 @@ extension ExportAutomatedReasoningPolicyVersionOutput {
         let reader = responseReader
         var value = ExportAutomatedReasoningPolicyVersionOutput()
         value.policyDefinition = try reader.readIfPresent(with: BedrockClientTypes.AutomatedReasoningPolicyDefinition.read(from:))
+        return value
+    }
+}
+
+extension GetAccountDataRetentionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountDataRetentionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountDataRetentionOutput()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -17542,6 +17670,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: BedrockClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutAccountDataRetentionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountDataRetentionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAccountDataRetentionOutput()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -18492,6 +18633,23 @@ enum ExportAutomatedReasoningPolicyVersionOutputError {
     }
 }
 
+enum GetAccountDataRetentionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAdvancedPromptOptimizationJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19335,6 +19493,23 @@ enum ListTagsForResourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccountDataRetentionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
