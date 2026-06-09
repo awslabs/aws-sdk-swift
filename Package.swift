@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.217.0"
-let crtVersion: Version = "0.61.1"
+let crtVersion: Version = "0.63.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -2305,7 +2305,7 @@ private var crtDependency: Package.Dependency {
     return if useLocalDeps {
         .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
     } else {
-        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+        .package(url: "https://github.com/awslabs/aws-crt-swift", from: crtVersion)
     }
 }
 
