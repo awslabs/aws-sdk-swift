@@ -16,7 +16,7 @@ import PackageDescription
 // MARK: - Dynamic Content
 
 let clientRuntimeVersion: Version = "0.217.0"
-let crtVersion: Version = "0.61.1"
+let crtVersion: Version = "0.63.0"
 
 let excludeRuntimeUnitTests = false
 
@@ -2301,7 +2301,12 @@ private var smithySwiftDependency: Package.Dependency {
 }
 
 private var crtDependency: Package.Dependency {
-    .package(url: "https://github.com/awslabs/aws-crt-swift", exact: crtVersion)
+    let useCRTFromMain = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_PRERELEASE_CRT"] != nil
+    return if useCRTFromMain {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
+    } else {
+        .package(url: "https://github.com/awslabs/aws-crt-swift", from: crtVersion)
+    }
 }
 
 private var doccDependencyOrNil: Package.Dependency? {
