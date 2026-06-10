@@ -11,6 +11,7 @@ permissions:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
+  AWS_SWIFT_SDK_USE_PRERELEASE_CRT: 1
 
 jobs:
   apple-ci:
