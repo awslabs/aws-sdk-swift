@@ -199,12 +199,16 @@ extension MediaLiveClientTypes {
     public enum AudioNormalizationAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case itu17701
         case itu17702
+        case itu17703
+        case itu17704
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AudioNormalizationAlgorithm] {
             return [
                 .itu17701,
-                .itu17702
+                .itu17702,
+                .itu17703,
+                .itu17704
             ]
         }
 
@@ -217,6 +221,8 @@ extension MediaLiveClientTypes {
             switch self {
             case .itu17701: return "ITU_1770_1"
             case .itu17702: return "ITU_1770_2"
+            case .itu17703: return "ITU_1770_3"
+            case .itu17704: return "ITU_1770_4"
             case let .sdkUnknown(s): return s
             }
         }
@@ -252,22 +258,60 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Audio Normalization Peak Calculation
+    public enum AudioNormalizationPeakCalculation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case truePeak
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioNormalizationPeakCalculation] {
+            return [
+                .none,
+                .truePeak
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .truePeak: return "TRUE_PEAK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Audio Normalization Settings
     public struct AudioNormalizationSettings: Swift.Sendable {
-        /// Audio normalization algorithm to use. itu17701 conforms to the CALM Act specification, itu17702 conforms to the EBU R-128 specification.
+        /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
         public var algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
         public var algorithmControl: MediaLiveClientTypes.AudioNormalizationAlgorithmControl?
+        /// If set to TRUE_PEAK, calculate the TruePeak for each output's audio track loudness.
+        public var peakCalculation: MediaLiveClientTypes.AudioNormalizationPeakCalculation?
+        /// Peak limiter threshold in decibels relative to true peak (dBTP) if TRUE_PEAK is enabled. If TRUE_PEAK is not enabled a full scale (dbFS) value is used. The peak inter-audio sample loudness in your output will be limited to the value that you specify, without affecting the overall target LKFS. Leave blank to use the default value 0.
+        public var peakLimiterThreshold: Swift.Double?
         /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act recommends a target of -24 LKFS. The EBU R-128 specification recommends a target of -23 LKFS.
         public var targetLkfs: Swift.Double?
 
         public init(
             algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm? = nil,
             algorithmControl: MediaLiveClientTypes.AudioNormalizationAlgorithmControl? = nil,
+            peakCalculation: MediaLiveClientTypes.AudioNormalizationPeakCalculation? = nil,
+            peakLimiterThreshold: Swift.Double? = nil,
             targetLkfs: Swift.Double? = nil
         ) {
             self.algorithm = algorithm
             self.algorithmControl = algorithmControl
+            self.peakCalculation = peakCalculation
+            self.peakLimiterThreshold = peakLimiterThreshold
             self.targetLkfs = targetLkfs
         }
     }
@@ -2128,6 +2172,124 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Dolby EProgram Selection
+    public enum DolbyEProgramSelection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allChannels
+        case program1
+        case program2
+        case program3
+        case program4
+        case program5
+        case program6
+        case program7
+        case program8
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DolbyEProgramSelection] {
+            return [
+                .allChannels,
+                .program1,
+                .program2,
+                .program3,
+                .program4,
+                .program5,
+                .program6,
+                .program7,
+                .program8
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allChannels: return "ALL_CHANNELS"
+            case .program1: return "PROGRAM_1"
+            case .program2: return "PROGRAM_2"
+            case .program3: return "PROGRAM_3"
+            case .program4: return "PROGRAM_4"
+            case .program5: return "PROGRAM_5"
+            case .program6: return "PROGRAM_6"
+            case .program7: return "PROGRAM_7"
+            case .program8: return "PROGRAM_8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Audio Dolby EDecode
+    public struct AudioDolbyEDecode: Swift.Sendable {
+        /// Applies only to Dolby E. Enter the program ID (according to the metadata in the audio) of the Dolby E program to extract from the specified track. One program extracted per audio selector. To select multiple programs, create multiple selectors with the same Track and different Program numbers. “All channels” means to ignore the program IDs and include all the channels in this selector; useful if metadata is known to be incorrect.
+        /// This member is required.
+        public var programSelection: MediaLiveClientTypes.DolbyEProgramSelection?
+
+        public init(
+            programSelection: MediaLiveClientTypes.DolbyEProgramSelection? = nil
+        ) {
+            self.programSelection = programSelection
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Audio pre-mixer settings for normalizing audio before interleaving. These settings can be applied to individual PIDs or tracks before they are combined.
+    public struct AudioPreMixerSettings: Swift.Sendable {
+        /// Audio normalization settings for loudness control. When specified, audio loudness will be normalized according to the chosen algorithm.
+        public var audioNormalizationSettings: MediaLiveClientTypes.AudioNormalizationSettings?
+        /// Number of audio channels. If specified, the audio will be remixed to match this channel count. Ignored if remixSettings is specified.
+        public var channels: Swift.Int?
+        /// Gain adjustment in dB to apply. Range: -60 to +60 dB
+        public var gainDb: Swift.Double?
+        /// Settings that control how input audio channels are remixed. When specified, allows fine-grained control over channel mapping and gain levels. Takes precedence over the 'channels' setting.
+        public var remixSettings: MediaLiveClientTypes.RemixSettings?
+
+        public init(
+            audioNormalizationSettings: MediaLiveClientTypes.AudioNormalizationSettings? = nil,
+            channels: Swift.Int? = nil,
+            gainDb: Swift.Double? = nil,
+            remixSettings: MediaLiveClientTypes.RemixSettings? = nil
+        ) {
+            self.audioNormalizationSettings = audioNormalizationSettings
+            self.channels = channels
+            self.gainDb = gainDb
+            self.remixSettings = remixSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Represents a single PID value for audio selection with optional pre-mixer settings
+    public struct AudioPid: Swift.Sendable {
+        /// Configure decoding options for Dolby E streams - these should be Dolby E frames carried in PCM streams tagged with SMPTE-337. When using the 'pids' array, if this field is not specified and Dolby E content is present, the decoder will extract the specified program. To maintain legacy behavior (allPrograms), explicitly set programSelection to "allChannels".
+        public var dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode?
+        /// PID value from within a source.
+        /// This member is required.
+        public var pid: Swift.Int?
+        /// Optional audio pre-mixer settings for this PID. When specified, allows per-PID audio processing including channel remixing, gain adjustment, and loudness normalization before interleaving.
+        public var premixSettings: MediaLiveClientTypes.AudioPreMixerSettings?
+
+        public init(
+            dolbyEDecode: MediaLiveClientTypes.AudioDolbyEDecode? = nil,
+            pid: Swift.Int? = nil,
+            premixSettings: MediaLiveClientTypes.AudioPreMixerSettings? = nil
+        ) {
+            self.dolbyEDecode = dolbyEDecode
+            self.pid = pid
+            self.premixSettings = premixSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Audio Hls Rendition Selection
     public struct AudioHlsRenditionSelection: Swift.Sendable {
         /// Specifies the GROUP-ID in the #EXT-X-MEDIA tag of the target HLS audio rendition.
@@ -2204,93 +2366,34 @@ extension MediaLiveClientTypes {
         /// Selects a specific PID from within a source.
         /// This member is required.
         public var pid: Swift.Int?
+        /// Selects one or more unique PIDs from within a source. When using 'pids', you can specify per-PID audio pre-mixer settings.
+        public var pids: [MediaLiveClientTypes.AudioPid]?
 
         public init(
-            pid: Swift.Int? = nil
+            pid: Swift.Int? = nil,
+            pids: [MediaLiveClientTypes.AudioPid]? = nil
         ) {
             self.pid = pid
+            self.pids = pids
         }
     }
 }
 
 extension MediaLiveClientTypes {
 
-    /// Dolby EProgram Selection
-    public enum DolbyEProgramSelection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allChannels
-        case program1
-        case program2
-        case program3
-        case program4
-        case program5
-        case program6
-        case program7
-        case program8
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DolbyEProgramSelection] {
-            return [
-                .allChannels,
-                .program1,
-                .program2,
-                .program3,
-                .program4,
-                .program5,
-                .program6,
-                .program7,
-                .program8
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allChannels: return "ALL_CHANNELS"
-            case .program1: return "PROGRAM_1"
-            case .program2: return "PROGRAM_2"
-            case .program3: return "PROGRAM_3"
-            case .program4: return "PROGRAM_4"
-            case .program5: return "PROGRAM_5"
-            case .program6: return "PROGRAM_6"
-            case .program7: return "PROGRAM_7"
-            case .program8: return "PROGRAM_8"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension MediaLiveClientTypes {
-
-    /// Audio Dolby EDecode
-    public struct AudioDolbyEDecode: Swift.Sendable {
-        /// Applies only to Dolby E. Enter the program ID (according to the metadata in the audio) of the Dolby E program to extract from the specified track. One program extracted per audio selector. To select multiple programs, create multiple selectors with the same Track and different Program numbers. “All channels” means to ignore the program IDs and include all the channels in this selector; useful if metadata is known to be incorrect.
-        /// This member is required.
-        public var programSelection: MediaLiveClientTypes.DolbyEProgramSelection?
-
-        public init(
-            programSelection: MediaLiveClientTypes.DolbyEProgramSelection? = nil
-        ) {
-            self.programSelection = programSelection
-        }
-    }
-}
-
-extension MediaLiveClientTypes {
-
-    /// Audio Track
+    /// Represents a single audio track for selection with optional pre-mixer settings
     public struct AudioTrack: Swift.Sendable {
+        /// Optional audio pre-mixer settings for this track. When specified, allows per-track audio processing including channel remixing, gain adjustment, and loudness normalization before interleaving.
+        public var premixSettings: MediaLiveClientTypes.AudioPreMixerSettings?
         /// 1-based integer value that maps to a specific audio track
         /// This member is required.
         public var track: Swift.Int?
 
         public init(
+            premixSettings: MediaLiveClientTypes.AudioPreMixerSettings? = nil,
             track: Swift.Int? = nil
         ) {
+            self.premixSettings = premixSettings
             self.track = track
         }
     }
@@ -35488,6 +35591,8 @@ extension MediaLiveClientTypes.AudioNormalizationSettings {
         guard let value else { return }
         try writer["algorithm"].write(value.algorithm)
         try writer["algorithmControl"].write(value.algorithmControl)
+        try writer["peakCalculation"].write(value.peakCalculation)
+        try writer["peakLimiterThreshold"].write(value.peakLimiterThreshold)
         try writer["targetLkfs"].write(value.targetLkfs)
     }
 
@@ -35497,6 +35602,8 @@ extension MediaLiveClientTypes.AudioNormalizationSettings {
         value.algorithm = try reader["algorithm"].readIfPresent()
         value.algorithmControl = try reader["algorithmControl"].readIfPresent()
         value.targetLkfs = try reader["targetLkfs"].readIfPresent()
+        value.peakCalculation = try reader["peakCalculation"].readIfPresent()
+        value.peakLimiterThreshold = try reader["peakLimiterThreshold"].readIfPresent()
         return value
     }
 }
@@ -35522,17 +35629,59 @@ extension MediaLiveClientTypes.AudioOnlyHlsSettings {
     }
 }
 
+extension MediaLiveClientTypes.AudioPid {
+
+    static func write(value: MediaLiveClientTypes.AudioPid?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dolbyEDecode"].write(value.dolbyEDecode, with: MediaLiveClientTypes.AudioDolbyEDecode.write(value:to:))
+        try writer["pid"].write(value.pid)
+        try writer["premixSettings"].write(value.premixSettings, with: MediaLiveClientTypes.AudioPreMixerSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioPid {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.AudioPid()
+        value.dolbyEDecode = try reader["dolbyEDecode"].readIfPresent(with: MediaLiveClientTypes.AudioDolbyEDecode.read(from:))
+        value.pid = try reader["pid"].readIfPresent() ?? 0
+        value.premixSettings = try reader["premixSettings"].readIfPresent(with: MediaLiveClientTypes.AudioPreMixerSettings.read(from:))
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.AudioPidSelection {
 
     static func write(value: MediaLiveClientTypes.AudioPidSelection?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["pid"].write(value.pid)
+        try writer["pids"].writeList(value.pids, memberWritingClosure: MediaLiveClientTypes.AudioPid.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioPidSelection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioPidSelection()
         value.pid = try reader["pid"].readIfPresent() ?? 0
+        value.pids = try reader["pids"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AudioPid.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.AudioPreMixerSettings {
+
+    static func write(value: MediaLiveClientTypes.AudioPreMixerSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioNormalizationSettings"].write(value.audioNormalizationSettings, with: MediaLiveClientTypes.AudioNormalizationSettings.write(value:to:))
+        try writer["channels"].write(value.channels)
+        try writer["gainDb"].write(value.gainDb)
+        try writer["remixSettings"].write(value.remixSettings, with: MediaLiveClientTypes.RemixSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AudioPreMixerSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.AudioPreMixerSettings()
+        value.audioNormalizationSettings = try reader["audioNormalizationSettings"].readIfPresent(with: MediaLiveClientTypes.AudioNormalizationSettings.read(from:))
+        value.channels = try reader["channels"].readIfPresent()
+        value.gainDb = try reader["gainDb"].readIfPresent()
+        value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaLiveClientTypes.RemixSettings.read(from:))
         return value
     }
 }
@@ -35596,6 +35745,7 @@ extension MediaLiveClientTypes.AudioTrack {
 
     static func write(value: MediaLiveClientTypes.AudioTrack?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["premixSettings"].write(value.premixSettings, with: MediaLiveClientTypes.AudioPreMixerSettings.write(value:to:))
         try writer["track"].write(value.track)
     }
 
@@ -35603,6 +35753,7 @@ extension MediaLiveClientTypes.AudioTrack {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.AudioTrack()
         value.track = try reader["track"].readIfPresent() ?? 0
+        value.premixSettings = try reader["premixSettings"].readIfPresent(with: MediaLiveClientTypes.AudioPreMixerSettings.read(from:))
         return value
     }
 }

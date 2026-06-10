@@ -6369,6 +6369,68 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum DaemonIpcMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The daemon gets its own isolated IPC namespace.
+        case `none`
+        /// The daemon shares the IPC namespace with co-located tasks on the same container instance.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonIpcMode] {
+            return [
+                .none,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .shared: return "shared"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DaemonPidMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The daemon gets its own isolated PID namespace.
+        case `none`
+        /// The daemon shares the PID namespace with co-located tasks on the same container instance.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DaemonPidMode] {
+            return [
+                .none,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .shared: return "shared"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum DaemonTaskDefinitionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case deleted
@@ -6449,8 +6511,12 @@ extension ECSClientTypes {
         public var executionRoleArn: Swift.String?
         /// The name of a family that this daemon task definition is registered to.
         public var family: Swift.String?
+        /// The IPC namespace mode for the daemon. A value of shared means the daemon shares the IPC namespace with co-located tasks, allowing communication through POSIX shared memory, semaphores, and message queues. A value of none means the daemon has its own isolated IPC namespace.
+        public var ipcMode: ECSClientTypes.DaemonIpcMode?
         /// The amount of memory (in MiB) used by the daemon task.
         public var memory: Swift.String?
+        /// The process namespace mode for the daemon. A value of shared means the daemon shares the PID namespace with co-located tasks, giving it visibility into application processes. A value of none means the daemon has its own isolated PID namespace.
+        public var pidMode: ECSClientTypes.DaemonPidMode?
         /// The Unix timestamp for the time when the daemon task definition was registered.
         public var registeredAt: Foundation.Date?
         /// The principal that registered the daemon task definition.
@@ -6471,7 +6537,9 @@ extension ECSClientTypes {
             deleteRequestedAt: Foundation.Date? = nil,
             executionRoleArn: Swift.String? = nil,
             family: Swift.String? = nil,
+            ipcMode: ECSClientTypes.DaemonIpcMode? = nil,
             memory: Swift.String? = nil,
+            pidMode: ECSClientTypes.DaemonPidMode? = nil,
             registeredAt: Foundation.Date? = nil,
             registeredBy: Swift.String? = nil,
             revision: Swift.Int = 0,
@@ -6485,7 +6553,9 @@ extension ECSClientTypes {
             self.deleteRequestedAt = deleteRequestedAt
             self.executionRoleArn = executionRoleArn
             self.family = family
+            self.ipcMode = ipcMode
             self.memory = memory
+            self.pidMode = pidMode
             self.registeredAt = registeredAt
             self.registeredBy = registeredBy
             self.revision = revision
@@ -6686,8 +6756,12 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
     /// You must specify a family for a daemon task definition. This family is used as a name for your daemon task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     /// This member is required.
     public var family: Swift.String?
+    /// The IPC namespace mode for the daemon. When set to shared, the daemon shares the IPC namespace with co-located tasks on the same container instance, allowing communication through POSIX shared memory, semaphores, and message queues. When set to none, the daemon gets its own isolated IPC namespace. The default is none.
+    public var ipcMode: ECSClientTypes.DaemonIpcMode?
     /// The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, 1024).
     public var memory: Swift.String?
+    /// The process namespace mode for the daemon. When set to shared, the daemon shares the PID namespace with co-located tasks on the same container instance, giving the daemon visibility into application processes. When set to none, the daemon gets its own isolated PID namespace. The default is none.
+    public var pidMode: ECSClientTypes.DaemonPidMode?
     /// The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50
@@ -6714,7 +6788,9 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
         cpu: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         family: Swift.String? = nil,
+        ipcMode: ECSClientTypes.DaemonIpcMode? = nil,
         memory: Swift.String? = nil,
+        pidMode: ECSClientTypes.DaemonPidMode? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
         volumes: [ECSClientTypes.DaemonVolume]? = nil
@@ -6723,7 +6799,9 @@ public struct RegisterDaemonTaskDefinitionInput: Swift.Sendable {
         self.cpu = cpu
         self.executionRoleArn = executionRoleArn
         self.family = family
+        self.ipcMode = ipcMode
         self.memory = memory
+        self.pidMode = pidMode
         self.tags = tags
         self.taskRoleArn = taskRoleArn
         self.volumes = volumes

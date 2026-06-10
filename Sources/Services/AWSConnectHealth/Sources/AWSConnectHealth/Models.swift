@@ -1885,6 +1885,22 @@ extension ConnectHealthClientTypes {
 
 extension ConnectHealthClientTypes {
 
+    /// An event containing raw binary audio data for the Medical Scribe stream. The audio is sent as a raw binary payload rather than as a base64-encoded value.
+    public struct MedicalScribeBinaryAudioEvent: Swift.Sendable {
+        /// The raw binary audio data chunk
+        /// This member is required.
+        public var audioChunk: Foundation.Data?
+
+        public init(
+            audioChunk: Foundation.Data? = nil
+        ) {
+            self.audioChunk = audioChunk
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
     /// Context information about the clinical encounter
     public struct EncounterContext: Swift.Sendable {
         /// Unstructured context information in markdown format
@@ -1995,6 +2011,8 @@ extension ConnectHealthClientTypes {
     public enum MedicalScribeInputStream: Swift.Sendable {
         ///
         case audioevent(ConnectHealthClientTypes.MedicalScribeAudioEvent)
+        /// An event containing raw binary audio data for the Medical Scribe stream. The audio is sent as a raw binary payload rather than as a base64-encoded value.
+        case binaryaudioevent(ConnectHealthClientTypes.MedicalScribeBinaryAudioEvent)
         ///
         case sessioncontrolevent(ConnectHealthClientTypes.MedicalScribeSessionControlEvent)
         ///
@@ -3127,6 +3145,10 @@ extension ConnectHealthClientTypes.MedicalScribeInputStream {
                 let writer = SmithyJSON.Writer(nodeInfo: "")
                 try writer["audioChunk"].write(value.audioChunk, with: SmithyReadWrite.WritingClosures.writeData(value:to:))
                 payload = try writer.data()
+            case .binaryaudioevent(let value):
+                headers.append(.init(name: ":event-type", value: .string("binaryAudioEvent")))
+                headers.append(.init(name: ":content-type", value: .string("application/octet-stream")))
+                payload = value.audioChunk
             case .sessioncontrolevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("sessionControlEvent")))
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
@@ -3381,6 +3403,14 @@ extension ConnectHealthClientTypes.ManagedTemplateResponse {
 extension ConnectHealthClientTypes.MedicalScribeAudioEvent {
 
     static func write(value: ConnectHealthClientTypes.MedicalScribeAudioEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioChunk"].write(value.audioChunk)
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalScribeBinaryAudioEvent {
+
+    static func write(value: ConnectHealthClientTypes.MedicalScribeBinaryAudioEvent?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["audioChunk"].write(value.audioChunk)
     }

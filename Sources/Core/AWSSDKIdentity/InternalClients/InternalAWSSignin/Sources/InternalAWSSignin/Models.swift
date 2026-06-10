@@ -27,12 +27,18 @@ extension SigninClientTypes {
     package enum OAuth2ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Authorization code has expired
         case authcodeExpired
+        /// Request conflicts with current state of the resource
+        case conflict
         /// Insufficient permissions to perform this operation
         case insufficientPermissions
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
         case invalidRequest
+        /// Requested resource was not found
+        case resourceNotFound
         /// Internal server error occurred
         case serverError
+        /// Request would cause a service quota to be exceeded
+        case serviceQuotaExceeded
         /// Token has expired and needs to be refreshed
         case tokenExpired
         /// User credentials have been changed
@@ -42,9 +48,12 @@ extension SigninClientTypes {
         public static var allCases: [OAuth2ErrorCode] {
             return [
                 .authcodeExpired,
+                .conflict,
                 .insufficientPermissions,
                 .invalidRequest,
+                .resourceNotFound,
                 .serverError,
+                .serviceQuotaExceeded,
                 .tokenExpired,
                 .userCredentialsChanged
             ]
@@ -58,9 +67,12 @@ extension SigninClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .authcodeExpired: return "AUTHCODE_EXPIRED"
+            case .conflict: return "CONFLICT"
             case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .invalidRequest: return "INVALID_REQUEST"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
             case .serverError: return "server_error"
+            case .serviceQuotaExceeded: return "SERVICE_QUOTA_EXCEEDED"
             case .tokenExpired: return "TOKEN_EXPIRED"
             case .userCredentialsChanged: return "USER_CREDENTIALS_CHANGED"
             case let .sdkUnknown(s): return s

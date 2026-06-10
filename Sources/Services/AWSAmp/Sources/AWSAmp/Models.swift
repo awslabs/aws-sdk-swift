@@ -3163,19 +3163,27 @@ extension AmpClientTypes {
     public struct WorkspaceConfigurationDescription: Swift.Sendable {
         /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
         public var limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]?
+        /// This field displays the out of order time window in seconds for accepting out of order samples.
+        public var outOfOrderTimeWindowInSeconds: Swift.Int?
         /// This field displays how many days that metrics are retained in the workspace.
         public var retentionPeriodInDays: Swift.Int?
+        /// This field displays the duration in seconds that rule evaluation queries are offset into the past.
+        public var ruleQueryOffsetInSeconds: Swift.Int?
         /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
         /// This member is required.
         public var status: AmpClientTypes.WorkspaceConfigurationStatus?
 
         public init(
             limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]? = nil,
+            outOfOrderTimeWindowInSeconds: Swift.Int? = nil,
             retentionPeriodInDays: Swift.Int? = nil,
+            ruleQueryOffsetInSeconds: Swift.Int? = nil,
             status: AmpClientTypes.WorkspaceConfigurationStatus? = nil
         ) {
             self.limitsPerLabelSet = limitsPerLabelSet
+            self.outOfOrderTimeWindowInSeconds = outOfOrderTimeWindowInSeconds
             self.retentionPeriodInDays = retentionPeriodInDays
+            self.ruleQueryOffsetInSeconds = ruleQueryOffsetInSeconds
             self.status = status
         }
     }
@@ -3198,8 +3206,12 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
     public var limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]?
+    /// Specifies the time window in seconds for accepting out of order samples. Out of order samples older than this window are rejected.
+    public var outOfOrderTimeWindowInSeconds: Swift.Int?
     /// Specifies how many days that metrics will be retained in the workspace.
     public var retentionPeriodInDays: Swift.Int?
+    /// Specifies the duration in seconds to offset rule evaluation queries into the past. This allows ingested samples to be available before rule evaluation.
+    public var ruleQueryOffsetInSeconds: Swift.Int?
     /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the [ListWorkspaces](https://docs.aws.amazon.com/prometheus/latest/APIReference/API_ListWorkspaces.htm) operation.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -3207,12 +3219,16 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]? = nil,
+        outOfOrderTimeWindowInSeconds: Swift.Int? = nil,
         retentionPeriodInDays: Swift.Int? = nil,
+        ruleQueryOffsetInSeconds: Swift.Int? = nil,
         workspaceId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.limitsPerLabelSet = limitsPerLabelSet
+        self.outOfOrderTimeWindowInSeconds = outOfOrderTimeWindowInSeconds
         self.retentionPeriodInDays = retentionPeriodInDays
+        self.ruleQueryOffsetInSeconds = ruleQueryOffsetInSeconds
         self.workspaceId = workspaceId
     }
 }
@@ -4201,7 +4217,9 @@ extension UpdateWorkspaceConfigurationInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["limitsPerLabelSet"].writeList(value.limitsPerLabelSet, memberWritingClosure: AmpClientTypes.LimitsPerLabelSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outOfOrderTimeWindowInSeconds"].write(value.outOfOrderTimeWindowInSeconds)
         try writer["retentionPeriodInDays"].write(value.retentionPeriodInDays)
+        try writer["ruleQueryOffsetInSeconds"].write(value.ruleQueryOffsetInSeconds)
     }
 }
 
@@ -6260,6 +6278,8 @@ extension AmpClientTypes.WorkspaceConfigurationDescription {
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationStatus.read(from:))
         value.limitsPerLabelSet = try reader["limitsPerLabelSet"].readListIfPresent(memberReadingClosure: AmpClientTypes.LimitsPerLabelSet.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retentionPeriodInDays = try reader["retentionPeriodInDays"].readIfPresent()
+        value.outOfOrderTimeWindowInSeconds = try reader["outOfOrderTimeWindowInSeconds"].readIfPresent()
+        value.ruleQueryOffsetInSeconds = try reader["ruleQueryOffsetInSeconds"].readIfPresent()
         return value
     }
 }
