@@ -8536,6 +8536,8 @@ extension OmicsClientTypes {
         public var storageType: OmicsClientTypes.StorageType?
         /// The run's workflow ID.
         public var workflowId: Swift.String?
+        /// The name of the workflow.
+        public var workflowName: Swift.String?
         /// The name of the workflow version.
         public var workflowVersionName: Swift.String?
 
@@ -8552,6 +8554,7 @@ extension OmicsClientTypes {
             storageCapacity: Swift.Int? = nil,
             storageType: OmicsClientTypes.StorageType? = nil,
             workflowId: Swift.String? = nil,
+            workflowName: Swift.String? = nil,
             workflowVersionName: Swift.String? = nil
         ) {
             self.arn = arn
@@ -8566,6 +8569,7 @@ extension OmicsClientTypes {
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
+            self.workflowName = workflowName
             self.workflowVersionName = workflowVersionName
         }
     }
@@ -17425,6 +17429,7 @@ extension OmicsClientTypes.RunListItem {
         value.stopTime = try reader["stopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["storageType"].readIfPresent()
         value.workflowVersionName = try reader["workflowVersionName"].readIfPresent()
+        value.workflowName = try reader["workflowName"].readIfPresent()
         return value
     }
 }

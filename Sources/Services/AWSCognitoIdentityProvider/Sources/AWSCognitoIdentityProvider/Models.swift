@@ -604,11 +604,11 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             attributeDataType: CognitoIdentityProviderClientTypes.AttributeDataType? = nil,
-            developerOnlyAttribute: Swift.Bool? = false,
-            mutable: Swift.Bool? = false,
+            developerOnlyAttribute: Swift.Bool? = nil,
+            mutable: Swift.Bool? = nil,
             name: Swift.String? = nil,
             numberAttributeConstraints: CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType? = nil,
-            `required`: Swift.Bool? = false,
+            `required`: Swift.Bool? = nil,
             stringAttributeConstraints: CognitoIdentityProviderClientTypes.StringAttributeConstraintsType? = nil
         ) {
             self.attributeDataType = attributeDataType
@@ -6792,7 +6792,7 @@ extension CognitoIdentityProviderClientTypes {
         public init(
             accessTokenValidity: Swift.Int? = nil,
             allowedOAuthFlows: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
-            allowedOAuthFlowsUserPoolClient: Swift.Bool? = false,
+            allowedOAuthFlowsUserPoolClient: Swift.Bool? = nil,
             allowedOAuthScopes: [Swift.String]? = nil,
             analyticsConfiguration: CognitoIdentityProviderClientTypes.AnalyticsConfigurationType? = nil,
             authSessionValidity: Swift.Int? = nil,

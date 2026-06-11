@@ -2839,7 +2839,7 @@ extension IoTFleetWiseClientTypes {
             bitMaskLength: Swift.Int? = nil,
             bitRightShift: Swift.Int = 0,
             byteLength: Swift.Int? = nil,
-            isSigned: Swift.Bool? = false,
+            isSigned: Swift.Bool? = nil,
             offset: Swift.Double? = nil,
             pid: Swift.Int = 0,
             pidResponseLength: Swift.Int? = nil,

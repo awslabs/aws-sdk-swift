@@ -2766,15 +2766,63 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum SpreadLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case host
+        case rack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpreadLevel] {
+            return [
+                .host,
+                .rack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .host: return "host"
+            case .rack: return "rack"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
     public struct ControlPlanePlacementRequest: Swift.Sendable {
         /// The name of the placement group for the Kubernetes control plane instances. This setting can't be changed after cluster creation.
         public var groupName: Swift.String?
+        /// Optional parameter to specify the placement group spread level for control plane instances. If not provided, Amazon EKS will deploy control plane instances without a placement group.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
 
         public init(
-            groupName: Swift.String? = nil
+            groupName: Swift.String? = nil,
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
         ) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+    public struct EtcdPlacementRequest: Swift.Sendable {
+        /// Optional parameter to specify the placement group spread level for etcd instances. If not provided, Amazon EKS will deploy etcd instances without a placement group.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
+
+        public init(
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
+        ) {
+            self.spreadLevel = spreadLevel
         }
     }
 }
@@ -2783,11 +2831,15 @@ extension EKSClientTypes {
 
     /// The configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a cluster on an Outpost, review [Creating a local cluster on an Outpost](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-local-cluster-create.html) in the Amazon EKS User Guide. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
     public struct OutpostConfigRequest: Swift.Sendable {
-        /// The Amazon EC2 instance type that you want to use for your local Amazon EKS cluster on Outposts. Choose an instance type based on the number of nodes that your cluster will have. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide. The instance type that you specify is used for all Kubernetes control plane instances. The instance type can't be changed after cluster creation. The control plane is not automatically scaled by Amazon EKS.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all control plane instances and cannot be changed after cluster creation. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. This instance type applies to all etcd instances and cannot be changed after cluster creation.
+        public var etcdInstanceType: Swift.String?
+        /// An object representing the placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var etcdPlacement: EKSClientTypes.EtcdPlacementRequest?
         /// The ARN of the Outpost that you want to use for your local Amazon EKS cluster on Outposts. Only a single Outpost ARN is supported.
         /// This member is required.
         public var outpostArns: [Swift.String]?
@@ -2795,10 +2847,14 @@ extension EKSClientTypes {
         public init(
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementRequest? = nil,
+            etcdInstanceType: Swift.String? = nil,
+            etcdPlacement: EKSClientTypes.EtcdPlacementRequest? = nil,
             outpostArns: [Swift.String]? = nil
         ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
     }
@@ -3357,11 +3413,30 @@ extension EKSClientTypes {
     public struct ControlPlanePlacementResponse: Swift.Sendable {
         /// The name of the placement group for the Kubernetes control plane instances.
         public var groupName: Swift.String?
+        /// The spread level used with the placement group for control plane instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
 
         public init(
-            groupName: Swift.String? = nil
+            groupName: Swift.String? = nil,
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
         ) {
             self.groupName = groupName
+            self.spreadLevel = spreadLevel
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+    public struct EtcdPlacementResponse: Swift.Sendable {
+        /// The spread level used with the placement group for etcd instances on your local Amazon EKS cluster on Amazon Web Services Outposts.
+        public var spreadLevel: EKSClientTypes.SpreadLevel?
+
+        public init(
+            spreadLevel: EKSClientTypes.SpreadLevel? = nil
+        ) {
+            self.spreadLevel = spreadLevel
         }
     }
 }
@@ -3370,11 +3445,15 @@ extension EKSClientTypes {
 
     /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. This API isn't available for Amazon EKS clusters on the Amazon Web Services cloud.
     public struct OutpostConfigResponse: Swift.Sendable {
-        /// The Amazon EC2 instance type used for the control plane. The instance type is the same for all control plane instances.
+        /// The Amazon EC2 instance type for the Kubernetes control plane instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all control plane instances.
         /// This member is required.
         public var controlPlaneInstanceType: Swift.String?
         /// An object representing the placement configuration for all the control plane instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
         public var controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse?
+        /// The Amazon EC2 instance type for etcd instances of your local Amazon EKS cluster on Amazon Web Services Outposts. The instance type is the same for all etcd instances.
+        public var etcdInstanceType: Swift.String?
+        /// An object representing the placement configuration for the etcd instances of your local Amazon EKS cluster on an Amazon Web Services Outpost. For more information, see [Capacity considerations](https://docs.aws.amazon.com/eks/latest/userguide/eks-outposts-capacity-considerations.html) in the Amazon EKS User Guide.
+        public var etcdPlacement: EKSClientTypes.EtcdPlacementResponse?
         /// The ARN of the Outpost that you specified for use with your local Amazon EKS cluster on Outposts.
         /// This member is required.
         public var outpostArns: [Swift.String]?
@@ -3382,10 +3461,14 @@ extension EKSClientTypes {
         public init(
             controlPlaneInstanceType: Swift.String? = nil,
             controlPlanePlacement: EKSClientTypes.ControlPlanePlacementResponse? = nil,
+            etcdInstanceType: Swift.String? = nil,
+            etcdPlacement: EKSClientTypes.EtcdPlacementResponse? = nil,
             outpostArns: [Swift.String]? = nil
         ) {
             self.controlPlaneInstanceType = controlPlaneInstanceType
             self.controlPlanePlacement = controlPlanePlacement
+            self.etcdInstanceType = etcdInstanceType
+            self.etcdPlacement = etcdPlacement
             self.outpostArns = outpostArns
         }
     }
@@ -11986,6 +12069,7 @@ extension EKSClientTypes.ControlPlanePlacementRequest {
     static func write(value: EKSClientTypes.ControlPlanePlacementRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["groupName"].write(value.groupName)
+        try writer["spreadLevel"].write(value.spreadLevel)
     }
 }
 
@@ -11995,6 +12079,7 @@ extension EKSClientTypes.ControlPlanePlacementResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.ControlPlanePlacementResponse()
         value.groupName = try reader["groupName"].readIfPresent()
+        value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         return value
     }
 }
@@ -12116,6 +12201,24 @@ extension EKSClientTypes.ErrorDetail {
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.resourceIds = try reader["resourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.EtcdPlacementRequest {
+
+    static func write(value: EKSClientTypes.EtcdPlacementRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["spreadLevel"].write(value.spreadLevel)
+    }
+}
+
+extension EKSClientTypes.EtcdPlacementResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.EtcdPlacementResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.EtcdPlacementResponse()
+        value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         return value
     }
 }
@@ -12596,6 +12699,8 @@ extension EKSClientTypes.OutpostConfigRequest {
         guard let value else { return }
         try writer["controlPlaneInstanceType"].write(value.controlPlaneInstanceType)
         try writer["controlPlanePlacement"].write(value.controlPlanePlacement, with: EKSClientTypes.ControlPlanePlacementRequest.write(value:to:))
+        try writer["etcdInstanceType"].write(value.etcdInstanceType)
+        try writer["etcdPlacement"].write(value.etcdPlacement, with: EKSClientTypes.EtcdPlacementRequest.write(value:to:))
         try writer["outpostArns"].writeList(value.outpostArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -12608,6 +12713,8 @@ extension EKSClientTypes.OutpostConfigResponse {
         value.outpostArns = try reader["outpostArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.controlPlaneInstanceType = try reader["controlPlaneInstanceType"].readIfPresent() ?? ""
         value.controlPlanePlacement = try reader["controlPlanePlacement"].readIfPresent(with: EKSClientTypes.ControlPlanePlacementResponse.read(from:))
+        value.etcdInstanceType = try reader["etcdInstanceType"].readIfPresent()
+        value.etcdPlacement = try reader["etcdPlacement"].readIfPresent(with: EKSClientTypes.EtcdPlacementResponse.read(from:))
         return value
     }
 }

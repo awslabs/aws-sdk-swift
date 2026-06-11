@@ -554,9 +554,9 @@ extension BedrockAgentCoreControlClientTypes.InlineExamplesSource: Swift.CustomD
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// S3 location of a JSONL file containing dataset examples.
+    /// Amazon S3 location of a JSONL file containing dataset examples.
     public struct S3Source: Swift.Sendable {
-        /// S3 URI of the JSONL file (e.g. s3://my-bucket/path/to/examples.jsonl).
+        /// Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl).
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -574,7 +574,7 @@ extension BedrockAgentCoreControlClientTypes {
     public enum DataSourceType: Swift.Sendable {
         /// Inline examples provided directly in the request body.
         case inlineexamples(BedrockAgentCoreControlClientTypes.InlineExamplesSource)
-        /// S3 URI pointing to a JSONL file in the customer's bucket. The service reads this file using the caller's FAS credentials.
+        /// Amazon S3 URI pointing to a JSONL file in the customer's bucket.
         case s3source(BedrockAgentCoreControlClientTypes.S3Source)
         case sdkUnknown(Swift.String)
     }
@@ -603,21 +603,21 @@ public struct AddDatasetExamplesInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Dataset lifecycle / operation status. Two-column status model: DatasetStatus tracks lifecycle state independently from DraftStatus which tracks publish synchronization. IN-FLIGHT states (busy — all writes blocked): CREATING — CreateDataset async ingestion in progress. UPDATING — Example mutation (Add/Update/Delete) or CreateDatasetVersion in progress. DELETING — Full or version-specific delete in progress. TERMINAL states (stable — operations allowed per guards below): ACTIVE — Dataset is stable. failureReason cleared. CREATE_FAILED — Initial ingestion failed. DRAFT record exists but has no examples. failureReason populated. UPDATE_FAILED — Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason populated. DELETE_FAILED — Delete failed after retries. Dataset/S3 may be in inconsistent state. Sev-2 ticket filed (full-delete only). failureReason populated. State transitions: CreateDataset → CREATING → ACTIVE (draftStatus=MODIFIED) | CREATE_FAILED Add/Update/DeleteDatasetExamples → UPDATING → ACTIVE (draftStatus=MODIFIED) | UPDATE_FAILED CreateDatasetVersion → UPDATING → ACTIVE (draftStatus=UNMODIFIED) | UPDATE_FAILED DeleteDataset (version-specific) → DELETING → ACTIVE (draftStatus unchanged) | DELETE_FAILED DeleteDataset (full) → DELETING → (record deleted) | DELETE_FAILED [auto Sev-2] Operation guards (ConflictException codes): GetDataset / ListDatasetExamples: — Allowed for all statuses (no guard) UpdateDataset, AddDatasetExamples, DeleteDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status == DELETE_FAILED UpdateDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING}
+    /// Dataset lifecycle and operation status.
     public enum DatasetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Dataset is stable. All operations are allowed per per-operation guards. failureReason is cleared.
+        /// Dataset is stable. All operations are allowed per operation-specific guards.
         case active
-        /// Initial ingestion failed. DRAFT record exists but contains no examples. failureReason is populated. AddDatasetExamples and DeleteDatasetExamples allowed. UpdateDatasetExamples and CreateDatasetVersion blocked (no examples exist).
+        /// Initial ingestion failed. DRAFT record exists but contains no examples.
         case createFailed
-        /// CreateDataset async ingestion in progress. All writes are blocked. Poll GetDataset until status resolves to ACTIVE or CREATE_FAILED.
+        /// CreateDataset async ingestion in progress. All writes are blocked.
         case creating
-        /// Delete failed after retries. Dataset record/S3 may be in inconsistent state. failureReason is populated. Only DeleteDataset (retry) is allowed.
+        /// Delete failed after retries. Dataset record may be in an inconsistent state.
         case deleteFailed
-        /// Full or version-specific delete is in progress. Read operations (GetDataset, ListDatasetExamples) are still allowed.
+        /// Full or version-specific delete is in progress. Read operations are still allowed.
         case deleting
-        /// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason is populated. All example mutations and CreateDatasetVersion allowed for retry.
+        /// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified.
         case updateFailed
-        /// An async example mutation or CreateDatasetVersion is in progress. All writes are blocked. Poll GetDataset until status resolves.
+        /// An async example mutation or CreateDatasetVersion is in progress. All writes are blocked.
         case updating
         case sdkUnknown(Swift.String)
 
@@ -4629,11 +4629,11 @@ public struct UpdateConfigurationBundleOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Format of a customer-provided source file. JSONL (JSON Lines, one object per line) is the service's native ingestion and storage format — it can be streamed line-by-line without loading the entire file into memory, which is important as the row-count cap is extended. JSON array ([{...},{...}]) is intentionally not supported at launch: it cannot be streamed (requires loading the full file into memory to parse), and all major eval frameworks (LangSmith, Ragas, DeepEval, Arize Phoenix) export as JSONL or CSV — not JSON arrays. Customers with JSON array files can Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema. Schema definitions (required/optional fields) are stored as constants in SchemaRegistry. The schemaType on a Dataset is immutable after creation. When a framework changes its format, a new version is added (e.g., RAGAS_V2) without breaking existing datasets using the old version. Content is always stored as-is.
+    /// Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema.
     public enum DatasetSchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn. Required: input. Optional: expectedResponse, assertions, expectedTrajectory.
+        /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn.
         case agentcoreEvaluationPredefinedV1
-        /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation. Each example is a Scenario that a simulator uses to generate full conversations. Required: input. Optional: name (→exampleId), actor_profile, max_turns, assertions.
+        /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation where each example is a scenario used to generate full conversations.
         case agentcoreEvaluationSimulatedV1
         case sdkUnknown(Swift.String)
 
@@ -4660,14 +4660,14 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateDatasetInput: Swift.Sendable {
-    /// Optional idempotency token.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// Human-readable name for the dataset. Unique within the account (case-insensitive). Immutable after creation.
+    /// Human-readable name for the dataset. Must be unique within the account. Immutable after creation.
     /// This member is required.
     public var datasetName: Swift.String?
     /// A description of the dataset.
     public var description: Swift.String?
-    /// Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    /// Optional KMS key ARN for server-side encryption on service Amazon S3 writes.
     public var kmsKeyArn: Swift.String?
     /// Versioned schema type governing the structure of examples. Immutable after creation.
     /// This member is required.
@@ -4707,7 +4707,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
     /// The unique identifier of the created dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Always CREATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=MODIFIED) or CREATE_FAILED.
+    /// Always CREATING immediately after this call. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
 
@@ -4750,10 +4750,10 @@ public struct CreateDatasetVersionOutput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// The version being created.
+    /// The version number being created.
     /// This member is required.
     public var datasetVersion: Swift.String?
-    /// Always UPDATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=UNMODIFIED) or UPDATE_FAILED.
+    /// Always UPDATING immediately after this call. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
 
@@ -4776,7 +4776,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
     /// The unique identifier of the dataset to delete.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Optional version to delete. Use "DRAFT" or omit to delete the draft. Returns ResourceNotFoundException if the specified version does not exist.
+    /// Optional version to delete. If absent, deletes the entire dataset. If provided, deletes only that specific version.
     public var datasetVersion: Swift.String?
 
     public init(
@@ -4795,7 +4795,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// The version deleted.
+    /// The version that was deleted.
     /// This member is required.
     public var datasetVersion: Swift.String?
     /// The current status of the dataset after the delete request.
@@ -4891,11 +4891,11 @@ public struct GetDatasetInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Publish synchronization state of the DRAFT working copy. Tracks whether the current DRAFT content has been published as a version. Only authoritative when DatasetStatus == ACTIVE. Not meaningful during in-flight or failed states. Transitions: CreateDataset succeeds → MODIFIED (DRAFT has content with no published version yet) Add/Update/DeleteExamples succeed → MODIFIED (DRAFT differs from last published version) CreateDatasetVersion succeeds → UNMODIFIED (DRAFT matches the version just published)
+    /// Publish synchronization state of the DRAFT working copy.
     public enum DraftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// DRAFT has changes not yet reflected in any published version, or no versions have been published yet.
         case modified
-        /// DRAFT content matches the latest published version exactly. Any example mutation transitions draftStatus back to MODIFIED.
+        /// DRAFT content matches the latest published version exactly.
         case unmodified
         case sdkUnknown(Swift.String)
 
@@ -4939,18 +4939,18 @@ public struct GetDatasetOutput: Swift.Sendable {
     public var datasetVersion: Swift.String?
     /// The description of the dataset.
     public var description: Swift.String?
-    /// Presigned S3 URL to download the consolidated dataset.jsonl file for the resolved version (DRAFT or published). TTL: 5 minutes. Omitted if the file does not yet exist (e.g. during CREATING) or on presign failure.
+    /// Presigned Amazon S3 URL to download the consolidated dataset file for the resolved version. Expires after 5 minutes. Omitted if the file does not yet exist.
     public var downloadUrl: Swift.String?
-    /// Expiry timestamp for downloadUrl.
+    /// Expiry timestamp for the download URL.
     public var downloadUrlExpiresAt: Foundation.Date?
-    /// Publish synchronization state. Only authoritative when status == ACTIVE. MODIFIED — DRAFT has unpublished changes (or no published versions yet). UNMODIFIED — DRAFT matches the latest published version exactly.
+    /// Publish synchronization state. Only authoritative when status is ACTIVE. MODIFIED indicates DRAFT has unpublished changes. UNMODIFIED indicates DRAFT matches the latest published version.
     public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
-    /// Example count for DRAFT.
+    /// The number of examples in the DRAFT.
     /// This member is required.
     public var exampleCount: Swift.Int?
-    /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED.
+    /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED. Describes the reason for the failure.
     public var failureReason: Swift.String?
-    /// AWS KMS key ARN used for SSE-KMS on service S3 writes, if configured.
+    /// KMS key ARN used for server-side encryption on service Amazon S3 writes, if configured.
     public var kmsKeyArn: Swift.String?
     /// The schema type declared at create time. Immutable after creation.
     /// This member is required.
@@ -5010,9 +5010,9 @@ public struct ListDatasetExamplesInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request (when nextToken is absent). For subsequent pages, the version is extracted from the nextToken and this parameter is ignored.
+    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token.
     public var datasetVersion: Swift.String?
-    /// Maximum number of examples to return per page. Default: 1000. Min: 1, max: 1000. Response size is validated against 5 MB limit after reading. For bulk access to all examples, use the downloadUrl field from GetDataset.
+    /// Maximum number of examples to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
@@ -5099,7 +5099,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var datasetName: Swift.String?
         /// The description of the dataset.
         public var description: Swift.String?
-        /// Publish synchronization state. Only authoritative when status == ACTIVE.
+        /// Publish synchronization state. Only authoritative when status is ACTIVE.
         public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
         /// The number of examples in the dataset.
         /// This member is required.
@@ -5183,18 +5183,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The timestamp when this version was published.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// Dataset version identifier. Accepts "DRAFT" or a non-negative integer string. "DRAFT" refers to the single mutable working copy of the dataset.
-        ///
-        /// * Always present after CreateDataset ingestion completes.
-        ///
-        /// * Content changes in-place when examples are added, updated, or deleted.
-        ///
-        /// * NOT tracked as a DDB DatasetVersionItem — state lives in S3 (draft/manifest.json, draft/dataset.jsonl) and the DatasetItem.exampleCount field.
-        ///
-        /// * Default for read operations when ?datasetVersion is absent.
-        ///
-        ///
-        /// An integer string (e.g. "1", "2", "3") refers to a published, immutable snapshot created by CreateDatasetVersion. Once created, a published version's content never changes. Stored as a DDB DatasetVersionItem (SK=VERSION#{zero-padded-N}).
+        /// The version number of this published snapshot.
         /// This member is required.
         public var datasetVersion: Swift.String?
         /// The number of examples in this version.
@@ -5277,7 +5266,7 @@ public struct UpdateDatasetExamplesInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Examples to update. Each element is a JSON object containing a required exampleId string field identifying the existing example, plus the replacement fields. The exampleId is extracted and removed before persistence; the remaining document is validated against the dataset's schemaType. Max 1000 examples per call. Total request body must not exceed 5 MB.
+    /// Examples to update. Each element is a JSON object containing a required exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call.
     /// This member is required.
     public var examples: [Smithy.Document]?
 
@@ -10041,10 +10030,42 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The extraction type for a metadata field, determining how the value is obtained during memory processing.
+    public enum ExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case llmInferred
+        case strictlyConsistent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractionType] {
+            return [
+                .llmInferred,
+                .strictlyConsistent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .llmInferred: return "LLM_INFERRED"
+            case .strictlyConsistent: return "STRICTLY_CONSISTENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// A metadata field definition within a strategy's schema.
     public struct MetadataSchemaEntry: Swift.Sendable {
-        /// Configuration for extracting this metadata value from conversational content.
+        /// Configuration for extracting this metadata value from conversational content. Applicable only if extractionType is LLM inferred.
         public var extractionConfig: BedrockAgentCoreControlClientTypes.ExtractionConfig?
+        /// Specifies whether the metadata value is extracted by the LLM or passed through deterministically from the event.
+        public var extractionType: BedrockAgentCoreControlClientTypes.ExtractionType?
         /// The metadata field name. Must match an indexed key to be queryable via metadata filters.
         /// This member is required.
         public var key: Swift.String?
@@ -10053,10 +10074,12 @@ extension BedrockAgentCoreControlClientTypes {
 
         public init(
             extractionConfig: BedrockAgentCoreControlClientTypes.ExtractionConfig? = nil,
+            extractionType: BedrockAgentCoreControlClientTypes.ExtractionType? = nil,
             key: Swift.String? = nil,
             type: BedrockAgentCoreControlClientTypes.MetadataValueType? = nil
         ) {
             self.extractionConfig = extractionConfig
+            self.extractionType = extractionType
             self.key = key
             self.type = type
         }
@@ -10868,6 +10891,7 @@ extension BedrockAgentCoreControlClientTypes {
         case creating
         case deleting
         case failed
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MemoryStatus] {
@@ -10875,7 +10899,8 @@ extension BedrockAgentCoreControlClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed
+                .failed,
+                .updating
             ]
         }
 
@@ -10890,6 +10915,7 @@ extension BedrockAgentCoreControlClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -31164,6 +31190,7 @@ extension BedrockAgentCoreControlClientTypes.MetadataSchemaEntry {
     static func write(value: BedrockAgentCoreControlClientTypes.MetadataSchemaEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["extractionConfig"].write(value.extractionConfig, with: BedrockAgentCoreControlClientTypes.ExtractionConfig.write(value:to:))
+        try writer["extractionType"].write(value.extractionType)
         try writer["key"].write(value.key)
         try writer["type"].write(value.type)
     }
@@ -31173,6 +31200,7 @@ extension BedrockAgentCoreControlClientTypes.MetadataSchemaEntry {
         var value = BedrockAgentCoreControlClientTypes.MetadataSchemaEntry()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent()
+        value.extractionType = try reader["extractionType"].readIfPresent()
         value.extractionConfig = try reader["extractionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExtractionConfig.read(from:))
         return value
     }

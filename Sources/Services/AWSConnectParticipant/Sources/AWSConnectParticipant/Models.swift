@@ -702,7 +702,7 @@ public struct GetAttachmentOutput: Swift.Sendable {
     public var urlExpiry: Swift.String?
 
     public init(
-        attachmentSizeInBytes: Swift.Int? = 0,
+        attachmentSizeInBytes: Swift.Int? = nil,
         url: Swift.String? = nil,
         urlExpiry: Swift.String? = nil
     ) {
@@ -846,7 +846,7 @@ public struct GetTranscriptInput: Swift.Sendable {
     public init(
         connectionToken: Swift.String? = nil,
         contactId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scanDirection: ConnectParticipantClientTypes.ScanDirection? = nil,
         sortOrder: ConnectParticipantClientTypes.SortKey? = nil,

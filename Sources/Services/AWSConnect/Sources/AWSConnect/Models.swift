@@ -1890,10 +1890,10 @@ extension ConnectClientTypes {
         public var versionNumber: Swift.Int?
 
         public init(
-            aiAgentEscalated: Swift.Bool? = false,
+            aiAgentEscalated: Swift.Bool? = nil,
             aiUseCase: ConnectClientTypes.AiUseCase? = nil,
             id: Swift.String? = nil,
-            versionNumber: Swift.Int? = 0
+            versionNumber: Swift.Int? = nil
         ) {
             self.aiAgentEscalated = aiAgentEscalated
             self.aiUseCase = aiUseCase
@@ -3178,7 +3178,7 @@ extension ConnectClientTypes {
         public var queueReference: ConnectClientTypes.RoutingProfileQueueReference?
 
         public init(
-            delay: Swift.Int? = 0,
+            delay: Swift.Int? = nil,
             priority: Swift.Int? = nil,
             queueReference: ConnectClientTypes.RoutingProfileQueueReference? = nil
         ) {
@@ -7077,8 +7077,8 @@ extension ConnectClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            hours: Swift.Int? = 0,
-            minutes: Swift.Int? = 0
+            hours: Swift.Int? = nil,
+            minutes: Swift.Int? = nil
         ) {
             self.hours = hours
             self.minutes = minutes
@@ -7222,8 +7222,8 @@ extension ConnectClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            hours: Swift.Int? = 0,
-            minutes: Swift.Int? = 0
+            hours: Swift.Int? = nil,
+            minutes: Swift.Int? = nil
         ) {
             self.hours = hours
             self.minutes = minutes
@@ -8323,7 +8323,7 @@ public struct CreateQueueInput: Swift.Sendable {
         emailAddressesConfig: [ConnectClientTypes.EmailAddressConfig]? = nil,
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = 0,
+        maxContacts: Swift.Int? = nil,
         name: Swift.String? = nil,
         outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
         outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
@@ -10315,7 +10315,7 @@ extension ConnectClientTypes {
 
         public init(
             channel: ConnectClientTypes.Channel? = nil,
-            persistentConnection: Swift.Bool? = false
+            persistentConnection: Swift.Bool? = nil
         ) {
             self.channel = channel
             self.persistentConnection = persistentConnection
@@ -10371,7 +10371,7 @@ extension ConnectClientTypes {
             afterContactWorkTimeLimit: Swift.Int = 0,
             autoAccept: Swift.Bool = false,
             deskPhoneNumber: Swift.String? = nil,
-            persistentConnection: Swift.Bool? = false,
+            persistentConnection: Swift.Bool? = nil,
             phoneType: ConnectClientTypes.PhoneType? = .softPhone
         ) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
@@ -11719,7 +11719,7 @@ public struct DeleteEvaluationFormInput: Swift.Sendable {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = 0,
+        evaluationFormVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
     ) {
         self.evaluationFormId = evaluationFormId
@@ -12122,7 +12122,7 @@ public struct DeleteViewVersionInput: Swift.Sendable {
     public init(
         instanceId: Swift.String? = nil,
         viewId: Swift.String? = nil,
-        viewVersion: Swift.Int? = 0
+        viewVersion: Swift.Int? = nil
     ) {
         self.instanceId = instanceId
         self.viewId = viewId
@@ -12500,7 +12500,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             periodicSessionDuration: Swift.Int? = nil,
             sessionInactivityDuration: Swift.Int? = nil,
-            sessionInactivityHandlingEnabled: Swift.Bool? = false
+            sessionInactivityHandlingEnabled: Swift.Bool? = nil
         ) {
             self.allowedIps = allowedIps
             self.arn = arn
@@ -14768,7 +14768,7 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
 
     public init(
         evaluationFormId: Swift.String? = nil,
-        evaluationFormVersion: Swift.Int? = 0,
+        evaluationFormVersion: Swift.Int? = nil,
         instanceId: Swift.String? = nil
     ) {
         self.evaluationFormId = evaluationFormId
@@ -16628,7 +16628,7 @@ extension ConnectClientTypes {
             hoursOfOperationId: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            maxContacts: Swift.Int? = 0,
+            maxContacts: Swift.Int? = nil,
             name: Swift.String? = nil,
             outboundCallerConfig: ConnectClientTypes.OutboundCallerConfig? = nil,
             outboundEmailConfig: ConnectClientTypes.OutboundEmailConfig? = nil,
@@ -22396,7 +22396,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
-            activeVersion: Swift.Int? = 0,
+            activeVersion: Swift.Int? = nil,
             createdBy: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             evaluationFormArn: Swift.String? = nil,
@@ -25844,7 +25844,7 @@ public struct ListViewsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         type: ConnectClientTypes.ViewType? = nil
     ) {
@@ -25924,7 +25924,7 @@ public struct ListViewVersionsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         viewId: Swift.String? = nil
     ) {
@@ -26935,7 +26935,7 @@ extension ConnectClientTypes {
             evaluationArn: Swift.String? = nil,
             evaluationFormId: Swift.String? = nil,
             evaluationFormTitle: Swift.String? = nil,
-            evaluationFormVersion: Swift.Int? = 0,
+            evaluationFormVersion: Swift.Int? = nil,
             evaluationId: Swift.String? = nil,
             evaluationType: ConnectClientTypes.EvaluationType? = nil,
             lastModifiedTime: Foundation.Date? = nil,
@@ -27764,7 +27764,7 @@ extension ConnectClientTypes {
         public var aiUseCase: ConnectClientTypes.AiUseCase?
 
         public init(
-            aiAgentEscalated: Swift.Bool? = false,
+            aiAgentEscalated: Swift.Bool? = nil,
             aiAgentVersionId: Swift.String? = nil,
             aiUseCase: ConnectClientTypes.AiUseCase? = nil
         ) {
@@ -27978,7 +27978,7 @@ extension ConnectClientTypes {
         public var title: Swift.String?
 
         public init(
-            activeVersion: Swift.Int? = 0,
+            activeVersion: Swift.Int? = nil,
             autoEvaluationEnabled: Swift.Bool = false,
             contactInteractionType: ConnectClientTypes.ContactInteractionType? = nil,
             createdBy: Swift.String? = nil,
@@ -27991,7 +27991,7 @@ extension ConnectClientTypes {
             lastActivatedTime: Foundation.Date? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            latestVersion: Swift.Int? = 0,
+            latestVersion: Swift.Int? = nil,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             title: Swift.String? = nil
@@ -31536,7 +31536,7 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         periodicSessionDuration: Swift.Int? = nil,
         sessionInactivityDuration: Swift.Int? = nil,
-        sessionInactivityHandlingEnabled: Swift.Bool? = false
+        sessionInactivityHandlingEnabled: Swift.Bool? = nil
     ) {
         self.allowedIps = allowedIps
         self.authenticationProfileId = authenticationProfileId
@@ -32660,7 +32660,7 @@ public struct UpdateQueueMaxContactsInput: Swift.Sendable {
 
     public init(
         instanceId: Swift.String? = nil,
-        maxContacts: Swift.Int? = 0,
+        maxContacts: Swift.Int? = nil,
         queueId: Swift.String? = nil
     ) {
         self.instanceId = instanceId
@@ -35913,7 +35913,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         asDraft: Swift.Bool? = false,
         autoEvaluationConfiguration: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration? = nil,
         clientToken: Swift.String? = nil,
-        createNewVersion: Swift.Bool? = false,
+        createNewVersion: Swift.Bool? = nil,
         description: Swift.String? = nil,
         evaluationFormId: Swift.String? = nil,
         evaluationFormVersion: Swift.Int? = 0,

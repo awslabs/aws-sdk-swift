@@ -728,7 +728,7 @@ extension GeoPlacesClientTypes {
 
         public init(
             center: [Swift.Double]? = nil,
-            radius: Swift.Int? = 0
+            radius: Swift.Int? = nil
         ) {
             self.center = center
             self.radius = radius
@@ -1633,11 +1633,11 @@ extension GeoPlacesClientTypes {
         public init(
             accessPoints: [GeoPlacesClientTypes.AccessPoint]? = nil,
             address: GeoPlacesClientTypes.Address? = nil,
-            distance: Swift.Int? = 0,
+            distance: Swift.Int? = nil,
             mapView: [Swift.Double]? = nil,
             placeId: Swift.String? = nil,
             position: [Swift.Double]? = nil,
-            routeDistance: Swift.Int? = 0,
+            routeDistance: Swift.Int? = nil,
             title: Swift.String? = nil
         ) {
             self.accessPoints = accessPoints
@@ -2652,7 +2652,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         politicalView: Swift.String? = nil,
         queryPosition: [Swift.Double]? = nil,
-        queryRadius: Swift.Int? = 0
+        queryRadius: Swift.Int? = nil
     ) {
         self.additionalFeatures = additionalFeatures
         self.filter = filter
@@ -2914,7 +2914,7 @@ public struct SearchNearbyInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         politicalView: Swift.String? = nil,
         queryPosition: [Swift.Double]? = nil,
-        queryRadius: Swift.Int? = 0
+        queryRadius: Swift.Int? = nil
     ) {
         self.additionalFeatures = additionalFeatures
         self.filter = filter

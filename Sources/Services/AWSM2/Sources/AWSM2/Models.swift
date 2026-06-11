@@ -1315,8 +1315,8 @@ extension M2ClientTypes {
         public init(
             fromProcStep: Swift.String? = nil,
             fromStep: Swift.String? = nil,
-            skip: Swift.Bool? = false,
-            stepCheckpoint: Swift.Int? = 0,
+            skip: Swift.Bool? = nil,
+            stepCheckpoint: Swift.Int? = nil,
             toProcStep: Swift.String? = nil,
             toStep: Swift.String? = nil
         ) {
@@ -1713,8 +1713,8 @@ extension M2ClientTypes {
 
         public init(
             alternateKeys: [M2ClientTypes.AlternateKey]? = nil,
-            cacheAtStartup: Swift.Bool? = false,
-            compressed: Swift.Bool? = false,
+            cacheAtStartup: Swift.Bool? = nil,
+            compressed: Swift.Bool? = nil,
             encoding: Swift.String? = nil,
             primaryKey: M2ClientTypes.PrimaryKey? = nil,
             recordFormat: Swift.String? = nil
@@ -1767,7 +1767,7 @@ public struct GetDataSetDetailsOutput: Swift.Sendable {
     public var recordLength: Swift.Int?
 
     public init(
-        blocksize: Swift.Int? = 0,
+        blocksize: Swift.Int? = nil,
         creationTime: Foundation.Date? = nil,
         dataSetName: Swift.String? = nil,
         dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes? = nil,
@@ -1775,7 +1775,7 @@ public struct GetDataSetDetailsOutput: Swift.Sendable {
         lastReferencedTime: Foundation.Date? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
-        recordLength: Swift.Int? = 0
+        recordLength: Swift.Int? = nil
     ) {
         self.blocksize = blocksize
         self.creationTime = creationTime
@@ -2458,7 +2458,7 @@ extension M2ClientTypes {
         public init(
             procStepName: Swift.String? = nil,
             procStepNumber: Swift.Int = 0,
-            stepCheckpoint: Swift.Int? = 0,
+            stepCheckpoint: Swift.Int? = nil,
             stepCheckpointStatus: Swift.String? = nil,
             stepCheckpointTime: Foundation.Date? = nil,
             stepCondCode: Swift.String? = nil,

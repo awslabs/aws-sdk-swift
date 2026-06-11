@@ -939,7 +939,7 @@ public struct GetStaticMapInput: Swift.Sendable {
         padding: Swift.Int? = nil,
         pointsOfInterests: GeoMapsClientTypes.MapFeatureMode? = nil,
         politicalView: Swift.String? = nil,
-        radius: Swift.Int? = 0,
+        radius: Swift.Int? = nil,
         scaleBarUnit: GeoMapsClientTypes.ScaleBarUnit? = nil,
         style: GeoMapsClientTypes.StaticMapStyle? = nil,
         width: Swift.Int? = nil,

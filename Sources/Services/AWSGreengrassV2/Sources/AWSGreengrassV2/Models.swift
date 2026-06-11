@@ -1176,7 +1176,7 @@ extension GreengrassV2ClientTypes {
         public var permission: GreengrassV2ClientTypes.LambdaFilesystemPermission?
 
         public init(
-            addGroupOwner: Swift.Bool? = false,
+            addGroupOwner: Swift.Bool? = nil,
             path: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil
         ) {
@@ -1203,7 +1203,7 @@ extension GreengrassV2ClientTypes {
         public var sourcePath: Swift.String?
 
         public init(
-            addGroupOwner: Swift.Bool? = false,
+            addGroupOwner: Swift.Bool? = nil,
             destinationPath: Swift.String? = nil,
             permission: GreengrassV2ClientTypes.LambdaFilesystemPermission? = nil,
             sourcePath: Swift.String? = nil
@@ -1231,8 +1231,8 @@ extension GreengrassV2ClientTypes {
 
         public init(
             devices: [GreengrassV2ClientTypes.LambdaDeviceMount]? = nil,
-            memorySizeInKB: Swift.Int? = 0,
-            mountROSysfs: Swift.Bool? = false,
+            memorySizeInKB: Swift.Int? = nil,
+            mountROSysfs: Swift.Bool? = nil,
             volumes: [GreengrassV2ClientTypes.LambdaVolumeMount]? = nil
         ) {
             self.devices = devices
@@ -1331,12 +1331,12 @@ extension GreengrassV2ClientTypes {
             execArgs: [Swift.String]? = nil,
             inputPayloadEncodingType: GreengrassV2ClientTypes.LambdaInputPayloadEncodingType? = nil,
             linuxProcessParams: GreengrassV2ClientTypes.LambdaLinuxProcessParams? = nil,
-            maxIdleTimeInSeconds: Swift.Int? = 0,
-            maxInstancesCount: Swift.Int? = 0,
-            maxQueueSize: Swift.Int? = 0,
-            pinned: Swift.Bool? = false,
-            statusTimeoutInSeconds: Swift.Int? = 0,
-            timeoutInSeconds: Swift.Int? = 0
+            maxIdleTimeInSeconds: Swift.Int? = nil,
+            maxInstancesCount: Swift.Int? = nil,
+            maxQueueSize: Swift.Int? = nil,
+            pinned: Swift.Bool? = nil,
+            statusTimeoutInSeconds: Swift.Int? = nil,
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.environmentVariables = environmentVariables
             self.eventSources = eventSources
@@ -1490,7 +1490,7 @@ extension GreengrassV2ClientTypes {
 
         public init(
             action: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicyAction? = nil,
-            timeoutInSeconds: Swift.Int? = 0
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.action = action
             self.timeoutInSeconds = timeoutInSeconds
@@ -1506,7 +1506,7 @@ extension GreengrassV2ClientTypes {
         public var timeoutInSeconds: Swift.Int?
 
         public init(
-            timeoutInSeconds: Swift.Int? = 0
+            timeoutInSeconds: Swift.Int? = nil
         ) {
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -1749,7 +1749,7 @@ extension GreengrassV2ClientTypes {
         public var inProgressTimeoutInMinutes: Swift.Int?
 
         public init(
-            inProgressTimeoutInMinutes: Swift.Int? = 0
+            inProgressTimeoutInMinutes: Swift.Int? = nil
         ) {
             self.inProgressTimeoutInMinutes = inProgressTimeoutInMinutes
         }

@@ -77,7 +77,7 @@ public struct CloseTunnelInput: Swift.Sendable {
     public var tunnelId: Swift.String?
 
     public init(
-        delete: Swift.Bool? = false,
+        delete: Swift.Bool? = nil,
         tunnelId: Swift.String? = nil
     ) {
         self.delete = delete

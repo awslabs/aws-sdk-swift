@@ -682,7 +682,7 @@ extension ACMPCAClientTypes {
         public var omitExtension: Swift.Bool?
 
         public init(
-            omitExtension: Swift.Bool? = false
+            omitExtension: Swift.Bool? = nil
         ) {
             self.omitExtension = omitExtension
         }
@@ -820,7 +820,7 @@ extension ACMPCAClientTypes {
             crlType: ACMPCAClientTypes.CrlType? = nil,
             customCname: Swift.String? = nil,
             customPath: Swift.String? = nil,
-            enabled: Swift.Bool? = false,
+            enabled: Swift.Bool? = nil,
             expirationInDays: Swift.Int? = nil,
             s3BucketName: Swift.String? = nil,
             s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl? = nil
@@ -848,7 +848,7 @@ extension ACMPCAClientTypes {
         public var ocspCustomCname: Swift.String?
 
         public init(
-            enabled: Swift.Bool? = false,
+            enabled: Swift.Bool? = nil,
             ocspCustomCname: Swift.String? = nil
         ) {
             self.enabled = enabled
@@ -1898,7 +1898,7 @@ extension ACMPCAClientTypes {
         public var value: Swift.String?
 
         public init(
-            critical: Swift.Bool? = false,
+            critical: Swift.Bool? = nil,
             objectIdentifier: Swift.String? = nil,
             value: Swift.String? = nil
         ) {

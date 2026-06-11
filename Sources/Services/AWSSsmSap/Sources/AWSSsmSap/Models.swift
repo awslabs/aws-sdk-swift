@@ -1821,7 +1821,7 @@ public struct ListApplicationsInput: Swift.Sendable {
 
     public init(
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.filters = filters
@@ -1855,7 +1855,7 @@ public struct ListComponentsInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1886,7 +1886,7 @@ public struct ListConfigurationCheckDefinitionsInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.maxResults = maxResults
@@ -1930,7 +1930,7 @@ public struct ListConfigurationCheckOperationsInput: Swift.Sendable {
         applicationId: Swift.String? = nil,
         filters: [SsmSapClientTypes.Filter]? = nil,
         listMode: SsmSapClientTypes.ConfigurationCheckOperationListingMode? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1969,7 +1969,7 @@ public struct ListDatabasesInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         componentId: Swift.String? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -2007,7 +2007,7 @@ public struct ListOperationEventsInput: Swift.Sendable {
 
     public init(
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         operationId: Swift.String? = nil
     ) {
@@ -2142,7 +2142,7 @@ public struct ListOperationsInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         filters: [SsmSapClientTypes.Filter]? = nil,
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -2177,7 +2177,7 @@ public struct ListSubCheckResultsInput: Swift.Sendable {
     public var operationId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         operationId: Swift.String? = nil
     ) {
@@ -2239,7 +2239,7 @@ public struct ListSubCheckRuleResultsInput: Swift.Sendable {
     public var subCheckResultId: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = 50,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subCheckResultId: Swift.String? = nil
     ) {

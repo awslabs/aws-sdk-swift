@@ -2207,7 +2207,7 @@ extension S3ControlClientTypes {
         public var kmsKeyArn: Swift.String?
 
         public init(
-            bucketKeyEnabled: Swift.Bool? = false,
+            bucketKeyEnabled: Swift.Bool? = nil,
             kmsKeyArn: Swift.String? = nil
         ) {
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -2348,13 +2348,13 @@ extension S3ControlClientTypes {
         public init(
             createdAfter: Foundation.Date? = nil,
             createdBefore: Foundation.Date? = nil,
-            eligibleForReplication: Swift.Bool? = false,
+            eligibleForReplication: Swift.Bool? = nil,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
             matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
-            objectSizeGreaterThanBytes: Swift.Int? = 0,
-            objectSizeLessThanBytes: Swift.Int? = 0
+            objectSizeGreaterThanBytes: Swift.Int? = nil,
+            objectSizeLessThanBytes: Swift.Int? = nil
         ) {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
@@ -2687,7 +2687,7 @@ extension S3ControlClientTypes {
         public var glacierJobTier: S3ControlClientTypes.S3GlacierJobTier?
 
         public init(
-            expirationInDays: Swift.Int? = 0,
+            expirationInDays: Swift.Int? = nil,
             glacierJobTier: S3ControlClientTypes.S3GlacierJobTier? = nil
         ) {
             self.expirationInDays = expirationInDays
@@ -3068,7 +3068,7 @@ extension S3ControlClientTypes {
             contentDisposition: Swift.String? = nil,
             contentEncoding: Swift.String? = nil,
             contentLanguage: Swift.String? = nil,
-            contentLength: Swift.Int? = 0,
+            contentLength: Swift.Int? = nil,
             contentMD5: Swift.String? = nil,
             contentType: Swift.String? = nil,
             httpExpiresDate: Foundation.Date? = nil,
@@ -3348,7 +3348,7 @@ extension S3ControlClientTypes {
         public var retention: S3ControlClientTypes.S3Retention?
 
         public init(
-            bypassGovernanceRetention: Swift.Bool? = false,
+            bypassGovernanceRetention: Swift.Bool? = nil,
             retention: S3ControlClientTypes.S3Retention? = nil
         ) {
             self.bypassGovernanceRetention = bypassGovernanceRetention
@@ -3392,7 +3392,7 @@ extension S3ControlClientTypes {
         public var kmsKeyArn: Swift.String?
 
         public init(
-            bucketKeyEnabled: Swift.Bool? = false,
+            bucketKeyEnabled: Swift.Bool? = nil,
             kmsKeyArn: Swift.String? = nil
         ) {
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -3610,12 +3610,12 @@ public struct CreateJobInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         clientRequestToken: Swift.String? = nil,
-        confirmationRequired: Swift.Bool? = false,
+        confirmationRequired: Swift.Bool? = nil,
         description: Swift.String? = nil,
         manifest: S3ControlClientTypes.JobManifest? = nil,
         manifestGenerator: S3ControlClientTypes.JobManifestGenerator? = nil,
         operation: S3ControlClientTypes.JobOperation? = nil,
-        priority: Swift.Int? = 0,
+        priority: Swift.Int? = nil,
         report: S3ControlClientTypes.JobReport? = nil,
         roleArn: Swift.String? = nil,
         tags: [S3ControlClientTypes.S3Tag]? = nil
@@ -4300,7 +4300,7 @@ extension S3ControlClientTypes {
         public var elapsedTimeInActiveSeconds: Swift.Int?
 
         public init(
-            elapsedTimeInActiveSeconds: Swift.Int? = 0
+            elapsedTimeInActiveSeconds: Swift.Int? = nil
         ) {
             self.elapsedTimeInActiveSeconds = elapsedTimeInActiveSeconds
         }
@@ -4321,10 +4321,10 @@ extension S3ControlClientTypes {
         public var totalNumberOfTasks: Swift.Int?
 
         public init(
-            numberOfTasksFailed: Swift.Int? = 0,
-            numberOfTasksSucceeded: Swift.Int? = 0,
+            numberOfTasksFailed: Swift.Int? = nil,
+            numberOfTasksSucceeded: Swift.Int? = nil,
             timers: S3ControlClientTypes.JobTimers? = nil,
-            totalNumberOfTasks: Swift.Int? = 0
+            totalNumberOfTasks: Swift.Int? = nil
         ) {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
@@ -4440,7 +4440,7 @@ extension S3ControlClientTypes {
         public var terminationDate: Foundation.Date?
 
         public init(
-            confirmationRequired: Swift.Bool? = false,
+            confirmationRequired: Swift.Bool? = nil,
             creationTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
             failureReasons: [S3ControlClientTypes.JobFailure]? = nil,
@@ -5136,8 +5136,8 @@ extension S3ControlClientTypes {
         public var tags: [S3ControlClientTypes.S3Tag]?
 
         public init(
-            objectSizeGreaterThan: Swift.Int? = 0,
-            objectSizeLessThan: Swift.Int? = 0,
+            objectSizeGreaterThan: Swift.Int? = nil,
+            objectSizeLessThan: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             tags: [S3ControlClientTypes.S3Tag]? = nil
         ) {
@@ -5166,8 +5166,8 @@ extension S3ControlClientTypes {
 
         public init(
             and: S3ControlClientTypes.LifecycleRuleAndOperator? = nil,
-            objectSizeGreaterThan: Swift.Int? = 0,
-            objectSizeLessThan: Swift.Int? = 0,
+            objectSizeGreaterThan: Swift.Int? = nil,
+            objectSizeLessThan: Swift.Int? = nil,
             `prefix`: Swift.String? = nil,
             tag: S3ControlClientTypes.S3Tag? = nil
         ) {
@@ -5190,7 +5190,7 @@ extension S3ControlClientTypes {
         public var noncurrentDays: Swift.Int
 
         public init(
-            newerNoncurrentVersions: Swift.Int? = 0,
+            newerNoncurrentVersions: Swift.Int? = nil,
             noncurrentDays: Swift.Int = 0
         ) {
             self.newerNoncurrentVersions = newerNoncurrentVersions
@@ -5476,7 +5476,7 @@ extension S3ControlClientTypes {
         public var minutes: Swift.Int?
 
         public init(
-            minutes: Swift.Int? = 0
+            minutes: Swift.Int? = nil
         ) {
             self.minutes = minutes
         }
@@ -5942,7 +5942,7 @@ extension S3ControlClientTypes {
             filter: S3ControlClientTypes.ReplicationRuleFilter? = nil,
             id: Swift.String? = nil,
             `prefix`: Swift.String? = nil,
-            priority: Swift.Int? = 0,
+            priority: Swift.Int? = nil,
             sourceSelectionCriteria: S3ControlClientTypes.SourceSelectionCriteria? = nil,
             status: S3ControlClientTypes.ReplicationRuleStatus? = nil
         ) {
@@ -7460,7 +7460,7 @@ public struct ListJobsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         jobStatuses: [S3ControlClientTypes.JobStatus]? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId

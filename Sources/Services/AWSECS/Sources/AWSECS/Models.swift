@@ -8835,8 +8835,8 @@ extension ECSClientTypes {
         public var canaryPercent: Swift.Double?
 
         public init(
-            canaryBakeTimeInMinutes: Swift.Int? = 0,
-            canaryPercent: Swift.Double? = 0.0
+            canaryBakeTimeInMinutes: Swift.Int? = nil,
+            canaryPercent: Swift.Double? = nil
         ) {
             self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
             self.canaryPercent = canaryPercent
@@ -9033,8 +9033,8 @@ extension ECSClientTypes {
         public var stepPercent: Swift.Double?
 
         public init(
-            stepBakeTimeInMinutes: Swift.Int? = 0,
-            stepPercent: Swift.Double? = 0.0
+            stepBakeTimeInMinutes: Swift.Int? = nil,
+            stepPercent: Swift.Double? = nil
         ) {
             self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
             self.stepPercent = stepPercent
@@ -9321,9 +9321,9 @@ extension ECSClientTypes {
         public init(
             arn: Swift.String? = nil,
             pendingTaskCount: Swift.Int = 0,
-            requestedProductionTrafficWeight: Swift.Double? = 0.0,
+            requestedProductionTrafficWeight: Swift.Double? = nil,
             requestedTaskCount: Swift.Int = 0,
-            requestedTestTrafficWeight: Swift.Double? = 0.0,
+            requestedTestTrafficWeight: Swift.Double? = nil,
             runningTaskCount: Swift.Int = 0
         ) {
             self.arn = arn

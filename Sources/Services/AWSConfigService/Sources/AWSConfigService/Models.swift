@@ -9262,7 +9262,7 @@ public struct ListConfigurationRecordersInput: Swift.Sendable {
 
     public init(
         filters: [ConfigClientTypes.ConfigurationRecorderFilter]? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.filters = filters
@@ -9567,7 +9567,7 @@ public struct ListStoredQueriesInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.maxResults = maxResults

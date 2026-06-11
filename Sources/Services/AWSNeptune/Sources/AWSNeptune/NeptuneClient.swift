@@ -1131,6 +1131,7 @@ extension NeptuneClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `NetworkTypeNotSupportedFault` : The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -3987,6 +3988,7 @@ extension NeptuneClient {
     /// - `InvalidDBSubnetGroupStateFault` : The DB subnet group cannot be deleted because it is in use.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
+    /// - `NetworkTypeNotSupportedFault` : The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     /// - `StorageTypeNotSupportedFault` : StorageType specified cannot be associated with the DB Instance.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
@@ -5216,6 +5218,7 @@ extension NeptuneClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `NetworkTypeNotSupportedFault` : The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
     /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
@@ -5300,6 +5303,7 @@ extension NeptuneClient {
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : DB subnet group does not cover all Availability Zones after it is created because users' change.
     /// - `KMSKeyNotAccessibleFault` : Error accessing KMS key.
+    /// - `NetworkTypeNotSupportedFault` : The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
     /// - `OptionGroupNotFoundFault` : The designated option group could not be found.
     /// - `StorageQuotaExceededFault` : Request would result in user exceeding the allowed amount of storage available across all DB instances.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {

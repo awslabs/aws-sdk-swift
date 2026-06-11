@@ -829,7 +829,7 @@ extension IVSRealTimeClientTypes {
         public var targetSegmentDurationSeconds: Swift.Int?
 
         public init(
-            targetSegmentDurationSeconds: Swift.Int? = 6
+            targetSegmentDurationSeconds: Swift.Int? = nil
         ) {
             self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
         }
@@ -1369,7 +1369,7 @@ extension IVSRealTimeClientTypes {
         public var targetSegmentDurationSeconds: Swift.Int?
 
         public init(
-            targetSegmentDurationSeconds: Swift.Int? = 2
+            targetSegmentDurationSeconds: Swift.Int? = nil
         ) {
             self.targetSegmentDurationSeconds = targetSegmentDurationSeconds
         }

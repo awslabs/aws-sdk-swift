@@ -3253,10 +3253,10 @@ extension SSMClientTypes {
         public var patchFilterGroup: SSMClientTypes.PatchFilterGroup?
 
         public init(
-            approveAfterDays: Swift.Int? = 0,
+            approveAfterDays: Swift.Int? = nil,
             approveUntilDate: Swift.String? = nil,
             complianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-            enableNonSecurity: Swift.Bool? = false,
+            enableNonSecurity: Swift.Bool? = nil,
             patchFilterGroup: SSMClientTypes.PatchFilterGroup? = nil
         ) {
             self.approveAfterDays = approveAfterDays
@@ -3488,7 +3488,7 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
         availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -4629,7 +4629,7 @@ public struct DeregisterTargetFromMaintenanceWindowInput: Swift.Sendable {
     public var windowTargetId: Swift.String?
 
     public init(
-        safe: Swift.Bool? = false,
+        safe: Swift.Bool? = nil,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
     ) {
@@ -5871,7 +5871,7 @@ public struct DescribeAutomationStepExecutionsInput: Swift.Sendable {
         filters: [SSMClientTypes.StepExecutionFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool? = false
+        reverseOrder: Swift.Bool? = nil
     ) {
         self.automationExecutionId = automationExecutionId
         self.filters = filters
@@ -5921,7 +5921,7 @@ extension SSMClientTypes {
 
         public init(
             action: Swift.String? = nil,
-            iteration: Swift.Int? = 0,
+            iteration: Swift.Int? = nil,
             iteratorValue: Swift.String? = nil,
             stepExecutionId: Swift.String? = nil,
             stepName: Swift.String? = nil
@@ -5995,9 +5995,9 @@ extension SSMClientTypes {
             failureDetails: SSMClientTypes.FailureDetails? = nil,
             failureMessage: Swift.String? = nil,
             inputs: [Swift.String: Swift.String]? = nil,
-            isCritical: Swift.Bool? = false,
-            isEnd: Swift.Bool? = false,
-            maxAttempts: Swift.Int? = 0,
+            isCritical: Swift.Bool? = nil,
+            isEnd: Swift.Bool? = nil,
+            maxAttempts: Swift.Int? = nil,
             nextStep: Swift.String? = nil,
             onFailure: Swift.String? = nil,
             outputs: [Swift.String: [Swift.String]]? = nil,
@@ -6010,7 +6010,7 @@ extension SSMClientTypes {
             stepStatus: SSMClientTypes.AutomationExecutionStatus? = nil,
             targetLocation: SSMClientTypes.TargetLocation? = nil,
             targets: [SSMClientTypes.Target]? = nil,
-            timeoutSeconds: Swift.Int? = 0,
+            timeoutSeconds: Swift.Int? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             validNextSteps: [Swift.String]? = nil
         ) {
@@ -7018,7 +7018,7 @@ extension SSMClientTypes {
             iamRole: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
-            isLatestVersion: Swift.Bool? = false,
+            isLatestVersion: Swift.Bool? = nil,
             lastAssociationExecutionDate: Foundation.Date? = nil,
             lastPingDateTime: Foundation.Date? = nil,
             lastSuccessfulAssociationExecutionDate: Foundation.Date? = nil,
@@ -7369,15 +7369,15 @@ extension SSMClientTypes {
         public var unreportedNotApplicableCount: Swift.Int?
 
         public init(
-            availableSecurityUpdateCount: Swift.Int? = 0,
+            availableSecurityUpdateCount: Swift.Int? = nil,
             baselineId: Swift.String? = nil,
-            criticalNonCompliantCount: Swift.Int? = 0,
+            criticalNonCompliantCount: Swift.Int? = nil,
             failedCount: Swift.Int = 0,
             installOverrideList: Swift.String? = nil,
             installedCount: Swift.Int = 0,
             installedOtherCount: Swift.Int = 0,
-            installedPendingRebootCount: Swift.Int? = 0,
-            installedRejectedCount: Swift.Int? = 0,
+            installedPendingRebootCount: Swift.Int? = nil,
+            installedRejectedCount: Swift.Int? = nil,
             instanceId: Swift.String? = nil,
             lastNoRebootInstallOperationTime: Foundation.Date? = nil,
             missingCount: Swift.Int = 0,
@@ -7385,13 +7385,13 @@ extension SSMClientTypes {
             operation: SSMClientTypes.PatchOperationType? = nil,
             operationEndTime: Foundation.Date? = nil,
             operationStartTime: Foundation.Date? = nil,
-            otherNonCompliantCount: Swift.Int? = 0,
+            otherNonCompliantCount: Swift.Int? = nil,
             ownerInformation: Swift.String? = nil,
             patchGroup: Swift.String? = nil,
             rebootOption: SSMClientTypes.RebootOption? = nil,
-            securityNonCompliantCount: Swift.Int? = 0,
+            securityNonCompliantCount: Swift.Int? = nil,
             snapshotId: Swift.String? = nil,
-            unreportedNotApplicableCount: Swift.Int? = 0
+            unreportedNotApplicableCount: Swift.Int? = nil
         ) {
             self.availableSecurityUpdateCount = availableSecurityUpdateCount
             self.baselineId = baselineId
@@ -9435,7 +9435,7 @@ public struct DescribeParametersInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
-        shared: Swift.Bool? = false
+        shared: Swift.Bool? = nil
     ) {
         self.filters = filters
         self.maxResults = maxResults
@@ -9780,18 +9780,18 @@ public struct DescribePatchGroupStateOutput: Swift.Sendable {
 
     public init(
         instances: Swift.Int = 0,
-        instancesWithAvailableSecurityUpdates: Swift.Int? = 0,
-        instancesWithCriticalNonCompliantPatches: Swift.Int? = 0,
+        instancesWithAvailableSecurityUpdates: Swift.Int? = nil,
+        instancesWithCriticalNonCompliantPatches: Swift.Int? = nil,
         instancesWithFailedPatches: Swift.Int = 0,
         instancesWithInstalledOtherPatches: Swift.Int = 0,
         instancesWithInstalledPatches: Swift.Int = 0,
-        instancesWithInstalledPendingRebootPatches: Swift.Int? = 0,
-        instancesWithInstalledRejectedPatches: Swift.Int? = 0,
+        instancesWithInstalledPendingRebootPatches: Swift.Int? = nil,
+        instancesWithInstalledRejectedPatches: Swift.Int? = nil,
         instancesWithMissingPatches: Swift.Int = 0,
         instancesWithNotApplicablePatches: Swift.Int = 0,
-        instancesWithOtherNonCompliantPatches: Swift.Int? = 0,
-        instancesWithSecurityNonCompliantPatches: Swift.Int? = 0,
-        instancesWithUnreportedNotApplicablePatches: Swift.Int? = 0
+        instancesWithOtherNonCompliantPatches: Swift.Int? = nil,
+        instancesWithSecurityNonCompliantPatches: Swift.Int? = nil,
+        instancesWithUnreportedNotApplicablePatches: Swift.Int? = nil
     ) {
         self.instances = instances
         self.instancesWithAvailableSecurityUpdates = instancesWithAvailableSecurityUpdates
@@ -11680,7 +11680,7 @@ public struct GetInventorySchemaInput: Swift.Sendable {
         aggregator: Swift.Bool? = false,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        subType: Swift.Bool? = false,
+        subType: Swift.Bool? = nil,
         typeName: Swift.String? = nil
     ) {
         self.aggregator = aggregator
@@ -12765,7 +12765,7 @@ public struct GetParameterInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil,
-        withDecryption: Swift.Bool? = false
+        withDecryption: Swift.Bool? = nil
     ) {
         self.name = name
         self.withDecryption = withDecryption
@@ -12845,7 +12845,7 @@ public struct GetParameterHistoryInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        withDecryption: Swift.Bool? = false
+        withDecryption: Swift.Bool? = nil
     ) {
         self.maxResults = maxResults
         self.name = name
@@ -12941,7 +12941,7 @@ public struct GetParametersInput: Swift.Sendable {
 
     public init(
         names: [Swift.String]? = nil,
-        withDecryption: Swift.Bool? = false
+        withDecryption: Swift.Bool? = nil
     ) {
         self.names = names
         self.withDecryption = withDecryption
@@ -12983,8 +12983,8 @@ public struct GetParametersByPathInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
         path: Swift.String? = nil,
-        recursive: Swift.Bool? = false,
-        withDecryption: Swift.Bool? = false
+        recursive: Swift.Bool? = nil,
+        withDecryption: Swift.Bool? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -13060,7 +13060,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
         availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
@@ -13331,7 +13331,7 @@ public struct LabelParameterVersionInput: Swift.Sendable {
     public init(
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
-        parameterVersion: Swift.Int? = 0
+        parameterVersion: Swift.Int? = nil
     ) {
         self.labels = labels
         self.name = name
@@ -17128,7 +17128,7 @@ public struct PutParameterInput: Swift.Sendable {
         description: Swift.String? = nil,
         keyId: Swift.String? = nil,
         name: Swift.String? = nil,
-        overwrite: Swift.Bool? = false,
+        overwrite: Swift.Bool? = nil,
         policies: Swift.String? = nil,
         tags: [SSMClientTypes.Tag]? = nil,
         tier: SSMClientTypes.ParameterTier? = nil,
@@ -17417,7 +17417,7 @@ public struct RegisterTaskWithMaintenanceWindowInput: Swift.Sendable {
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = 0,
+        priority: Swift.Int? = nil,
         serviceRoleArn: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         taskArn: Swift.String? = nil,
@@ -18456,7 +18456,7 @@ public struct UnlabelParameterVersionInput: Swift.Sendable {
     public init(
         labels: [Swift.String]? = nil,
         name: Swift.String? = nil,
-        parameterVersion: Swift.Int? = 0
+        parameterVersion: Swift.Int? = nil
     ) {
         self.labels = labels
         self.name = name
@@ -18965,14 +18965,14 @@ public struct UpdateMaintenanceWindowInput: Swift.Sendable {
     public var windowId: Swift.String?
 
     public init(
-        allowUnassociatedTargets: Swift.Bool? = false,
-        cutoff: Swift.Int? = 0,
+        allowUnassociatedTargets: Swift.Bool? = nil,
+        cutoff: Swift.Int? = nil,
         description: Swift.String? = nil,
         duration: Swift.Int? = nil,
-        enabled: Swift.Bool? = false,
+        enabled: Swift.Bool? = nil,
         endDate: Swift.String? = nil,
         name: Swift.String? = nil,
-        replace: Swift.Bool? = false,
+        replace: Swift.Bool? = nil,
         schedule: Swift.String? = nil,
         scheduleOffset: Swift.Int? = nil,
         scheduleTimezone: Swift.String? = nil,
@@ -19072,7 +19072,7 @@ public struct UpdateMaintenanceWindowTargetInput: Swift.Sendable {
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         ownerInformation: Swift.String? = nil,
-        replace: Swift.Bool? = false,
+        replace: Swift.Bool? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         windowId: Swift.String? = nil,
         windowTargetId: Swift.String? = nil
@@ -19173,8 +19173,8 @@ public struct UpdateMaintenanceWindowTaskInput: Swift.Sendable {
         maxConcurrency: Swift.String? = nil,
         maxErrors: Swift.String? = nil,
         name: Swift.String? = nil,
-        priority: Swift.Int? = 0,
-        replace: Swift.Bool? = false,
+        priority: Swift.Int? = nil,
+        replace: Swift.Bool? = nil,
         serviceRoleArn: Swift.String? = nil,
         targets: [SSMClientTypes.Target]? = nil,
         taskArn: Swift.String? = nil,
@@ -19459,7 +19459,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
         availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -19467,7 +19467,7 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
         name: Swift.String? = nil,
         rejectedPatches: [Swift.String]? = nil,
         rejectedPatchesAction: SSMClientTypes.PatchAction? = nil,
-        replace: Swift.Bool? = false,
+        replace: Swift.Bool? = nil,
         sources: [SSMClientTypes.PatchSource]? = nil
     ) {
         self.approvalRules = approvalRules
@@ -19522,7 +19522,7 @@ public struct UpdatePatchBaselineOutput: Swift.Sendable {
         approvalRules: SSMClientTypes.PatchRuleGroup? = nil,
         approvedPatches: [Swift.String]? = nil,
         approvedPatchesComplianceLevel: SSMClientTypes.PatchComplianceLevel? = nil,
-        approvedPatchesEnableNonSecurity: Swift.Bool? = false,
+        approvedPatchesEnableNonSecurity: Swift.Bool? = nil,
         availableSecurityUpdatesComplianceStatus: SSMClientTypes.PatchComplianceStatus? = nil,
         baselineId: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,

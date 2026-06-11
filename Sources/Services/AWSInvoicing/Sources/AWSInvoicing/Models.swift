@@ -1503,7 +1503,7 @@ public struct GetInvoiceUnitOutput: Swift.Sendable {
         lastModified: Foundation.Date? = nil,
         name: Swift.String? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
-        taxInheritanceDisabled: Swift.Bool? = false
+        taxInheritanceDisabled: Swift.Bool? = nil
     ) {
         self.description = description
         self.invoiceReceiver = invoiceReceiver
@@ -2089,7 +2089,7 @@ extension InvoicingClientTypes {
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
-            taxInheritanceDisabled: Swift.Bool? = false
+            taxInheritanceDisabled: Swift.Bool? = nil
         ) {
             self.description = description
             self.invoiceReceiver = invoiceReceiver
@@ -2449,7 +2449,7 @@ public struct UpdateInvoiceUnitInput: Swift.Sendable {
         description: Swift.String? = nil,
         invoiceUnitArn: Swift.String? = nil,
         rule: InvoicingClientTypes.InvoiceUnitRule? = nil,
-        taxInheritanceDisabled: Swift.Bool? = false
+        taxInheritanceDisabled: Swift.Bool? = nil
     ) {
         self.clientToken = clientToken
         self.description = description

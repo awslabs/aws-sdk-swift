@@ -791,7 +791,7 @@ public struct CreateDataViewInput: Swift.Sendable {
     public var sortColumns: [Swift.String]?
 
     public init(
-        asOfTimestamp: Swift.Int? = 0,
+        asOfTimestamp: Swift.Int? = nil,
         autoUpdate: Swift.Bool? = false,
         clientToken: Swift.String? = nil,
         datasetId: Swift.String? = nil,
@@ -1288,8 +1288,8 @@ public struct GetChangesetOutput: Swift.Sendable {
     public var updatesChangesetId: Swift.String?
 
     public init(
-        activeFromTimestamp: Swift.Int? = 0,
-        activeUntilTimestamp: Swift.Int? = 0,
+        activeFromTimestamp: Swift.Int? = nil,
+        activeUntilTimestamp: Swift.Int? = nil,
         changeType: FinspacedataClientTypes.ChangeType? = nil,
         changesetArn: Swift.String? = nil,
         changesetId: Swift.String? = nil,
@@ -1572,7 +1572,7 @@ public struct GetDataViewOutput: Swift.Sendable {
     public var status: FinspacedataClientTypes.DataViewStatus?
 
     public init(
-        asOfTimestamp: Swift.Int? = 0,
+        asOfTimestamp: Swift.Int? = nil,
         autoUpdate: Swift.Bool = false,
         createTime: Swift.Int = 0,
         dataViewArn: Swift.String? = nil,
@@ -2101,8 +2101,8 @@ extension FinspacedataClientTypes {
         public var updatesChangesetId: Swift.String?
 
         public init(
-            activeFromTimestamp: Swift.Int? = 0,
-            activeUntilTimestamp: Swift.Int? = 0,
+            activeFromTimestamp: Swift.Int? = nil,
+            activeUntilTimestamp: Swift.Int? = nil,
             changeType: FinspacedataClientTypes.ChangeType? = nil,
             changesetArn: Swift.String? = nil,
             changesetId: Swift.String? = nil,
@@ -2302,7 +2302,7 @@ extension FinspacedataClientTypes {
         public var status: FinspacedataClientTypes.DataViewStatus?
 
         public init(
-            asOfTimestamp: Swift.Int? = 0,
+            asOfTimestamp: Swift.Int? = nil,
             autoUpdate: Swift.Bool = false,
             createTime: Swift.Int = 0,
             dataViewArn: Swift.String? = nil,

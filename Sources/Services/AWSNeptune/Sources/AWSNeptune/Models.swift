@@ -591,9 +591,9 @@ public struct CopyDBClusterParameterGroupInput: Swift.Sendable {
     ///
     /// * Must specify a valid DB cluster parameter group.
     ///
-    /// * If the source DB cluster parameter group is in the same Amazon Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.
+    /// * Must specify a valid DB cluster parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.
     ///
-    /// * If the source DB parameter group is in a different Amazon Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
+    /// * The source DB cluster parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     /// This member is required.
     public var sourceDBClusterParameterGroupIdentifier: Swift.String?
     /// The tags to be assigned to the copied DB cluster parameter group.
@@ -948,6 +948,8 @@ public struct CopyDBParameterGroupInput: Swift.Sendable {
     /// * Must specify a valid DB parameter group.
     ///
     /// * Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.
+    ///
+    /// * The source DB parameter group must be in the same Amazon Region as the copy. Neptune does not support cross-Region copying of parameter groups.
     /// This member is required.
     public var sourceDBParameterGroupIdentifier: Swift.String?
     /// The tags to be assigned to the copied DB parameter group.
@@ -1309,6 +1311,30 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+/// The specified NetworkType is not supported for the DB cluster, DB subnet group, or orderable DB instance option.
+public struct NetworkTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the details of the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NetworkTypeNotSupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Request would result in user exceeding the allowed amount of storage available across all DB instances.
 public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1363,7 +1389,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var characterSetName: Swift.String?
     /// If set to true, tags are copied to any snapshot of the DB cluster that is created.
     public var copyTagsToSnapshot: Swift.Bool?
-    /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Neptune will not create a database in the DB cluster you are creating.
+    /// Not supported by Neptune.
     public var databaseName: Swift.String?
     /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:
     ///
@@ -1409,6 +1435,12 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var masterUserPassword: Swift.String?
     /// Not supported by Neptune.
     public var masterUsername: Swift.String?
+    /// The network type of the DB cluster. Valid Values:
+    ///
+    /// * IPV4 – ( the default ) The DB cluster uses only IPv4 addresses for communication.
+    ///
+    /// * DUAL – The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+    public var networkType: Swift.String?
     /// (Not supported by Neptune)
     public var optionGroupName: Swift.String?
     /// The port number on which the instances in the DB cluster accept connections. Default: 8182
@@ -1462,6 +1494,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         preSignedUrl: Swift.String? = nil,
@@ -1491,6 +1524,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.masterUserPassword = masterUserPassword
         self.masterUsername = masterUsername
+        self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
         self.preSignedUrl = preSignedUrl
@@ -1615,6 +1649,8 @@ extension NeptuneClientTypes {
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The Provisioned IOPS (I/O operations per second) value. This setting is only for Multi-AZ DB clusters.
         public var iops: Swift.Int?
+        /// The pending change in network type for the DB cluster. Valid Values: IPV4, DUAL
+        public var networkType: Swift.String?
         /// This PendingCloudwatchLogsExports structure specifies pending changes to which CloudWatch logs are enabled and which are disabled.
         public var pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports?
         /// The pending change in storage type for the DB cluster. Valid Values:
@@ -1631,6 +1667,7 @@ extension NeptuneClientTypes {
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
             iops: Swift.Int? = nil,
+            networkType: Swift.String? = nil,
             pendingCloudwatchLogsExports: NeptuneClientTypes.PendingCloudwatchLogsExports? = nil,
             storageType: Swift.String? = nil
         ) {
@@ -1640,6 +1677,7 @@ extension NeptuneClientTypes {
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
             self.iops = iops
+            self.networkType = networkType
             self.pendingCloudwatchLogsExports = pendingCloudwatchLogsExports
             self.storageType = storageType
         }
@@ -1752,6 +1790,12 @@ extension NeptuneClientTypes {
         public var masterUsername: Swift.String?
         /// Specifies whether the DB cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool?
+        /// The network type of the DB cluster. Valid Values:
+        ///
+        /// * IPV4 – The DB cluster uses only IPv4 addresses for communication.
+        ///
+        /// * DUAL – The DB cluster uses both IPv4 and IPv6 addresses for communication.
+        public var networkType: Swift.String?
         /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
         public var pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues?
         /// Specifies the progress of the operation as a percentage.
@@ -1816,6 +1860,7 @@ extension NeptuneClientTypes {
             latestRestorableTime: Foundation.Date? = nil,
             masterUsername: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            networkType: Swift.String? = nil,
             pendingModifiedValues: NeptuneClientTypes.ClusterPendingModifiedValues? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -1862,6 +1907,7 @@ extension NeptuneClientTypes {
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.pendingModifiedValues = pendingModifiedValues
             self.percentProgress = percentProgress
             self.port = port
@@ -2640,6 +2686,8 @@ extension NeptuneClientTypes {
         public var subnetGroupStatus: Swift.String?
         /// Contains a list of [Subnet] elements.
         public var subnets: [NeptuneClientTypes.Subnet]?
+        /// The network types supported by the DB subnet group. Valid network types include IPV4 and DUAL. A DB subnet group supports DUAL if all subnets in the group have both IPv4 and IPv6 CIDRs.
+        public var supportedNetworkTypes: [Swift.String]?
         /// Provides the VpcId of the DB subnet group.
         public var vpcId: Swift.String?
 
@@ -2649,6 +2697,7 @@ extension NeptuneClientTypes {
             dbSubnetGroupName: Swift.String? = nil,
             subnetGroupStatus: Swift.String? = nil,
             subnets: [NeptuneClientTypes.Subnet]? = nil,
+            supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
@@ -2656,6 +2705,7 @@ extension NeptuneClientTypes {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
     }
@@ -2898,6 +2948,8 @@ extension NeptuneClientTypes {
         public var monitoringRoleArn: Swift.String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public var multiAZ: Swift.Bool?
+        /// The network type of the DB instance. Inherited from the DB cluster. Valid Values: IPV4, DUAL
+        public var networkType: Swift.String?
         /// (Not supported by Neptune)
         public var optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
@@ -2971,6 +3023,7 @@ extension NeptuneClientTypes {
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            networkType: Swift.String? = nil,
             optionGroupMemberships: [NeptuneClientTypes.OptionGroupMembership]? = nil,
             pendingModifiedValues: NeptuneClientTypes.PendingModifiedValues? = nil,
             performanceInsightsEnabled: Swift.Bool? = nil,
@@ -3025,6 +3078,7 @@ extension NeptuneClientTypes {
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.optionGroupMemberships = optionGroupMemberships
             self.pendingModifiedValues = pendingModifiedValues
             self.performanceInsightsEnabled = performanceInsightsEnabled
@@ -5334,6 +5388,8 @@ extension NeptuneClientTypes {
         public var readReplicaCapable: Swift.Bool?
         /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
         public var storageType: Swift.String?
+        /// The network types supported by the orderable DB instance option.
+        public var supportedNetworkTypes: [Swift.String]?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public var supportsEnhancedMonitoring: Swift.Bool?
         /// A value that indicates whether you can use Neptune global databases with a specific combination of other DB engine attributes.
@@ -5364,6 +5420,7 @@ extension NeptuneClientTypes {
             multiAZCapable: Swift.Bool? = nil,
             readReplicaCapable: Swift.Bool? = nil,
             storageType: Swift.String? = nil,
+            supportedNetworkTypes: [Swift.String]? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
             supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
@@ -5386,6 +5443,7 @@ extension NeptuneClientTypes {
             self.multiAZCapable = multiAZCapable
             self.readReplicaCapable = readReplicaCapable
             self.storageType = storageType
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
@@ -5729,6 +5787,12 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// Not supported by Neptune.
     public var masterUserPassword: Swift.String?
+    /// The network type of the DB cluster. Valid Values:
+    ///
+    /// * IPV4 – The DB cluster uses only IPv4 addresses for communication.
+    ///
+    /// * DUAL – The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+    public var networkType: Swift.String?
     /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens
@@ -5780,6 +5844,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         masterUserPassword: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         newDBClusterIdentifier: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
@@ -5801,6 +5866,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.engineVersion = engineVersion
         self.masterUserPassword = masterUserPassword
+        self.networkType = networkType
         self.newDBClusterIdentifier = newDBClusterIdentifier
         self.optionGroupName = optionGroupName
         self.port = port
@@ -6776,6 +6842,12 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// * If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
     public var kmsKeyId: Swift.String?
+    /// The network type of the DB cluster. Valid Values:
+    ///
+    /// * IPV4 – ( the default ) The DB cluster uses only IPv4 addresses for communication.
+    ///
+    /// * DUAL – The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+    public var networkType: Swift.String?
     /// (Not supported by Neptune)
     public var optionGroupName: Swift.String?
     /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535 Default: The same port as the original DB cluster.
@@ -6807,6 +6879,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
@@ -6827,6 +6900,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
+        self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
@@ -6879,6 +6953,12 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// If DBClusterIdentifier refers to a DB cluster that is not encrypted, then the restore request is rejected.
     public var kmsKeyId: Swift.String?
+    /// The network type of the DB cluster. Valid Values:
+    ///
+    /// * IPV4 – ( the default ) The DB cluster uses only IPv4 addresses for communication.
+    ///
+    /// * DUAL – The DB cluster uses both IPv4 and IPv6 addresses for communication. The DB subnet group associated with the cluster must support IPv6.
+    public var networkType: Swift.String?
     /// (Not supported by Neptune)
     public var optionGroupName: Swift.String?
     /// The port number on which the new DB cluster accepts connections. Constraints: Value must be 1150-65535 Default: The same port as the original DB cluster.
@@ -6929,6 +7009,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
         kmsKeyId: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
         restoreToTime: Foundation.Date? = nil,
@@ -6947,6 +7028,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
         self.kmsKeyId = kmsKeyId
+        self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
         self.restoreToTime = restoreToTime
@@ -7643,6 +7725,7 @@ extension CreateDBClusterInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUsername"].write(value.masterUsername)
+        try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
@@ -8227,6 +8310,7 @@ extension ModifyDBClusterInput {
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+        try writer["NetworkType"].write(value.networkType)
         try writer["NewDBClusterIdentifier"].write(value.newDBClusterIdentifier)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
@@ -8480,6 +8564,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: NeptuneClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
@@ -8503,6 +8588,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableIAMDatabaseAuthentication"].write(value.enableIAMDatabaseAuthentication)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
         try writer["RestoreToTime"].writeTimestamp(value.restoreToTime, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -9533,6 +9619,7 @@ enum CreateDBClusterOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupportedFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10177,6 +10264,7 @@ enum ModifyDBClusterOutputError {
             case "InvalidDBSubnetGroupStateFault": return try InvalidDBSubnetGroupStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupportedFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10477,6 +10565,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupportedFault.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10507,6 +10596,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupportedFault.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10932,6 +11022,19 @@ extension InvalidVPCNetworkStateFault {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NetworkTypeNotSupportedFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupportedFault {
+        let reader = baseError.errorBodyReader
+        var value = NetworkTypeNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11477,6 +11580,7 @@ extension NeptuneClientTypes.ClusterPendingModifiedValues {
         value.storageType = try reader["StorageType"].readIfPresent()
         value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -11531,6 +11635,7 @@ extension NeptuneClientTypes.DBCluster {
         value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -11735,6 +11840,7 @@ extension NeptuneClientTypes.DBInstance {
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.enabledCloudwatchLogsExports = try reader["EnabledCloudwatchLogsExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -11798,6 +11904,7 @@ extension NeptuneClientTypes.DBSubnetGroup {
         value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
         value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11987,6 +12094,7 @@ extension NeptuneClientTypes.OrderableDBInstanceOption {
         value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
         value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
         value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

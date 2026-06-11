@@ -618,7 +618,7 @@ extension BedrockAgentCoreControlClient {
 extension BedrockAgentCoreControlClient {
     /// Performs the `AddDatasetExamples` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Adds examples to the dataset's DRAFT. Validation: All examples are validated against the dataset's schemaType before any writes occur. If any example fails validation, the entire batch is rejected with ValidationException — no examples are written (all-or-nothing semantics). Asynchronous: Operates in-place on DRAFT. No version bump occurs. Use CreateDatasetVersion to publish DRAFT as a new numbered version. State guard: Returns ConflictException (DATASET_NOT_READY) if the dataset status is not in {DRAFT, ACTIVE}. Request size limit: Max 5 MB total request body. Max 1000 examples per call.
+    /// Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
     ///
     /// - Parameter input: [no documentation found] (Type: `AddDatasetExamplesInput`)
     ///
@@ -1216,7 +1216,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateDataset` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a new Dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED (with failureReason).
+    /// Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
@@ -1290,7 +1290,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateDatasetVersion` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Publishes the current DRAFT as a new numbered version. Snapshots the DRAFT examples as the next version (1, 2, 3, ...). The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to ACTIVE (draftStatus=UNMODIFIED) or UPDATE_FAILED. State guard: Returns ConflictException (DATASET_NOT_READY) if status is in {CREATING, UPDATING, DELETING}, or DATASET_IN_FAILED_STATE if status is in {CREATE_FAILED, DELETE_FAILED}. Quota: MAX_VERSIONS_PER_DATASET applies to published versions only (not DRAFT).
+    /// Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDatasetVersionInput`)
     ///
@@ -3065,18 +3065,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteDataset` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes a dataset version or an entire dataset (all versions + name claim). Asynchronous 202. State transitions:
-    ///
-    /// * If datasetVersion is absent (full delete): status transitions to DELETING immediately.
-    ///
-    /// * If datasetVersion is provided (version-specific delete): status transitions to UPDATING.
-    ///
-    ///
-    /// State guard (full delete): Returns ConflictException (DATASET_NOT_READY) if the dataset status is in {CREATING, UPDATING}. Deletion is allowed from ACTIVE, CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED states. State guard (version-specific delete): Returns ConflictException (DATASET_NOT_READY) if the dataset status is not in {ACTIVE, CREATE_FAILED, UPDATE_FAILED}. Fails with ConflictException (REFERENCED_BY_EVAL_JOB) if referenced by an active evaluation job (full delete only). If the delete workflow fails after retries, status is set to DELETE_FAILED (full delete) or UPDATE_FAILED (version-specific delete). Calling DeleteDataset on a DELETE_FAILED dataset re-triggers the delete workflow (idempotent retry path). Version parameter:
-    ///
-    /// * If datasetVersion is absent: deletes ALL versions and the Dataset record itself.
-    ///
-    /// * If datasetVersion is provided: deletes only that specific DatasetVersion. Returns ResourceNotFoundException if the specified version does not exist.
+    /// Deletes a dataset version or an entire dataset asynchronously. If datasetVersion is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
@@ -3147,7 +3136,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `DeleteDatasetExamples` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Deletes specific examples by ID from DRAFT. Validation: All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected with ResourceNotFoundException — no examples are deleted (all-or-nothing semantics). Asynchronous: Operates in-place on DRAFT. No version bump occurs. Use CreateDatasetVersion to publish DRAFT as a new numbered version. State guard: Returns ConflictException (DATASET_NOT_READY) if the dataset status is not in {DRAFT, ACTIVE}.
+    /// Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics).
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDatasetExamplesInput`)
     ///
@@ -4985,7 +4974,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `GetDataset` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Retrieves dataset metadata only. Use ?datasetVersion=DRAFT or ?datasetVersion=N to retrieve a specific version's metadata. If absent, defaults to DRAFT (the mutable working copy). Returns ResourceNotFoundException if the specified version is not found. Initial state after CreateDataset: When CreateDataset completes successfully (status transitions to ACTIVE), only a DRAFT working copy exists. No published versions exist until CreateDatasetVersion is called. At this point draftStatus is MODIFIED because the DRAFT has content that has never been published. Default version behavior: When datasetVersion is omitted, the operation returns the DRAFT working copy. To retrieve a specific published version, pass the version number as a string (e.g. ?datasetVersion=1). State guard: Allowed for all statuses including DELETING. Returns the dataset record with its current status so callers can observe the deletion in progress. For paginated example IDs use ListDatasetExamples.
+    /// Retrieves dataset metadata. Use the datasetVersion query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use ListDatasetExamples.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDatasetInput`)
     ///
@@ -7228,7 +7217,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListDatasetExamples` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Returns paginated examples from the dataset. Version-pinned pagination: The server embeds the resolved version in the nextToken. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations or whether datasetVersion is passed on subsequent requests. The datasetVersion query parameter is only used for the first request (when nextToken is absent); if omitted, defaults to DRAFT. State guard: Allowed for all statuses including DELETING.
+    /// Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDatasetExamplesInput`)
     ///
@@ -7299,7 +7288,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListDatasetVersions` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy. State guard: Allowed for all statuses including DELETING.
+    /// Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDatasetVersionsInput`)
     ///
@@ -7369,7 +7358,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `ListDatasets` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Lists all datasets in the caller's account, paginated. No presigned URLs in list results.
+    /// Lists all datasets in the caller's account, paginated.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
@@ -9788,7 +9777,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateDataset` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples. Cannot update: name, schemaType, kmsKeyArn (immutable after creation).
+    /// Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
@@ -9862,7 +9851,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateDatasetExamples` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates multiple existing examples in-place on DRAFT. Validation: All examples are validated against the dataset's schemaType before any writes occur. If any example fails validation, the entire batch is rejected with ValidationException — no examples are updated (all-or-nothing semantics). Asynchronous: Operates in-place on DRAFT. No version bump occurs. Use CreateDatasetVersion to publish DRAFT as a new numbered version. Fails with ResourceNotFoundException if any exampleId does not exist in DRAFT. To add new examples, use AddDatasetExamples instead. State guard: Returns ConflictException (DATASET_NOT_READY) if the dataset status is not in {DRAFT, ACTIVE}. Request size limit: Max 5 MB total request body. Max 1000 examples per call.
+    /// Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDatasetExamplesInput`)
     ///
