@@ -2135,7 +2135,7 @@ public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
-    /// The number of days until the service specific credential expires. This field is only valid for Bedrock and CloudWatch Logs API keys and must be a positive integer. When not specified, the credential will not expire.
+    /// The number of days until the service specific credential expires. This field is only valid for services that support long-term API keys and must be a positive integer. When not specified, the credential will not expire. To see which services support long-term API keys, refer to [API keys for Amazon Web Services services](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_api_keys_for_aws_services.html) in the IAM User Guide.
     public var credentialAgeDays: Swift.Int?
     /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
     /// This member is required.

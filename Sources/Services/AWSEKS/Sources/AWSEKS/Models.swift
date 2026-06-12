@@ -1502,6 +1502,7 @@ extension EKSClientTypes {
         case maxUnavailable
         case maxUnavailablePercentage
         case minSize
+        case networkAccess
         case nodeRepairConfig
         case nodeRepairEnabled
         case platformVersion
@@ -1511,6 +1512,9 @@ extension EKSClientTypes {
         case releaseVersion
         case remoteNetworkConfig
         case resolveConflicts
+        case roleArn
+        case roleMappingsToAddOrUpdate
+        case roleMappingsToRemove
         case securityGroups
         case serviceAccountRoleArn
         case storageConfig
@@ -1552,6 +1556,7 @@ extension EKSClientTypes {
                 .maxUnavailable,
                 .maxUnavailablePercentage,
                 .minSize,
+                .networkAccess,
                 .nodeRepairConfig,
                 .nodeRepairEnabled,
                 .platformVersion,
@@ -1561,6 +1566,9 @@ extension EKSClientTypes {
                 .releaseVersion,
                 .remoteNetworkConfig,
                 .resolveConflicts,
+                .roleArn,
+                .roleMappingsToAddOrUpdate,
+                .roleMappingsToRemove,
                 .securityGroups,
                 .serviceAccountRoleArn,
                 .storageConfig,
@@ -1608,6 +1616,7 @@ extension EKSClientTypes {
             case .maxUnavailable: return "MaxUnavailable"
             case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
             case .minSize: return "MinSize"
+            case .networkAccess: return "NetworkAccess"
             case .nodeRepairConfig: return "NodeRepairConfig"
             case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
@@ -1617,6 +1626,9 @@ extension EKSClientTypes {
             case .releaseVersion: return "ReleaseVersion"
             case .remoteNetworkConfig: return "RemoteNetworkConfig"
             case .resolveConflicts: return "ResolveConflicts"
+            case .roleArn: return "RoleArn"
+            case .roleMappingsToAddOrUpdate: return "RoleMappingsToAddOrUpdate"
+            case .roleMappingsToRemove: return "RoleMappingsToRemove"
             case .securityGroups: return "SecurityGroups"
             case .serviceAccountRoleArn: return "ServiceAccountRoleArn"
             case .storageConfig: return "StorageConfig"
@@ -1702,6 +1714,7 @@ extension EKSClientTypes {
         case associateEncryptionConfig
         case associateIdentityProviderConfig
         case autoModeUpdate
+        case capabilityUpdate
         case configUpdate
         case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
@@ -1723,6 +1736,7 @@ extension EKSClientTypes {
                 .associateEncryptionConfig,
                 .associateIdentityProviderConfig,
                 .autoModeUpdate,
+                .capabilityUpdate,
                 .configUpdate,
                 .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
@@ -1750,6 +1764,7 @@ extension EKSClientTypes {
             case .associateEncryptionConfig: return "AssociateEncryptionConfig"
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
             case .autoModeUpdate: return "AutoModeUpdate"
+            case .capabilityUpdate: return "CapabilityUpdate"
             case .configUpdate: return "ConfigUpdate"
             case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
