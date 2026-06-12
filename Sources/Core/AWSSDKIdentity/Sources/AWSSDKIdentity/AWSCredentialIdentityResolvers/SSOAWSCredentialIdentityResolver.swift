@@ -61,7 +61,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
         )
-        let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFIE"] ?? "default"
+        let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFILE"] ?? "default"
         let (accountID, roleName, ssoSessionName) = try fetchSSOConfigFromSharedConfigFile(
             profileName: resolvedProfileName,
             fileBasedConfig: fileBasedConfig
