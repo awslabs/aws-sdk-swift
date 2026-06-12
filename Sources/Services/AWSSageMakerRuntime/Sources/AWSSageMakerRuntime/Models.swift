@@ -289,6 +289,8 @@ extension InvokeEndpointOutput: Swift.CustomDebugStringConvertible {
 public struct InvokeEndpointAsyncInput: Swift.Sendable {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
+    /// Provides inline input data for the inference request, in the format specified in the ContentType request header. Use this parameter to send the request payload directly in the API call instead of uploading it to Amazon S3 and referencing it with InputLocation. The inline payload can be up to 128,000 bytes. Body and InputLocation are mutually exclusive. Provide exactly one of them. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
+    public var body: Foundation.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
     /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker AI endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker AI Python SDK.
@@ -301,7 +303,6 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
     /// The identifier for the inference request. Amazon SageMaker AI will generate an identifier for you if none is specified.
     public var inferenceId: Swift.String?
     /// The Amazon S3 URI where the inference request payload is stored.
-    /// This member is required.
     public var inputLocation: Swift.String?
     /// Maximum amount of time in seconds a request can be processed before it is marked as expired. The default is 15 minutes, or 900 seconds.
     public var invocationTimeoutSeconds: Swift.Int?
@@ -312,6 +313,7 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
 
     public init(
         accept: Swift.String? = nil,
+        body: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         customAttributes: Swift.String? = nil,
         endpointName: Swift.String? = nil,
@@ -323,6 +325,7 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
         s3OutputPathExtension: Swift.String? = nil
     ) {
         self.accept = accept
+        self.body = body
         self.contentType = contentType
         self.customAttributes = customAttributes
         self.endpointName = endpointName
@@ -337,7 +340,7 @@ public struct InvokeEndpointAsyncInput: Swift.Sendable {
 
 extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), filename: \(Swift.String(describing: filename)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), s3OutputPathExtension: \(Swift.String(describing: s3OutputPathExtension)), customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), filename: \(Swift.String(describing: filename)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), s3OutputPathExtension: \(Swift.String(describing: s3OutputPathExtension)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeEndpointAsyncOutput: Swift.Sendable {
@@ -660,6 +663,14 @@ extension InvokeEndpointWithResponseStreamInput {
 extension InvokeEndpointInput {
 
     static func write(value: InvokeEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+    }
+}
+
+extension InvokeEndpointAsyncInput {
+
+    static func write(value: InvokeEndpointAsyncInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Body"].write(value.body)
     }
