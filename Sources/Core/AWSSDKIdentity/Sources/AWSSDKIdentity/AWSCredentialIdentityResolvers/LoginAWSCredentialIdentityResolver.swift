@@ -66,7 +66,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
         )
-        let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFIE"] ?? "default"
+        let resolvedProfileName = self.profileName ?? ProcessInfo.processInfo.environment["AWS_PROFILE"] ?? "default"
 
         // Load cached login token.
         let loginSession = try getLoginSessionFromConfig(resolvedProfileName, fileBasedConfig)
