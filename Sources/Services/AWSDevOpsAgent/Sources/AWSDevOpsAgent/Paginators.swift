@@ -273,3 +273,35 @@ extension PaginatorSequence where OperationStackInput == ListJournalRecordsInput
         return try await self.asyncCompactMap { item in item.records }
     }
 }
+extension DevOpsAgentClient {
+    /// Paginate over `[ListTriggersOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTriggersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTriggersOutput`
+    public func listTriggersPaginated(input: ListTriggersInput) -> ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutput> {
+        return ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTriggers(input:))
+    }
+}
+
+extension ListTriggersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTriggersInput {
+        return ListTriggersInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTriggersInput, OperationStackOutput == ListTriggersOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTriggersPaginated`
+    /// to access the nested member `[DevOpsAgentClientTypes.Trigger]`
+    /// - Returns: `[DevOpsAgentClientTypes.Trigger]`
+    public func items() async throws -> [DevOpsAgentClientTypes.Trigger] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}

@@ -5687,7 +5687,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             selectAllOptions: QuickSightClientTypes.NumericFilterSelectAllOptions? = nil,
-            value: Swift.Double? = 0.0
+            value: Swift.Double? = nil
         ) {
             self.aggregationFunction = aggregationFunction
             self.column = column
@@ -5713,7 +5713,7 @@ extension QuickSightClientTypes {
 
         public init(
             parameter: Swift.String? = nil,
-            staticValue: Swift.Double? = 0.0
+            staticValue: Swift.Double? = nil
         ) {
             self.parameter = parameter
             self.staticValue = staticValue
@@ -5762,8 +5762,8 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.NumericRangeFilterValue? = nil,
@@ -5848,7 +5848,7 @@ extension QuickSightClientTypes {
         public var status: QuickSightClientTypes.WidgetStatus?
 
         public init(
-            amount: Swift.Int? = 0,
+            amount: Swift.Int? = nil,
             granularity: QuickSightClientTypes.TimeGranularity? = nil,
             status: QuickSightClientTypes.WidgetStatus? = nil
         ) {
@@ -5956,7 +5956,7 @@ extension QuickSightClientTypes {
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             parameterName: Swift.String? = nil,
             relativeDateType: QuickSightClientTypes.RelativeDateType? = nil,
-            relativeDateValue: Swift.Int? = 0,
+            relativeDateValue: Swift.Int? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         ) {
             self.anchorDateConfiguration = anchorDateConfiguration
@@ -6102,8 +6102,8 @@ extension QuickSightClientTypes {
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration? = nil,
             filterId: Swift.String? = nil,
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
             rangeMaximumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
             rangeMinimumValue: QuickSightClientTypes.TimeRangeFilterValue? = nil,
@@ -6150,7 +6150,7 @@ extension QuickSightClientTypes {
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
-            limit: Swift.Int? = 0,
+            limit: Swift.Int? = nil,
             parameterName: Swift.String? = nil,
             timeGranularity: QuickSightClientTypes.TimeGranularity? = nil
         ) {
@@ -6735,7 +6735,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Double? = 0.0,
+            customValue: Swift.Double? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         ) {
             self.customValue = customValue
@@ -6820,7 +6820,7 @@ extension QuickSightClientTypes {
         public var valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption?
 
         public init(
-            customValue: Swift.Int? = 0,
+            customValue: Swift.Int? = nil,
             valueWhenUnsetOption: QuickSightClientTypes.ValueWhenUnsetOption? = nil
         ) {
             self.customValue = customValue
@@ -8946,8 +8946,8 @@ extension QuickSightClientTypes {
         public var minimum: Swift.Double?
 
         public init(
-            maximum: Swift.Double? = 0.0,
-            minimum: Swift.Double? = 0.0
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil
         ) {
             self.maximum = maximum
             self.minimum = minimum
@@ -8984,8 +8984,8 @@ extension QuickSightClientTypes {
         public var stepSize: Swift.Double?
 
         public init(
-            stepCount: Swift.Int? = 0,
-            stepSize: Swift.Double? = 0.0
+            stepCount: Swift.Int? = nil,
+            stepSize: Swift.Double? = nil
         ) {
             self.stepCount = stepCount
             self.stepSize = stepSize
@@ -9001,7 +9001,7 @@ extension QuickSightClientTypes {
         public var base: Swift.Double?
 
         public init(
-            base: Swift.Double? = 0.0
+            base: Swift.Double? = nil
         ) {
             self.base = base
         }
@@ -9075,8 +9075,8 @@ extension QuickSightClientTypes {
         public var to: Swift.Double?
 
         public init(
-            from: Swift.Double? = 0.0,
-            to: Swift.Double? = 0.0
+            from: Swift.Double? = nil,
+            to: Swift.Double? = nil
         ) {
             self.from = from
             self.to = to
@@ -9129,7 +9129,7 @@ extension QuickSightClientTypes {
 
         public init(
             labelOptions: QuickSightClientTypes.LabelOptions? = nil,
-            rotationAngle: Swift.Double? = 0.0
+            rotationAngle: Swift.Double? = nil
         ) {
             self.labelOptions = labelOptions
             self.rotationAngle = rotationAngle
@@ -10829,7 +10829,7 @@ extension QuickSightClientTypes {
         public var otherCategories: QuickSightClientTypes.OtherCategories?
 
         public init(
-            itemsLimit: Swift.Int? = 0,
+            itemsLimit: Swift.Int? = nil,
             otherCategories: QuickSightClientTypes.OtherCategories? = nil
         ) {
             self.itemsLimit = itemsLimit
@@ -11817,7 +11817,7 @@ extension QuickSightClientTypes {
 
         public init(
             pageNumber: Swift.Int? = nil,
-            pageSize: Swift.Int? = 0
+            pageSize: Swift.Int? = nil
         ) {
             self.pageNumber = pageNumber
             self.pageSize = pageSize
@@ -12894,7 +12894,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = 0.0,
+            dataValue: Swift.Double? = nil,
             gradientOffset: Swift.Double = 0.0
         ) {
             self.color = color
@@ -13483,7 +13483,7 @@ extension QuickSightClientTypes {
         public var arcThickness: QuickSightClientTypes.ArcThicknessOptions?
 
         public init(
-            arcAngle: Swift.Double? = 0.0,
+            arcAngle: Swift.Double? = nil,
             arcThickness: QuickSightClientTypes.ArcThicknessOptions? = nil
         ) {
             self.arcAngle = arcAngle
@@ -13502,8 +13502,8 @@ extension QuickSightClientTypes {
         public var min: Swift.Double?
 
         public init(
-            max: Swift.Double? = 0.0,
-            min: Swift.Double? = 0.0
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
         ) {
             self.max = max
             self.min = min
@@ -14422,7 +14422,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            dataValue: Swift.Double? = 0.0
+            dataValue: Swift.Double? = nil
         ) {
             self.color = color
             self.dataValue = dataValue
@@ -14695,7 +14695,7 @@ extension QuickSightClientTypes {
             binCount: QuickSightClientTypes.BinCountOptions? = nil,
             binWidth: QuickSightClientTypes.BinWidthOptions? = nil,
             selectedBinType: QuickSightClientTypes.HistogramBinType? = nil,
-            startValue: Swift.Double? = 0.0
+            startValue: Swift.Double? = nil
         ) {
             self.binCount = binCount
             self.binWidth = binWidth
@@ -14882,14 +14882,14 @@ extension QuickSightClientTypes {
         public init(
             computationId: Swift.String? = nil,
             customSeasonalityValue: Swift.Int? = nil,
-            lowerBoundary: Swift.Double? = 0.0,
+            lowerBoundary: Swift.Double? = nil,
             name: Swift.String? = nil,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: QuickSightClientTypes.ForecastComputationSeasonality? = nil,
             time: QuickSightClientTypes.DimensionField? = nil,
-            upperBoundary: Swift.Double? = 0.0,
+            upperBoundary: Swift.Double? = nil,
             value: QuickSightClientTypes.MeasureField? = nil
         ) {
             self.computationId = computationId
@@ -16787,12 +16787,12 @@ extension QuickSightClientTypes {
         public var upperBoundary: Swift.Double?
 
         public init(
-            lowerBoundary: Swift.Double? = 0.0,
+            lowerBoundary: Swift.Double? = nil,
             periodsBackward: Swift.Int? = nil,
             periodsForward: Swift.Int? = nil,
             predictionInterval: Swift.Int? = nil,
             seasonality: Swift.Int? = nil,
-            upperBoundary: Swift.Double? = 0.0
+            upperBoundary: Swift.Double? = nil
         ) {
             self.lowerBoundary = lowerBoundary
             self.periodsBackward = periodsBackward
@@ -18867,7 +18867,7 @@ extension QuickSightClientTypes {
         public var itemsLimit: Swift.Int?
 
         public init(
-            itemsLimit: Swift.Int? = 0
+            itemsLimit: Swift.Int? = nil
         ) {
             self.itemsLimit = itemsLimit
         }
@@ -23535,7 +23535,7 @@ extension QuickSightClientTypes {
         public var enableIdentityPropagation: Swift.Bool?
 
         public init(
-            enableIdentityPropagation: Swift.Bool? = false
+            enableIdentityPropagation: Swift.Bool? = nil
         ) {
             self.enableIdentityPropagation = enableIdentityPropagation
         }
@@ -27142,7 +27142,7 @@ public struct BatchDeleteKnowledgeBaseOutput: Swift.Sendable {
         deleted: [QuickSightClientTypes.BatchDeleteKnowledgeBaseSuccess]? = nil,
         errors: [QuickSightClientTypes.BatchDeleteKnowledgeBaseFailure]? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.deleted = deleted
         self.errors = errors
@@ -27259,7 +27259,7 @@ extension QuickSightClientTypes {
 
         public init(
             color: Swift.String? = nil,
-            show: Swift.Bool? = false,
+            show: Swift.Bool? = nil,
             width: Swift.String? = nil
         ) {
             self.color = color
@@ -31095,8 +31095,8 @@ extension QuickSightClientTypes {
         public var rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue?
 
         public init(
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             rangeMaximum: QuickSightClientTypes.DataSetDateFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue? = nil
         ) {
@@ -31180,7 +31180,7 @@ extension QuickSightClientTypes {
         public var staticValue: Swift.Double?
 
         public init(
-            staticValue: Swift.Double? = 0.0
+            staticValue: Swift.Double? = nil
         ) {
             self.staticValue = staticValue
         }
@@ -31226,8 +31226,8 @@ extension QuickSightClientTypes {
         public var rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue?
 
         public init(
-            includeMaximum: Swift.Bool? = false,
-            includeMinimum: Swift.Bool? = false,
+            includeMaximum: Swift.Bool? = nil,
+            includeMinimum: Swift.Bool? = nil,
             rangeMaximum: QuickSightClientTypes.DataSetNumericFilterValue? = nil,
             rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue? = nil
         ) {
@@ -32381,7 +32381,7 @@ extension QuickSightClientTypes {
         public var uniqueKey: Swift.Bool?
 
         public init(
-            uniqueKey: Swift.Bool? = false
+            uniqueKey: Swift.Bool? = nil
         ) {
             self.uniqueKey = uniqueKey
         }
@@ -32698,7 +32698,7 @@ extension QuickSightClientTypes {
         public var textQualifier: QuickSightClientTypes.TextQualifier?
 
         public init(
-            containsHeader: Swift.Bool? = false,
+            containsHeader: Swift.Bool? = nil,
             customCellAddressRange: Swift.String? = nil,
             delimiter: Swift.String? = nil,
             format: QuickSightClientTypes.FileFormat? = nil,
@@ -35403,7 +35403,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = false
+            show: Swift.Bool? = nil
         ) {
             self.show = show
         }
@@ -35418,7 +35418,7 @@ extension QuickSightClientTypes {
         public var show: Swift.Bool?
 
         public init(
-            show: Swift.Bool? = false
+            show: Swift.Bool? = nil
         ) {
             self.show = show
         }
@@ -39110,7 +39110,7 @@ public struct DeleteKnowledgeBaseOutput: Swift.Sendable {
         knowledgeBaseArn: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBaseArn = knowledgeBaseArn
         self.knowledgeBaseId = knowledgeBaseId
@@ -42310,9 +42310,9 @@ extension QuickSightClientTypes {
         public var totalRowsInDataset: Swift.Int?
 
         public init(
-            rowsDropped: Swift.Int? = 0,
-            rowsIngested: Swift.Int? = 0,
-            totalRowsInDataset: Swift.Int? = 0
+            rowsDropped: Swift.Int? = nil,
+            rowsIngested: Swift.Int? = nil,
+            totalRowsInDataset: Swift.Int? = nil
         ) {
             self.rowsDropped = rowsDropped
             self.rowsIngested = rowsIngested
@@ -42356,9 +42356,9 @@ extension QuickSightClientTypes {
             createdTime: Foundation.Date? = nil,
             errorInfo: QuickSightClientTypes.ErrorInfo? = nil,
             ingestionId: Swift.String? = nil,
-            ingestionSizeInBytes: Swift.Int? = 0,
+            ingestionSizeInBytes: Swift.Int? = nil,
             ingestionStatus: QuickSightClientTypes.IngestionStatus? = nil,
-            ingestionTimeInSeconds: Swift.Int? = 0,
+            ingestionTimeInSeconds: Swift.Int? = nil,
             queueInfo: QuickSightClientTypes.QueueInfo? = nil,
             requestSource: QuickSightClientTypes.IngestionRequestSource? = nil,
             requestType: QuickSightClientTypes.IngestionRequestType? = nil,
@@ -42677,7 +42677,7 @@ extension QuickSightClientTypes {
         public var templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration?
 
         public init(
-            eventEnabled: Swift.Bool? = false,
+            eventEnabled: Swift.Bool? = nil,
             templateConfiguration: QuickSightClientTypes.KbTemplateConfiguration? = nil
         ) {
             self.eventEnabled = eventEnabled
@@ -42891,14 +42891,14 @@ extension QuickSightClientTypes {
             createdAt: Foundation.Date? = nil,
             dataSourceArn: Swift.String? = nil,
             description: Swift.String? = nil,
-            documentCount: Swift.Int? = 0,
+            documentCount: Swift.Int? = nil,
             firstCompletedIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
             firstIncompleteIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
-            isEmailNotificationOptedForIngestionFailures: Swift.Bool? = false,
+            isEmailNotificationOptedForIngestionFailures: Swift.Bool? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseConfiguration: QuickSightClientTypes.KnowledgeBaseConfiguration? = nil,
             knowledgeBaseId: Swift.String? = nil,
-            knowledgeBaseSizeBytes: Swift.Int? = 0,
+            knowledgeBaseSizeBytes: Swift.Int? = nil,
             latestIngestionSummary: QuickSightClientTypes.KnowledgeBaseIngestionSummary? = nil,
             mediaExtractionConfiguration: QuickSightClientTypes.MediaExtractionConfiguration? = nil,
             name: Swift.String? = nil,
@@ -42948,7 +42948,7 @@ public struct DescribeKnowledgeBaseOutput: Swift.Sendable {
     public init(
         knowledgeBase: QuickSightClientTypes.KnowledgeBase? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBase = knowledgeBase
         self.requestId = requestId
@@ -42992,7 +42992,7 @@ public struct DescribeKnowledgeBasePermissionsOutput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBaseArn = knowledgeBaseArn
         self.knowledgeBaseId = knowledgeBaseId
@@ -43576,8 +43576,8 @@ extension QuickSightClientTypes {
         public var userName: Swift.String?
 
         public init(
-            percentage: Swift.Double? = 0.0,
-            rawFileSizeBytes: Swift.Int? = 0,
+            percentage: Swift.Double? = nil,
+            rawFileSizeBytes: Swift.Int? = nil,
             userName: Swift.String? = nil
         ) {
             self.percentage = percentage
@@ -43686,8 +43686,8 @@ extension QuickSightClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
-            consumedSourceDocCount: Swift.Int? = 0,
-            consumedSourceSize: Swift.Int? = 0,
+            consumedSourceDocCount: Swift.Int? = nil,
+            consumedSourceSize: Swift.Int? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             createdByArn: Swift.String? = nil,
@@ -46855,10 +46855,10 @@ extension QuickSightClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             dataSourceArn: Swift.String? = nil,
-            documentCount: Swift.Int? = 0,
+            documentCount: Swift.Int? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
-            knowledgeBaseSizeBytes: Swift.Int? = 0,
+            knowledgeBaseSizeBytes: Swift.Int? = nil,
             name: Swift.String? = nil,
             primaryOwnerArn: Swift.String? = nil,
             primaryOwnerUsername: Swift.String? = nil,
@@ -47754,7 +47754,7 @@ public struct ListIdentityPropagationConfigsInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
-        maxResults: Swift.Int? = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.awsAccountId = awsAccountId
@@ -47869,7 +47869,7 @@ public struct ListKnowledgeBasesOutput: Swift.Sendable {
         knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBaseSummaries = knowledgeBaseSummaries
         self.nextToken = nextToken
@@ -48349,14 +48349,14 @@ extension QuickSightClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
-            consumedSourceDocCount: Swift.Int? = 0,
-            consumedSourceSize: Swift.Int? = 0,
+            consumedSourceDocCount: Swift.Int? = nil,
+            consumedSourceSize: Swift.Int? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             createdByArn: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
-            resourcesCount: Swift.Int? = 0,
+            resourcesCount: Swift.Int? = nil,
             spaceArn: Swift.String? = nil,
             spaceId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
@@ -50295,7 +50295,7 @@ public struct SearchKnowledgeBasesOutput: Swift.Sendable {
         knowledgeBaseSummaries: [QuickSightClientTypes.KnowledgeBaseSummary]? = nil,
         nextToken: Swift.String? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBaseSummaries = knowledgeBaseSummaries
         self.nextToken = nextToken
@@ -52832,7 +52832,7 @@ public struct UpdateKnowledgeBasePermissionsOutput: Swift.Sendable {
         knowledgeBaseId: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int? = 0
+        status: Swift.Int? = nil
     ) {
         self.knowledgeBaseArn = knowledgeBaseArn
         self.knowledgeBaseId = knowledgeBaseId

@@ -554,9 +554,9 @@ extension BedrockAgentCoreControlClientTypes.InlineExamplesSource: Swift.CustomD
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// S3 location of a JSONL file containing dataset examples.
+    /// Amazon S3 location of a JSONL file containing dataset examples.
     public struct S3Source: Swift.Sendable {
-        /// S3 URI of the JSONL file (e.g. s3://my-bucket/path/to/examples.jsonl).
+        /// Amazon S3 URI of the JSONL file (for example, s3://my-bucket/path/to/examples.jsonl).
         /// This member is required.
         public var s3Uri: Swift.String?
 
@@ -574,7 +574,7 @@ extension BedrockAgentCoreControlClientTypes {
     public enum DataSourceType: Swift.Sendable {
         /// Inline examples provided directly in the request body.
         case inlineexamples(BedrockAgentCoreControlClientTypes.InlineExamplesSource)
-        /// S3 URI pointing to a JSONL file in the customer's bucket. The service reads this file using the caller's FAS credentials.
+        /// Amazon S3 URI pointing to a JSONL file in the customer's bucket.
         case s3source(BedrockAgentCoreControlClientTypes.S3Source)
         case sdkUnknown(Swift.String)
     }
@@ -603,21 +603,21 @@ public struct AddDatasetExamplesInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Dataset lifecycle / operation status. Two-column status model: DatasetStatus tracks lifecycle state independently from DraftStatus which tracks publish synchronization. IN-FLIGHT states (busy — all writes blocked): CREATING — CreateDataset async ingestion in progress. UPDATING — Example mutation (Add/Update/Delete) or CreateDatasetVersion in progress. DELETING — Full or version-specific delete in progress. TERMINAL states (stable — operations allowed per guards below): ACTIVE — Dataset is stable. failureReason cleared. CREATE_FAILED — Initial ingestion failed. DRAFT record exists but has no examples. failureReason populated. UPDATE_FAILED — Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason populated. DELETE_FAILED — Delete failed after retries. Dataset/S3 may be in inconsistent state. Sev-2 ticket filed (full-delete only). failureReason populated. State transitions: CreateDataset → CREATING → ACTIVE (draftStatus=MODIFIED) | CREATE_FAILED Add/Update/DeleteDatasetExamples → UPDATING → ACTIVE (draftStatus=MODIFIED) | UPDATE_FAILED CreateDatasetVersion → UPDATING → ACTIVE (draftStatus=UNMODIFIED) | UPDATE_FAILED DeleteDataset (version-specific) → DELETING → ACTIVE (draftStatus unchanged) | DELETE_FAILED DeleteDataset (full) → DELETING → (record deleted) | DELETE_FAILED [auto Sev-2] Operation guards (ConflictException codes): GetDataset / ListDatasetExamples: — Allowed for all statuses (no guard) UpdateDataset, AddDatasetExamples, DeleteDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status == DELETE_FAILED UpdateDatasetExamples: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} CreateDatasetVersion: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING} — DATASET_IN_FAILED_STATE if status in {CREATE_FAILED, DELETE_FAILED} DeleteDataset: — DATASET_NOT_READY if status in {CREATING, UPDATING, DELETING}
+    /// Dataset lifecycle and operation status.
     public enum DatasetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Dataset is stable. All operations are allowed per per-operation guards. failureReason is cleared.
+        /// Dataset is stable. All operations are allowed per operation-specific guards.
         case active
-        /// Initial ingestion failed. DRAFT record exists but contains no examples. failureReason is populated. AddDatasetExamples and DeleteDatasetExamples allowed. UpdateDatasetExamples and CreateDatasetVersion blocked (no examples exist).
+        /// Initial ingestion failed. DRAFT record exists but contains no examples.
         case createFailed
-        /// CreateDataset async ingestion in progress. All writes are blocked. Poll GetDataset until status resolves to ACTIVE or CREATE_FAILED.
+        /// CreateDataset async ingestion in progress. All writes are blocked.
         case creating
-        /// Delete failed after retries. Dataset record/S3 may be in inconsistent state. failureReason is populated. Only DeleteDataset (retry) is allowed.
+        /// Delete failed after retries. Dataset record may be in an inconsistent state.
         case deleteFailed
-        /// Full or version-specific delete is in progress. Read operations (GetDataset, ListDatasetExamples) are still allowed.
+        /// Full or version-specific delete is in progress. Read operations are still allowed.
         case deleting
-        /// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified. failureReason is populated. All example mutations and CreateDatasetVersion allowed for retry.
+        /// Last example mutation or CreateDatasetVersion failed. DRAFT may be partially modified.
         case updateFailed
-        /// An async example mutation or CreateDatasetVersion is in progress. All writes are blocked. Poll GetDataset until status resolves.
+        /// An async example mutation or CreateDatasetVersion is in progress. All writes are blocked.
         case updating
         case sdkUnknown(Swift.String)
 
@@ -4084,6 +4084,8 @@ public struct CreateConfigurationBundleInput: Swift.Sendable {
     public var createdBy: BedrockAgentCoreControlClientTypes.VersionCreatedBySource?
     /// The description for the configuration bundle.
     public var description: Swift.String?
+    /// Optional KMS key ARN for encrypting component configurations.
+    public var kmsKeyArn: Swift.String?
     /// A map of tag keys and values to assign to the configuration bundle. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     public var tags: [Swift.String: Swift.String]?
 
@@ -4095,6 +4097,7 @@ public struct CreateConfigurationBundleInput: Swift.Sendable {
         components: [Swift.String: BedrockAgentCoreControlClientTypes.ComponentConfiguration]? = nil,
         createdBy: BedrockAgentCoreControlClientTypes.VersionCreatedBySource? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.branchName = branchName
@@ -4104,13 +4107,14 @@ public struct CreateConfigurationBundleInput: Swift.Sendable {
         self.components = components
         self.createdBy = createdBy
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.tags = tags
     }
 }
 
 extension CreateConfigurationBundleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConfigurationBundleInput(branchName: \(Swift.String(describing: branchName)), bundleName: \(Swift.String(describing: bundleName)), clientToken: \(Swift.String(describing: clientToken)), commitMessage: \(Swift.String(describing: commitMessage)), createdBy: \(Swift.String(describing: createdBy)), tags: \(Swift.String(describing: tags)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+        "CreateConfigurationBundleInput(branchName: \(Swift.String(describing: branchName)), bundleName: \(Swift.String(describing: bundleName)), clientToken: \(Swift.String(describing: clientToken)), commitMessage: \(Swift.String(describing: commitMessage)), createdBy: \(Swift.String(describing: createdBy)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateConfigurationBundleOutput: Swift.Sendable {
@@ -4274,6 +4278,8 @@ public struct GetConfigurationBundleOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the configuration bundle.
     public var description: Swift.String?
+    /// KMS key ARN used to encrypt component configurations, if CMK was provided.
+    public var kmsKeyArn: Swift.String?
     /// The version lineage metadata, including parent versions, branch name, and creation source.
     public var lineageMetadata: BedrockAgentCoreControlClientTypes.VersionLineageMetadata?
     /// The timestamp when the configuration bundle was last updated.
@@ -4290,6 +4296,7 @@ public struct GetConfigurationBundleOutput: Swift.Sendable {
         components: [Swift.String: BedrockAgentCoreControlClientTypes.ComponentConfiguration]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lineageMetadata: BedrockAgentCoreControlClientTypes.VersionLineageMetadata? = nil,
         updatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
@@ -4300,6 +4307,7 @@ public struct GetConfigurationBundleOutput: Swift.Sendable {
         self.components = components
         self.createdAt = createdAt
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.lineageMetadata = lineageMetadata
         self.updatedAt = updatedAt
         self.versionId = versionId
@@ -4308,7 +4316,7 @@ public struct GetConfigurationBundleOutput: Swift.Sendable {
 
 extension GetConfigurationBundleOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetConfigurationBundleOutput(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), lineageMetadata: \(Swift.String(describing: lineageMetadata)), updatedAt: \(Swift.String(describing: updatedAt)), versionId: \(Swift.String(describing: versionId)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+        "GetConfigurationBundleOutput(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lineageMetadata: \(Swift.String(describing: lineageMetadata)), updatedAt: \(Swift.String(describing: updatedAt)), versionId: \(Swift.String(describing: versionId)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetConfigurationBundleVersionInput: Swift.Sendable {
@@ -4346,6 +4354,8 @@ public struct GetConfigurationBundleVersionOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the configuration bundle.
     public var description: Swift.String?
+    /// KMS key ARN used to encrypt component configurations, if CMK was provided.
+    public var kmsKeyArn: Swift.String?
     /// The version lineage metadata, including parent versions, branch name, and creation source.
     public var lineageMetadata: BedrockAgentCoreControlClientTypes.VersionLineageMetadata?
     /// The timestamp when this specific version was created.
@@ -4362,6 +4372,7 @@ public struct GetConfigurationBundleVersionOutput: Swift.Sendable {
         components: [Swift.String: BedrockAgentCoreControlClientTypes.ComponentConfiguration]? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lineageMetadata: BedrockAgentCoreControlClientTypes.VersionLineageMetadata? = nil,
         versionCreatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
@@ -4372,6 +4383,7 @@ public struct GetConfigurationBundleVersionOutput: Swift.Sendable {
         self.components = components
         self.createdAt = createdAt
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.lineageMetadata = lineageMetadata
         self.versionCreatedAt = versionCreatedAt
         self.versionId = versionId
@@ -4380,7 +4392,7 @@ public struct GetConfigurationBundleVersionOutput: Swift.Sendable {
 
 extension GetConfigurationBundleVersionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetConfigurationBundleVersionOutput(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), lineageMetadata: \(Swift.String(describing: lineageMetadata)), versionCreatedAt: \(Swift.String(describing: versionCreatedAt)), versionId: \(Swift.String(describing: versionId)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+        "GetConfigurationBundleVersionOutput(bundleArn: \(Swift.String(describing: bundleArn)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), createdAt: \(Swift.String(describing: createdAt)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lineageMetadata: \(Swift.String(describing: lineageMetadata)), versionCreatedAt: \(Swift.String(describing: versionCreatedAt)), versionId: \(Swift.String(describing: versionId)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListConfigurationBundlesInput: Swift.Sendable {
@@ -4569,6 +4581,8 @@ public struct UpdateConfigurationBundleInput: Swift.Sendable {
     public var createdBy: BedrockAgentCoreControlClientTypes.VersionCreatedBySource?
     /// The updated description for the configuration bundle.
     public var description: Swift.String?
+    /// Optional KMS key ARN for encrypting component configurations. If provided, components will be encrypted with this key. If the bundle already has a KMS key, this rotates to the new key.
+    public var kmsKeyArn: Swift.String?
     /// A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch already exists, the first parent must be the latest version on that branch.
     public var parentVersionIds: [Swift.String]?
 
@@ -4581,6 +4595,7 @@ public struct UpdateConfigurationBundleInput: Swift.Sendable {
         components: [Swift.String: BedrockAgentCoreControlClientTypes.ComponentConfiguration]? = nil,
         createdBy: BedrockAgentCoreControlClientTypes.VersionCreatedBySource? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         parentVersionIds: [Swift.String]? = nil
     ) {
         self.branchName = branchName
@@ -4591,13 +4606,14 @@ public struct UpdateConfigurationBundleInput: Swift.Sendable {
         self.components = components
         self.createdBy = createdBy
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.parentVersionIds = parentVersionIds
     }
 }
 
 extension UpdateConfigurationBundleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateConfigurationBundleInput(branchName: \(Swift.String(describing: branchName)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), clientToken: \(Swift.String(describing: clientToken)), commitMessage: \(Swift.String(describing: commitMessage)), createdBy: \(Swift.String(describing: createdBy)), parentVersionIds: \(Swift.String(describing: parentVersionIds)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
+        "UpdateConfigurationBundleInput(branchName: \(Swift.String(describing: branchName)), bundleId: \(Swift.String(describing: bundleId)), bundleName: \(Swift.String(describing: bundleName)), clientToken: \(Swift.String(describing: clientToken)), commitMessage: \(Swift.String(describing: commitMessage)), createdBy: \(Swift.String(describing: createdBy)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), parentVersionIds: \(Swift.String(describing: parentVersionIds)), components: [keys: \(Swift.String(describing: components?.keys)), values: \"CONTENT_REDACTED\"], description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateConfigurationBundleOutput: Swift.Sendable {
@@ -4629,11 +4645,11 @@ public struct UpdateConfigurationBundleOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Format of a customer-provided source file. JSONL (JSON Lines, one object per line) is the service's native ingestion and storage format — it can be streamed line-by-line without loading the entire file into memory, which is important as the row-count cap is extended. JSON array ([{...},{...}]) is intentionally not supported at launch: it cannot be streamed (requires loading the full file into memory to parse), and all major eval frameworks (LangSmith, Ragas, DeepEval, Arize Phoenix) export as JSONL or CSV — not JSON arrays. Customers with JSON array files can Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema. Schema definitions (required/optional fields) are stored as constants in SchemaRegistry. The schemaType on a Dataset is immutable after creation. When a framework changes its format, a new version is added (e.g., RAGAS_V2) without breaking existing datasets using the old version. Content is always stored as-is.
+    /// Versioned schema type for dataset examples. Each value identifies both the source format and the version of that format's schema.
     public enum DatasetSchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn. Required: input. Optional: expectedResponse, assertions, expectedTrajectory.
+        /// AgentCore predefined evaluation schema, version 1. Dataset with pre-written inputs per conversation turn.
         case agentcoreEvaluationPredefinedV1
-        /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation. Each example is a Scenario that a simulator uses to generate full conversations. Required: input. Optional: name (→exampleId), actor_profile, max_turns, assertions.
+        /// AgentCore simulated evaluation schema, version 1. Dataset for synthetic data generation where each example is a scenario used to generate full conversations.
         case agentcoreEvaluationSimulatedV1
         case sdkUnknown(Swift.String)
 
@@ -4660,14 +4676,14 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateDatasetInput: Swift.Sendable {
-    /// Optional idempotency token.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// Human-readable name for the dataset. Unique within the account (case-insensitive). Immutable after creation.
+    /// Human-readable name for the dataset. Must be unique within the account. Immutable after creation.
     /// This member is required.
     public var datasetName: Swift.String?
     /// A description of the dataset.
     public var description: Swift.String?
-    /// Optional AWS KMS key ARN for SSE-KMS on service S3 writes.
+    /// Optional KMS key ARN for server-side encryption on service Amazon S3 writes.
     public var kmsKeyArn: Swift.String?
     /// Versioned schema type governing the structure of examples. Immutable after creation.
     /// This member is required.
@@ -4707,7 +4723,7 @@ public struct CreateDatasetOutput: Swift.Sendable {
     /// The unique identifier of the created dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Always CREATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=MODIFIED) or CREATE_FAILED.
+    /// Always CREATING immediately after this call. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
 
@@ -4750,10 +4766,10 @@ public struct CreateDatasetVersionOutput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// The version being created.
+    /// The version number being created.
     /// This member is required.
     public var datasetVersion: Swift.String?
-    /// Always UPDATING immediately after this call. Poll GetDataset until status == ACTIVE (draftStatus=UNMODIFIED) or UPDATE_FAILED.
+    /// Always UPDATING immediately after this call. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.DatasetStatus?
 
@@ -4776,7 +4792,7 @@ public struct DeleteDatasetInput: Swift.Sendable {
     /// The unique identifier of the dataset to delete.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Optional version to delete. Use "DRAFT" or omit to delete the draft. Returns ResourceNotFoundException if the specified version does not exist.
+    /// Optional version to delete. If absent, deletes the entire dataset. If provided, deletes only that specific version.
     public var datasetVersion: Swift.String?
 
     public init(
@@ -4795,7 +4811,7 @@ public struct DeleteDatasetOutput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// The version deleted.
+    /// The version that was deleted.
     /// This member is required.
     public var datasetVersion: Swift.String?
     /// The current status of the dataset after the delete request.
@@ -4891,11 +4907,11 @@ public struct GetDatasetInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Publish synchronization state of the DRAFT working copy. Tracks whether the current DRAFT content has been published as a version. Only authoritative when DatasetStatus == ACTIVE. Not meaningful during in-flight or failed states. Transitions: CreateDataset succeeds → MODIFIED (DRAFT has content with no published version yet) Add/Update/DeleteExamples succeed → MODIFIED (DRAFT differs from last published version) CreateDatasetVersion succeeds → UNMODIFIED (DRAFT matches the version just published)
+    /// Publish synchronization state of the DRAFT working copy.
     public enum DraftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// DRAFT has changes not yet reflected in any published version, or no versions have been published yet.
         case modified
-        /// DRAFT content matches the latest published version exactly. Any example mutation transitions draftStatus back to MODIFIED.
+        /// DRAFT content matches the latest published version exactly.
         case unmodified
         case sdkUnknown(Swift.String)
 
@@ -4939,18 +4955,18 @@ public struct GetDatasetOutput: Swift.Sendable {
     public var datasetVersion: Swift.String?
     /// The description of the dataset.
     public var description: Swift.String?
-    /// Presigned S3 URL to download the consolidated dataset.jsonl file for the resolved version (DRAFT or published). TTL: 5 minutes. Omitted if the file does not yet exist (e.g. during CREATING) or on presign failure.
+    /// Presigned Amazon S3 URL to download the consolidated dataset file for the resolved version. Expires after 5 minutes. Omitted if the file does not yet exist.
     public var downloadUrl: Swift.String?
-    /// Expiry timestamp for downloadUrl.
+    /// Expiry timestamp for the download URL.
     public var downloadUrlExpiresAt: Foundation.Date?
-    /// Publish synchronization state. Only authoritative when status == ACTIVE. MODIFIED — DRAFT has unpublished changes (or no published versions yet). UNMODIFIED — DRAFT matches the latest published version exactly.
+    /// Publish synchronization state. Only authoritative when status is ACTIVE. MODIFIED indicates DRAFT has unpublished changes. UNMODIFIED indicates DRAFT matches the latest published version.
     public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
-    /// Example count for DRAFT.
+    /// The number of examples in the DRAFT.
     /// This member is required.
     public var exampleCount: Swift.Int?
-    /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED.
+    /// Populated when status is CREATE_FAILED, UPDATE_FAILED, or DELETE_FAILED. Describes the reason for the failure.
     public var failureReason: Swift.String?
-    /// AWS KMS key ARN used for SSE-KMS on service S3 writes, if configured.
+    /// KMS key ARN used for server-side encryption on service Amazon S3 writes, if configured.
     public var kmsKeyArn: Swift.String?
     /// The schema type declared at create time. Immutable after creation.
     /// This member is required.
@@ -5010,9 +5026,9 @@ public struct ListDatasetExamplesInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request (when nextToken is absent). For subsequent pages, the version is extracted from the nextToken and this parameter is ignored.
+    /// Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token.
     public var datasetVersion: Swift.String?
-    /// Maximum number of examples to return per page. Default: 1000. Min: 1, max: 1000. Response size is validated against 5 MB limit after reading. For bulk access to all examples, use the downloadUrl field from GetDataset.
+    /// Maximum number of examples to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
@@ -5099,7 +5115,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var datasetName: Swift.String?
         /// The description of the dataset.
         public var description: Swift.String?
-        /// Publish synchronization state. Only authoritative when status == ACTIVE.
+        /// Publish synchronization state. Only authoritative when status is ACTIVE.
         public var draftStatus: BedrockAgentCoreControlClientTypes.DraftStatus?
         /// The number of examples in the dataset.
         /// This member is required.
@@ -5183,18 +5199,7 @@ extension BedrockAgentCoreControlClientTypes {
         /// The timestamp when this version was published.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// Dataset version identifier. Accepts "DRAFT" or a non-negative integer string. "DRAFT" refers to the single mutable working copy of the dataset.
-        ///
-        /// * Always present after CreateDataset ingestion completes.
-        ///
-        /// * Content changes in-place when examples are added, updated, or deleted.
-        ///
-        /// * NOT tracked as a DDB DatasetVersionItem — state lives in S3 (draft/manifest.json, draft/dataset.jsonl) and the DatasetItem.exampleCount field.
-        ///
-        /// * Default for read operations when ?datasetVersion is absent.
-        ///
-        ///
-        /// An integer string (e.g. "1", "2", "3") refers to a published, immutable snapshot created by CreateDatasetVersion. Once created, a published version's content never changes. Stored as a DDB DatasetVersionItem (SK=VERSION#{zero-padded-N}).
+        /// The version number of this published snapshot.
         /// This member is required.
         public var datasetVersion: Swift.String?
         /// The number of examples in this version.
@@ -5277,7 +5282,7 @@ public struct UpdateDatasetExamplesInput: Swift.Sendable {
     /// The unique identifier of the dataset.
     /// This member is required.
     public var datasetId: Swift.String?
-    /// Examples to update. Each element is a JSON object containing a required exampleId string field identifying the existing example, plus the replacement fields. The exampleId is extracted and removed before persistence; the remaining document is validated against the dataset's schemaType. Max 1000 examples per call. Total request body must not exceed 5 MB.
+    /// Examples to update. Each element is a JSON object containing a required exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call.
     /// This member is required.
     public var examples: [Smithy.Document]?
 
@@ -10041,10 +10046,42 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The extraction type for a metadata field, determining how the value is obtained during memory processing.
+    public enum ExtractionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case llmInferred
+        case strictlyConsistent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractionType] {
+            return [
+                .llmInferred,
+                .strictlyConsistent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .llmInferred: return "LLM_INFERRED"
+            case .strictlyConsistent: return "STRICTLY_CONSISTENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// A metadata field definition within a strategy's schema.
     public struct MetadataSchemaEntry: Swift.Sendable {
-        /// Configuration for extracting this metadata value from conversational content.
+        /// Configuration for extracting this metadata value from conversational content. Applicable only if extractionType is LLM inferred.
         public var extractionConfig: BedrockAgentCoreControlClientTypes.ExtractionConfig?
+        /// Specifies whether the metadata value is extracted by the LLM or passed through deterministically from the event.
+        public var extractionType: BedrockAgentCoreControlClientTypes.ExtractionType?
         /// The metadata field name. Must match an indexed key to be queryable via metadata filters.
         /// This member is required.
         public var key: Swift.String?
@@ -10053,10 +10090,12 @@ extension BedrockAgentCoreControlClientTypes {
 
         public init(
             extractionConfig: BedrockAgentCoreControlClientTypes.ExtractionConfig? = nil,
+            extractionType: BedrockAgentCoreControlClientTypes.ExtractionType? = nil,
             key: Swift.String? = nil,
             type: BedrockAgentCoreControlClientTypes.MetadataValueType? = nil
         ) {
             self.extractionConfig = extractionConfig
+            self.extractionType = extractionType
             self.key = key
             self.type = type
         }
@@ -10868,6 +10907,7 @@ extension BedrockAgentCoreControlClientTypes {
         case creating
         case deleting
         case failed
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MemoryStatus] {
@@ -10875,7 +10915,8 @@ extension BedrockAgentCoreControlClientTypes {
                 .active,
                 .creating,
                 .deleting,
-                .failed
+                .failed,
+                .updating
             ]
         }
 
@@ -10890,6 +10931,7 @@ extension BedrockAgentCoreControlClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13228,6 +13270,54 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum ClusteringFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case daily
+        case monthly
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusteringFrequency] {
+            return [
+                .daily,
+                .monthly,
+                .weekly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "DAILY"
+            case .monthly: return "MONTHLY"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration for periodic batch evaluation clustering, specifying how often clustering jobs run.
+    public struct ClusteringConfig: Swift.Sendable {
+        /// The list of frequencies at which clustering batch evaluations are triggered.
+        /// This member is required.
+        public var frequencies: [BedrockAgentCoreControlClientTypes.ClusteringFrequency]?
+
+        public init(
+            frequencies: [BedrockAgentCoreControlClientTypes.ClusteringFrequency]? = nil
+        ) {
+            self.frequencies = frequencies
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The configuration for reading agent traces from CloudWatch logs as input for online evaluation.
     public struct CloudWatchLogsInputConfig: Swift.Sendable {
         /// The list of CloudWatch log group names to monitor for agent traces.
@@ -13264,6 +13354,22 @@ extension BedrockAgentCoreControlClientTypes {
         /// The unique identifier of the evaluator. Can reference builtin evaluators (e.g., Builtin.Helpfulness) or custom evaluators.
         case evaluatorid(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to an insight analysis to run against sessions.
+    public struct Insight: Swift.Sendable {
+        /// Canonical insight identifiers using the Builtin.Insight.* naming convention. Used by BatchEvaluate, InternalEvaluate, and ServiceEngineEvaluate flows.
+        /// This member is required.
+        public var insightId: Swift.String?
+
+        public init(
+            insightId: Swift.String? = nil
+        ) {
+            self.insightId = insightId
+        }
     }
 }
 
@@ -13413,6 +13519,8 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// Configuration for periodic batch evaluation clustering of insight results.
+    public var clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig?
     /// The data source configuration that specifies CloudWatch log groups and service names to monitor for agent traces.
     /// This member is required.
     public var dataSourceConfig: BedrockAgentCoreControlClientTypes.DataSourceConfig?
@@ -13425,8 +13533,9 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
     /// This member is required.
     public var evaluationExecutionRoleArn: Swift.String?
     /// The list of evaluators to apply during online evaluation. Can include both built-in evaluators and custom evaluators created with CreateEvaluator.
-    /// This member is required.
     public var evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]?
+    /// The list of insight types to run against agent sessions.
+    public var insights: [BedrockAgentCoreControlClientTypes.Insight]?
     /// The name of the online evaluation configuration. Must be unique within your account.
     /// This member is required.
     public var onlineEvaluationConfigName: Swift.String?
@@ -13438,21 +13547,25 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig? = nil,
         dataSourceConfig: BedrockAgentCoreControlClientTypes.DataSourceConfig? = nil,
         description: Swift.String? = nil,
         enableOnCreate: Swift.Bool? = nil,
         evaluationExecutionRoleArn: Swift.String? = nil,
         evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = nil,
+        insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
         onlineEvaluationConfigName: Swift.String? = nil,
         rule: BedrockAgentCoreControlClientTypes.Rule? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.clusteringConfig = clusteringConfig
         self.dataSourceConfig = dataSourceConfig
         self.description = description
         self.enableOnCreate = enableOnCreate
         self.evaluationExecutionRoleArn = evaluationExecutionRoleArn
         self.evaluators = evaluators
+        self.insights = insights
         self.onlineEvaluationConfigName = onlineEvaluationConfigName
         self.rule = rule
         self.tags = tags
@@ -13461,7 +13574,7 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
 
 extension CreateOnlineEvaluationConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), rule: \(Swift.String(describing: rule)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), rule: \(Swift.String(describing: rule)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -13656,6 +13769,8 @@ public struct GetOnlineEvaluationConfigInput: Swift.Sendable {
 }
 
 public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
+    /// The clustering configuration for periodic batch evaluation.
+    public var clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig?
     /// The timestamp when the online evaluation configuration was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -13667,13 +13782,14 @@ public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the IAM role used for evaluation execution.
     public var evaluationExecutionRoleArn: Swift.String?
     /// The list of evaluators applied during online evaluation.
-    /// This member is required.
     public var evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]?
     /// The execution status indicating whether the online evaluation is currently running.
     /// This member is required.
     public var executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus?
     /// The reason for failure if the online evaluation configuration execution failed.
     public var failureReason: Swift.String?
+    /// The list of insight types configured for this evaluation.
+    public var insights: [BedrockAgentCoreControlClientTypes.Insight]?
     /// The Amazon Resource Name (ARN) of the online evaluation configuration.
     /// This member is required.
     public var onlineEvaluationConfigArn: Swift.String?
@@ -13696,13 +13812,15 @@ public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
 
     public init(
+        clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig? = nil,
         createdAt: Foundation.Date? = nil,
         dataSourceConfig: BedrockAgentCoreControlClientTypes.DataSourceConfig? = nil,
         description: Swift.String? = nil,
         evaluationExecutionRoleArn: Swift.String? = nil,
-        evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = nil,
+        evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = [],
         executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus? = nil,
         failureReason: Swift.String? = nil,
+        insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
         onlineEvaluationConfigArn: Swift.String? = nil,
         onlineEvaluationConfigId: Swift.String? = nil,
         onlineEvaluationConfigName: Swift.String? = nil,
@@ -13711,6 +13829,7 @@ public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
         status: BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigStatus? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
+        self.clusteringConfig = clusteringConfig
         self.createdAt = createdAt
         self.dataSourceConfig = dataSourceConfig
         self.description = description
@@ -13718,6 +13837,7 @@ public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
         self.evaluators = evaluators
         self.executionStatus = executionStatus
         self.failureReason = failureReason
+        self.insights = insights
         self.onlineEvaluationConfigArn = onlineEvaluationConfigArn
         self.onlineEvaluationConfigId = onlineEvaluationConfigId
         self.onlineEvaluationConfigName = onlineEvaluationConfigName
@@ -13730,7 +13850,7 @@ public struct GetOnlineEvaluationConfigOutput: Swift.Sendable {
 
 extension GetOnlineEvaluationConfigOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetOnlineEvaluationConfigOutput(createdAt: \(Swift.String(describing: createdAt)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), failureReason: \(Swift.String(describing: failureReason)), onlineEvaluationConfigArn: \(Swift.String(describing: onlineEvaluationConfigArn)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), outputConfig: \(Swift.String(describing: outputConfig)), rule: \(Swift.String(describing: rule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "GetOnlineEvaluationConfigOutput(clusteringConfig: \(Swift.String(describing: clusteringConfig)), createdAt: \(Swift.String(describing: createdAt)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), failureReason: \(Swift.String(describing: failureReason)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigArn: \(Swift.String(describing: onlineEvaluationConfigArn)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), outputConfig: \(Swift.String(describing: outputConfig)), rule: \(Swift.String(describing: rule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListOnlineEvaluationConfigsInput: Swift.Sendable {
@@ -13752,6 +13872,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The summary information about an online evaluation configuration, including basic metadata and execution status.
     public struct OnlineEvaluationConfigSummary: Swift.Sendable {
+        /// The clustering configuration for periodic batch evaluation.
+        public var clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig?
         /// The timestamp when the online evaluation configuration was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -13762,6 +13884,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus?
         /// The reason for failure if the online evaluation configuration execution failed.
         public var failureReason: Swift.String?
+        /// The list of insight types configured for this evaluation.
+        public var insights: [BedrockAgentCoreControlClientTypes.Insight]?
         /// The Amazon Resource Name (ARN) of the online evaluation configuration.
         /// This member is required.
         public var onlineEvaluationConfigArn: Swift.String?
@@ -13779,20 +13903,24 @@ extension BedrockAgentCoreControlClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus? = nil,
             failureReason: Swift.String? = nil,
+            insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
             onlineEvaluationConfigArn: Swift.String? = nil,
             onlineEvaluationConfigId: Swift.String? = nil,
             onlineEvaluationConfigName: Swift.String? = nil,
             status: BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.clusteringConfig = clusteringConfig
             self.createdAt = createdAt
             self.description = description
             self.executionStatus = executionStatus
             self.failureReason = failureReason
+            self.insights = insights
             self.onlineEvaluationConfigArn = onlineEvaluationConfigArn
             self.onlineEvaluationConfigId = onlineEvaluationConfigId
             self.onlineEvaluationConfigName = onlineEvaluationConfigName
@@ -13804,7 +13932,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OnlineEvaluationConfigSummary(createdAt: \(Swift.String(describing: createdAt)), executionStatus: \(Swift.String(describing: executionStatus)), failureReason: \(Swift.String(describing: failureReason)), onlineEvaluationConfigArn: \(Swift.String(describing: onlineEvaluationConfigArn)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "OnlineEvaluationConfigSummary(clusteringConfig: \(Swift.String(describing: clusteringConfig)), createdAt: \(Swift.String(describing: createdAt)), executionStatus: \(Swift.String(describing: executionStatus)), failureReason: \(Swift.String(describing: failureReason)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigArn: \(Swift.String(describing: onlineEvaluationConfigArn)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListOnlineEvaluationConfigsOutput: Swift.Sendable {
@@ -13826,6 +13954,8 @@ public struct ListOnlineEvaluationConfigsOutput: Swift.Sendable {
 public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// The updated clustering configuration for periodic batch evaluation.
+    public var clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig?
     /// The updated data source configuration specifying CloudWatch log groups and service names to monitor.
     public var dataSourceConfig: BedrockAgentCoreControlClientTypes.DataSourceConfig?
     /// The updated description of the online evaluation configuration.
@@ -13836,6 +13966,8 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
     public var evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]?
     /// The updated execution status to enable or disable the online evaluation.
     public var executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus?
+    /// The updated list of insight types to run against agent sessions.
+    public var insights: [BedrockAgentCoreControlClientTypes.Insight]?
     /// The unique identifier of the online evaluation configuration to update.
     /// This member is required.
     public var onlineEvaluationConfigId: Swift.String?
@@ -13844,20 +13976,24 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        clusteringConfig: BedrockAgentCoreControlClientTypes.ClusteringConfig? = nil,
         dataSourceConfig: BedrockAgentCoreControlClientTypes.DataSourceConfig? = nil,
         description: Swift.String? = nil,
         evaluationExecutionRoleArn: Swift.String? = nil,
         evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = nil,
         executionStatus: BedrockAgentCoreControlClientTypes.OnlineEvaluationExecutionStatus? = nil,
+        insights: [BedrockAgentCoreControlClientTypes.Insight]? = nil,
         onlineEvaluationConfigId: Swift.String? = nil,
         rule: BedrockAgentCoreControlClientTypes.Rule? = nil
     ) {
         self.clientToken = clientToken
+        self.clusteringConfig = clusteringConfig
         self.dataSourceConfig = dataSourceConfig
         self.description = description
         self.evaluationExecutionRoleArn = evaluationExecutionRoleArn
         self.evaluators = evaluators
         self.executionStatus = executionStatus
+        self.insights = insights
         self.onlineEvaluationConfigId = onlineEvaluationConfigId
         self.rule = rule
     }
@@ -13865,7 +14001,7 @@ public struct UpdateOnlineEvaluationConfigInput: Swift.Sendable {
 
 extension UpdateOnlineEvaluationConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), rule: \(Swift.String(describing: rule)), description: \"CONTENT_REDACTED\")"}
+        "UpdateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), clusteringConfig: \(Swift.String(describing: clusteringConfig)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), executionStatus: \(Swift.String(describing: executionStatus)), insights: \(Swift.String(describing: insights)), onlineEvaluationConfigId: \(Swift.String(describing: onlineEvaluationConfigId)), rule: \(Swift.String(describing: rule)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateOnlineEvaluationConfigOutput: Swift.Sendable {
@@ -21865,6 +22001,7 @@ extension CreateConfigurationBundleInput {
         try writer["components"].writeMap(value.components, valueWritingClosure: BedrockAgentCoreControlClientTypes.ComponentConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["createdBy"].write(value.createdBy, with: BedrockAgentCoreControlClientTypes.VersionCreatedBySource.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -22009,11 +22146,13 @@ extension CreateOnlineEvaluationConfigInput {
     static func write(value: CreateOnlineEvaluationConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["clusteringConfig"].write(value.clusteringConfig, with: BedrockAgentCoreControlClientTypes.ClusteringConfig.write(value:to:))
         try writer["dataSourceConfig"].write(value.dataSourceConfig, with: BedrockAgentCoreControlClientTypes.DataSourceConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["enableOnCreate"].write(value.enableOnCreate)
         try writer["evaluationExecutionRoleArn"].write(value.evaluationExecutionRoleArn)
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreControlClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["onlineEvaluationConfigName"].write(value.onlineEvaluationConfigName)
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -22356,6 +22495,7 @@ extension UpdateConfigurationBundleInput {
         try writer["components"].writeMap(value.components, valueWritingClosure: BedrockAgentCoreControlClientTypes.ComponentConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["createdBy"].write(value.createdBy, with: BedrockAgentCoreControlClientTypes.VersionCreatedBySource.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["parentVersionIds"].writeList(value.parentVersionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -22484,11 +22624,13 @@ extension UpdateOnlineEvaluationConfigInput {
     static func write(value: UpdateOnlineEvaluationConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["clusteringConfig"].write(value.clusteringConfig, with: BedrockAgentCoreControlClientTypes.ClusteringConfig.write(value:to:))
         try writer["dataSourceConfig"].write(value.dataSourceConfig, with: BedrockAgentCoreControlClientTypes.DataSourceConfig.write(value:to:))
         try writer["description"].write(value.description)
         try writer["evaluationExecutionRoleArn"].write(value.evaluationExecutionRoleArn)
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["executionStatus"].write(value.executionStatus)
+        try writer["insights"].writeList(value.insights, memberWritingClosure: BedrockAgentCoreControlClientTypes.Insight.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
     }
 }
@@ -23518,6 +23660,7 @@ extension GetConfigurationBundleOutput {
         value.components = try reader["components"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreControlClientTypes.ComponentConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lineageMetadata = try reader["lineageMetadata"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VersionLineageMetadata.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
@@ -23538,6 +23681,7 @@ extension GetConfigurationBundleVersionOutput {
         value.components = try reader["components"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreControlClientTypes.ComponentConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lineageMetadata = try reader["lineageMetadata"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VersionLineageMetadata.read(from:))
         value.versionCreatedAt = try reader["versionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
@@ -23726,6 +23870,7 @@ extension GetOnlineEvaluationConfigOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOnlineEvaluationConfigOutput()
+        value.clusteringConfig = try reader["clusteringConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ClusteringConfig.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.dataSourceConfig = try reader["dataSourceConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.DataSourceConfig.read(from:))
         value.description = try reader["description"].readIfPresent()
@@ -23733,6 +23878,7 @@ extension GetOnlineEvaluationConfigOutput {
         value.evaluators = try reader["evaluators"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.executionStatus = try reader["executionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.onlineEvaluationConfigArn = try reader["onlineEvaluationConfigArn"].readIfPresent() ?? ""
         value.onlineEvaluationConfigId = try reader["onlineEvaluationConfigId"].readIfPresent() ?? ""
         value.onlineEvaluationConfigName = try reader["onlineEvaluationConfigName"].readIfPresent() ?? ""
@@ -28510,6 +28656,21 @@ extension BedrockAgentCoreControlClientTypes.CloudWatchOutputConfig {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ClusteringConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ClusteringConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["frequencies"].writeList(value.frequencies, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.ClusteringFrequency>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ClusteringConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ClusteringConfig()
+        value.frequencies = try reader["frequencies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.ClusteringFrequency>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.Code {
 
     static func write(value: BedrockAgentCoreControlClientTypes.Code?, to writer: SmithyJSON.Writer) throws {
@@ -30590,6 +30751,21 @@ extension BedrockAgentCoreControlClientTypes.InlineExamplesSource {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.Insight {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Insight?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["insightId"].write(value.insightId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Insight()
+        value.insightId = try reader["insightId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.InterceptorConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.InterceptorConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -31164,6 +31340,7 @@ extension BedrockAgentCoreControlClientTypes.MetadataSchemaEntry {
     static func write(value: BedrockAgentCoreControlClientTypes.MetadataSchemaEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["extractionConfig"].write(value.extractionConfig, with: BedrockAgentCoreControlClientTypes.ExtractionConfig.write(value:to:))
+        try writer["extractionType"].write(value.extractionType)
         try writer["key"].write(value.key)
         try writer["type"].write(value.type)
     }
@@ -31173,6 +31350,7 @@ extension BedrockAgentCoreControlClientTypes.MetadataSchemaEntry {
         var value = BedrockAgentCoreControlClientTypes.MetadataSchemaEntry()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent()
+        value.extractionType = try reader["extractionType"].readIfPresent()
         value.extractionConfig = try reader["extractionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExtractionConfig.read(from:))
         return value
     }
@@ -31537,6 +31715,8 @@ extension BedrockAgentCoreControlClientTypes.OnlineEvaluationConfigSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.insights = try reader["insights"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Insight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clusteringConfig = try reader["clusteringConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ClusteringConfig.read(from:))
         return value
     }
 }

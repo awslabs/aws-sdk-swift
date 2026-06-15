@@ -13,6 +13,9 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -27,12 +30,18 @@ extension SigninClientTypes {
     public enum OAuth2ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Authorization code has expired
         case authcodeExpired
+        /// Request conflicts with current state of the resource
+        case conflict
         /// Insufficient permissions to perform this operation
         case insufficientPermissions
         /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
         case invalidRequest
+        /// Requested resource was not found
+        case resourceNotFound
         /// Internal server error occurred
         case serverError
+        /// Request would cause a service quota to be exceeded
+        case serviceQuotaExceeded
         /// Token has expired and needs to be refreshed
         case tokenExpired
         /// User credentials have been changed
@@ -42,9 +51,12 @@ extension SigninClientTypes {
         public static var allCases: [OAuth2ErrorCode] {
             return [
                 .authcodeExpired,
+                .conflict,
                 .insufficientPermissions,
                 .invalidRequest,
+                .resourceNotFound,
                 .serverError,
+                .serviceQuotaExceeded,
                 .tokenExpired,
                 .userCredentialsChanged
             ]
@@ -58,9 +70,12 @@ extension SigninClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .authcodeExpired: return "AUTHCODE_EXPIRED"
+            case .conflict: return "CONFLICT"
             case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .invalidRequest: return "INVALID_REQUEST"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
             case .serverError: return "server_error"
+            case .serviceQuotaExceeded: return "SERVICE_QUOTA_EXCEEDED"
             case .tokenExpired: return "TOKEN_EXPIRED"
             case .userCredentialsChanged: return "USER_CREDENTIALS_CHANGED"
             case let .sdkUnknown(s): return s
@@ -135,6 +150,36 @@ extension SigninClientTypes {
 extension SigninClientTypes.AccessToken: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+/// Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// OAuth 2.0 error code indicating conflict Will be CONFLICT
+        /// This member is required.
+        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
+        /// Detailed message explaining the conflict Provides specific information about what caused the conflict
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        error: SigninClientTypes.OAuth2ErrorCode? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.error = error
+        self.properties.message = message
     }
 }
 
@@ -357,10 +402,422 @@ public struct CreateOAuth2TokenOutput: Swift.Sendable {
     }
 }
 
+/// Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// OAuth 2.0 error code indicating resource not found Will be RESOURCE_NOT_FOUND
+        /// This member is required.
+        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
+        /// Detailed message explaining which resource was not found Provides specific information about the missing resource
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        error: SigninClientTypes.OAuth2ErrorCode? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.error = error
+        self.properties.message = message
+    }
+}
+
+/// Input for DeleteConsoleAuthorizationConfiguration operation
+public struct DeleteConsoleAuthorizationConfigurationInput: Swift.Sendable {
+    /// Target account identifier
+    public var targetId: Swift.String?
+
+    public init(
+        targetId: Swift.String? = nil
+    ) {
+        self.targetId = targetId
+    }
+}
+
+/// Output for DeleteConsoleAuthorizationConfiguration operation
+public struct DeleteConsoleAuthorizationConfigurationOutput: Swift.Sendable {
+    /// Whether console authorization is enabled
+    /// This member is required.
+    public var consoleAuthorizationEnabled: Swift.Bool?
+    /// Authorization scope
+    /// This member is required.
+    public var scope: Swift.String?
+    /// Target account identifier
+    /// This member is required.
+    public var targetId: Swift.String?
+
+    public init(
+        consoleAuthorizationEnabled: Swift.Bool? = nil,
+        scope: Swift.String? = nil,
+        targetId: Swift.String? = nil
+    ) {
+        self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+        self.scope = scope
+        self.targetId = targetId
+    }
+}
+
+/// Input for DeleteResourcePermissionStatement operation
+public struct DeleteResourcePermissionStatementInput: Swift.Sendable {
+    /// Idempotency token for the request
+    public var clientToken: Swift.String?
+    /// Unique identifier of the permission statement to delete
+    /// This member is required.
+    public var statementId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        statementId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.statementId = statementId
+    }
+}
+
+/// Output for DeleteResourcePermissionStatement operation
+public struct DeleteResourcePermissionStatementOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Input for GetConsoleAuthorizationConfiguration operation
+public struct GetConsoleAuthorizationConfigurationInput: Swift.Sendable {
+    /// Target account identifier
+    public var targetId: Swift.String?
+
+    public init(
+        targetId: Swift.String? = nil
+    ) {
+        self.targetId = targetId
+    }
+}
+
+/// Output for GetConsoleAuthorizationConfiguration operation
+public struct GetConsoleAuthorizationConfigurationOutput: Swift.Sendable {
+    /// Whether console authorization is enabled
+    /// This member is required.
+    public var consoleAuthorizationEnabled: Swift.Bool?
+    /// Authorization scope
+    /// This member is required.
+    public var scope: Swift.String?
+    /// Target account identifier
+    /// This member is required.
+    public var targetId: Swift.String?
+
+    public init(
+        consoleAuthorizationEnabled: Swift.Bool? = nil,
+        scope: Swift.String? = nil,
+        targetId: Swift.String? = nil
+    ) {
+        self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+        self.scope = scope
+        self.targetId = targetId
+    }
+}
+
+/// Input for GetResourcePolicy operation
+public struct GetResourcePolicyInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension SigninClientTypes {
+
+    /// Individual policy statement within a resource-based policy
+    public struct PolicyStatement: Swift.Sendable {
+        /// Actions the statement controls
+        public var action: [Swift.String]?
+        /// Condition block for the statement
+        public var condition: [Swift.String: [Swift.String: [Swift.String]]]?
+        /// Effect of the policy statement (Allow/Deny)
+        public var effect: Swift.String?
+        /// Principal the statement applies to
+        public var principal: [Swift.String: Swift.String]?
+        /// Resource the statement applies to
+        public var resource: Swift.String?
+
+        public init(
+            action: [Swift.String]? = nil,
+            condition: [Swift.String: [Swift.String: [Swift.String]]]? = nil,
+            effect: Swift.String? = nil,
+            principal: [Swift.String: Swift.String]? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.action = action
+            self.condition = condition
+            self.effect = effect
+            self.principal = principal
+            self.resource = resource
+        }
+    }
+}
+
+extension SigninClientTypes {
+
+    /// SignIn resource-based policy document
+    public struct SigninResourceBasedPolicy: Swift.Sendable {
+        /// Policy statements
+        public var statement: [SigninClientTypes.PolicyStatement]?
+        /// Policy version
+        public var version: Swift.String?
+
+        public init(
+            statement: [SigninClientTypes.PolicyStatement]? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.statement = statement
+            self.version = version
+        }
+    }
+}
+
+/// Output for GetResourcePolicy operation
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The account's SignIn resource-based policy
+    /// This member is required.
+    public var signinResourceBasedPolicy: SigninClientTypes.SigninResourceBasedPolicy?
+
+    public init(
+        signinResourceBasedPolicy: SigninClientTypes.SigninResourceBasedPolicy? = nil
+    ) {
+        self.signinResourceBasedPolicy = signinResourceBasedPolicy
+    }
+}
+
+/// Input for ListResourcePermissionStatements operation
+public struct ListResourcePermissionStatementsInput: Swift.Sendable {
+    /// Maximum number of results to return
+    public var maxResults: Swift.Int?
+    /// Token for pagination
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SigninClientTypes {
+
+    /// Summary of a permission statement
+    public struct PermissionStatementSummary: Swift.Sendable {
+        /// Condition block for the permission statement
+        public var condition: [Swift.String: [Swift.String: [Swift.String]]]?
+        /// Unique identifier for the permission statement
+        /// This member is required.
+        public var sid: Swift.String?
+
+        public init(
+            condition: [Swift.String: [Swift.String: [Swift.String]]]? = nil,
+            sid: Swift.String? = nil
+        ) {
+            self.condition = condition
+            self.sid = sid
+        }
+    }
+}
+
+/// Output for ListResourcePermissionStatements operation
+public struct ListResourcePermissionStatementsOutput: Swift.Sendable {
+    /// Token for next page of results
+    public var nextToken: Swift.String?
+    /// List of permission statement summaries
+    /// This member is required.
+    public var permissionStatements: [SigninClientTypes.PermissionStatementSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        permissionStatements: [SigninClientTypes.PermissionStatementSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.permissionStatements = permissionStatements
+    }
+}
+
+/// Input for PutConsoleAuthorizationConfiguration operation
+public struct PutConsoleAuthorizationConfigurationInput: Swift.Sendable {
+    /// Target account identifier
+    public var targetId: Swift.String?
+
+    public init(
+        targetId: Swift.String? = nil
+    ) {
+        self.targetId = targetId
+    }
+}
+
+/// Output for PutConsoleAuthorizationConfiguration operation
+public struct PutConsoleAuthorizationConfigurationOutput: Swift.Sendable {
+    /// Whether console authorization is enabled
+    /// This member is required.
+    public var consoleAuthorizationEnabled: Swift.Bool?
+    /// Authorization scope
+    /// This member is required.
+    public var scope: Swift.String?
+    /// Target account identifier
+    /// This member is required.
+    public var targetId: Swift.String?
+
+    public init(
+        consoleAuthorizationEnabled: Swift.Bool? = nil,
+        scope: Swift.String? = nil,
+        targetId: Swift.String? = nil
+    ) {
+        self.consoleAuthorizationEnabled = consoleAuthorizationEnabled
+        self.scope = scope
+        self.targetId = targetId
+    }
+}
+
+/// Error thrown when service quota is exceeded HTTP Status Code: 402 Payment Required (used as quota exceeded indicator) Used when the request would cause a service quota to be exceeded
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// OAuth 2.0 error code indicating service quota exceeded Will be SERVICE_QUOTA_EXCEEDED
+        /// This member is required.
+        public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
+        /// Detailed message explaining which quota was exceeded Provides specific information about the limit and current usage
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        error: SigninClientTypes.OAuth2ErrorCode? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.error = error
+        self.properties.message = message
+    }
+}
+
+/// Input for PutResourcePermissionStatement operation
+public struct PutResourcePermissionStatementInput: Swift.Sendable {
+    /// Idempotency token for the request
+    public var clientToken: Swift.String?
+    /// Console VPC endpoint identifier
+    public var consoleSourceVpce: Swift.String?
+    /// Principal to exclude from the permission statement
+    public var excludedPrincipal: Swift.String?
+    /// AWS region where the VPC and VPC endpoint reside Required when sourceVpc or signinSourceVpce/consoleSourceVpce is provided
+    public var requestedRegion: Swift.String?
+    /// SignIn VPC endpoint identifier
+    public var signinSourceVpce: Swift.String?
+    /// Source IP address
+    public var sourceIp: Swift.String?
+    /// VPC identifier to restrict console access
+    public var sourceVpc: Swift.String?
+    /// Source IP address within VPC
+    public var vpcSourceIp: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        consoleSourceVpce: Swift.String? = nil,
+        excludedPrincipal: Swift.String? = nil,
+        requestedRegion: Swift.String? = nil,
+        signinSourceVpce: Swift.String? = nil,
+        sourceIp: Swift.String? = nil,
+        sourceVpc: Swift.String? = nil,
+        vpcSourceIp: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.consoleSourceVpce = consoleSourceVpce
+        self.excludedPrincipal = excludedPrincipal
+        self.requestedRegion = requestedRegion
+        self.signinSourceVpce = signinSourceVpce
+        self.sourceIp = sourceIp
+        self.sourceVpc = sourceVpc
+        self.vpcSourceIp = vpcSourceIp
+    }
+}
+
+/// Output for PutResourcePermissionStatement operation
+public struct PutResourcePermissionStatementOutput: Swift.Sendable {
+    /// Unique identifier for the created permission statement
+    /// This member is required.
+    public var statementId: Swift.String?
+
+    public init(
+        statementId: Swift.String? = nil
+    ) {
+        self.statementId = statementId
+    }
+}
+
 extension CreateOAuth2TokenInput {
 
     static func urlPathProvider(_ value: CreateOAuth2TokenInput) -> Swift.String? {
         return "/v1/token"
+    }
+}
+
+extension DeleteConsoleAuthorizationConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteConsoleAuthorizationConfigurationInput) -> Swift.String? {
+        return "/delete-console-authorization-configuration"
+    }
+}
+
+extension DeleteResourcePermissionStatementInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePermissionStatementInput) -> Swift.String? {
+        return "/delete-resource-permission-statement"
+    }
+}
+
+extension GetConsoleAuthorizationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetConsoleAuthorizationConfigurationInput) -> Swift.String? {
+        return "/get-console-authorization-configuration"
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/get-resource-policy"
+    }
+}
+
+extension ListResourcePermissionStatementsInput {
+
+    static func urlPathProvider(_ value: ListResourcePermissionStatementsInput) -> Swift.String? {
+        return "/list-resource-permission-statements"
+    }
+}
+
+extension PutConsoleAuthorizationConfigurationInput {
+
+    static func urlPathProvider(_ value: PutConsoleAuthorizationConfigurationInput) -> Swift.String? {
+        return "/put-console-authorization-configuration"
+    }
+}
+
+extension PutResourcePermissionStatementInput {
+
+    static func urlPathProvider(_ value: PutResourcePermissionStatementInput) -> Swift.String? {
+        return "/put-resource-permission-statement"
     }
 }
 
@@ -369,6 +826,63 @@ extension CreateOAuth2TokenInput {
     static func write(value: CreateOAuth2TokenInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tokenInput"].write(value.tokenInput, with: SigninClientTypes.CreateOAuth2TokenRequestBody.write(value:to:))
+    }
+}
+
+extension DeleteConsoleAuthorizationConfigurationInput {
+
+    static func write(value: DeleteConsoleAuthorizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetId"].write(value.targetId)
+    }
+}
+
+extension DeleteResourcePermissionStatementInput {
+
+    static func write(value: DeleteResourcePermissionStatementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["statementId"].write(value.statementId)
+    }
+}
+
+extension GetConsoleAuthorizationConfigurationInput {
+
+    static func write(value: GetConsoleAuthorizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetId"].write(value.targetId)
+    }
+}
+
+extension ListResourcePermissionStatementsInput {
+
+    static func write(value: ListResourcePermissionStatementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension PutConsoleAuthorizationConfigurationInput {
+
+    static func write(value: PutConsoleAuthorizationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetId"].write(value.targetId)
+    }
+}
+
+extension PutResourcePermissionStatementInput {
+
+    static func write(value: PutResourcePermissionStatementInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["consoleSourceVpce"].write(value.consoleSourceVpce)
+        try writer["excludedPrincipal"].write(value.excludedPrincipal)
+        try writer["requestedRegion"].write(value.requestedRegion)
+        try writer["signinSourceVpce"].write(value.signinSourceVpce)
+        try writer["sourceIp"].write(value.sourceIp)
+        try writer["sourceVpc"].write(value.sourceVpc)
+        try writer["vpcSourceIp"].write(value.vpcSourceIp)
     }
 }
 
@@ -384,6 +898,92 @@ extension CreateOAuth2TokenOutput {
     }
 }
 
+extension DeleteConsoleAuthorizationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConsoleAuthorizationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteConsoleAuthorizationConfigurationOutput()
+        value.consoleAuthorizationEnabled = try reader["consoleAuthorizationEnabled"].readIfPresent() ?? false
+        value.scope = try reader["scope"].readIfPresent() ?? ""
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteResourcePermissionStatementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePermissionStatementOutput {
+        return DeleteResourcePermissionStatementOutput()
+    }
+}
+
+extension GetConsoleAuthorizationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConsoleAuthorizationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConsoleAuthorizationConfigurationOutput()
+        value.consoleAuthorizationEnabled = try reader["consoleAuthorizationEnabled"].readIfPresent() ?? false
+        value.scope = try reader["scope"].readIfPresent() ?? ""
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.signinResourceBasedPolicy = try reader["signinResourceBasedPolicy"].readIfPresent(with: SigninClientTypes.SigninResourceBasedPolicy.read(from:))
+        return value
+    }
+}
+
+extension ListResourcePermissionStatementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourcePermissionStatementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourcePermissionStatementsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.permissionStatements = try reader["permissionStatements"].readListIfPresent(memberReadingClosure: SigninClientTypes.PermissionStatementSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PutConsoleAuthorizationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutConsoleAuthorizationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutConsoleAuthorizationConfigurationOutput()
+        value.consoleAuthorizationEnabled = try reader["consoleAuthorizationEnabled"].readIfPresent() ?? false
+        value.scope = try reader["scope"].readIfPresent() ?? ""
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PutResourcePermissionStatementOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePermissionStatementOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePermissionStatementOutput()
+        value.statementId = try reader["statementId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 enum CreateOAuth2TokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -394,6 +994,133 @@ enum CreateOAuth2TokenOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConsoleAuthorizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourcePermissionStatementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConsoleAuthorizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourcePermissionStatementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutConsoleAuthorizationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePermissionStatementOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -457,6 +1184,48 @@ extension ValidationException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.error = try reader["error"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SigninClientTypes.AccessToken {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.AccessToken {
@@ -492,6 +1261,42 @@ extension SigninClientTypes.CreateOAuth2TokenResponseBody {
         value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
         value.refreshToken = try reader["refreshToken"].readIfPresent() ?? ""
         value.idToken = try reader["idToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SigninClientTypes.PermissionStatementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.PermissionStatementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.PermissionStatementSummary()
+        value.sid = try reader["sid"].readIfPresent() ?? ""
+        value.condition = try reader["condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SigninClientTypes.PolicyStatement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.PolicyStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.PolicyStatement()
+        value.effect = try reader["Effect"].readIfPresent()
+        value.principal = try reader["Principal"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.action = try reader["Action"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resource = try reader["Resource"].readIfPresent()
+        value.condition = try reader["Condition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SigninClientTypes.SigninResourceBasedPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SigninClientTypes.SigninResourceBasedPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SigninClientTypes.SigninResourceBasedPolicy()
+        value.version = try reader["Version"].readIfPresent()
+        value.statement = try reader["Statement"].readListIfPresent(memberReadingClosure: SigninClientTypes.PolicyStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

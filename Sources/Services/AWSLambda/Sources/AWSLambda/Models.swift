@@ -414,7 +414,7 @@ public struct AddLayerVersionPermissionInput: Swift.Sendable {
         principal: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.action = action
         self.layerName = layerName
@@ -10685,7 +10685,7 @@ public struct DeleteLayerVersionInput: Swift.Sendable {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
@@ -10702,7 +10702,7 @@ public struct GetLayerVersionInput: Swift.Sendable {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
@@ -10848,7 +10848,7 @@ public struct GetLayerVersionPolicyInput: Swift.Sendable {
 
     public init(
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.layerName = layerName
         self.versionNumber = versionNumber
@@ -11044,7 +11044,7 @@ public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
         layerName: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.layerName = layerName
         self.revisionId = revisionId

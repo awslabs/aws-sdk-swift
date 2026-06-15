@@ -720,8 +720,8 @@ public struct DeleteSecretInput: Swift.Sendable {
     public var secretId: Swift.String?
 
     public init(
-        forceDeleteWithoutRecovery: Swift.Bool? = false,
-        recoveryWindowInDays: Swift.Int? = 0,
+        forceDeleteWithoutRecovery: Swift.Bool? = nil,
+        recoveryWindowInDays: Swift.Int? = nil,
         secretId: Swift.String? = nil
     ) {
         self.forceDeleteWithoutRecovery = forceDeleteWithoutRecovery
@@ -878,7 +878,7 @@ public struct DescribeSecretOutput: Swift.Sendable {
         owningService: Swift.String? = nil,
         primaryRegion: Swift.String? = nil,
         replicationStatus: [SecretsManagerClientTypes.ReplicationStatusType]? = nil,
-        rotationEnabled: Swift.Bool? = false,
+        rotationEnabled: Swift.Bool? = nil,
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         tags: [SecretsManagerClientTypes.Tag]? = nil,
@@ -929,13 +929,13 @@ public struct GetRandomPasswordInput: Swift.Sendable {
 
     public init(
         excludeCharacters: Swift.String? = nil,
-        excludeLowercase: Swift.Bool? = false,
-        excludeNumbers: Swift.Bool? = false,
-        excludePunctuation: Swift.Bool? = false,
-        excludeUppercase: Swift.Bool? = false,
-        includeSpace: Swift.Bool? = false,
+        excludeLowercase: Swift.Bool? = nil,
+        excludeNumbers: Swift.Bool? = nil,
+        excludePunctuation: Swift.Bool? = nil,
+        excludeUppercase: Swift.Bool? = nil,
+        includeSpace: Swift.Bool? = nil,
         passwordLength: Swift.Int? = nil,
-        requireEachIncludedType: Swift.Bool? = false
+        requireEachIncludedType: Swift.Bool? = nil
     ) {
         self.excludeCharacters = excludeCharacters
         self.excludeLowercase = excludeLowercase
@@ -1125,7 +1125,7 @@ public struct ListSecretsInput: Swift.Sendable {
 
     public init(
         filters: [SecretsManagerClientTypes.Filter]? = nil,
-        includePlannedDeletion: Swift.Bool? = false,
+        includePlannedDeletion: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortBy: SecretsManagerClientTypes.SortByType? = nil,
@@ -1200,7 +1200,7 @@ extension SecretsManagerClientTypes {
             nextRotationDate: Foundation.Date? = nil,
             owningService: Swift.String? = nil,
             primaryRegion: Swift.String? = nil,
-            rotationEnabled: Swift.Bool? = false,
+            rotationEnabled: Swift.Bool? = nil,
             rotationLambdaARN: Swift.String? = nil,
             rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
             secretVersionsToStages: [Swift.String: [Swift.String]]? = nil,
@@ -1258,7 +1258,7 @@ public struct ListSecretVersionIdsInput: Swift.Sendable {
     public var secretId: Swift.String?
 
     public init(
-        includeDeprecated: Swift.Bool? = false,
+        includeDeprecated: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         secretId: Swift.String? = nil
@@ -1365,7 +1365,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     public var secretId: Swift.String?
 
     public init(
-        blockPublicPolicy: Swift.Bool? = false,
+        blockPublicPolicy: Swift.Bool? = nil,
         resourcePolicy: Swift.String? = nil,
         secretId: Swift.String? = nil
     ) {
@@ -1581,7 +1581,7 @@ public struct RotateSecretInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]? = nil,
         externalSecretRotationRoleArn: Swift.String? = nil,
-        rotateImmediately: Swift.Bool? = false,
+        rotateImmediately: Swift.Bool? = nil,
         rotationLambdaARN: Swift.String? = nil,
         rotationRules: SecretsManagerClientTypes.RotationRulesType? = nil,
         secretId: Swift.String? = nil
