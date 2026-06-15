@@ -2010,12 +2010,14 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     public var description: Swift.String?
     /// Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
+    public var endTimeOffset: Swift.Int?
     /// The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination.
     /// This member is required.
     public var executionRoleArn: Swift.String?
     /// An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN.
     public var logGroupIdentifiers: [Swift.String]?
-    /// The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
+    /// The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters.
     /// This member is required.
     public var name: Swift.String?
     /// The query language to use for the scheduled query. Valid values are CWLI, PPL, and SQL.
@@ -2043,6 +2045,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         logGroupIdentifiers: [Swift.String]? = nil,
         name: Swift.String? = nil,
@@ -2058,6 +2061,7 @@ public struct CreateScheduledQueryInput: Swift.Sendable {
     ) {
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.logGroupIdentifiers = logGroupIdentifiers
         self.name = name
@@ -5807,7 +5811,7 @@ extension CloudWatchLogsClientTypes {
 public struct GetQueryResultsOutput: Swift.Sendable {
     /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) stores them.
     public var encryptionKey: Swift.String?
-    /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results. You can retrieve up to 100,000 log event results from a query by paginating with this token.
+    /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results. You can retrieve up to 100,000 log event results from a query by paginating with this token. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
     public var nextToken: Swift.String?
     /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see [Supported query languages](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html).
     public var queryLanguage: CloudWatchLogsClientTypes.QueryLanguage?
@@ -5847,6 +5851,35 @@ public struct GetScheduledQueryInput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    public enum ScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleType] {
+            return [
+                .awsManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetScheduledQueryOutput: Swift.Sendable {
     /// The timestamp when the scheduled query was created.
     public var creationTime: Swift.Int?
@@ -5854,6 +5887,8 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Configuration for where query results are delivered.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The time offset in seconds that defines the end of the lookback period for the query.
+    public var endTimeOffset: Swift.Int?
     /// The ARN of the IAM role used to execute the query and deliver results.
     public var executionRoleArn: Swift.String?
     /// The status of the most recent execution of the scheduled query.
@@ -5876,6 +5911,8 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
     public var scheduleExpression: Swift.String?
     /// The start time for the scheduled query in Unix epoch format.
     public var scheduleStartTime: Swift.Int?
+    /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// The ARN of the scheduled query.
     public var scheduledQueryArn: Swift.String?
     /// The time offset in seconds that defines the lookback period for the query.
@@ -5889,6 +5926,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         creationTime: Swift.Int? = nil,
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         lastExecutionStatus: CloudWatchLogsClientTypes.ExecutionStatus? = nil,
         lastTriggeredTime: Swift.Int? = nil,
@@ -5900,6 +5938,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         scheduleEndTime: Swift.Int? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleStartTime: Swift.Int? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         scheduledQueryArn: Swift.String? = nil,
         startTimeOffset: Swift.Int? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
@@ -5908,6 +5947,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.lastExecutionStatus = lastExecutionStatus
         self.lastTriggeredTime = lastTriggeredTime
@@ -5919,6 +5959,7 @@ public struct GetScheduledQueryOutput: Swift.Sendable {
         self.scheduleEndTime = scheduleEndTime
         self.scheduleExpression = scheduleExpression
         self.scheduleStartTime = scheduleStartTime
+        self.scheduleType = scheduleType
         self.scheduledQueryArn = scheduledQueryArn
         self.startTimeOffset = startTimeOffset
         self.state = state
@@ -7192,16 +7233,20 @@ public struct ListScheduledQueriesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// Filter scheduled queries by schedule type. Valid values are CUSTOMER_MANAGED and AWS_MANAGED. If not specified, scheduled queries of all schedule types are returned.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// Filter scheduled queries by state. Valid values are ENABLED and DISABLED. If not specified, all scheduled queries are returned.
     public var state: CloudWatchLogsClientTypes.ScheduledQueryState?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.scheduleType = scheduleType
         self.state = state
     }
 }
@@ -7224,6 +7269,8 @@ extension CloudWatchLogsClientTypes {
         public var name: Swift.String?
         /// The cron expression that defines when the scheduled query runs.
         public var scheduleExpression: Swift.String?
+        /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+        public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
         /// The ARN of the scheduled query.
         public var scheduledQueryArn: Swift.String?
         /// The current state of the scheduled query.
@@ -7239,6 +7286,7 @@ extension CloudWatchLogsClientTypes {
             lastUpdatedTime: Swift.Int? = nil,
             name: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
             scheduledQueryArn: Swift.String? = nil,
             state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
             timezone: Swift.String? = nil
@@ -7250,6 +7298,7 @@ extension CloudWatchLogsClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.scheduleExpression = scheduleExpression
+            self.scheduleType = scheduleType
             self.scheduledQueryArn = scheduledQueryArn
             self.state = state
             self.timezone = timezone
@@ -8520,7 +8569,7 @@ public struct StartQueryInput: Swift.Sendable {
     /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
     /// This member is required.
     public var endTime: Swift.Int?
-    /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000. The maximum value is 100,000.
+    /// The maximum number of log events to return from the query. The maximum limit is 100,000. The maximum events returned in a single GetQueryResults API call is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken. 100,000 limit is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
     public var limit: Swift.Int?
     /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
     public var logGroupIdentifiers: [Swift.String]?
@@ -9006,6 +9055,8 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     public var description: Swift.String?
     /// The updated configuration for where to deliver query results.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The updated time offset in seconds that defines the end of the lookback period for the query.
+    public var endTimeOffset: Swift.Int?
     /// The updated ARN of the IAM role that grants permissions to execute the query and deliver results.
     /// This member is required.
     public var executionRoleArn: Swift.String?
@@ -9037,6 +9088,7 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         identifier: Swift.String? = nil,
         logGroupIdentifiers: [Swift.String]? = nil,
@@ -9051,6 +9103,7 @@ public struct UpdateScheduledQueryInput: Swift.Sendable {
     ) {
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.identifier = identifier
         self.logGroupIdentifiers = logGroupIdentifiers
@@ -9072,6 +9125,8 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The destination configuration of the updated scheduled query.
     public var destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration?
+    /// The end time offset in seconds of the updated scheduled query.
+    public var endTimeOffset: Swift.Int?
     /// The execution role ARN of the updated scheduled query.
     public var executionRoleArn: Swift.String?
     /// The status of the most recent execution of the updated scheduled query.
@@ -9094,6 +9149,8 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
     public var scheduleExpression: Swift.String?
     /// The start time of the updated scheduled query.
     public var scheduleStartTime: Swift.Int?
+    /// The schedule type of the updated scheduled query.
+    public var scheduleType: CloudWatchLogsClientTypes.ScheduleType?
     /// The ARN of the updated scheduled query.
     public var scheduledQueryArn: Swift.String?
     /// The time offset of the updated scheduled query.
@@ -9107,6 +9164,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         creationTime: Swift.Int? = nil,
         description: Swift.String? = nil,
         destinationConfiguration: CloudWatchLogsClientTypes.DestinationConfiguration? = nil,
+        endTimeOffset: Swift.Int? = nil,
         executionRoleArn: Swift.String? = nil,
         lastExecutionStatus: CloudWatchLogsClientTypes.ExecutionStatus? = nil,
         lastTriggeredTime: Swift.Int? = nil,
@@ -9118,6 +9176,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         scheduleEndTime: Swift.Int? = nil,
         scheduleExpression: Swift.String? = nil,
         scheduleStartTime: Swift.Int? = nil,
+        scheduleType: CloudWatchLogsClientTypes.ScheduleType? = nil,
         scheduledQueryArn: Swift.String? = nil,
         startTimeOffset: Swift.Int? = nil,
         state: CloudWatchLogsClientTypes.ScheduledQueryState? = nil,
@@ -9126,6 +9185,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.description = description
         self.destinationConfiguration = destinationConfiguration
+        self.endTimeOffset = endTimeOffset
         self.executionRoleArn = executionRoleArn
         self.lastExecutionStatus = lastExecutionStatus
         self.lastTriggeredTime = lastTriggeredTime
@@ -9137,6 +9197,7 @@ public struct UpdateScheduledQueryOutput: Swift.Sendable {
         self.scheduleEndTime = scheduleEndTime
         self.scheduleExpression = scheduleExpression
         self.scheduleStartTime = scheduleStartTime
+        self.scheduleType = scheduleType
         self.scheduledQueryArn = scheduledQueryArn
         self.startTimeOffset = startTimeOffset
         self.state = state

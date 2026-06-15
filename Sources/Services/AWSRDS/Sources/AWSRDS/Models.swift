@@ -3392,7 +3392,7 @@ public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError
 }
 
 public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
-    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS.
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. For RDS for SQL Server Bring Your Own Media (sqlserver-ee, sqlserver-se), provide the SQL Server RTM ISO file once per major version and edition combination. Minor versions reuse the same file.
     public var databaseInstallationFiles: [Swift.String]?
     /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-custom-installation-files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
@@ -3417,15 +3417,21 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
     ///
     /// * custom-sqlserver-se
     ///
-    /// * ccustom-sqlserver-web
+    /// * custom-sqlserver-web
     ///
     /// * custom-sqlserver-dev
     ///
     ///
-    /// RDS for SQL Server supports only sqlserver-dev-ee.
+    /// RDS for SQL Server supports the following values:
+    ///
+    /// * sqlserver-ee (Bring Your Own Media)
+    ///
+    /// * sqlserver-se (Bring Your Own Media)
+    ///
+    /// * sqlserver-dev-ee
     /// This member is required.
     public var engine: Swift.String?
-    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string*. For example, a valid CEV name is 19.my_cev1. For RDS for SQL Server and RDS Custom for SQL Server, the name format is major engine_version*.*minor_engine_version*.*customized_string*. For example, a valid CEV name is 16.00.4215.2.my_cev1. The CEV name is unique per customer per Amazon Web Services Regions.
+    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string*. For example, a valid CEV name is 19.my_cev1. For RDS Custom for SQL Server and RDS for SQL Server sqlserver-dev-ee, the name format is *major_engine_version*.*minor_engine_version*.*customized_string*. For example, a valid CEV name is 16.00.4215.2.my_cev1. For RDS for SQL Server Bring Your Own Media (sqlserver-ee, sqlserver-se), specify the RDS engine version that you want to use. For example, 16.00.4175.1.v1. The CEV name is unique per customer per Amazon Web Services Regions.
     /// This member is required.
     public var engineVersion: Swift.String?
     /// The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the [DescribeDBEngineVersions](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBEngineVersions.html) operation.
@@ -3607,7 +3613,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
-    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    /// The database installation files (ISO and EXE) that were uploaded to Amazon S3 and used to import the database engine version to Amazon RDS. Returned for RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee) created from customer-supplied installation media.
     public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
@@ -3615,7 +3621,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
-    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    /// The source of the installation media for this engine version. A value of Customer Provided indicates that the engine version was created from customer-supplied installation media using CreateCustomDBEngineVersion. Applicable to RDS Custom for SQL Server and to RDS for SQL Server engine versions (sqlserver-ee and sqlserver-se with the bring-your-own-media license model, and sqlserver-dev-ee).
     public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
@@ -3631,7 +3637,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
-    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    /// The reason that the custom engine version creation failed with an incompatible-installation-media status. Applicable to RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee).
     public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
@@ -6333,6 +6339,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -6378,7 +6386,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * RDS for MariaDB - general-public-license
     ///
-    /// * RDS for Microsoft SQL Server - license-included
+    /// * RDS for Microsoft SQL Server - license-included | bring-your-own-media
     ///
     /// * RDS for MySQL - general-public-license
     ///
@@ -6977,7 +6985,7 @@ extension RDSClientTypes {
         public var iamDatabaseAuthenticationEnabled: Swift.Bool?
         /// The Provisioned IOPS value for the DB instance.
         public var iops: Swift.Int?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license
+        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license | bring-your-own-media
         public var licenseModel: Swift.String?
         /// The master credentials for the DB instance.
         public var masterUserPassword: Swift.String?
@@ -7679,7 +7687,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE), Db2 Community Edition (CE), and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:
     ///
@@ -7861,6 +7869,8 @@ public struct CreateDBParameterGroupInput: Swift.Sendable {
     /// * aurora-postgresql
     ///
     /// * db2-ae
+    ///
+    /// * db2-ce
     ///
     /// * db2-se
     ///
@@ -10015,6 +10025,8 @@ public struct CreateOptionGroupInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -10347,12 +10359,18 @@ public struct DeleteCustomDBEngineVersionInput: Swift.Sendable {
     ///
     /// * custom-sqlserver-se
     ///
-    /// * ccustom-sqlserver-web
+    /// * custom-sqlserver-web
     ///
     /// * custom-sqlserver-dev
     ///
     ///
-    /// RDS for SQL Server supports only sqlserver-dev-ee.
+    /// RDS for SQL Server supports the following values:
+    ///
+    /// * sqlserver-ee (Bring Your Own Media)
+    ///
+    /// * sqlserver-se (Bring Your Own Media)
+    ///
+    /// * sqlserver-dev-ee
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -10374,7 +10392,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
-    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    /// The database installation files (ISO and EXE) that were uploaded to Amazon S3 and used to import the database engine version to Amazon RDS. Returned for RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee) created from customer-supplied installation media.
     public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
@@ -10382,7 +10400,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
-    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    /// The source of the installation media for this engine version. A value of Customer Provided indicates that the engine version was created from customer-supplied installation media using CreateCustomDBEngineVersion. Applicable to RDS Custom for SQL Server and to RDS for SQL Server engine versions (sqlserver-ee and sqlserver-se with the bring-your-own-media license model, and sqlserver-dev-ee).
     public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
@@ -10398,7 +10416,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
-    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    /// The reason that the custom engine version creation failed with an incompatible-installation-media status. Applicable to RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee).
     public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
@@ -12699,6 +12717,8 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -12722,6 +12742,8 @@ public struct DescribeDBEngineVersionsInput: Swift.Sendable {
     /// * sqlserver-ex
     ///
     /// * sqlserver-web
+    ///
+    /// * sqlserver-dev-ee
     public var engine: Swift.String?
     /// A specific database engine version to return details for. Example: 5.1.49
     public var engineVersion: Swift.String?
@@ -12798,7 +12820,7 @@ extension RDSClientTypes {
         public var createTime: Foundation.Date?
         /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
         public var customDBEngineVersionManifest: Swift.String?
-        /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+        /// The database installation files (ISO and EXE) that were uploaded to Amazon S3 and used to import the database engine version to Amazon RDS. Returned for RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee) created from customer-supplied installation media.
         public var databaseInstallationFiles: [Swift.String]?
         /// The name of the Amazon S3 bucket that contains your database installation files.
         public var databaseInstallationFilesS3BucketName: Swift.String?
@@ -12806,7 +12828,7 @@ extension RDSClientTypes {
         public var databaseInstallationFilesS3Prefix: Swift.String?
         /// The description of the database engine.
         public var dbEngineDescription: Swift.String?
-        /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+        /// The source of the installation media for this engine version. A value of Customer Provided indicates that the engine version was created from customer-supplied installation media using CreateCustomDBEngineVersion. Applicable to RDS Custom for SQL Server and to RDS for SQL Server engine versions (sqlserver-ee and sqlserver-se with the bring-your-own-media license model, and sqlserver-dev-ee).
         public var dbEngineMediaType: Swift.String?
         /// The ARN of the custom engine version.
         public var dbEngineVersionArn: Swift.String?
@@ -12822,7 +12844,7 @@ extension RDSClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
-        /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+        /// The reason that the custom engine version creation failed with an incompatible-installation-media status. Applicable to RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee).
         public var failureReason: Swift.String?
         /// The EC2 image
         public var image: RDSClientTypes.CustomDBEngineVersionAMI?
@@ -13198,6 +13220,8 @@ public struct DescribeDBMajorEngineVersionsInput: Swift.Sendable {
     /// * custom-sqlserver-web
     ///
     /// * db2-ae
+    ///
+    /// * db2-ce
     ///
     /// * db2-se
     ///
@@ -14981,6 +15005,8 @@ public struct DescribeEngineDefaultParametersInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb10.2
@@ -15651,6 +15677,8 @@ public struct DescribeOptionGroupOptionsInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -15882,6 +15910,8 @@ public struct DescribeOptionGroupsInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -15971,6 +16001,8 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
     /// * custom-oracle-se2-cdb
     ///
     /// * db2-ae
+    ///
+    /// * db2-ce
     ///
     /// * db2-se
     ///
@@ -17538,12 +17570,18 @@ public struct ModifyCustomDBEngineVersionInput: Swift.Sendable {
     ///
     /// * custom-sqlserver-se
     ///
-    /// * ccustom-sqlserver-web
+    /// * custom-sqlserver-web
     ///
     /// * custom-sqlserver-dev
     ///
     ///
-    /// RDS for SQL Server supports only sqlserver-dev-ee.
+    /// RDS for SQL Server supports the following values:
+    ///
+    /// * sqlserver-ee (Bring Your Own Media)
+    ///
+    /// * sqlserver-se (Bring Your Own Media)
+    ///
+    /// * sqlserver-dev-ee
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -17571,7 +17609,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
-    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    /// The database installation files (ISO and EXE) that were uploaded to Amazon S3 and used to import the database engine version to Amazon RDS. Returned for RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee) created from customer-supplied installation media.
     public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
@@ -17579,7 +17617,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
-    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    /// The source of the installation media for this engine version. A value of Customer Provided indicates that the engine version was created from customer-supplied installation media using CreateCustomDBEngineVersion. Applicable to RDS Custom for SQL Server and to RDS for SQL Server engine versions (sqlserver-ee and sqlserver-se with the bring-your-own-media license model, and sqlserver-dev-ee).
     public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
@@ -17595,7 +17633,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
-    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    /// The reason that the custom engine version creation failed with an incompatible-installation-media status. Applicable to RDS for SQL Server engine versions (sqlserver-ee, sqlserver-se, and sqlserver-dev-ee).
     public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
@@ -18516,7 +18554,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * RDS for MariaDB - general-public-license
     ///
-    /// * RDS for Microsoft SQL Server - license-included
+    /// * RDS for Microsoft SQL Server - license-included | bring-your-own-media
     ///
     /// * RDS for MySQL - general-public-license
     ///
@@ -18646,7 +18684,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var promotionTier: Swift.Int?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE), Db2 Community Edition (CE), and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. Default: 60 Constraints:
     ///
@@ -21259,6 +21297,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -21293,7 +21333,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// * RDS for MariaDB - general-public-license
     ///
-    /// * RDS for Microsoft SQL Server - license-included
+    /// * RDS for Microsoft SQL Server - license-included | bring-your-own-media
     ///
     /// * RDS for MySQL - general-public-license
     ///
@@ -21953,6 +21993,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * db2-ae
     ///
+    /// * db2-ce
+    ///
     /// * db2-se
     ///
     /// * mariadb
@@ -21994,7 +22036,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * RDS for MariaDB - general-public-license
     ///
-    /// * RDS for Microsoft SQL Server - license-included
+    /// * RDS for Microsoft SQL Server - license-included | bring-your-own-media
     ///
     /// * RDS for MySQL - general-public-license
     ///
