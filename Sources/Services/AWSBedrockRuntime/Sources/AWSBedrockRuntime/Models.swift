@@ -2263,6 +2263,641 @@ public struct ApplyGuardrailOutput: Swift.Sendable {
     }
 }
 
+extension BedrockRuntimeClientTypes {
+
+    /// The category for content filter evaluation.
+    public enum GuardrailChecksContentFilterCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hate
+        case insults
+        case misconduct
+        case sexual
+        case violence
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailChecksContentFilterCategory] {
+            return [
+                .hate,
+                .insults,
+                .misconduct,
+                .sexual,
+                .violence
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hate: return "HATE"
+            case .insults: return "INSULTS"
+            case .misconduct: return "MISCONDUCT"
+            case .sexual: return "SEXUAL"
+            case .violence: return "VIOLENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for a single content filter category to evaluate.
+    public struct GuardrailChecksContentFilterCategoryConfig: Swift.Sendable {
+        /// The content filter category to evaluate.
+        /// This member is required.
+        public var category: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategory?
+
+        public init(
+            category: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategory? = nil
+        ) {
+            self.category = category
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for the content filter check, specifying which categories to evaluate.
+    public struct GuardrailChecksContentFilterConfig: Swift.Sendable {
+        /// The content filter categories to evaluate.
+        /// This member is required.
+        public var categories: [BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategoryConfig]?
+
+        public init(
+            categories: [BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategoryConfig]? = nil
+        ) {
+            self.categories = categories
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The category for prompt attack evaluation.
+    public enum GuardrailChecksPromptAttackCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jailbreak
+        case promptInjection
+        case promptLeakage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailChecksPromptAttackCategory] {
+            return [
+                .jailbreak,
+                .promptInjection,
+                .promptLeakage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jailbreak: return "JAILBREAK"
+            case .promptInjection: return "PROMPT_INJECTION"
+            case .promptLeakage: return "PROMPT_LEAKAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for a single prompt attack category to evaluate.
+    public struct GuardrailChecksPromptAttackCategoryConfig: Swift.Sendable {
+        /// The prompt attack category to evaluate.
+        /// This member is required.
+        public var category: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategory?
+
+        public init(
+            category: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategory? = nil
+        ) {
+            self.category = category
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for the prompt attack check, specifying which categories to evaluate.
+    public struct GuardrailChecksPromptAttackConfig: Swift.Sendable {
+        /// The prompt attack categories to evaluate.
+        /// This member is required.
+        public var categories: [BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategoryConfig]?
+
+        public init(
+            categories: [BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategoryConfig]? = nil
+        ) {
+            self.categories = categories
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The type of personally identifiable information (PII) entity to detect.
+    public enum GuardrailChecksSensitiveInformationEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case address
+        case age
+        case awsAccessKey
+        case awsSecretKey
+        case caHealthNumber
+        case caSocialInsuranceNumber
+        case creditDebitCardCvv
+        case creditDebitCardExpiry
+        case creditDebitCardNumber
+        case driverId
+        case email
+        case internationalBankAccountNumber
+        case ipAddress
+        case licensePlate
+        case macAddress
+        case name
+        case password
+        case phone
+        case pin
+        case swiftCode
+        case ukNationalHealthServiceNumber
+        case ukNationalInsuranceNumber
+        case ukUniqueTaxpayerReferenceNumber
+        case url
+        case username
+        case usBankAccountNumber
+        case usBankRoutingNumber
+        case usIndividualTaxIdentificationNumber
+        case usPassportNumber
+        case usSocialSecurityNumber
+        case vehicleIdentificationNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailChecksSensitiveInformationEntityType] {
+            return [
+                .address,
+                .age,
+                .awsAccessKey,
+                .awsSecretKey,
+                .caHealthNumber,
+                .caSocialInsuranceNumber,
+                .creditDebitCardCvv,
+                .creditDebitCardExpiry,
+                .creditDebitCardNumber,
+                .driverId,
+                .email,
+                .internationalBankAccountNumber,
+                .ipAddress,
+                .licensePlate,
+                .macAddress,
+                .name,
+                .password,
+                .phone,
+                .pin,
+                .swiftCode,
+                .ukNationalHealthServiceNumber,
+                .ukNationalInsuranceNumber,
+                .ukUniqueTaxpayerReferenceNumber,
+                .url,
+                .username,
+                .usBankAccountNumber,
+                .usBankRoutingNumber,
+                .usIndividualTaxIdentificationNumber,
+                .usPassportNumber,
+                .usSocialSecurityNumber,
+                .vehicleIdentificationNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .address: return "ADDRESS"
+            case .age: return "AGE"
+            case .awsAccessKey: return "AWS_ACCESS_KEY"
+            case .awsSecretKey: return "AWS_SECRET_KEY"
+            case .caHealthNumber: return "CA_HEALTH_NUMBER"
+            case .caSocialInsuranceNumber: return "CA_SOCIAL_INSURANCE_NUMBER"
+            case .creditDebitCardCvv: return "CREDIT_DEBIT_CARD_CVV"
+            case .creditDebitCardExpiry: return "CREDIT_DEBIT_CARD_EXPIRY"
+            case .creditDebitCardNumber: return "CREDIT_DEBIT_CARD_NUMBER"
+            case .driverId: return "DRIVER_ID"
+            case .email: return "EMAIL"
+            case .internationalBankAccountNumber: return "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+            case .ipAddress: return "IP_ADDRESS"
+            case .licensePlate: return "LICENSE_PLATE"
+            case .macAddress: return "MAC_ADDRESS"
+            case .name: return "NAME"
+            case .password: return "PASSWORD"
+            case .phone: return "PHONE"
+            case .pin: return "PIN"
+            case .swiftCode: return "SWIFT_CODE"
+            case .ukNationalHealthServiceNumber: return "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+            case .ukNationalInsuranceNumber: return "UK_NATIONAL_INSURANCE_NUMBER"
+            case .ukUniqueTaxpayerReferenceNumber: return "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+            case .url: return "URL"
+            case .username: return "USERNAME"
+            case .usBankAccountNumber: return "US_BANK_ACCOUNT_NUMBER"
+            case .usBankRoutingNumber: return "US_BANK_ROUTING_NUMBER"
+            case .usIndividualTaxIdentificationNumber: return "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+            case .usPassportNumber: return "US_PASSPORT_NUMBER"
+            case .usSocialSecurityNumber: return "US_SOCIAL_SECURITY_NUMBER"
+            case .vehicleIdentificationNumber: return "VEHICLE_IDENTIFICATION_NUMBER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for a single sensitive information entity type to detect.
+    public struct GuardrailChecksSensitiveInformationEntityConfig: Swift.Sendable {
+        /// The PII entity type to detect.
+        /// This member is required.
+        public var type: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityType?
+
+        public init(
+            type: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for the sensitive information check, specifying which entity types to detect.
+    public struct GuardrailChecksSensitiveInformationConfig: Swift.Sendable {
+        /// The sensitive information entity types to detect.
+        /// This member is required.
+        public var entities: [BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityConfig]?
+
+        public init(
+            entities: [BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityConfig]? = nil
+        ) {
+            self.entities = entities
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The configuration for inline guardrail checks. Specify one or more check types to run against the messages.
+    public struct GuardrailChecksConfig: Swift.Sendable {
+        /// The content filter check configuration.
+        public var contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterConfig?
+        /// The prompt attack check configuration.
+        public var promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackConfig?
+        /// The sensitive information check configuration.
+        public var sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationConfig?
+
+        public init(
+            contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterConfig? = nil,
+            promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackConfig? = nil,
+            sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationConfig? = nil
+        ) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A content block within a message to evaluate.
+    public enum GuardrailChecksContentBlock: Swift.Sendable {
+        /// The text content to evaluate.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The role of the message sender in the conversation.
+    public enum GuardrailChecksRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assistant
+        case system
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailChecksRole] {
+            return [
+                .assistant,
+                .system,
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assistant: return "assistant"
+            case .system: return "system"
+            case .user: return "user"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A message to evaluate against guardrail checks, containing a role and content blocks.
+    public struct GuardrailChecksMessage: Swift.Sendable {
+        /// The content blocks for the message.
+        /// This member is required.
+        public var content: [BedrockRuntimeClientTypes.GuardrailChecksContentBlock]?
+        /// The role of the message sender.
+        /// This member is required.
+        public var role: BedrockRuntimeClientTypes.GuardrailChecksRole?
+
+        public init(
+            content: [BedrockRuntimeClientTypes.GuardrailChecksContentBlock]? = nil,
+            role: BedrockRuntimeClientTypes.GuardrailChecksRole? = nil
+        ) {
+            self.content = content
+            self.role = role
+        }
+    }
+}
+
+public struct InvokeGuardrailChecksInput: Swift.Sendable {
+    /// The inline check configurations that specify which guardrail checks to run against the messages.
+    /// This member is required.
+    public var checks: BedrockRuntimeClientTypes.GuardrailChecksConfig?
+    /// The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks.
+    /// This member is required.
+    public var messages: [BedrockRuntimeClientTypes.GuardrailChecksMessage]?
+
+    public init(
+        checks: BedrockRuntimeClientTypes.GuardrailChecksConfig? = nil,
+        messages: [BedrockRuntimeClientTypes.GuardrailChecksMessage]? = nil
+    ) {
+        self.checks = checks
+        self.messages = messages
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The evaluation result for a single content filter category.
+    public struct GuardrailChecksContentFilterResultEntry: Swift.Sendable {
+        /// The content filter category that was evaluated.
+        /// This member is required.
+        public var category: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategory?
+        /// The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.
+        /// This member is required.
+        public var severityScore: Swift.Double?
+
+        public init(
+            category: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategory? = nil,
+            severityScore: Swift.Double? = nil
+        ) {
+            self.category = category
+            self.severityScore = severityScore
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The content filter check results.
+    public struct GuardrailChecksContentFilterResult: Swift.Sendable {
+        /// The per-category content filter results.
+        /// This member is required.
+        public var results: [BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry]?
+
+        public init(
+            results: [BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry]? = nil
+        ) {
+            self.results = results
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The evaluation result for a single prompt attack category.
+    public struct GuardrailChecksPromptAttackResultEntry: Swift.Sendable {
+        /// The prompt attack category that was evaluated.
+        /// This member is required.
+        public var category: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategory?
+        /// The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.
+        /// This member is required.
+        public var severityScore: Swift.Double?
+
+        public init(
+            category: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategory? = nil,
+            severityScore: Swift.Double? = nil
+        ) {
+            self.category = category
+            self.severityScore = severityScore
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The prompt attack check results.
+    public struct GuardrailChecksPromptAttackResult: Swift.Sendable {
+        /// The per-category prompt attack results.
+        /// This member is required.
+        public var results: [BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry]?
+
+        public init(
+            results: [BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry]? = nil
+        ) {
+            self.results = results
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The detection result for a single sensitive information entity found in the evaluated messages.
+    public struct GuardrailChecksSensitiveInformationResultEntry: Swift.Sendable {
+        /// The start character offset of the detected entity within the content block.
+        /// This member is required.
+        public var beginOffset: Swift.Int?
+        /// The confidence score for the detection, ranging from 0.0 to 1.0. Higher values indicate greater confidence.
+        /// This member is required.
+        public var confidenceScore: Swift.Double?
+        /// The zero-based index of the content block within the message where the entity was detected.
+        /// This member is required.
+        public var contentIndex: Swift.Int?
+        /// The end character offset of the detected entity within the content block.
+        /// This member is required.
+        public var endOffset: Swift.Int?
+        /// The zero-based index of the message in the input messages array where the entity was detected.
+        /// This member is required.
+        public var messageIndex: Swift.Int?
+        /// The PII entity type that was detected.
+        /// This member is required.
+        public var type: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityType?
+
+        public init(
+            beginOffset: Swift.Int? = nil,
+            confidenceScore: Swift.Double? = nil,
+            contentIndex: Swift.Int? = nil,
+            endOffset: Swift.Int? = nil,
+            messageIndex: Swift.Int? = nil,
+            type: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityType? = nil
+        ) {
+            self.beginOffset = beginOffset
+            self.confidenceScore = confidenceScore
+            self.contentIndex = contentIndex
+            self.endOffset = endOffset
+            self.messageIndex = messageIndex
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The sensitive information check results.
+    public struct GuardrailChecksSensitiveInformationResult: Swift.Sendable {
+        /// The detected sensitive information entities.
+        /// This member is required.
+        public var results: [BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry]?
+        /// Specifies whether the results were truncated because the number of detected entities exceeded the maximum limit.
+        public var truncated: Swift.Bool?
+
+        public init(
+            results: [BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry]? = nil,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.results = results
+            self.truncated = truncated
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The results from the guardrail checks evaluation, organized by check type.
+    public struct GuardrailChecksResults: Swift.Sendable {
+        /// The content filter check results.
+        public var contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult?
+        /// The prompt attack check results.
+        public var promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult?
+        /// The sensitive information check results.
+        public var sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult?
+
+        public init(
+            contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult? = nil,
+            promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult? = nil,
+            sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult? = nil
+        ) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The text unit usage for the content filter check.
+    public struct GuardrailChecksContentFilterUsage: Swift.Sendable {
+        /// The number of text units consumed by the content filter check.
+        /// This member is required.
+        public var textUnits: Swift.Int?
+
+        public init(
+            textUnits: Swift.Int? = nil
+        ) {
+            self.textUnits = textUnits
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The text unit usage for the prompt attack check.
+    public struct GuardrailChecksPromptAttackUsage: Swift.Sendable {
+        /// The number of text units consumed by the prompt attack check.
+        /// This member is required.
+        public var textUnits: Swift.Int?
+
+        public init(
+            textUnits: Swift.Int? = nil
+        ) {
+            self.textUnits = textUnits
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The text unit usage for the sensitive information check.
+    public struct GuardrailChecksSensitiveInformationUsage: Swift.Sendable {
+        /// The number of text units consumed by the sensitive information check.
+        /// This member is required.
+        public var textUnits: Swift.Int?
+
+        public init(
+            textUnits: Swift.Int? = nil
+        ) {
+            self.textUnits = textUnits
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The text unit usage for the guardrail checks evaluation, organized by check type.
+    public struct GuardrailChecksUsageResults: Swift.Sendable {
+        /// The text unit usage for the content filter check.
+        public var contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage?
+        /// The text unit usage for the prompt attack check.
+        public var promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage?
+        /// The text unit usage for the sensitive information check.
+        public var sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage?
+
+        public init(
+            contentFilter: BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage? = nil,
+            promptAttack: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage? = nil,
+            sensitiveInformation: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage? = nil
+        ) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+    }
+}
+
+public struct InvokeGuardrailChecksOutput: Swift.Sendable {
+    /// The per-check results containing findings from the guardrail evaluation.
+    /// This member is required.
+    public var results: BedrockRuntimeClientTypes.GuardrailChecksResults?
+    /// The per-check text unit consumption for the guardrail evaluation.
+    /// This member is required.
+    public var usage: BedrockRuntimeClientTypes.GuardrailChecksUsageResults?
+
+    public init(
+        results: BedrockRuntimeClientTypes.GuardrailChecksResults? = nil,
+        usage: BedrockRuntimeClientTypes.GuardrailChecksUsageResults? = nil
+    ) {
+        self.results = results
+        self.usage = usage
+    }
+}
+
 /// The request failed due to an error while processing the model.
 public struct ModelErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5319,6 +5954,13 @@ extension GetAsyncInvokeInput {
     }
 }
 
+extension InvokeGuardrailChecksInput {
+
+    static func urlPathProvider(_ value: InvokeGuardrailChecksInput) -> Swift.String? {
+        return "/guardrail-checks/invoke"
+    }
+}
+
 extension InvokeModelInput {
 
     static func urlPathProvider(_ value: InvokeModelInput) -> Swift.String? {
@@ -5519,6 +6161,15 @@ extension CountTokensInput {
     }
 }
 
+extension InvokeGuardrailChecksInput {
+
+    static func write(value: InvokeGuardrailChecksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["checks"].write(value.checks, with: BedrockRuntimeClientTypes.GuardrailChecksConfig.write(value:to:))
+        try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailChecksMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension InvokeModelInput {
 
     static func write(value: InvokeModelInput?, to writer: SmithyJSON.Writer) throws {
@@ -5624,6 +6275,19 @@ extension GetAsyncInvokeOutput {
         value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: BedrockRuntimeClientTypes.AsyncInvokeOutputDataConfig.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.submitTime = try reader["submitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension InvokeGuardrailChecksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeGuardrailChecksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeGuardrailChecksOutput()
+        value.results = try reader["results"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksResults.read(from:))
+        value.usage = try reader["usage"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksUsageResults.read(from:))
         return value
     }
 }
@@ -5806,6 +6470,24 @@ enum GetAsyncInvokeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InvokeGuardrailChecksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7209,6 +7891,208 @@ extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding {
         value.claimsTrueScenario = try reader["claimsTrueScenario"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario.read(from:))
         value.supportingRules = try reader["supportingRules"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logicWarning = try reader["logicWarning"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contentFilter"].write(value.contentFilter, with: BedrockRuntimeClientTypes.GuardrailChecksContentFilterConfig.write(value:to:))
+        try writer["promptAttack"].write(value.promptAttack, with: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackConfig.write(value:to:))
+        try writer["sensitiveInformation"].write(value.sensitiveInformation, with: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationConfig.write(value:to:))
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategoryConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategoryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["category"].write(value.category)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentFilterConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksContentFilterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailChecksContentFilterCategoryConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult()
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksContentFilterResultEntry()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.severityScore = try reader["severityScore"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage()
+        value.textUnits = try reader["textUnits"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksMessage {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailChecksContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["role"].write(value.role)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategoryConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategoryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["category"].write(value.category)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksPromptAttackConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["categories"].writeList(value.categories, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackCategoryConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult()
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResultEntry()
+        value.category = try reader["category"].readIfPresent() ?? .sdkUnknown("")
+        value.severityScore = try reader["severityScore"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage()
+        value.textUnits = try reader["textUnits"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksResults()
+        value.contentFilter = try reader["contentFilter"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksContentFilterResult.read(from:))
+        value.promptAttack = try reader["promptAttack"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackResult.read(from:))
+        value.sensitiveInformation = try reader["sensitiveInformation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entities"].writeList(value.entities, memberWritingClosure: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationEntityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResult()
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.truncated = try reader["truncated"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationResultEntry()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.confidenceScore = try reader["confidenceScore"].readIfPresent() ?? 0.0
+        value.beginOffset = try reader["beginOffset"].readIfPresent() ?? 0
+        value.endOffset = try reader["endOffset"].readIfPresent() ?? 0
+        value.messageIndex = try reader["messageIndex"].readIfPresent() ?? 0
+        value.contentIndex = try reader["contentIndex"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage()
+        value.textUnits = try reader["textUnits"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailChecksUsageResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailChecksUsageResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailChecksUsageResults()
+        value.contentFilter = try reader["contentFilter"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksContentFilterUsage.read(from:))
+        value.promptAttack = try reader["promptAttack"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksPromptAttackUsage.read(from:))
+        value.sensitiveInformation = try reader["sensitiveInformation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailChecksSensitiveInformationUsage.read(from:))
         return value
     }
 }

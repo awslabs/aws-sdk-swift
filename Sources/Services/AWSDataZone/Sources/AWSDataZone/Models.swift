@@ -13755,6 +13755,42 @@ public struct DeleteEnvironmentProfileInput: Swift.Sendable {
     }
 }
 
+public struct DeleteLineageEventInput: Swift.Sendable {
+    /// The ID of the domain.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the lineage event.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteLineageEventOutput: Swift.Sendable {
+    /// The ID of the domain.
+    public var domainId: Swift.String?
+    /// The ID of the lineage event.
+    public var id: Swift.String?
+    /// The progressing status of the lineage event.
+    public var processingStatus: DataZoneClientTypes.LineageEventProcessingStatus?
+
+    public init(
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        processingStatus: DataZoneClientTypes.LineageEventProcessingStatus? = nil
+    ) {
+        self.domainId = domainId
+        self.id = id
+        self.processingStatus = processingStatus
+    }
+}
+
 public struct DeleteProjectInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the project is deleted.
     /// This member is required.
@@ -26807,6 +26843,19 @@ extension DeleteGlossaryTermInput {
     }
 }
 
+extension DeleteLineageEventInput {
+
+    static func urlPathProvider(_ value: DeleteLineageEventInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/lineage/events/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension DeleteListingInput {
 
     static func urlPathProvider(_ value: DeleteListingInput) -> Swift.String? {
@@ -31613,6 +31662,20 @@ extension DeleteGlossaryTermOutput {
     }
 }
 
+extension DeleteLineageEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLineageEventOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteLineageEventOutput()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.processingStatus = try reader["processingStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteListingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteListingOutput {
@@ -35083,6 +35146,25 @@ enum DeleteGlossaryTermOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteLineageEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
