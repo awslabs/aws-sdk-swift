@@ -3067,6 +3067,261 @@ extension WAFV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRevenueStatistics` operation on the `WAFV2` service.
+    ///
+    /// Retrieves ranked monetization statistics. Use the StatisticType parameter to specify the ranking: TOP_SOURCES_BY_REVENUE for top sources by revenue, or TOP_PATHS_BY_REVENUE for top content paths by revenue. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatistics(input: GetRevenueStatisticsInput) async throws -> GetRevenueStatisticsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatistics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatistics"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsInput, GetRevenueStatisticsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRevenueStatisticsSummary` operation on the `WAFV2` service.
+    ///
+    /// Retrieves a summary of monetization revenue for the specified time window. Returns total revenue, revenue by verification tier, total settlements, and total HTTP 402 responses served. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsSummaryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsSummaryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatisticsSummary(input: GetRevenueStatisticsSummaryInput) async throws -> GetRevenueStatisticsSummaryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsSummaryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatisticsSummary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsSummaryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatisticsSummary"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsSummaryInput, GetRevenueStatisticsSummaryOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatisticsSummary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRevenueStatisticsTimeSeries` operation on the `WAFV2` service.
+    ///
+    /// Retrieves time series data for monetization revenue. Returns data points aggregated at the specified interval for the given time window. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRevenueStatisticsTimeSeriesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRevenueStatisticsTimeSeriesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func getRevenueStatisticsTimeSeries(input: GetRevenueStatisticsTimeSeriesInput) async throws -> GetRevenueStatisticsTimeSeriesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.getRevenueStatisticsTimeSeriesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRevenueStatisticsTimeSeries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRevenueStatisticsTimeSeriesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRevenueStatisticsTimeSeriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.GetRevenueStatisticsTimeSeries"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRevenueStatisticsTimeSeriesInput, GetRevenueStatisticsTimeSeriesOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRevenueStatisticsTimeSeries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRuleGroup` operation on the `WAFV2` service.
     ///
     /// Retrieves the specified [RuleGroup].
@@ -4324,6 +4579,91 @@ extension WAFV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuleGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSettlementRecords` operation on the `WAFV2` service.
+    ///
+    /// Retrieves individual settlement transaction records for monetization. Each record represents a single payment transaction between a client and your protected resource. This operation is only available for CLOUDFRONT scope. The maximum supported time window is 90 days. When no CurrencyMode filter is provided, results default to REAL. To retrieve test data, include a CurrencyMode filter with the value TEST.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSettlementRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSettlementRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
+    /// - `WAFInvalidOperationException` : The operation isn't valid.
+    /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
+    ///
+    /// * You specified a parameter name or value that isn't valid.
+    ///
+    /// * Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.
+    ///
+    /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
+    public func listSettlementRecords(input: ListSettlementRecordsInput) async throws -> ListSettlementRecordsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WAFV2Client.listSettlementRecordsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSettlementRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wafv2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSettlementRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WAFV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSettlementRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(overrides: ["X-Amz-Target": "AWSWAF_20190729.ListSettlementRecords"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSettlementRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "WAFV2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSettlementRecordsInput, ListSettlementRecordsOutput>(serviceID: serviceName, version: WAFV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WAFV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSettlementRecords")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -580,6 +580,7 @@ extension LightsailClientTypes {
 extension LightsailClientTypes {
 
     public enum RegionName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apEast1
         case apNortheast1
         case apNortheast2
         case apSoutheast1
@@ -590,9 +591,11 @@ extension LightsailClientTypes {
         case caCentral1
         case euCentral1
         case euNorth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
+        case saEast1
         case usEast1
         case usEast2
         case usWest1
@@ -601,6 +604,7 @@ extension LightsailClientTypes {
 
         public static var allCases: [RegionName] {
             return [
+                .apEast1,
                 .apNortheast1,
                 .apNortheast2,
                 .apSoutheast1,
@@ -611,9 +615,11 @@ extension LightsailClientTypes {
                 .caCentral1,
                 .euCentral1,
                 .euNorth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .saEast1,
                 .usEast1,
                 .usEast2,
                 .usWest1,
@@ -628,6 +634,7 @@ extension LightsailClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .apEast1: return "ap-east-1"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apSoutheast1: return "ap-southeast-1"
@@ -638,9 +645,11 @@ extension LightsailClientTypes {
             case .caCentral1: return "ca-central-1"
             case .euCentral1: return "eu-central-1"
             case .euNorth1: return "eu-north-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"
             case .usWest1: return "us-west-1"

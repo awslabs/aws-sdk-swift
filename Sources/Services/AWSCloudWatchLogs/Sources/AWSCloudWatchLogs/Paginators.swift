@@ -552,6 +552,7 @@ extension ListScheduledQueriesInput: ClientRuntime.PaginateToken {
         return ListScheduledQueriesInput(
             maxResults: self.maxResults,
             nextToken: token,
+            scheduleType: self.scheduleType,
             state: self.state
         )}
 }

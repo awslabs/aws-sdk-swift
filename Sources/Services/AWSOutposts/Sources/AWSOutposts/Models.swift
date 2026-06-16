@@ -666,6 +666,84 @@ public struct CancelOrderOutput: Swift.Sendable {
 
 extension OutpostsClientTypes {
 
+    public enum QuoteCapacityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebs
+        case ec2
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuoteCapacityType] {
+            return [
+                .ebs,
+                .ec2,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebs: return "EBS"
+            case .ec2: return "EC2"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A capacity requirement for a quote. Specifies the type of capacity, the unit, and the quantity.
+    public struct QuoteCapacity: Swift.Sendable {
+        /// The quantity of the specified capacity unit. For Amazon EC2, this is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, this is the total desired end-state capacity of the Outpost.
+        public var quantity: Swift.Float?
+        /// The type of capacity. Valid values are EC2, EBS, and S3.
+        public var quoteCapacityType: OutpostsClientTypes.QuoteCapacityType?
+        /// The unit of measurement for the capacity. For Amazon EC2, this is the instance type (for example, c5.24xlarge). For Amazon EBS and Amazon S3, this is the storage unit (for example, TiB for tebibytes).
+        public var unit: Swift.String?
+
+        public init(
+            quantity: Swift.Float? = nil,
+            quoteCapacityType: OutpostsClientTypes.QuoteCapacityType? = nil,
+            unit: Swift.String? = nil
+        ) {
+            self.quantity = quantity
+            self.quoteCapacityType = quoteCapacityType
+            self.unit = unit
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A summary of the capacity changes for a quote option.
+    public struct CapacitySummary: Swift.Sendable {
+        /// The change in capacity between the existing and final state.
+        public var capacityChange: [OutpostsClientTypes.QuoteCapacity]?
+        /// The existing capacities on the Outpost before the quote is fulfilled.
+        public var existingCapacities: [OutpostsClientTypes.QuoteCapacity]?
+        /// The final capacities on the Outpost after the quote is fulfilled.
+        public var finalCapacities: [OutpostsClientTypes.QuoteCapacity]?
+
+        public init(
+            capacityChange: [OutpostsClientTypes.QuoteCapacity]? = nil,
+            existingCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+            finalCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil
+        ) {
+            self.capacityChange = capacityChange
+            self.existingCapacities = existingCapacities
+            self.finalCapacities = finalCapacities
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
     public enum CapacityTaskFailureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blockingInstancesNotEvacuated
         case internalServerError
@@ -1587,6 +1665,743 @@ public struct CreateOutpostOutput: Swift.Sendable {
     }
 }
 
+extension OutpostsClientTypes {
+
+    public enum QuoteConstraintType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rackMaximum
+        case rackMaxPowerKva
+        case rackMaxWeightLbs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuoteConstraintType] {
+            return [
+                .rackMaximum,
+                .rackMaxPowerKva,
+                .rackMaxWeightLbs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rackMaximum: return "RACK_MAXIMUM"
+            case .rackMaxPowerKva: return "RACK_MAX_POWER_KVA"
+            case .rackMaxWeightLbs: return "RACK_MAX_WEIGHT_LBS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A physical constraint for a quote.
+    public struct QuoteConstraint: Swift.Sendable {
+        /// The type of constraint. Valid values are RACK_MAXIMUM, RACK_MAX_POWER_KVA, and RACK_MAX_WEIGHT_LBS.
+        public var quoteConstraintType: OutpostsClientTypes.QuoteConstraintType?
+        /// The value of the constraint.
+        public var value: Swift.String?
+
+        public init(
+            quoteConstraintType: OutpostsClientTypes.QuoteConstraintType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.quoteConstraintType = quoteConstraintType
+            self.value = value
+        }
+    }
+}
+
+public struct CreateQuoteInput: Swift.Sendable {
+    /// The country code for the Outpost site location.
+    /// This member is required.
+    public var countryCode: Swift.String?
+    /// A description for the quote.
+    public var description: Swift.String?
+    /// The ID or ARN of the Outpost to associate with the quote. If not specified, the quote is created without an Outpost association.
+    public var outpostIdentifier: Swift.String?
+    /// The capacity requirements for the quote. Each entry specifies a capacity type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the quantity is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, the quantity is the total desired end-state capacity of the Outpost.
+    /// This member is required.
+    public var requestedCapacities: [OutpostsClientTypes.QuoteCapacity]?
+    /// The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack.
+    public var requestedConstraints: [OutpostsClientTypes.QuoteConstraint]?
+    /// The payment options to include in the quote pricing. If not specified, all available payment options are returned.
+    public var requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]?
+    /// The payment terms to include in the quote pricing. If not specified, all available payment terms are returned.
+    public var requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]?
+
+    public init(
+        countryCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil,
+        requestedCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+        requestedConstraints: [OutpostsClientTypes.QuoteConstraint]? = nil,
+        requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]? = nil,
+        requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]? = nil
+    ) {
+        self.countryCode = countryCode
+        self.description = description
+        self.outpostIdentifier = outpostIdentifier
+        self.requestedCapacities = requestedCapacities
+        self.requestedConstraints = requestedConstraints
+        self.requestedPaymentOptions = requestedPaymentOptions
+        self.requestedPaymentTerms = requestedPaymentTerms
+    }
+}
+
+extension CreateQuoteInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateQuoteInput(countryCode: \(Swift.String(describing: countryCode)), outpostIdentifier: \(Swift.String(describing: outpostIdentifier)), requestedCapacities: \(Swift.String(describing: requestedCapacities)), requestedConstraints: \(Swift.String(describing: requestedConstraints)), requestedPaymentOptions: \(Swift.String(describing: requestedPaymentOptions)), requestedPaymentTerms: \(Swift.String(describing: requestedPaymentTerms)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension OutpostsClientTypes {
+
+    public enum OrderingRequirementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case countryCodeMismatchCheckError
+        case enterpriseSupportError
+        case maximumAllowedOrdersCheckError
+        case operatingAddressExistenceCheckError
+        case outpostActiveCheckError
+        case outpostGenerationMismatchError
+        case outpostIdMissingOnQuoteError
+        case outpostNotFoundError
+        case outpostRenewalRequiredError
+        case outpostStateChangedError
+        case rackPhysicalPropertiesCheckError
+        case shippingAddressExistenceCheckError
+        case shippingAddressMissingContactInfoError
+        case shippingAddressMissingContactNameError
+        case shippingAddressMissingContactNumberError
+        case unsupported
+        case validZipCodeCheckError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrderingRequirementType] {
+            return [
+                .countryCodeMismatchCheckError,
+                .enterpriseSupportError,
+                .maximumAllowedOrdersCheckError,
+                .operatingAddressExistenceCheckError,
+                .outpostActiveCheckError,
+                .outpostGenerationMismatchError,
+                .outpostIdMissingOnQuoteError,
+                .outpostNotFoundError,
+                .outpostRenewalRequiredError,
+                .outpostStateChangedError,
+                .rackPhysicalPropertiesCheckError,
+                .shippingAddressExistenceCheckError,
+                .shippingAddressMissingContactInfoError,
+                .shippingAddressMissingContactNameError,
+                .shippingAddressMissingContactNumberError,
+                .unsupported,
+                .validZipCodeCheckError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .countryCodeMismatchCheckError: return "COUNTRY_CODE_MISMATCH_CHECK_ERROR"
+            case .enterpriseSupportError: return "ENTERPRISE_SUPPORT_ERROR"
+            case .maximumAllowedOrdersCheckError: return "MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR"
+            case .operatingAddressExistenceCheckError: return "OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR"
+            case .outpostActiveCheckError: return "OUTPOST_ACTIVE_CHECK_ERROR"
+            case .outpostGenerationMismatchError: return "OUTPOST_GENERATION_MISMATCH_ERROR"
+            case .outpostIdMissingOnQuoteError: return "OUTPOST_ID_MISSING_ON_QUOTE_ERROR"
+            case .outpostNotFoundError: return "OUTPOST_NOT_FOUND_ERROR"
+            case .outpostRenewalRequiredError: return "OUTPOST_RENEWAL_REQUIRED_ERROR"
+            case .outpostStateChangedError: return "OUTPOST_STATE_CHANGED_ERROR"
+            case .rackPhysicalPropertiesCheckError: return "RACK_PHYSICAL_PROPERTIES_CHECK_ERROR"
+            case .shippingAddressExistenceCheckError: return "SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR"
+            case .shippingAddressMissingContactInfoError: return "SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR"
+            case .shippingAddressMissingContactNameError: return "SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR"
+            case .shippingAddressMissingContactNumberError: return "SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR"
+            case .unsupported: return "UNSUPPORTED"
+            case .validZipCodeCheckError: return "VALID_ZIP_CODE_CHECK_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum OrderingRequirementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exempt
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrderingRequirementStatus] {
+            return [
+                .exempt,
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exempt: return "EXEMPT"
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A requirement that must be met before an order can be submitted for a quote.
+    public struct OrderingRequirement: Swift.Sendable {
+        /// The type of ordering requirement. Indicates which check failed or passed.
+        ///
+        /// * OUTPOST_ACTIVE_CHECK_ERROR - The Outpost must be in an active state.
+        ///
+        /// * MAXIMUM_ALLOWED_ORDERS_CHECK_ERROR - The maximum number of allowed orders has been reached.
+        ///
+        /// * VALID_ZIP_CODE_CHECK_ERROR - The site address must have a valid zip code.
+        ///
+        /// * RACK_PHYSICAL_PROPERTIES_CHECK_ERROR - The rack physical properties do not meet requirements.
+        ///
+        /// * OPERATING_ADDRESS_EXISTENCE_CHECK_ERROR - The site must have an operating address.
+        ///
+        /// * SHIPPING_ADDRESS_EXISTENCE_CHECK_ERROR - The site must have a shipping address.
+        ///
+        /// * COUNTRY_CODE_MISMATCH_CHECK_ERROR - The country code on the quote does not match the Outpost site country.
+        ///
+        /// * OUTPOST_GENERATION_MISMATCH_ERROR - The Outpost generation does not match the requested configuration.
+        ///
+        /// * OUTPOST_ID_MISSING_ON_QUOTE_ERROR - The quote must be associated with an Outpost before submitting an order.
+        ///
+        /// * ENTERPRISE_SUPPORT_ERROR - Enterprise Support is required.
+        ///
+        /// * SHIPPING_ADDRESS_MISSING_CONTACT_NAME_ERROR - The shipping address must have a contact name.
+        ///
+        /// * SHIPPING_ADDRESS_MISSING_CONTACT_NUMBER_ERROR - The shipping address must have a contact phone number.
+        ///
+        /// * SHIPPING_ADDRESS_MISSING_CONTACT_INFO_ERROR - The shipping address must have contact information.
+        ///
+        /// * OUTPOST_STATE_CHANGED_ERROR - The Outpost state has changed since the quote was created.
+        ///
+        /// * OUTPOST_NOT_FOUND_ERROR - The Outpost associated with the quote was not found.
+        ///
+        /// * OUTPOST_RENEWAL_REQUIRED_ERROR - The Outpost requires a renewal before a new order can be submitted.
+        ///
+        /// * UNSUPPORTED - The requirement type is not recognized.
+        public var orderingRequirementType: OutpostsClientTypes.OrderingRequirementType?
+        /// The status of the ordering requirement. Valid values are PASS, FAIL, and EXEMPT.
+        public var status: OutpostsClientTypes.OrderingRequirementStatus?
+        /// A message about the ordering requirement.
+        public var statusMessage: Swift.String?
+
+        public init(
+            orderingRequirementType: OutpostsClientTypes.OrderingRequirementType? = nil,
+            status: OutpostsClientTypes.OrderingRequirementStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.orderingRequirementType = orderingRequirementType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum QuotePricingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case subscription
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotePricingType] {
+            return [
+                .subscription
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .subscription: return "SUBSCRIPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum CurrencyCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CurrencyCode] {
+            return [
+                .usd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usd: return "USD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// The pricing details for a subscription.
+    public struct SubscriptionPricingDetails: Swift.Sendable {
+        /// The currency of the price. Currently only USD is supported.
+        public var currency: OutpostsClientTypes.CurrencyCode?
+        /// The monthly recurring price.
+        public var monthlyRecurringPrice: Swift.Float?
+        /// The payment option.
+        public var paymentOption: OutpostsClientTypes.PaymentOption?
+        /// The payment term.
+        public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+        /// The upfront price.
+        public var upfrontPrice: Swift.Float?
+
+        public init(
+            currency: OutpostsClientTypes.CurrencyCode? = nil,
+            monthlyRecurringPrice: Swift.Float? = nil,
+            paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+            paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
+            upfrontPrice: Swift.Float? = nil
+        ) {
+            self.currency = currency
+            self.monthlyRecurringPrice = monthlyRecurringPrice
+            self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
+            self.upfrontPrice = upfrontPrice
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A pricing option for the specified Outpost.
+    public struct PricingOption: Swift.Sendable {
+        /// The type of pricing model.
+        public var pricingType: OutpostsClientTypes.QuotePricingType?
+        /// The subscription pricing details for this pricing option.
+        public var subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails?
+
+        public init(
+            pricingType: OutpostsClientTypes.QuotePricingType? = nil,
+            subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails? = nil
+        ) {
+            self.pricingType = pricingType
+            self.subscriptionPricingDetails = subscriptionPricingDetails
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum RackUnitHeight: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case height1u
+        case height2u
+        case height42u
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RackUnitHeight] {
+            return [
+                .height1u,
+                .height2u,
+                .height42u
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .height1u: return "HEIGHT_1U"
+            case .height2u: return "HEIGHT_2U"
+            case .height42u: return "HEIGHT_42U"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum QuoteRackUseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compute
+        case networking
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuoteRackUseType] {
+            return [
+                .compute,
+                .networking
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compute: return "COMPUTE"
+            case .networking: return "NETWORKING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// The physical specification details for a rack in a quote option.
+    public struct RackSpecificationDetails: Swift.Sendable {
+        /// The Amazon EC2 capacities for the rack.
+        public var ec2Capacities: [OutpostsClientTypes.EC2Capacity]?
+        /// The depth of the rack in inches.
+        public var rackDepthInches: Swift.Float?
+        /// The height of the rack in inches.
+        public var rackHeightInches: Swift.Float?
+        /// The ID of the rack.
+        public var rackId: Swift.String?
+        /// The maximum power draw of the rack in kVA.
+        public var rackPowerDrawKva: Swift.Float?
+        /// The rack unit height.
+        ///
+        /// * HEIGHT_42U - 42 rack units.
+        ///
+        /// * HEIGHT_2U - 2 rack units.
+        ///
+        /// * HEIGHT_1U - 1 rack unit.
+        public var rackUnitHeight: OutpostsClientTypes.RackUnitHeight?
+        /// The use of the rack. Valid values are COMPUTE and NETWORKING.
+        public var rackUse: OutpostsClientTypes.QuoteRackUseType?
+        /// The weight of the rack in pounds.
+        public var rackWeightLbs: Swift.Float?
+        /// The width of the rack in inches.
+        public var rackWidthInches: Swift.Float?
+
+        public init(
+            ec2Capacities: [OutpostsClientTypes.EC2Capacity]? = nil,
+            rackDepthInches: Swift.Float? = nil,
+            rackHeightInches: Swift.Float? = nil,
+            rackId: Swift.String? = nil,
+            rackPowerDrawKva: Swift.Float? = nil,
+            rackUnitHeight: OutpostsClientTypes.RackUnitHeight? = nil,
+            rackUse: OutpostsClientTypes.QuoteRackUseType? = nil,
+            rackWeightLbs: Swift.Float? = nil,
+            rackWidthInches: Swift.Float? = nil
+        ) {
+            self.ec2Capacities = ec2Capacities
+            self.rackDepthInches = rackDepthInches
+            self.rackHeightInches = rackHeightInches
+            self.rackId = rackId
+            self.rackPowerDrawKva = rackPowerDrawKva
+            self.rackUnitHeight = rackUnitHeight
+            self.rackUse = rackUse
+            self.rackWeightLbs = rackWeightLbs
+            self.rackWidthInches = rackWidthInches
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum QuoteSpecificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case existingRack
+        case newRack
+        case server
+        case updatedRack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuoteSpecificationType] {
+            return [
+                .existingRack,
+                .newRack,
+                .server,
+                .updatedRack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .existingRack: return "EXISTING_RACK"
+            case .newRack: return "NEW_RACK"
+            case .server: return "SERVER"
+            case .updatedRack: return "UPDATED_RACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// The physical specification details for a server in a quote option.
+    public struct ServerSpecificationDetails: Swift.Sendable {
+        /// The Amazon EC2 capacities for the server.
+        public var ec2Capacities: [OutpostsClientTypes.EC2Capacity]?
+        /// The rack unit height of the server.
+        ///
+        /// * HEIGHT_2U - 2 rack units.
+        ///
+        /// * HEIGHT_1U - 1 rack unit.
+        public var rackUnitHeight: OutpostsClientTypes.RackUnitHeight?
+        /// The depth of the server in inches.
+        public var serverDepthInches: Swift.Float?
+        /// The height of the server in inches.
+        public var serverHeightInches: Swift.Float?
+        /// The maximum power draw of the server in kVA.
+        public var serverPowerDrawKva: Swift.Float?
+        /// The weight of the server in pounds.
+        public var serverWeightLbs: Swift.Float?
+        /// The width of the server in inches.
+        public var serverWidthInches: Swift.Float?
+
+        public init(
+            ec2Capacities: [OutpostsClientTypes.EC2Capacity]? = nil,
+            rackUnitHeight: OutpostsClientTypes.RackUnitHeight? = nil,
+            serverDepthInches: Swift.Float? = nil,
+            serverHeightInches: Swift.Float? = nil,
+            serverPowerDrawKva: Swift.Float? = nil,
+            serverWeightLbs: Swift.Float? = nil,
+            serverWidthInches: Swift.Float? = nil
+        ) {
+            self.ec2Capacities = ec2Capacities
+            self.rackUnitHeight = rackUnitHeight
+            self.serverDepthInches = serverDepthInches
+            self.serverHeightInches = serverHeightInches
+            self.serverPowerDrawKva = serverPowerDrawKva
+            self.serverWeightLbs = serverWeightLbs
+            self.serverWidthInches = serverWidthInches
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A physical specification for a quote option. Describes the rack or server configuration that would be deployed.
+    public struct QuoteSpecification: Swift.Sendable {
+        /// The existing rack specification details, if the specification type is UPDATED_RACK or EXISTING_RACK.
+        public var existingRackSpecificationDetails: OutpostsClientTypes.RackSpecificationDetails?
+        /// The final rack specification details after the quote is fulfilled.
+        public var finalRackSpecificationDetails: OutpostsClientTypes.RackSpecificationDetails?
+        /// The type of specification. Valid values are NEW_RACK, UPDATED_RACK, EXISTING_RACK, and SERVER.
+        public var quoteSpecificationType: OutpostsClientTypes.QuoteSpecificationType?
+        /// The server specification details, if the specification type is SERVER.
+        public var serverSpecificationDetails: OutpostsClientTypes.ServerSpecificationDetails?
+
+        public init(
+            existingRackSpecificationDetails: OutpostsClientTypes.RackSpecificationDetails? = nil,
+            finalRackSpecificationDetails: OutpostsClientTypes.RackSpecificationDetails? = nil,
+            quoteSpecificationType: OutpostsClientTypes.QuoteSpecificationType? = nil,
+            serverSpecificationDetails: OutpostsClientTypes.ServerSpecificationDetails? = nil
+        ) {
+            self.existingRackSpecificationDetails = existingRackSpecificationDetails
+            self.finalRackSpecificationDetails = finalRackSpecificationDetails
+            self.quoteSpecificationType = quoteSpecificationType
+            self.serverSpecificationDetails = serverSpecificationDetails
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A configuration and pricing option for a quote. Each option includes the capacity breakdown, physical specifications for the racks or servers, and pricing details.
+    public struct QuoteOption: Swift.Sendable {
+        /// The capacities included in this quote option.
+        public var capacities: [OutpostsClientTypes.QuoteCapacity]?
+        /// A summary of the existing, final, and changed capacity for this quote option.
+        public var capacitySummary: OutpostsClientTypes.CapacitySummary?
+        /// The pricing options for this quote option.
+        public var pricingOptions: [OutpostsClientTypes.PricingOption]?
+        /// The ID of the quote option.
+        public var quoteOptionIdentifier: Swift.String?
+        /// The physical specifications for the racks or servers in this quote option.
+        public var specifications: [OutpostsClientTypes.QuoteSpecification]?
+
+        public init(
+            capacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+            capacitySummary: OutpostsClientTypes.CapacitySummary? = nil,
+            pricingOptions: [OutpostsClientTypes.PricingOption]? = nil,
+            quoteOptionIdentifier: Swift.String? = nil,
+            specifications: [OutpostsClientTypes.QuoteSpecification]? = nil
+        ) {
+            self.capacities = capacities
+            self.capacitySummary = capacitySummary
+            self.pricingOptions = pricingOptions
+            self.quoteOptionIdentifier = quoteOptionIdentifier
+            self.specifications = specifications
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum QuoteStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case expired
+        case orderSubmitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuoteStatus] {
+            return [
+                .created,
+                .expired,
+                .orderSubmitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .expired: return "EXPIRED"
+            case .orderSubmitted: return "ORDER_SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// Information about a quote for an Outpost. A quote provides pricing and configuration options based on the requested capacity.
+    public struct Quote: Swift.Sendable {
+        /// The ID of the account that owns the quote.
+        public var accountId: Swift.String?
+        /// The country code for the Outpost site location.
+        public var countryCode: Swift.String?
+        /// The date the quote was created.
+        public var createdDate: Foundation.Date?
+        /// The description of the quote.
+        public var description: Swift.String?
+        /// The date the quote expires.
+        public var expirationDate: Foundation.Date?
+        /// The requirements that must be met before an order can be submitted for the quote.
+        public var orderingRequirements: [OutpostsClientTypes.OrderingRequirement]?
+        /// The ARN of the Outpost associated with the quote.
+        public var outpostArn: Swift.String?
+        /// The ID of the quote.
+        public var quoteId: Swift.String?
+        /// The configuration and pricing options for the quote. Each option includes capacity details, physical specifications, and pricing information.
+        public var quoteOptions: [OutpostsClientTypes.QuoteOption]?
+        /// The status of the quote.
+        ///
+        /// * CREATED - The quote has been created and is available for review.
+        ///
+        /// * ORDER_SUBMITTED - An order has been submitted for the quote.
+        ///
+        /// * EXPIRED - The quote has expired and can no longer be used to submit an order.
+        public var quoteStatus: OutpostsClientTypes.QuoteStatus?
+        /// The capacity requirements specified in the quote request.
+        public var requestedCapacities: [OutpostsClientTypes.QuoteCapacity]?
+        /// The physical constraints specified in the quote request.
+        public var requestedConstraints: [OutpostsClientTypes.QuoteConstraint]?
+        /// The payment options specified in the quote request.
+        public var requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]?
+        /// The payment terms specified in the quote request.
+        public var requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]?
+        /// A message about the status of the quote.
+        public var statusMessage: Swift.String?
+        /// The ID of the order submitted for the quote.
+        public var submittedOrderId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            countryCode: Swift.String? = nil,
+            createdDate: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expirationDate: Foundation.Date? = nil,
+            orderingRequirements: [OutpostsClientTypes.OrderingRequirement]? = nil,
+            outpostArn: Swift.String? = nil,
+            quoteId: Swift.String? = nil,
+            quoteOptions: [OutpostsClientTypes.QuoteOption]? = nil,
+            quoteStatus: OutpostsClientTypes.QuoteStatus? = nil,
+            requestedCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+            requestedConstraints: [OutpostsClientTypes.QuoteConstraint]? = nil,
+            requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]? = nil,
+            requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]? = nil,
+            statusMessage: Swift.String? = nil,
+            submittedOrderId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.countryCode = countryCode
+            self.createdDate = createdDate
+            self.description = description
+            self.expirationDate = expirationDate
+            self.orderingRequirements = orderingRequirements
+            self.outpostArn = outpostArn
+            self.quoteId = quoteId
+            self.quoteOptions = quoteOptions
+            self.quoteStatus = quoteStatus
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+            self.statusMessage = statusMessage
+            self.submittedOrderId = submittedOrderId
+        }
+    }
+}
+
+extension OutpostsClientTypes.Quote: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Quote(accountId: \(Swift.String(describing: accountId)), countryCode: \(Swift.String(describing: countryCode)), createdDate: \(Swift.String(describing: createdDate)), expirationDate: \(Swift.String(describing: expirationDate)), orderingRequirements: \(Swift.String(describing: orderingRequirements)), outpostArn: \(Swift.String(describing: outpostArn)), quoteId: \(Swift.String(describing: quoteId)), quoteOptions: \(Swift.String(describing: quoteOptions)), quoteStatus: \(Swift.String(describing: quoteStatus)), requestedCapacities: \(Swift.String(describing: requestedCapacities)), requestedConstraints: \(Swift.String(describing: requestedConstraints)), requestedPaymentOptions: \(Swift.String(describing: requestedPaymentOptions)), requestedPaymentTerms: \(Swift.String(describing: requestedPaymentTerms)), statusMessage: \(Swift.String(describing: statusMessage)), submittedOrderId: \(Swift.String(describing: submittedOrderId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateQuoteOutput: Swift.Sendable {
+    /// Information about the quote.
+    public var quote: OutpostsClientTypes.Quote?
+
+    public init(
+        quote: OutpostsClientTypes.Quote? = nil
+    ) {
+        self.quote = quote
+    }
+}
+
 public struct CreateRenewalInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -1614,6 +2429,8 @@ public struct CreateRenewalInput: Swift.Sendable {
 }
 
 public struct CreateRenewalOutput: Swift.Sendable {
+    /// The currency of the renewal price.
+    public var currency: OutpostsClientTypes.CurrencyCode?
     /// The monthly recurring price of the renewal.
     public var monthlyRecurringPrice: Swift.Float?
     /// The ID of the Outpost.
@@ -1626,12 +2443,14 @@ public struct CreateRenewalOutput: Swift.Sendable {
     public var upfrontPrice: Swift.Float?
 
     public init(
+        currency: OutpostsClientTypes.CurrencyCode? = nil,
         monthlyRecurringPrice: Swift.Float? = nil,
         outpostId: Swift.String? = nil,
         paymentOption: OutpostsClientTypes.PaymentOption? = nil,
         paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
         upfrontPrice: Swift.Float? = nil
     ) {
+        self.currency = currency
         self.monthlyRecurringPrice = monthlyRecurringPrice
         self.outpostId = outpostId
         self.paymentOption = paymentOption
@@ -2186,6 +3005,23 @@ public struct DeleteOutpostOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQuoteInput: Swift.Sendable {
+    /// The ID or ARN of the quote.
+    /// This member is required.
+    public var quoteIdentifier: Swift.String?
+
+    public init(
+        quoteIdentifier: Swift.String? = nil
+    ) {
+        self.quoteIdentifier = quoteIdentifier
+    }
+}
+
+public struct DeleteQuoteOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteSiteInput: Swift.Sendable {
     /// The ID or the Amazon Resource Name (ARN) of the site.
     /// This member is required.
@@ -2201,6 +3037,114 @@ public struct DeleteSiteInput: Swift.Sendable {
 public struct DeleteSiteOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension OutpostsClientTypes {
+
+    public enum FormFactor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rack
+        case server
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FormFactor] {
+            return [
+                .rack,
+                .server
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rack: return "RACK"
+            case .server: return "SERVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    public enum OutpostGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case generation1
+        case generation2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutpostGeneration] {
+            return [
+                .generation1,
+                .generation2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .generation1: return "GENERATION_1"
+            case .generation2: return "GENERATION_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// A supported form factor and Outpost generation configuration for an instance type.
+    public struct FormFactorConfig: Swift.Sendable {
+        /// The form factor. Valid values are RACK for rack-based Outposts and SERVER for server-based Outposts.
+        public var formFactor: OutpostsClientTypes.FormFactor?
+        /// The Outpost generation. Valid values are GENERATION_1 for first-generation rack deployments and GENERATION_2 for second-generation rack deployments. This value is not set for server form factors.
+        public var outpostGeneration: OutpostsClientTypes.OutpostGeneration?
+
+        public init(
+            formFactor: OutpostsClientTypes.FormFactor? = nil,
+            outpostGeneration: OutpostsClientTypes.OutpostGeneration? = nil
+        ) {
+            self.formFactor = formFactor
+            self.outpostGeneration = outpostGeneration
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// Information about an instance type that can be ordered for an Outpost, including hardware specifications and supported form factors.
+    public struct DetailedInstanceTypeItem: Swift.Sendable {
+        /// The supported form factor and Outpost generation configurations for the instance type.
+        public var formFactorConfigs: [OutpostsClientTypes.FormFactorConfig]?
+        /// The instance type.
+        public var instanceType: Swift.String?
+        /// The memory size of the instance type, in MiB.
+        public var memoryInMib: Swift.Int
+        /// The network performance of the instance type.
+        public var networkPerformance: Swift.String?
+        /// The number of default VCPUs in the instance type.
+        public var vcpUs: Swift.Int?
+
+        public init(
+            formFactorConfigs: [OutpostsClientTypes.FormFactorConfig]? = nil,
+            instanceType: Swift.String? = nil,
+            memoryInMib: Swift.Int = 0,
+            networkPerformance: Swift.String? = nil,
+            vcpUs: Swift.Int? = nil
+        ) {
+            self.formFactorConfigs = formFactorConfigs
+            self.instanceType = instanceType
+            self.memoryInMib = memoryInMib
+            self.networkPerformance = networkPerformance
+            self.vcpUs = vcpUs
+        }
+    }
 }
 
 public struct GetCapacityTaskInput: Swift.Sendable {
@@ -2559,6 +3503,8 @@ extension OutpostsClientTypes {
     public struct Subscription: Swift.Sendable {
         /// The date your subscription starts.
         public var beginDate: Foundation.Date?
+        /// The currency of the subscription price. Currently only USD is supported.
+        public var currency: OutpostsClientTypes.CurrencyCode?
         /// The date your subscription ends.
         public var endDate: Foundation.Date?
         /// The amount you are billed each month in the subscription period.
@@ -2590,6 +3536,7 @@ extension OutpostsClientTypes {
 
         public init(
             beginDate: Foundation.Date? = nil,
+            currency: OutpostsClientTypes.CurrencyCode? = nil,
             endDate: Foundation.Date? = nil,
             monthlyRecurringPrice: Swift.Double? = nil,
             orderIds: [Swift.String]? = nil,
@@ -2599,6 +3546,7 @@ extension OutpostsClientTypes {
             upfrontPrice: Swift.Double? = nil
         ) {
             self.beginDate = beginDate
+            self.currency = currency
             self.endDate = endDate
             self.monthlyRecurringPrice = monthlyRecurringPrice
             self.orderIds = orderIds
@@ -2742,6 +3690,29 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Sendable {
     }
 }
 
+public struct GetQuoteInput: Swift.Sendable {
+    /// The ID or ARN of the quote.
+    /// This member is required.
+    public var quoteIdentifier: Swift.String?
+
+    public init(
+        quoteIdentifier: Swift.String? = nil
+    ) {
+        self.quoteIdentifier = quoteIdentifier
+    }
+}
+
+public struct GetQuoteOutput: Swift.Sendable {
+    /// Information about the quote.
+    public var quote: OutpostsClientTypes.Quote?
+
+    public init(
+        quote: OutpostsClientTypes.Quote? = nil
+    ) {
+        self.quote = quote
+    }
+}
+
 public struct GetRenewalPricingInput: Swift.Sendable {
     /// The ID or ARN of the Outpost.
     /// This member is required.
@@ -2751,78 +3722,6 @@ public struct GetRenewalPricingInput: Swift.Sendable {
         outpostIdentifier: Swift.String? = nil
     ) {
         self.outpostIdentifier = outpostIdentifier
-    }
-}
-
-extension OutpostsClientTypes {
-
-    public enum QuotePricingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case subscription
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [QuotePricingType] {
-            return [
-                .subscription
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .subscription: return "SUBSCRIPTION"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OutpostsClientTypes {
-
-    /// The pricing details for a subscription.
-    public struct SubscriptionPricingDetails: Swift.Sendable {
-        /// The monthly recurring price.
-        public var monthlyRecurringPrice: Swift.Float?
-        /// The payment option.
-        public var paymentOption: OutpostsClientTypes.PaymentOption?
-        /// The payment term.
-        public var paymentTerm: OutpostsClientTypes.PaymentTerm?
-        /// The upfront price.
-        public var upfrontPrice: Swift.Float?
-
-        public init(
-            monthlyRecurringPrice: Swift.Float? = nil,
-            paymentOption: OutpostsClientTypes.PaymentOption? = nil,
-            paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
-            upfrontPrice: Swift.Float? = nil
-        ) {
-            self.monthlyRecurringPrice = monthlyRecurringPrice
-            self.paymentOption = paymentOption
-            self.paymentTerm = paymentTerm
-            self.upfrontPrice = upfrontPrice
-        }
-    }
-}
-
-extension OutpostsClientTypes {
-
-    /// A pricing option for the specified Outpost.
-    public struct PricingOption: Swift.Sendable {
-        /// The type of pricing model.
-        public var pricingType: OutpostsClientTypes.QuotePricingType?
-        /// The subscription pricing details for this pricing option.
-        public var subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails?
-
-        public init(
-            pricingType: OutpostsClientTypes.QuotePricingType? = nil,
-            subscriptionPricingDetails: OutpostsClientTypes.SubscriptionPricingDetails? = nil
-        ) {
-            self.pricingType = pricingType
-            self.subscriptionPricingDetails = subscriptionPricingDetails
-        }
     }
 }
 
@@ -3157,6 +4056,40 @@ public struct ListCatalogItemsOutput: Swift.Sendable {
     }
 }
 
+public struct ListOrderableInstanceTypesInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+    /// Filters the results by Outpost generation. Specify GENERATION_1 for first-generation rack deployments or GENERATION_2 for second-generation rack deployments.
+    public var outpostGenerationFilter: OutpostsClientTypes.OutpostGeneration?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        outpostGenerationFilter: OutpostsClientTypes.OutpostGeneration? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.outpostGenerationFilter = outpostGenerationFilter
+    }
+}
+
+public struct ListOrderableInstanceTypesOutput: Swift.Sendable {
+    /// Information about the instance types that can be ordered for the Outpost.
+    public var instanceTypes: [OutpostsClientTypes.DetailedInstanceTypeItem]?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceTypes: [OutpostsClientTypes.DetailedInstanceTypeItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceTypes = instanceTypes
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListOrdersInput: Swift.Sendable {
     /// The maximum page size.
     public var maxResults: Swift.Int?
@@ -3282,6 +4215,112 @@ public struct ListOutpostsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.outposts = outposts
+    }
+}
+
+public struct ListQuotesInput: Swift.Sendable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OutpostsClientTypes {
+
+    /// Summary information about a quote.
+    public struct QuoteSummary: Swift.Sendable {
+        /// The ID of the account that owns the quote.
+        public var accountId: Swift.String?
+        /// The country code for the Outpost site location.
+        public var countryCode: Swift.String?
+        /// The date the quote was created.
+        public var createdDate: Foundation.Date?
+        /// The description of the quote.
+        public var description: Swift.String?
+        /// The date the quote expires.
+        public var expirationDate: Foundation.Date?
+        /// The ARN of the Outpost associated with the quote.
+        public var outpostArn: Swift.String?
+        /// The ID of the quote.
+        public var quoteId: Swift.String?
+        /// The configuration and pricing options for the quote.
+        public var quoteOptions: [OutpostsClientTypes.QuoteOption]?
+        /// The status of the quote.
+        public var quoteStatus: OutpostsClientTypes.QuoteStatus?
+        /// The capacity requirements specified in the quote request.
+        public var requestedCapacities: [OutpostsClientTypes.QuoteCapacity]?
+        /// The physical constraints specified in the quote request.
+        public var requestedConstraints: [OutpostsClientTypes.QuoteConstraint]?
+        /// The payment options specified in the quote request.
+        public var requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]?
+        /// The payment terms specified in the quote request.
+        public var requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]?
+        /// A message about the status of the quote.
+        public var statusMessage: Swift.String?
+        /// The ID of the order submitted for the quote.
+        public var submittedOrderId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            countryCode: Swift.String? = nil,
+            createdDate: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expirationDate: Foundation.Date? = nil,
+            outpostArn: Swift.String? = nil,
+            quoteId: Swift.String? = nil,
+            quoteOptions: [OutpostsClientTypes.QuoteOption]? = nil,
+            quoteStatus: OutpostsClientTypes.QuoteStatus? = nil,
+            requestedCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+            requestedConstraints: [OutpostsClientTypes.QuoteConstraint]? = nil,
+            requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]? = nil,
+            requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]? = nil,
+            statusMessage: Swift.String? = nil,
+            submittedOrderId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.countryCode = countryCode
+            self.createdDate = createdDate
+            self.description = description
+            self.expirationDate = expirationDate
+            self.outpostArn = outpostArn
+            self.quoteId = quoteId
+            self.quoteOptions = quoteOptions
+            self.quoteStatus = quoteStatus
+            self.requestedCapacities = requestedCapacities
+            self.requestedConstraints = requestedConstraints
+            self.requestedPaymentOptions = requestedPaymentOptions
+            self.requestedPaymentTerms = requestedPaymentTerms
+            self.statusMessage = statusMessage
+            self.submittedOrderId = submittedOrderId
+        }
+    }
+}
+
+extension OutpostsClientTypes.QuoteSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "QuoteSummary(accountId: \(Swift.String(describing: accountId)), countryCode: \(Swift.String(describing: countryCode)), createdDate: \(Swift.String(describing: createdDate)), expirationDate: \(Swift.String(describing: expirationDate)), outpostArn: \(Swift.String(describing: outpostArn)), quoteId: \(Swift.String(describing: quoteId)), quoteOptions: \(Swift.String(describing: quoteOptions)), quoteStatus: \(Swift.String(describing: quoteStatus)), requestedCapacities: \(Swift.String(describing: requestedCapacities)), requestedConstraints: \(Swift.String(describing: requestedConstraints)), requestedPaymentOptions: \(Swift.String(describing: requestedPaymentOptions)), requestedPaymentTerms: \(Swift.String(describing: requestedPaymentTerms)), statusMessage: \(Swift.String(describing: statusMessage)), submittedOrderId: \(Swift.String(describing: submittedOrderId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListQuotesOutput: Swift.Sendable {
+    /// The pagination token.
+    public var nextToken: Swift.String?
+    /// Information about the quotes.
+    public var quotes: [OutpostsClientTypes.QuoteSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        quotes: [OutpostsClientTypes.QuoteSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.quotes = quotes
     }
 }
 
@@ -3605,6 +4644,62 @@ public struct UpdateOutpostOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateQuoteInput: Swift.Sendable {
+    /// The country code for the Outpost site location.
+    public var countryCode: Swift.String?
+    /// A description for the quote.
+    public var description: Swift.String?
+    /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association.
+    public var outpostIdentifier: Swift.String?
+    /// The ID or ARN of the quote.
+    /// This member is required.
+    public var quoteIdentifier: Swift.String?
+    /// The updated capacity requirements for the quote.
+    public var requestedCapacities: [OutpostsClientTypes.QuoteCapacity]?
+    /// The updated physical constraints for the quote.
+    public var requestedConstraints: [OutpostsClientTypes.QuoteConstraint]?
+    /// The updated payment options to include in the quote pricing.
+    public var requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]?
+    /// The updated payment terms to include in the quote pricing.
+    public var requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]?
+
+    public init(
+        countryCode: Swift.String? = nil,
+        description: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil,
+        quoteIdentifier: Swift.String? = nil,
+        requestedCapacities: [OutpostsClientTypes.QuoteCapacity]? = nil,
+        requestedConstraints: [OutpostsClientTypes.QuoteConstraint]? = nil,
+        requestedPaymentOptions: [OutpostsClientTypes.PaymentOption]? = nil,
+        requestedPaymentTerms: [OutpostsClientTypes.PaymentTerm]? = nil
+    ) {
+        self.countryCode = countryCode
+        self.description = description
+        self.outpostIdentifier = outpostIdentifier
+        self.quoteIdentifier = quoteIdentifier
+        self.requestedCapacities = requestedCapacities
+        self.requestedConstraints = requestedConstraints
+        self.requestedPaymentOptions = requestedPaymentOptions
+        self.requestedPaymentTerms = requestedPaymentTerms
+    }
+}
+
+extension UpdateQuoteInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateQuoteInput(countryCode: \(Swift.String(describing: countryCode)), outpostIdentifier: \(Swift.String(describing: outpostIdentifier)), quoteIdentifier: \(Swift.String(describing: quoteIdentifier)), requestedCapacities: \(Swift.String(describing: requestedCapacities)), requestedConstraints: \(Swift.String(describing: requestedConstraints)), requestedPaymentOptions: \(Swift.String(describing: requestedPaymentOptions)), requestedPaymentTerms: \(Swift.String(describing: requestedPaymentTerms)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateQuoteOutput: Swift.Sendable {
+    /// Information about the updated quote.
+    public var quote: OutpostsClientTypes.Quote?
+
+    public init(
+        quote: OutpostsClientTypes.Quote? = nil
+    ) {
+        self.quote = quote
+    }
+}
+
 public struct UpdateSiteInput: Swift.Sendable {
     /// The description of the site.
     public var description: Swift.String?
@@ -3826,6 +4921,13 @@ extension CreateOutpostInput {
     }
 }
 
+extension CreateQuoteInput {
+
+    static func urlPathProvider(_ value: CreateQuoteInput) -> Swift.String? {
+        return "/quotes"
+    }
+}
+
 extension CreateRenewalInput {
 
     static func urlPathProvider(_ value: CreateRenewalInput) -> Swift.String? {
@@ -3847,6 +4949,16 @@ extension DeleteOutpostInput {
             return nil
         }
         return "/outposts/\(outpostId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteQuoteInput {
+
+    static func urlPathProvider(_ value: DeleteQuoteInput) -> Swift.String? {
+        guard let quoteIdentifier = value.quoteIdentifier else {
+            return nil
+        }
+        return "/quotes/\(quoteIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -3996,6 +5108,16 @@ extension GetOutpostSupportedInstanceTypesInput {
             items.append(assetIdQueryItem)
         }
         return items
+    }
+}
+
+extension GetQuoteInput {
+
+    static func urlPathProvider(_ value: GetQuoteInput) -> Swift.String? {
+        guard let quoteIdentifier = value.quoteIdentifier else {
+            return nil
+        }
+        return "/quotes/\(quoteIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -4240,6 +5362,33 @@ extension ListCatalogItemsInput {
     }
 }
 
+extension ListOrderableInstanceTypesInput {
+
+    static func urlPathProvider(_ value: ListOrderableInstanceTypesInput) -> Swift.String? {
+        return "/instanceTypes"
+    }
+}
+
+extension ListOrderableInstanceTypesInput {
+
+    static func queryItemProvider(_ value: ListOrderableInstanceTypesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let outpostGenerationFilter = value.outpostGenerationFilter {
+            let outpostGenerationFilterQueryItem = Smithy.URIQueryItem(name: "OutpostGenerationFilter".urlPercentEncoding(), value: Swift.String(outpostGenerationFilter.rawValue).urlPercentEncoding())
+            items.append(outpostGenerationFilterQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListOrdersInput {
 
     static func urlPathProvider(_ value: ListOrdersInput) -> Swift.String? {
@@ -4303,6 +5452,29 @@ extension ListOutpostsInput {
                 let queryItem = Smithy.URIQueryItem(name: "AvailabilityZoneFilter".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
                 items.append(queryItem)
             }
+        }
+        return items
+    }
+}
+
+extension ListQuotesInput {
+
+    static func urlPathProvider(_ value: ListQuotesInput) -> Swift.String? {
+        return "/quotes"
+    }
+}
+
+extension ListQuotesInput {
+
+    static func queryItemProvider(_ value: ListQuotesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -4432,6 +5604,16 @@ extension UpdateOutpostInput {
     }
 }
 
+extension UpdateQuoteInput {
+
+    static func urlPathProvider(_ value: UpdateQuoteInput) -> Swift.String? {
+        guard let quoteIdentifier = value.quoteIdentifier else {
+            return nil
+        }
+        return "/quotes/\(quoteIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateSiteInput {
 
     static func urlPathProvider(_ value: UpdateSiteInput) -> Swift.String? {
@@ -4484,6 +5666,20 @@ extension CreateOutpostInput {
         try writer["SiteId"].write(value.siteId)
         try writer["SupportedHardwareType"].write(value.supportedHardwareType)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateQuoteInput {
+
+    static func write(value: CreateQuoteInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["Description"].write(value.description)
+        try writer["OutpostIdentifier"].write(value.outpostIdentifier)
+        try writer["RequestedCapacities"].writeList(value.requestedCapacities, memberWritingClosure: OutpostsClientTypes.QuoteCapacity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedConstraints"].writeList(value.requestedConstraints, memberWritingClosure: OutpostsClientTypes.QuoteConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedPaymentOptions"].writeList(value.requestedPaymentOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OutpostsClientTypes.PaymentOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedPaymentTerms"].writeList(value.requestedPaymentTerms, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OutpostsClientTypes.PaymentTerm>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4562,6 +5758,20 @@ extension UpdateOutpostInput {
     }
 }
 
+extension UpdateQuoteInput {
+
+    static func write(value: UpdateQuoteInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["Description"].write(value.description)
+        try writer["OutpostIdentifier"].write(value.outpostIdentifier)
+        try writer["RequestedCapacities"].writeList(value.requestedCapacities, memberWritingClosure: OutpostsClientTypes.QuoteCapacity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedConstraints"].writeList(value.requestedConstraints, memberWritingClosure: OutpostsClientTypes.QuoteConstraint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedPaymentOptions"].writeList(value.requestedPaymentOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OutpostsClientTypes.PaymentOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestedPaymentTerms"].writeList(value.requestedPaymentTerms, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OutpostsClientTypes.PaymentTerm>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateSiteInput {
 
     static func write(value: UpdateSiteInput?, to writer: SmithyJSON.Writer) throws {
@@ -4635,6 +5845,18 @@ extension CreateOutpostOutput {
     }
 }
 
+extension CreateQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQuoteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQuoteOutput()
+        value.quote = try reader["Quote"].readIfPresent(with: OutpostsClientTypes.Quote.read(from:))
+        return value
+    }
+}
+
 extension CreateRenewalOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRenewalOutput {
@@ -4642,6 +5864,7 @@ extension CreateRenewalOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateRenewalOutput()
+        value.currency = try reader["Currency"].readIfPresent()
         value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
         value.outpostId = try reader["OutpostId"].readIfPresent()
         value.paymentOption = try reader["PaymentOption"].readIfPresent()
@@ -4667,6 +5890,13 @@ extension DeleteOutpostOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteOutpostOutput {
         return DeleteOutpostOutput()
+    }
+}
+
+extension DeleteQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQuoteOutput {
+        return DeleteQuoteOutput()
     }
 }
 
@@ -4794,6 +6024,18 @@ extension GetOutpostSupportedInstanceTypesOutput {
     }
 }
 
+extension GetQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQuoteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQuoteOutput()
+        value.quote = try reader["Quote"].readIfPresent(with: OutpostsClientTypes.Quote.read(from:))
+        return value
+    }
+}
+
 extension GetRenewalPricingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRenewalPricingOutput {
@@ -4898,6 +6140,19 @@ extension ListCatalogItemsOutput {
     }
 }
 
+extension ListOrderableInstanceTypesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOrderableInstanceTypesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOrderableInstanceTypesOutput()
+        value.instanceTypes = try reader["InstanceTypes"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.DetailedInstanceTypeItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListOrdersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOrdersOutput {
@@ -4920,6 +6175,19 @@ extension ListOutpostsOutput {
         var value = ListOutpostsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.outposts = try reader["Outposts"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.Outpost.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListQuotesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListQuotesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListQuotesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.quotes = try reader["Quotes"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5021,6 +6289,18 @@ extension UpdateOutpostOutput {
         let reader = responseReader
         var value = UpdateOutpostOutput()
         value.outpost = try reader["Outpost"].readIfPresent(with: OutpostsClientTypes.Outpost.read(from:))
+        return value
+    }
+}
+
+extension UpdateQuoteOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQuoteOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQuoteOutput()
+        value.quote = try reader["Quote"].readIfPresent(with: OutpostsClientTypes.Quote.read(from:))
         return value
     }
 }
@@ -5136,6 +6416,23 @@ enum CreateOutpostOutputError {
     }
 }
 
+enum CreateQuoteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateRenewalOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5181,6 +6478,23 @@ enum DeleteOutpostOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteQuoteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -5341,6 +6655,23 @@ enum GetOutpostSupportedInstanceTypesOutputError {
     }
 }
 
+enum GetQuoteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRenewalPricingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5477,6 +6808,23 @@ enum ListCatalogItemsOutputError {
     }
 }
 
+enum ListOrderableInstanceTypesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListOrdersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5505,6 +6853,21 @@ enum ListOutpostsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListQuotesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5637,6 +7000,23 @@ enum UpdateOutpostOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateQuoteOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -5875,6 +7255,18 @@ extension OutpostsClientTypes.BlockingInstance {
     }
 }
 
+extension OutpostsClientTypes.CapacitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CapacitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.CapacitySummary()
+        value.existingCapacities = try reader["ExistingCapacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.finalCapacities = try reader["FinalCapacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityChange = try reader["CapacityChange"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OutpostsClientTypes.CapacityTaskFailure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.CapacityTaskFailure {
@@ -5948,6 +7340,20 @@ extension OutpostsClientTypes.ConnectionDetails {
     }
 }
 
+extension OutpostsClientTypes.DetailedInstanceTypeItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.DetailedInstanceTypeItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.DetailedInstanceTypeItem()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.vcpUs = try reader["VCPUs"].readIfPresent()
+        value.memoryInMib = try reader["MemoryInMib"].readIfPresent() ?? 0
+        value.networkPerformance = try reader["NetworkPerformance"].readIfPresent()
+        value.formFactorConfigs = try reader["FormFactorConfigs"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.FormFactorConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OutpostsClientTypes.EC2Capacity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.EC2Capacity {
@@ -5956,6 +7362,17 @@ extension OutpostsClientTypes.EC2Capacity {
         value.family = try reader["Family"].readIfPresent()
         value.maxSize = try reader["MaxSize"].readIfPresent()
         value.quantity = try reader["Quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.FormFactorConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.FormFactorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.FormFactorConfig()
+        value.formFactor = try reader["FormFactor"].readIfPresent()
+        value.outpostGeneration = try reader["OutpostGeneration"].readIfPresent()
         return value
     }
 }
@@ -6062,6 +7479,18 @@ extension OutpostsClientTypes.Order {
     }
 }
 
+extension OutpostsClientTypes.OrderingRequirement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.OrderingRequirement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.OrderingRequirement()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.orderingRequirementType = try reader["OrderingRequirementType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension OutpostsClientTypes.OrderSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.OrderSummary {
@@ -6110,6 +7539,118 @@ extension OutpostsClientTypes.PricingOption {
     }
 }
 
+extension OutpostsClientTypes.Quote {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Quote {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.Quote()
+        value.quoteId = try reader["QuoteId"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.quoteStatus = try reader["QuoteStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.outpostArn = try reader["OutpostArn"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.requestedCapacities = try reader["RequestedCapacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedConstraints = try reader["RequestedConstraints"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedPaymentOptions = try reader["RequestedPaymentOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.PaymentOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedPaymentTerms = try reader["RequestedPaymentTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.PaymentTerm>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.quoteOptions = try reader["QuoteOptions"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.orderingRequirements = try reader["OrderingRequirements"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.OrderingRequirement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.submittedOrderId = try reader["SubmittedOrderId"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.QuoteCapacity {
+
+    static func write(value: OutpostsClientTypes.QuoteCapacity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Quantity"].write(value.quantity)
+        try writer["QuoteCapacityType"].write(value.quoteCapacityType)
+        try writer["Unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.QuoteCapacity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.QuoteCapacity()
+        value.quoteCapacityType = try reader["QuoteCapacityType"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        value.quantity = try reader["Quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.QuoteConstraint {
+
+    static func write(value: OutpostsClientTypes.QuoteConstraint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QuoteConstraintType"].write(value.quoteConstraintType)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.QuoteConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.QuoteConstraint()
+        value.quoteConstraintType = try reader["QuoteConstraintType"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.QuoteOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.QuoteOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.QuoteOption()
+        value.quoteOptionIdentifier = try reader["QuoteOptionIdentifier"].readIfPresent()
+        value.capacities = try reader["Capacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacitySummary = try reader["CapacitySummary"].readIfPresent(with: OutpostsClientTypes.CapacitySummary.read(from:))
+        value.specifications = try reader["Specifications"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pricingOptions = try reader["PricingOptions"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.PricingOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OutpostsClientTypes.QuoteSpecification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.QuoteSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.QuoteSpecification()
+        value.quoteSpecificationType = try reader["QuoteSpecificationType"].readIfPresent()
+        value.existingRackSpecificationDetails = try reader["ExistingRackSpecificationDetails"].readIfPresent(with: OutpostsClientTypes.RackSpecificationDetails.read(from:))
+        value.finalRackSpecificationDetails = try reader["FinalRackSpecificationDetails"].readIfPresent(with: OutpostsClientTypes.RackSpecificationDetails.read(from:))
+        value.serverSpecificationDetails = try reader["ServerSpecificationDetails"].readIfPresent(with: OutpostsClientTypes.ServerSpecificationDetails.read(from:))
+        return value
+    }
+}
+
+extension OutpostsClientTypes.QuoteSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.QuoteSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.QuoteSummary()
+        value.quoteId = try reader["QuoteId"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.quoteStatus = try reader["QuoteStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.outpostArn = try reader["OutpostArn"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.requestedCapacities = try reader["RequestedCapacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteCapacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedConstraints = try reader["RequestedConstraints"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedPaymentOptions = try reader["RequestedPaymentOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.PaymentOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.requestedPaymentTerms = try reader["RequestedPaymentTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<OutpostsClientTypes.PaymentTerm>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.quoteOptions = try reader["QuoteOptions"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.QuoteOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.submittedOrderId = try reader["SubmittedOrderId"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension OutpostsClientTypes.RackPhysicalProperties {
 
     static func write(value: OutpostsClientTypes.RackPhysicalProperties?, to writer: SmithyJSON.Writer) throws {
@@ -6137,6 +7678,40 @@ extension OutpostsClientTypes.RackPhysicalProperties {
         value.fiberOpticCableType = try reader["FiberOpticCableType"].readIfPresent()
         value.opticalStandard = try reader["OpticalStandard"].readIfPresent()
         value.maximumSupportedWeightLbs = try reader["MaximumSupportedWeightLbs"].readIfPresent()
+        return value
+    }
+}
+
+extension OutpostsClientTypes.RackSpecificationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.RackSpecificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.RackSpecificationDetails()
+        value.rackId = try reader["RackId"].readIfPresent()
+        value.rackUse = try reader["RackUse"].readIfPresent()
+        value.rackPowerDrawKva = try reader["RackPowerDrawKva"].readIfPresent()
+        value.rackWeightLbs = try reader["RackWeightLbs"].readIfPresent()
+        value.rackHeightInches = try reader["RackHeightInches"].readIfPresent()
+        value.rackWidthInches = try reader["RackWidthInches"].readIfPresent()
+        value.rackDepthInches = try reader["RackDepthInches"].readIfPresent()
+        value.rackUnitHeight = try reader["RackUnitHeight"].readIfPresent()
+        value.ec2Capacities = try reader["EC2Capacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.EC2Capacity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OutpostsClientTypes.ServerSpecificationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.ServerSpecificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OutpostsClientTypes.ServerSpecificationDetails()
+        value.serverPowerDrawKva = try reader["ServerPowerDrawKva"].readIfPresent()
+        value.serverWeightLbs = try reader["ServerWeightLbs"].readIfPresent()
+        value.serverHeightInches = try reader["ServerHeightInches"].readIfPresent()
+        value.serverWidthInches = try reader["ServerWidthInches"].readIfPresent()
+        value.serverDepthInches = try reader["ServerDepthInches"].readIfPresent()
+        value.rackUnitHeight = try reader["RackUnitHeight"].readIfPresent()
+        value.ec2Capacities = try reader["EC2Capacities"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.EC2Capacity.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6183,6 +7758,7 @@ extension OutpostsClientTypes.Subscription {
         value.orderIds = try reader["OrderIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.beginDate = try reader["BeginDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endDate = try reader["EndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currency = try reader["Currency"].readIfPresent()
         value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
         value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
         return value
@@ -6198,6 +7774,7 @@ extension OutpostsClientTypes.SubscriptionPricingDetails {
         value.paymentTerm = try reader["PaymentTerm"].readIfPresent()
         value.upfrontPrice = try reader["UpfrontPrice"].readIfPresent()
         value.monthlyRecurringPrice = try reader["MonthlyRecurringPrice"].readIfPresent()
+        value.currency = try reader["Currency"].readIfPresent()
         return value
     }
 }

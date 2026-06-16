@@ -202,7 +202,7 @@ public struct DescribeServicesInput: Swift.Sendable {
 
     public init(
         formatVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     ) {
@@ -266,7 +266,7 @@ public struct GetAttributeValuesInput: Swift.Sendable {
 
     public init(
         attributeName: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     ) {
@@ -433,7 +433,7 @@ public struct GetProductsInput: Swift.Sendable {
     public init(
         filters: [PricingClientTypes.Filter]? = nil,
         formatVersion: Swift.String? = nil,
-        maxResults: Swift.Int? = 100,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     ) {
@@ -484,7 +484,7 @@ public struct ListPriceListsInput: Swift.Sendable {
     public init(
         currencyCode: Swift.String? = nil,
         effectiveDate: Foundation.Date? = nil,
-        maxResults: Swift.Int? = 100,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         regionCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil

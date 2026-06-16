@@ -756,6 +756,152 @@ extension CloudWatchClientTypes {
     }
 }
 
+/// This operation attempted to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The operation was denied because either the calling principal lacks the required Amazon Web Services Key Management Service (Amazon Web Services KMS) permission on the key, or the key policy does not grant Amazon CloudWatch the permissions it needs to use the key. Verify that the caller has kms:Decrypt permission on the key, and that the key policy grants the CloudWatch service principal the kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt* permissions described in [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html).
+public struct KmsAccessDeniedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsAccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key is disabled or pending deletion. Re-enable the key (or restore it, if it is pending deletion) and retry the operation.
+public struct KmsKeyDisabledException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key could not be found. Verify that the key Amazon Resource Name (ARN) is correct, that the key exists, and that it is in the same Amazon Web Services Region as the resource.
+public struct KmsKeyNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KmsKeyNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The named resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var resourceId: Swift.String? = nil
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct AssociateDatasetKmsKeyInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset that you want to associate the KMS key with. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+    /// Specifies the Amazon Resource Name (ARN) of the customer managed KMS key to associate with the dataset. The key must be a symmetric encryption KMS key (SYMMETRIC_DEFAULT) in the same Amazon Web Services Region as the dataset. The ARN must be in the format arn:aws:kms:Region:account-id:key/key-id . Key IDs, aliases, and alias ARNs are not accepted. For more information about KMS key ARNs, see [Key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Amazon Web Services Key Management Service Developer Guide.
+    /// This member is required.
+    public var kmsKeyArn: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+        self.kmsKeyArn = kmsKeyArn
+    }
+}
+
+public struct AssociateDatasetKmsKeyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension CloudWatchClientTypes {
 
     /// This array is empty if the API operation was successful for all the rules specified in the request. If the operation could not process one of the rules, the following data is returned for each of those rules.
@@ -955,29 +1101,6 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, Clien
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ConcurrentModificationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1271,35 +1394,6 @@ public struct MissingRequiredParameterException: ClientRuntime.ModeledError, Cli
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-/// The named resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var resourceId: Swift.String? = nil
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -2064,6 +2158,23 @@ public struct DisableInsightRulesOutput: Swift.Sendable {
     }
 }
 
+public struct DisassociateDatasetKmsKeyInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset from which to remove the KMS key association. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+    }
+}
+
+public struct DisassociateDatasetKmsKeyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableAlarmActionsInput: Swift.Sendable {
     /// The names of the alarms.
     /// This member is required.
@@ -2427,6 +2538,39 @@ public struct GetDashboardOutput: Swift.Sendable {
         self.dashboardArn = dashboardArn
         self.dashboardBody = dashboardBody
         self.dashboardName = dashboardName
+    }
+}
+
+public struct GetDatasetInput: Swift.Sendable {
+    /// Specifies the identifier of the dataset to retrieve. For the default dataset, you can specify either default or the full dataset Amazon Resource Name (ARN) in the format arn:aws:cloudwatch:Region:account-id:dataset/default.
+    /// This member is required.
+    public var datasetIdentifier: Swift.String?
+
+    public init(
+        datasetIdentifier: Swift.String? = nil
+    ) {
+        self.datasetIdentifier = datasetIdentifier
+    }
+}
+
+public struct GetDatasetOutput: Swift.Sendable {
+    /// Returns the Amazon Resource Name (ARN) of the dataset, in the format arn:aws:cloudwatch:Region:account-id:dataset/dataset-id .
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Returns the identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// Returns the Amazon Resource Name (ARN) of the customer managed Amazon Web Services KMS key that is currently associated with the dataset, if any. If the dataset is not associated with a customer managed KMS key, this field is not included in the response and the dataset is encrypted at rest using an Amazon Web Services owned key.
+    public var kmsKeyArn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.datasetId = datasetId
+        self.kmsKeyArn = kmsKeyArn
     }
 }
 

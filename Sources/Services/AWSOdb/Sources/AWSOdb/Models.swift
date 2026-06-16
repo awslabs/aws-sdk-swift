@@ -352,6 +352,1973 @@ public struct AssociateIamRoleToResourceOutput: Swift.Sendable {
 
 extension OdbClientTypes {
 
+    /// The Oracle Application Express (APEX) details for an Autonomous Database.
+    public struct AutonomousDatabaseApex: Swift.Sendable {
+        /// The Oracle Application Express (APEX) version of the Autonomous Database.
+        public var apexVersion: Swift.String?
+        /// The Oracle REST Data Services (ORDS) version of the Autonomous Database.
+        public var ordsVersion: Swift.String?
+
+        public init(
+            apexVersion: Swift.String? = nil,
+            ordsVersion: Swift.String? = nil
+        ) {
+            self.apexVersion = apexVersion
+            self.ordsVersion = ordsVersion
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum AutonomousMaintenanceScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case early
+        case regular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutonomousMaintenanceScheduleType] {
+            return [
+                .early,
+                .regular
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .early: return "EARLY"
+            case .regular: return "REGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ComputeModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ecpu
+        case ocpu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeModel] {
+            return [
+                .ecpu,
+                .ocpu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ecpu: return "ECPU"
+            case .ocpu: return "OCPU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A connection string profile for an Autonomous Database.
+    public struct DatabaseConnectionStringProfile: Swift.Sendable {
+        /// The consumer group associated with the connection string profile.
+        public var consumerGroup: Swift.String?
+        /// The user-friendly name of the connection string profile.
+        public var displayName: Swift.String?
+        /// The host name format used in the connection string.
+        public var hostFormat: Swift.String?
+        /// Indicates whether the connection string profile is regional.
+        public var isRegional: Swift.Bool?
+        /// The protocol used by the connection string profile.
+        public var `protocol`: Swift.String?
+        /// The session mode of the connection string profile.
+        public var sessionMode: Swift.String?
+        /// The syntax format of the connection string profile.
+        public var syntaxFormat: Swift.String?
+        /// The TLS authentication method used by the connection string profile.
+        public var tlsAuthentication: Swift.String?
+        /// The connection string value of the profile.
+        public var value: Swift.String?
+
+        public init(
+            consumerGroup: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            hostFormat: Swift.String? = nil,
+            isRegional: Swift.Bool? = nil,
+            `protocol`: Swift.String? = nil,
+            sessionMode: Swift.String? = nil,
+            syntaxFormat: Swift.String? = nil,
+            tlsAuthentication: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.consumerGroup = consumerGroup
+            self.displayName = displayName
+            self.hostFormat = hostFormat
+            self.isRegional = isRegional
+            self.`protocol` = `protocol`
+            self.sessionMode = sessionMode
+            self.syntaxFormat = syntaxFormat
+            self.tlsAuthentication = tlsAuthentication
+            self.value = value
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The connection strings used to connect to an Autonomous Database.
+    public struct AutonomousDatabaseConnectionStrings: Swift.Sendable {
+        /// The list of all connection strings that you can use to connect to the Autonomous Database.
+        public var allConnectionStrings: [Swift.String: Swift.String]?
+        /// The connection string for connecting to the Autonomous Database with a dedicated service.
+        public var dedicated: Swift.String?
+        /// The connection string for the high-priority database service.
+        public var high: Swift.String?
+        /// The connection string for the low-priority database service.
+        public var low: Swift.String?
+        /// The connection string for the medium-priority database service.
+        public var medium: Swift.String?
+        /// The list of connection string profiles for the Autonomous Database.
+        public var profiles: [OdbClientTypes.DatabaseConnectionStringProfile]?
+
+        public init(
+            allConnectionStrings: [Swift.String: Swift.String]? = nil,
+            dedicated: Swift.String? = nil,
+            high: Swift.String? = nil,
+            low: Swift.String? = nil,
+            medium: Swift.String? = nil,
+            profiles: [OdbClientTypes.DatabaseConnectionStringProfile]? = nil
+        ) {
+            self.allConnectionStrings = allConnectionStrings
+            self.dedicated = dedicated
+            self.high = high
+            self.low = low
+            self.medium = medium
+            self.profiles = profiles
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The connection URLs for accessing tools and services for an Autonomous Database.
+    public struct AutonomousDatabaseConnectionUrls: Swift.Sendable {
+        /// The URL for accessing Oracle Application Express (APEX) for the Autonomous Database.
+        public var apexUrl: Swift.String?
+        /// The URL for accessing Oracle Database Transforms for the Autonomous Database.
+        public var databaseTransformsUrl: Swift.String?
+        /// The URL for accessing Oracle Graph Studio for the Autonomous Database.
+        public var graphStudioUrl: Swift.String?
+        /// The URL for accessing the Oracle Machine Learning notebook for the Autonomous Database.
+        public var machineLearningNotebookUrl: Swift.String?
+        /// The URL for accessing Oracle Machine Learning user management for the Autonomous Database.
+        public var machineLearningUserManagementUrl: Swift.String?
+        /// The URL for accessing the MongoDB API for the Autonomous Database.
+        public var mongoDbUrl: Swift.String?
+        /// The URL for accessing Oracle REST Data Services (ORDS) for the Autonomous Database.
+        public var ordsUrl: Swift.String?
+        /// The URL for accessing Oracle Spatial Studio for the Autonomous Database.
+        public var spatialStudioUrl: Swift.String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public var sqlDevWebUrl: Swift.String?
+
+        public init(
+            apexUrl: Swift.String? = nil,
+            databaseTransformsUrl: Swift.String? = nil,
+            graphStudioUrl: Swift.String? = nil,
+            machineLearningNotebookUrl: Swift.String? = nil,
+            machineLearningUserManagementUrl: Swift.String? = nil,
+            mongoDbUrl: Swift.String? = nil,
+            ordsUrl: Swift.String? = nil,
+            spatialStudioUrl: Swift.String? = nil,
+            sqlDevWebUrl: Swift.String? = nil
+        ) {
+            self.apexUrl = apexUrl
+            self.databaseTransformsUrl = databaseTransformsUrl
+            self.graphStudioUrl = graphStudioUrl
+            self.machineLearningNotebookUrl = machineLearningNotebookUrl
+            self.machineLearningUserManagementUrl = machineLearningUserManagementUrl
+            self.mongoDbUrl = mongoDbUrl
+            self.ordsUrl = ordsUrl
+            self.spatialStudioUrl = spatialStudioUrl
+            self.sqlDevWebUrl = sqlDevWebUrl
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure.
+    public struct CustomerContact: Swift.Sendable {
+        /// The email address of the contact.
+        public var email: Swift.String?
+
+        public init(
+            email: Swift.String? = nil
+        ) {
+            self.email = email
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DatabaseEdition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enterpriseEdition
+        case standardEdition
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseEdition] {
+            return [
+                .enterpriseEdition,
+                .standardEdition
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterpriseEdition: return "ENTERPRISE_EDITION"
+            case .standardEdition: return "STANDARD_EDITION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DatabaseManagementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabling
+        case enabled
+        case enabling
+        case failedDisabling
+        case failedEnabling
+        case notEnabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseManagementStatus] {
+            return [
+                .disabling,
+                .enabled,
+                .enabling,
+                .failedDisabling,
+                .failedEnabling,
+                .notEnabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .failedDisabling: return "FAILED_DISABLING"
+            case .failedEnabling: return "FAILED_ENABLING"
+            case .notEnabled: return "NOT_ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DatabaseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clone
+        case regular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseType] {
+            return [
+                .clone,
+                .regular
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clone: return "CLONE"
+            case .regular: return "REGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DataSafeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregistering
+        case failed
+        case notRegistered
+        case registered
+        case registering
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSafeStatus] {
+            return [
+                .deregistering,
+                .failed,
+                .notRegistered,
+                .registered,
+                .registering
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregistering: return "DEREGISTERING"
+            case .failed: return "FAILED"
+            case .notRegistered: return "NOT_REGISTERED"
+            case .registered: return "REGISTERED"
+            case .registering: return "REGISTERING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about a database management tool for an Autonomous Database.
+    public struct DatabaseTool: Swift.Sendable {
+        /// The compute capacity allocated to the database management tool.
+        public var computeCount: Swift.Double?
+        /// Indicates whether the database management tool is enabled.
+        public var isEnabled: Swift.Bool?
+        /// The maximum amount of time, in minutes, that the database management tool can be idle before it is shut down.
+        public var maxIdleTimeInMinutes: Swift.Int?
+        /// The name of the database management tool.
+        public var name: Swift.String?
+
+        public init(
+            computeCount: Swift.Double? = nil,
+            isEnabled: Swift.Bool? = nil,
+            maxIdleTimeInMinutes: Swift.Int? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.computeCount = computeCount
+            self.isEnabled = isEnabled
+            self.maxIdleTimeInMinutes = maxIdleTimeInMinutes
+            self.name = name
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DbWorkload: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ajd
+        case apex
+        case lh
+        case oltp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DbWorkload] {
+            return [
+                .ajd,
+                .apex,
+                .lh,
+                .oltp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ajd: return "AJD"
+            case .apex: return "APEX"
+            case .lh: return "LH"
+            case .oltp: return "OLTP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ExternalIdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compartmentOcid
+        case databaseOcid
+        case tenantOcid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExternalIdType] {
+            return [
+                .compartmentOcid,
+                .databaseOcid,
+                .tenantOcid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compartmentOcid: return "compartment_ocid"
+            case .databaseOcid: return "database_ocid"
+            case .tenantOcid: return "tenant_ocid"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key used for an Autonomous Database.
+    public struct AwsEncryptionKeyConfiguration: Swift.Sendable {
+        /// The type of external identifier associated with the encryption key.
+        public var externalIdType: OdbClientTypes.ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key.
+        public var iamRoleArn: Swift.String?
+        /// The identifier or ARN of the Amazon Web Services KMS key used for encryption.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            externalIdType: OdbClientTypes.ExternalIdType? = nil,
+            iamRoleArn: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the Oracle Cloud Infrastructure (OCI) Vault encryption key used for an Autonomous Database.
+    public struct OciEncryptionKeyConfiguration: Swift.Sendable {
+        /// The Oracle Cloud Identifier (OCID) of the OCI Vault key to use for encryption.
+        /// This member is required.
+        public var kmsKeyId: Swift.String?
+        /// The Oracle Cloud Identifier (OCID) of the OCI Vault that contains the encryption key.
+        /// This member is required.
+        public var vaultId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            vaultId: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+            self.vaultId = vaultId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the Oracle Key Vault (OKV) encryption key used for an Autonomous Database.
+    public struct OkvEncryptionKeyConfiguration: Swift.Sendable {
+        /// The name of the directory that contains the Oracle Key Vault (OKV) certificate.
+        /// This member is required.
+        public var certificateDirectoryName: Swift.String?
+        /// The identifier of the Oracle Key Vault (OKV) certificate.
+        public var certificateId: Swift.String?
+        /// The name of the directory where the Oracle Key Vault (OKV) configuration is stored.
+        /// This member is required.
+        public var directoryName: Swift.String?
+        /// The identifier of the Oracle Key Vault (OKV) key to use for encryption.
+        /// This member is required.
+        public var okvKmsKey: Swift.String?
+        /// The URI of the Oracle Key Vault (OKV) server.
+        /// This member is required.
+        public var okvUri: Swift.String?
+
+        public init(
+            certificateDirectoryName: Swift.String? = nil,
+            certificateId: Swift.String? = nil,
+            directoryName: Swift.String? = nil,
+            okvKmsKey: Swift.String? = nil,
+            okvUri: Swift.String? = nil
+        ) {
+            self.certificateDirectoryName = certificateDirectoryName
+            self.certificateId = certificateId
+            self.directoryName = directoryName
+            self.okvKmsKey = okvKmsKey
+            self.okvUri = okvUri
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the encryption key used for an Autonomous Database. This is a union, so only one of the following members can be specified.
+    public enum EncryptionKeyConfiguration: Swift.Sendable {
+        /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key.
+        case awsencryptionkey(OdbClientTypes.AwsEncryptionKeyConfiguration)
+        /// The configuration of the Oracle Cloud Infrastructure (OCI) Vault encryption key.
+        case ociencryptionkey(OdbClientTypes.OciEncryptionKeyConfiguration)
+        /// The configuration of the Oracle Key Vault (OKV) encryption key.
+        case okvencryptionkey(OdbClientTypes.OkvEncryptionKeyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum EncryptionKeyProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsKms
+        case oci
+        case okv
+        case oracleManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionKeyProvider] {
+            return [
+                .awsKms,
+                .oci,
+                .okv,
+                .oracleManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsKms: return "AWS_KMS"
+            case .oci: return "OCI"
+            case .okv: return "OKV"
+            case .oracleManaged: return "ORACLE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The encryption configuration for an Autonomous Database.
+    public struct EncryptionSummary: Swift.Sendable {
+        /// The configuration of the encryption key used for the Autonomous Database.
+        public var encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfiguration?
+        /// The provider of the encryption key used for the Autonomous Database.
+        public var encryptionKeyProvider: OdbClientTypes.EncryptionKeyProvider?
+
+        public init(
+            encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfiguration? = nil,
+            encryptionKeyProvider: OdbClientTypes.EncryptionKeyProvider? = nil
+        ) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyProvider = encryptionKeyProvider
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum LicenseModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bringYourOwnLicense
+        case licenseIncluded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseModel] {
+            return [
+                .bringYourOwnLicense,
+                .licenseIncluded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bringYourOwnLicense: return "BRING_YOUR_OWN_LICENSE"
+            case .licenseIncluded: return "LICENSE_INCLUDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DisasterRecoveryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adg
+        case backupBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisasterRecoveryType] {
+            return [
+                .adg,
+                .backupBased
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .adg: return "ADG"
+            case .backupBased: return "BACKUP_BASED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum AutonomousDatabaseResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case availableNeedsAttention
+        case backupInProgress
+        case failed
+        case inaccessible
+        case maintenanceInProgress
+        case provisioning
+        case recreating
+        case restarting
+        case restoreFailed
+        case restoreInProgress
+        case roleChangeInProgress
+        case scaleInProgress
+        case standby
+        case starting
+        case stopped
+        case stopping
+        case terminated
+        case terminating
+        case unavailable
+        case updating
+        case upgrading
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutonomousDatabaseResourceStatus] {
+            return [
+                .available,
+                .availableNeedsAttention,
+                .backupInProgress,
+                .failed,
+                .inaccessible,
+                .maintenanceInProgress,
+                .provisioning,
+                .recreating,
+                .restarting,
+                .restoreFailed,
+                .restoreInProgress,
+                .roleChangeInProgress,
+                .scaleInProgress,
+                .standby,
+                .starting,
+                .stopped,
+                .stopping,
+                .terminated,
+                .terminating,
+                .unavailable,
+                .updating,
+                .upgrading
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .availableNeedsAttention: return "AVAILABLE_NEEDS_ATTENTION"
+            case .backupInProgress: return "BACKUP_IN_PROGRESS"
+            case .failed: return "FAILED"
+            case .inaccessible: return "INACCESSIBLE"
+            case .maintenanceInProgress: return "MAINTENANCE_IN_PROGRESS"
+            case .provisioning: return "PROVISIONING"
+            case .recreating: return "RECREATING"
+            case .restarting: return "RESTARTING"
+            case .restoreFailed: return "RESTORE_FAILED"
+            case .restoreInProgress: return "RESTORE_IN_PROGRESS"
+            case .roleChangeInProgress: return "ROLE_CHANGE_IN_PROGRESS"
+            case .scaleInProgress: return "SCALE_IN_PROGRESS"
+            case .standby: return "STANDBY"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .terminated: return "TERMINATED"
+            case .terminating: return "TERMINATING"
+            case .unavailable: return "UNAVAILABLE"
+            case .updating: return "UPDATING"
+            case .upgrading: return "UPGRADING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of a standby Autonomous Database in an Oracle Data Guard configuration.
+    public struct DatabaseStandbySummary: Swift.Sendable {
+        /// The availability domain of the standby Autonomous Database.
+        public var availabilityDomain: Swift.String?
+        /// The time lag, in seconds, between the standby database and the primary database.
+        public var lagTimeInSeconds: Swift.Int?
+        /// The component on the standby Autonomous Database that the current maintenance is being applied to.
+        public var maintenanceTargetComponent: Swift.String?
+        /// The current status of the standby Autonomous Database.
+        public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the standby Autonomous Database, if applicable.
+        public var statusReason: Swift.String?
+        /// The date and time when the Oracle Data Guard role of the standby database last changed.
+        public var timeDataGuardRoleChanged: Foundation.Date?
+        /// The date and time when the disaster recovery role of the standby database last changed.
+        public var timeDisasterRecoveryRoleChanged: Foundation.Date?
+        /// The date and time when the next maintenance of the standby database begins.
+        public var timeMaintenanceBegin: Foundation.Date?
+        /// The date and time when the next maintenance of the standby database ends.
+        public var timeMaintenanceEnd: Foundation.Date?
+
+        public init(
+            availabilityDomain: Swift.String? = nil,
+            lagTimeInSeconds: Swift.Int? = nil,
+            maintenanceTargetComponent: Swift.String? = nil,
+            status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeDataGuardRoleChanged: Foundation.Date? = nil,
+            timeDisasterRecoveryRoleChanged: Foundation.Date? = nil,
+            timeMaintenanceBegin: Foundation.Date? = nil,
+            timeMaintenanceEnd: Foundation.Date? = nil
+        ) {
+            self.availabilityDomain = availabilityDomain
+            self.lagTimeInSeconds = lagTimeInSeconds
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum RepeatCadence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case monthly
+        case oneTime
+        case weekly
+        case yearly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RepeatCadence] {
+            return [
+                .monthly,
+                .oneTime,
+                .weekly,
+                .yearly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .monthly: return "MONTHLY"
+            case .oneTime: return "ONE_TIME"
+            case .weekly: return "WEEKLY"
+            case .yearly: return "YEARLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The long-term backup schedule for an Autonomous Database.
+    public struct LongTermBackupSchedule: Swift.Sendable {
+        /// Indicates whether the long-term backup schedule is disabled.
+        public var isDisabled: Swift.Bool?
+        /// The cadence at which long-term backups are taken.
+        public var repeatCadence: OdbClientTypes.RepeatCadence?
+        /// The retention period, in days, for long-term backups.
+        public var retentionPeriodInDays: Swift.Int?
+        /// The date and time at which the long-term backup is taken.
+        public var timeOfBackup: Foundation.Date?
+
+        public init(
+            isDisabled: Swift.Bool? = nil,
+            repeatCadence: OdbClientTypes.RepeatCadence? = nil,
+            retentionPeriodInDays: Swift.Int? = nil,
+            timeOfBackup: Foundation.Date? = nil
+        ) {
+            self.isDisabled = isDisabled
+            self.repeatCadence = repeatCadence
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.timeOfBackup = timeOfBackup
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum NetServicesArchitecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dedicated
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetServicesArchitecture] {
+            return [
+                .dedicated,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum OpenMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case readOnly
+        case readWrite
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpenMode] {
+            return [
+                .readOnly,
+                .readWrite
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .readOnly: return "READ_ONLY"
+            case .readWrite: return "READ_WRITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum OperationsInsightsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabling
+        case enabled
+        case enabling
+        case failedDisabling
+        case failedEnabling
+        case notEnabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationsInsightsStatus] {
+            return [
+                .disabling,
+                .enabled,
+                .enabling,
+                .failedDisabling,
+                .failedEnabling,
+                .notEnabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .failedDisabling: return "FAILED_DISABLING"
+            case .failedEnabling: return "FAILED_ENABLING"
+            case .notEnabled: return "NOT_ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum PermissionLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case restricted
+        case unrestricted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionLevel] {
+            return [
+                .restricted,
+                .unrestricted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .restricted: return "RESTRICTED"
+            case .unrestricted: return "UNRESTRICTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum RefreshableMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshableMode] {
+            return [
+                .automatic,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum RefreshableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notRefreshing
+        case refreshing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshableStatus] {
+            return [
+                .notRefreshing,
+                .refreshing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRefreshing: return "NOT_REFRESHING"
+            case .refreshing: return "REFRESHING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The disaster recovery configuration for an Autonomous Database.
+    public struct DisasterRecoveryConfiguration: Swift.Sendable {
+        /// The type of disaster recovery configured for the Autonomous Database.
+        public var disasterRecoveryType: OdbClientTypes.DisasterRecoveryType?
+        /// Indicates whether automatic backups are replicated to the disaster recovery database.
+        public var isReplicateAutomaticBackups: Swift.Bool?
+        /// Indicates whether the standby database is a snapshot standby.
+        public var isSnapshotStandby: Swift.Bool?
+        /// The date and time until which the snapshot standby database remains enabled.
+        public var timeSnapshotStandbyEnabledTill: Foundation.Date?
+
+        public init(
+            disasterRecoveryType: OdbClientTypes.DisasterRecoveryType? = nil,
+            isReplicateAutomaticBackups: Swift.Bool? = nil,
+            isSnapshotStandby: Swift.Bool? = nil,
+            timeSnapshotStandbyEnabledTill: Foundation.Date? = nil
+        ) {
+            self.disasterRecoveryType = disasterRecoveryType
+            self.isReplicateAutomaticBackups = isReplicateAutomaticBackups
+            self.isSnapshotStandby = isSnapshotStandby
+            self.timeSnapshotStandbyEnabledTill = timeSnapshotStandbyEnabledTill
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of a resource pool for an Autonomous Database.
+    public struct ResourcePoolSummary: Swift.Sendable {
+        /// The available compute capacity in the resource pool.
+        public var availableComputeCapacity: Swift.Int?
+        /// The available storage capacity in the resource pool, in TB.
+        public var availableStorageCapacityInTBs: Swift.Double?
+        /// Indicates whether the resource pool is disabled.
+        public var isDisabled: Swift.Bool?
+        /// The number of Autonomous Databases that the resource pool can contain.
+        public var poolSize: Swift.Int?
+        /// The total storage size of the resource pool, in terabytes (TB).
+        public var poolStorageSizeInTBs: Swift.Int?
+        /// The total compute capacity of the resource pool.
+        public var totalComputeCapacity: Swift.Int?
+
+        public init(
+            availableComputeCapacity: Swift.Int? = nil,
+            availableStorageCapacityInTBs: Swift.Double? = nil,
+            isDisabled: Swift.Bool? = nil,
+            poolSize: Swift.Int? = nil,
+            poolStorageSizeInTBs: Swift.Int? = nil,
+            totalComputeCapacity: Swift.Int? = nil
+        ) {
+            self.availableComputeCapacity = availableComputeCapacity
+            self.availableStorageCapacityInTBs = availableStorageCapacityInTBs
+            self.isDisabled = isDisabled
+            self.poolSize = poolSize
+            self.poolStorageSizeInTBs = poolStorageSizeInTBs
+            self.totalComputeCapacity = totalComputeCapacity
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DataGuardRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case backupCopy
+        case disabledStandby
+        case primary
+        case snapshotStandby
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataGuardRole] {
+            return [
+                .backupCopy,
+                .disabledStandby,
+                .primary,
+                .snapshotStandby,
+                .standby
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .backupCopy: return "BACKUP_COPY"
+            case .disabledStandby: return "DISABLED_STANDBY"
+            case .primary: return "PRIMARY"
+            case .snapshotStandby: return "SNAPSHOT_STANDBY"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum DayOfWeekName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfWeekName] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// An enumeration of days of the week used for scheduling maintenance windows.
+    public struct DayOfWeek: Swift.Sendable {
+        /// The name of the day of the week.
+        public var name: OdbClientTypes.DayOfWeekName?
+
+        public init(
+            name: OdbClientTypes.DayOfWeekName? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The scheduled start and stop times for an Autonomous Database on a specific day of the week.
+    public struct ScheduledOperationDetails: Swift.Sendable {
+        /// The day of the week on which the scheduled operation occurs.
+        /// This member is required.
+        public var dayOfWeek: OdbClientTypes.DayOfWeek?
+        /// The scheduled start time for the Autonomous Database, in UTC.
+        public var scheduledStartTime: Swift.String?
+        /// The scheduled stop time for the Autonomous Database, in UTC.
+        public var scheduledStopTime: Swift.String?
+
+        public init(
+            dayOfWeek: OdbClientTypes.DayOfWeek? = nil,
+            scheduledStartTime: Swift.String? = nil,
+            scheduledStopTime: Swift.String? = nil
+        ) {
+            self.dayOfWeek = dayOfWeek
+            self.scheduledStartTime = scheduledStartTime
+            self.scheduledStopTime = scheduledStopTime
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum StandbyAllowlistedIpsSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notApplicable
+        case primary
+        case separate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandbyAllowlistedIpsSource] {
+            return [
+                .notApplicable,
+                .primary,
+                .separate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notApplicable: return "NOT_APPLICABLE"
+            case .primary: return "PRIMARY"
+            case .separate: return "SEPARATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Autonomous Database.
+    public struct AutonomousDatabase: Swift.Sendable {
+        /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
+        public var actualUsedDataStorageSizeInTBs: Swift.Double?
+        /// The amount of storage currently allocated to the Autonomous Database, in TB.
+        public var allocatedStorageSizeInTBs: Swift.Double?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public var allowlistedIps: [Swift.String]?
+        /// The Oracle Application Express (APEX) details for the Autonomous Database.
+        public var apexDetails: OdbClientTypes.AutonomousDatabaseApex?
+        /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+        public var autoRefreshFrequencyInSeconds: Swift.Int?
+        /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+        public var autoRefreshPointLagInSeconds: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the Autonomous Database.
+        public var autonomousDatabaseArn: Swift.String?
+        /// The unique identifier of the Autonomous Database.
+        public var autonomousDatabaseId: Swift.String?
+        /// The maintenance schedule type for the Autonomous Database.
+        public var autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType?
+        /// The Availability Zone where the Autonomous Database is located.
+        public var availabilityZone: Swift.String?
+        /// The unique identifier of the Availability Zone where the Autonomous Database is located.
+        public var availabilityZoneId: Swift.String?
+        /// The list of Oracle Database software versions to which the Autonomous Database can be upgraded.
+        public var availableUpgradeVersions: [Swift.String]?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public var backupRetentionPeriodInDays: Swift.Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public var byolComputeCountLimit: Swift.Int?
+        /// The character set of the Autonomous Database.
+        public var characterSet: Swift.String?
+        /// The list of tablespace identifiers to clone for the Autonomous Database.
+        public var cloneTableSpaceList: [Swift.Int]?
+        /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), assigned to the Autonomous Database.
+        public var computeCount: Swift.Float?
+        /// The compute model of the Autonomous Database, either ECPU or OCPU.
+        public var computeModel: OdbClientTypes.ComputeModel?
+        /// The connection string details for the Autonomous Database.
+        public var connectionStringDetails: OdbClientTypes.AutonomousDatabaseConnectionStrings?
+        /// The connection URLs for accessing tools and services for the Autonomous Database.
+        public var connectionUrls: OdbClientTypes.AutonomousDatabaseConnectionUrls?
+        /// The number of CPU cores allocated to the Autonomous Database.
+        public var cpuCoreCount: Swift.Int?
+        /// The date and time when the Autonomous Database was created.
+        public var createdAt: Foundation.Date?
+        /// The list of customer contacts that receive operational notifications from Oracle for the Autonomous Database.
+        public var customerContacts: [OdbClientTypes.CustomerContact]?
+        /// The status of the Oracle Data Safe registration for the Autonomous Database.
+        public var dataSafeStatus: OdbClientTypes.DataSafeStatus?
+        /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous Database.
+        public var dataStorageSizeInGBs: Swift.Int?
+        /// The size, in terabytes (TB), of the data volume allocated for the Autonomous Database.
+        public var dataStorageSizeInTBs: Swift.Double?
+        /// The Oracle Database edition of the Autonomous Database.
+        public var databaseEdition: OdbClientTypes.DatabaseEdition?
+        /// The status of Oracle Database Management for the Autonomous Database.
+        public var databaseManagementStatus: OdbClientTypes.DatabaseManagementStatus?
+        /// The type of the Autonomous Database, either a regular database or a clone.
+        public var databaseType: OdbClientTypes.DatabaseType?
+        /// The name of the Autonomous Database.
+        public var dbName: Swift.String?
+        /// The list of database management tools enabled for the Autonomous Database.
+        public var dbToolsDetails: [OdbClientTypes.DatabaseTool]?
+        /// The Oracle Database software version of the Autonomous Database.
+        public var dbVersion: Swift.String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public var dbWorkload: OdbClientTypes.DbWorkload?
+        /// The user-friendly name of the Autonomous Database.
+        public var displayName: Swift.String?
+        /// The encryption configuration for the Autonomous Database.
+        public var encryptionSummary: OdbClientTypes.EncryptionSummary?
+        /// The amount of time, in seconds, that the data in the Autonomous Database is behind the data in the primary database.
+        public var failedDataRecoveryInSeconds: Swift.Int?
+        /// The size of the in-memory area of the Autonomous Database, in GB.
+        public var inMemoryAreaInGBs: Swift.Int?
+        /// Indicates whether automatic scaling of the compute resources is enabled for the Autonomous Database.
+        public var isAutoScalingEnabled: Swift.Bool?
+        /// Indicates whether automatic scaling of the storage is enabled for the Autonomous Database.
+        public var isAutoScalingForStorageEnabled: Swift.Bool?
+        /// Indicates whether the backup retention period of the Autonomous Database is locked.
+        public var isBackupRetentionLocked: Swift.Bool?
+        /// Indicates whether local Oracle Data Guard is enabled for the Autonomous Database.
+        public var isLocalDataGuardEnabled: Swift.Bool?
+        /// Indicates whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public var isMtlsConnectionRequired: Swift.Bool?
+        /// Indicates whether reconnecting the refreshable clone to its source Autonomous Database is enabled.
+        public var isReconnectCloneEnabled: Swift.Bool?
+        /// Indicates whether the Autonomous Database is a refreshable clone.
+        public var isRefreshableClone: Swift.Bool?
+        /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous Database.
+        public var isRemoteDataGuardEnabled: Swift.Bool?
+        /// The Oracle license model that applies to the Autonomous Database.
+        public var licenseModel: OdbClientTypes.LicenseModel?
+        /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+        public var localAdgAutoFailoverMaxDataLossLimit: Swift.Int?
+        /// The type of local disaster recovery configured for the Autonomous Database.
+        public var localDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType?
+        /// The details of the local standby Autonomous Database in an Oracle Data Guard configuration.
+        public var localStandbyDb: OdbClientTypes.DatabaseStandbySummary?
+        /// The long-term backup schedule for the Autonomous Database.
+        public var longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule?
+        /// The component on the Autonomous Database that the current maintenance is being applied to.
+        public var maintenanceTargetComponent: Swift.String?
+        /// The amount of memory allocated per Oracle Compute Unit, in GB.
+        public var memoryPerOracleComputeUnitInGBs: Swift.Int?
+        /// The national character set of the Autonomous Database.
+        public var ncharacterSet: Swift.String?
+        /// The Oracle Net Services architecture of the Autonomous Database, either dedicated or shared.
+        public var netServicesArchitecture: OdbClientTypes.NetServicesArchitecture?
+        /// The date and time of the next scheduled long-term backup of the Autonomous Database.
+        public var nextLongTermBackupTimeStamp: Foundation.Date?
+        /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated with the Autonomous Database.
+        public var ociResourceAnchorName: Swift.String?
+        /// The URL for accessing the OCI console page for the Autonomous Database.
+        public var ociUrl: Swift.String?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+        public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with the Autonomous Database.
+        public var odbNetworkArn: Swift.String?
+        /// The unique identifier of the ODB network associated with the Autonomous Database.
+        public var odbNetworkId: Swift.String?
+        /// The mode in which the Autonomous Database is open, either read-only or read/write.
+        public var openMode: OdbClientTypes.OpenMode?
+        /// The status of Oracle Operations Insights for the Autonomous Database.
+        public var operationsInsightsStatus: OdbClientTypes.OperationsInsightsStatus?
+        /// The list of unique identifiers of the peer Autonomous Databases.
+        public var peerDbIds: [Swift.String]?
+        /// The progress of the current operation on the Autonomous Database, as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The permission level of the Autonomous Database.
+        public var permissionLevel: OdbClientTypes.PermissionLevel?
+        /// The private endpoint for the Autonomous Database.
+        public var privateEndpoint: Swift.String?
+        /// The private endpoint IP address for the Autonomous Database.
+        public var privateEndpointIp: Swift.String?
+        /// The private endpoint label for the Autonomous Database.
+        public var privateEndpointLabel: Swift.String?
+        /// The list of CPU core counts that you can provision for the Autonomous Database.
+        public var provisionableCpus: [Swift.Int]?
+        /// The refresh mode of the refreshable clone Autonomous Database.
+        public var refreshableMode: OdbClientTypes.RefreshableMode?
+        /// The refresh status of the refreshable clone Autonomous Database.
+        public var refreshableStatus: OdbClientTypes.RefreshableStatus?
+        /// The configuration of the remote disaster recovery for the Autonomous Database.
+        public var remoteDisasterRecoveryConfiguration: OdbClientTypes.DisasterRecoveryConfiguration?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public var resourcePoolLeaderId: Swift.String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public var resourcePoolSummary: OdbClientTypes.ResourcePoolSummary?
+        /// The Oracle Data Guard role of the Autonomous Database.
+        public var role: OdbClientTypes.DataGuardRole?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public var scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]?
+        /// The URL for accessing the Oracle service console for the Autonomous Database.
+        public var serviceConsoleUrl: Swift.String?
+        /// The unique identifier of the source from which the Autonomous Database was created.
+        public var sourceId: Swift.String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public var sqlWebDeveloperUrl: Swift.String?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public var standbyAllowlistedIps: [Swift.String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public var standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource?
+        /// The details of the standby Autonomous Database in a cross-Region Oracle Data Guard configuration.
+        public var standbyDb: OdbClientTypes.DatabaseStandbySummary?
+        /// The current status of the Autonomous Database.
+        public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public var statusReason: Swift.String?
+        /// The date and time when the Oracle Data Guard role of the Autonomous Database last changed.
+        public var timeDataGuardRoleChanged: Foundation.Date?
+        /// The date and time when the inactive Always Free Autonomous Database is scheduled to be automatically deleted.
+        public var timeDeletionOfFreeAutonomousDatabase: Foundation.Date?
+        /// The date and time when the disaster recovery role of the Autonomous Database last changed.
+        public var timeDisasterRecoveryRoleChanged: Foundation.Date?
+        /// The date and time when local Oracle Data Guard was enabled for the Autonomous Database.
+        public var timeLocalDataGuardEnabled: Foundation.Date?
+        /// The date and time when the next maintenance of the Autonomous Database begins.
+        public var timeMaintenanceBegin: Foundation.Date?
+        /// The date and time when the next maintenance of the Autonomous Database ends.
+        public var timeMaintenanceEnd: Foundation.Date?
+        /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+        public var timeOfAutoRefreshStart: Foundation.Date?
+        /// The date and time of the last backup of the Autonomous Database.
+        public var timeOfLastBackup: Foundation.Date?
+        /// The date and time of the last failover operation for the Autonomous Database.
+        public var timeOfLastFailover: Foundation.Date?
+        /// The date and time of the last refresh of the refreshable clone Autonomous Database.
+        public var timeOfLastRefresh: Foundation.Date?
+        /// The date and time as of which the data in the refreshable clone Autonomous Database is current.
+        public var timeOfLastRefreshPoint: Foundation.Date?
+        /// The date and time of the last switchover operation for the Autonomous Database.
+        public var timeOfLastSwitchover: Foundation.Date?
+        /// The date and time of the next scheduled refresh of the refreshable clone Autonomous Database.
+        public var timeOfNextRefresh: Foundation.Date?
+        /// The date and time when the Always Free Autonomous Database is scheduled to be stopped because of inactivity.
+        public var timeReclamationOfFreeAutonomousDatabase: Foundation.Date?
+        /// The date and time when the Autonomous Database was restored after deletion.
+        public var timeUndeleted: Foundation.Date?
+        /// The date and time until which reconnecting the refreshable clone to its source Autonomous Database is allowed.
+        public var timeUntilReconnectCloneEnabled: Foundation.Date?
+        /// The total amount of backup storage used by the Autonomous Database, in GB.
+        public var totalBackupStorageSizeInGBs: Swift.Double?
+        /// The amount of data storage currently in use by the Autonomous Database, in GB.
+        public var usedDataStorageSizeInGBs: Swift.Int?
+        /// The amount of data storage currently in use by the Autonomous Database, in TB.
+        public var usedDataStorageSizeInTBs: Swift.Double?
+
+        public init(
+            actualUsedDataStorageSizeInTBs: Swift.Double? = nil,
+            allocatedStorageSizeInTBs: Swift.Double? = nil,
+            allowlistedIps: [Swift.String]? = nil,
+            apexDetails: OdbClientTypes.AutonomousDatabaseApex? = nil,
+            autoRefreshFrequencyInSeconds: Swift.Int? = nil,
+            autoRefreshPointLagInSeconds: Swift.Int? = nil,
+            autonomousDatabaseArn: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            availableUpgradeVersions: [Swift.String]? = nil,
+            backupRetentionPeriodInDays: Swift.Int? = nil,
+            byolComputeCountLimit: Swift.Int? = nil,
+            characterSet: Swift.String? = nil,
+            cloneTableSpaceList: [Swift.Int]? = nil,
+            computeCount: Swift.Float? = nil,
+            computeModel: OdbClientTypes.ComputeModel? = nil,
+            connectionStringDetails: OdbClientTypes.AutonomousDatabaseConnectionStrings? = nil,
+            connectionUrls: OdbClientTypes.AutonomousDatabaseConnectionUrls? = nil,
+            cpuCoreCount: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            customerContacts: [OdbClientTypes.CustomerContact]? = nil,
+            dataSafeStatus: OdbClientTypes.DataSafeStatus? = nil,
+            dataStorageSizeInGBs: Swift.Int? = nil,
+            dataStorageSizeInTBs: Swift.Double? = nil,
+            databaseEdition: OdbClientTypes.DatabaseEdition? = nil,
+            databaseManagementStatus: OdbClientTypes.DatabaseManagementStatus? = nil,
+            databaseType: OdbClientTypes.DatabaseType? = nil,
+            dbName: Swift.String? = nil,
+            dbToolsDetails: [OdbClientTypes.DatabaseTool]? = nil,
+            dbVersion: Swift.String? = nil,
+            dbWorkload: OdbClientTypes.DbWorkload? = nil,
+            displayName: Swift.String? = nil,
+            encryptionSummary: OdbClientTypes.EncryptionSummary? = nil,
+            failedDataRecoveryInSeconds: Swift.Int? = nil,
+            inMemoryAreaInGBs: Swift.Int? = nil,
+            isAutoScalingEnabled: Swift.Bool? = nil,
+            isAutoScalingForStorageEnabled: Swift.Bool? = nil,
+            isBackupRetentionLocked: Swift.Bool? = nil,
+            isLocalDataGuardEnabled: Swift.Bool? = nil,
+            isMtlsConnectionRequired: Swift.Bool? = nil,
+            isReconnectCloneEnabled: Swift.Bool? = nil,
+            isRefreshableClone: Swift.Bool? = nil,
+            isRemoteDataGuardEnabled: Swift.Bool? = nil,
+            licenseModel: OdbClientTypes.LicenseModel? = nil,
+            localAdgAutoFailoverMaxDataLossLimit: Swift.Int? = nil,
+            localDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType? = nil,
+            localStandbyDb: OdbClientTypes.DatabaseStandbySummary? = nil,
+            longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule? = nil,
+            maintenanceTargetComponent: Swift.String? = nil,
+            memoryPerOracleComputeUnitInGBs: Swift.Int? = nil,
+            ncharacterSet: Swift.String? = nil,
+            netServicesArchitecture: OdbClientTypes.NetServicesArchitecture? = nil,
+            nextLongTermBackupTimeStamp: Foundation.Date? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
+            odbNetworkId: Swift.String? = nil,
+            openMode: OdbClientTypes.OpenMode? = nil,
+            operationsInsightsStatus: OdbClientTypes.OperationsInsightsStatus? = nil,
+            peerDbIds: [Swift.String]? = nil,
+            percentProgress: Swift.Float? = nil,
+            permissionLevel: OdbClientTypes.PermissionLevel? = nil,
+            privateEndpoint: Swift.String? = nil,
+            privateEndpointIp: Swift.String? = nil,
+            privateEndpointLabel: Swift.String? = nil,
+            provisionableCpus: [Swift.Int]? = nil,
+            refreshableMode: OdbClientTypes.RefreshableMode? = nil,
+            refreshableStatus: OdbClientTypes.RefreshableStatus? = nil,
+            remoteDisasterRecoveryConfiguration: OdbClientTypes.DisasterRecoveryConfiguration? = nil,
+            resourcePoolLeaderId: Swift.String? = nil,
+            resourcePoolSummary: OdbClientTypes.ResourcePoolSummary? = nil,
+            role: OdbClientTypes.DataGuardRole? = nil,
+            scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]? = nil,
+            serviceConsoleUrl: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sqlWebDeveloperUrl: Swift.String? = nil,
+            standbyAllowlistedIps: [Swift.String]? = nil,
+            standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource? = nil,
+            standbyDb: OdbClientTypes.DatabaseStandbySummary? = nil,
+            status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeDataGuardRoleChanged: Foundation.Date? = nil,
+            timeDeletionOfFreeAutonomousDatabase: Foundation.Date? = nil,
+            timeDisasterRecoveryRoleChanged: Foundation.Date? = nil,
+            timeLocalDataGuardEnabled: Foundation.Date? = nil,
+            timeMaintenanceBegin: Foundation.Date? = nil,
+            timeMaintenanceEnd: Foundation.Date? = nil,
+            timeOfAutoRefreshStart: Foundation.Date? = nil,
+            timeOfLastBackup: Foundation.Date? = nil,
+            timeOfLastFailover: Foundation.Date? = nil,
+            timeOfLastRefresh: Foundation.Date? = nil,
+            timeOfLastRefreshPoint: Foundation.Date? = nil,
+            timeOfLastSwitchover: Foundation.Date? = nil,
+            timeOfNextRefresh: Foundation.Date? = nil,
+            timeReclamationOfFreeAutonomousDatabase: Foundation.Date? = nil,
+            timeUndeleted: Foundation.Date? = nil,
+            timeUntilReconnectCloneEnabled: Foundation.Date? = nil,
+            totalBackupStorageSizeInGBs: Swift.Double? = nil,
+            usedDataStorageSizeInGBs: Swift.Int? = nil,
+            usedDataStorageSizeInTBs: Swift.Double? = nil
+        ) {
+            self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
+            self.allowlistedIps = allowlistedIps
+            self.apexDetails = apexDetails
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.availableUpgradeVersions = availableUpgradeVersions
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.characterSet = characterSet
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.computeCount = computeCount
+            self.computeModel = computeModel
+            self.connectionStringDetails = connectionStringDetails
+            self.connectionUrls = connectionUrls
+            self.cpuCoreCount = cpuCoreCount
+            self.createdAt = createdAt
+            self.customerContacts = customerContacts
+            self.dataSafeStatus = dataSafeStatus
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.databaseEdition = databaseEdition
+            self.databaseManagementStatus = databaseManagementStatus
+            self.databaseType = databaseType
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionSummary = encryptionSummary
+            self.failedDataRecoveryInSeconds = failedDataRecoveryInSeconds
+            self.inMemoryAreaInGBs = inMemoryAreaInGBs
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.isReconnectCloneEnabled = isReconnectCloneEnabled
+            self.isRefreshableClone = isRefreshableClone
+            self.isRemoteDataGuardEnabled = isRemoteDataGuardEnabled
+            self.licenseModel = licenseModel
+            self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+            self.localDisasterRecoveryType = localDisasterRecoveryType
+            self.localStandbyDb = localStandbyDb
+            self.longTermBackupSchedule = longTermBackupSchedule
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.memoryPerOracleComputeUnitInGBs = memoryPerOracleComputeUnitInGBs
+            self.ncharacterSet = ncharacterSet
+            self.netServicesArchitecture = netServicesArchitecture
+            self.nextLongTermBackupTimeStamp = nextLongTermBackupTimeStamp
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.openMode = openMode
+            self.operationsInsightsStatus = operationsInsightsStatus
+            self.peerDbIds = peerDbIds
+            self.percentProgress = percentProgress
+            self.permissionLevel = permissionLevel
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.provisionableCpus = provisionableCpus
+            self.refreshableMode = refreshableMode
+            self.refreshableStatus = refreshableStatus
+            self.remoteDisasterRecoveryConfiguration = remoteDisasterRecoveryConfiguration
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.role = role
+            self.scheduledOperations = scheduledOperations
+            self.serviceConsoleUrl = serviceConsoleUrl
+            self.sourceId = sourceId
+            self.sqlWebDeveloperUrl = sqlWebDeveloperUrl
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.standbyDb = standbyDb
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDeletionOfFreeAutonomousDatabase = timeDeletionOfFreeAutonomousDatabase
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeLocalDataGuardEnabled = timeLocalDataGuardEnabled
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+            self.timeOfLastBackup = timeOfLastBackup
+            self.timeOfLastFailover = timeOfLastFailover
+            self.timeOfLastRefresh = timeOfLastRefresh
+            self.timeOfLastRefreshPoint = timeOfLastRefreshPoint
+            self.timeOfLastSwitchover = timeOfLastSwitchover
+            self.timeOfNextRefresh = timeOfNextRefresh
+            self.timeReclamationOfFreeAutonomousDatabase = timeReclamationOfFreeAutonomousDatabase
+            self.timeUndeleted = timeUndeleted
+            self.timeUntilReconnectCloneEnabled = timeUntilReconnectCloneEnabled
+            self.totalBackupStorageSizeInGBs = totalBackupStorageSizeInGBs
+            self.usedDataStorageSizeInGBs = usedDataStorageSizeInGBs
+            self.usedDataStorageSizeInTBs = usedDataStorageSizeInTBs
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum AutonomousDatabaseBackupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutonomousDatabaseBackupStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum AutonomousDatabaseBackupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cumulativeIncremental
+        case full
+        case incremental
+        case longterm
+        case rollForwardImageCopy
+        case virtualFull
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutonomousDatabaseBackupType] {
+            return [
+                .cumulativeIncremental,
+                .full,
+                .incremental,
+                .longterm,
+                .rollForwardImageCopy,
+                .virtualFull
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cumulativeIncremental: return "CUMULATIVE_INCREMENTAL"
+            case .full: return "FULL"
+            case .incremental: return "INCREMENTAL"
+            case .longterm: return "LONGTERM"
+            case .rollForwardImageCopy: return "ROLL_FORWARD_IMAGE_COPY"
+            case .virtualFull: return "VIRTUAL_FULL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Autonomous Database backup.
+    public struct AutonomousDatabaseBackup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+        public var autonomousDatabaseBackupArn: Swift.String?
+        /// The unique identifier of the Autonomous Database backup.
+        public var autonomousDatabaseBackupId: Swift.String?
+        /// The unique identifier of the Autonomous Database that the backup was created from.
+        public var autonomousDatabaseId: Swift.String?
+        /// The Oracle Database software version of the Autonomous Database backup.
+        public var dbVersion: Swift.String?
+        /// The user-friendly name of the Autonomous Database backup.
+        public var displayName: Swift.String?
+        /// Indicates whether the backup was created automatically.
+        public var isAutomatic: Swift.Bool?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+        public var ocid: Swift.String?
+        /// The retention period, in days, for the Autonomous Database backup.
+        public var retentionPeriodInDays: Swift.Int?
+        /// The size of the Autonomous Database backup, in terabytes (TB).
+        public var sizeInTBs: Swift.Double?
+        /// The current status of the Autonomous Database backup.
+        public var status: OdbClientTypes.AutonomousDatabaseBackupStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public var statusReason: Swift.String?
+        /// The date and time until which the Autonomous Database backup is available for restore.
+        public var timeAvailableTill: Foundation.Date?
+        /// The date and time when the Autonomous Database backup ended.
+        public var timeEnded: Foundation.Date?
+        /// The date and time when the Autonomous Database backup started.
+        public var timeStarted: Foundation.Date?
+        /// The type of the Autonomous Database backup.
+        public var type: OdbClientTypes.AutonomousDatabaseBackupType?
+
+        public init(
+            autonomousDatabaseBackupArn: Swift.String? = nil,
+            autonomousDatabaseBackupId: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            dbVersion: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            isAutomatic: Swift.Bool? = nil,
+            ocid: Swift.String? = nil,
+            retentionPeriodInDays: Swift.Int? = nil,
+            sizeInTBs: Swift.Double? = nil,
+            status: OdbClientTypes.AutonomousDatabaseBackupStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeAvailableTill: Foundation.Date? = nil,
+            timeEnded: Foundation.Date? = nil,
+            timeStarted: Foundation.Date? = nil,
+            type: OdbClientTypes.AutonomousDatabaseBackupType? = nil
+        ) {
+            self.autonomousDatabaseBackupArn = autonomousDatabaseBackupArn
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.dbVersion = dbVersion
+            self.displayName = displayName
+            self.isAutomatic = isAutomatic
+            self.ocid = ocid
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.sizeInTBs = sizeInTBs
+            self.status = status
+            self.statusReason = statusReason
+            self.timeAvailableTill = timeAvailableTill
+            self.timeEnded = timeEnded
+            self.timeStarted = timeStarted
+            self.type = type
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of an Autonomous Database backup.
+    public struct AutonomousDatabaseBackupSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Autonomous Database backup.
+        public var autonomousDatabaseBackupArn: Swift.String?
+        /// The unique identifier of the Autonomous Database backup.
+        public var autonomousDatabaseBackupId: Swift.String?
+        /// The unique identifier of the Autonomous Database that the backup was created from.
+        public var autonomousDatabaseId: Swift.String?
+        /// The Oracle Database software version of the Autonomous Database backup.
+        public var dbVersion: Swift.String?
+        /// The user-friendly name of the Autonomous Database backup.
+        public var displayName: Swift.String?
+        /// Indicates whether the backup was created automatically.
+        public var isAutomatic: Swift.Bool?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database backup.
+        public var ocid: Swift.String?
+        /// The retention period, in days, for the Autonomous Database backup.
+        public var retentionPeriodInDays: Swift.Int?
+        /// The size of the Autonomous Database backup, in terabytes (TB).
+        public var sizeInTBs: Swift.Double?
+        /// The current status of the Autonomous Database backup.
+        public var status: OdbClientTypes.AutonomousDatabaseBackupStatus?
+        /// Additional information about the current status of the Autonomous Database backup, if applicable.
+        public var statusReason: Swift.String?
+        /// The date and time until which the Autonomous Database backup is available for restore.
+        public var timeAvailableTill: Foundation.Date?
+        /// The date and time when the Autonomous Database backup ended.
+        public var timeEnded: Foundation.Date?
+        /// The date and time when the Autonomous Database backup started.
+        public var timeStarted: Foundation.Date?
+        /// The type of the Autonomous Database backup.
+        public var type: OdbClientTypes.AutonomousDatabaseBackupType?
+
+        public init(
+            autonomousDatabaseBackupArn: Swift.String? = nil,
+            autonomousDatabaseBackupId: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            dbVersion: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            isAutomatic: Swift.Bool? = nil,
+            ocid: Swift.String? = nil,
+            retentionPeriodInDays: Swift.Int? = nil,
+            sizeInTBs: Swift.Double? = nil,
+            status: OdbClientTypes.AutonomousDatabaseBackupStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeAvailableTill: Foundation.Date? = nil,
+            timeEnded: Foundation.Date? = nil,
+            timeStarted: Foundation.Date? = nil,
+            type: OdbClientTypes.AutonomousDatabaseBackupType? = nil
+        ) {
+            self.autonomousDatabaseBackupArn = autonomousDatabaseBackupArn
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.dbVersion = dbVersion
+            self.displayName = displayName
+            self.isAutomatic = isAutomatic
+            self.ocid = ocid
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.sizeInTBs = sizeInTBs
+            self.status = status
+            self.statusReason = statusReason
+            self.timeAvailableTill = timeAvailableTill
+            self.timeEnded = timeEnded
+            self.timeStarted = timeStarted
+            self.type = type
+        }
+    }
+}
+
+/// You have exceeded the service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unqiue identifier of the service quota that was exceeded.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The identifier of the resource that exceeded the service quota.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource that exceeded the service quota.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+public struct CreateAutonomousDatabaseBackupInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to back up.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// A client-provided token to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The user-friendly name for the Autonomous Database backup.
+    public var displayName: Swift.String?
+    /// The retention period, in days, for the Autonomous Database backup.
+    public var retentionPeriodInDays: Swift.Int?
+    /// The list of resource tags to apply to the Autonomous Database backup. Each tag is a key-value pair with no predefined name, type, or namespace.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        retentionPeriodInDays: Swift.Int? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.retentionPeriodInDays = retentionPeriodInDays
+        self.tags = tags
+    }
+}
+
+extension OdbClientTypes {
+
     public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case failed
@@ -390,6 +2357,1917 @@ extension OdbClientTypes {
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+public struct CreateAutonomousDatabaseBackupOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database backup that was created.
+    /// This member is required.
+    public var autonomousDatabaseBackupId: Swift.String?
+    /// The user-friendly name of the Autonomous Database backup that was created.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database backup.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the Autonomous Database backup, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseBackupId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct DeleteAutonomousDatabaseBackupInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database backup to delete.
+    /// This member is required.
+    public var autonomousDatabaseBackupId: Swift.String?
+
+    public init(
+        autonomousDatabaseBackupId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+    }
+}
+
+public struct DeleteAutonomousDatabaseBackupOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAutonomousDatabaseBackupInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database backup to retrieve information about.
+    /// This member is required.
+    public var autonomousDatabaseBackupId: Swift.String?
+
+    public init(
+        autonomousDatabaseBackupId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+    }
+}
+
+public struct GetAutonomousDatabaseBackupOutput: Swift.Sendable {
+    /// The details of the requested Autonomous Database backup.
+    public var autonomousDatabaseBackup: OdbClientTypes.AutonomousDatabaseBackup?
+
+    public init(
+        autonomousDatabaseBackup: OdbClientTypes.AutonomousDatabaseBackup? = nil
+    ) {
+        self.autonomousDatabaseBackup = autonomousDatabaseBackup
+    }
+}
+
+public struct ListAutonomousDatabaseBackupsInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database whose backups you want to list.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+    /// The status of the Autonomous Database backups to return results for.
+    public var status: OdbClientTypes.AutonomousDatabaseBackupStatus?
+    /// The type of the Autonomous Database backups to return results for.
+    public var type: OdbClientTypes.AutonomousDatabaseBackupType?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseBackupStatus? = nil,
+        type: OdbClientTypes.AutonomousDatabaseBackupType? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct ListAutonomousDatabaseBackupsOutput: Swift.Sendable {
+    /// The list of Autonomous Database backups along with their properties.
+    /// This member is required.
+    public var autonomousDatabaseBackups: [OdbClientTypes.AutonomousDatabaseBackupSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseBackups: [OdbClientTypes.AutonomousDatabaseBackupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseBackups = autonomousDatabaseBackups
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateAutonomousDatabaseBackupInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database backup to update.
+    /// This member is required.
+    public var autonomousDatabaseBackupId: Swift.String?
+    /// The retention period, in days, for the Autonomous Database backup.
+    public var retentionPeriodInDays: Swift.Int?
+
+    public init(
+        autonomousDatabaseBackupId: Swift.String? = nil,
+        retentionPeriodInDays: Swift.Int? = nil
+    ) {
+        self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+        self.retentionPeriodInDays = retentionPeriodInDays
+    }
+}
+
+public struct UpdateAutonomousDatabaseBackupOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database backup that was updated.
+    /// This member is required.
+    public var autonomousDatabaseBackupId: Swift.String?
+    /// The user-friendly name of the Autonomous Database backup.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database backup.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the current status of the Autonomous Database backup, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseBackupId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of an available character set for Autonomous Databases.
+    public struct AutonomousDatabaseCharacterSetSummary: Swift.Sendable {
+        /// The name of the character set.
+        public var characterSet: Swift.String?
+
+        public init(
+            characterSet: Swift.String? = nil
+        ) {
+            self.characterSet = characterSet
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of an Autonomous Database.
+    public struct AutonomousDatabaseSummary: Swift.Sendable {
+        /// The actual amount of data storage currently in use by the Autonomous Database, in TB.
+        public var actualUsedDataStorageSizeInTBs: Swift.Double?
+        /// The amount of storage currently allocated to the Autonomous Database, in TB.
+        public var allocatedStorageSizeInTBs: Swift.Double?
+        /// The list of IP addresses that are allowed to access the Autonomous Database.
+        public var allowlistedIps: [Swift.String]?
+        /// The Oracle Application Express (APEX) details for the Autonomous Database.
+        public var apexDetails: OdbClientTypes.AutonomousDatabaseApex?
+        /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+        public var autoRefreshFrequencyInSeconds: Swift.Int?
+        /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+        public var autoRefreshPointLagInSeconds: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the Autonomous Database.
+        public var autonomousDatabaseArn: Swift.String?
+        /// The unique identifier of the Autonomous Database.
+        public var autonomousDatabaseId: Swift.String?
+        /// The maintenance schedule type for the Autonomous Database.
+        public var autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType?
+        /// The Availability Zone where the Autonomous Database is located.
+        public var availabilityZone: Swift.String?
+        /// The unique identifier of the Availability Zone where the Autonomous Database is located.
+        public var availabilityZoneId: Swift.String?
+        /// The list of Oracle Database software versions to which the Autonomous Database can be upgraded.
+        public var availableUpgradeVersions: [Swift.String]?
+        /// The retention period, in days, for automatic backups of the Autonomous Database.
+        public var backupRetentionPeriodInDays: Swift.Int?
+        /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+        public var byolComputeCountLimit: Swift.Int?
+        /// The character set of the Autonomous Database.
+        public var characterSet: Swift.String?
+        /// The list of tablespace identifiers to clone for the Autonomous Database.
+        public var cloneTableSpaceList: [Swift.Int]?
+        /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), assigned to the Autonomous Database.
+        public var computeCount: Swift.Float?
+        /// The compute model of the Autonomous Database, either ECPU or OCPU.
+        public var computeModel: OdbClientTypes.ComputeModel?
+        /// The connection string details for the Autonomous Database.
+        public var connectionStringDetails: OdbClientTypes.AutonomousDatabaseConnectionStrings?
+        /// The connection URLs for accessing tools and services for the Autonomous Database.
+        public var connectionUrls: OdbClientTypes.AutonomousDatabaseConnectionUrls?
+        /// The number of CPU cores allocated to the Autonomous Database.
+        public var cpuCoreCount: Swift.Int?
+        /// The date and time when the Autonomous Database was created.
+        public var createdAt: Foundation.Date?
+        /// The list of customer contacts that receive operational notifications from Oracle for the Autonomous Database.
+        public var customerContacts: [OdbClientTypes.CustomerContact]?
+        /// The status of the Oracle Data Safe registration for the Autonomous Database.
+        public var dataSafeStatus: OdbClientTypes.DataSafeStatus?
+        /// The size, in gigabytes (GB), of the data volume allocated for the Autonomous Database.
+        public var dataStorageSizeInGBs: Swift.Int?
+        /// The size, in terabytes (TB), of the data volume allocated for the Autonomous Database.
+        public var dataStorageSizeInTBs: Swift.Double?
+        /// The Oracle Database edition of the Autonomous Database.
+        public var databaseEdition: OdbClientTypes.DatabaseEdition?
+        /// The status of Oracle Database Management for the Autonomous Database.
+        public var databaseManagementStatus: OdbClientTypes.DatabaseManagementStatus?
+        /// The type of the Autonomous Database, either a regular database or a clone.
+        public var databaseType: OdbClientTypes.DatabaseType?
+        /// The name of the Autonomous Database.
+        public var dbName: Swift.String?
+        /// The list of database management tools enabled for the Autonomous Database.
+        public var dbToolsDetails: [OdbClientTypes.DatabaseTool]?
+        /// The Oracle Database software version of the Autonomous Database.
+        public var dbVersion: Swift.String?
+        /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+        public var dbWorkload: OdbClientTypes.DbWorkload?
+        /// The user-friendly name of the Autonomous Database.
+        public var displayName: Swift.String?
+        /// The encryption configuration for the Autonomous Database.
+        public var encryptionSummary: OdbClientTypes.EncryptionSummary?
+        /// The amount of time, in seconds, that the data in the Autonomous Database is behind the data in the primary database.
+        public var failedDataRecoveryInSeconds: Swift.Int?
+        /// The size of the in-memory area of the Autonomous Database, in GB.
+        public var inMemoryAreaInGBs: Swift.Int?
+        /// Indicates whether automatic scaling of the compute resources is enabled for the Autonomous Database.
+        public var isAutoScalingEnabled: Swift.Bool?
+        /// Indicates whether automatic scaling of the storage is enabled for the Autonomous Database.
+        public var isAutoScalingForStorageEnabled: Swift.Bool?
+        /// Indicates whether the backup retention period of the Autonomous Database is locked.
+        public var isBackupRetentionLocked: Swift.Bool?
+        /// Indicates whether local Oracle Data Guard is enabled for the Autonomous Database.
+        public var isLocalDataGuardEnabled: Swift.Bool?
+        /// Indicates whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+        public var isMtlsConnectionRequired: Swift.Bool?
+        /// Indicates whether reconnecting the refreshable clone to its source Autonomous Database is enabled.
+        public var isReconnectCloneEnabled: Swift.Bool?
+        /// Indicates whether the Autonomous Database is a refreshable clone.
+        public var isRefreshableClone: Swift.Bool?
+        /// Indicates whether remote Oracle Data Guard is enabled for the Autonomous Database.
+        public var isRemoteDataGuardEnabled: Swift.Bool?
+        /// The Oracle license model that applies to the Autonomous Database.
+        public var licenseModel: OdbClientTypes.LicenseModel?
+        /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+        public var localAdgAutoFailoverMaxDataLossLimit: Swift.Int?
+        /// The type of local disaster recovery configured for the Autonomous Database.
+        public var localDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType?
+        /// The details of the local standby Autonomous Database in an Oracle Data Guard configuration.
+        public var localStandbyDb: OdbClientTypes.DatabaseStandbySummary?
+        /// The long-term backup schedule for the Autonomous Database.
+        public var longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule?
+        /// The component on the Autonomous Database that the current maintenance is being applied to.
+        public var maintenanceTargetComponent: Swift.String?
+        /// The amount of memory allocated per Oracle Compute Unit, in GB.
+        public var memoryPerOracleComputeUnitInGBs: Swift.Int?
+        /// The national character set of the Autonomous Database.
+        public var ncharacterSet: Swift.String?
+        /// The Oracle Net Services architecture of the Autonomous Database, either dedicated or shared.
+        public var netServicesArchitecture: OdbClientTypes.NetServicesArchitecture?
+        /// The date and time of the next scheduled long-term backup of the Autonomous Database.
+        public var nextLongTermBackupTimeStamp: Foundation.Date?
+        /// The name of the Oracle Cloud Infrastructure (OCI) resource anchor associated with the Autonomous Database.
+        public var ociResourceAnchorName: Swift.String?
+        /// The URL for accessing the OCI console page for the Autonomous Database.
+        public var ociUrl: Swift.String?
+        /// The Oracle Cloud Identifier (OCID) of the Autonomous Database.
+        public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with the Autonomous Database.
+        public var odbNetworkArn: Swift.String?
+        /// The unique identifier of the ODB network associated with the Autonomous Database.
+        public var odbNetworkId: Swift.String?
+        /// The mode in which the Autonomous Database is open, either read-only or read/write.
+        public var openMode: OdbClientTypes.OpenMode?
+        /// The status of Oracle Operations Insights for the Autonomous Database.
+        public var operationsInsightsStatus: OdbClientTypes.OperationsInsightsStatus?
+        /// The list of unique identifiers of the peer Autonomous Databases.
+        public var peerDbIds: [Swift.String]?
+        /// The progress of the current operation on the Autonomous Database, as a percentage.
+        public var percentProgress: Swift.Float?
+        /// The permission level of the Autonomous Database.
+        public var permissionLevel: OdbClientTypes.PermissionLevel?
+        /// The private endpoint for the Autonomous Database.
+        public var privateEndpoint: Swift.String?
+        /// The private endpoint IP address for the Autonomous Database.
+        public var privateEndpointIp: Swift.String?
+        /// The private endpoint label for the Autonomous Database.
+        public var privateEndpointLabel: Swift.String?
+        /// The list of CPU core counts that you can provision for the Autonomous Database.
+        public var provisionableCpus: [Swift.Int]?
+        /// The refresh mode of the refreshable clone Autonomous Database.
+        public var refreshableMode: OdbClientTypes.RefreshableMode?
+        /// The refresh status of the refreshable clone Autonomous Database.
+        public var refreshableStatus: OdbClientTypes.RefreshableStatus?
+        /// The configuration of the remote disaster recovery for the Autonomous Database.
+        public var remoteDisasterRecoveryConfiguration: OdbClientTypes.DisasterRecoveryConfiguration?
+        /// The unique identifier of the resource pool leader Autonomous Database.
+        public var resourcePoolLeaderId: Swift.String?
+        /// The configuration of the resource pool for the Autonomous Database.
+        public var resourcePoolSummary: OdbClientTypes.ResourcePoolSummary?
+        /// The Oracle Data Guard role of the Autonomous Database.
+        public var role: OdbClientTypes.DataGuardRole?
+        /// The list of scheduled start and stop times for the Autonomous Database.
+        public var scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]?
+        /// The URL for accessing the Oracle service console for the Autonomous Database.
+        public var serviceConsoleUrl: Swift.String?
+        /// The unique identifier of the source from which the Autonomous Database was created.
+        public var sourceId: Swift.String?
+        /// The URL for accessing Oracle SQL Developer Web for the Autonomous Database.
+        public var sqlWebDeveloperUrl: Swift.String?
+        /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+        public var standbyAllowlistedIps: [Swift.String]?
+        /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+        public var standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource?
+        /// The details of the standby Autonomous Database in a cross-Region Oracle Data Guard configuration.
+        public var standbyDb: OdbClientTypes.DatabaseStandbySummary?
+        /// The current status of the Autonomous Database.
+        public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+        /// Additional information about the current status of the Autonomous Database, if applicable.
+        public var statusReason: Swift.String?
+        /// The date and time when the Oracle Data Guard role of the Autonomous Database last changed.
+        public var timeDataGuardRoleChanged: Foundation.Date?
+        /// The date and time when the inactive Always Free Autonomous Database is scheduled to be automatically deleted.
+        public var timeDeletionOfFreeAutonomousDatabase: Foundation.Date?
+        /// The date and time when the disaster recovery role of the Autonomous Database last changed.
+        public var timeDisasterRecoveryRoleChanged: Foundation.Date?
+        /// The date and time when local Oracle Data Guard was enabled for the Autonomous Database.
+        public var timeLocalDataGuardEnabled: Foundation.Date?
+        /// The date and time when the next maintenance of the Autonomous Database begins.
+        public var timeMaintenanceBegin: Foundation.Date?
+        /// The date and time when the next maintenance of the Autonomous Database ends.
+        public var timeMaintenanceEnd: Foundation.Date?
+        /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+        public var timeOfAutoRefreshStart: Foundation.Date?
+        /// The date and time of the last backup of the Autonomous Database.
+        public var timeOfLastBackup: Foundation.Date?
+        /// The date and time of the last failover operation for the Autonomous Database.
+        public var timeOfLastFailover: Foundation.Date?
+        /// The date and time of the last refresh of the refreshable clone Autonomous Database.
+        public var timeOfLastRefresh: Foundation.Date?
+        /// The date and time as of which the data in the refreshable clone Autonomous Database is current.
+        public var timeOfLastRefreshPoint: Foundation.Date?
+        /// The date and time of the last switchover operation for the Autonomous Database.
+        public var timeOfLastSwitchover: Foundation.Date?
+        /// The date and time of the next scheduled refresh of the refreshable clone Autonomous Database.
+        public var timeOfNextRefresh: Foundation.Date?
+        /// The date and time when the Always Free Autonomous Database is scheduled to be stopped because of inactivity.
+        public var timeReclamationOfFreeAutonomousDatabase: Foundation.Date?
+        /// The date and time when the Autonomous Database was restored after deletion.
+        public var timeUndeleted: Foundation.Date?
+        /// The date and time until which reconnecting the refreshable clone to its source Autonomous Database is allowed.
+        public var timeUntilReconnectCloneEnabled: Foundation.Date?
+        /// The total amount of backup storage used by the Autonomous Database, in GB.
+        public var totalBackupStorageSizeInGBs: Swift.Double?
+        /// The amount of data storage currently in use by the Autonomous Database, in GB.
+        public var usedDataStorageSizeInGBs: Swift.Int?
+        /// The amount of data storage currently in use by the Autonomous Database, in TB.
+        public var usedDataStorageSizeInTBs: Swift.Double?
+
+        public init(
+            actualUsedDataStorageSizeInTBs: Swift.Double? = nil,
+            allocatedStorageSizeInTBs: Swift.Double? = nil,
+            allowlistedIps: [Swift.String]? = nil,
+            apexDetails: OdbClientTypes.AutonomousDatabaseApex? = nil,
+            autoRefreshFrequencyInSeconds: Swift.Int? = nil,
+            autoRefreshPointLagInSeconds: Swift.Int? = nil,
+            autonomousDatabaseArn: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            availableUpgradeVersions: [Swift.String]? = nil,
+            backupRetentionPeriodInDays: Swift.Int? = nil,
+            byolComputeCountLimit: Swift.Int? = nil,
+            characterSet: Swift.String? = nil,
+            cloneTableSpaceList: [Swift.Int]? = nil,
+            computeCount: Swift.Float? = nil,
+            computeModel: OdbClientTypes.ComputeModel? = nil,
+            connectionStringDetails: OdbClientTypes.AutonomousDatabaseConnectionStrings? = nil,
+            connectionUrls: OdbClientTypes.AutonomousDatabaseConnectionUrls? = nil,
+            cpuCoreCount: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            customerContacts: [OdbClientTypes.CustomerContact]? = nil,
+            dataSafeStatus: OdbClientTypes.DataSafeStatus? = nil,
+            dataStorageSizeInGBs: Swift.Int? = nil,
+            dataStorageSizeInTBs: Swift.Double? = nil,
+            databaseEdition: OdbClientTypes.DatabaseEdition? = nil,
+            databaseManagementStatus: OdbClientTypes.DatabaseManagementStatus? = nil,
+            databaseType: OdbClientTypes.DatabaseType? = nil,
+            dbName: Swift.String? = nil,
+            dbToolsDetails: [OdbClientTypes.DatabaseTool]? = nil,
+            dbVersion: Swift.String? = nil,
+            dbWorkload: OdbClientTypes.DbWorkload? = nil,
+            displayName: Swift.String? = nil,
+            encryptionSummary: OdbClientTypes.EncryptionSummary? = nil,
+            failedDataRecoveryInSeconds: Swift.Int? = nil,
+            inMemoryAreaInGBs: Swift.Int? = nil,
+            isAutoScalingEnabled: Swift.Bool? = nil,
+            isAutoScalingForStorageEnabled: Swift.Bool? = nil,
+            isBackupRetentionLocked: Swift.Bool? = nil,
+            isLocalDataGuardEnabled: Swift.Bool? = nil,
+            isMtlsConnectionRequired: Swift.Bool? = nil,
+            isReconnectCloneEnabled: Swift.Bool? = nil,
+            isRefreshableClone: Swift.Bool? = nil,
+            isRemoteDataGuardEnabled: Swift.Bool? = nil,
+            licenseModel: OdbClientTypes.LicenseModel? = nil,
+            localAdgAutoFailoverMaxDataLossLimit: Swift.Int? = nil,
+            localDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType? = nil,
+            localStandbyDb: OdbClientTypes.DatabaseStandbySummary? = nil,
+            longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule? = nil,
+            maintenanceTargetComponent: Swift.String? = nil,
+            memoryPerOracleComputeUnitInGBs: Swift.Int? = nil,
+            ncharacterSet: Swift.String? = nil,
+            netServicesArchitecture: OdbClientTypes.NetServicesArchitecture? = nil,
+            nextLongTermBackupTimeStamp: Foundation.Date? = nil,
+            ociResourceAnchorName: Swift.String? = nil,
+            ociUrl: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
+            odbNetworkId: Swift.String? = nil,
+            openMode: OdbClientTypes.OpenMode? = nil,
+            operationsInsightsStatus: OdbClientTypes.OperationsInsightsStatus? = nil,
+            peerDbIds: [Swift.String]? = nil,
+            percentProgress: Swift.Float? = nil,
+            permissionLevel: OdbClientTypes.PermissionLevel? = nil,
+            privateEndpoint: Swift.String? = nil,
+            privateEndpointIp: Swift.String? = nil,
+            privateEndpointLabel: Swift.String? = nil,
+            provisionableCpus: [Swift.Int]? = nil,
+            refreshableMode: OdbClientTypes.RefreshableMode? = nil,
+            refreshableStatus: OdbClientTypes.RefreshableStatus? = nil,
+            remoteDisasterRecoveryConfiguration: OdbClientTypes.DisasterRecoveryConfiguration? = nil,
+            resourcePoolLeaderId: Swift.String? = nil,
+            resourcePoolSummary: OdbClientTypes.ResourcePoolSummary? = nil,
+            role: OdbClientTypes.DataGuardRole? = nil,
+            scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]? = nil,
+            serviceConsoleUrl: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sqlWebDeveloperUrl: Swift.String? = nil,
+            standbyAllowlistedIps: [Swift.String]? = nil,
+            standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource? = nil,
+            standbyDb: OdbClientTypes.DatabaseStandbySummary? = nil,
+            status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            timeDataGuardRoleChanged: Foundation.Date? = nil,
+            timeDeletionOfFreeAutonomousDatabase: Foundation.Date? = nil,
+            timeDisasterRecoveryRoleChanged: Foundation.Date? = nil,
+            timeLocalDataGuardEnabled: Foundation.Date? = nil,
+            timeMaintenanceBegin: Foundation.Date? = nil,
+            timeMaintenanceEnd: Foundation.Date? = nil,
+            timeOfAutoRefreshStart: Foundation.Date? = nil,
+            timeOfLastBackup: Foundation.Date? = nil,
+            timeOfLastFailover: Foundation.Date? = nil,
+            timeOfLastRefresh: Foundation.Date? = nil,
+            timeOfLastRefreshPoint: Foundation.Date? = nil,
+            timeOfLastSwitchover: Foundation.Date? = nil,
+            timeOfNextRefresh: Foundation.Date? = nil,
+            timeReclamationOfFreeAutonomousDatabase: Foundation.Date? = nil,
+            timeUndeleted: Foundation.Date? = nil,
+            timeUntilReconnectCloneEnabled: Foundation.Date? = nil,
+            totalBackupStorageSizeInGBs: Swift.Double? = nil,
+            usedDataStorageSizeInGBs: Swift.Int? = nil,
+            usedDataStorageSizeInTBs: Swift.Double? = nil
+        ) {
+            self.actualUsedDataStorageSizeInTBs = actualUsedDataStorageSizeInTBs
+            self.allocatedStorageSizeInTBs = allocatedStorageSizeInTBs
+            self.allowlistedIps = allowlistedIps
+            self.apexDetails = apexDetails
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.availableUpgradeVersions = availableUpgradeVersions
+            self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+            self.byolComputeCountLimit = byolComputeCountLimit
+            self.characterSet = characterSet
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.computeCount = computeCount
+            self.computeModel = computeModel
+            self.connectionStringDetails = connectionStringDetails
+            self.connectionUrls = connectionUrls
+            self.cpuCoreCount = cpuCoreCount
+            self.createdAt = createdAt
+            self.customerContacts = customerContacts
+            self.dataSafeStatus = dataSafeStatus
+            self.dataStorageSizeInGBs = dataStorageSizeInGBs
+            self.dataStorageSizeInTBs = dataStorageSizeInTBs
+            self.databaseEdition = databaseEdition
+            self.databaseManagementStatus = databaseManagementStatus
+            self.databaseType = databaseType
+            self.dbName = dbName
+            self.dbToolsDetails = dbToolsDetails
+            self.dbVersion = dbVersion
+            self.dbWorkload = dbWorkload
+            self.displayName = displayName
+            self.encryptionSummary = encryptionSummary
+            self.failedDataRecoveryInSeconds = failedDataRecoveryInSeconds
+            self.inMemoryAreaInGBs = inMemoryAreaInGBs
+            self.isAutoScalingEnabled = isAutoScalingEnabled
+            self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+            self.isBackupRetentionLocked = isBackupRetentionLocked
+            self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+            self.isMtlsConnectionRequired = isMtlsConnectionRequired
+            self.isReconnectCloneEnabled = isReconnectCloneEnabled
+            self.isRefreshableClone = isRefreshableClone
+            self.isRemoteDataGuardEnabled = isRemoteDataGuardEnabled
+            self.licenseModel = licenseModel
+            self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+            self.localDisasterRecoveryType = localDisasterRecoveryType
+            self.localStandbyDb = localStandbyDb
+            self.longTermBackupSchedule = longTermBackupSchedule
+            self.maintenanceTargetComponent = maintenanceTargetComponent
+            self.memoryPerOracleComputeUnitInGBs = memoryPerOracleComputeUnitInGBs
+            self.ncharacterSet = ncharacterSet
+            self.netServicesArchitecture = netServicesArchitecture
+            self.nextLongTermBackupTimeStamp = nextLongTermBackupTimeStamp
+            self.ociResourceAnchorName = ociResourceAnchorName
+            self.ociUrl = ociUrl
+            self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
+            self.odbNetworkId = odbNetworkId
+            self.openMode = openMode
+            self.operationsInsightsStatus = operationsInsightsStatus
+            self.peerDbIds = peerDbIds
+            self.percentProgress = percentProgress
+            self.permissionLevel = permissionLevel
+            self.privateEndpoint = privateEndpoint
+            self.privateEndpointIp = privateEndpointIp
+            self.privateEndpointLabel = privateEndpointLabel
+            self.provisionableCpus = provisionableCpus
+            self.refreshableMode = refreshableMode
+            self.refreshableStatus = refreshableStatus
+            self.remoteDisasterRecoveryConfiguration = remoteDisasterRecoveryConfiguration
+            self.resourcePoolLeaderId = resourcePoolLeaderId
+            self.resourcePoolSummary = resourcePoolSummary
+            self.role = role
+            self.scheduledOperations = scheduledOperations
+            self.serviceConsoleUrl = serviceConsoleUrl
+            self.sourceId = sourceId
+            self.sqlWebDeveloperUrl = sqlWebDeveloperUrl
+            self.standbyAllowlistedIps = standbyAllowlistedIps
+            self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+            self.standbyDb = standbyDb
+            self.status = status
+            self.statusReason = statusReason
+            self.timeDataGuardRoleChanged = timeDataGuardRoleChanged
+            self.timeDeletionOfFreeAutonomousDatabase = timeDeletionOfFreeAutonomousDatabase
+            self.timeDisasterRecoveryRoleChanged = timeDisasterRecoveryRoleChanged
+            self.timeLocalDataGuardEnabled = timeLocalDataGuardEnabled
+            self.timeMaintenanceBegin = timeMaintenanceBegin
+            self.timeMaintenanceEnd = timeMaintenanceEnd
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+            self.timeOfLastBackup = timeOfLastBackup
+            self.timeOfLastFailover = timeOfLastFailover
+            self.timeOfLastRefresh = timeOfLastRefresh
+            self.timeOfLastRefreshPoint = timeOfLastRefreshPoint
+            self.timeOfLastSwitchover = timeOfLastSwitchover
+            self.timeOfNextRefresh = timeOfNextRefresh
+            self.timeReclamationOfFreeAutonomousDatabase = timeReclamationOfFreeAutonomousDatabase
+            self.timeUndeleted = timeUndeleted
+            self.timeUntilReconnectCloneEnabled = timeUntilReconnectCloneEnabled
+            self.totalBackupStorageSizeInGBs = totalBackupStorageSizeInGBs
+            self.usedDataStorageSizeInGBs = usedDataStorageSizeInGBs
+            self.usedDataStorageSizeInTBs = usedDataStorageSizeInTBs
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of a peer database of an Autonomous Database.
+    public struct AutonomousDatabasePeerSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the peer Autonomous Database.
+        public var autonomousDatabaseArn: Swift.String?
+        /// The unique identifier of the peer Autonomous Database.
+        public var autonomousDatabaseId: Swift.String?
+        /// The Oracle Cloud Identifier (OCID) of the peer Autonomous Database.
+        public var ocid: Swift.String?
+        /// The Amazon Web Services Region where the peer Autonomous Database is located.
+        public var region: Swift.String?
+
+        public init(
+            autonomousDatabaseArn: Swift.String? = nil,
+            autonomousDatabaseId: Swift.String? = nil,
+            ocid: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.autonomousDatabaseArn = autonomousDatabaseArn
+            self.autonomousDatabaseId = autonomousDatabaseId
+            self.ocid = ocid
+            self.region = region
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use for an Autonomous Database.
+    public struct AwsEncryptionKeyConfigurationInput: Swift.Sendable {
+        /// The type of external identifier associated with the encryption key.
+        public var externalIdType: OdbClientTypes.ExternalIdType?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that grants access to the KMS key.
+        public var iamRoleArn: Swift.String?
+        /// The identifier or ARN of the Amazon Web Services KMS key to use for encryption.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            externalIdType: OdbClientTypes.ExternalIdType? = nil,
+            iamRoleArn: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.externalIdType = externalIdType
+            self.iamRoleArn = iamRoleArn
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration of the encryption key to use for an Autonomous Database. This is a union, so only one of the following members can be specified.
+    public enum EncryptionKeyConfigurationInput: Swift.Sendable {
+        /// The configuration of the Amazon Web Services Key Management Service (KMS) encryption key to use.
+        case awsencryptionkey(OdbClientTypes.AwsEncryptionKeyConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum EncryptionKeyProviderInput: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsKms
+        case oracleManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionKeyProviderInput] {
+            return [
+                .awsKms,
+                .oracleManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsKms: return "AWS_KMS"
+            case .oracleManaged: return "ORACLE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum SourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case backupFromId
+        case backupFromTimestamp
+        case cloneToRefreshable
+        case crossRegionDataguard
+        case crossRegionDisasterRecovery
+        case database
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceType] {
+            return [
+                .backupFromId,
+                .backupFromTimestamp,
+                .cloneToRefreshable,
+                .crossRegionDataguard,
+                .crossRegionDisasterRecovery,
+                .database,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .backupFromId: return "BACKUP_FROM_ID"
+            case .backupFromTimestamp: return "BACKUP_FROM_TIMESTAMP"
+            case .cloneToRefreshable: return "CLONE_TO_REFRESHABLE"
+            case .crossRegionDataguard: return "CROSS_REGION_DATAGUARD"
+            case .crossRegionDisasterRecovery: return "CROSS_REGION_DISASTER_RECOVERY"
+            case .database: return "DATABASE"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum CloneType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case metadata
+        case partial
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloneType] {
+            return [
+                .full,
+                .metadata,
+                .partial
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .metadata: return "METADATA"
+            case .partial: return "PARTIAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database as a refreshable clone.
+    public struct CloneToRefreshableConfiguration: Swift.Sendable {
+        /// The frequency, in seconds, at which the refreshable clone is automatically refreshed.
+        public var autoRefreshFrequencyInSeconds: Swift.Int?
+        /// The time lag, in seconds, between the refreshable clone and its source database.
+        public var autoRefreshPointLagInSeconds: Swift.Int?
+        /// The type of clone to create.
+        public var cloneType: OdbClientTypes.CloneType?
+        /// The mode in which to open the refreshable clone, either read-only or read/write.
+        public var openMode: OdbClientTypes.OpenMode?
+        /// The refresh mode of the refreshable clone, either automatic or manual.
+        public var refreshableMode: OdbClientTypes.RefreshableMode?
+        /// The unique identifier of the source Autonomous Database to create the refreshable clone from.
+        /// This member is required.
+        public var sourceAutonomousDatabaseId: Swift.String?
+        /// The date and time at which the automatic refresh of the refreshable clone starts.
+        public var timeOfAutoRefreshStart: Foundation.Date?
+
+        public init(
+            autoRefreshFrequencyInSeconds: Swift.Int? = nil,
+            autoRefreshPointLagInSeconds: Swift.Int? = nil,
+            cloneType: OdbClientTypes.CloneType? = nil,
+            openMode: OdbClientTypes.OpenMode? = nil,
+            refreshableMode: OdbClientTypes.RefreshableMode? = nil,
+            sourceAutonomousDatabaseId: Swift.String? = nil,
+            timeOfAutoRefreshStart: Foundation.Date? = nil
+        ) {
+            self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+            self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+            self.cloneType = cloneType
+            self.openMode = openMode
+            self.refreshableMode = refreshableMode
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+            self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database as a cross-Region Oracle Data Guard peer.
+    public struct CrossRegionDataGuardConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region Oracle Data Guard configuration.
+        /// This member is required.
+        public var sourceAutonomousDatabaseArn: Swift.String?
+
+        public init(
+            sourceAutonomousDatabaseArn: Swift.String? = nil
+        ) {
+            self.sourceAutonomousDatabaseArn = sourceAutonomousDatabaseArn
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database as a cross-Region disaster recovery peer.
+    public struct CrossRegionDisasterRecoveryConfiguration: Swift.Sendable {
+        /// Indicates whether automatic backups are replicated to the disaster recovery database.
+        public var isReplicateAutomaticBackups: Swift.Bool?
+        /// The type of remote disaster recovery to configure, either Autonomous Data Guard or backup-based.
+        /// This member is required.
+        public var remoteDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType?
+        /// The Amazon Resource Name (ARN) of the source Autonomous Database for the cross-Region disaster recovery configuration.
+        /// This member is required.
+        public var sourceAutonomousDatabaseArn: Swift.String?
+
+        public init(
+            isReplicateAutomaticBackups: Swift.Bool? = nil,
+            remoteDisasterRecoveryType: OdbClientTypes.DisasterRecoveryType? = nil,
+            sourceAutonomousDatabaseArn: Swift.String? = nil
+        ) {
+            self.isReplicateAutomaticBackups = isReplicateAutomaticBackups
+            self.remoteDisasterRecoveryType = remoteDisasterRecoveryType
+            self.sourceAutonomousDatabaseArn = sourceAutonomousDatabaseArn
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database as a clone of an existing database.
+    public struct DatabaseCloneConfiguration: Swift.Sendable {
+        /// The type of clone to create, either a full clone, a metadata clone, or a partial clone.
+        /// This member is required.
+        public var cloneType: OdbClientTypes.CloneType?
+        /// The unique identifier of the source Autonomous Database to clone.
+        /// This member is required.
+        public var sourceAutonomousDatabaseId: Swift.String?
+
+        public init(
+            cloneType: OdbClientTypes.CloneType? = nil,
+            sourceAutonomousDatabaseId: Swift.String? = nil
+        ) {
+            self.cloneType = cloneType
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database by restoring to a point in time.
+    public struct PointInTimeRestoreConfiguration: Swift.Sendable {
+        /// The list of tablespace identifiers to clone from the point-in-time restore.
+        public var cloneTableSpaceList: [Swift.Int]?
+        /// The type of clone to create from the point-in-time restore.
+        /// This member is required.
+        public var cloneType: OdbClientTypes.CloneType?
+        /// The unique identifier of the source Autonomous Database to restore from.
+        /// This member is required.
+        public var sourceAutonomousDatabaseId: Swift.String?
+        /// The date and time to which to restore the Autonomous Database.
+        public var timestamp: Foundation.Date?
+        /// Indicates whether to use the latest available backup timestamp for the restore.
+        public var useLatestAvailableBackupTimestamp: Swift.Bool?
+
+        public init(
+            cloneTableSpaceList: [Swift.Int]? = nil,
+            cloneType: OdbClientTypes.CloneType? = nil,
+            sourceAutonomousDatabaseId: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            useLatestAvailableBackupTimestamp: Swift.Bool? = nil
+        ) {
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.cloneType = cloneType
+            self.sourceAutonomousDatabaseId = sourceAutonomousDatabaseId
+            self.timestamp = timestamp
+            self.useLatestAvailableBackupTimestamp = useLatestAvailableBackupTimestamp
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration for creating an Autonomous Database by restoring from a backup.
+    public struct RestoreFromBackupConfiguration: Swift.Sendable {
+        /// The unique identifier of the Autonomous Database backup to restore from.
+        /// This member is required.
+        public var autonomousDatabaseBackupId: Swift.String?
+        /// The list of tablespace identifiers to clone from the backup.
+        public var cloneTableSpaceList: [Swift.Int]?
+        /// The type of clone to create from the backup.
+        /// This member is required.
+        public var cloneType: OdbClientTypes.CloneType?
+
+        public init(
+            autonomousDatabaseBackupId: Swift.String? = nil,
+            cloneTableSpaceList: [Swift.Int]? = nil,
+            cloneType: OdbClientTypes.CloneType? = nil
+        ) {
+            self.autonomousDatabaseBackupId = autonomousDatabaseBackupId
+            self.cloneTableSpaceList = cloneTableSpaceList
+            self.cloneType = cloneType
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration details for the source used to create an Autonomous Database. This is a union, so only one of the following members can be specified.
+    public enum SourceConfiguration: Swift.Sendable {
+        /// The configuration for creating the Autonomous Database as a clone of an existing database.
+        case databaseclone(OdbClientTypes.DatabaseCloneConfiguration)
+        /// The configuration for creating the Autonomous Database by restoring from a backup.
+        case restorefrombackup(OdbClientTypes.RestoreFromBackupConfiguration)
+        /// The configuration for creating the Autonomous Database by restoring to a point in time.
+        case pointintimerestore(OdbClientTypes.PointInTimeRestoreConfiguration)
+        /// The configuration for creating the Autonomous Database as a cross-Region Oracle Data Guard peer.
+        case crossregiondataguard(OdbClientTypes.CrossRegionDataGuardConfiguration)
+        /// The configuration for creating the Autonomous Database as a cross-Region disaster recovery peer.
+        case crossregiondisasterrecovery(OdbClientTypes.CrossRegionDisasterRecoveryConfiguration)
+        /// The configuration for creating the Autonomous Database as a refreshable clone.
+        case clonetorefreshable(OdbClientTypes.CloneToRefreshableConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The transportable tablespace configuration used when creating an Autonomous Database.
+    public struct TransportableTablespace: Swift.Sendable {
+        /// The URL of the transportable tablespace bundle to use when creating the Autonomous Database.
+        public var ttsBundleUrl: Swift.String?
+
+        public init(
+            ttsBundleUrl: Swift.String? = nil
+        ) {
+            self.ttsBundleUrl = ttsBundleUrl
+        }
+    }
+}
+
+public struct CreateAutonomousDatabaseInput: Swift.Sendable {
+    /// The password for the ADMIN user of the Autonomous Database.
+    public var adminPassword: Swift.String?
+    /// The list of IP addresses that are allowed to access the Autonomous Database.
+    public var allowlistedIps: [Swift.String]?
+    /// The maintenance schedule type for the Autonomous Database.
+    public var autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType?
+    /// The retention period, in days, for automatic backups of the Autonomous Database.
+    public var backupRetentionPeriodInDays: Swift.Int?
+    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+    public var byolComputeCountLimit: Swift.Double?
+    /// The character set to use for the Autonomous Database.
+    public var characterSet: Swift.String?
+    /// A client-provided token to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The compute capacity, in number of Elastic CPUs (ECPUs) or Oracle CPUs (OCPUs), to assign to the Autonomous Database.
+    public var computeCount: Swift.Double?
+    /// The number of CPU cores to allocate to the Autonomous Database.
+    public var cpuCoreCount: Swift.Int?
+    /// The list of customer contacts to receive operational notifications from Oracle Cloud Infrastructure (OCI) for the Autonomous Database.
+    public var customerContactsToSendToOCI: [OdbClientTypes.CustomerContact]?
+    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+    public var dataStorageSizeInGBs: Swift.Int?
+    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+    public var dataStorageSizeInTBs: Swift.Int?
+    /// The Oracle Database edition to apply to the Autonomous Database.
+    public var databaseEdition: OdbClientTypes.DatabaseEdition?
+    /// The name of the Autonomous Database. The name must begin with an alphabetic character and can contain a maximum of 30 alphanumeric characters. Special characters are not permitted. The name must be unique in the Amazon Web Services account.
+    public var dbName: Swift.String?
+    /// The list of database management tools to enable for the Autonomous Database.
+    public var dbToolsDetails: [OdbClientTypes.DatabaseTool]?
+    /// The Oracle Database software version to use for the Autonomous Database.
+    public var dbVersion: Swift.String?
+    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+    public var dbWorkload: OdbClientTypes.DbWorkload?
+    /// The user-friendly name for the Autonomous Database. The name does not have to be unique.
+    public var displayName: Swift.String?
+    /// The configuration of the encryption key to use for the Autonomous Database.
+    public var encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfigurationInput?
+    /// The provider of the encryption key to use for the Autonomous Database.
+    public var encryptionKeyProvider: OdbClientTypes.EncryptionKeyProviderInput?
+    /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+    public var isAutoScalingEnabled: Swift.Bool?
+    /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    public var isAutoScalingForStorageEnabled: Swift.Bool?
+    /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+    public var isBackupRetentionLocked: Swift.Bool?
+    /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+    public var isLocalDataGuardEnabled: Swift.Bool?
+    /// Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+    public var isMtlsConnectionRequired: Swift.Bool?
+    /// The Oracle license model to apply to the Autonomous Database.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The national character set to use for the Autonomous Database.
+    public var ncharacterSet: Swift.String?
+    /// The unique identifier of the ODB network to be used for the Autonomous Database.
+    public var odbNetworkId: Swift.String?
+    /// The private endpoint IP address for the Autonomous Database.
+    public var privateEndpointIp: Swift.String?
+    /// The private endpoint label for the Autonomous Database.
+    public var privateEndpointLabel: Swift.String?
+    /// The unique identifier of the resource pool leader Autonomous Database.
+    public var resourcePoolLeaderId: Swift.String?
+    /// The configuration of the resource pool for the Autonomous Database.
+    public var resourcePoolSummary: OdbClientTypes.ResourcePoolSummary?
+    /// The list of scheduled start and stop times for the Autonomous Database.
+    public var scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]?
+    /// The source from which to create the Autonomous Database, such as a clone, backup, or cross-Region copy.
+    public var source: OdbClientTypes.SourceType?
+    /// The configuration details for the source used to create the Autonomous Database.
+    public var sourceConfiguration: OdbClientTypes.SourceConfiguration?
+    /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+    public var standbyAllowlistedIps: [Swift.String]?
+    /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+    public var standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource?
+    /// The list of resource tags to apply to the Autonomous Database. Each tag is a key-value pair with no predefined name, type, or namespace.
+    public var tags: [Swift.String: Swift.String]?
+    /// The transportable tablespace configuration to use when creating the Autonomous Database.
+    public var transportableTablespace: OdbClientTypes.TransportableTablespace?
+
+    public init(
+        adminPassword: Swift.String? = nil,
+        allowlistedIps: [Swift.String]? = nil,
+        autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType? = nil,
+        backupRetentionPeriodInDays: Swift.Int? = nil,
+        byolComputeCountLimit: Swift.Double? = nil,
+        characterSet: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        computeCount: Swift.Double? = nil,
+        cpuCoreCount: Swift.Int? = nil,
+        customerContactsToSendToOCI: [OdbClientTypes.CustomerContact]? = nil,
+        dataStorageSizeInGBs: Swift.Int? = nil,
+        dataStorageSizeInTBs: Swift.Int? = nil,
+        databaseEdition: OdbClientTypes.DatabaseEdition? = nil,
+        dbName: Swift.String? = nil,
+        dbToolsDetails: [OdbClientTypes.DatabaseTool]? = nil,
+        dbVersion: Swift.String? = nil,
+        dbWorkload: OdbClientTypes.DbWorkload? = nil,
+        displayName: Swift.String? = nil,
+        encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfigurationInput? = nil,
+        encryptionKeyProvider: OdbClientTypes.EncryptionKeyProviderInput? = nil,
+        isAutoScalingEnabled: Swift.Bool? = nil,
+        isAutoScalingForStorageEnabled: Swift.Bool? = nil,
+        isBackupRetentionLocked: Swift.Bool? = nil,
+        isLocalDataGuardEnabled: Swift.Bool? = nil,
+        isMtlsConnectionRequired: Swift.Bool? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        ncharacterSet: Swift.String? = nil,
+        odbNetworkId: Swift.String? = nil,
+        privateEndpointIp: Swift.String? = nil,
+        privateEndpointLabel: Swift.String? = nil,
+        resourcePoolLeaderId: Swift.String? = nil,
+        resourcePoolSummary: OdbClientTypes.ResourcePoolSummary? = nil,
+        scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]? = nil,
+        source: OdbClientTypes.SourceType? = nil,
+        sourceConfiguration: OdbClientTypes.SourceConfiguration? = nil,
+        standbyAllowlistedIps: [Swift.String]? = nil,
+        standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        transportableTablespace: OdbClientTypes.TransportableTablespace? = nil
+    ) {
+        self.adminPassword = adminPassword
+        self.allowlistedIps = allowlistedIps
+        self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+        self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+        self.byolComputeCountLimit = byolComputeCountLimit
+        self.characterSet = characterSet
+        self.clientToken = clientToken
+        self.computeCount = computeCount
+        self.cpuCoreCount = cpuCoreCount
+        self.customerContactsToSendToOCI = customerContactsToSendToOCI
+        self.dataStorageSizeInGBs = dataStorageSizeInGBs
+        self.dataStorageSizeInTBs = dataStorageSizeInTBs
+        self.databaseEdition = databaseEdition
+        self.dbName = dbName
+        self.dbToolsDetails = dbToolsDetails
+        self.dbVersion = dbVersion
+        self.dbWorkload = dbWorkload
+        self.displayName = displayName
+        self.encryptionKeyConfiguration = encryptionKeyConfiguration
+        self.encryptionKeyProvider = encryptionKeyProvider
+        self.isAutoScalingEnabled = isAutoScalingEnabled
+        self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+        self.isBackupRetentionLocked = isBackupRetentionLocked
+        self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+        self.isMtlsConnectionRequired = isMtlsConnectionRequired
+        self.licenseModel = licenseModel
+        self.ncharacterSet = ncharacterSet
+        self.odbNetworkId = odbNetworkId
+        self.privateEndpointIp = privateEndpointIp
+        self.privateEndpointLabel = privateEndpointLabel
+        self.resourcePoolLeaderId = resourcePoolLeaderId
+        self.resourcePoolSummary = resourcePoolSummary
+        self.scheduledOperations = scheduledOperations
+        self.source = source
+        self.sourceConfiguration = sourceConfiguration
+        self.standbyAllowlistedIps = standbyAllowlistedIps
+        self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+        self.tags = tags
+        self.transportableTablespace = transportableTablespace
+    }
+}
+
+public struct CreateAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was created.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database that was created.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the current status of the Autonomous Database, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum WalletType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instance
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WalletType] {
+            return [
+                .instance,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instance: return "INSTANCE"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateAutonomousDatabaseWalletInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to create a wallet for.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// A client-provided token to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The password to encrypt the keys inside the wallet.
+    /// This member is required.
+    public var password: Swift.String?
+    /// The type of wallet to create, either a regional wallet or an instance wallet.
+    public var walletType: OdbClientTypes.WalletType?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        password: Swift.String? = nil,
+        walletType: OdbClientTypes.WalletType? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.clientToken = clientToken
+        self.password = password
+        self.walletType = walletType
+    }
+}
+
+public struct CreateAutonomousDatabaseWalletOutput: Swift.Sendable {
+    /// The generated wallet file for the Autonomous Database, returned as a compressed archive.
+    /// This member is required.
+    public var autonomousDatabaseWalletFile: Foundation.Data?
+
+    public init(
+        autonomousDatabaseWalletFile: Foundation.Data? = nil
+    ) {
+        self.autonomousDatabaseWalletFile = autonomousDatabaseWalletFile
+    }
+}
+
+public struct DeleteAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to delete.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+public struct DeleteAutonomousDatabaseOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct FailoverAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to fail over.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the peer Autonomous Database to fail over to.
+    public var peerDbArn: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        peerDbArn: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.peerDbArn = peerDbArn
+    }
+}
+
+public struct FailoverAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was failed over.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the failover operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the failover operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct GetAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to retrieve information about.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+public struct GetAutonomousDatabaseOutput: Swift.Sendable {
+    /// The details of the requested Autonomous Database.
+    /// This member is required.
+    public var autonomousDatabase: OdbClientTypes.AutonomousDatabase?
+
+    public init(
+        autonomousDatabase: OdbClientTypes.AutonomousDatabase? = nil
+    ) {
+        self.autonomousDatabase = autonomousDatabase
+    }
+}
+
+public struct GetAutonomousDatabaseWalletDetailsInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to retrieve wallet details for.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum AutonomousDatabaseWalletStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutonomousDatabaseWalletStatus] {
+            return [
+                .active,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The wallet details for an Autonomous Database.
+    public struct AutonomousDatabaseWalletDetails: Swift.Sendable {
+        /// The current status of the Autonomous Database wallet.
+        public var status: OdbClientTypes.AutonomousDatabaseWalletStatus?
+        /// The date and time when the Autonomous Database wallet was last rotated.
+        public var timeRotated: Foundation.Date?
+
+        public init(
+            status: OdbClientTypes.AutonomousDatabaseWalletStatus? = nil,
+            timeRotated: Foundation.Date? = nil
+        ) {
+            self.status = status
+            self.timeRotated = timeRotated
+        }
+    }
+}
+
+public struct GetAutonomousDatabaseWalletDetailsOutput: Swift.Sendable {
+    /// The wallet details for the Autonomous Database.
+    /// This member is required.
+    public var autonomousDatabaseWalletDetails: OdbClientTypes.AutonomousDatabaseWalletDetails?
+
+    public init(
+        autonomousDatabaseWalletDetails: OdbClientTypes.AutonomousDatabaseWalletDetails? = nil
+    ) {
+        self.autonomousDatabaseWalletDetails = autonomousDatabaseWalletDetails
+    }
+}
+
+public struct ListAutonomousDatabaseClonesInput: Swift.Sendable {
+    /// The unique identifier of the source Autonomous Database whose clones you want to list.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabaseClonesOutput: Swift.Sendable {
+    /// The list of Autonomous Database clones along with their properties.
+    /// This member is required.
+    public var autonomousDatabaseClones: [OdbClientTypes.AutonomousDatabaseSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseClones: [OdbClientTypes.AutonomousDatabaseSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseClones = autonomousDatabaseClones
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabasePeersInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database whose peer databases you want to list.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabasePeersOutput: Swift.Sendable {
+    /// The list of peer databases for the Autonomous Database.
+    /// This member is required.
+    public var autonomousDatabasePeers: [OdbClientTypes.AutonomousDatabasePeerSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabasePeers: [OdbClientTypes.AutonomousDatabasePeerSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabasePeers = autonomousDatabasePeers
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabasesInput: Swift.Sendable {
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabasesOutput: Swift.Sendable {
+    /// The list of Autonomous Databases along with their properties.
+    /// This member is required.
+    public var autonomousDatabases: [OdbClientTypes.AutonomousDatabaseSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabases: [OdbClientTypes.AutonomousDatabaseSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabases = autonomousDatabases
+        self.nextToken = nextToken
+    }
+}
+
+public struct RebootAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to reboot.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// Specifies whether to perform an online reboot of the Autonomous Database without interrupting active connections.
+    public var isOnlineReboot: Swift.Bool?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        isOnlineReboot: Swift.Bool? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.isOnlineReboot = isOnlineReboot
+    }
+}
+
+public struct RebootAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was rebooted.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the reboot operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the reboot operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct RestoreAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to restore.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The date and time to which to restore the Autonomous Database.
+    /// This member is required.
+    public var timestamp: Foundation.Date?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        timestamp: Foundation.Date? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.timestamp = timestamp
+    }
+}
+
+public struct RestoreAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was restored.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the restore operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the restore operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct ShrinkAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to shrink.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+public struct ShrinkAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was shrunk.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the shrink operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the shrink operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct StartAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to start.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+public struct StartAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was started.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the start operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the start operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct StopAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to stop.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+    }
+}
+
+public struct StopAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was stopped.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the stop operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the stop operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct SwitchoverAutonomousDatabaseInput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database to switch over.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the peer Autonomous Database to switch over to.
+    public var peerDbArn: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        peerDbArn: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.peerDbArn = peerDbArn
+    }
+}
+
+public struct SwitchoverAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was switched over.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database after the switchover operation.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the status of the Autonomous Database after the switchover operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct UpdateAutonomousDatabaseInput: Swift.Sendable {
+    /// The new password for the ADMIN user of the Autonomous Database.
+    public var adminPassword: Swift.String?
+    /// The list of IP addresses that are allowed to access the Autonomous Database.
+    public var allowlistedIps: [Swift.String]?
+    /// The frequency, in seconds, at which the refreshable clone Autonomous Database is automatically refreshed.
+    public var autoRefreshFrequencyInSeconds: Swift.Int?
+    /// The time lag, in seconds, between the refreshable clone and its source Autonomous Database.
+    public var autoRefreshPointLagInSeconds: Swift.Int?
+    /// The unique identifier of the Autonomous Database to update.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The maintenance schedule type for the Autonomous Database.
+    public var autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType?
+    /// The retention period, in days, for automatic backups of the Autonomous Database.
+    public var backupRetentionPeriodInDays: Swift.Int?
+    /// The maximum number of compute resources that you can allocate to the Autonomous Database under the bring-your-own-license (BYOL) model.
+    public var byolComputeCountLimit: Swift.Double?
+    /// The compute capacity, in number of ECPUs or OCPUs, to assign to the Autonomous Database.
+    public var computeCount: Swift.Double?
+    /// The number of CPU cores to allocate to the Autonomous Database.
+    public var cpuCoreCount: Swift.Int?
+    /// The list of customer contacts to receive operational notifications from OCI for the Autonomous Database.
+    public var customerContactsToSendToOCI: [OdbClientTypes.CustomerContact]?
+    /// The size, in gigabytes (GB), of the data volume to allocate for the Autonomous Database.
+    public var dataStorageSizeInGBs: Swift.Int?
+    /// The size, in terabytes (TB), of the data volume to allocate for the Autonomous Database.
+    public var dataStorageSizeInTBs: Swift.Int?
+    /// The Oracle Database edition to apply to the Autonomous Database.
+    public var databaseEdition: OdbClientTypes.DatabaseEdition?
+    /// The new name of the Autonomous Database.
+    public var dbName: Swift.String?
+    /// The list of database management tools to enable for the Autonomous Database.
+    public var dbToolsDetails: [OdbClientTypes.DatabaseTool]?
+    /// The Oracle Database software version to use for the Autonomous Database.
+    public var dbVersion: Swift.String?
+    /// The intended use of the Autonomous Database, such as transaction processing, data warehouse, JSON database, or APEX.
+    public var dbWorkload: OdbClientTypes.DbWorkload?
+    /// The new user-friendly name for the Autonomous Database.
+    public var displayName: Swift.String?
+    /// The configuration of the encryption key to use for the Autonomous Database.
+    public var encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfigurationInput?
+    /// The provider of the encryption key to use for the Autonomous Database.
+    public var encryptionKeyProvider: OdbClientTypes.EncryptionKeyProviderInput?
+    /// Specifies whether to enable automatic scaling of the compute resources for the Autonomous Database.
+    public var isAutoScalingEnabled: Swift.Bool?
+    /// Specifies whether to enable automatic scaling of the storage for the Autonomous Database.
+    public var isAutoScalingForStorageEnabled: Swift.Bool?
+    /// Specifies whether to lock the backup retention period of the Autonomous Database to prevent it from being shortened.
+    public var isBackupRetentionLocked: Swift.Bool?
+    /// Specifies whether to disconnect the Autonomous Database from its peer database.
+    public var isDisconnectPeer: Swift.Bool?
+    /// Specifies whether to enable local Oracle Data Guard for the Autonomous Database.
+    public var isLocalDataGuardEnabled: Swift.Bool?
+    /// Specifies whether mutual TLS (mTLS) authentication is required to connect to the Autonomous Database.
+    public var isMtlsConnectionRequired: Swift.Bool?
+    /// Specifies whether the Autonomous Database is a refreshable clone.
+    public var isRefreshableClone: Swift.Bool?
+    /// The Oracle license model to apply to the Autonomous Database.
+    public var licenseModel: OdbClientTypes.LicenseModel?
+    /// The maximum data loss limit, in seconds, for automatic failover to the local Oracle Data Guard standby database.
+    public var localAdgAutoFailoverMaxDataLossLimit: Swift.Int?
+    /// The long-term backup schedule for the Autonomous Database.
+    public var longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule?
+    /// The mode in which to open the Autonomous Database, either read-only or read/write.
+    public var openMode: OdbClientTypes.OpenMode?
+    /// The unique identifier of the peer Autonomous Database.
+    public var peerDbId: Swift.String?
+    /// The permission level of the Autonomous Database.
+    public var permissionLevel: OdbClientTypes.PermissionLevel?
+    /// The private endpoint IP address for the Autonomous Database.
+    public var privateEndpointIp: Swift.String?
+    /// The private endpoint label for the Autonomous Database.
+    public var privateEndpointLabel: Swift.String?
+    /// The refresh mode of the refreshable clone Autonomous Database.
+    public var refreshableMode: OdbClientTypes.RefreshableMode?
+    /// The unique identifier of the resource pool leader Autonomous Database.
+    public var resourcePoolLeaderId: Swift.String?
+    /// The configuration of the resource pool for the Autonomous Database.
+    public var resourcePoolSummary: OdbClientTypes.ResourcePoolSummary?
+    /// The list of scheduled start and stop times for the Autonomous Database.
+    public var scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]?
+    /// The list of IP addresses that are allowed to access the standby Autonomous Database.
+    public var standbyAllowlistedIps: [Swift.String]?
+    /// The source of the allowlisted IP addresses for the standby Autonomous Database.
+    public var standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource?
+    /// The date and time at which the automatic refresh of the refreshable clone Autonomous Database starts.
+    public var timeOfAutoRefreshStart: Foundation.Date?
+
+    public init(
+        adminPassword: Swift.String? = nil,
+        allowlistedIps: [Swift.String]? = nil,
+        autoRefreshFrequencyInSeconds: Swift.Int? = nil,
+        autoRefreshPointLagInSeconds: Swift.Int? = nil,
+        autonomousDatabaseId: Swift.String? = nil,
+        autonomousMaintenanceScheduleType: OdbClientTypes.AutonomousMaintenanceScheduleType? = nil,
+        backupRetentionPeriodInDays: Swift.Int? = nil,
+        byolComputeCountLimit: Swift.Double? = nil,
+        computeCount: Swift.Double? = nil,
+        cpuCoreCount: Swift.Int? = nil,
+        customerContactsToSendToOCI: [OdbClientTypes.CustomerContact]? = nil,
+        dataStorageSizeInGBs: Swift.Int? = nil,
+        dataStorageSizeInTBs: Swift.Int? = nil,
+        databaseEdition: OdbClientTypes.DatabaseEdition? = nil,
+        dbName: Swift.String? = nil,
+        dbToolsDetails: [OdbClientTypes.DatabaseTool]? = nil,
+        dbVersion: Swift.String? = nil,
+        dbWorkload: OdbClientTypes.DbWorkload? = nil,
+        displayName: Swift.String? = nil,
+        encryptionKeyConfiguration: OdbClientTypes.EncryptionKeyConfigurationInput? = nil,
+        encryptionKeyProvider: OdbClientTypes.EncryptionKeyProviderInput? = nil,
+        isAutoScalingEnabled: Swift.Bool? = nil,
+        isAutoScalingForStorageEnabled: Swift.Bool? = nil,
+        isBackupRetentionLocked: Swift.Bool? = nil,
+        isDisconnectPeer: Swift.Bool? = nil,
+        isLocalDataGuardEnabled: Swift.Bool? = nil,
+        isMtlsConnectionRequired: Swift.Bool? = nil,
+        isRefreshableClone: Swift.Bool? = nil,
+        licenseModel: OdbClientTypes.LicenseModel? = nil,
+        localAdgAutoFailoverMaxDataLossLimit: Swift.Int? = nil,
+        longTermBackupSchedule: OdbClientTypes.LongTermBackupSchedule? = nil,
+        openMode: OdbClientTypes.OpenMode? = nil,
+        peerDbId: Swift.String? = nil,
+        permissionLevel: OdbClientTypes.PermissionLevel? = nil,
+        privateEndpointIp: Swift.String? = nil,
+        privateEndpointLabel: Swift.String? = nil,
+        refreshableMode: OdbClientTypes.RefreshableMode? = nil,
+        resourcePoolLeaderId: Swift.String? = nil,
+        resourcePoolSummary: OdbClientTypes.ResourcePoolSummary? = nil,
+        scheduledOperations: [OdbClientTypes.ScheduledOperationDetails]? = nil,
+        standbyAllowlistedIps: [Swift.String]? = nil,
+        standbyAllowlistedIpsSource: OdbClientTypes.StandbyAllowlistedIpsSource? = nil,
+        timeOfAutoRefreshStart: Foundation.Date? = nil
+    ) {
+        self.adminPassword = adminPassword
+        self.allowlistedIps = allowlistedIps
+        self.autoRefreshFrequencyInSeconds = autoRefreshFrequencyInSeconds
+        self.autoRefreshPointLagInSeconds = autoRefreshPointLagInSeconds
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.autonomousMaintenanceScheduleType = autonomousMaintenanceScheduleType
+        self.backupRetentionPeriodInDays = backupRetentionPeriodInDays
+        self.byolComputeCountLimit = byolComputeCountLimit
+        self.computeCount = computeCount
+        self.cpuCoreCount = cpuCoreCount
+        self.customerContactsToSendToOCI = customerContactsToSendToOCI
+        self.dataStorageSizeInGBs = dataStorageSizeInGBs
+        self.dataStorageSizeInTBs = dataStorageSizeInTBs
+        self.databaseEdition = databaseEdition
+        self.dbName = dbName
+        self.dbToolsDetails = dbToolsDetails
+        self.dbVersion = dbVersion
+        self.dbWorkload = dbWorkload
+        self.displayName = displayName
+        self.encryptionKeyConfiguration = encryptionKeyConfiguration
+        self.encryptionKeyProvider = encryptionKeyProvider
+        self.isAutoScalingEnabled = isAutoScalingEnabled
+        self.isAutoScalingForStorageEnabled = isAutoScalingForStorageEnabled
+        self.isBackupRetentionLocked = isBackupRetentionLocked
+        self.isDisconnectPeer = isDisconnectPeer
+        self.isLocalDataGuardEnabled = isLocalDataGuardEnabled
+        self.isMtlsConnectionRequired = isMtlsConnectionRequired
+        self.isRefreshableClone = isRefreshableClone
+        self.licenseModel = licenseModel
+        self.localAdgAutoFailoverMaxDataLossLimit = localAdgAutoFailoverMaxDataLossLimit
+        self.longTermBackupSchedule = longTermBackupSchedule
+        self.openMode = openMode
+        self.peerDbId = peerDbId
+        self.permissionLevel = permissionLevel
+        self.privateEndpointIp = privateEndpointIp
+        self.privateEndpointLabel = privateEndpointLabel
+        self.refreshableMode = refreshableMode
+        self.resourcePoolLeaderId = resourcePoolLeaderId
+        self.resourcePoolSummary = resourcePoolSummary
+        self.scheduledOperations = scheduledOperations
+        self.standbyAllowlistedIps = standbyAllowlistedIps
+        self.standbyAllowlistedIpsSource = standbyAllowlistedIpsSource
+        self.timeOfAutoRefreshStart = timeOfAutoRefreshStart
+    }
+}
+
+public struct UpdateAutonomousDatabaseOutput: Swift.Sendable {
+    /// The unique identifier of the Autonomous Database that was updated.
+    /// This member is required.
+    public var autonomousDatabaseId: Swift.String?
+    /// The user-friendly name of the Autonomous Database that was updated.
+    public var displayName: Swift.String?
+    /// The current status of the Autonomous Database.
+    public var status: OdbClientTypes.AutonomousDatabaseResourceStatus?
+    /// Additional information about the current status of the Autonomous Database, if applicable.
+    public var statusReason: Swift.String?
+
+    public init(
+        autonomousDatabaseId: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        status: OdbClientTypes.AutonomousDatabaseResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseId = autonomousDatabaseId
+        self.displayName = displayName
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    /// A summary of an available Oracle Database software version for Autonomous Databases.
+    public struct AutonomousDatabaseVersionSummary: Swift.Sendable {
+        /// The intended use of the Autonomous Database that the version supports, such as transaction processing, data warehouse, JSON database, or APEX.
+        public var dbWorkload: OdbClientTypes.DbWorkload?
+        /// Additional details about the Autonomous Database software version.
+        public var details: Swift.String?
+        /// The Oracle Database software version.
+        public var version: Swift.String?
+
+        public init(
+            dbWorkload: OdbClientTypes.DbWorkload? = nil,
+            details: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.dbWorkload = dbWorkload
+            self.details = details
+            self.version = version
         }
     }
 }
@@ -459,15 +4337,15 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
-    public enum ComputeModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ecpu
-        case ocpu
+    public enum CharacterSetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case database
+        case national
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [ComputeModel] {
+        public static var allCases: [CharacterSetType] {
             return [
-                .ecpu,
-                .ocpu
+                .database,
+                .national
             ]
         }
 
@@ -478,8 +4356,8 @@ extension OdbClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .ecpu: return "ECPU"
-            case .ocpu: return "OCPU"
+            case .database: return "DATABASE"
+            case .national: return "NATIONAL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -553,94 +4431,6 @@ extension OdbClientTypes {
             self.iamRoleArn = iamRoleArn
             self.status = status
             self.statusReason = statusReason
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum LicenseModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case bringYourOwnLicense
-        case licenseIncluded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LicenseModel] {
-            return [
-                .bringYourOwnLicense,
-                .licenseIncluded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .bringYourOwnLicense: return "BRING_YOUR_OWN_LICENSE"
-            case .licenseIncluded: return "LICENSE_INCLUDED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum DayOfWeekName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case friday
-        case monday
-        case saturday
-        case sunday
-        case thursday
-        case tuesday
-        case wednesday
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DayOfWeekName] {
-            return [
-                .friday,
-                .monday,
-                .saturday,
-                .sunday,
-                .thursday,
-                .tuesday,
-                .wednesday
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .friday: return "FRIDAY"
-            case .monday: return "MONDAY"
-            case .saturday: return "SATURDAY"
-            case .sunday: return "SUNDAY"
-            case .thursday: return "THURSDAY"
-            case .tuesday: return "TUESDAY"
-            case .wednesday: return "WEDNESDAY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    /// An enumeration of days of the week used for scheduling maintenance windows.
-    public struct DayOfWeek: Swift.Sendable {
-        /// The name of the day of the week.
-        public var name: OdbClientTypes.DayOfWeekName?
-
-        public init(
-            name: OdbClientTypes.DayOfWeekName? = nil
-        ) {
-            self.name = name
         }
     }
 }
@@ -1268,45 +5058,6 @@ extension OdbClientTypes {
     }
 }
 
-/// You have exceeded the service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unqiue identifier of the service quota that was exceeded.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The identifier of the resource that exceeded the service quota.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of resource that exceeded the service quota.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 public struct CreateCloudAutonomousVmClusterInput: Swift.Sendable {
     /// The data disk group size to be allocated for Autonomous Databases, in terabytes (TB).
     /// This member is required.
@@ -1539,21 +5290,6 @@ extension OdbClientTypes {
         ) {
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
             self.unallocatedAdbStorageInTBs = unallocatedAdbStorageInTBs
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    /// A contact to receive notification from Oracle about maintenance updates for a specific Exadata infrastructure.
-    public struct CustomerContact: Swift.Sendable {
-        /// The email address of the contact.
-        public var email: Swift.String?
-
-        public init(
-            email: Swift.String? = nil
-        ) {
-            self.email = email
         }
     }
 }
@@ -4159,6 +7895,51 @@ public struct GetOciOnboardingStatusInput: Swift.Sendable {
 
 extension OdbClientTypes {
 
+    public enum OciAwsIntegration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmstde
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OciAwsIntegration] {
+            return [
+                .kmstde
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmstde: return "KmsTde"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role used for Autonomous Database integration with Oracle Cloud Infrastructure (OCI).
+    public struct OciIamRole: Swift.Sendable {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var awsIntegration: OdbClientTypes.OciAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var iamRoleArn: Swift.String?
+
+        public init(
+            awsIntegration: OdbClientTypes.OciAwsIntegration? = nil,
+            iamRoleArn: Swift.String? = nil
+        ) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     /// Information about an Oracle Cloud Infrastructure (OCI) identity domain configuration.
     public struct OciIdentityDomain: Swift.Sendable {
         /// The Amazon Web Services CloudFormation URL for setting up the account integration with the OCI identity domain.
@@ -4252,26 +8033,57 @@ extension OdbClientTypes {
     }
 }
 
+extension OdbClientTypes {
+
+    /// Information about an error that occurred during the subscription process.
+    public struct SubscriptionError: Swift.Sendable {
+        /// A human-readable message that describes the subscription error.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
 public struct GetOciOnboardingStatusOutput: Swift.Sendable {
+    /// The list of Amazon Web Services Identity and Access Management (IAM) service roles used for Autonomous Database integration with Oracle Cloud Infrastructure (OCI).
+    public var autonomousDatabaseOciIntegrationIamRoles: [OdbClientTypes.OciIamRole]?
     /// The existing OCI tenancy activation link for your Amazon Web Services account.
     public var existingTenancyActivationLink: Swift.String?
+    /// The unique identifier of the Oracle Cloud Infrastructure (OCI) compartment that is linked to your Amazon Web Services account.
+    public var linkedOciCompartmentId: Swift.String?
+    /// The unique identifier of the Oracle Cloud Infrastructure (OCI) tenancy that is linked to your Amazon Web Services account.
+    public var linkedOciTenancyId: Swift.String?
     /// A new OCI tenancy activation link for your Amazon Web Services account.
     public var newTenancyActivationLink: Swift.String?
     /// The Oracle Cloud Infrastructure (OCI) identity domain information in the onboarding status response.
     public var ociIdentityDomain: OdbClientTypes.OciIdentityDomain?
     ///
     public var status: OdbClientTypes.OciOnboardingStatus?
+    /// The list of errors that occurred during the subscription process for your Amazon Web Services account, if any.
+    public var subscriptionErrors: [OdbClientTypes.SubscriptionError]?
 
     public init(
+        autonomousDatabaseOciIntegrationIamRoles: [OdbClientTypes.OciIamRole]? = nil,
         existingTenancyActivationLink: Swift.String? = nil,
+        linkedOciCompartmentId: Swift.String? = nil,
+        linkedOciTenancyId: Swift.String? = nil,
         newTenancyActivationLink: Swift.String? = nil,
         ociIdentityDomain: OdbClientTypes.OciIdentityDomain? = nil,
-        status: OdbClientTypes.OciOnboardingStatus? = nil
+        status: OdbClientTypes.OciOnboardingStatus? = nil,
+        subscriptionErrors: [OdbClientTypes.SubscriptionError]? = nil
     ) {
+        self.autonomousDatabaseOciIntegrationIamRoles = autonomousDatabaseOciIntegrationIamRoles
         self.existingTenancyActivationLink = existingTenancyActivationLink
+        self.linkedOciCompartmentId = linkedOciCompartmentId
+        self.linkedOciTenancyId = linkedOciTenancyId
         self.newTenancyActivationLink = newTenancyActivationLink
         self.ociIdentityDomain = ociIdentityDomain
         self.status = status
+        self.subscriptionErrors = subscriptionErrors
     }
 }
 
@@ -4740,6 +8552,76 @@ public struct InitializeServiceInput: Swift.Sendable {
 public struct InitializeServiceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct ListAutonomousDatabaseCharacterSetsInput: Swift.Sendable {
+    /// The type of character set to return results for, either the database character set or the national character set.
+    public var characterSetType: OdbClientTypes.CharacterSetType?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        characterSetType: OdbClientTypes.CharacterSetType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.characterSetType = characterSetType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabaseCharacterSetsOutput: Swift.Sendable {
+    /// The list of available Autonomous Database character sets.
+    /// This member is required.
+    public var autonomousDatabaseCharacterSets: [OdbClientTypes.AutonomousDatabaseCharacterSetSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseCharacterSets: [OdbClientTypes.AutonomousDatabaseCharacterSetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseCharacterSets = autonomousDatabaseCharacterSets
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabaseVersionsInput: Swift.Sendable {
+    /// The intended use of the Autonomous Database to return versions for, such as transaction processing, data warehouse, JSON database, or APEX.
+    public var dbWorkload: OdbClientTypes.DbWorkload?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dbWorkload: OdbClientTypes.DbWorkload? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dbWorkload = dbWorkload
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutonomousDatabaseVersionsOutput: Swift.Sendable {
+    /// The list of available Autonomous Database software versions.
+    /// This member is required.
+    public var autonomousDatabaseVersions: [OdbClientTypes.AutonomousDatabaseVersionSummary]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        autonomousDatabaseVersions: [OdbClientTypes.AutonomousDatabaseVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.autonomousDatabaseVersions = autonomousDatabaseVersions
+        self.nextToken = nextToken
+    }
 }
 
 public struct ListDbSystemShapesInput: Swift.Sendable {

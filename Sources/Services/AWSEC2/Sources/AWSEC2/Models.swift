@@ -6902,6 +6902,38 @@ public struct AttachClassicLinkVpcOutput: Swift.Sendable {
     }
 }
 
+public struct AttachImageWatermarkInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The name for the watermark. Combined with the caller's account ID to form the WatermarkKey (accountId:watermarkName). Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
+    /// This member is required.
+    public var watermarkName: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        watermarkName: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.watermarkName = watermarkName
+    }
+}
+
+public struct AttachImageWatermarkOutput: Swift.Sendable {
+    /// The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    public var watermarkKey: Swift.String?
+
+    public init(
+        watermarkKey: Swift.String? = nil
+    ) {
+        self.watermarkKey = watermarkKey
+    }
+}
+
 public struct AttachInternetGatewayInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -14561,7 +14593,6 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
     public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
     /// Information about the instance types for which to reserve the capacity.
-    /// This member is required.
     public var instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]?
     /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned to the Capacity Reservations in the Fleet.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
@@ -19118,6 +19149,57 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TaggableResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoScalingGroup
+        case instance
+        case networkInterface
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TaggableResourceType] {
+            return [
+                .autoScalingGroup,
+                .instance,
+                .networkInterface
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoScalingGroup: return "auto-scaling-group"
+            case .instance: return "instance"
+            case .networkInterface: return "network-interface"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// A single resource's tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public struct TagFieldSpecificationRequest: Swift.Sendable {
+        /// The resource type for the tag keys associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var resourceType: EC2ClientTypes.TaggableResourceType?
+        /// The tag keys on your tagged resources to be displayed by the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagKeys: [Swift.String]?
+
+        public init(
+            resourceType: EC2ClientTypes.TaggableResourceType? = nil,
+            tagKeys: [Swift.String]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tagKeys = tagKeys
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum TrafficType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accept
         case all
@@ -19181,6 +19263,8 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     /// The type of resource to monitor.
     /// This member is required.
     public var resourceType: EC2ClientTypes.FlowLogsResourceType?
+    /// The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
     /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
@@ -19199,6 +19283,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
         maxAggregationInterval: Swift.Int? = nil,
         resourceIds: [Swift.String]? = nil,
         resourceType: EC2ClientTypes.FlowLogsResourceType? = nil,
+        tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         trafficType: EC2ClientTypes.TrafficType? = nil
     ) {
@@ -19214,6 +19299,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
         self.maxAggregationInterval = maxAggregationInterval
         self.resourceIds = resourceIds
         self.resourceType = resourceType
+        self.tagFieldSpecifications = tagFieldSpecifications
         self.tagSpecifications = tagSpecifications
         self.trafficType = trafficType
     }
@@ -45968,6 +46054,25 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// A single resource's tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+    public struct TagFieldSpecificationResponse: Swift.Sendable {
+        /// The resource type for the tag keys associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var resourceType: EC2ClientTypes.TaggableResourceType?
+        /// The tag keys on your tagged resources to be displayed by the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagKeys: [Swift.String]?
+
+        public init(
+            resourceType: EC2ClientTypes.TaggableResourceType? = nil,
+            tagKeys: [Swift.String]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tagKeys = tagKeys
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes a flow log.
     public struct FlowLog: Swift.Sendable {
         /// The date and time the flow log was created.
@@ -45998,6 +46103,8 @@ extension EC2ClientTypes {
         public var maxAggregationInterval: Swift.Int?
         /// The ID of the resource being monitored.
         public var resourceId: Swift.String?
+        /// The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
+        public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationResponse]?
         /// The tags for the flow log.
         public var tags: [EC2ClientTypes.Tag]?
         /// The type of traffic captured for the flow log.
@@ -46018,6 +46125,7 @@ extension EC2ClientTypes {
             logGroupName: Swift.String? = nil,
             maxAggregationInterval: Swift.Int? = nil,
             resourceId: Swift.String? = nil,
+            tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationResponse]? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
             trafficType: EC2ClientTypes.TrafficType? = nil
         ) {
@@ -46035,6 +46143,7 @@ extension EC2ClientTypes {
             self.logGroupName = logGroupName
             self.maxAggregationInterval = maxAggregationInterval
             self.resourceId = resourceId
+            self.tagFieldSpecifications = tagFieldSpecifications
             self.tags = tags
             self.trafficType = trafficType
         }
@@ -47726,6 +47835,37 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes a watermark attached to an AMI.
+    public struct ImageWatermark: Swift.Sendable {
+        /// The creation date of the source AMI, in the following format: YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM.
+        public var sourceImageCreationTime: Foundation.Date?
+        /// The ID of the AMI to which the watermark was originally attached.
+        public var sourceImageId: Swift.String?
+        /// The Region where the watermark was originally attached.
+        public var sourceImageRegion: Swift.String?
+        /// The date and time the watermark was attached to the AMI, in the following format: YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM.
+        public var watermarkCreationTime: Foundation.Date?
+        /// The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi). The accountId portion is the Amazon Web Services account ID of the watermark creator. The watermarkName portion is customer-provided.
+        public var watermarkKey: Swift.String?
+
+        public init(
+            sourceImageCreationTime: Foundation.Date? = nil,
+            sourceImageId: Swift.String? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkCreationTime: Foundation.Date? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.sourceImageCreationTime = sourceImageCreationTime
+            self.sourceImageId = sourceImageId
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkCreationTime = watermarkCreationTime
+            self.watermarkKey = watermarkKey
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum ImdsSupportValues: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v20
         case sdkUnknown(Swift.String)
@@ -47919,6 +48059,8 @@ extension EC2ClientTypes {
         public var imageOwnerAlias: Swift.String?
         /// The type of image.
         public var imageType: EC2ClientTypes.ImageTypeValues?
+        /// The watermarks attached to the AMI.
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermark]?
         /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see [Configure the AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ami-configuration) in the Amazon EC2 User Guide.
         public var imdsSupport: EC2ClientTypes.ImdsSupportValues?
         /// The kernel associated with the image, if any. Only applicable for machine images.
@@ -47980,6 +48122,7 @@ extension EC2ClientTypes {
             imageLocation: Swift.String? = nil,
             imageOwnerAlias: Swift.String? = nil,
             imageType: EC2ClientTypes.ImageTypeValues? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermark]? = nil,
             imdsSupport: EC2ClientTypes.ImdsSupportValues? = nil,
             kernelId: Swift.String? = nil,
             lastLaunchedTime: Swift.String? = nil,
@@ -48018,6 +48161,7 @@ extension EC2ClientTypes {
             self.imageLocation = imageLocation
             self.imageOwnerAlias = imageOwnerAlias
             self.imageType = imageType
+            self.imageWatermarks = imageWatermarks
             self.imdsSupport = imdsSupport
             self.kernelId = kernelId
             self.lastLaunchedTime = lastLaunchedTime
@@ -49156,6 +49300,8 @@ extension EC2ClientTypes {
         public var imageId: Swift.String?
         /// The alias of the AMI owner. Valid values: amazon | aws-backup-vault | aws-marketplace
         public var imageOwnerAlias: Swift.String?
+        /// The watermarks attached to the AMI.
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermark]?
         /// Indicates whether the AMI has public launch permissions. A value of true means this AMI has public launch permissions, while false means it has only implicit (AMI owner) or explicit (shared with your account) launch permissions.
         public var isPublic: Swift.Bool?
         /// The name of the AMI.
@@ -49171,6 +49317,7 @@ extension EC2ClientTypes {
             imageAllowed: Swift.Bool? = nil,
             imageId: Swift.String? = nil,
             imageOwnerAlias: Swift.String? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermark]? = nil,
             isPublic: Swift.Bool? = nil,
             name: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -49181,6 +49328,7 @@ extension EC2ClientTypes {
             self.imageAllowed = imageAllowed
             self.imageId = imageId
             self.imageOwnerAlias = imageOwnerAlias
+            self.imageWatermarks = imageWatermarks
             self.isPublic = isPublic
             self.name = name
             self.ownerId = ownerId
@@ -62257,8 +62405,6 @@ extension EC2ClientTypes {
         public var endTime: Foundation.Date?
         /// The current modification state.
         public var modificationState: EC2ClientTypes.VolumeModificationState?
-        /// Describes whether the resource is managed by a service provider and, if so, describes the service provider that manages it.
-        public var `operator`: EC2ClientTypes.OperatorResponse?
         /// The original IOPS rate of the volume.
         public var originalIops: Swift.Int?
         /// The original setting for Amazon EBS Multi-Attach.
@@ -62291,7 +62437,6 @@ extension EC2ClientTypes {
         public init(
             endTime: Foundation.Date? = nil,
             modificationState: EC2ClientTypes.VolumeModificationState? = nil,
-            `operator`: EC2ClientTypes.OperatorResponse? = nil,
             originalIops: Swift.Int? = nil,
             originalMultiAttachEnabled: Swift.Bool? = nil,
             originalSize: Swift.Int? = nil,
@@ -62309,7 +62454,6 @@ extension EC2ClientTypes {
         ) {
             self.endTime = endTime
             self.modificationState = modificationState
-            self.`operator` = `operator`
             self.originalIops = originalIops
             self.originalMultiAttachEnabled = originalMultiAttachEnabled
             self.originalSize = originalSize
@@ -64105,6 +64249,38 @@ public struct DetachClassicLinkVpcInput: Swift.Sendable {
 }
 
 public struct DetachClassicLinkVpcOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
+    }
+}
+
+public struct DetachImageWatermarkInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The watermark key to remove, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    /// This member is required.
+    public var watermarkKey: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        watermarkKey: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.watermarkKey = watermarkKey
+    }
+}
+
+public struct DetachImageWatermarkOutput: Swift.Sendable {
     /// Returns true if the request succeeds; otherwise, it returns an error.
     public var `return`: Swift.Bool?
 
@@ -84124,6 +84300,13 @@ extension AttachClassicLinkVpcInput {
     }
 }
 
+extension AttachImageWatermarkInput {
+
+    static func urlPathProvider(_ value: AttachImageWatermarkInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AttachInternetGatewayInput {
 
     static func urlPathProvider(_ value: AttachInternetGatewayInput) -> Swift.String? {
@@ -87057,6 +87240,13 @@ extension DetachClassicLinkVpcInput {
     }
 }
 
+extension DetachImageWatermarkInput {
+
+    static func urlPathProvider(_ value: DetachImageWatermarkInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DetachInternetGatewayInput {
 
     static func urlPathProvider(_ value: DetachInternetGatewayInput) -> Swift.String? {
@@ -89773,6 +89963,18 @@ extension AttachClassicLinkVpcInput {
     }
 }
 
+extension AttachImageWatermarkInput {
+
+    static func write(value: AttachImageWatermarkInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["WatermarkName"].write(value.watermarkName)
+        try writer["Action"].write("AttachImageWatermark")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension AttachInternetGatewayInput {
 
     static func write(value: AttachInternetGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -90473,6 +90675,9 @@ extension CreateFlowLogsInput {
             try writer["ResourceId"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["ResourceType"].write(value.resourceType)
+        if !(value.tagFieldSpecifications?.isEmpty ?? true) {
+            try writer["TagFieldSpecification"].writeList(value.tagFieldSpecifications, memberWritingClosure: EC2ClientTypes.TagFieldSpecificationRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -96519,6 +96724,18 @@ extension DetachClassicLinkVpcInput {
     }
 }
 
+extension DetachImageWatermarkInput {
+
+    static func write(value: DetachImageWatermarkInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["WatermarkKey"].write(value.watermarkKey)
+        try writer["Action"].write("DetachImageWatermark")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DetachInternetGatewayInput {
 
     static func write(value: DetachInternetGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -101500,6 +101717,18 @@ extension AttachClassicLinkVpcOutput {
         let reader = responseReader
         var value = AttachClassicLinkVpcOutput()
         value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension AttachImageWatermarkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachImageWatermarkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachImageWatermarkOutput()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
         return value
     }
 }
@@ -106737,6 +106966,18 @@ extension DetachClassicLinkVpcOutput {
     }
 }
 
+extension DetachImageWatermarkOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachImageWatermarkOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachImageWatermarkOutput()
+        value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
 extension DetachInternetGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachInternetGatewayOutput {
@@ -111045,6 +111286,19 @@ enum AssociateVpcCidrBlockOutputError {
 }
 
 enum AttachClassicLinkVpcOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AttachImageWatermarkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -116492,6 +116746,19 @@ enum DescribeVpnGatewaysOutputError {
 }
 
 enum DetachClassicLinkVpcOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DetachImageWatermarkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -124064,6 +124331,7 @@ extension EC2ClientTypes.FlowLog {
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.maxAggregationInterval = try reader["maxAggregationInterval"].readIfPresent()
         value.destinationOptions = try reader["destinationOptions"].readIfPresent(with: EC2ClientTypes.DestinationOptionsResponse.read(from:))
+        value.tagFieldSpecifications = try reader["tagFieldSpecificationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TagFieldSpecificationResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -124461,6 +124729,7 @@ extension EC2ClientTypes.Image {
         value.sourceImageId = try reader["sourceImageId"].readIfPresent()
         value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
         value.state = try reader["imageState"].readIfPresent()
@@ -124550,6 +124819,7 @@ extension EC2ClientTypes.ImageMetadata {
         value.deprecationTime = try reader["deprecationTime"].readIfPresent()
         value.imageAllowed = try reader["imageAllowed"].readIfPresent()
         value.isPublic = try reader["isPublic"].readIfPresent()
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -124654,6 +124924,20 @@ extension EC2ClientTypes.ImageUsageResourceTypeRequest {
         if !(value.resourceTypeOptions?.isEmpty ?? true) {
             try writer["ResourceTypeOption"].writeList(value.resourceTypeOptions, memberWritingClosure: EC2ClientTypes.ImageUsageResourceTypeOptionRequest.write(value:to:), memberNodeInfo: "Member", isFlattened: true)
         }
+    }
+}
+
+extension EC2ClientTypes.ImageWatermark {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageWatermark {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageWatermark()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
+        value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
+        value.sourceImageId = try reader["sourceImageId"].readIfPresent()
+        value.sourceImageCreationTime = try reader["sourceImageCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.watermarkCreationTime = try reader["watermarkCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
@@ -131508,6 +131792,28 @@ extension EC2ClientTypes.TagDescription {
     }
 }
 
+extension EC2ClientTypes.TagFieldSpecificationRequest {
+
+    static func write(value: EC2ClientTypes.TagFieldSpecificationRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        if !(value.tagKeys?.isEmpty ?? true) {
+            try writer["TagKey"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+}
+
+extension EC2ClientTypes.TagFieldSpecificationResponse {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TagFieldSpecificationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TagFieldSpecificationResponse()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.tagKeys = try reader["tagKeySet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.TagSpecification {
 
     static func write(value: EC2ClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
@@ -133134,7 +133440,6 @@ extension EC2ClientTypes.VolumeModification {
         value.progress = try reader["progress"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.`operator` = try reader["operator"].readIfPresent(with: EC2ClientTypes.OperatorResponse.read(from:))
         return value
     }
 }

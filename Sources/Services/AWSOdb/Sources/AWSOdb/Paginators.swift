@@ -11,6 +11,68 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension OdbClient {
+    /// Paginate over `[ListAutonomousDatabaseCharacterSetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAutonomousDatabaseCharacterSetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAutonomousDatabaseCharacterSetsOutput`
+    public func listAutonomousDatabaseCharacterSetsPaginated(input: ListAutonomousDatabaseCharacterSetsInput) -> ClientRuntime.PaginatorSequence<ListAutonomousDatabaseCharacterSetsInput, ListAutonomousDatabaseCharacterSetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAutonomousDatabaseCharacterSetsInput, ListAutonomousDatabaseCharacterSetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAutonomousDatabaseCharacterSets(input:))
+    }
+}
+
+extension ListAutonomousDatabaseCharacterSetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAutonomousDatabaseCharacterSetsInput {
+        return ListAutonomousDatabaseCharacterSetsInput(
+            characterSetType: self.characterSetType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAutonomousDatabaseCharacterSetsInput, OperationStackOutput == ListAutonomousDatabaseCharacterSetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAutonomousDatabaseCharacterSetsPaginated`
+    /// to access the nested member `[OdbClientTypes.AutonomousDatabaseCharacterSetSummary]`
+    /// - Returns: `[OdbClientTypes.AutonomousDatabaseCharacterSetSummary]`
+    public func autonomousDatabaseCharacterSets() async throws -> [OdbClientTypes.AutonomousDatabaseCharacterSetSummary] {
+        return try await self.asyncCompactMap { item in item.autonomousDatabaseCharacterSets }
+    }
+}
+extension OdbClient {
+    /// Paginate over `[ListAutonomousDatabaseVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAutonomousDatabaseVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAutonomousDatabaseVersionsOutput`
+    public func listAutonomousDatabaseVersionsPaginated(input: ListAutonomousDatabaseVersionsInput) -> ClientRuntime.PaginatorSequence<ListAutonomousDatabaseVersionsInput, ListAutonomousDatabaseVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAutonomousDatabaseVersionsInput, ListAutonomousDatabaseVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAutonomousDatabaseVersions(input:))
+    }
+}
+
+extension ListAutonomousDatabaseVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAutonomousDatabaseVersionsInput {
+        return ListAutonomousDatabaseVersionsInput(
+            dbWorkload: self.dbWorkload,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAutonomousDatabaseVersionsInput, OperationStackOutput == ListAutonomousDatabaseVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAutonomousDatabaseVersionsPaginated`
+    /// to access the nested member `[OdbClientTypes.AutonomousDatabaseVersionSummary]`
+    /// - Returns: `[OdbClientTypes.AutonomousDatabaseVersionSummary]`
+    public func autonomousDatabaseVersions() async throws -> [OdbClientTypes.AutonomousDatabaseVersionSummary] {
+        return try await self.asyncCompactMap { item in item.autonomousDatabaseVersions }
+    }
+}
+extension OdbClient {
     /// Paginate over `[ListDbSystemShapesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -613,6 +613,103 @@ extension CloudWatchClient {
 }
 
 extension CloudWatchClient {
+    /// Performs the `AssociateDatasetKmsKey` operation on the `CloudWatch` service.
+    ///
+    /// Associates an Amazon Web Services Key Management Service (Amazon Web Services KMS) customer managed key with the specified dataset. After this operation completes, all data published to the dataset is encrypted at rest using the specified KMS key. Callers must have kms:Decrypt permission on the key to read the encrypted data. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you do not need to create it before calling this operation. You can call AssociateDatasetKmsKey on a dataset that is already associated with a KMS key to replace the existing key with a different one. To replace a key, the caller must have kms:Decrypt permission on both the current key and the new key. The KMS key that you specify must meet all of the following requirements:
+    ///
+    /// * It must be a symmetric encryption KMS key (key spec SYMMETRIC_DEFAULT, key usage ENCRYPT_DECRYPT). Asymmetric keys, HMAC keys, and key material types other than SYMMETRIC_DEFAULT are not supported.
+    ///
+    /// * It must be enabled and not pending deletion.
+    ///
+    /// * Its key policy must grant the CloudWatch service principal (cloudwatch.amazonaws.com) these permissions: kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. Amazon CloudWatch requires these permissions to manage the data on your behalf.
+    ///
+    /// * The calling principal must have kms:Decrypt permission on the key.
+    ///
+    /// * It must be specified as a fully qualified key ARN. Key IDs, aliases, and alias ARNs are not accepted.
+    ///
+    /// * It must be in the same Amazon Web Services Region as the dataset.
+    ///
+    ///
+    /// Before completing the association, Amazon CloudWatch validates the key by performing a series of dry-run KMS operations. Service-principal checks run first to verify that the key policy grants the required access to Amazon CloudWatch. These checks include kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt*. After those succeed, a kms:Decrypt dry-run is run with the caller's credentials to verify that the calling principal can use the key. When you are replacing an existing key, the caller's kms:Decrypt dry-run is run on the current key first, and only then on the new key. If any of these checks fails, the operation fails and the existing key association (if any) remains unchanged. Common failure causes include the key being disabled, the key policy not granting the required permissions to Amazon CloudWatch, or the caller lacking kms:Decrypt permission on the key. For more information about using customer managed keys with Amazon CloudWatch, see [Encryption at rest with customer managed keys](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateDatasetKmsKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateDatasetKmsKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `KmsAccessDeniedException` : The operation was denied because either the calling principal lacks the required Amazon Web Services Key Management Service (Amazon Web Services KMS) permission on the key, or the key policy does not grant Amazon CloudWatch the permissions it needs to use the key. Verify that the caller has kms:Decrypt permission on the key, and that the key policy grants the CloudWatch service principal the kms:DescribeKey, kms:GenerateDataKey, kms:Encrypt, kms:Decrypt, and kms:ReEncrypt* permissions described in [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html).
+    /// - `KmsKeyDisabledException` : The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key is disabled or pending deletion. Re-enable the key (or restore it, if it is pending deletion) and retry the operation.
+    /// - `KmsKeyNotFoundException` : The specified Amazon Web Services Key Management Service (Amazon Web Services KMS) key could not be found. Verify that the key Amazon Resource Name (ARN) is correct, that the key exists, and that it is in the same Amazon Web Services Region as the resource.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func associateDatasetKmsKey(input: AssociateDatasetKmsKeyInput) async throws -> AssociateDatasetKmsKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.associateDatasetKmsKeyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateDatasetKmsKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDatasetKmsKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateDatasetKmsKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateDatasetKmsKeyInput, AssociateDatasetKmsKeyOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDatasetKmsKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAlarmMuteRule` operation on the `CloudWatch` service.
     ///
     /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error. Permissions To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
@@ -1704,6 +1801,85 @@ extension CloudWatchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateDatasetKmsKey` operation on the `CloudWatch` service.
+    ///
+    /// Removes the customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key association from the specified dataset. After this operation completes, data that you publish to the dataset is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. Only the default dataset is supported. To call this operation, the dataset must currently have a customer managed KMS key associated with it. If the dataset has no associated KMS key, the operation fails with ResourceNotFoundException. Amazon CloudWatch performs a dry-run kms:Decrypt call on the key as part of this operation. This verifies that the caller is authorized to use the currently associated key. The caller must have kms:Decrypt permission on the currently associated key, and the key must be enabled and accessible. If the key has been disabled or scheduled for deletion, you must first re-enable or restore it before you can disassociate it from the dataset. Disassociating a KMS key from a dataset does not immediately remove the kms:Decrypt requirement on data plane operations. For up to three hours after disassociation, callers must continue to have kms:Decrypt permission on the previously associated key. Some data may still be encrypted with that key during this window. After this enforcement window elapses, the kms:Decrypt requirement is lifted. For more information about using customer managed keys with Amazon CloudWatch, see [Encryption at rest with customer managed keys](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cmk-encryption.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDatasetKmsKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateDatasetKmsKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func disassociateDatasetKmsKey(input: DisassociateDatasetKmsKeyInput) async throws -> DisassociateDatasetKmsKeyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.disassociateDatasetKmsKeyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateDatasetKmsKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDatasetKmsKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateDatasetKmsKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateDatasetKmsKeyInput, DisassociateDatasetKmsKeyOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateDatasetKmsKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableAlarmActions` operation on the `CloudWatch` service.
     ///
     /// Enables the actions for the specified alarms.
@@ -2012,6 +2188,84 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDashboard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetDataset` operation on the `CloudWatch` service.
+    ///
+    /// Returns information about the specified dataset. This includes its identifier, Amazon Resource Name (ARN), and any customer managed Amazon Web Services Key Management Service (Amazon Web Services KMS) key that is currently associated with it. Only the default dataset is supported. The default dataset is implicit for every account in every Region — you can call GetDataset for it without first creating it. If no customer managed KMS key has been associated with the dataset, the response omits the KmsKeyArn field, indicating that data is encrypted at rest using an Amazon Web Services owned key managed by Amazon CloudWatch. To associate a customer managed KMS key with a dataset, use [AssociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_AssociateDatasetKmsKey.html). To remove the association, use [DisassociateDatasetKmsKey](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DisassociateDatasetKmsKey.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDatasetInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDatasetOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.getDatasetOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDataset")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatasetInput, GetDatasetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatasetInput, GetDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDatasetOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDatasetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatasetInput, GetDatasetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDatasetInput, GetDatasetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDatasetOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDatasetInput, GetDatasetOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDatasetInput, GetDatasetOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDatasetInput, GetDatasetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDatasetInput, GetDatasetOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDataset")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

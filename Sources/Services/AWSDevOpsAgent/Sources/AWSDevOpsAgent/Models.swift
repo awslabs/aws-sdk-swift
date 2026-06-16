@@ -3326,6 +3326,130 @@ public struct CreatePrivateConnectionOutput: Swift.Sendable {
 
 extension DevOpsAgentClientTypes {
 
+    /// Schedule-based condition that fires the Trigger
+    public struct ScheduleCondition: Swift.Sendable {
+        /// The schedule expression
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Defines the firing condition for a Trigger
+    public enum TriggerCondition: Swift.Sendable {
+        /// Time-based firing condition
+        case schedule(DevOpsAgentClientTypes.ScheduleCondition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateTriggerInput: Swift.Sendable {
+    /// The action the new Trigger performs when it fires
+    /// This member is required.
+    public var action: Smithy.Document?
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent Trigger creation
+    public var clientToken: Swift.String?
+    /// The condition that fires the new Trigger
+    /// This member is required.
+    public var condition: DevOpsAgentClientTypes.TriggerCondition?
+    /// The initial status of the Trigger
+    public var status: Swift.String?
+    /// How the new Trigger fires
+    /// This member is required.
+    public var type: Swift.String?
+
+    public init(
+        action: Smithy.Document? = nil,
+        agentSpaceId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        condition: DevOpsAgentClientTypes.TriggerCondition? = nil,
+        status: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.action = action
+        self.agentSpaceId = agentSpaceId
+        self.clientToken = clientToken
+        self.condition = condition
+        self.status = status
+        self.type = type
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// A Trigger fires on a schedule and invokes an agent
+    public struct Trigger: Swift.Sendable {
+        /// The action this Trigger performs when it fires
+        /// This member is required.
+        public var action: Smithy.Document?
+        /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The condition that fires this Trigger
+        /// This member is required.
+        public var condition: DevOpsAgentClientTypes.TriggerCondition?
+        /// Timestamp when this Trigger was created
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The status of this Trigger
+        /// This member is required.
+        public var status: Swift.String?
+        /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+        /// This member is required.
+        public var triggerId: Swift.String?
+        /// How this Trigger fires
+        /// This member is required.
+        public var type: Swift.String?
+        /// Timestamp when this Trigger was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            action: Smithy.Document? = nil,
+            agentSpaceId: Swift.String? = nil,
+            condition: DevOpsAgentClientTypes.TriggerCondition? = nil,
+            createdAt: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            triggerId: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.agentSpaceId = agentSpaceId
+            self.condition = condition
+            self.createdAt = createdAt
+            self.status = status
+            self.triggerId = triggerId
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Authorization discovery configuration for MCP server.
     public struct MCPServerAuthorizationDiscoveryConfig: Swift.Sendable {
         /// The endpoint to return to after OAuth flow completes (must be AWS console domain)
@@ -3467,6 +3591,28 @@ public struct DeletePrivateConnectionOutput: Swift.Sendable {
         self.name = name
         self.status = status
     }
+}
+
+public struct DeleteTriggerInput: Swift.Sendable {
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.triggerId = triggerId
+    }
+}
+
+public struct DeleteTriggerOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Input for deregistering a service.
@@ -3978,6 +4124,35 @@ public struct GetRecommendationOutput: Swift.Sendable {
         recommendation: DevOpsAgentClientTypes.Recommendation? = nil
     ) {
         self.recommendation = recommendation
+    }
+}
+
+public struct GetTriggerInput: Swift.Sendable {
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.triggerId = triggerId
+    }
+}
+
+public struct GetTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
     }
 }
 
@@ -5060,6 +5235,46 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct ListTriggersInput: Swift.Sendable {
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single response
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response to retrieve the next page of results
+    public var nextToken: Swift.String?
+    /// Filter results to Triggers in this status
+    public var status: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+public struct ListTriggersOutput: Swift.Sendable {
+    /// The list of Triggers
+    /// This member is required.
+    public var items: [DevOpsAgentClientTypes.Trigger]?
+    /// Pagination token for list operations (1-2048 characters)
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DevOpsAgentClientTypes.Trigger]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -6860,6 +7075,43 @@ public struct UpdateRecommendationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTriggerInput: Swift.Sendable {
+    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// A unique, case-sensitive identifier used for idempotent Trigger update
+    public var clientToken: Swift.String?
+    /// The new status for the Trigger
+    public var status: Swift.String?
+    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// This member is required.
+    public var triggerId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        status: Swift.String? = nil,
+        triggerId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.clientToken = clientToken
+        self.status = status
+        self.triggerId = triggerId
+    }
+}
+
+public struct UpdateTriggerOutput: Swift.Sendable {
+    /// The Trigger object
+    /// This member is required.
+    public var trigger: DevOpsAgentClientTypes.Trigger?
+
+    public init(
+        trigger: DevOpsAgentClientTypes.Trigger? = nil
+    ) {
+        self.trigger = trigger
+    }
+}
+
 extension AssociateServiceInput {
 
     static func urlPathProvider(_ value: AssociateServiceInput) -> Swift.String? {
@@ -6946,6 +7198,16 @@ extension CreatePrivateConnectionInput {
     }
 }
 
+extension CreateTriggerInput {
+
+    static func urlPathProvider(_ value: CreateTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers"
+    }
+}
+
 extension DeleteAgentSpaceInput {
 
     static func urlPathProvider(_ value: DeleteAgentSpaceInput) -> Swift.String? {
@@ -6992,6 +7254,19 @@ extension DeletePrivateConnectionInput {
             return nil
         }
         return "/v1/private-connections/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTriggerInput {
+
+    static func urlPathProvider(_ value: DeleteTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
     }
 }
 
@@ -7222,6 +7497,19 @@ extension GetServiceInput {
             return nil
         }
         return "/v1/services/\(serviceId.urlPercentEncoding())"
+    }
+}
+
+extension GetTriggerInput {
+
+    static func urlPathProvider(_ value: GetTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
     }
 }
 
@@ -7535,6 +7823,36 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTriggersInput {
+
+    static func urlPathProvider(_ value: ListTriggersInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers"
+    }
+}
+
+extension ListTriggersInput {
+
+    static func queryItemProvider(_ value: ListTriggersInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListWebhooksInput {
 
     static func urlPathProvider(_ value: ListWebhooksInput) -> Swift.String? {
@@ -7715,6 +8033,19 @@ extension UpdateRecommendationInput {
     }
 }
 
+extension UpdateTriggerInput {
+
+    static func urlPathProvider(_ value: UpdateTriggerInput) -> Swift.String? {
+        guard let agentSpaceId = value.agentSpaceId else {
+            return nil
+        }
+        guard let triggerId = value.triggerId else {
+            return nil
+        }
+        return "/trigger/agent-space/\(agentSpaceId.urlPercentEncoding())/triggers/\(triggerId.urlPercentEncoding())"
+    }
+}
+
 extension ValidateAwsAssociationsInput {
 
     static func urlPathProvider(_ value: ValidateAwsAssociationsInput) -> Swift.String? {
@@ -7788,6 +8119,18 @@ extension CreatePrivateConnectionInput {
         try writer["mode"].write(value.mode, with: DevOpsAgentClientTypes.PrivateConnectionMode.write(value:to:))
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTriggerInput {
+
+    static func write(value: CreateTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["condition"].write(value.condition, with: DevOpsAgentClientTypes.TriggerCondition.write(value:to:))
+        try writer["status"].write(value.status)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -7987,6 +8330,15 @@ extension UpdateRecommendationInput {
     }
 }
 
+extension UpdateTriggerInput {
+
+    static func write(value: UpdateTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["status"].write(value.status)
+    }
+}
+
 extension AssociateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateServiceOutput {
@@ -8084,6 +8436,18 @@ extension CreatePrivateConnectionOutput {
     }
 }
 
+extension CreateTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
 extension DeleteAgentSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAgentSpaceOutput {
@@ -8115,6 +8479,13 @@ extension DeletePrivateConnectionOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension DeleteTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTriggerOutput {
+        return DeleteTriggerOutput()
     }
 }
 
@@ -8304,6 +8675,18 @@ extension GetServiceOutput {
         var value = GetServiceOutput()
         value.service = try reader["service"].readIfPresent(with: DevOpsAgentClientTypes.RegisteredService.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
         return value
     }
 }
@@ -8516,6 +8899,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTriggersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTriggersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTriggersOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListWebhooksOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWebhooksOutput {
@@ -8689,6 +9085,18 @@ extension UpdateRecommendationOutput {
     }
 }
 
+extension UpdateTriggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTriggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTriggerOutput()
+        value.trigger = try reader["trigger"].readIfPresent(with: DevOpsAgentClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
 extension ValidateAwsAssociationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ValidateAwsAssociationsOutput {
@@ -8846,6 +9254,26 @@ enum CreatePrivateConnectionOutputError {
     }
 }
 
+enum CreateTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAgentSpaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8914,6 +9342,26 @@ enum DeletePrivateConnectionOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -9192,6 +9640,25 @@ enum GetServiceOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -9492,6 +9959,25 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTriggersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListWebhooksOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9750,6 +10236,25 @@ enum UpdateRecommendationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTriggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -11142,6 +11647,21 @@ extension DevOpsAgentClientTypes.RegisteredSlackServiceDetails {
     }
 }
 
+extension DevOpsAgentClientTypes.ScheduleCondition {
+
+    static func write(value: DevOpsAgentClientTypes.ScheduleCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ScheduleCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.ScheduleCondition()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.SelfManagedInput {
 
     static func write(value: DevOpsAgentClientTypes.SelfManagedInput?, to writer: SmithyJSON.Writer) throws {
@@ -11614,6 +12134,47 @@ extension DevOpsAgentClientTypes.TaskFilter {
         try writer["priority"].writeList(value.priority, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.Priority>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].writeList(value.status, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.TaskStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["taskType"].writeList(value.taskType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DevOpsAgentClientTypes.TaskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.Trigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Trigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.Trigger()
+        value.triggerId = try reader["triggerId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.condition = try reader["condition"].readIfPresent(with: DevOpsAgentClientTypes.TriggerCondition.read(from:))
+        value.action = try reader["action"].readIfPresent() ?? [:]
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.TriggerCondition {
+
+    static func write(value: DevOpsAgentClientTypes.TriggerCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .schedule(schedule):
+                try writer["schedule"].write(schedule, with: DevOpsAgentClientTypes.ScheduleCondition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.TriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "schedule":
+                return .schedule(try reader["schedule"].read(with: DevOpsAgentClientTypes.ScheduleCondition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

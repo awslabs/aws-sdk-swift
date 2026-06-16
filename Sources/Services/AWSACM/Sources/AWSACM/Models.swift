@@ -1049,6 +1049,7 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
+    @available(*, deprecated, message: "Certificate transparency logging opt-out is no longer available. API deprecated since 12th June 2026")
     public enum CertificateTransparencyLoggingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -1078,9 +1079,10 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    /// Structure that contains options for your certificate. You can use this structure to specify whether to opt in to or out of certificate transparency logging and export your certificate. Some browsers require that public certificates issued for your domain be recorded in a log. Certificates that are not logged typically generate a browser error. Transparency makes it possible for you to detect SSL/TLS certificates that have been mistakenly or maliciously issued for your domain. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// Structure that contains options for your certificate. You can use this structure to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public struct CertificateOptions: Swift.Sendable {
-        /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
+        /// This parameter has been deprecated. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
+        @available(*, deprecated, message: "Certificate transparency logging opt-out is no longer available. API deprecated since 12th June 2026")
         public var certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference?
         /// You can opt in to allow the export of your certificates by specifying ENABLED. You cannot update the value of Export after the the certificate is created.
         public var export: ACMClientTypes.CertificateExport?
@@ -1217,7 +1219,7 @@ extension ACMClientTypes {
         public var notAfter: Foundation.Date?
         /// The time before which the certificate is not valid.
         public var notBefore: Foundation.Date?
-        /// Value that specifies whether to add the certificate to a transparency log. Certificate transparency makes it possible to detect SSL certificates that have been mistakenly or maliciously issued. A browser might respond to certificate that has not been logged by showing an error message. The logs are cryptographically secure.
+        /// Contains the certificate options. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log.
         public var options: ACMClientTypes.CertificateOptions?
         /// Specifies whether the certificate is eligible for renewal. At this time, only exported private certificates can be renewed with the [RenewCertificate] command.
         public var renewalEligibility: ACMClientTypes.RenewalEligibility?
@@ -2119,7 +2121,7 @@ public struct RequestCertificateInput: Swift.Sendable {
     public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
     /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
     public var managedBy: ACMClientTypes.CertificateManagedBy?
-    /// You can use this parameter to specify whether to add the certificate to a certificate transparency log and export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
+    /// You can use this parameter to specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public var options: ACMClientTypes.CertificateOptions?
     /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see [Quotas](https://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html). The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:
     ///
@@ -2595,7 +2597,7 @@ public struct UpdateCertificateOptionsInput: Swift.Sendable {
     /// ARN of the requested certificate to update. This must be of the form: arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateArn: Swift.String?
-    /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log or export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
+    /// Use to update the options for your certificate. Currently, you can specify whether to export your certificate. Certificate transparency logging opt-out is no longer available. All public certificates are recorded in a certificate transparency log. For more information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency).
     /// This member is required.
     public var options: ACMClientTypes.CertificateOptions?
 
