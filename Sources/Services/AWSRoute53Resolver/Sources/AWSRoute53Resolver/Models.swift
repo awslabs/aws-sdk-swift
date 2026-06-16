@@ -1198,6 +1198,13 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes {
 
+    /// The confidence threshold for a DNS Firewall Advanced rule. One of:
+    ///
+    /// * LOW — Provides the highest detection rate for threats, but also increases false positives.
+    ///
+    /// * MEDIUM — Provides a balance between detecting threats and false positives.
+    ///
+    /// * HIGH — Detects only the most well-corroborated threats with a low rate of false positives.
     public enum ConfidenceThreshold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
         case low
@@ -1308,7 +1315,7 @@ extension Route53ResolverClientTypes {
         ///
         /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
         ///
-        /// * DICT_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1356,23 +1363,43 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes {
 
-    /// The configuration for a rule type in a DNS Firewall rule. This is a union type — exactly one member should be set.
+    /// The configuration for a partner threat-protection rule. To enumerate the partners available in your account, call [ListFirewallRuleTypes] with RuleType set to PartnerThreatProtection — each returned [FirewallRuleTypeDefinition] includes a [SubscriptionInfo] identifying the AWS Marketplace product that backs it.
+    public struct PartnerThreatProtectionConfig: Swift.Sendable {
+        /// The identifier of the partner threat-protection product, exactly as returned in the Value field of a [FirewallRuleTypeDefinition] with RuleType set to PartnerThreatProtection. The calling account must hold an active AWS Marketplace subscription to this product.
+        /// This member is required.
+        public var partner: Swift.String?
+
+        public init(
+            partner: Swift.String? = nil
+        ) {
+            self.partner = partner
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
+    /// The rule-type configuration for a DNS Firewall rule. FirewallRuleType is a tagged union — exactly one member must be set per rule, and the member determines what the rule matches against. This shape is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields on [CreateFirewallRule] and [UpdateFirewallRule]. Call [ListFirewallRuleTypes] to discover which rule-type variants and which values within each variant are available in your account and Region.
     public struct FirewallRuleType: Swift.Sendable {
-        /// The configuration for a DNS threat protection rule type, such as DGA or DNS tunneling detection.
+        /// Configures the rule to match a built-in DNS Firewall Advanced threat detector — DGA, DNS_TUNNELING, or DICTIONARY_DGA. See [DnsThreatProtectionRuleTypeConfig].
         public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtectionRuleTypeConfig?
-        /// The configuration for a content category-based filtering rule.
+        /// Configures the rule to match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH). See [FirewallAdvancedContentCategoryConfig].
         public var firewallAdvancedContentCategory: Route53ResolverClientTypes.FirewallAdvancedContentCategoryConfig?
-        /// The configuration for a threat category-based filtering rule.
+        /// Configures the rule to match an AWS-managed advanced threat category (for example, PHISHING). See [FirewallAdvancedThreatCategoryConfig].
         public var firewallAdvancedThreatCategory: Route53ResolverClientTypes.FirewallAdvancedThreatCategoryConfig?
+        /// Configures the rule to match a third-party threat feed delivered through AWS Marketplace. The calling account must hold an active subscription to the partner product named in Partner; if the subscription is missing or revoked, the rule is created with StatusCREATION_FAILED and cannot be modified — only deleted. See [PartnerThreatProtectionConfig].
+        public var partnerThreatProtection: Route53ResolverClientTypes.PartnerThreatProtectionConfig?
 
         public init(
             dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtectionRuleTypeConfig? = nil,
             firewallAdvancedContentCategory: Route53ResolverClientTypes.FirewallAdvancedContentCategoryConfig? = nil,
-            firewallAdvancedThreatCategory: Route53ResolverClientTypes.FirewallAdvancedThreatCategoryConfig? = nil
+            firewallAdvancedThreatCategory: Route53ResolverClientTypes.FirewallAdvancedThreatCategoryConfig? = nil,
+            partnerThreatProtection: Route53ResolverClientTypes.PartnerThreatProtectionConfig? = nil
         ) {
             self.dnsThreatProtection = dnsThreatProtection
             self.firewallAdvancedContentCategory = firewallAdvancedContentCategory
             self.firewallAdvancedThreatCategory = firewallAdvancedThreatCategory
+            self.partnerThreatProtection = partnerThreatProtection
         }
     }
 }
@@ -1421,7 +1448,7 @@ extension Route53ResolverClientTypes {
         ///
         /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
         ///
-        /// * DICT_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
         /// The ID of the domain list that you want to use in the rule. This setting is mutually exclusive with DnsThreatProtection and FirewallRuleType.
         public var firewallDomainListId: Swift.String?
@@ -1430,7 +1457,18 @@ extension Route53ResolverClientTypes {
         /// The unique identifier of the firewall rule group where you want to create the rule.
         /// This member is required.
         public var firewallRuleGroupId: Swift.String?
-        /// The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:
+        ///
+        /// * FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).
+        ///
+        /// * FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).
+        ///
+        /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+        ///
+        /// * PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.
+        ///
+        ///
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// A name that lets you identify the rule in the rule group.
         /// This member is required.
@@ -1557,9 +1595,11 @@ extension Route53ResolverClientTypes {
         public var creatorRequestId: Swift.String?
         /// The type of the DNS Firewall Advanced rule. Valid values are:
         ///
-        /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+        /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.
         ///
         /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+        ///
+        /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
         /// The ID of the domain list that's used in the rule.
         public var firewallDomainListId: Swift.String?
@@ -1567,7 +1607,18 @@ extension Route53ResolverClientTypes {
         public var firewallDomainRedirectionAction: Route53ResolverClientTypes.FirewallDomainRedirectionAction?
         /// The unique identifier of the Firewall rule group of the rule.
         public var firewallRuleGroupId: Swift.String?
-        /// The rule type configuration for the firewall rule. Exactly one member of this union should be set.
+        /// The rule type configuration for the firewall rule. This is a tagged union — exactly one of its members will be populated. Possible members are:
+        ///
+        /// * FirewallAdvancedContentCategory — an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).
+        ///
+        /// * FirewallAdvancedThreatCategory — an AWS-managed advanced threat category (for example, PHISHING).
+        ///
+        /// * DnsThreatProtection — a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+        ///
+        /// * PartnerThreatProtection — a third-party threat feed delivered through AWS Marketplace.
+        ///
+        ///
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// ID of the DNS Firewall Advanced rule.
         public var firewallThreatProtectionId: Swift.String?
@@ -1607,6 +1658,19 @@ extension Route53ResolverClientTypes {
         ///
         /// * A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see [List of DNS record types](https://en.wikipedia.org/wiki/List_of_DNS_record_types).
         public var qtype: Swift.String?
+        /// The lifecycle state of the firewall rule. Possible values:
+        ///
+        /// * CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's AWS Marketplace entitlement.
+        ///
+        /// * COMPLETE — The rule is provisioned and enforcing matches.
+        ///
+        /// * CREATION_FAILED — Provisioning failed. StatusMessage contains a human-readable reason. A rule in this state is immutable: [UpdateFirewallRule] rejects the request, and the rule must be removed with [DeleteFirewallRule].
+        ///
+        ///
+        /// For rules that do not require asynchronous provisioning, this field may be absent.
+        public var status: Swift.String?
+        /// An additional message about the rule's lifecycle state. Populated when Status is CREATION_FAILED to describe why provisioning failed.
+        public var statusMessage: Swift.String?
 
         public init(
             action: Route53ResolverClientTypes.Action? = nil,
@@ -1626,7 +1690,9 @@ extension Route53ResolverClientTypes {
             modificationTime: Swift.String? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
-            qtype: Swift.String? = nil
+            qtype: Swift.String? = nil,
+            status: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
         ) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
@@ -1646,6 +1712,8 @@ extension Route53ResolverClientTypes {
             self.name = name
             self.priority = priority
             self.qtype = qtype
+            self.status = status
+            self.statusMessage = statusMessage
         }
     }
 }
@@ -1806,7 +1874,7 @@ extension Route53ResolverClientTypes {
         ///
         /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
         ///
-        /// * DICT_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
         /// The ID of the domain list to use in the rule. This setting is mutually exclusive with DnsThreatProtection and FirewallRuleType.
         public var firewallDomainListId: Swift.String?
@@ -1815,7 +1883,18 @@ extension Route53ResolverClientTypes {
         /// The unique identifier of the firewall rule group for the rule.
         /// This member is required.
         public var firewallRuleGroupId: Swift.String?
-        /// The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields.
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:
+        ///
+        /// * FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).
+        ///
+        /// * FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).
+        ///
+        /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+        ///
+        /// * PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.
+        ///
+        ///
+        /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
         public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
         /// The ID of the DNS Firewall Advanced rule.
         public var firewallThreatProtectionId: Swift.String?
@@ -2136,7 +2215,13 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var creatorRequestId: Swift.String?
-    /// Use to create a DNS Firewall Advanced rule.
+    /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
+    ///
+    /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.
+    ///
+    /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+    ///
+    /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
     public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
     public var firewallDomainListId: Swift.String?
@@ -2145,7 +2230,18 @@ public struct CreateFirewallRuleInput: Swift.Sendable {
     /// The unique identifier of the firewall rule group where you want to create the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
-    /// The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields.
+    /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:
+    ///
+    /// * FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).
+    ///
+    /// * FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).
+    ///
+    /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+    ///
+    /// * PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.
+    ///
+    ///
+    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
     public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
     /// A name that lets you identify the rule in the rule group.
     /// This member is required.
@@ -3688,6 +3784,25 @@ extension Route53ResolverClientTypes {
 
 extension Route53ResolverClientTypes {
 
+    /// Identifies the AWS Marketplace product that backs a partner-managed rule type. Returned as part of [FirewallRuleTypeDefinition] when the rule type variant requires an active customer subscription to the named product.
+    public struct SubscriptionInfo: Swift.Sendable {
+        /// The AWS Marketplace product identifier of the partner threat-protection product. Use this value to verify or manage the calling account's subscription in AWS Marketplace.
+        public var productId: Swift.String?
+        /// The name of the AWS Marketplace seller (vendor) that publishes the partner threat-protection product (for example, Palo Alto Networks).
+        public var vendorName: Swift.String?
+
+        public init(
+            productId: Swift.String? = nil,
+            vendorName: Swift.String? = nil
+        ) {
+            self.productId = productId
+            self.vendorName = vendorName
+        }
+    }
+}
+
+extension Route53ResolverClientTypes {
+
     /// The definition of an available rule type that can be used in DNS Firewall rules. This is returned by [ListFirewallRuleTypes].
     public struct FirewallRuleTypeDefinition: Swift.Sendable {
         /// A description of the rule type.
@@ -3696,6 +3811,8 @@ extension Route53ResolverClientTypes {
         public var displayName: Swift.String?
         /// The category or class of the rule type, such as FirewallAdvancedContentCategory or FirewallAdvancedThreatCategory.
         public var ruleType: Swift.String?
+        /// For rule types that require an external subscription (today, only the PartnerThreatProtection variant), describes the AWS Marketplace product that backs the rule type. Absent for rule types that are managed by AWS and do not require a separate subscription. See [SubscriptionInfo].
+        public var subscriptionInfo: Route53ResolverClientTypes.SubscriptionInfo?
         /// The specific identifier within the rule type category, such as VIOLENCE_AND_HATE_SPEECH or PHISHING.
         public var value: Swift.String?
 
@@ -3703,11 +3820,13 @@ extension Route53ResolverClientTypes {
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             ruleType: Swift.String? = nil,
+            subscriptionInfo: Route53ResolverClientTypes.SubscriptionInfo? = nil,
             value: Swift.String? = nil
         ) {
             self.description = description
             self.displayName = displayName
             self.ruleType = ruleType
+            self.subscriptionInfo = subscriptionInfo
             self.value = value
         }
     }
@@ -4357,6 +4476,7 @@ extension Route53ResolverClientTypes {
         case deleting
         case detaching
         case failedcreation
+        case failedcreationinsufficientec2capacityinoutpost
         case failedresourcegone
         case isolated
         case remapattaching
@@ -4374,6 +4494,7 @@ extension Route53ResolverClientTypes {
                 .deleting,
                 .detaching,
                 .failedcreation,
+                .failedcreationinsufficientec2capacityinoutpost,
                 .failedresourcegone,
                 .isolated,
                 .remapattaching,
@@ -4397,6 +4518,7 @@ extension Route53ResolverClientTypes {
             case .deleting: return "DELETING"
             case .detaching: return "DETACHING"
             case .failedcreation: return "FAILED_CREATION"
+            case .failedcreationinsufficientec2capacityinoutpost: return "FAILED_CREATION_INSUFFICIENT_EC2_CAPACITY_IN_OUTPOST"
             case .failedresourcegone: return "FAILED_RESOURCE_GONE"
             case .isolated: return "ISOLATED"
             case .remapattaching: return "REMAP_ATTACHING"
@@ -4677,7 +4799,7 @@ public struct ListFirewallRuleTypesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver provides a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
     public var nextToken: Swift.String?
-    /// The rule type to filter by. If specified, only rule types matching this value are returned.
+    /// An optional filter that restricts the response to a single [FirewallRuleType] variant. Supported values: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. If omitted, definitions across all variants are returned.
     public var ruleType: Swift.String?
 
     public init(
@@ -5506,11 +5628,13 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     ///
     /// * HIGH: Detects only the most well corroborated threats with a low rate of false positives.
     public var confidenceThreshold: Route53ResolverClientTypes.ConfidenceThreshold?
-    /// The type of the DNS Firewall Advanced rule. Valid values are:
+    /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
     ///
-    /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to to launch malware attacks.
+    /// * DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.
     ///
     /// * DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.
+    ///
+    /// * DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
     public var dnsThreatProtection: Route53ResolverClientTypes.DnsThreatProtection?
     /// The ID of the domain list to use in the rule.
     public var firewallDomainListId: Swift.String?
@@ -5519,7 +5643,18 @@ public struct UpdateFirewallRuleInput: Swift.Sendable {
     /// The unique identifier of the firewall rule group for the rule.
     /// This member is required.
     public var firewallRuleGroupId: Swift.String?
-    /// The rule type configuration for the firewall rule. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields.
+    /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:
+    ///
+    /// * FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).
+    ///
+    /// * FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).
+    ///
+    /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+    ///
+    /// * PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.
+    ///
+    ///
+    /// To enumerate the values supported in your account, call [ListFirewallRuleTypes].
     public var firewallRuleType: Route53ResolverClientTypes.FirewallRuleType?
     /// The DNS Firewall Advanced rule ID.
     public var firewallThreatProtectionId: Swift.String?

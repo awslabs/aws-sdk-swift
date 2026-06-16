@@ -1234,9 +1234,13 @@ extension S3Client {
     ///
     /// * s3tables:PutTablePolicy
     ///
+    /// * s3tables:PutTableBucketPolicy
+    ///
     /// * s3tables:PutTableEncryption
     ///
     /// * kms:DescribeKey
+    ///
+    /// * iam:PassRole - required if you include an AnnotationTableConfiguration with an IAM role.
     ///
     ///
     /// The following operations are related to CreateBucketMetadataConfiguration:
@@ -1249,8 +1253,10 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
+    /// * [UpdateBucketMetadataAnnotationTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataAnnotationTableConfiguration.html)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
+    /// If you include an AnnotationTableConfiguration with an IAM role, the role must have a trust policy that allows the Amazon S3 metadata service to assume it, and a permissions policy that grants the actions needed to read annotations from your bucket. The following examples show a trust policy and a permissions policy that you can adapt for your bucket and account. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataConfigurationInput`)
     ///
@@ -2900,6 +2906,85 @@ extension S3Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteObject")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteObjectAnnotation` operation on the `S3` service.
+    ///
+    /// Deletes a specific annotation from an Amazon S3 object. Use the x-amz-object-if-match header to perform a conditional delete that only succeeds if the object's ETag matches the provided value, preventing race conditions during concurrent updates. Deleting an annotation is permanent. Annotations are not independently versioned, so there is no delete marker or way to recover a deleted annotation. To use this operation, you must have the s3:DeleteObjectAnnotation permission. If the object is protected by Object Lock in governance mode, you must also include the x-amz-bypass-governance-retention header. Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The following operations are related to DeleteObjectAnnotation:
+    ///
+    /// * [PutObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html)
+    ///
+    /// * [GetObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html)
+    ///
+    /// * [ListObjectAnnotations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectAnnotationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteObjectAnnotationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchBucket` : The specified bucket does not exist.
+    /// - `NoSuchKey` : The specified key does not exist.
+    public func deleteObjectAnnotation(input: DeleteObjectAnnotationInput) async throws -> DeleteObjectAnnotationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteObjectAnnotation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(DeleteObjectAnnotationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(DeleteObjectAnnotationInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(DeleteObjectAnnotationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectAnnotationOutput>(DeleteObjectAnnotationOutput.httpOutput(from:), DeleteObjectAnnotationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectAnnotationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteObjectAnnotationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteObjectAnnotationInput, DeleteObjectAnnotationOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteObjectAnnotation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5148,6 +5233,86 @@ extension S3Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetObjectAnnotation` operation on the `S3` service.
+    ///
+    /// Retrieves an annotation from an Amazon S3 object. To use this operation, you must have the s3:GetObjectAnnotation permission. If checksum mode is enabled via the x-amz-checksum-mode header, Amazon S3 returns the stored checksum in the response headers for client-side validation. Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The following operations are related to GetObjectAnnotation:
+    ///
+    /// * [PutObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html)
+    ///
+    /// * [ListObjectAnnotations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html)
+    ///
+    /// * [DeleteObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAnnotationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetObjectAnnotationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchAnnotation` : The specified annotation does not exist on this object.
+    /// - `NoSuchBucket` : The specified bucket does not exist.
+    /// - `NoSuchKey` : The specified key does not exist.
+    public func getObjectAnnotation(input: GetObjectAnnotationInput) async throws -> GetObjectAnnotationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getObjectAnnotation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetObjectAnnotationInput, GetObjectAnnotationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(GetObjectAnnotationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(GetObjectAnnotationInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(GetObjectAnnotationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAnnotationOutput>(GetObjectAnnotationOutput.httpOutput(from:), GetObjectAnnotationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectAnnotationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetObjectAnnotationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsResponseMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(validationMode: input.checksumMode?.rawValue ?? "unset", algosSupportedByOperation: ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1", "SHA512", "MD5", "XXHASH64", "XXHASH3", "XXHASH128"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetObjectAnnotationInput, GetObjectAnnotationOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetObjectAnnotation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetObjectAttributes` operation on the `S3` service.
     ///
     /// Retrieves all of the metadata from an object without returning the object itself. This operation is useful if you're interested only in an object's metadata. GetObjectAttributes combines the functionality of HeadObject and ListParts. All of the data returned with both of those individual calls can be returned with a single call to GetObjectAttributes. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
@@ -6464,6 +6629,86 @@ extension S3Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMultipartUploads")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListObjectAnnotations` operation on the `S3` service.
+    ///
+    /// Lists the annotations attached to an Amazon S3 object. Results are paginated, with a maximum of 1,000 annotations per object. Use the AnnotationPrefix parameter to filter the results by name prefix. To use this operation, you must have the s3:ListObjectAnnotations permission. Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The following operations are related to ListObjectAnnotations:
+    ///
+    /// * [PutObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectAnnotation.html)
+    ///
+    /// * [GetObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html)
+    ///
+    /// * [DeleteObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListObjectAnnotationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListObjectAnnotationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidPrefix` : The annotation prefix you provided is invalid.
+    /// - `NoSuchBucket` : The specified bucket does not exist.
+    /// - `NoSuchKey` : The specified key does not exist.
+    public func listObjectAnnotations(input: ListObjectAnnotationsInput) async throws -> ListObjectAnnotationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listObjectAnnotations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListObjectAnnotationsInput, ListObjectAnnotationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(ListObjectAnnotationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(ListObjectAnnotationsInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(ListObjectAnnotationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectAnnotationsOutput>(ListObjectAnnotationsOutput.httpOutput(from:), ListObjectAnnotationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectAnnotationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListObjectAnnotationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListObjectAnnotationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListObjectAnnotationsInput, ListObjectAnnotationsOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListObjectAnnotations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8878,6 +9123,94 @@ extension S3Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutObjectAnnotation` operation on the `S3` service.
+    ///
+    /// Attaches an annotation to an Amazon S3 object. An annotation is a named payload of 1 byte to 1 MiB that you can associate with a specific object or object version. Each object can have up to 1,000 annotations. For annotation naming rules and restrictions, see [Annotation naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/annotations-overview.html) in the Amazon S3 User Guide. Annotations inherit the encryption of their parent object. For objects without server-side encryption, annotations are encrypted with SSE-S3 (the default for new objects). Objects encrypted with SSE-C cannot have annotations. To use this operation, you must have the s3:PutObjectAnnotation permission. If the bucket has Requester Pays enabled, you must include the x-amz-request-payer header. Annotations are not supported by the following features: S3 Inventory Reports, API Gateway, S3 Storage Lens, Amazon S3 File Gateway, Amazon FSx, S3 on Outposts, and S3 Express One Zone (directory buckets). The following operations are related to PutObjectAnnotation:
+    ///
+    /// * [GetObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAnnotation.html)
+    ///
+    /// * [ListObjectAnnotations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectAnnotations.html)
+    ///
+    /// * [DeleteObjectAnnotation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectAnnotation.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutObjectAnnotationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutObjectAnnotationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AnnotationLimitExceeded` : The request would exceed the maximum number of annotations allowed per object.
+    /// - `AnnotationNameTooLong` : The annotation name exceeds 512 bytes.
+    /// - `InvalidAnnotationName` : The annotation name you provided is invalid.
+    /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
+    /// - `NoSuchBucket` : The specified bucket does not exist.
+    /// - `NoSuchKey` : The specified key does not exist.
+    /// - `UnsupportedMediaType` : The annotation payload is not valid UTF-8 encoded text.
+    public func putObjectAnnotation(input: PutObjectAnnotationInput) async throws -> PutObjectAnnotationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putObjectAnnotation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutObjectAnnotationInput, PutObjectAnnotationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(PutObjectAnnotationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(PutObjectAnnotationInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(PutObjectAnnotationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(contentType: "application/octet-stream"))
+        builder.serialize(ClientRuntime.BlobStreamBodyMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(keyPath: \.annotationPayload))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectAnnotationOutput>(PutObjectAnnotationOutput.httpOutput(from:), PutObjectAnnotationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectAnnotationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, key: input.key, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutObjectAnnotationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(requestChecksumRequired: false, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutObjectAnnotationInput, PutObjectAnnotationOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutObjectAnnotation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutObjectLegalHold` operation on the `S3` service.
     ///
     /// This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
@@ -9574,6 +9907,81 @@ extension S3Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SelectObjectContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateBucketMetadataAnnotationTableConfiguration` operation on the `S3` service.
+    ///
+    /// Updates the annotation table configuration for an Amazon S3 bucket's metadata configuration. Use this operation to enable or disable the annotation table, or to update its associated IAM role. An annotation table is a queryable Iceberg table that contains records of all annotations attached to objects in the bucket. To use this operation, the bucket must have an existing Amazon S3 Metadata configuration. To use this operation, you must have the s3:UpdateBucketMetadataAnnotationTableConfiguration permission. If you are specifying or changing the IAM role, you must also have iam:PassRole permission for the role. The IAM role must have a trust policy that allows the Amazon S3 metadata service to assume it, and a permissions policy that grants the actions needed to read annotations from your bucket. The following examples show a trust policy and a permissions policy that you can adapt for your bucket and account. The following operations are related to UpdateBucketMetadataAnnotationTableConfiguration:
+    ///
+    /// * [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html)
+    ///
+    /// * [GetBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataAnnotationTableConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataAnnotationTableConfigurationOutput`)
+    public func updateBucketMetadataAnnotationTableConfiguration(input: UpdateBucketMetadataAnnotationTableConfigurationInput) async throws -> UpdateBucketMetadataAnnotationTableConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateBucketMetadataAnnotationTableConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withSigV4aSigningRegionSet(value: config.sigV4aSigningRegionSet)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(UpdateBucketMetadataAnnotationTableConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(UpdateBucketMetadataAnnotationTableConfigurationInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(UpdateBucketMetadataAnnotationTableConfigurationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput, S3ClientTypes.AnnotationTableConfigurationUpdates, SmithyXML.Writer>(rootNodeInfo: .init("AnnotationTableConfiguration", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.AnnotationTableConfigurationUpdates.write(value:to:), keyPath: \.annotationTableConfiguration, defaultBody: nil))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketMetadataAnnotationTableConfigurationOutput>(UpdateBucketMetadataAnnotationTableConfigurationOutput.httpOutput(from:), UpdateBucketMetadataAnnotationTableConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false, useS3ExpressControlEndpoint: true)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateBucketMetadataAnnotationTableConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(requestChecksumRequired: true, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateBucketMetadataAnnotationTableConfigurationInput, UpdateBucketMetadataAnnotationTableConfigurationOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateBucketMetadataAnnotationTableConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

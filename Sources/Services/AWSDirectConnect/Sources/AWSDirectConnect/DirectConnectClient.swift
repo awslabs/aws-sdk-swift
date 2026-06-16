@@ -854,6 +854,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocatePrivateVirtualInterface(input: AllocatePrivateVirtualInterfaceInput) async throws -> AllocatePrivateVirtualInterfaceOutput {
         var config = config
@@ -931,6 +932,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocatePublicVirtualInterface(input: AllocatePublicVirtualInterfaceInput) async throws -> AllocatePublicVirtualInterfaceOutput {
         var config = config
@@ -1008,6 +1010,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func allocateTransitVirtualInterface(input: AllocateTransitVirtualInterfaceInput) async throws -> AllocateTransitVirtualInterfaceOutput {
         var config = config
@@ -1084,6 +1087,7 @@ extension DirectConnectClient {
     /// __Possible Exceptions:__
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     public func associateConnectionWithLag(input: AssociateConnectionWithLagInput) async throws -> AssociateConnectionWithLagOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2291,6 +2295,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createPrivateVirtualInterface(input: CreatePrivateVirtualInterfaceInput) async throws -> CreatePrivateVirtualInterfaceOutput {
         var config = config
@@ -2368,6 +2373,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createPublicVirtualInterface(input: CreatePublicVirtualInterfaceInput) async throws -> CreatePublicVirtualInterfaceOutput {
         var config = config
@@ -2445,6 +2451,7 @@ extension DirectConnectClient {
     /// - `DirectConnectClientException` : One or more parameters are not valid.
     /// - `DirectConnectServerException` : A server-side error occurred.
     /// - `DuplicateTagKeysException` : A tag key was specified more than once.
+    /// - `LimitExceededException` : The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
     /// - `TooManyTagsException` : You have reached the limit on the number of tags that can be assigned.
     public func createTransitVirtualInterface(input: CreateTransitVirtualInterfaceInput) async throws -> CreateTransitVirtualInterfaceOutput {
         var config = config
@@ -4404,7 +4411,7 @@ extension DirectConnectClient {
     ///
     /// Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces deleted fewer than 15 minutes before you make the request are also returned. If you specify a connection ID, only the virtual interfaces associated with the connection are returned. If you specify a virtual interface ID, then only a single virtual interface is returned. A virtual interface (VLAN) transmits the traffic between the Direct Connect location and the customer network.
     ///
-    /// * If you're using an asn, the response includes ASN value in both the asn and asnLong fields.
+    /// * If you're using an asn, the response includes the ASN value in both the asn and asnLong fields.
     ///
     /// * If you're using asnLong, the response returns a value of 0 (zero) for the asn attribute because it exceeds the highest ASN value of 2,147,483,647 that it can support
     ///

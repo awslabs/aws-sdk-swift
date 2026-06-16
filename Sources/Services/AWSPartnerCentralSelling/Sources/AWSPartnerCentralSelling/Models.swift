@@ -2523,6 +2523,50 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Opportunity quality score and trend.
+    public struct OpportunityQuality: Swift.Sendable {
+        /// Deal quality score based on opportunity content completeness and sales methodology criteria. Values range from 0 to 100.
+        public var score: Swift.Int?
+        /// Direction of score change since last scoring iteration. Known values: Improving, Declining, No Change.
+        public var trend: Swift.String?
+
+        public init(
+            score: Swift.Int? = nil,
+            trend: Swift.String? = nil
+        ) {
+            self.score = score
+            self.trend = trend
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// A recommendation from an agent-driven source.
+    public struct Recommendation: Swift.Sendable {
+        /// Source-specific metadata as key-value pairs.
+        public var attributes: [Swift.String: Swift.String]?
+        /// Human-readable recommendation text from this source.
+        /// This member is required.
+        public var details: Swift.String?
+        /// The recommendation source type. Known values: OpportunityQuality, SolutionRecommendation, SpecialistRecommendation.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            details: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.details = details
+            self.type = type
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
     public struct AwsOpportunityInsights: Swift.Sendable {
         /// Source-separated spend insights that provide independent analysis for AWS recommendations and partner estimates.
@@ -2531,15 +2575,23 @@ extension PartnerCentralSellingClientTypes {
         public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
         /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
         public var nextBestActions: Swift.String?
+        /// Opportunity quality assessment. Null if not yet scored.
+        public var opportunityQuality: PartnerCentralSellingClientTypes.OpportunityQuality?
+        /// List of recommendations from various agent-driven sources.
+        public var recommendations: [PartnerCentralSellingClientTypes.Recommendation]?
 
         public init(
             awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource? = nil,
             engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
-            nextBestActions: Swift.String? = nil
+            nextBestActions: Swift.String? = nil,
+            opportunityQuality: PartnerCentralSellingClientTypes.OpportunityQuality? = nil,
+            recommendations: [PartnerCentralSellingClientTypes.Recommendation]? = nil
         ) {
             self.awsProductsSpendInsightsBySource = awsProductsSpendInsightsBySource
             self.engagementScore = engagementScore
             self.nextBestActions = nextBestActions
+            self.opportunityQuality = opportunityQuality
+            self.recommendations = recommendations
         }
     }
 }
@@ -2728,10 +2780,10 @@ extension PartnerCentralSellingClientTypes {
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
         /// A URL providing additional information or context about the spend estimation.
         public var estimationUrl: Swift.String?
-        /// Indicates how frequently the customer is expected to spend the projected amount. Only the value Monthly is allowed for the Frequency field, representing recurring monthly spend.
+        /// Indicates how frequently the customer is expected to spend the projected amount. Use Monthly for recurring monthly spend (required for TargetCompany: "AWS" entries). Use None for one-time deal value entries (required for TargetCompany: "Self" entries when providing Total Contract Value).
         /// This member is required.
         public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
-        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity. This field only accepts the value AWS. If any other value is provided, the system will automatically set it to AWS.
+        /// Specifies the entity associated with this spend entry. Use AWS for the system’s AWS Monthly Recurring Revenue (MRR) estimate. Use Self for the partner’s own deal value entry when providing Total Contract Value (TCV) for automatic MRR conversion. When ExpectedContractDuration is present on the Project, only AWS and Self are accepted. When ExpectedContractDuration is not present, only AWS is accepted and any other value will be automatically set to AWS.
         /// This member is required.
         public var targetCompany: Swift.String?
 
@@ -2945,6 +2997,8 @@ extension PartnerCentralSellingClientTypes {
 
     /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
     public struct AwsOpportunitySummaryFullView: Swift.Sendable {
+        /// Engagement classification for this opportunity. Read-only. Null before scoring. Known values: AWS Field-engaged, Agent-engaged, Partner-led.
+        public var cosellMotion: Swift.String?
         /// Represents the customer associated with the AWS opportunity. This field captures key details about the customer that are necessary for managing the opportunity.
         public var customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer?
         /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
@@ -2969,6 +3023,7 @@ extension PartnerCentralSellingClientTypes {
         public var visibility: PartnerCentralSellingClientTypes.Visibility?
 
         public init(
+            cosellMotion: Swift.String? = nil,
             customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer? = nil,
             insights: PartnerCentralSellingClientTypes.AwsOpportunityInsights? = nil,
             involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
@@ -2981,6 +3036,7 @@ extension PartnerCentralSellingClientTypes {
             relatedOpportunityId: Swift.String? = nil,
             visibility: PartnerCentralSellingClientTypes.Visibility? = nil
         ) {
+            self.cosellMotion = cosellMotion
             self.customer = customer
             self.insights = insights
             self.involvementType = involvementType
@@ -3172,6 +3228,21 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Contains insights that AI generates for a lead. These insights provide automated analysis to help partners evaluate the lead quality and prioritize engagement efforts.
+    public struct LeadInsights: Swift.Sendable {
+        /// A score that indicates the lead's readiness for engagement. Valid values are Low, Medium, and High. Use this score to prioritize leads based on their likelihood of conversion.
+        public var leadReadinessScore: Swift.String?
+
+        public init(
+            leadReadinessScore: Swift.String? = nil
+        ) {
+            self.leadReadinessScore = leadReadinessScore
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// An object that contains a lead contact's details associated with the engagement. This provides contact information for individuals involved in lead-related activities.
     public struct LeadContact: Swift.Sendable {
         /// The lead contact's business title or job role associated with the engagement.
@@ -3260,6 +3331,8 @@ extension PartnerCentralSellingClientTypes {
         /// Contains detailed information about the customer associated with the lead, including company information, contact details, and other relevant customer data.
         /// This member is required.
         public var customer: PartnerCentralSellingClientTypes.LeadCustomer?
+        /// Insights that AI generates and associates with the lead. These insights provide automated analysis such as lead readiness scoring to help partners assess the lead quality.
+        public var insights: PartnerCentralSellingClientTypes.LeadInsights?
         /// An array of interactions that have occurred with the lead, providing a history of communications, meetings, and other engagement activities related to the lead.
         /// This member is required.
         public var interactions: [PartnerCentralSellingClientTypes.LeadInteraction]?
@@ -3268,12 +3341,150 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             customer: PartnerCentralSellingClientTypes.LeadCustomer? = nil,
+            insights: PartnerCentralSellingClientTypes.LeadInsights? = nil,
             interactions: [PartnerCentralSellingClientTypes.LeadInteraction]? = nil,
             qualificationStatus: Swift.String? = "Unqualified"
         ) {
             self.customer = customer
+            self.insights = insights
             self.interactions = interactions
             self.qualificationStatus = qualificationStatus
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains detailed information about the prospected customer account, including company identifiers, geographic classification, industry segmentation, and program eligibility.
+    public struct ProspectingResultCustomer: Swift.Sendable {
+        /// The name of the prospected customer account.
+        public var accountName: Swift.String?
+        /// The company size classification of the prospected customer account.
+        public var companySize: Swift.String?
+        /// The country code of the prospected customer account.
+        public var country: PartnerCentralSellingClientTypes.CountryCode?
+        /// A list of AWS Greenfield programs that the prospected customer is eligible for. Use this list to identify relevant go-to-market opportunities.
+        public var eligiblePrograms: [Swift.String]?
+        /// The geographic region classification of the prospected customer account.
+        public var geo: Swift.String?
+        /// The industry classification of the prospected customer account.
+        public var industry: PartnerCentralSellingClientTypes.Industry?
+        /// A summary of publicly available information about the prospected customer. The system uses this summary to generate customer insights and inform engagement strategies.
+        public var publicProfileSummary: Swift.String?
+        /// The specific region of the prospected customer account.
+        public var region: Swift.String?
+        /// The market segment classification of the prospected customer account.
+        public var segment: Swift.String?
+        /// The sub-industry classification of the prospected customer account. This provides more granular categorization within the primary industry.
+        public var subIndustry: Swift.String?
+        /// The subregion classification of the prospected customer account.
+        public var subRegion: Swift.String?
+
+        public init(
+            accountName: Swift.String? = nil,
+            companySize: Swift.String? = nil,
+            country: PartnerCentralSellingClientTypes.CountryCode? = nil,
+            eligiblePrograms: [Swift.String]? = nil,
+            geo: Swift.String? = nil,
+            industry: PartnerCentralSellingClientTypes.Industry? = nil,
+            publicProfileSummary: Swift.String? = nil,
+            region: Swift.String? = nil,
+            segment: Swift.String? = nil,
+            subIndustry: Swift.String? = nil,
+            subRegion: Swift.String? = nil
+        ) {
+            self.accountName = accountName
+            self.companySize = companySize
+            self.country = country
+            self.eligiblePrograms = eligiblePrograms
+            self.geo = geo
+            self.industry = industry
+            self.publicProfileSummary = publicProfileSummary
+            self.region = region
+            self.segment = segment
+            self.subIndustry = subIndustry
+            self.subRegion = subRegion
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains insights that AI generates from the prospecting analysis. These insights include marketplace engagement scoring, solution fit assessments, and solution categorization for the prospected customer.
+    public struct ProspectingInsights: Swift.Sendable {
+        /// A score that indicates the prospected customer's level of engagement with AWS Marketplace. Valid values are High, Medium, and Low.
+        public var marketplaceEngagementScore: Swift.String?
+        /// The primary solution category classification for the prospected customer. This indicates the type of solution that best addresses their needs.
+        public var solutionCategory: Swift.String?
+        /// A score that indicates how well the partner's solution fits the prospected customer's needs.
+        public var solutionScore: Swift.String?
+        /// The solution sub-category classification for the prospected customer. This provides more granular categorization of the recommended solution type.
+        public var solutionSubCategory: Swift.String?
+
+        public init(
+            marketplaceEngagementScore: Swift.String? = nil,
+            solutionCategory: Swift.String? = nil,
+            solutionScore: Swift.String? = nil,
+            solutionSubCategory: Swift.String? = nil
+        ) {
+            self.marketplaceEngagementScore = marketplaceEngagementScore
+            self.solutionCategory = solutionCategory
+            self.solutionScore = solutionScore
+            self.solutionSubCategory = solutionSubCategory
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains the prospecting data that AWS sources. This includes task execution details, customer account information, and insights that AI generates from the prospecting analysis.
+    public struct ProspectingResultAws: Swift.Sendable {
+        /// Contains details about the prospected customer account, including geographic, industry, and segment classifications.
+        public var customer: PartnerCentralSellingClientTypes.ProspectingResultCustomer?
+        /// The timestamp when the prospecting task completed processing. The format is ISO 8601 (UTC).
+        public var endTime: Foundation.Date?
+        /// Insights that AI generates from the prospecting analysis. These insights include engagement scores and solution fit assessments for the prospected customer.
+        public var insights: PartnerCentralSellingClientTypes.ProspectingInsights?
+        /// The timestamp when the prospecting result context was created. The format is ISO 8601 (UTC).
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the prospecting task. Use this ARN to track and manage the task within AWS.
+        public var taskArn: Swift.String?
+        /// The unique identifier of the prospecting task that generates this result.
+        public var taskId: Swift.String?
+        /// The name that the user provides for the prospecting task that generates this result.
+        public var taskName: Swift.String?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.ProspectingResultCustomer? = nil,
+            endTime: Foundation.Date? = nil,
+            insights: PartnerCentralSellingClientTypes.ProspectingInsights? = nil,
+            startTime: Foundation.Date? = nil,
+            taskArn: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskName: Swift.String? = nil
+        ) {
+            self.customer = customer
+            self.endTime = endTime
+            self.insights = insights
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains the results of an autonomous prospecting job. This includes data and insights that AWS provides about a prospected customer account.
+    public struct ProspectingResult: Swift.Sendable {
+        /// Prospecting data and insights that AWS provides during the prospecting job. This includes customer details, task information, and scoring that AI generates.
+        public var aws: PartnerCentralSellingClientTypes.ProspectingResultAws?
+
+        public init(
+            aws: PartnerCentralSellingClientTypes.ProspectingResultAws? = nil
+        ) {
+            self.aws = aws
         }
     }
 }
@@ -3286,6 +3497,8 @@ extension PartnerCentralSellingClientTypes {
         case customerproject(PartnerCentralSellingClientTypes.CustomerProjectsContext)
         /// Contains detailed information about a lead when the context type is "Lead". This field is present only when the Type in EngagementContextDetails is set to "Lead".
         case lead(PartnerCentralSellingClientTypes.LeadContext)
+        /// Contains prospecting result data with enriched insights. The system generates these insights when a partner runs an autonomous prospecting job on leads. This field appears only when the context type is "ProspectingResult".
+        case prospectingresult(PartnerCentralSellingClientTypes.ProspectingResult)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3295,12 +3508,14 @@ extension PartnerCentralSellingClientTypes {
     public enum EngagementContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customerProject
         case lead
+        case prospectingResult
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EngagementContextType] {
             return [
                 .customerProject,
-                .lead
+                .lead,
+                .prospectingResult
             ]
         }
 
@@ -3313,6 +3528,7 @@ extension PartnerCentralSellingClientTypes {
             switch self {
             case .customerProject: return "CustomerProject"
             case .lead: return "Lead"
+            case .prospectingResult: return "ProspectingResult"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6213,6 +6429,8 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
     /// Specifies the catalog in which the AWS Opportunity exists. This is the environment (e.g., AWS or Sandbox) where the opportunity is being managed.
     /// This member is required.
     public var catalog: Swift.String?
+    /// Engagement classification for this opportunity. Read-only. Null before scoring. Known values: AWS Field-engaged, Agent-engaged, Partner-led.
+    public var cosellMotion: Swift.String?
     /// Provides details about the customer associated with the AWS Opportunity, including account information, industry, and other customer data. These details help partners understand the business context of the opportunity.
     public var customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer?
     /// Provides insights into the AWS Opportunity, including engagement score and recommended actions that AWS suggests for the partner.
@@ -6238,6 +6456,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
 
     public init(
         catalog: Swift.String? = nil,
+        cosellMotion: Swift.String? = nil,
         customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer? = nil,
         insights: PartnerCentralSellingClientTypes.AwsOpportunityInsights? = nil,
         involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
@@ -6251,6 +6470,7 @@ public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
         visibility: PartnerCentralSellingClientTypes.Visibility? = nil
     ) {
         self.catalog = catalog
+        self.cosellMotion = cosellMotion
         self.customer = customer
         self.insights = insights
         self.involvementType = involvementType
@@ -7108,6 +7328,364 @@ public struct StartOpportunityFromEngagementTaskOutput: Swift.Sendable {
         self.startTime = startTime
         self.taskArn = taskArn
         self.taskId = taskId
+        self.taskStatus = taskStatus
+    }
+}
+
+/// Represents the request structure for retrieving the status and results of a prospecting task.
+public struct GetProspectingFromEngagementTaskInput: Swift.Sendable {
+    /// Specifies the catalog associated with the task. Specify AWS for production environments and Sandbox for testing and development purposes. The value must match the catalog used when the task was created.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEngagementTask response.
+    /// This member is required.
+    public var taskIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        taskIdentifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.taskIdentifier = taskIdentifier
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The current execution state of a prospecting task. A task transitions from PENDING to IN_PROGRESS when processing begins, and then to either COMPLETED or FAILED when processing ends.
+    public enum ProspectingTaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProspectingTaskStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains the result of processing a single engagement within a prospecting task. Each engagement is processed independently, so individual engagements can succeed or fail regardless of other engagements in the same task.
+    public struct EngagementProspectingResult: Swift.Sendable {
+        /// The identifier of the prospecting context created for this engagement. This field is only populated when the engagement was processed successfully (status is COMPLETED). Use this identifier to reference the prospecting context in subsequent operations.
+        public var engagementContextId: Swift.String?
+        /// The unique identifier of the engagement that was processed.
+        /// This member is required.
+        public var engagementIdentifier: Swift.String?
+        /// A human-readable description of the failure for this engagement, including suggested recovery steps. This field is only populated when Status is FAILED.
+        public var message: Swift.String?
+        /// An enumerated code indicating the reason this engagement failed to process. This field is only populated when Status is FAILED.
+        public var reasonCode: Swift.String?
+        /// The processing status of this specific engagement. Possible values are PENDING, IN_PROGRESS, COMPLETED, and FAILED.
+        /// This member is required.
+        public var status: PartnerCentralSellingClientTypes.ProspectingTaskStatus?
+
+        public init(
+            engagementContextId: Swift.String? = nil,
+            engagementIdentifier: Swift.String? = nil,
+            message: Swift.String? = nil,
+            reasonCode: Swift.String? = nil,
+            status: PartnerCentralSellingClientTypes.ProspectingTaskStatus? = nil
+        ) {
+            self.engagementContextId = engagementContextId
+            self.engagementIdentifier = engagementIdentifier
+            self.message = message
+            self.reasonCode = reasonCode
+            self.status = status
+        }
+    }
+}
+
+/// Represents the response structure containing the full details of a prospecting task, including per-engagement processing results. Includes the Status field of each EngagementProspectingResult entry to determine individual outcomes.
+public struct GetProspectingFromEngagementTaskOutput: Swift.Sendable {
+    /// The timestamp indicating when the task finished processing. This field is absent if the task is still in progress. The format follows ISO 8601 date-time notation.
+    public var endTime: Foundation.Date?
+    /// An array of EngagementProspectingResult entries for each engagement in the task. Each entry contains the processing status. For successfully completed engagements, includes the prospecting context identifier. For failed engagements, includes an error code and message.
+    /// This member is required.
+    public var engagements: [PartnerCentralSellingClientTypes.EngagementProspectingResult]?
+    /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the task.
+    /// This member is required.
+    public var taskArn: Swift.String?
+    /// The unique identifier of the task.
+    /// This member is required.
+    public var taskId: Swift.String?
+    /// The descriptive name of the task that you provided when you created it.
+    /// This member is required.
+    public var taskName: Swift.String?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        engagements: [PartnerCentralSellingClientTypes.EngagementProspectingResult]? = nil,
+        startTime: Foundation.Date? = nil,
+        taskArn: Swift.String? = nil,
+        taskId: Swift.String? = nil,
+        taskName: Swift.String? = nil
+    ) {
+        self.endTime = endTime
+        self.engagements = engagements
+        self.startTime = startTime
+        self.taskArn = taskArn
+        self.taskId = taskId
+        self.taskName = taskName
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// The fields available for sorting results from ListProspectingFromEngagementTasks. Valid values are StartTime, TaskName, and FailedEngagementCount.
+    public enum ProspectingFromEngagementTaskSortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedengagementcount
+        case starttime
+        case taskname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProspectingFromEngagementTaskSortName] {
+            return [
+                .failedengagementcount,
+                .starttime,
+                .taskname
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedengagementcount: return "FailedEngagementCount"
+            case .starttime: return "StartTime"
+            case .taskname: return "TaskName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Specifies the sort configuration for ListProspectingFromEngagementTasks. Contains the field to sort by and the sort direction.
+    public struct ProspectingFromEngagementTaskSort: Swift.Sendable {
+        /// The field by which to sort the returned tasks. Valid values: StartTime (task creation timestamp), TaskName (alphabetically by task name), and FailedEngagementCount (number of failed engagements).
+        /// This member is required.
+        public var sortBy: PartnerCentralSellingClientTypes.ProspectingFromEngagementTaskSortName?
+        /// The direction in which to sort the results. Use ASCENDING to return the smallest or earliest values first, or DESCENDING to return the largest or most recent values first.
+        /// This member is required.
+        public var sortOrder: PartnerCentralSellingClientTypes.SortOrder?
+
+        public init(
+            sortBy: PartnerCentralSellingClientTypes.ProspectingFromEngagementTaskSortName? = nil,
+            sortOrder: PartnerCentralSellingClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+/// Represents the request structure for listing prospecting tasks. All filter parameters are optional. Results are paginated — uses NextToken from the response to retrieve subsequent pages.
+public struct ListProspectingFromEngagementTasksInput: Swift.Sendable {
+    /// Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The maximum number of results to return in a single page. If additional results exist, the response includes a NextToken value for retrieving the next page. If omitted, the API uses a service-defined default page size.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call to this API. Include this value to retrieve the next page of results. If omitted, the first page is returned.
+    public var nextToken: Swift.String?
+    /// Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order.
+    public var sort: PartnerCentralSellingClientTypes.ProspectingFromEngagementTaskSort?
+    /// Filters tasks to include only those that started after the specified timestamp. Use this with StartBefore to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    public var startAfter: Foundation.Date?
+    /// Filters tasks to include only those that started before the specified timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    public var startBefore: Foundation.Date?
+    /// Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to specific tasks. If omitted, tasks are not filtered by identifier.
+    public var taskIdentifier: [Swift.String]?
+    /// Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name.
+    public var taskName: [Swift.String]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sort: PartnerCentralSellingClientTypes.ProspectingFromEngagementTaskSort? = nil,
+        startAfter: Foundation.Date? = nil,
+        startBefore: Foundation.Date? = nil,
+        taskIdentifier: [Swift.String]? = nil,
+        taskName: [Swift.String]? = nil
+    ) {
+        self.catalog = catalog
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sort = sort
+        self.startAfter = startAfter
+        self.startBefore = startBefore
+        self.taskIdentifier = taskIdentifier
+        self.taskName = taskName
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// A summary of a single prospecting task, returned by ListProspectingFromEngagementTasks. Contains key metrics and status information without the full per-engagement detail available from GetProspectingFromEngagementTask.
+    public struct ProspectingTaskSummary: Swift.Sendable {
+        /// The number of engagements that have been successfully converted into prospecting leads.
+        /// This member is required.
+        public var completedEngagementCount: Swift.Int?
+        /// The timestamp indicating when the task finished processing. This field is absent if the task is still in progress. The format follows ISO 8601 date-time notation.
+        public var endTime: Foundation.Date?
+        /// The number of engagements that failed to be converted. Retrieve the full task details using GetProspectingFromEngagementTask for per-engagement error information.
+        /// This member is required.
+        public var failedEngagementCount: Swift.Int?
+        /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the task.
+        /// This member is required.
+        public var taskArn: Swift.String?
+        /// The unique identifier of the task. Use this value with GetProspectingFromEngagementTask to retrieve full task details.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The descriptive name of the task provided when it was created.
+        /// This member is required.
+        public var taskName: Swift.String?
+        /// The total number of engagements included in the task.
+        /// This member is required.
+        public var totalEngagementCount: Swift.Int
+
+        public init(
+            completedEngagementCount: Swift.Int? = nil,
+            endTime: Foundation.Date? = nil,
+            failedEngagementCount: Swift.Int? = nil,
+            startTime: Foundation.Date? = nil,
+            taskArn: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskName: Swift.String? = nil,
+            totalEngagementCount: Swift.Int = 0
+        ) {
+            self.completedEngagementCount = completedEngagementCount
+            self.endTime = endTime
+            self.failedEngagementCount = failedEngagementCount
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskName = taskName
+            self.totalEngagementCount = totalEngagementCount
+        }
+    }
+}
+
+/// Represents the response structure containing a paginated list of prospecting task summaries matching the request filters. Indicates through NextToken when additional results are available.
+public struct ListProspectingFromEngagementTasksOutput: Swift.Sendable {
+    /// A pagination token used to retrieve the next page of results. If this field is present, pass its value as NextToken in the next call. If absent or empty, there are no further pages.
+    public var nextToken: Swift.String?
+    /// Prospecting task summaries matching the specified filters. Each summary includes the task identifier, name, status counters, and timing information. If no tasks match the filter criteria, the list is empty.
+    /// This member is required.
+    public var taskSummaries: [PartnerCentralSellingClientTypes.ProspectingTaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskSummaries: [PartnerCentralSellingClientTypes.ProspectingTaskSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.taskSummaries = taskSummaries
+    }
+}
+
+/// Represents the request structure for starting a prospecting task. Includes up to 100 engagement identifiers and a task name. Uses ClientToken to ensure idempotency.
+public struct StartProspectingFromEngagementTaskInput: Swift.Sendable {
+    /// Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken returns the same response without creating a duplicate task.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task.
+    /// This member is required.
+    public var identifiers: [Swift.String]?
+    /// A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 characters.
+    /// This member is required.
+    public var taskName: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        identifiers: [Swift.String]? = nil,
+        taskName: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.identifiers = identifiers
+        self.taskName = taskName
+    }
+}
+
+/// Represents the response structure returned when a prospecting task is successfully submitted. Contains the task identifier, ARN, and initial status. Uses TaskId with GetProspectingFromEngagementTask to poll for completion.
+public struct StartProspectingFromEngagementTaskOutput: Swift.Sendable {
+    /// The list of engagement identifiers that were accepted into the task queue for processing. This list matches the identifiers provided in the request.
+    /// This member is required.
+    public var identifiers: [Swift.String]?
+    /// A message providing additional context about the task's current state. When the task fails, this field contains a detailed description of the failure and suggested recovery steps. This field is only populated for tasks in a failed state.
+    public var message: Swift.String?
+    /// An enumerated code identifying the reason for task failure. This field is only populated when the task has failed. Use the corresponding Message field for a human-readable description of the failure.
+    public var reasonCode: Swift.String?
+    /// The timestamp indicating when the task was initiated. The format follows ISO 8601 date-time notation.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the task. The ARN uniquely identifies the task across AWS and can be used for resource-level IAM policies.
+    public var taskArn: Swift.String?
+    /// The unique identifier assigned to this task. Use this identifier with GetProspectingFromEngagementTask to retrieve task details and check status.
+    public var taskId: Swift.String?
+    /// The task name from the request.
+    /// This member is required.
+    public var taskName: Swift.String?
+    /// The current status of the task. Possible values: PENDING (waiting to run), IN_PROGRESS (actively processing), COMPLETED (successfully processed), and FAILED (unrecoverable error).
+    /// This member is required.
+    public var taskStatus: PartnerCentralSellingClientTypes.ProspectingTaskStatus?
+
+    public init(
+        identifiers: [Swift.String]? = nil,
+        message: Swift.String? = nil,
+        reasonCode: Swift.String? = nil,
+        startTime: Foundation.Date? = nil,
+        taskArn: Swift.String? = nil,
+        taskId: Swift.String? = nil,
+        taskName: Swift.String? = nil,
+        taskStatus: PartnerCentralSellingClientTypes.ProspectingTaskStatus? = nil
+    ) {
+        self.identifiers = identifiers
+        self.message = message
+        self.reasonCode = reasonCode
+        self.startTime = startTime
+        self.taskArn = taskArn
+        self.taskId = taskId
+        self.taskName = taskName
         self.taskStatus = taskStatus
     }
 }
@@ -8195,6 +8773,8 @@ extension PartnerCentralSellingClientTypes {
         /// Updated customer information associated with the lead.
         /// This member is required.
         public var customer: PartnerCentralSellingClientTypes.LeadCustomer?
+        /// Insights that AI generates and associates with the lead. These insights provide automated analysis to help partners assess the lead quality and readiness.
+        public var insights: PartnerCentralSellingClientTypes.LeadInsights?
         /// Updated interaction details for the lead context.
         public var interaction: PartnerCentralSellingClientTypes.LeadInteraction?
         /// The updated qualification status of the lead.
@@ -8202,10 +8782,12 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             customer: PartnerCentralSellingClientTypes.LeadCustomer? = nil,
+            insights: PartnerCentralSellingClientTypes.LeadInsights? = nil,
             interaction: PartnerCentralSellingClientTypes.LeadInteraction? = nil,
             qualificationStatus: Swift.String? = "Unqualified"
         ) {
             self.customer = customer
+            self.insights = insights
             self.interaction = interaction
             self.qualificationStatus = qualificationStatus
         }
@@ -8220,6 +8802,8 @@ extension PartnerCentralSellingClientTypes {
         case lead(PartnerCentralSellingClientTypes.UpdateLeadContext)
         /// The CustomerProjects structure in Engagements offers a flexible framework for managing customer-project relationships. It supports multiple customers per Engagement and multiple projects per customer, while also allowing for customers without projects and projects without specific customers. All Engagement members have full visibility of customers and their associated projects, enabling the capture of relevant context even when project details are not fully defined. This structure also facilitates targeted invitations, allowing partners to focus on specific customers and their business problems when sending Engagement invitations.
         case customerproject(PartnerCentralSellingClientTypes.CustomerProjectsContext)
+        /// Contains updated prospecting result data when the context type is "ProspectingResult". This field includes enriched data and insights that the system generates when a partner runs an autonomous prospecting job on leads.
+        case prospectingresult(PartnerCentralSellingClientTypes.ProspectingResult)
         case sdkUnknown(Swift.String)
     }
 }
