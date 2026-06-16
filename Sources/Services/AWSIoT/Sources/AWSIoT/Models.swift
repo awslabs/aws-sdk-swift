@@ -3763,7 +3763,7 @@ extension IoTClientTypes {
         public var defaultAuthorizerName: Swift.String?
 
         public init(
-            allowAuthorizerOverride: Swift.Bool? = false,
+            allowAuthorizerOverride: Swift.Bool? = nil,
             defaultAuthorizerName: Swift.String? = nil
         ) {
             self.allowAuthorizerOverride = allowAuthorizerOverride
@@ -13677,14 +13677,14 @@ extension IoTClientTypes {
         public var variance: Swift.Double?
 
         public init(
-            average: Swift.Double? = 0.0,
+            average: Swift.Double? = nil,
             count: Swift.Int = 0,
-            maximum: Swift.Double? = 0.0,
-            minimum: Swift.Double? = 0.0,
-            stdDeviation: Swift.Double? = 0.0,
-            sum: Swift.Double? = 0.0,
-            sumOfSquares: Swift.Double? = 0.0,
-            variance: Swift.Double? = 0.0
+            maximum: Swift.Double? = nil,
+            minimum: Swift.Double? = nil,
+            stdDeviation: Swift.Double? = nil,
+            sum: Swift.Double? = nil,
+            sumOfSquares: Swift.Double? = nil,
+            variance: Swift.Double? = nil
         ) {
             self.average = average
             self.count = count

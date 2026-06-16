@@ -23248,7 +23248,50 @@ public struct GetStatementOutput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case latestIcebergMetadata
+        case name
+        case tableType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableAttributes] {
+            return [
+                .default,
+                .latestIcebergMetadata,
+                .name,
+                .tableType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .latestIcebergMetadata: return "LATEST_ICEBERG_METADATA"
+            case .name: return "NAME"
+            case .tableType: return "TABLE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTableInput: Swift.Sendable {
+    /// Specifies the table fields returned by the GetTable call. This parameter doesn't accept an empty list. The following are the valid combinations of values:
+    ///
+    /// * DEFAULT - Returns the Hive-style table definition only.
+    ///
+    /// * LATEST_ICEBERG_METADATA - Returns only the latest Apache Iceberg table metadata.
+    ///
+    /// * DEFAULT, LATEST_ICEBERG_METADATA - Returns both the Hive-style table definition and the latest Apache Iceberg table metadata.
+    public var attributesToGet: [GlueClientTypes.TableAttributes]?
     /// A structure containing the Lake Formation [audit context](https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html).
     public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
@@ -23267,6 +23310,7 @@ public struct GetTableInput: Swift.Sendable {
     public var transactionId: Swift.String?
 
     public init(
+        attributesToGet: [GlueClientTypes.TableAttributes]? = nil,
         auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
@@ -23275,6 +23319,7 @@ public struct GetTableInput: Swift.Sendable {
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
     ) {
+        self.attributesToGet = attributesToGet
         self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
@@ -23308,6 +23353,65 @@ extension GlueClientTypes {
             self.connectionType = connectionType
             self.databaseIdentifier = databaseIdentifier
             self.identifier = identifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The Apache Iceberg table metadata, including format version, table identifier, schemas, partition specifications, sort orders, and table properties. This structure captures the current state of an Iceberg table's metadata as managed by the Glue Data Catalog.
+    public struct IcebergTableMetadata: Swift.Sendable {
+        /// The identifier of the schema that is currently active for the Iceberg table. Matches an entry in Schemas.
+        public var currentSchemaId: Swift.Int
+        /// The identifier of the sort order that is currently used by default when writing new data to the Iceberg table.
+        public var defaultSortOrderId: Swift.Int
+        /// The identifier of the partition specification that is currently used by default when writing new data to the Iceberg table.
+        public var defaultSpecId: Swift.Int
+        /// The Apache Iceberg table format version, such as 1 or 2. Determines the set of features and on-disk layout supported by the table.
+        public var formatVersion: Swift.String?
+        /// The highest column identifier that has been assigned in the Iceberg table's schema, used to ensure unique IDs as new columns are added.
+        public var lastColumnId: Swift.Int
+        /// The highest partition field identifier that has been assigned across the table's partition specifications.
+        public var lastPartitionId: Swift.Int
+        /// The base S3 location where the Iceberg table's data and metadata files are stored.
+        public var location: Swift.String?
+        /// The list of partition specifications that have been associated with the Iceberg table over its history, supporting partition evolution.
+        public var partitionSpecs: [GlueClientTypes.IcebergPartitionSpec]?
+        /// A map of key-value pairs that define table-level properties and configuration settings for the Iceberg table.
+        public var properties: [Swift.String: Swift.String]?
+        /// The list of schemas that have been associated with the Iceberg table over its history, supporting schema evolution.
+        public var schemas: [GlueClientTypes.IcebergSchema]?
+        /// The list of sort order specifications that have been associated with the Iceberg table over its history.
+        public var sortOrders: [GlueClientTypes.IcebergSortOrder]?
+        /// The unique identifier (UUID) for the Iceberg table, assigned when the table is created and used to track the table across metadata updates.
+        public var tableUuid: Swift.String?
+
+        public init(
+            currentSchemaId: Swift.Int = 0,
+            defaultSortOrderId: Swift.Int = 0,
+            defaultSpecId: Swift.Int = 0,
+            formatVersion: Swift.String? = nil,
+            lastColumnId: Swift.Int = 0,
+            lastPartitionId: Swift.Int = 0,
+            location: Swift.String? = nil,
+            partitionSpecs: [GlueClientTypes.IcebergPartitionSpec]? = nil,
+            properties: [Swift.String: Swift.String]? = nil,
+            schemas: [GlueClientTypes.IcebergSchema]? = nil,
+            sortOrders: [GlueClientTypes.IcebergSortOrder]? = nil,
+            tableUuid: Swift.String? = nil
+        ) {
+            self.currentSchemaId = currentSchemaId
+            self.defaultSortOrderId = defaultSortOrderId
+            self.defaultSpecId = defaultSpecId
+            self.formatVersion = formatVersion
+            self.lastColumnId = lastColumnId
+            self.lastPartitionId = lastPartitionId
+            self.location = location
+            self.partitionSpecs = partitionSpecs
+            self.properties = properties
+            self.schemas = schemas
+            self.sortOrders = sortOrders
+            self.tableUuid = tableUuid
         }
     }
 }
@@ -23545,35 +23649,6 @@ public struct GetTableOptimizerOutput: Swift.Sendable {
         self.databaseName = databaseName
         self.tableName = tableName
         self.tableOptimizer = tableOptimizer
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case name
-        case tableType
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TableAttributes] {
-            return [
-                .name,
-                .tableType
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .name: return "NAME"
-            case .tableType: return "TABLE_TYPE"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -30203,6 +30278,8 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
         public var federatedTable: GlueClientTypes.FederatedTable?
+        /// The latest Apache Iceberg table metadata for the table, including format version, schemas, partition specifications, and sort orders. This field is populated for Iceberg tables and reflects the current state of the table's Iceberg metadata.
+        public var icebergTableMetadata: GlueClientTypes.IcebergTableMetadata?
         /// Indicates a table is a MaterializedView.
         public var isMaterializedView: Swift.Bool?
         /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
@@ -30250,6 +30327,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             description: Swift.String? = nil,
             federatedTable: GlueClientTypes.FederatedTable? = nil,
+            icebergTableMetadata: GlueClientTypes.IcebergTableMetadata? = nil,
             isMaterializedView: Swift.Bool? = nil,
             isMultiDialectView: Swift.Bool? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
@@ -30276,6 +30354,7 @@ extension GlueClientTypes {
             self.databaseName = databaseName
             self.description = description
             self.federatedTable = federatedTable
+            self.icebergTableMetadata = icebergTableMetadata
             self.isMaterializedView = isMaterializedView
             self.isMultiDialectView = isMultiDialectView
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation

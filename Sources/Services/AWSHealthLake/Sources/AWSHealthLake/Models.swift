@@ -39,6 +39,62 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension HealthLakeClientTypes {
 
+    public enum AnalyticsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case paused
+        case pausing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .paused,
+                .pausing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .paused: return "PAUSED"
+            case .pausing: return "PAUSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The analytics configuration for a data store.
+    public struct AnalyticsConfiguration: Swift.Sendable {
+        /// The status of the analytics configuration.
+        public var status: HealthLakeClientTypes.AnalyticsStatus?
+
+        public init(
+            status: HealthLakeClientTypes.AnalyticsStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
     public enum AuthorizationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsAuth
         case smartv1
@@ -393,6 +449,8 @@ extension HealthLakeClientTypes {
         case creating
         case deleted
         case deleting
+        case updateFailed
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatastoreStatus] {
@@ -401,7 +459,9 @@ extension HealthLakeClientTypes {
                 .createFailed,
                 .creating,
                 .deleted,
-                .deleting
+                .deleting,
+                .updateFailed,
+                .updating
             ]
         }
 
@@ -417,6 +477,8 @@ extension HealthLakeClientTypes {
             case .creating: return "CREATING"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -527,8 +589,75 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
+    public enum NlpStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NlpStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The natural language processing (NLP) configuration for a data store.
+    public struct NlpConfiguration: Swift.Sendable {
+        /// The status of the NLP configuration.
+        public var status: HealthLakeClientTypes.NlpStatus?
+
+        public init(
+            status: HealthLakeClientTypes.NlpStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The profile configuration for a data store.
+    public struct ProfileConfiguration: Swift.Sendable {
+        /// The list of default profiles for the data store.
+        public var defaultProfiles: [Swift.String]?
+
+        public init(
+            defaultProfiles: [Swift.String]? = nil
+        ) {
+            self.defaultProfiles = defaultProfiles
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
     /// The data store properties.
     public struct DatastoreProperties: Swift.Sendable {
+        /// The analytics configuration for the data store.
+        public var analyticsConfiguration: HealthLakeClientTypes.AnalyticsConfiguration?
         /// The time the data store was created.
         public var createdAt: Foundation.Date?
         /// The Amazon Resource Name (ARN) used in the creation of the data store.
@@ -552,12 +681,17 @@ extension HealthLakeClientTypes {
         public var errorCause: HealthLakeClientTypes.ErrorCause?
         /// The identity provider selected during data store creation.
         public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
+        /// The natural language processing (NLP) configuration for the data store.
+        public var nlpConfiguration: HealthLakeClientTypes.NlpConfiguration?
         /// The preloaded Synthea data configuration for the data store.
         public var preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig?
+        /// The profile configuration for the data store.
+        public var profileConfiguration: HealthLakeClientTypes.ProfileConfiguration?
         /// The server-side encryption key configuration for a customer provided encryption key.
         public var sseConfiguration: HealthLakeClientTypes.SseConfiguration?
 
         public init(
+            analyticsConfiguration: HealthLakeClientTypes.AnalyticsConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             datastoreArn: Swift.String? = nil,
             datastoreEndpoint: Swift.String? = nil,
@@ -567,9 +701,12 @@ extension HealthLakeClientTypes {
             datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
             errorCause: HealthLakeClientTypes.ErrorCause? = nil,
             identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
+            nlpConfiguration: HealthLakeClientTypes.NlpConfiguration? = nil,
             preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
+            profileConfiguration: HealthLakeClientTypes.ProfileConfiguration? = nil,
             sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil
         ) {
+            self.analyticsConfiguration = analyticsConfiguration
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -579,7 +716,9 @@ extension HealthLakeClientTypes {
             self.datastoreTypeVersion = datastoreTypeVersion
             self.errorCause = errorCause
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.nlpConfiguration = nlpConfiguration
             self.preloadDataConfig = preloadDataConfig
+            self.profileConfiguration = profileConfiguration
             self.sseConfiguration = sseConfiguration
         }
     }
@@ -1329,6 +1468,50 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateFHIRDatastoreInput: Swift.Sendable {
+    /// The analytics configuration for the data store.
+    public var analyticsConfiguration: HealthLakeClientTypes.AnalyticsConfiguration?
+    /// The data store identifier.
+    /// This member is required.
+    public var datastoreId: Swift.String?
+    /// The data store name.
+    public var datastoreName: Swift.String?
+    /// The identity provider configuration for the data store.
+    public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
+    /// The NLP configuration for the data store.
+    public var nlpConfiguration: HealthLakeClientTypes.NlpConfiguration?
+    /// The profile configuration for the data store.
+    public var profileConfiguration: HealthLakeClientTypes.ProfileConfiguration?
+
+    public init(
+        analyticsConfiguration: HealthLakeClientTypes.AnalyticsConfiguration? = nil,
+        datastoreId: Swift.String? = nil,
+        datastoreName: Swift.String? = nil,
+        identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
+        nlpConfiguration: HealthLakeClientTypes.NlpConfiguration? = nil,
+        profileConfiguration: HealthLakeClientTypes.ProfileConfiguration? = nil
+    ) {
+        self.analyticsConfiguration = analyticsConfiguration
+        self.datastoreId = datastoreId
+        self.datastoreName = datastoreName
+        self.identityProviderConfiguration = identityProviderConfiguration
+        self.nlpConfiguration = nlpConfiguration
+        self.profileConfiguration = profileConfiguration
+    }
+}
+
+public struct UpdateFHIRDatastoreOutput: Swift.Sendable {
+    /// The data store properties.
+    /// This member is required.
+    public var datastoreProperties: HealthLakeClientTypes.DatastoreProperties?
+
+    public init(
+        datastoreProperties: HealthLakeClientTypes.DatastoreProperties? = nil
+    ) {
+        self.datastoreProperties = datastoreProperties
+    }
 }
 
 public enum HealthLakeClientTypes {}

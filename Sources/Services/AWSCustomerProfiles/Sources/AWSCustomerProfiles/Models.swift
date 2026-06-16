@@ -1255,7 +1255,7 @@ extension CustomerProfilesClientTypes {
             firstExecutionFrom: Foundation.Date? = nil,
             scheduleEndTime: Foundation.Date? = nil,
             scheduleExpression: Swift.String? = nil,
-            scheduleOffset: Swift.Int? = 0,
+            scheduleOffset: Swift.Int? = nil,
             scheduleStartTime: Foundation.Date? = nil,
             timezone: Swift.String? = nil
         ) {

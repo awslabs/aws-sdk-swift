@@ -98,7 +98,7 @@ extension AppConfigClientTypes {
         public var protectionPeriodInMinutes: Swift.Int?
 
         public init(
-            enabled: Swift.Bool? = false,
+            enabled: Swift.Bool? = nil,
             protectionPeriodInMinutes: Swift.Int? = nil
         ) {
             self.enabled = enabled
@@ -692,7 +692,7 @@ public struct CreateDeploymentStrategyInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = 0,
+        deploymentDurationInMinutes: Swift.Int? = nil,
         description: Swift.String? = nil,
         finalBakeTimeInMinutes: Swift.Int? = 0,
         growthFactor: Swift.Float? = nil,
@@ -934,7 +934,7 @@ public struct CreateExtensionInput: Swift.Sendable {
     public init(
         actions: [Swift.String: [AppConfigClientTypes.Action]]? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = 0,
+        latestVersionNumber: Swift.Int? = nil,
         name: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -999,7 +999,7 @@ public struct CreateExtensionAssociationInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = 0,
+        extensionVersionNumber: Swift.Int? = nil,
         parameters: [Swift.String: Swift.String]? = nil,
         resourceIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -1127,7 +1127,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Sendable {
         content: Foundation.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = 0,
+        latestVersionNumber: Swift.Int? = nil,
         versionLabel: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1308,7 +1308,7 @@ public struct DeleteExtensionInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
@@ -1341,7 +1341,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
@@ -1524,7 +1524,7 @@ public struct GetDeploymentInput: Swift.Sendable {
 
     public init(
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = 0,
+        deploymentNumber: Swift.Int? = nil,
         environmentId: Swift.String? = nil
     ) {
         self.applicationId = applicationId
@@ -1923,7 +1923,7 @@ public struct GetExtensionInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.extensionIdentifier = extensionIdentifier
         self.versionNumber = versionNumber
@@ -2022,7 +2022,7 @@ public struct GetHostedConfigurationVersionInput: Swift.Sendable {
     public init(
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
@@ -2455,7 +2455,7 @@ public struct ListExtensionAssociationsInput: Swift.Sendable {
 
     public init(
         extensionIdentifier: Swift.String? = nil,
-        extensionVersionNumber: Swift.Int? = 0,
+        extensionVersionNumber: Swift.Int? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceIdentifier: Swift.String? = nil
@@ -2839,9 +2839,9 @@ public struct StopDeploymentInput: Swift.Sendable {
     public var environmentId: Swift.String?
 
     public init(
-        allowRevert: Swift.Bool? = false,
+        allowRevert: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
-        deploymentNumber: Swift.Int? = 0,
+        deploymentNumber: Swift.Int? = nil,
         environmentId: Swift.String? = nil
     ) {
         self.allowRevert = allowRevert
@@ -3145,10 +3145,10 @@ public struct UpdateDeploymentStrategyInput: Swift.Sendable {
     public var growthType: AppConfigClientTypes.GrowthType?
 
     public init(
-        deploymentDurationInMinutes: Swift.Int? = 0,
+        deploymentDurationInMinutes: Swift.Int? = nil,
         deploymentStrategyId: Swift.String? = nil,
         description: Swift.String? = nil,
-        finalBakeTimeInMinutes: Swift.Int? = 0,
+        finalBakeTimeInMinutes: Swift.Int? = nil,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil
     ) {
@@ -3278,7 +3278,7 @@ public struct UpdateExtensionInput: Swift.Sendable {
         description: Swift.String? = nil,
         extensionIdentifier: Swift.String? = nil,
         parameters: [Swift.String: AppConfigClientTypes.Parameter]? = nil,
-        versionNumber: Swift.Int? = 0
+        versionNumber: Swift.Int? = nil
     ) {
         self.actions = actions
         self.description = description

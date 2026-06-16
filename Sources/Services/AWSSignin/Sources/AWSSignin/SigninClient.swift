@@ -50,9 +50,11 @@ import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.PayloadBodyMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -709,7 +711,7 @@ extension SigninClient {
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOAuth2TokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
-            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: false, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOAuth2TokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOAuth2TokenOutput>())
@@ -721,6 +723,650 @@ extension SigninClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateOAuth2Token")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteConsoleAuthorizationConfiguration` operation on the `Signin` service.
+    ///
+    /// Delete console authorization configuration with automatic scope detection
+    ///
+    /// - Parameter input: Input for DeleteConsoleAuthorizationConfiguration operation (Type: `DeleteConsoleAuthorizationConfigurationInput`)
+    ///
+    /// - Returns: Output for DeleteConsoleAuthorizationConfiguration operation (Type: `DeleteConsoleAuthorizationConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func deleteConsoleAuthorizationConfiguration(input: DeleteConsoleAuthorizationConfigurationInput) async throws -> DeleteConsoleAuthorizationConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteConsoleAuthorizationConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>(DeleteConsoleAuthorizationConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteConsoleAuthorizationConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConsoleAuthorizationConfigurationOutput>(DeleteConsoleAuthorizationConfigurationOutput.httpOutput(from:), DeleteConsoleAuthorizationConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConsoleAuthorizationConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteConsoleAuthorizationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteConsoleAuthorizationConfigurationInput, DeleteConsoleAuthorizationConfigurationOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteConsoleAuthorizationConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteResourcePermissionStatement` operation on the `Signin` service.
+    ///
+    /// Remove a permission statement from the account's SignIn resource-based policy
+    ///
+    /// - Parameter input: Input for DeleteResourcePermissionStatement operation (Type: `DeleteResourcePermissionStatementInput`)
+    ///
+    /// - Returns: Output for DeleteResourcePermissionStatement operation (Type: `DeleteResourcePermissionStatementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func deleteResourcePermissionStatement(input: DeleteResourcePermissionStatementInput) async throws -> DeleteResourcePermissionStatementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourcePermissionStatement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(DeleteResourcePermissionStatementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourcePermissionStatementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePermissionStatementOutput>(DeleteResourcePermissionStatementOutput.httpOutput(from:), DeleteResourcePermissionStatementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePermissionStatementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePermissionStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePermissionStatementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourcePermissionStatementInput, DeleteResourcePermissionStatementOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePermissionStatement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetConsoleAuthorizationConfiguration` operation on the `Signin` service.
+    ///
+    /// Get console authorization configuration with automatic scope detection
+    ///
+    /// - Parameter input: Input for GetConsoleAuthorizationConfiguration operation (Type: `GetConsoleAuthorizationConfigurationInput`)
+    ///
+    /// - Returns: Output for GetConsoleAuthorizationConfiguration operation (Type: `GetConsoleAuthorizationConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func getConsoleAuthorizationConfiguration(input: GetConsoleAuthorizationConfigurationInput) async throws -> GetConsoleAuthorizationConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConsoleAuthorizationConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>(GetConsoleAuthorizationConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConsoleAuthorizationConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConsoleAuthorizationConfigurationOutput>(GetConsoleAuthorizationConfigurationOutput.httpOutput(from:), GetConsoleAuthorizationConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetConsoleAuthorizationConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConsoleAuthorizationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConsoleAuthorizationConfigurationInput, GetConsoleAuthorizationConfigurationOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConsoleAuthorizationConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetResourcePolicy` operation on the `Signin` service.
+    ///
+    /// Retrieve the account's consolidated SignIn resource-based policy
+    ///
+    /// - Parameter input: Input for GetResourcePolicy operation (Type: `GetResourcePolicyInput`)
+    ///
+    /// - Returns: Output for GetResourcePolicy operation (Type: `GetResourcePolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourcePolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetResourcePolicyInput, GetResourcePolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(GetResourcePolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResourcePermissionStatements` operation on the `Signin` service.
+    ///
+    /// Retrieve all permission statements in the account's SignIn resource-based policy
+    ///
+    /// - Parameter input: Input for ListResourcePermissionStatements operation (Type: `ListResourcePermissionStatementsInput`)
+    ///
+    /// - Returns: Output for ListResourcePermissionStatements operation (Type: `ListResourcePermissionStatementsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func listResourcePermissionStatements(input: ListResourcePermissionStatementsInput) async throws -> ListResourcePermissionStatementsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResourcePermissionStatements")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>(ListResourcePermissionStatementsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListResourcePermissionStatementsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcePermissionStatementsOutput>(ListResourcePermissionStatementsOutput.httpOutput(from:), ListResourcePermissionStatementsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcePermissionStatementsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourcePermissionStatementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourcePermissionStatementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResourcePermissionStatements")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutConsoleAuthorizationConfiguration` operation on the `Signin` service.
+    ///
+    /// Enable console authorization configuration with automatic scope detection
+    ///
+    /// - Parameter input: Input for PutConsoleAuthorizationConfiguration operation (Type: `PutConsoleAuthorizationConfigurationInput`)
+    ///
+    /// - Returns: Output for PutConsoleAuthorizationConfiguration operation (Type: `PutConsoleAuthorizationConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `ConflictException` : Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func putConsoleAuthorizationConfiguration(input: PutConsoleAuthorizationConfigurationInput) async throws -> PutConsoleAuthorizationConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putConsoleAuthorizationConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>(PutConsoleAuthorizationConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutConsoleAuthorizationConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConsoleAuthorizationConfigurationOutput>(PutConsoleAuthorizationConfigurationOutput.httpOutput(from:), PutConsoleAuthorizationConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutConsoleAuthorizationConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutConsoleAuthorizationConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutConsoleAuthorizationConfigurationInput, PutConsoleAuthorizationConfigurationOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutConsoleAuthorizationConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutResourcePermissionStatement` operation on the `Signin` service.
+    ///
+    /// Create a permission statement in the account's SignIn resource-based policy
+    ///
+    /// - Parameter input: Input for PutResourcePermissionStatement operation (Type: `PutResourcePermissionStatementInput`)
+    ///
+    /// - Returns: Output for PutResourcePermissionStatement operation (Type: `PutResourcePermissionStatementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
+    ///
+    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
+    ///
+    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
+    ///
+    ///
+    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `ConflictException` : Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
+    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `ServiceQuotaExceededException` : Error thrown when service quota is exceeded HTTP Status Code: 402 Payment Required (used as quota exceeded indicator) Used when the request would cause a service quota to be exceeded
+    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
+    ///
+    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
+    ///
+    ///
+    /// Possible causes:
+    ///
+    /// * Too many token requests from the same client
+    ///
+    /// * Rate limiting based on client_id or IP address
+    ///
+    /// * Abuse prevention mechanisms triggered
+    ///
+    /// * Service protection against excessive token generation
+    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    public func putResourcePermissionStatement(input: PutResourcePermissionStatementInput) async throws -> PutResourcePermissionStatementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putResourcePermissionStatement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(PutResourcePermissionStatementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutResourcePermissionStatementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePermissionStatementOutput>(PutResourcePermissionStatementOutput.httpOutput(from:), PutResourcePermissionStatementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePermissionStatementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isControlPlane: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePermissionStatementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePermissionStatementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutResourcePermissionStatementInput, PutResourcePermissionStatementOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePermissionStatement")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

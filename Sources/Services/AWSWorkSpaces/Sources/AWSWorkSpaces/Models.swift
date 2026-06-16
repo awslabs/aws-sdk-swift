@@ -2960,7 +2960,7 @@ extension WorkSpacesClientTypes {
         ///
         /// * The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).
         ///
-        /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+        /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6).
         public var protocols: [WorkSpacesClientTypes.ModelProtocol]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see [Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html).
         public var rootVolumeSizeGib: Swift.Int?
