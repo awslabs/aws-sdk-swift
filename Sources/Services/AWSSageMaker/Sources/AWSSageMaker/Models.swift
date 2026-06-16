@@ -6596,6 +6596,12 @@ extension SageMakerClientTypes {
         case mlG64xlarge
         case mlG68xlarge
         case mlG6Xlarge
+        case mlG7e12xlarge
+        case mlG7e24xlarge
+        case mlG7e2xlarge
+        case mlG7e48xlarge
+        case mlG7e4xlarge
+        case mlG7e8xlarge
         case mlGeospatialInteractive
         case mlM5d12xlarge
         case mlM5d16xlarge
@@ -6764,6 +6770,12 @@ extension SageMakerClientTypes {
                 .mlG64xlarge,
                 .mlG68xlarge,
                 .mlG6Xlarge,
+                .mlG7e12xlarge,
+                .mlG7e24xlarge,
+                .mlG7e2xlarge,
+                .mlG7e48xlarge,
+                .mlG7e4xlarge,
+                .mlG7e8xlarge,
                 .mlGeospatialInteractive,
                 .mlM5d12xlarge,
                 .mlM5d16xlarge,
@@ -6938,6 +6950,12 @@ extension SageMakerClientTypes {
             case .mlG64xlarge: return "ml.g6.4xlarge"
             case .mlG68xlarge: return "ml.g6.8xlarge"
             case .mlG6Xlarge: return "ml.g6.xlarge"
+            case .mlG7e12xlarge: return "ml.g7e.12xlarge"
+            case .mlG7e24xlarge: return "ml.g7e.24xlarge"
+            case .mlG7e2xlarge: return "ml.g7e.2xlarge"
+            case .mlG7e48xlarge: return "ml.g7e.48xlarge"
+            case .mlG7e4xlarge: return "ml.g7e.4xlarge"
+            case .mlG7e8xlarge: return "ml.g7e.8xlarge"
             case .mlGeospatialInteractive: return "ml.geospatial.interactive"
             case .mlM5d12xlarge: return "ml.m5d.12xlarge"
             case .mlM5d16xlarge: return "ml.m5d.16xlarge"
@@ -16300,6 +16318,89 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+public enum MetricPublishFrequencyInSeconds: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    /// Metrics publishing at 10 seconds frequency
+    case freq10S
+    /// Metrics publishing at 120 seconds frequency
+    case freq120S
+    /// Metrics publishing at 180 seconds frequency
+    case freq180S
+    /// Metrics publishing at 240 seconds frequency
+    case freq240S
+    /// Metrics publishing at 300 seconds frequency
+    case freq300S
+    /// Metrics publishing at 30 seconds frequency
+    case freq30S
+    /// Metrics publishing at 60 seconds frequency
+    case freq60S
+    case sdkUnknown(Swift.Int)
+
+    public static var allCases: [MetricPublishFrequencyInSeconds] {
+        return [
+            .freq10S,
+            .freq120S,
+            .freq180S,
+            .freq240S,
+            .freq300S,
+            .freq30S,
+            .freq60S
+        ]
+    }
+
+    public init(rawValue: Swift.Int) {
+        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+        self = value ?? Self.sdkUnknown(rawValue)
+    }
+
+    public var rawValue: Swift.Int {
+        switch self {
+        case .freq10S: return 10
+        case .freq120S: return 120
+        case .freq180S: return 180
+        case .freq240S: return 240
+        case .freq300S: return 300
+        case .freq30S: return 30
+        case .freq60S: return 60
+        case let .sdkUnknown(s): return s
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies a metrics endpoint for a container, including the path where the container exposes Prometheus-formatted metrics and the frequency at which to publish them to Amazon CloudWatch.
+    public struct MetricsEndpoint: Swift.Sendable {
+        /// The interval, in seconds, at which container metrics scraped from the endpoint are published to Amazon CloudWatch. Valid values: 10, 30, 60, 120, 180, 240, 300. Defaults to 60.
+        public var metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds?
+        /// The path to the metrics endpoint exposed by the container. For example, /metrics or /server/metrics. The path must start with / and can contain alphanumeric characters, forward slashes, underscores, hyphens, and periods. Maximum length is 256 characters. If not specified, defaults to /metrics.
+        /// This member is required.
+        public var metricsEndpointPath: Swift.String?
+
+        public init(
+            metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds? = nil,
+            metricsEndpointPath: Swift.String? = nil
+        ) {
+            self.metricPublishFrequencyInSeconds = metricPublishFrequencyInSeconds
+            self.metricsEndpointPath = metricsEndpointPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for container-level metrics scraping. Use this configuration to specify a custom metrics endpoint path and publishing frequency for container metrics. When EnableDetailedObservability is set to True in MetricsConfig, metrics are scraped from the container's Prometheus endpoint. If this configuration is not provided, the default path /metrics on port 8080 is used with a default publishing frequency of 60 seconds. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+    public struct ContainerMetricsConfig: Swift.Sendable {
+        /// A list of metrics endpoints to scrape from the container. Each endpoint specifies the path where the container exposes Prometheus-formatted metrics and the frequency at which to publish them. You can specify a maximum of 1 endpoint.
+        public var metricsEndpoints: [SageMakerClientTypes.MetricsEndpoint]?
+
+        public init(
+            metricsEndpoints: [SageMakerClientTypes.MetricsEndpoint]? = nil
+        ) {
+            self.metricsEndpoints = metricsEndpoints
+        }
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum RepositoryAccessMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -16450,6 +16551,8 @@ extension SageMakerClientTypes {
         public var additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]?
         /// This parameter is ignored for models that contain only a PrimaryContainer. When a ContainerDefinition is part of an inference pipeline, the value of the parameter uniquely identifies the container for the purposes of logging and metrics. For information, see [Use Logs and Metrics to Monitor an Inference Pipeline](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-pipeline-logs-metrics.html). If you don't specify a value for this parameter for a ContainerDefinition that is part of an inference pipeline, a unique name is automatically assigned based on the position of the ContainerDefinition in the pipeline. If you specify a value for the ContainerHostName for any ContainerDefinition that is part of an inference pipeline, you must specify a value for the ContainerHostName parameter of every ContainerDefinition in that pipeline.
         public var containerHostname: Swift.String?
+        /// The configuration for container metrics scraping. Specifies the metrics endpoint path and publishing frequency. If not specified when EnableDetailedObservability is True, the default path /metrics on port 8080 is used. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// The environment variables to set in the Docker container. Don't include any sensitive data in your environment variables. The maximum length of each key and value in the Environment map is 1024 bytes. The maximum length of all keys and values in the map, combined, is 32 KB. If you pass multiple containers to a CreateModel request, then the maximum length of all of their maps, combined, is also 32 KB.
         public var environment: [Swift.String: Swift.String]?
         /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html). The model artifacts in an Amazon S3 bucket and the Docker image for inference container in Amazon EC2 Container Registry must be in the same region as the model or endpoint you are creating.
@@ -16472,6 +16575,7 @@ extension SageMakerClientTypes {
         public init(
             additionalModelDataSources: [SageMakerClientTypes.AdditionalModelDataSource]? = nil,
             containerHostname: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil,
             imageConfig: SageMakerClientTypes.ImageConfig? = nil,
@@ -16484,6 +16588,7 @@ extension SageMakerClientTypes {
         ) {
             self.additionalModelDataSources = additionalModelDataSources
             self.containerHostname = containerHostname
+            self.containerMetricsConfig = containerMetricsConfig
             self.environment = environment
             self.image = image
             self.imageConfig = imageConfig
@@ -20819,67 +20924,34 @@ extension SageMakerClientTypes {
     }
 }
 
-public enum MetricPublishFrequencyInSeconds: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-    /// Metrics publishing at 10 seconds frequency
-    case freq10S
-    /// Metrics publishing at 120 seconds frequency
-    case freq120S
-    /// Metrics publishing at 180 seconds frequency
-    case freq180S
-    /// Metrics publishing at 240 seconds frequency
-    case freq240S
-    /// Metrics publishing at 300 seconds frequency
-    case freq300S
-    /// Metrics publishing at 30 seconds frequency
-    case freq30S
-    /// Metrics publishing at 60 seconds frequency
-    case freq60S
-    case sdkUnknown(Swift.Int)
-
-    public static var allCases: [MetricPublishFrequencyInSeconds] {
-        return [
-            .freq10S,
-            .freq120S,
-            .freq180S,
-            .freq240S,
-            .freq300S,
-            .freq30S,
-            .freq60S
-        ]
-    }
-
-    public init(rawValue: Swift.Int) {
-        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-        self = value ?? Self.sdkUnknown(rawValue)
-    }
-
-    public var rawValue: Swift.Int {
-        switch self {
-        case .freq10S: return 10
-        case .freq120S: return 120
-        case .freq180S: return 180
-        case .freq240S: return 240
-        case .freq300S: return 300
-        case .freq30S: return 30
-        case .freq60S: return 60
-        case let .sdkUnknown(s): return s
-        }
-    }
-}
-
 extension SageMakerClientTypes {
 
     /// The configuration for Utilization metrics.
     public struct MetricsConfig: Swift.Sendable {
+        /// Indicates whether detailed observability is enabled for the endpoint. When set to True, the following metrics are published at the configured frequency:
+        ///
+        /// * Container-level inference metrics scraped from the container's Prometheus endpoint (such as request latency, error counts, and throughput). Available metrics vary by framework.
+        ///
+        /// * Per-GPU metrics (utilization, memory, and temperature) attributed to individual inference components.
+        ///
+        /// * Per-instance host metrics (CPU, memory, and disk utilization).
+        ///
+        /// * Inference component placement metrics (copy count per Availability Zone).
+        ///
+        ///
+        /// For first-party and Deep Learning Containers (DLC), the Prometheus endpoint path is determined automatically. For Bring-Your-Own-Container (BYOC) cases, you can optionally set ContainerMetricsConfig to specify a custom endpoint path. If not specified, the default path /metrics on port 8080 is used. When set to False, these additional metrics are not published. Standard invocation and utilization metrics controlled by EnableEnhancedMetrics are unaffected. The default value for new endpoint configurations is True. For existing endpoint configurations created before this feature, the value is False unless explicitly set.
+        public var enableDetailedObservability: Swift.Bool?
         /// Specifies whether to enable enhanced metrics for the endpoint. Enhanced metrics provide utilization and invocation data at instance and container granularity. Container granularity is supported for Inference Components. The default is False.
         public var enableEnhancedMetrics: Swift.Bool?
-        /// The interval, in seconds, at which metrics are published to Amazon CloudWatch. Defaults to 60. Valid values: 10, 30, 60, 120, 180, 240, 300. When EnableEnhancedMetrics is set to False, this interval applies to utilization metrics only; invocation metrics continue to be published at the default 60-second interval. When EnableEnhancedMetrics is set to True, this interval applies to both utilization and invocation metrics.
+        /// The interval, in seconds, at which metrics are published to Amazon CloudWatch. Defaults to 60. Valid values: 10, 30, 60, 120, 180, 240, 300. When EnableEnhancedMetrics is set to False, this interval applies to utilization metrics only. Invocation metrics continue to be published at the default 60-second interval. When EnableEnhancedMetrics is set to True, this interval applies to both utilization and invocation metrics. When EnableDetailedObservability is set to True, this interval applies to per-GPU metrics, per-instance host metrics, container metrics, and fleet-level inference component lifecycle and placement metrics.
         public var metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds?
 
         public init(
+            enableDetailedObservability: Swift.Bool? = nil,
             enableEnhancedMetrics: Swift.Bool? = nil,
             metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds? = nil
         ) {
+            self.enableDetailedObservability = enableDetailedObservability
             self.enableEnhancedMetrics = enableEnhancedMetrics
             self.metricPublishFrequencyInSeconds = metricPublishFrequencyInSeconds
         }
@@ -23695,6 +23767,8 @@ extension SageMakerClientTypes {
     public struct InferenceComponentContainerSpecification: Swift.Sendable {
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public var artifactUrl: Swift.String?
+        /// The configuration for container metrics scraping. Specifies the metrics endpoint path and publishing frequency for the inference component's container. If not specified when EnableDetailedObservability is True, the default path /metrics on port 8080 is used. For first-party and Deep Learning Containers (DLC), the endpoint path is determined automatically and this configuration is optional.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string-to-string map can have length of up to 1024. We support up to 16 entries in the map.
         public var environment: [Swift.String: Swift.String]?
         /// The Amazon Elastic Container Registry (Amazon ECR) path where the Docker image for the model is stored.
@@ -23702,10 +23776,12 @@ extension SageMakerClientTypes {
 
         public init(
             artifactUrl: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             environment: [Swift.String: Swift.String]? = nil,
             image: Swift.String? = nil
         ) {
             self.artifactUrl = artifactUrl
+            self.containerMetricsConfig = containerMetricsConfig
             self.environment = environment
             self.image = image
         }
@@ -37859,6 +37935,8 @@ extension SageMakerClientTypes {
     public struct InferenceComponentContainerSpecificationSummary: Swift.Sendable {
         /// The Amazon S3 path where the model artifacts are stored.
         public var artifactUrl: Swift.String?
+        /// The container metrics scraping configuration for this inference component, including the metrics endpoint path and publishing frequency.
+        public var containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig?
         /// Gets the Amazon EC2 Container Registry path of the docker image of the model that is hosted in this [ProductionVariant](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ProductionVariant.html). If you used the registry/repository[:tag] form to specify the image path of the primary container when you created the model hosted in this ProductionVariant, the path resolves to a path of the form registry/repository[@digest]. A digest is a hash value that identifies a specific version of an image. For information about Amazon ECR paths, see [Pulling an Image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/docker-pull-ecr-image.html) in the Amazon ECR User Guide.
         public var deployedImage: SageMakerClientTypes.DeployedImage?
         /// The environment variables to set in the Docker container.
@@ -37866,10 +37944,12 @@ extension SageMakerClientTypes {
 
         public init(
             artifactUrl: Swift.String? = nil,
+            containerMetricsConfig: SageMakerClientTypes.ContainerMetricsConfig? = nil,
             deployedImage: SageMakerClientTypes.DeployedImage? = nil,
             environment: [Swift.String: Swift.String]? = nil
         ) {
             self.artifactUrl = artifactUrl
+            self.containerMetricsConfig = containerMetricsConfig
             self.deployedImage = deployedImage
             self.environment = environment
         }
@@ -47174,7 +47254,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Search shape for Job. Mirrors DescribeJobResponse fields. If you update DescribeJobResponse, update this structure as well.
+    /// The properties of a job returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API.
     public struct Job: Swift.Sendable {
         /// The date and time that the job was created.
         public var creationTime: Foundation.Date?
@@ -58315,7 +58395,7 @@ extension SageMakerClientTypes {
         public var featureMetadata: SageMakerClientTypes.FeatureMetadata?
         /// The properties of a hyperparameter tuning job.
         public var hyperParameterTuningJob: SageMakerClientTypes.HyperParameterTuningJobSearchEntity?
-        /// Search shape for Job. Mirrors DescribeJobResponse fields. If you update DescribeJobResponse, update this structure as well.
+        /// The properties of a job.
         public var job: SageMakerClientTypes.Job?
         /// A model displayed in the Amazon SageMaker Model Dashboard.
         public var model: SageMakerClientTypes.ModelDashboardModel?

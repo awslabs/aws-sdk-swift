@@ -614,7 +614,7 @@ extension Route53ResolverClient {
 extension Route53ResolverClient {
     /// Performs the `AssociateFirewallRuleGroup` operation on the `Route53Resolver` service.
     ///
-    /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC.
+    /// Associates a [FirewallRuleGroup] with a VPC, to provide DNS filtering for the VPC. If the rule group contains any rule configured with the PartnerThreatProtection rule type, the calling account must hold an active AWS Marketplace subscription to the named partner. If the subscription is missing, the association request is rejected.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateFirewallRuleGroupInput`)
     ///
@@ -1250,7 +1250,16 @@ extension Route53ResolverClient {
 
     /// Performs the `CreateFirewallRule` operation on the `Route53Resolver` service.
     ///
-    /// Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
+    /// Creates a single DNS Firewall rule in the specified rule group. The rule can use any one of the following match sources, and the chosen source must be supplied through the matching request field — they are mutually exclusive:
+    ///
+    /// * FirewallDomainListId — match a customer-managed or AWS-managed domain list.
+    ///
+    /// * DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).
+    ///
+    /// * FirewallRuleType — match one of the rule-type variants returned by [ListFirewallRuleTypes]: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, or PartnerThreatProtection. The PartnerThreatProtection variant requires an active AWS Marketplace subscription to the named partner product.
+    ///
+    ///
+    /// For rules that require asynchronous provisioning (today, the PartnerThreatProtection rule type), the rule's Status begins at CREATING and transitions to COMPLETE once the rule is provisioned and the marketplace entitlement is verified. If provisioning fails, Status becomes CREATION_FAILED and StatusMessage contains a human-readable reason; the rule is then immutable and must be removed with [DeleteFirewallRule].
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateFirewallRuleInput`)
     ///
@@ -1815,7 +1824,7 @@ extension Route53ResolverClient {
 
     /// Performs the `DeleteFirewallRule` operation on the `Route53Resolver` service.
     ///
-    /// Deletes the specified firewall rule.
+    /// Deletes the specified firewall rule. Identify the rule using either FirewallDomainListId (for domain-list and DNS Firewall Advanced rules) or FirewallThreatProtectionId (for partner-managed and DNS Firewall Advanced rules) — together with FirewallRuleGroupId. DeleteFirewallRule is the only operation that succeeds against a rule whose Status is CREATION_FAILED.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteFirewallRuleInput`)
     ///
@@ -4249,7 +4258,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ListFirewallRuleTypes` operation on the `Route53Resolver` service.
     ///
-    /// Retrieves the available rule types that can be used in DNS Firewall rules.
+    /// Retrieves the rule-type variants that can be used in the FirewallRuleType field of [CreateFirewallRule] and [UpdateFirewallRule]. Each returned [FirewallRuleTypeDefinition] identifies one variant + value combination — for example, FirewallAdvancedContentCategory + VIOLENCE_AND_HATE_SPEECH, or PartnerThreatProtection + a partner-managed feed. The supported RuleType filter values are FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. When a returned definition's variant requires an external subscription (currently only PartnerThreatProtection), the response also includes a [SubscriptionInfo] identifying the AWS Marketplace product that backs it; absence of SubscriptionInfo means the variant is fully managed by AWS and requires no separate subscription.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFirewallRuleTypesInput`)
     ///
@@ -4326,7 +4335,7 @@ extension Route53ResolverClient {
 
     /// Performs the `ListFirewallRules` operation on the `Route53Resolver` service.
     ///
-    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults.
+    /// Retrieves the firewall rules that you have defined for the specified firewall rule group. DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC. A single call might return only a partial list of the rules. For information, see MaxResults. For rules that require asynchronous provisioning, the response includes Status (see [FirewallRuleStatus]) and, on failure, StatusMessage with the reason.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFirewallRulesInput`)
     ///
@@ -5741,7 +5750,7 @@ extension Route53ResolverClient {
 
     /// Performs the `UpdateFirewallRule` operation on the `Route53Resolver` service.
     ///
-    /// Updates the specified firewall rule.
+    /// Updates the specified firewall rule. The rule's FirewallRuleType, FirewallDomainListId, and top-level DnsThreatProtection match source cannot be changed after creation. Rules whose Status is CREATING or CREATION_FAILED cannot be updated; remove a failed rule with [DeleteFirewallRule].
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFirewallRuleInput`)
     ///

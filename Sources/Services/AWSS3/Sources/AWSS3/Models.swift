@@ -256,6 +256,11 @@ public struct PutPublicAccessBlockOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateBucketMetadataAnnotationTableConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateBucketMetadataInventoryTableConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -1107,6 +1112,35 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    public enum AnnotationDirective: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case copy
+        case exclude
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnnotationDirective] {
+            return [
+                .copy,
+                .exclude
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .copy: return "COPY"
+            case .exclude: return "EXCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     public enum ChecksumAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case crc32
         case crc32c
@@ -1345,6 +1379,8 @@ public struct CopyObjectInput: Swift.Sendable {
     ///
     /// * This functionality is not supported for Amazon S3 on Outposts.
     public var acl: S3ClientTypes.ObjectCannedACL?
+    /// Specifies whether you want to copy annotations from the source object or exclude them. If this header isn't specified, COPY is the default behavior. Valid Values: COPY | EXCLUDE You can specify this directive as either an HTTP header (x-amz-object-annotation-directive) or as a query string parameter. Use the query string form when generating presigned URLs that need to control annotation copy behavior. When set to COPY, you must have s3:GetObjectAnnotation permission on the source object and s3:PutObjectAnnotation permission on the destination. Each annotation copied is billed as a separate PUT request. If annotations on the source are modified during the copy, Amazon S3 returns a retryable error. For directory buckets, annotations are not supported. Use EXCLUDE to copy objects to directory buckets without errors. If you specify COPY for a directory bucket, the request returns HTTP 501 (Not Implemented). When you copy objects using multipart upload (for example, when the Amazon Web Services CLI or Amazon Web Services SDKs use Transfer Manager for objects larger than approximately 8 MB), annotations are not copied by default. To include annotations, specify --copy-props default in the Amazon Web Services CLI or the equivalent SDK configuration. With this opt-in, the SDK reads source annotations, completes the multipart upload, and then writes each annotation to the destination. Between the upload completion and the last annotation write, the destination object exists without all its annotations.
+    public var annotationDirective: S3ClientTypes.AnnotationDirective?
     /// The name of the destination bucket. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket. You can only copy objects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the S3 on Outposts guide. When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
     /// This member is required.
     public var bucket: Swift.String?
@@ -1542,6 +1578,7 @@ public struct CopyObjectInput: Swift.Sendable {
 
     public init(
         acl: S3ClientTypes.ObjectCannedACL? = nil,
+        annotationDirective: S3ClientTypes.AnnotationDirective? = nil,
         bucket: Swift.String? = nil,
         bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
@@ -1586,6 +1623,7 @@ public struct CopyObjectInput: Swift.Sendable {
         websiteRedirectLocation: Swift.String? = nil
     ) {
         self.acl = acl
+        self.annotationDirective = annotationDirective
         self.bucket = bucket
         self.bucketKeyEnabled = bucketKeyEnabled
         self.cacheControl = cacheControl
@@ -1633,7 +1671,7 @@ public struct CopyObjectInput: Swift.Sendable {
 
 extension CopyObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CopyObjectInput(acl: \(Swift.String(describing: acl)), annotationDirective: \(Swift.String(describing: annotationDirective)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
@@ -2256,12 +2294,12 @@ public struct CreateBucketOutput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    public enum InventoryConfigurationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    public enum AnnotationConfigurationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [InventoryConfigurationState] {
+        public static var allCases: [AnnotationConfigurationState] {
             return [
                 .disabled,
                 .enabled
@@ -2328,6 +2366,59 @@ extension S3ClientTypes {
         ) {
             self.kmsKeyArn = kmsKeyArn
             self.sseAlgorithm = sseAlgorithm
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// Specifies the configuration for the annotation table associated with a bucket's Amazon S3 Metadata configuration. The annotation table is an Iceberg table that records annotation events for objects in the bucket.
+    public struct AnnotationTableConfiguration: Swift.Sendable {
+        /// The state of the annotation table. Valid values are ENABLED and DISABLED.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.AnnotationConfigurationState?
+        /// The encryption settings for an S3 Metadata journal table or inventory table configuration.
+        public var encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration?
+        /// The ARN of the IAM role used to manage the annotation table.
+        public var role: Swift.String?
+
+        public init(
+            configurationState: S3ClientTypes.AnnotationConfigurationState? = nil,
+            encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration? = nil,
+            role: Swift.String? = nil
+        ) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+            self.role = role
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    public enum InventoryConfigurationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InventoryConfigurationState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2425,6 +2516,8 @@ extension S3ClientTypes {
 
     /// The S3 Metadata configuration for a general purpose bucket.
     public struct MetadataConfiguration: Swift.Sendable {
+        /// Optional annotation table configuration to include with the metadata configuration.
+        public var annotationTableConfiguration: S3ClientTypes.AnnotationTableConfiguration?
         /// The inventory table configuration for a metadata configuration.
         public var inventoryTableConfiguration: S3ClientTypes.InventoryTableConfiguration?
         /// The journal table configuration for a metadata configuration.
@@ -2432,9 +2525,11 @@ extension S3ClientTypes {
         public var journalTableConfiguration: S3ClientTypes.JournalTableConfiguration?
 
         public init(
+            annotationTableConfiguration: S3ClientTypes.AnnotationTableConfiguration? = nil,
             inventoryTableConfiguration: S3ClientTypes.InventoryTableConfiguration? = nil,
             journalTableConfiguration: S3ClientTypes.JournalTableConfiguration? = nil
         ) {
+            self.annotationTableConfiguration = annotationTableConfiguration
             self.inventoryTableConfiguration = inventoryTableConfiguration
             self.journalTableConfiguration = journalTableConfiguration
         }
@@ -3356,6 +3451,73 @@ public struct DeleteObjectOutput: Swift.Sendable {
         self.deleteMarker = deleteMarker
         self.requestCharged = requestCharged
         self.versionId = versionId
+    }
+}
+
+/// The specified key does not exist.
+public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "NoSuchKey" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct DeleteObjectAnnotationInput: Swift.Sendable {
+    /// The name of the annotation to delete. Annotation names are UTF-8 encoded and cannot start with aws or s3 (case-insensitive). Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// This member is required.
+    public var annotationName: Swift.String?
+    /// The name of the bucket that contains the object.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner.
+    public var expectedBucketOwner: Swift.String?
+    /// The object key.
+    /// This member is required.
+    public var key: Swift.String?
+    /// If specified, the operation only succeeds if the object's ETag matches the provided value.
+    public var objectIfMatch: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The version ID of the object.
+    public var versionId: Swift.String?
+
+    public init(
+        annotationName: Swift.String? = nil,
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        objectIfMatch: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.annotationName = annotationName
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.objectIfMatch = objectIfMatch
+        self.requestPayer = requestPayer
+        self.versionId = versionId
+    }
+}
+
+public struct DeleteObjectAnnotationOutput: Swift.Sendable {
+    /// The version ID of the object that the annotation was deleted from.
+    public var objectVersionId: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        objectVersionId: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    ) {
+        self.objectVersionId = objectVersionId
+        self.requestCharged = requestCharged
     }
 }
 
@@ -6316,58 +6478,6 @@ public struct GetBucketMetadataConfigurationInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    public enum S3TablesBucketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aws
-        case customer
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [S3TablesBucketType] {
-            return [
-                .aws,
-                .customer
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aws: return "aws"
-            case .customer: return "customer"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension S3ClientTypes {
-
-    /// The destination information for the S3 Metadata configuration.
-    public struct DestinationResult: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the table bucket where the metadata configuration is stored.
-        public var tableBucketArn: Swift.String?
-        /// The type of the table bucket where the metadata configuration is stored. The aws value indicates an Amazon Web Services managed table bucket, and the customer value indicates a customer-managed table bucket. V2 metadata configurations are stored in Amazon Web Services managed table buckets, and V1 metadata configurations are stored in customer-managed table buckets.
-        public var tableBucketType: S3ClientTypes.S3TablesBucketType?
-        /// The namespace in the table bucket where the metadata tables for a metadata configuration are stored.
-        public var tableNamespace: Swift.String?
-
-        public init(
-            tableBucketArn: Swift.String? = nil,
-            tableBucketType: S3ClientTypes.S3TablesBucketType? = nil,
-            tableNamespace: Swift.String? = nil
-        ) {
-            self.tableBucketArn = tableBucketArn
-            self.tableBucketType = tableBucketType
-            self.tableNamespace = tableNamespace
-        }
-    }
-}
-
-extension S3ClientTypes {
-
     /// If an S3 Metadata V1 CreateBucketMetadataTableConfiguration or V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct ErrorDetails: Swift.Sendable {
         /// If the V1 CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
@@ -6443,6 +6553,94 @@ extension S3ClientTypes {
         ) {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// Contains the current state of the annotation table associated with a bucket's Amazon S3 Metadata configuration, including its provisioning status and identifiers.
+    public struct AnnotationTableConfigurationResult: Swift.Sendable {
+        /// The current configuration state of the annotation table.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.AnnotationConfigurationState?
+        /// If an S3 Metadata V1 CreateBucketMetadataTableConfiguration or V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
+        public var error: S3ClientTypes.ErrorDetails?
+        /// The ARN of the IAM role associated with the annotation table.
+        public var role: Swift.String?
+        /// The ARN of the annotation table.
+        public var tableArn: Swift.String?
+        /// The name of the annotation table.
+        public var tableName: Swift.String?
+        /// The provisioning status of the annotation table. Possible values: CREATING, BACKFILLING, ACTIVE, FAILED.
+        public var tableStatus: Swift.String?
+
+        public init(
+            configurationState: S3ClientTypes.AnnotationConfigurationState? = nil,
+            error: S3ClientTypes.ErrorDetails? = nil,
+            role: Swift.String? = nil,
+            tableArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableStatus: Swift.String? = nil
+        ) {
+            self.configurationState = configurationState
+            self.error = error
+            self.role = role
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    public enum S3TablesBucketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3TablesBucketType] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "aws"
+            case .customer: return "customer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The destination information for the S3 Metadata configuration.
+    public struct DestinationResult: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the table bucket where the metadata configuration is stored.
+        public var tableBucketArn: Swift.String?
+        /// The type of the table bucket where the metadata configuration is stored. The aws value indicates an Amazon Web Services managed table bucket, and the customer value indicates a customer-managed table bucket. V2 metadata configurations are stored in Amazon Web Services managed table buckets, and V1 metadata configurations are stored in customer-managed table buckets.
+        public var tableBucketType: S3ClientTypes.S3TablesBucketType?
+        /// The namespace in the table bucket where the metadata tables for a metadata configuration are stored.
+        public var tableNamespace: Swift.String?
+
+        public init(
+            tableBucketArn: Swift.String? = nil,
+            tableBucketType: S3ClientTypes.S3TablesBucketType? = nil,
+            tableNamespace: Swift.String? = nil
+        ) {
+            self.tableBucketArn = tableBucketArn
+            self.tableBucketType = tableBucketType
+            self.tableNamespace = tableNamespace
         }
     }
 }
@@ -6531,6 +6729,8 @@ extension S3ClientTypes {
 
     /// The S3 Metadata configuration for a general purpose bucket.
     public struct MetadataConfigurationResult: Swift.Sendable {
+        /// The annotation table configuration result, if an annotation table is configured.
+        public var annotationTableConfigurationResult: S3ClientTypes.AnnotationTableConfigurationResult?
         /// The destination settings for a metadata configuration.
         /// This member is required.
         public var destinationResult: S3ClientTypes.DestinationResult?
@@ -6540,10 +6740,12 @@ extension S3ClientTypes {
         public var journalTableConfigurationResult: S3ClientTypes.JournalTableConfigurationResult?
 
         public init(
+            annotationTableConfigurationResult: S3ClientTypes.AnnotationTableConfigurationResult? = nil,
             destinationResult: S3ClientTypes.DestinationResult? = nil,
             inventoryTableConfigurationResult: S3ClientTypes.InventoryTableConfigurationResult? = nil,
             journalTableConfigurationResult: S3ClientTypes.JournalTableConfigurationResult? = nil
         ) {
+            self.annotationTableConfigurationResult = annotationTableConfigurationResult
             self.destinationResult = destinationResult
             self.inventoryTableConfigurationResult = inventoryTableConfigurationResult
             self.journalTableConfigurationResult = journalTableConfigurationResult
@@ -6809,6 +7011,9 @@ extension S3ClientTypes {
         case s3LifecycleexpirationDeletemarkercreated
         case s3Lifecycletransition
         case s3ObjectaclPut
+        case s3Objectannotation
+        case s3ObjectannotationDelete
+        case s3ObjectannotationPut
         case s3Objectcreated
         case s3ObjectcreatedCompletemultipartupload
         case s3ObjectcreatedCopy
@@ -6840,6 +7045,9 @@ extension S3ClientTypes {
                 .s3LifecycleexpirationDeletemarkercreated,
                 .s3Lifecycletransition,
                 .s3ObjectaclPut,
+                .s3Objectannotation,
+                .s3ObjectannotationDelete,
+                .s3ObjectannotationPut,
                 .s3Objectcreated,
                 .s3ObjectcreatedCompletemultipartupload,
                 .s3ObjectcreatedCopy,
@@ -6877,6 +7085,9 @@ extension S3ClientTypes {
             case .s3LifecycleexpirationDeletemarkercreated: return "s3:LifecycleExpiration:DeleteMarkerCreated"
             case .s3Lifecycletransition: return "s3:LifecycleTransition"
             case .s3ObjectaclPut: return "s3:ObjectAcl:Put"
+            case .s3Objectannotation: return "s3:ObjectAnnotation:*"
+            case .s3ObjectannotationDelete: return "s3:ObjectAnnotation:Delete"
+            case .s3ObjectannotationPut: return "s3:ObjectAnnotation:Put"
             case .s3Objectcreated: return "s3:ObjectCreated:*"
             case .s3ObjectcreatedCompletemultipartupload: return "s3:ObjectCreated:CompleteMultipartUpload"
             case .s3ObjectcreatedCopy: return "s3:ObjectCreated:Copy"
@@ -8155,20 +8366,6 @@ public struct InvalidObjectState: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-/// The specified key does not exist.
-public struct NoSuchKey: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-    public static var typeName: Swift.String { "NoSuchKey" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-    public internal(set) var requestID2: Swift.String?
-
-    public init() { }
-}
-
 extension S3ClientTypes {
 
     public enum ChecksumMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -8600,6 +8797,141 @@ public struct GetObjectAclOutput: Swift.Sendable {
         self.grants = grants
         self.owner = owner
         self.requestCharged = requestCharged
+    }
+}
+
+/// The specified annotation does not exist on this object.
+public struct NoSuchAnnotation: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "NoSuchAnnotation" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct GetObjectAnnotationInput: Swift.Sendable {
+    /// The name of the annotation to retrieve. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// This member is required.
+    public var annotationName: Swift.String?
+    /// The name of the bucket that contains the object.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Set to ENABLED to validate the checksum of the annotation payload on retrieval.
+    public var checksumMode: S3ClientTypes.ChecksumMode?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with an HTTP 403 (Access Denied) error.
+    public var expectedBucketOwner: Swift.String?
+    /// The object key.
+    /// This member is required.
+    public var key: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The version ID of the object.
+    public var versionId: Swift.String?
+
+    public init(
+        annotationName: Swift.String? = nil,
+        bucket: Swift.String? = nil,
+        checksumMode: S3ClientTypes.ChecksumMode? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.annotationName = annotationName
+        self.bucket = bucket
+        self.checksumMode = checksumMode
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.requestPayer = requestPayer
+        self.versionId = versionId
+    }
+}
+
+public struct GetObjectAnnotationOutput: Swift.Sendable {
+    /// The annotation payload.
+    public var annotationPayload: Smithy.ByteStream?
+    /// The CRC32 checksum of the annotation payload.
+    public var checksumCRC32: Swift.String?
+    /// The CRC32C checksum of the annotation payload.
+    public var checksumCRC32C: Swift.String?
+    /// The CRC64NVME checksum of the annotation payload.
+    public var checksumCRC64NVME: Swift.String?
+    /// The MD5 checksum of the annotation payload.
+    public var checksumMD5: Swift.String?
+    /// The SHA1 checksum of the annotation payload.
+    public var checksumSHA1: Swift.String?
+    /// The SHA256 checksum of the annotation payload.
+    public var checksumSHA256: Swift.String?
+    /// The SHA512 checksum of the annotation payload.
+    public var checksumSHA512: Swift.String?
+    /// The type of checksum used.
+    public var checksumType: S3ClientTypes.ChecksumType?
+    /// The XXHASH128 checksum of the annotation payload.
+    public var checksumXXHASH128: Swift.String?
+    /// The XXHASH3 checksum of the annotation payload.
+    public var checksumXXHASH3: Swift.String?
+    /// The XXHASH64 checksum of the annotation payload.
+    public var checksumXXHASH64: Swift.String?
+    /// The size of the annotation payload, in bytes.
+    public var contentLength: Swift.Int?
+    /// The entity tag of the annotation.
+    public var eTag: Swift.String?
+    /// The date and time the annotation was last modified.
+    public var lastModified: Foundation.Date?
+    /// The version ID of the object that the annotation is attached to.
+    public var objectVersionId: Swift.String?
+    /// The replication status of the annotation. Possible values include PENDING, COMPLETED, FAILED, and REPLICA.
+    public var replicationStatus: S3ClientTypes.ReplicationStatus?
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// The server-side encryption algorithm used.
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+
+    public init(
+        annotationPayload: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
+        checksumCRC32: Swift.String? = nil,
+        checksumCRC32C: Swift.String? = nil,
+        checksumCRC64NVME: Swift.String? = nil,
+        checksumMD5: Swift.String? = nil,
+        checksumSHA1: Swift.String? = nil,
+        checksumSHA256: Swift.String? = nil,
+        checksumSHA512: Swift.String? = nil,
+        checksumType: S3ClientTypes.ChecksumType? = nil,
+        checksumXXHASH128: Swift.String? = nil,
+        checksumXXHASH3: Swift.String? = nil,
+        checksumXXHASH64: Swift.String? = nil,
+        contentLength: Swift.Int? = nil,
+        eTag: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        objectVersionId: Swift.String? = nil,
+        replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil
+    ) {
+        self.annotationPayload = annotationPayload
+        self.checksumCRC32 = checksumCRC32
+        self.checksumCRC32C = checksumCRC32C
+        self.checksumCRC64NVME = checksumCRC64NVME
+        self.checksumMD5 = checksumMD5
+        self.checksumSHA1 = checksumSHA1
+        self.checksumSHA256 = checksumSHA256
+        self.checksumSHA512 = checksumSHA512
+        self.checksumType = checksumType
+        self.checksumXXHASH128 = checksumXXHASH128
+        self.checksumXXHASH3 = checksumXXHASH3
+        self.checksumXXHASH64 = checksumXXHASH64
+        self.contentLength = contentLength
+        self.eTag = eTag
+        self.lastModified = lastModified
+        self.objectVersionId = objectVersionId
+        self.replicationStatus = replicationStatus
+        self.requestCharged = requestCharged
+        self.serverSideEncryption = serverSideEncryption
     }
 }
 
@@ -10189,6 +10521,146 @@ public struct ListMultipartUploadsOutput: Swift.Sendable {
         self.requestCharged = requestCharged
         self.uploadIdMarker = uploadIdMarker
         self.uploads = uploads
+    }
+}
+
+/// The annotation prefix you provided is invalid.
+public struct InvalidPrefix: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "InvalidPrefix" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct ListObjectAnnotationsInput: Swift.Sendable {
+    /// Filter results to annotations whose name begins with the specified prefix.
+    public var annotationPrefix: Swift.String?
+    /// The name of the bucket that contains the object.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Continuation token returned by a previous request to retrieve the next page.
+    public var continuationToken: Swift.String?
+    /// The account ID of the expected bucket owner.
+    public var expectedBucketOwner: Swift.String?
+    /// The object key.
+    /// This member is required.
+    public var key: Swift.String?
+    /// The maximum number of annotations to return in the response. Maximum is 1,000.
+    public var maxAnnotationResults: Swift.Int?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The version ID of the object.
+    public var versionId: Swift.String?
+
+    public init(
+        annotationPrefix: Swift.String? = nil,
+        bucket: Swift.String? = nil,
+        continuationToken: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        maxAnnotationResults: Swift.Int? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.annotationPrefix = annotationPrefix
+        self.bucket = bucket
+        self.continuationToken = continuationToken
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.maxAnnotationResults = maxAnnotationResults
+        self.requestPayer = requestPayer
+        self.versionId = versionId
+    }
+}
+
+extension S3ClientTypes {
+
+    /// Describes a single annotation attached to an object, including its name, last modified time, size, ETag, checksum algorithm, and replication status. Returned in the response from ListObjectAnnotations.
+    public struct AnnotationEntry: Swift.Sendable {
+        /// The name of the annotation.
+        /// This member is required.
+        public var annotationName: Swift.String?
+        /// The checksum algorithm used for the annotation.
+        public var checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]?
+        /// The entity tag of the annotation.
+        public var eTag: Swift.String?
+        /// The date and time the annotation was last modified.
+        /// This member is required.
+        public var lastModified: Foundation.Date?
+        /// The replication status of the annotation.
+        public var replicationStatus: S3ClientTypes.ReplicationStatus?
+        /// The size of the annotation payload, in bytes.
+        /// This member is required.
+        public var size: Swift.Int?
+
+        public init(
+            annotationName: Swift.String? = nil,
+            checksumAlgorithm: [S3ClientTypes.ChecksumAlgorithm]? = nil,
+            eTag: Swift.String? = nil,
+            lastModified: Foundation.Date? = nil,
+            replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
+            size: Swift.Int? = nil
+        ) {
+            self.annotationName = annotationName
+            self.checksumAlgorithm = checksumAlgorithm
+            self.eTag = eTag
+            self.lastModified = lastModified
+            self.replicationStatus = replicationStatus
+            self.size = size
+        }
+    }
+}
+
+public struct ListObjectAnnotationsOutput: Swift.Sendable {
+    /// The number of annotations returned.
+    public var annotationCount: Swift.Int?
+    /// The prefix used to filter the response.
+    public var annotationPrefix: Swift.String?
+    /// The list of annotations attached to the object.
+    public var annotations: [S3ClientTypes.AnnotationEntry]?
+    /// The bucket name.
+    public var bucket: Swift.String?
+    /// The continuation token used in this request.
+    public var continuationToken: Swift.String?
+    /// The object key.
+    public var key: Swift.String?
+    /// The maximum number of annotations returned in the response.
+    public var maxAnnotationResults: Swift.Int?
+    /// The continuation token to use to retrieve the next page of results.
+    public var nextContinuationToken: Swift.String?
+    /// The version ID of the object.
+    public var objectVersionId: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        annotationCount: Swift.Int? = nil,
+        annotationPrefix: Swift.String? = nil,
+        annotations: [S3ClientTypes.AnnotationEntry]? = nil,
+        bucket: Swift.String? = nil,
+        continuationToken: Swift.String? = nil,
+        key: Swift.String? = nil,
+        maxAnnotationResults: Swift.Int? = nil,
+        nextContinuationToken: Swift.String? = nil,
+        objectVersionId: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    ) {
+        self.annotationCount = annotationCount
+        self.annotationPrefix = annotationPrefix
+        self.annotations = annotations
+        self.bucket = bucket
+        self.continuationToken = continuationToken
+        self.key = key
+        self.maxAnnotationResults = maxAnnotationResults
+        self.nextContinuationToken = nextContinuationToken
+        self.objectVersionId = objectVersionId
+        self.requestCharged = requestCharged
     }
 }
 
@@ -12262,6 +12734,228 @@ public struct PutObjectAclOutput: Swift.Sendable {
     }
 }
 
+/// The request would exceed the maximum number of annotations allowed per object.
+public struct AnnotationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "AnnotationLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+/// The annotation name exceeds 512 bytes.
+public struct AnnotationNameTooLong: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "AnnotationNameTooLong" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+/// The annotation name you provided is invalid.
+public struct InvalidAnnotationName: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "InvalidAnnotationName" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+/// The annotation payload is not valid UTF-8 encoded text.
+public struct UnsupportedMediaType: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "UnsupportedMediaType" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct PutObjectAnnotationInput: Swift.Sendable {
+    /// The name of the annotation. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+    /// This member is required.
+    public var annotationName: Swift.String?
+    /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains invalid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Media Type). To store binary data, encode the payload using Base64 before uploading.
+    /// This member is required.
+    public var annotationPayload: Smithy.ByteStream?
+    /// The name of the bucket that contains the object.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The checksum algorithm to use. Supported values: CRC32, CRC32C, CRC64NVME, SHA1, SHA256, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// Base64-encoded CRC32 checksum of the annotation payload.
+    public var checksumCRC32: Swift.String?
+    /// Base64-encoded CRC32C checksum of the annotation payload.
+    public var checksumCRC32C: Swift.String?
+    /// Base64-encoded CRC64NVME checksum of the annotation payload.
+    public var checksumCRC64NVME: Swift.String?
+    /// Base64-encoded MD5 checksum of the annotation payload.
+    public var checksumMD5: Swift.String?
+    /// Base64-encoded SHA1 checksum of the annotation payload.
+    public var checksumSHA1: Swift.String?
+    /// Base64-encoded SHA256 checksum of the annotation payload.
+    public var checksumSHA256: Swift.String?
+    /// Base64-encoded SHA512 checksum of the annotation payload.
+    public var checksumSHA512: Swift.String?
+    /// Base64-encoded XXHASH128 checksum of the annotation payload.
+    public var checksumXXHASH128: Swift.String?
+    /// Base64-encoded XXHASH3 checksum of the annotation payload.
+    public var checksumXXHASH3: Swift.String?
+    /// Base64-encoded XXHASH64 checksum of the annotation payload.
+    public var checksumXXHASH64: Swift.String?
+    /// Base64-encoded MD5 digest of the message.
+    public var contentMD5: Swift.String?
+    /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with an HTTP 403 (Access Denied) error.
+    public var expectedBucketOwner: Swift.String?
+    /// The object key.
+    /// This member is required.
+    public var key: Swift.String?
+    /// If specified, the operation only succeeds if the object's ETag matches the provided value.
+    public var objectIfMatch: Swift.String?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The version ID of the object to attach the annotation to.
+    public var versionId: Swift.String?
+
+    public init(
+        annotationName: Swift.String? = nil,
+        annotationPayload: Smithy.ByteStream? = nil,
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        checksumCRC32: Swift.String? = nil,
+        checksumCRC32C: Swift.String? = nil,
+        checksumCRC64NVME: Swift.String? = nil,
+        checksumMD5: Swift.String? = nil,
+        checksumSHA1: Swift.String? = nil,
+        checksumSHA256: Swift.String? = nil,
+        checksumSHA512: Swift.String? = nil,
+        checksumXXHASH128: Swift.String? = nil,
+        checksumXXHASH3: Swift.String? = nil,
+        checksumXXHASH64: Swift.String? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        objectIfMatch: Swift.String? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.annotationName = annotationName
+        self.annotationPayload = annotationPayload
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.checksumCRC32 = checksumCRC32
+        self.checksumCRC32C = checksumCRC32C
+        self.checksumCRC64NVME = checksumCRC64NVME
+        self.checksumMD5 = checksumMD5
+        self.checksumSHA1 = checksumSHA1
+        self.checksumSHA256 = checksumSHA256
+        self.checksumSHA512 = checksumSHA512
+        self.checksumXXHASH128 = checksumXXHASH128
+        self.checksumXXHASH3 = checksumXXHASH3
+        self.checksumXXHASH64 = checksumXXHASH64
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.objectIfMatch = objectIfMatch
+        self.requestPayer = requestPayer
+        self.versionId = versionId
+    }
+}
+
+public struct PutObjectAnnotationOutput: Swift.Sendable {
+    /// The name of the annotation.
+    public var annotationName: Swift.String?
+    /// The CRC32 checksum of the stored annotation.
+    public var checksumCRC32: Swift.String?
+    /// The CRC32C checksum of the stored annotation.
+    public var checksumCRC32C: Swift.String?
+    /// The CRC64NVME checksum of the stored annotation.
+    public var checksumCRC64NVME: Swift.String?
+    /// The MD5 checksum of the stored annotation.
+    public var checksumMD5: Swift.String?
+    /// The SHA1 checksum of the stored annotation.
+    public var checksumSHA1: Swift.String?
+    /// The SHA256 checksum of the stored annotation.
+    public var checksumSHA256: Swift.String?
+    /// The SHA512 checksum of the stored annotation.
+    public var checksumSHA512: Swift.String?
+    /// The type of checksum used.
+    public var checksumType: S3ClientTypes.ChecksumType?
+    /// The XXHASH128 checksum of the stored annotation.
+    public var checksumXXHASH128: Swift.String?
+    /// The XXHASH3 checksum of the stored annotation.
+    public var checksumXXHASH3: Swift.String?
+    /// The XXHASH64 checksum of the stored annotation.
+    public var checksumXXHASH64: Swift.String?
+    /// The entity tag of the annotation.
+    public var eTag: Swift.String?
+    /// The object key.
+    public var key: Swift.String?
+    /// The version ID of the object that the annotation was attached to.
+    public var objectVersionId: Swift.String?
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+    /// The server-side encryption algorithm used to encrypt the annotation.
+    public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
+
+    public init(
+        annotationName: Swift.String? = nil,
+        checksumCRC32: Swift.String? = nil,
+        checksumCRC32C: Swift.String? = nil,
+        checksumCRC64NVME: Swift.String? = nil,
+        checksumMD5: Swift.String? = nil,
+        checksumSHA1: Swift.String? = nil,
+        checksumSHA256: Swift.String? = nil,
+        checksumSHA512: Swift.String? = nil,
+        checksumType: S3ClientTypes.ChecksumType? = nil,
+        checksumXXHASH128: Swift.String? = nil,
+        checksumXXHASH3: Swift.String? = nil,
+        checksumXXHASH64: Swift.String? = nil,
+        eTag: Swift.String? = nil,
+        key: Swift.String? = nil,
+        objectVersionId: Swift.String? = nil,
+        requestCharged: S3ClientTypes.RequestCharged? = nil,
+        serverSideEncryption: S3ClientTypes.ServerSideEncryption? = nil
+    ) {
+        self.annotationName = annotationName
+        self.checksumCRC32 = checksumCRC32
+        self.checksumCRC32C = checksumCRC32C
+        self.checksumCRC64NVME = checksumCRC64NVME
+        self.checksumMD5 = checksumMD5
+        self.checksumSHA1 = checksumSHA1
+        self.checksumSHA256 = checksumSHA256
+        self.checksumSHA512 = checksumSHA512
+        self.checksumType = checksumType
+        self.checksumXXHASH128 = checksumXXHASH128
+        self.checksumXXHASH3 = checksumXXHASH3
+        self.checksumXXHASH64 = checksumXXHASH64
+        self.eTag = eTag
+        self.key = key
+        self.objectVersionId = objectVersionId
+        self.requestCharged = requestCharged
+        self.serverSideEncryption = serverSideEncryption
+    }
+}
+
 public struct PutObjectLegalHoldInput: Swift.Sendable {
     /// The bucket name containing the object that you want to place a legal hold on. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide.
     /// This member is required.
@@ -13454,6 +14148,59 @@ public struct SelectObjectContentOutput: Swift.Sendable {
 
 extension S3ClientTypes {
 
+    /// Specifies updates to apply to the annotation table configuration. Used as the request body for UpdateBucketMetadataAnnotationTableConfiguration.
+    public struct AnnotationTableConfigurationUpdates: Swift.Sendable {
+        /// The new configuration state to apply.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.AnnotationConfigurationState?
+        /// The encryption settings for an S3 Metadata journal table or inventory table configuration.
+        public var encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration?
+        /// The new IAM role ARN to apply.
+        public var role: Swift.String?
+
+        public init(
+            configurationState: S3ClientTypes.AnnotationConfigurationState? = nil,
+            encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration? = nil,
+            role: Swift.String? = nil
+        ) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+            self.role = role
+        }
+    }
+}
+
+public struct UpdateBucketMetadataAnnotationTableConfigurationInput: Swift.Sendable {
+    /// The annotation table configuration updates to apply.
+    /// This member is required.
+    public var annotationTableConfiguration: S3ClientTypes.AnnotationTableConfigurationUpdates?
+    /// The name of the bucket whose annotation table configuration to update.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Checksum algorithm for the request payload.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// Base64-encoded MD5 digest of the message body.
+    public var contentMD5: Swift.String?
+    /// The account ID of the expected bucket owner.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        annotationTableConfiguration: S3ClientTypes.AnnotationTableConfigurationUpdates? = nil,
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.annotationTableConfiguration = annotationTableConfiguration
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension S3ClientTypes {
+
     /// The specified updates to the S3 Metadata inventory table configuration.
     public struct InventoryTableConfigurationUpdates: Swift.Sendable {
         /// The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled.
@@ -14406,6 +15153,9 @@ extension CopyObjectInput {
         if let acl = value.acl {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
+        if let annotationDirective = value.annotationDirective {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-annotation-directive", value: Swift.String(annotationDirective.rawValue)))
+        }
         if let bucketKeyEnabled = value.bucketKeyEnabled {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
@@ -15274,6 +16024,52 @@ extension DeleteObjectInput {
             let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
         }
+        return items
+    }
+}
+
+extension DeleteObjectAnnotationInput {
+
+    static func urlPathProvider(_ value: DeleteObjectAnnotationInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension DeleteObjectAnnotationInput {
+
+    static func headerProvider(_ value: DeleteObjectAnnotationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let objectIfMatch = value.objectIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-if-match", value: Swift.String(objectIfMatch)))
+        }
+        if let requestPayer = value.requestPayer {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension DeleteObjectAnnotationInput {
+
+    static func queryItemProvider(_ value: DeleteObjectAnnotationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "annotation", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        guard let annotationName = value.annotationName else {
+            let message = "Creating a URL Query Item failed. annotationName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let annotationNameQueryItem = Smithy.URIQueryItem(name: "annotationName".urlPercentEncoding(), value: Swift.String(annotationName).urlPercentEncoding())
+        items.append(annotationNameQueryItem)
         return items
     }
 }
@@ -16159,6 +16955,53 @@ extension GetObjectAclInput {
     }
 }
 
+extension GetObjectAnnotationInput {
+
+    static func urlPathProvider(_ value: GetObjectAnnotationInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetObjectAnnotationInput {
+
+    static func headerProvider(_ value: GetObjectAnnotationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumMode = value.checksumMode {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-mode", value: Swift.String(checksumMode.rawValue)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let requestPayer = value.requestPayer {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension GetObjectAnnotationInput {
+
+    static func queryItemProvider(_ value: GetObjectAnnotationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "annotation", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "GetObjectAnnotation"))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        guard let annotationName = value.annotationName else {
+            let message = "Creating a URL Query Item failed. annotationName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let annotationNameQueryItem = Smithy.URIQueryItem(name: "annotationName".urlPercentEncoding(), value: Swift.String(annotationName).urlPercentEncoding())
+        items.append(annotationNameQueryItem)
+        return items
+    }
+}
+
 extension GetObjectAttributesInput {
 
     static func urlPathProvider(_ value: GetObjectAttributesInput) -> Swift.String? {
@@ -16759,6 +17602,56 @@ extension ListMultipartUploadsInput {
         if let keyMarker = value.keyMarker {
             let keyMarkerQueryItem = Smithy.URIQueryItem(name: "key-marker".urlPercentEncoding(), value: Swift.String(keyMarker).urlPercentEncoding())
             items.append(keyMarkerQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListObjectAnnotationsInput {
+
+    static func urlPathProvider(_ value: ListObjectAnnotationsInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension ListObjectAnnotationsInput {
+
+    static func headerProvider(_ value: ListObjectAnnotationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let requestPayer = value.requestPayer {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension ListObjectAnnotationsInput {
+
+    static func queryItemProvider(_ value: ListObjectAnnotationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "annotation", value: nil))
+        items.append(Smithy.URIQueryItem(name: "x-id", value: "ListObjectAnnotations"))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        if let continuationToken = value.continuationToken {
+            let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuation-token".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
+            items.append(continuationTokenQueryItem)
+        }
+        if let annotationPrefix = value.annotationPrefix {
+            let annotationPrefixQueryItem = Smithy.URIQueryItem(name: "annotation-prefix".urlPercentEncoding(), value: Swift.String(annotationPrefix).urlPercentEncoding())
+            items.append(annotationPrefixQueryItem)
+        }
+        if let maxAnnotationResults = value.maxAnnotationResults {
+            let maxAnnotationResultsQueryItem = Smithy.URIQueryItem(name: "max-annotation-results".urlPercentEncoding(), value: Swift.String(maxAnnotationResults).urlPercentEncoding())
+            items.append(maxAnnotationResultsQueryItem)
         }
         return items
     }
@@ -17873,6 +18766,88 @@ extension PutObjectAclInput {
     }
 }
 
+extension PutObjectAnnotationInput {
+
+    static func urlPathProvider(_ value: PutObjectAnnotationInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension PutObjectAnnotationInput {
+
+    static func headerProvider(_ value: PutObjectAnnotationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let checksumCRC32 = value.checksumCRC32 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc32", value: Swift.String(checksumCRC32)))
+        }
+        if let checksumCRC32C = value.checksumCRC32C {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc32c", value: Swift.String(checksumCRC32C)))
+        }
+        if let checksumCRC64NVME = value.checksumCRC64NVME {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-crc64nvme", value: Swift.String(checksumCRC64NVME)))
+        }
+        if let checksumMD5 = value.checksumMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-md5", value: Swift.String(checksumMD5)))
+        }
+        if let checksumSHA1 = value.checksumSHA1 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha1", value: Swift.String(checksumSHA1)))
+        }
+        if let checksumSHA256 = value.checksumSHA256 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
+        }
+        if let checksumSHA512 = value.checksumSHA512 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-sha512", value: Swift.String(checksumSHA512)))
+        }
+        if let checksumXXHASH128 = value.checksumXXHASH128 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash128", value: Swift.String(checksumXXHASH128)))
+        }
+        if let checksumXXHASH3 = value.checksumXXHASH3 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash3", value: Swift.String(checksumXXHASH3)))
+        }
+        if let checksumXXHASH64 = value.checksumXXHASH64 {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-checksum-xxhash64", value: Swift.String(checksumXXHASH64)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let objectIfMatch = value.objectIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-object-if-match", value: Swift.String(objectIfMatch)))
+        }
+        if let requestPayer = value.requestPayer {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension PutObjectAnnotationInput {
+
+    static func queryItemProvider(_ value: PutObjectAnnotationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "annotation", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        guard let annotationName = value.annotationName else {
+            let message = "Creating a URL Query Item failed. annotationName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let annotationNameQueryItem = Smithy.URIQueryItem(name: "annotationName".urlPercentEncoding(), value: Swift.String(annotationName).urlPercentEncoding())
+        items.append(annotationNameQueryItem)
+        return items
+    }
+}
+
 extension PutObjectLegalHoldInput {
 
     static func urlPathProvider(_ value: PutObjectLegalHoldInput) -> Swift.String? {
@@ -18210,6 +19185,39 @@ extension SelectObjectContentInput {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "select", value: nil))
         items.append(Smithy.URIQueryItem(name: "select-type", value: "2"))
+        return items
+    }
+}
+
+extension UpdateBucketMetadataAnnotationTableConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateBucketMetadataAnnotationTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateBucketMetadataAnnotationTableConfigurationInput {
+
+    static func headerProvider(_ value: UpdateBucketMetadataAnnotationTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension UpdateBucketMetadataAnnotationTableConfigurationInput {
+
+    static func queryItemProvider(_ value: UpdateBucketMetadataAnnotationTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataAnnotationTable", value: nil))
         return items
     }
 }
@@ -18861,6 +19869,14 @@ extension PutObjectAclInput {
     }
 }
 
+extension PutObjectAnnotationInput {
+
+    static func write(value: PutObjectAnnotationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnnotationPayload"].write(value.annotationPayload)
+    }
+}
+
 extension PutObjectLegalHoldInput {
 
     static func write(value: PutObjectLegalHoldInput?, to writer: SmithyXML.Writer) throws {
@@ -18919,6 +19935,14 @@ extension SelectObjectContentInput {
         try writer["OutputSerialization"].write(value.outputSerialization, with: S3ClientTypes.OutputSerialization.write(value:to:))
         try writer["RequestProgress"].write(value.requestProgress, with: S3ClientTypes.RequestProgress.write(value:to:))
         try writer["ScanRange"].write(value.scanRange, with: S3ClientTypes.ScanRange.write(value:to:))
+    }
+}
+
+extension UpdateBucketMetadataAnnotationTableConfigurationInput {
+
+    static func write(value: UpdateBucketMetadataAnnotationTableConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnnotationTableConfiguration"].write(value.annotationTableConfiguration, with: S3ClientTypes.AnnotationTableConfigurationUpdates.write(value:to:))
     }
 }
 
@@ -19275,6 +20299,20 @@ extension DeleteObjectOutput {
         }
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             value.versionId = versionIdHeaderValue
+        }
+        return value
+    }
+}
+
+extension DeleteObjectAnnotationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteObjectAnnotationOutput {
+        var value = DeleteObjectAnnotationOutput()
+        if let objectVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-object-version-id") {
+            value.objectVersionId = objectVersionIdHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
         }
         return value
     }
@@ -19770,6 +20808,76 @@ extension GetObjectAclOutput {
     }
 }
 
+extension GetObjectAnnotationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetObjectAnnotationOutput {
+        var value = GetObjectAnnotationOutput()
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
+            value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
+        }
+        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
+            value.checksumMD5 = checksumMD5HeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
+            value.checksumSHA512 = checksumSHA512HeaderValue
+        }
+        if let checksumTypeHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-type") {
+            value.checksumType = S3ClientTypes.ChecksumType(rawValue: checksumTypeHeaderValue)
+        }
+        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
+            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
+        }
+        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
+            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
+        }
+        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
+            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
+        }
+        if let contentLengthHeaderValue = httpResponse.headers.value(for: "Content-Length") {
+            value.contentLength = Swift.Int(contentLengthHeaderValue) ?? 0
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let lastModifiedHeaderValue = httpResponse.headers.value(for: "Last-Modified") {
+            value.lastModified = SmithyTimestamps.TimestampFormatter(format: .httpDate).date(from: lastModifiedHeaderValue)
+        }
+        if let objectVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-object-version-id") {
+            value.objectVersionId = objectVersionIdHeaderValue
+        }
+        if let replicationStatusHeaderValue = httpResponse.headers.value(for: "x-amz-replication-status") {
+            value.replicationStatus = S3ClientTypes.ReplicationStatus(rawValue: replicationStatusHeaderValue)
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        switch httpResponse.body {
+        case .data(let data):
+            value.annotationPayload = .data(data)
+        case .stream(let stream):
+            value.annotationPayload = .stream(stream)
+        case .noStream:
+            value.annotationPayload = nil
+        }
+        return value
+    }
+}
+
 extension GetObjectAttributesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetObjectAttributesOutput {
@@ -20163,6 +21271,31 @@ extension ListMultipartUploadsOutput {
     }
 }
 
+extension ListObjectAnnotationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListObjectAnnotationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListObjectAnnotationsOutput()
+        if let objectVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-object-version-id") {
+            value.objectVersionId = objectVersionIdHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        value.annotationCount = try reader["AnnotationCount"].readIfPresent()
+        value.annotationPrefix = try reader["AnnotationPrefix"].readIfPresent()
+        value.annotations = try reader["Annotations"].readListIfPresent(memberReadingClosure: S3ClientTypes.AnnotationEntry.read(from:), memberNodeInfo: "AnnotationEntry", isFlattened: false)
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.continuationToken = try reader["ContinuationToken"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.maxAnnotationResults = try reader["MaxAnnotationResults"].readIfPresent()
+        value.nextContinuationToken = try reader["NextContinuationToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListObjectsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListObjectsOutput {
@@ -20495,6 +21628,64 @@ extension PutObjectAclOutput {
     }
 }
 
+extension PutObjectAnnotationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutObjectAnnotationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutObjectAnnotationOutput()
+        if let checksumCRC32HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32") {
+            value.checksumCRC32 = checksumCRC32HeaderValue
+        }
+        if let checksumCRC32CHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc32c") {
+            value.checksumCRC32C = checksumCRC32CHeaderValue
+        }
+        if let checksumCRC64NVMEHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-crc64nvme") {
+            value.checksumCRC64NVME = checksumCRC64NVMEHeaderValue
+        }
+        if let checksumMD5HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-md5") {
+            value.checksumMD5 = checksumMD5HeaderValue
+        }
+        if let checksumSHA1HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha1") {
+            value.checksumSHA1 = checksumSHA1HeaderValue
+        }
+        if let checksumSHA256HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha256") {
+            value.checksumSHA256 = checksumSHA256HeaderValue
+        }
+        if let checksumSHA512HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-sha512") {
+            value.checksumSHA512 = checksumSHA512HeaderValue
+        }
+        if let checksumTypeHeaderValue = httpResponse.headers.value(for: "x-amz-checksum-type") {
+            value.checksumType = S3ClientTypes.ChecksumType(rawValue: checksumTypeHeaderValue)
+        }
+        if let checksumXXHASH128HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash128") {
+            value.checksumXXHASH128 = checksumXXHASH128HeaderValue
+        }
+        if let checksumXXHASH3HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash3") {
+            value.checksumXXHASH3 = checksumXXHASH3HeaderValue
+        }
+        if let checksumXXHASH64HeaderValue = httpResponse.headers.value(for: "x-amz-checksum-xxhash64") {
+            value.checksumXXHASH64 = checksumXXHASH64HeaderValue
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let objectVersionIdHeaderValue = httpResponse.headers.value(for: "x-amz-object-version-id") {
+            value.objectVersionId = objectVersionIdHeaderValue
+        }
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        if let serverSideEncryptionHeaderValue = httpResponse.headers.value(for: "x-amz-server-side-encryption") {
+            value.serverSideEncryption = S3ClientTypes.ServerSideEncryption(rawValue: serverSideEncryptionHeaderValue)
+        }
+        value.annotationName = try reader["AnnotationName"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        return value
+    }
+}
+
 extension PutObjectLegalHoldOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutObjectLegalHoldOutput {
@@ -20577,6 +21768,13 @@ extension SelectObjectContentOutput {
             value.payload = decoderStream.toAsyncStream()
         }
         return value
+    }
+}
+
+extension UpdateBucketMetadataAnnotationTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBucketMetadataAnnotationTableConfigurationOutput {
+        return UpdateBucketMetadataAnnotationTableConfigurationOutput()
     }
 }
 
@@ -21052,6 +22250,22 @@ enum DeleteObjectOutputError {
     }
 }
 
+enum DeleteObjectAnnotationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteObjectsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21447,6 +22661,23 @@ enum GetObjectAclOutputError {
     }
 }
 
+enum GetObjectAnnotationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NoSuchAnnotation": return try NoSuchAnnotation.makeError(baseError: baseError)
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetObjectAttributesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21669,6 +22900,23 @@ enum ListMultipartUploadsOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListObjectAnnotationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "InvalidPrefix": return try InvalidPrefix.makeError(baseError: baseError)
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22031,6 +23279,27 @@ enum PutObjectAclOutputError {
     }
 }
 
+enum PutObjectAnnotationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AnnotationLimitExceeded": return try AnnotationLimitExceeded.makeError(baseError: baseError)
+            case "AnnotationNameTooLong": return try AnnotationNameTooLong.makeError(baseError: baseError)
+            case "InvalidAnnotationName": return try InvalidAnnotationName.makeError(baseError: baseError)
+            case "InvalidRequest": return try InvalidRequest.makeError(baseError: baseError)
+            case "NoSuchBucket": return try NoSuchBucket.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            case "UnsupportedMediaType": return try UnsupportedMediaType.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutObjectLegalHoldOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22132,6 +23401,20 @@ enum RestoreObjectOutputError {
 }
 
 enum SelectObjectContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBucketMetadataAnnotationTableConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -22292,6 +23575,18 @@ extension NoSuchBucket {
     }
 }
 
+extension NoSuchKey {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchKey {
+        var value = NoSuchKey()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
 extension InvalidObjectState {
 
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidObjectState {
@@ -22307,10 +23602,10 @@ extension InvalidObjectState {
     }
 }
 
-extension NoSuchKey {
+extension NoSuchAnnotation {
 
-    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchKey {
-        var value = NoSuchKey()
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NoSuchAnnotation {
+        var value = NoSuchAnnotation()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -22323,6 +23618,18 @@ extension NotFound {
 
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> NotFound {
         var value = NotFound()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension InvalidPrefix {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidPrefix {
+        var value = InvalidPrefix()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -22371,6 +23678,54 @@ extension TooManyParts {
 
     static func makeError(baseError: ClientRuntime.RestXMLError) throws -> TooManyParts {
         var value = TooManyParts()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension AnnotationLimitExceeded {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> AnnotationLimitExceeded {
+        var value = AnnotationLimitExceeded()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension AnnotationNameTooLong {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> AnnotationNameTooLong {
+        var value = AnnotationNameTooLong()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension InvalidAnnotationName {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidAnnotationName {
+        var value = InvalidAnnotationName()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension UnsupportedMediaType {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> UnsupportedMediaType {
+        var value = UnsupportedMediaType()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -22627,6 +23982,56 @@ extension S3ClientTypes.AnalyticsS3BucketDestination {
         value.bucket = try reader["Bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["Prefix"].readIfPresent()
         return value
+    }
+}
+
+extension S3ClientTypes.AnnotationEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnnotationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnnotationEntry()
+        value.annotationName = try reader["AnnotationName"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ClientTypes.ChecksumAlgorithm>().read(from:), memberNodeInfo: "member", isFlattened: true)
+        value.size = try reader["Size"].readIfPresent() ?? 0
+        value.replicationStatus = try reader["ReplicationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.AnnotationTableConfiguration {
+
+    static func write(value: S3ClientTypes.AnnotationTableConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationState"].write(value.configurationState)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.MetadataTableEncryptionConfiguration.write(value:to:))
+        try writer["Role"].write(value.role)
+    }
+}
+
+extension S3ClientTypes.AnnotationTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AnnotationTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AnnotationTableConfigurationResult()
+        value.configurationState = try reader["ConfigurationState"].readIfPresent() ?? .sdkUnknown("")
+        value.tableStatus = try reader["TableStatus"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: S3ClientTypes.ErrorDetails.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.AnnotationTableConfigurationUpdates {
+
+    static func write(value: S3ClientTypes.AnnotationTableConfigurationUpdates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationState"].write(value.configurationState)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.MetadataTableEncryptionConfiguration.write(value:to:))
+        try writer["Role"].write(value.role)
     }
 }
 
@@ -23623,6 +25028,7 @@ extension S3ClientTypes.MetadataConfiguration {
 
     static func write(value: S3ClientTypes.MetadataConfiguration?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["AnnotationTableConfiguration"].write(value.annotationTableConfiguration, with: S3ClientTypes.AnnotationTableConfiguration.write(value:to:))
         try writer["InventoryTableConfiguration"].write(value.inventoryTableConfiguration, with: S3ClientTypes.InventoryTableConfiguration.write(value:to:))
         try writer["JournalTableConfiguration"].write(value.journalTableConfiguration, with: S3ClientTypes.JournalTableConfiguration.write(value:to:))
     }
@@ -23636,6 +25042,7 @@ extension S3ClientTypes.MetadataConfigurationResult {
         value.destinationResult = try reader["DestinationResult"].readIfPresent(with: S3ClientTypes.DestinationResult.read(from:))
         value.journalTableConfigurationResult = try reader["JournalTableConfigurationResult"].readIfPresent(with: S3ClientTypes.JournalTableConfigurationResult.read(from:))
         value.inventoryTableConfigurationResult = try reader["InventoryTableConfigurationResult"].readIfPresent(with: S3ClientTypes.InventoryTableConfigurationResult.read(from:))
+        value.annotationTableConfigurationResult = try reader["AnnotationTableConfigurationResult"].readIfPresent(with: S3ClientTypes.AnnotationTableConfigurationResult.read(from:))
         return value
     }
 }

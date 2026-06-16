@@ -1188,17 +1188,25 @@ public struct CreateOrderInput: Swift.Sendable {
     public var paymentOption: OutpostsClientTypes.PaymentOption?
     /// The payment terms.
     public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+    /// The ID of the quote to use for the order.
+    public var quoteIdentifier: Swift.String?
+    /// The ID of the quote option to use for the order.
+    public var quoteOptionIdentifier: Swift.String?
 
     public init(
         lineItems: [OutpostsClientTypes.LineItemRequest]? = nil,
         outpostIdentifier: Swift.String? = nil,
         paymentOption: OutpostsClientTypes.PaymentOption? = nil,
-        paymentTerm: OutpostsClientTypes.PaymentTerm? = nil
+        paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
+        quoteIdentifier: Swift.String? = nil,
+        quoteOptionIdentifier: Swift.String? = nil
     ) {
         self.lineItems = lineItems
         self.outpostIdentifier = outpostIdentifier
         self.paymentOption = paymentOption
         self.paymentTerm = paymentTerm
+        self.quoteIdentifier = quoteIdentifier
+        self.quoteOptionIdentifier = quoteOptionIdentifier
     }
 }
 
@@ -1476,6 +1484,10 @@ extension OutpostsClientTypes {
         public var paymentOption: OutpostsClientTypes.PaymentOption?
         /// The payment term.
         public var paymentTerm: OutpostsClientTypes.PaymentTerm?
+        /// The ID of the quote associated with the order.
+        public var quoteIdentifier: Swift.String?
+        /// The ID of the quote option associated with the order.
+        public var quoteOptionIdentifier: Swift.String?
         /// The status of the order.
         ///
         /// * PREPARING - Order is received and being prepared.
@@ -1503,6 +1515,8 @@ extension OutpostsClientTypes {
             outpostId: Swift.String? = nil,
             paymentOption: OutpostsClientTypes.PaymentOption? = nil,
             paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
+            quoteIdentifier: Swift.String? = nil,
+            quoteOptionIdentifier: Swift.String? = nil,
             status: OutpostsClientTypes.OrderStatus? = nil
         ) {
             self.lineItems = lineItems
@@ -1513,6 +1527,8 @@ extension OutpostsClientTypes {
             self.outpostId = outpostId
             self.paymentOption = paymentOption
             self.paymentTerm = paymentTerm
+            self.quoteIdentifier = quoteIdentifier
+            self.quoteOptionIdentifier = quoteOptionIdentifier
             self.status = status
         }
     }
@@ -3006,7 +3022,7 @@ public struct DeleteOutpostOutput: Swift.Sendable {
 }
 
 public struct DeleteQuoteInput: Swift.Sendable {
-    /// The ID or ARN of the quote.
+    /// The ID of the quote.
     /// This member is required.
     public var quoteIdentifier: Swift.String?
 
@@ -3691,7 +3707,7 @@ public struct GetOutpostSupportedInstanceTypesOutput: Swift.Sendable {
 }
 
 public struct GetQuoteInput: Swift.Sendable {
-    /// The ID or ARN of the quote.
+    /// The ID of the quote.
     /// This member is required.
     public var quoteIdentifier: Swift.String?
 
@@ -4651,7 +4667,7 @@ public struct UpdateQuoteInput: Swift.Sendable {
     public var description: Swift.String?
     /// The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association.
     public var outpostIdentifier: Swift.String?
-    /// The ID or ARN of the quote.
+    /// The ID of the quote.
     /// This member is required.
     public var quoteIdentifier: Swift.String?
     /// The updated capacity requirements for the quote.
@@ -5652,6 +5668,8 @@ extension CreateOrderInput {
         try writer["OutpostIdentifier"].write(value.outpostIdentifier)
         try writer["PaymentOption"].write(value.paymentOption)
         try writer["PaymentTerm"].write(value.paymentTerm)
+        try writer["QuoteIdentifier"].write(value.quoteIdentifier)
+        try writer["QuoteOptionIdentifier"].write(value.quoteOptionIdentifier)
     }
 }
 
@@ -7467,6 +7485,8 @@ extension OutpostsClientTypes.Order {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.Order()
         value.outpostId = try reader["OutpostId"].readIfPresent()
+        value.quoteIdentifier = try reader["QuoteIdentifier"].readIfPresent()
+        value.quoteOptionIdentifier = try reader["QuoteOptionIdentifier"].readIfPresent()
         value.orderId = try reader["OrderId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.lineItems = try reader["LineItems"].readListIfPresent(memberReadingClosure: OutpostsClientTypes.LineItem.read(from:), memberNodeInfo: "member", isFlattened: false)
