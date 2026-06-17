@@ -18,7 +18,7 @@ class RestXMLProtocolXMLAttributesGeneratorTests {
     @Test
     fun `smoke test for generating request tests`() {
         val context = setupTests("restxml-attributes-generator-test.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getClientFileContents("Tests/ExampleTests", "XmlAttributesRequestTest.swift", context.manifest)
+        val contents = getClientFileContents("Example/Tests/ExampleTests", "XmlAttributesRequestTest.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
 
         val expectedContents =

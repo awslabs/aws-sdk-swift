@@ -19,7 +19,7 @@ class AWSRestXMLHTTPResponseBindingErrorGeneratorTests {
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
         val contents =
-            getFileContents(context.manifest, "Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+            getFileContents(context.manifest, "Example/Sources/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -44,7 +44,7 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `003 ComplexXMLError+Init`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "Sources/Example/models/ComplexXMLError+Init.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/ComplexXMLError+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexXMLError {
@@ -71,7 +71,7 @@ extension ComplexXMLError {
     @Test
     fun `004 ComplexXMLError extends from AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Sources/Example/models/ComplexXMLError.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/ComplexXMLError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -108,7 +108,7 @@ public struct ComplexXMLError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     @Test
     fun `005 ComplexXMLErrorNoErrorWrapping Init renders without container`() {
         val context = setupTests("restxml/xml-errors-noerrorwrapping.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "Sources/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/ComplexXMLErrorNoErrorWrapping+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexXMLErrorNoErrorWrapping {
@@ -135,7 +135,7 @@ extension ComplexXMLErrorNoErrorWrapping {
     @Test
     fun `006 RestXml+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "Sources/Example/models/RestXml+HTTPServiceError.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/RestXml+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 func httpServiceError(baseError: ClientRuntime.RestXMLError) throws -> Swift.Error? {

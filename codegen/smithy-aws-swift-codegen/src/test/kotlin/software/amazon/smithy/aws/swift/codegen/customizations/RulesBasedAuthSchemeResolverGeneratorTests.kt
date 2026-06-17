@@ -17,7 +17,7 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
     fun `rules based auth scheme resolver generation test with fake S3 smithy model`() {
         val context = setupTests("rules-based-auth-resolver-test.smithy", "com.test#S3")
         val contents =
-            TestUtils.getFileContents(context.manifest, "Sources/Example/AuthSchemeResolver.swift")
+            TestUtils.getFileContents(context.manifest, "Example/Sources/Example/AuthSchemeResolver.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {

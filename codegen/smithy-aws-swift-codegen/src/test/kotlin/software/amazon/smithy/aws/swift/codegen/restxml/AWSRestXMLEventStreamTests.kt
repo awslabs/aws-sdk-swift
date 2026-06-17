@@ -19,7 +19,7 @@ class AWSRestXMLEventStreamTests {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/EventStreamTestClient.swift",
+                "Example/Sources/Example/EventStreamTestClient.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -38,7 +38,7 @@ class AWSRestXMLEventStreamTests {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/TestEvents+MessageMarshallable.swift",
+                "Example/Sources/Example/models/TestEvents+MessageMarshallable.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -80,7 +80,7 @@ extension EventStreamTestClientTypes.TestEvents {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/MessageWithAudio+ReadWrite.swift",
+                "Example/Sources/Example/models/MessageWithAudio+ReadWrite.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
@@ -114,7 +114,7 @@ extension EventStreamTestClientTypes.MessageWithAudio {
         val contents =
             TestUtils.getFileContents(
                 context.manifest,
-                "Sources/Example/models/Audio+ReadWrite.swift",
+                "Example/Sources/Example/models/Audio+ReadWrite.swift",
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

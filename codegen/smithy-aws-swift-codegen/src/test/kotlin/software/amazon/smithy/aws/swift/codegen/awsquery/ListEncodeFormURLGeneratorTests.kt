@@ -18,7 +18,7 @@ class ListEncodeFormURLGeneratorTests {
     @Test
     fun `001 encode different types of lists`() {
         val context = setupTests("awsquery/query-lists.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "Sources/Example/models/QueryListsInput+Write.swift")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/models/QueryListsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension QueryListsInput {

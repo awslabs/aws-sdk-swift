@@ -18,7 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 class AWSOperationEndpointResolverMiddlewareTests {
     @Test
     fun `test endpoint middleware init`() {
-        val writer = SwiftWriter("smithy.example")
+        val writer = SwiftWriter("smithy.example", moduleName = "ModuleName")
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
         val operation =
             context.ctx.model.operationShapes

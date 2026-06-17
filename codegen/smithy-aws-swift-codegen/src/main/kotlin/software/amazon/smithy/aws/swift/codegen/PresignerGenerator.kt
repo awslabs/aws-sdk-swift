@@ -21,7 +21,7 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
-import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 data class PresignableOperation(
     val serviceId: String,
@@ -51,14 +51,14 @@ class PresignerGenerator : SwiftIntegration {
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
             val inputType = op.input.get().getName()
             val outputType = op.output.get().getName()
-            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+Presigner")
+            val filename = SDKFileUtils(ctx.settings).modelFilePath("$inputType+Presigner")
             delegator.useFileWriter(filename) { writer ->
                 var serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, outputType, serviceConfig)
             }
             // Expose presign-request as a method for service client object
             val symbol = protoCtx.symbolProvider.toSymbol(protoCtx.service)
-            val clientFilename = "Sources/${ctx.settings.moduleName}/${symbol.name}.swift"
+            val clientFilename = SDKFileUtils(ctx.settings).sourcesDirFilePath(symbol.name)
             protoCtx.delegator.useFileWriter(clientFilename) { writer ->
                 renderPresignAPIInServiceClient(writer, symbol.name, op, inputType)
             }

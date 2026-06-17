@@ -15,7 +15,7 @@ import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.expectShape
-import software.amazon.smithy.swift.codegen.utils.ModelFileUtils
+import software.amazon.smithy.swift.codegen.utils.SDKFileUtils
 
 internal val ENABLED_OPERATIONS: Map<String, Set<String>> =
     mapOf(
@@ -53,7 +53,7 @@ class PredictEndpointIntegration(
             val outputErrorSymbol = MiddlewareShapeUtils.outputErrorSymbol(op)
 
             val inputType = op.input.get()
-            val filename = ModelFileUtils.filename(ctx.settings, "$inputType+EndpointURLHostMiddleware")
+            val filename = SDKFileUtils(ctx.settings).modelFilePath("$inputType+EndpointURLHostMiddleware")
             delegator.useFileWriter(filename) { writer ->
                 val predictMiddleware =
                     PredictInputEndpointURLHostMiddlewareHandler(

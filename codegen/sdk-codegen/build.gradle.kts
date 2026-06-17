@@ -217,7 +217,7 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 
 val AwsService.outputDir: String
-    get() = project.layout.buildDirectory.dir("smithyprojections/${project.name}/${projectionName}/swift-codegen").get().asFile.absolutePath
+    get() = project.layout.buildDirectory.dir("smithyprojections/${project.name}/${projectionName}/swift-codegen/$packageName").get().asFile.absolutePath
 
 val AwsService.sourcesDir: String
     get() = when (this.internalClient) {
@@ -229,7 +229,7 @@ val AwsService.sourcesDir: String
  * Service specific model extras
  */
 val AwsService.modelExtrasDir: String
-    get() = rootProject.file("Tests/AdditionalServiceTests/$packageName/models").absolutePath
+    get() = rootProject.file("$packageName/Tests/AdditionalServiceTests/$packageName/models").absolutePath
 
 tasks.register("stageSdks") {
     group = "codegen"

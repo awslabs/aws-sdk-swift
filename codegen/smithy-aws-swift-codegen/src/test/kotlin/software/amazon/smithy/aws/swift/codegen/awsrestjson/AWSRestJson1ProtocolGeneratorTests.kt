@@ -19,7 +19,7 @@ class AWSRestJson1ProtocolGeneratorTests {
     @Test
     fun `define coding keys for unbound document payload members`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Sources/Example", "SmokeTestInput+Write.swift", context.manifest)
+        val contents = getModelFileContents("Example/Sources/Example", "SmokeTestInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension SmokeTestInput {
@@ -38,7 +38,7 @@ extension SmokeTestInput {
     @Test
     fun `define coding keys for payload member`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Sources/Example", "ExplicitBlobInput+Write.swift", context.manifest)
+        val contents = getModelFileContents("Example/Sources/Example", "ExplicitBlobInput+Write.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ExplicitBlobInput {
@@ -55,7 +55,7 @@ extension ExplicitBlobInput {
     @Test
     fun `generated client has proper configuration`() {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
+        val contents = getClientFileContents("Example/Sources/Example", "ExampleClient.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
