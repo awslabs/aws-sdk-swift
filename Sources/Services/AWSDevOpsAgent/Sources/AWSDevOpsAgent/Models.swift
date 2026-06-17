@@ -464,6 +464,125 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Supported authorization methods for remote A2A agents.
+    public enum RemoteAgentAuthorizationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// API key-based authentication.
+        case apiKey
+        /// Bearer token authentication (RFC 6750).
+        case bearerToken
+        /// OAuth 2.0 client credentials flow.
+        case oauthClientCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemoteAgentAuthorizationMethod] {
+            return [
+                .apiKey,
+                .bearerToken,
+                .oauthClientCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiKey: return "api-key"
+            case .bearerToken: return "bearer-token"
+            case .oauthClientCredentials: return "oauth-client-credentials"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Details specific to a registered token-based remote A2A agent.
+    public struct RegisteredRemoteAgentDetails: Swift.Sendable {
+        /// If the remote agent uses API key authentication, the header name.
+        public var apiKeyHeader: Swift.String?
+        /// The authorization method used by the remote agent.
+        /// This member is required.
+        public var authorizationMethod: DevOpsAgentClientTypes.RemoteAgentAuthorizationMethod?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            apiKeyHeader: Swift.String? = nil,
+            authorizationMethod: DevOpsAgentClientTypes.RemoteAgentAuthorizationMethod? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.apiKeyHeader = apiKeyHeader
+            self.authorizationMethod = authorizationMethod
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisteredRemoteAgentDetails(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), authorizationMethod: \(Swift.String(describing: authorizationMethod)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Details specific to a registered SigV4-authenticated remote A2A agent.
+    public struct RegisteredRemoteAgentSigV4Details: Swift.Sendable {
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+        /// AWS region identifier or wildcard (*) for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// AWS IAM role ARN.
+        public var roleArn: Swift.String?
+        /// The AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil,
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RegisteredRemoteAgentSigV4Details(endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), region: \(Swift.String(describing: region)), roleArn: \(Swift.String(describing: roleArn)), service: \(Swift.String(describing: service)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Details specific to a registered ServiceNow instance.
     public struct RegisteredServiceNowDetails: Swift.Sendable {
         /// The ServiceNow instance url
@@ -528,6 +647,10 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.RegisteredPagerDutyDetails)
         /// SigV4-authenticated MCP server-specific service details.
         case mcpserversigv4(DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details)
+        /// Remote A2A agent-specific service details (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RegisteredRemoteAgentDetails)
+        /// Remote A2A agent-specific service details (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details)
         case sdkUnknown(Swift.String)
     }
 }
@@ -782,6 +905,53 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension DevOpsAgentClientTypes {
 
+    /// AWS DevOps Agent capability types representing the set of automated capabilities that can be enabled per association.
+    public enum CapabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Release readiness review auto-trigger capability.
+        case releaseReadinessReview
+        /// Release readiness review automated testing capability.
+        case releaseReadinessReviewAutomatedTesting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityType] {
+            return [
+                .releaseReadinessReview,
+                .releaseReadinessReviewAutomatedTesting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
+            case .releaseReadinessReviewAutomatedTesting: return "RELEASE_READINESS_REVIEW_AUTOMATED_TESTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Capability configuration for the AWS DevOps Agent.
+    public struct CapabilityConfiguration: Swift.Sendable {
+        /// Whether the capability is enabled.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// AWS association type for monitoring account.
     public enum MonitorAccountType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case monitor
@@ -922,19 +1092,23 @@ extension DevOpsAgentClientTypes {
         /// Associated Github repo name
         /// This member is required.
         public var repoName: Swift.String?
+        /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        public var runtimeRoleArn: Swift.String?
 
         public init(
             instanceIdentifier: Swift.String? = nil,
             owner: Swift.String? = nil,
             ownerType: DevOpsAgentClientTypes.GithubRepoOwnerType? = nil,
             repoId: Swift.String? = nil,
-            repoName: Swift.String? = nil
+            repoName: Swift.String? = nil,
+            runtimeRoleArn: Swift.String? = nil
         ) {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
             self.ownerType = ownerType
             self.repoId = repoId
             self.repoName = repoName
+            self.runtimeRoleArn = runtimeRoleArn
         }
     }
 }
@@ -951,15 +1125,19 @@ extension DevOpsAgentClientTypes {
         /// Full GitLab project path (e.g., namespace/project-name).
         /// This member is required.
         public var projectPath: Swift.String?
+        /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
+        public var runtimeRoleArn: Swift.String?
 
         public init(
             instanceIdentifier: Swift.String? = nil,
             projectId: Swift.String? = nil,
-            projectPath: Swift.String? = nil
+            projectPath: Swift.String? = nil,
+            runtimeRoleArn: Swift.String? = nil
         ) {
             self.instanceIdentifier = instanceIdentifier
             self.projectId = projectId
             self.projectPath = projectPath
+            self.runtimeRoleArn = runtimeRoleArn
         }
     }
 }
@@ -1083,6 +1261,24 @@ extension DevOpsAgentClientTypes {
 extension DevOpsAgentClientTypes.PagerDutyConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PagerDutyConfiguration(services: \(Swift.String(describing: services)), customerEmail: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for token-based remote A2A agent integration.
+    public struct RemoteAgentConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for SigV4-authenticated remote A2A agent integration.
+    public struct RemoteAgentSigV4Configuration: Swift.Sendable {
+
+        public init() { }
+    }
 }
 
 extension DevOpsAgentClientTypes {
@@ -1265,6 +1461,10 @@ extension DevOpsAgentClientTypes {
         case pagerduty(DevOpsAgentClientTypes.PagerDutyConfiguration)
         /// SigV4-authenticated MCP server integration configuration.
         case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4Configuration)
+        /// Remote A2A agent integration configuration (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RemoteAgentConfiguration)
+        /// Remote A2A agent integration configuration (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4Configuration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1274,6 +1474,8 @@ public struct AssociateServiceInput: Swift.Sendable {
     /// The unique identifier of the AgentSpace
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Enabled capabilities for this association.
+    public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
     /// The configuration that directs how AgentSpace interacts with the given service.
     /// This member is required.
     public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1283,10 +1485,12 @@ public struct AssociateServiceInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
         configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil,
         serviceId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.capabilities = capabilities
         self.configuration = configuration
         self.serviceId = serviceId
     }
@@ -1338,6 +1542,8 @@ extension DevOpsAgentClientTypes {
         /// The unique identifier of the given association.
         /// This member is required.
         public var associationId: Swift.String?
+        /// Enabled capabilities for this association.
+        public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
         /// The configuration that directs how AgentSpace interacts with the given service.
         /// This member is required.
         public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1356,6 +1562,7 @@ extension DevOpsAgentClientTypes {
         public init(
             agentSpaceId: Swift.String? = nil,
             associationId: Swift.String? = nil,
+            capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
             configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             serviceId: Swift.String? = nil,
@@ -1364,6 +1571,7 @@ extension DevOpsAgentClientTypes {
         ) {
             self.agentSpaceId = agentSpaceId
             self.associationId = associationId
+            self.capabilities = capabilities
             self.configuration = configuration
             self.createdAt = createdAt
             self.serviceId = serviceId
@@ -1627,6 +1835,8 @@ public struct UpdateAssociationInput: Swift.Sendable {
     /// The unique identifier of the given association.
     /// This member is required.
     public var associationId: Swift.String?
+    /// Enabled capabilities for this association.
+    public var capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]?
     /// The configuration that directs how AgentSpace interacts with the given service. The entire configuration is replaced on update.
     /// This member is required.
     public var configuration: DevOpsAgentClientTypes.ServiceConfiguration?
@@ -1634,10 +1844,12 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         associationId: Swift.String? = nil,
+        capabilities: [Swift.String: DevOpsAgentClientTypes.CapabilityConfiguration]? = nil,
         configuration: DevOpsAgentClientTypes.ServiceConfiguration? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.associationId = associationId
+        self.capabilities = capabilities
         self.configuration = configuration
     }
 }
@@ -2298,6 +2510,22 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Content for an asset sourced from an external URL.
+    public struct AssetSourceUrlContent: Swift.Sendable {
+        /// The source URL to import asset content from
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            url: Swift.String? = nil
+        ) {
+            self.url = url
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// A zip file containing asset files
     public struct AssetZipContent: Swift.Sendable {
         /// The zip file bytes
@@ -2314,12 +2542,14 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
-    /// Content for an asset, either a single file or a zip bundle
+    /// Content for an asset: a single file, a zip bundle, or a source URL to import from
     public enum AssetContent: Swift.Sendable {
         /// A single file with path and content
         case file(DevOpsAgentClientTypes.AssetFileContent)
         /// A zip file containing multiple files
         case zip(DevOpsAgentClientTypes.AssetZipContent)
+        /// A source URL to import asset content from
+        case sourceurl(DevOpsAgentClientTypes.AssetSourceUrlContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2521,7 +2751,7 @@ public struct CreateAssetInput: Swift.Sendable {
     public var assetType: Swift.String?
     /// A unique, case-sensitive identifier used for idempotent asset creation
     public var clientToken: Swift.String?
-    /// The content for the asset. Provide a single file or a zip bundle.
+    /// The content for the asset. Provide a single file, a zip bundle, or a sourceUrl to import from an external source.
     /// This member is required.
     public var content: DevOpsAgentClientTypes.AssetContent?
     /// The metadata describing this asset
@@ -2691,12 +2921,18 @@ extension DevOpsAgentClientTypes {
         case evaluation
         /// Task for investigating issues or requirements
         case investigation
+        /// Task for reviewing changes for production readiness
+        case releaseReadinessReview
+        /// Task for automated release testing
+        case releaseTesting
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TaskType] {
             return [
                 .evaluation,
-                .investigation
+                .investigation,
+                .releaseReadinessReview,
+                .releaseTesting
             ]
         }
 
@@ -2709,6 +2945,8 @@ extension DevOpsAgentClientTypes {
             switch self {
             case .evaluation: return "EVALUATION"
             case .investigation: return "INVESTIGATION"
+            case .releaseReadinessReview: return "RELEASE_READINESS_REVIEW"
+            case .releaseTesting: return "RELEASE_TESTING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3350,11 +3588,12 @@ extension DevOpsAgentClientTypes {
     }
 }
 
+/// Request structure for creating a new Trigger
 public struct CreateTriggerInput: Swift.Sendable {
     /// The action the new Trigger performs when it fires
     /// This member is required.
     public var action: Smithy.Document?
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space where the Trigger will be created
     /// This member is required.
     public var agentSpaceId: Swift.String?
     /// A unique, case-sensitive identifier used for idempotent Trigger creation
@@ -3392,7 +3631,7 @@ extension DevOpsAgentClientTypes {
         /// The action this Trigger performs when it fires
         /// This member is required.
         public var action: Smithy.Document?
-        /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+        /// The agent space this Trigger belongs to
         /// This member is required.
         public var agentSpaceId: Swift.String?
         /// The condition that fires this Trigger
@@ -3404,7 +3643,7 @@ extension DevOpsAgentClientTypes {
         /// The status of this Trigger
         /// This member is required.
         public var status: Swift.String?
-        /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+        /// The unique identifier for this Trigger
         /// This member is required.
         public var triggerId: Swift.String?
         /// How this Trigger fires
@@ -3436,6 +3675,7 @@ extension DevOpsAgentClientTypes {
     }
 }
 
+/// Response structure for creating a new Trigger
 public struct CreateTriggerOutput: Swift.Sendable {
     /// The Trigger object
     /// This member is required.
@@ -3593,11 +3833,12 @@ public struct DeletePrivateConnectionOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for deleting a Trigger
 public struct DeleteTriggerInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space containing the Trigger
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// The unique identifier of the Trigger to delete
     /// This member is required.
     public var triggerId: Swift.String?
 
@@ -3610,6 +3851,7 @@ public struct DeleteTriggerInput: Swift.Sendable {
     }
 }
 
+/// Response structure for deleting a Trigger
 public struct DeleteTriggerOutput: Swift.Sendable {
 
     public init() { }
@@ -4127,11 +4369,12 @@ public struct GetRecommendationOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for getting a Trigger
 public struct GetTriggerInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space containing the Trigger
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// The unique identifier of the Trigger to retrieve
     /// This member is required.
     public var triggerId: Swift.String?
 
@@ -4144,6 +4387,7 @@ public struct GetTriggerInput: Swift.Sendable {
     }
 }
 
+/// Response structure for getting a Trigger
 public struct GetTriggerOutput: Swift.Sendable {
     /// The Trigger object
     /// This member is required.
@@ -5238,8 +5482,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for listing Triggers in an agent space
 public struct ListTriggersInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space whose Triggers should be listed
     /// This member is required.
     public var agentSpaceId: Swift.String?
     /// The maximum number of results to return in a single response
@@ -5262,11 +5507,12 @@ public struct ListTriggersInput: Swift.Sendable {
     }
 }
 
+/// Response structure for listing Triggers
 public struct ListTriggersOutput: Swift.Sendable {
     /// The list of Triggers
     /// This member is required.
     public var items: [DevOpsAgentClientTypes.Trigger]?
-    /// Pagination token for list operations (1-2048 characters)
+    /// Pagination token to retrieve the next page of results
     public var nextToken: Swift.String?
 
     public init(
@@ -5428,7 +5674,7 @@ extension DevOpsAgentClientTypes {
         public var currentPage: Swift.String?
         /// The ID of the last message in the conversation
         public var lastMessage: Swift.String?
-        /// Response to a UI prompt (not a text conversation message)
+        /// Response to a UI prompt (not a text conversation message). Operator App SDK clients set this to the control-string sentinel `"APPROVAL_ACTION"` when the request is resuming a paused tool call after an operator approval decision; in that case the structured decision context lives on the sibling `approvalAction` member and the chat agent reads from there. Preserved as a String for back-compat: pre-typed-approval clients still encode arbitrary UI-prompt responses as JSON in this field, and the chat agent parses them out during the transition.
         public var userActionResponse: Swift.String?
 
         public init(
@@ -5822,6 +6068,10 @@ extension DevOpsAgentClientTypes {
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
+        /// Remote A2A agent with token-based authentication (API key or OAuth).
+        case remoteAgent
+        /// Remote A2A agent with SigV4 authentication.
+        case remoteAgentSigv4
         case servicenow
         case slack
         case sdkUnknown(Swift.String)
@@ -5842,6 +6092,8 @@ extension DevOpsAgentClientTypes {
                 .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
+                .remoteAgent,
+                .remoteAgentSigv4,
                 .servicenow,
                 .slack
             ]
@@ -5868,6 +6120,8 @@ extension DevOpsAgentClientTypes {
             case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
+            case .remoteAgent: return "remoteagent"
+            case .remoteAgentSigv4: return "remoteagentsigv4"
             case .servicenow: return "servicenow"
             case .slack: return "slack"
             case let .sdkUnknown(s): return s
@@ -5993,6 +6247,10 @@ extension DevOpsAgentClientTypes {
         /// Splunk MCP server.
         case mcpServerSplunk
         case pagerduty
+        /// Remote A2A agent with token-based authentication (API key or OAuth).
+        case remoteAgent
+        /// Remote A2A agent with SigV4 authentication.
+        case remoteAgentSigv4
         case servicenow
         case sdkUnknown(Swift.String)
 
@@ -6009,6 +6267,8 @@ extension DevOpsAgentClientTypes {
                 .mcpServerSigv4,
                 .mcpServerSplunk,
                 .pagerduty,
+                .remoteAgent,
+                .remoteAgentSigv4,
                 .servicenow
             ]
         }
@@ -6031,6 +6291,8 @@ extension DevOpsAgentClientTypes {
             case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
             case .pagerduty: return "pagerduty"
+            case .remoteAgent: return "remoteagent"
+            case .remoteAgentSigv4: return "remoteagentsigv4"
             case .servicenow: return "servicenow"
             case let .sdkUnknown(s): return s
             }
@@ -6643,6 +6905,219 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// API key configuration for remote A2A agent.
+    public struct RemoteAgentAPIKeyConfig: Swift.Sendable {
+        /// HTTP header name to send the API key in requests to the service.
+        /// This member is required.
+        public var apiKeyHeader: Swift.String?
+        /// User friendly API key name specified by end user.
+        /// This member is required.
+        public var apiKeyName: Swift.String?
+        /// API key value for authenticating with the service.
+        /// This member is required.
+        public var apiKeyValue: Swift.String?
+
+        public init(
+            apiKeyHeader: Swift.String? = nil,
+            apiKeyName: Swift.String? = nil,
+            apiKeyValue: Swift.String? = nil
+        ) {
+            self.apiKeyHeader = apiKeyHeader
+            self.apiKeyName = apiKeyName
+            self.apiKeyValue = apiKeyValue
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentAPIKeyConfig(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), apiKeyName: \(Swift.String(describing: apiKeyName)), apiKeyValue: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Bearer token configuration for remote A2A agent (RFC 6750).
+    public struct RemoteAgentBearerTokenConfig: Swift.Sendable {
+        /// HTTP header name to send the bearer token in requests to the service. Defaults to 'Authorization' per RFC 6750.
+        public var authorizationHeader: Swift.String?
+        /// User friendly bearer token name specified by end user.
+        /// This member is required.
+        public var tokenName: Swift.String?
+        /// Bearer token value in alphanumeric for authenticating with the service.
+        /// This member is required.
+        public var tokenValue: Swift.String?
+
+        public init(
+            authorizationHeader: Swift.String? = "Authorization",
+            tokenName: Swift.String? = nil,
+            tokenValue: Swift.String? = nil
+        ) {
+            self.authorizationHeader = authorizationHeader
+            self.tokenName = tokenName
+            self.tokenValue = tokenValue
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentBearerTokenConfig(authorizationHeader: \(Swift.String(describing: authorizationHeader)), tokenName: \(Swift.String(describing: tokenName)), tokenValue: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// OAuth client credentials configuration for remote A2A agent.
+    public struct RemoteAgentOAuthClientCredentialsConfig: Swift.Sendable {
+        /// OAuth client ID for authenticating with the service.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// User friendly OAuth client name specified by end user.
+        public var clientName: Swift.String?
+        /// OAuth client secret for authenticating with the service.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// OAuth token exchange parameters for authenticating with the service.
+        public var exchangeParameters: [Swift.String: Swift.String]?
+        /// OAuth token exchange URL.
+        /// This member is required.
+        public var exchangeUrl: Swift.String?
+        /// OAuth scopes for authentication.
+        public var scopes: [Swift.String]?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientName: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            exchangeParameters: [Swift.String: Swift.String]? = nil,
+            exchangeUrl: Swift.String? = nil,
+            scopes: [Swift.String]? = nil
+        ) {
+            self.clientId = clientId
+            self.clientName = clientName
+            self.clientSecret = clientSecret
+            self.exchangeParameters = exchangeParameters
+            self.exchangeUrl = exchangeUrl
+            self.scopes = scopes
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentOAuthClientCredentialsConfig(clientName: \(Swift.String(describing: clientName)), exchangeUrl: \(Swift.String(describing: exchangeUrl)), scopes: \(Swift.String(describing: scopes)), clientId: \"CONTENT_REDACTED\", clientSecret: \"CONTENT_REDACTED\", exchangeParameters: [keys: \(Swift.String(describing: exchangeParameters?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Authorization configuration for remote A2A agents with token-based auth (API key, OAuth, bearer token).
+    public enum RemoteAgentAuthorizationConfig: Swift.Sendable {
+        /// Remote agent configuration with API key authentication.
+        case apikey(DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig)
+        /// Remote agent configuration with OAuth client credentials.
+        case oauthclientcredentials(DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig)
+        /// Remote agent configuration with Bearer token (RFC 6750).
+        case bearertoken(DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Complete service details for token-based remote A2A agent integration.
+    public struct RemoteAgentServiceDetails: Swift.Sendable {
+        /// Remote agent authorization configuration.
+        /// This member is required.
+        public var authorizationConfig: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            authorizationConfig: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.authorizationConfig = authorizationConfig
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentServiceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// SigV4 authorization configuration for remote A2A agent.
+    public struct RemoteAgentSigV4AuthorizationConfig: Swift.Sendable {
+        /// AWS region identifier or wildcard (*) for SigV4a multi-region signing.
+        /// This member is required.
+        public var region: Swift.String?
+        /// AWS IAM role ARN.
+        public var roleArn: Swift.String?
+        /// The AWS service name for SigV4 signing.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.roleArn = roleArn
+            self.service = service
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Complete service details for SigV4-authenticated remote A2A agent integration.
+    public struct RemoteAgentSigV4ServiceDetails: Swift.Sendable {
+        /// Remote agent SigV4 authorization configuration.
+        /// This member is required.
+        public var authorizationConfig: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig?
+        /// Description field
+        public var description: Swift.String?
+        /// HTTPS endpoint URL for a remote A2A agent.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// Name identifier for a remote A2A agent.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            authorizationConfig: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig? = nil,
+            description: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.authorizationConfig = authorizationConfig
+            self.description = description
+            self.endpoint = endpoint
+            self.name = name
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAgentSigV4ServiceDetails(authorizationConfig: \(Swift.String(describing: authorizationConfig)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// OAuth client credentials configuration for ServiceNow.
     public struct ServiceNowOAuthClientCredentialsConfig: Swift.Sendable {
         /// OAuth client ID for authenticating with the service.
@@ -6733,6 +7208,10 @@ extension DevOpsAgentClientTypes {
         case azureidentity(DevOpsAgentClientTypes.RegisteredAzureIdentityDetails)
         /// SigV4-authenticated MCP server-specific service details.
         case mcpserversigv4(DevOpsAgentClientTypes.MCPServerSigV4ServiceDetails)
+        /// Remote A2A agent service details (token-based auth).
+        case remoteagent(DevOpsAgentClientTypes.RemoteAgentServiceDetails)
+        /// Remote A2A agent service details (SigV4 auth).
+        case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6857,7 +7336,7 @@ public struct UpdateAssetInput: Swift.Sendable {
     public var assetId: Swift.String?
     /// A unique, case-sensitive identifier used for idempotent asset update
     public var clientToken: Swift.String?
-    /// Optional content to set or replace. A single file adds or replaces one file; a zip replaces all files.
+    /// Optional content update. A single file adds or replaces one file; a zip replaces all files; a sourceUrl re-syncs from the original source.
     public var content: DevOpsAgentClientTypes.AssetContent?
     /// Metadata fields to update. Only the fields present in this document are updated. Omitted fields retain their current values.
     public var metadata: Smithy.Document?
@@ -7075,15 +7554,16 @@ public struct UpdateRecommendationOutput: Swift.Sendable {
     }
 }
 
+/// Request structure for updating a Trigger
 public struct UpdateTriggerInput: Swift.Sendable {
-    /// Unique identifier for an agent space (allows alphanumeric characters and hyphens; 1-64 characters)
+    /// The unique identifier for the agent space containing the Trigger
     /// This member is required.
     public var agentSpaceId: Swift.String?
     /// A unique, case-sensitive identifier used for idempotent Trigger update
     public var clientToken: Swift.String?
     /// The new status for the Trigger
     public var status: Swift.String?
-    /// Generic resource identifier (allows alphanumeric characters, hyphens, and underscores; 1-128 characters)
+    /// The unique identifier of the Trigger to update
     /// This member is required.
     public var triggerId: Swift.String?
 
@@ -7100,6 +7580,7 @@ public struct UpdateTriggerInput: Swift.Sendable {
     }
 }
 
+/// Response structure for updating a Trigger
 public struct UpdateTriggerOutput: Swift.Sendable {
     /// The Trigger object
     /// This member is required.
@@ -8060,6 +8541,7 @@ extension AssociateServiceInput {
 
     static func write(value: AssociateServiceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilities"].writeMap(value.capabilities, valueWritingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["configuration"].write(value.configuration, with: DevOpsAgentClientTypes.ServiceConfiguration.write(value:to:))
         try writer["serviceId"].write(value.serviceId)
     }
@@ -8282,6 +8764,7 @@ extension UpdateAssociationInput {
 
     static func write(value: UpdateAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilities"].writeMap(value.capabilities, valueWritingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["configuration"].write(value.configuration, with: DevOpsAgentClientTypes.ServiceConfiguration.write(value:to:))
     }
 }
@@ -10502,6 +10985,10 @@ extension DevOpsAgentClientTypes.AdditionalServiceDetails {
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.RegisteredPagerDutyDetails.read(from:)))
             case "mcpserversigv4":
                 return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.RegisteredMCPServerSigV4Details.read(from:)))
+            case "remoteagent":
+                return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RegisteredRemoteAgentDetails.read(from:)))
+            case "remoteagentsigv4":
+                return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -10560,6 +11047,8 @@ extension DevOpsAgentClientTypes.AssetContent {
         switch value {
             case let .file(file):
                 try writer["file"].write(file, with: DevOpsAgentClientTypes.AssetFileContent.write(value:to:))
+            case let .sourceurl(sourceurl):
+                try writer["sourceUrl"].write(sourceurl, with: DevOpsAgentClientTypes.AssetSourceUrlContent.write(value:to:))
             case let .zip(zip):
                 try writer["zip"].write(zip, with: DevOpsAgentClientTypes.AssetZipContent.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -10635,6 +11124,14 @@ extension DevOpsAgentClientTypes.AssetFileSummary {
     }
 }
 
+extension DevOpsAgentClientTypes.AssetSourceUrlContent {
+
+    static func write(value: DevOpsAgentClientTypes.AssetSourceUrlContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["url"].write(value.url)
+    }
+}
+
 extension DevOpsAgentClientTypes.AssetTypeSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.AssetTypeSummary {
@@ -10701,6 +11198,7 @@ extension DevOpsAgentClientTypes.Association {
         value.associationId = try reader["associationId"].readIfPresent() ?? ""
         value.serviceId = try reader["serviceId"].readIfPresent() ?? ""
         value.configuration = try reader["configuration"].readIfPresent(with: DevOpsAgentClientTypes.ServiceConfiguration.read(from:))
+        value.capabilities = try reader["capabilities"].readMapIfPresent(valueReadingClosure: DevOpsAgentClientTypes.CapabilityConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -10754,6 +11252,21 @@ extension DevOpsAgentClientTypes.AzureDevOpsConfiguration {
         value.organizationName = try reader["organizationName"].readIfPresent() ?? ""
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.CapabilityConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.CapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.CapabilityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.CapabilityConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -10907,6 +11420,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         try writer["ownerType"].write(value.ownerType)
         try writer["repoId"].write(value.repoId)
         try writer["repoName"].write(value.repoName)
+        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.GitHubConfiguration {
@@ -10917,6 +11431,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         value.owner = try reader["owner"].readIfPresent() ?? ""
         value.ownerType = try reader["ownerType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
+        value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
         return value
     }
 }
@@ -10928,6 +11443,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         try writer["instanceIdentifier"].write(value.instanceIdentifier)
         try writer["projectId"].write(value.projectId)
         try writer["projectPath"].write(value.projectPath)
+        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.GitLabConfiguration {
@@ -10936,6 +11452,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         value.projectId = try reader["projectId"].readIfPresent() ?? ""
         value.projectPath = try reader["projectPath"].readIfPresent() ?? ""
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
+        value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
         return value
     }
 }
@@ -11610,6 +12127,35 @@ extension DevOpsAgentClientTypes.RegisteredPagerDutyDetails {
     }
 }
 
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredRemoteAgentDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.RegisteredRemoteAgentDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.authorizationMethod = try reader["authorizationMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.apiKeyHeader = try reader["apiKeyHeader"].readIfPresent()
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.RegisteredRemoteAgentSigV4Details()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.service = try reader["service"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.RegisteredService {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RegisteredService {
@@ -11644,6 +12190,114 @@ extension DevOpsAgentClientTypes.RegisteredSlackServiceDetails {
         value.teamId = try reader["teamId"].readIfPresent() ?? ""
         value.teamName = try reader["teamName"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiKeyHeader"].write(value.apiKeyHeader)
+        try writer["apiKeyName"].write(value.apiKeyName)
+        try writer["apiKeyValue"].write(value.apiKeyValue)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .apikey(apikey):
+                try writer["apiKey"].write(apikey, with: DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig.write(value:to:))
+            case let .bearertoken(bearertoken):
+                try writer["bearerToken"].write(bearertoken, with: DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig.write(value:to:))
+            case let .oauthclientcredentials(oauthclientcredentials):
+                try writer["oAuthClientCredentials"].write(oauthclientcredentials, with: DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentBearerTokenConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationHeader"].write(value.authorizationHeader)
+        try writer["tokenName"].write(value.tokenName)
+        try writer["tokenValue"].write(value.tokenValue)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RemoteAgentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.RemoteAgentConfiguration()
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentOAuthClientCredentialsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientName"].write(value.clientName)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["exchangeParameters"].writeMap(value.exchangeParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["exchangeUrl"].write(value.exchangeUrl)
+        try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentServiceDetails {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentServiceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.RemoteAgentAuthorizationConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["service"].write(value.service)
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4Configuration {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.RemoteAgentSigV4Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.RemoteAgentSigV4Configuration()
+    }
+}
+
+extension DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails {
+
+    static func write(value: DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationConfig"].write(value.authorizationConfig, with: DevOpsAgentClientTypes.RemoteAgentSigV4AuthorizationConfig.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["endpoint"].write(value.endpoint)
+        try writer["name"].write(value.name)
     }
 }
 
@@ -11868,6 +12522,10 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
+            case let .remoteagent(remoteagent):
+                try writer["remoteagent"].write(remoteagent, with: DevOpsAgentClientTypes.RemoteAgentConfiguration.write(value:to:))
+            case let .remoteagentsigv4(remoteagentsigv4):
+                try writer["remoteagentsigv4"].write(remoteagentsigv4, with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.write(value:to:))
             case let .servicenow(servicenow):
                 try writer["servicenow"].write(servicenow, with: DevOpsAgentClientTypes.ServiceNowConfiguration.write(value:to:))
             case let .slack(slack):
@@ -11917,6 +12575,10 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .pagerduty(try reader["pagerduty"].read(with: DevOpsAgentClientTypes.PagerDutyConfiguration.read(from:)))
             case "mcpserversigv4":
                 return .mcpserversigv4(try reader["mcpserversigv4"].read(with: DevOpsAgentClientTypes.MCPServerSigV4Configuration.read(from:)))
+            case "remoteagent":
+                return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RemoteAgentConfiguration.read(from:)))
+            case "remoteagentsigv4":
+                return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -11950,6 +12612,10 @@ extension DevOpsAgentClientTypes.ServiceDetails {
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerDetails.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyDetails.write(value:to:))
+            case let .remoteagent(remoteagent):
+                try writer["remoteagent"].write(remoteagent, with: DevOpsAgentClientTypes.RemoteAgentServiceDetails.write(value:to:))
+            case let .remoteagentsigv4(remoteagentsigv4):
+                try writer["remoteagentsigv4"].write(remoteagentsigv4, with: DevOpsAgentClientTypes.RemoteAgentSigV4ServiceDetails.write(value:to:))
             case let .servicenow(servicenow):
                 try writer["servicenow"].write(servicenow, with: DevOpsAgentClientTypes.ServiceNowServiceDetails.write(value:to:))
             case let .sdkUnknown(sdkUnknown):

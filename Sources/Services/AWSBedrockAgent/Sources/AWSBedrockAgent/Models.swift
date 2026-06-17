@@ -31,6 +31,63 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+extension BedrockAgentClientTypes {
+
+    /// The access level for an access control entry.
+    public enum AccessControlAccess: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessControlAccess] {
+            return [
+                .allow,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The type of principal in an access control entry.
+    public enum AccessControlPrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessControlPrincipalType] {
+            return [
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The request is denied because of missing access permissions.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3128,7 +3185,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// The configuration information to connect to Confluence as your data source.
+    /// The configuration information to connect to Confluence as your data source for self-managed knowledge bases.
     public struct ConfluenceDataSourceConfiguration: Swift.Sendable {
         /// The configuration of the Confluence content. For example, configuring specific types of Confluence content.
         public var crawlerConfiguration: BedrockAgentClientTypes.ConfluenceCrawlerConfiguration?
@@ -3148,7 +3205,150 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// The configuration information to connect to Amazon S3 as your data source.
+    public enum EnabledOrDisabledState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnabledOrDisabledState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for deletion protection.
+    public struct DeletionProtectionConfiguration: Swift.Sendable {
+        /// Enable or disable deletion protection for the connector.
+        /// This member is required.
+        public var deletionProtectionStatus: BedrockAgentClientTypes.EnabledOrDisabledState?
+        /// The threshold is the maximum percentage of documents that a sync job can delete from your index. If a sync would delete more than this percentage, the sync skips its delete phase, leaving your indexed documents in place. Not supported for the Custom connector.
+        public var deletionProtectionThreshold: Swift.Int?
+
+        public init(
+            deletionProtectionStatus: BedrockAgentClientTypes.EnabledOrDisabledState? = nil,
+            deletionProtectionThreshold: Swift.Int? = 15
+        ) {
+            self.deletionProtectionStatus = deletionProtectionStatus
+            self.deletionProtectionThreshold = deletionProtectionThreshold
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for audio extraction.
+    public struct AudioExtractionConfiguration: Swift.Sendable {
+        /// Whether audio extraction is enabled or disabled.
+        /// This member is required.
+        public var audioExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState?
+
+        public init(
+            audioExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState? = nil
+        ) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for image extraction.
+    public struct ImageExtractionConfiguration: Swift.Sendable {
+        /// Whether image extraction is enabled or disabled.
+        /// This member is required.
+        public var imageExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState?
+
+        public init(
+            imageExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState? = nil
+        ) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for video extraction.
+    public struct VideoExtractionConfiguration: Swift.Sendable {
+        /// Whether video extraction is enabled or disabled.
+        /// This member is required.
+        public var videoExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState?
+
+        public init(
+            videoExtractionStatus: BedrockAgentClientTypes.EnabledOrDisabledState? = nil
+        ) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for media extraction settings.
+    public struct MediaExtractionConfiguration: Swift.Sendable {
+        /// Configuration for audio extraction.
+        public var audioExtractionConfiguration: BedrockAgentClientTypes.AudioExtractionConfiguration?
+        /// Configuration for image extraction.
+        public var imageExtractionConfiguration: BedrockAgentClientTypes.ImageExtractionConfiguration?
+        /// Configuration for video extraction.
+        public var videoExtractionConfiguration: BedrockAgentClientTypes.VideoExtractionConfiguration?
+
+        public init(
+            audioExtractionConfiguration: BedrockAgentClientTypes.AudioExtractionConfiguration? = nil,
+            imageExtractionConfiguration: BedrockAgentClientTypes.ImageExtractionConfiguration? = nil,
+            videoExtractionConfiguration: BedrockAgentClientTypes.VideoExtractionConfiguration? = nil
+        ) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for managed knowledge base connector data sources.
+    public struct ManagedKnowledgeBaseConnectorConfiguration: Swift.Sendable {
+        /// Connector-specific parameters. For more information, see [Connect a data source](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-connect-ds.html).
+        public var connectorParameters: Smithy.Document?
+        /// A safeguard against accidental bulk deletion of indexed content.
+        public var deletionProtectionConfiguration: BedrockAgentClientTypes.DeletionProtectionConfiguration?
+        /// Configuration for extracting media (images, audio, video) from data source files.
+        public var mediaExtractionConfiguration: BedrockAgentClientTypes.MediaExtractionConfiguration?
+
+        public init(
+            connectorParameters: Smithy.Document? = nil,
+            deletionProtectionConfiguration: BedrockAgentClientTypes.DeletionProtectionConfiguration? = nil,
+            mediaExtractionConfiguration: BedrockAgentClientTypes.MediaExtractionConfiguration? = nil
+        ) {
+            self.connectorParameters = connectorParameters
+            self.deletionProtectionConfiguration = deletionProtectionConfiguration
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The configuration information to connect to Amazon S3 as your data source for self-managed knowledge bases. To configure this data source for managed knowledge bases, use [managedKnowledgeBaseConnectorConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html).
     public struct S3DataSourceConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the S3 bucket that contains your data.
         /// This member is required.
@@ -3374,7 +3574,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// The configuration information to connect to SharePoint as your data source.
+    /// The configuration information to connect to SharePoint as your data source for self-managed knowledge bases.
     public struct SharePointDataSourceConfiguration: Swift.Sendable {
         /// The configuration of the SharePoint content. For example, configuring specific types of SharePoint content.
         public var crawlerConfiguration: BedrockAgentClientTypes.SharePointCrawlerConfiguration?
@@ -3397,6 +3597,7 @@ extension BedrockAgentClientTypes {
     public enum DataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case confluence
         case custom
+        case managedKnowledgeBaseConnector
         case redshiftMetadata
         case s3
         case salesforce
@@ -3408,6 +3609,7 @@ extension BedrockAgentClientTypes {
             return [
                 .confluence,
                 .custom,
+                .managedKnowledgeBaseConnector,
                 .redshiftMetadata,
                 .s3,
                 .salesforce,
@@ -3425,6 +3627,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .confluence: return "CONFLUENCE"
             case .custom: return "CUSTOM"
+            case .managedKnowledgeBaseConnector: return "MANAGED_KNOWLEDGE_BASE_CONNECTOR"
             case .redshiftMetadata: return "REDSHIFT_METADATA"
             case .s3: return "S3"
             case .salesforce: return "SALESFORCE"
@@ -3594,22 +3797,25 @@ extension BedrockAgentClientTypes {
 
     /// The connection configuration for the data source.
     public struct DataSourceConfiguration: Swift.Sendable {
-        /// The configuration information to connect to Confluence as your data source. Confluence data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to Confluence as your data source for self-managed knowledge bases. To configure this data source for managed knowledge bases, use [managedKnowledgeBaseConnectorConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html). Confluence data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public var confluenceConfiguration: BedrockAgentClientTypes.ConfluenceDataSourceConfiguration?
-        /// The configuration information to connect to Amazon S3 as your data source.
+        /// Contains the configuration for a data source that connects a managed knowledge base to a supported data source connector. Specify this object when the data source type is MANAGED_KNOWLEDGE_BASE_CONNECTOR.
+        public var managedKnowledgeBaseConnectorConfiguration: BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration?
+        /// The configuration information to connect to Amazon S3 as your data source for self-managed knowledge bases. To configure this data source for managed knowledge bases, use [managedKnowledgeBaseConnectorConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html).
         public var s3Configuration: BedrockAgentClientTypes.S3DataSourceConfiguration?
-        /// The configuration information to connect to Salesforce as your data source. Salesforce data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to Salesforce as your data source. Salesforce data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public var salesforceConfiguration: BedrockAgentClientTypes.SalesforceDataSourceConfiguration?
-        /// The configuration information to connect to SharePoint as your data source. SharePoint data source connector is in preview release and is subject to change.
+        /// The configuration information to connect to SharePoint as your data source for self-managed knowledge bases. To configure this data source for managed knowledge bases, use [managedKnowledgeBaseConnectorConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html). SharePoint data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public var sharePointConfiguration: BedrockAgentClientTypes.SharePointDataSourceConfiguration?
         /// The type of data source.
         /// This member is required.
         public var type: BedrockAgentClientTypes.DataSourceType?
-        /// The configuration of web URLs to crawl for your data source. You should be authorized to crawl the URLs. Crawling web URLs as your data source is in preview release and is subject to change.
+        /// The configuration of web URLs to crawl for your data source. You should be authorized to crawl the URLs. To configure this data source for managed knowledge bases, use [managedKnowledgeBaseConnectorConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ManagedKnowledgeBaseConnectorConfiguration.html). Web crawler data source connector for self-managed knowledge bases is in preview release and is subject to change.
         public var webConfiguration: BedrockAgentClientTypes.WebDataSourceConfiguration?
 
         public init(
             confluenceConfiguration: BedrockAgentClientTypes.ConfluenceDataSourceConfiguration? = nil,
+            managedKnowledgeBaseConnectorConfiguration: BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration? = nil,
             s3Configuration: BedrockAgentClientTypes.S3DataSourceConfiguration? = nil,
             salesforceConfiguration: BedrockAgentClientTypes.SalesforceDataSourceConfiguration? = nil,
             sharePointConfiguration: BedrockAgentClientTypes.SharePointDataSourceConfiguration? = nil,
@@ -3617,6 +3823,7 @@ extension BedrockAgentClientTypes {
             webConfiguration: BedrockAgentClientTypes.WebDataSourceConfiguration? = nil
         ) {
             self.confluenceConfiguration = confluenceConfiguration
+            self.managedKnowledgeBaseConnectorConfiguration = managedKnowledgeBaseConnectorConfiguration
             self.s3Configuration = s3Configuration
             self.salesforceConfiguration = salesforceConfiguration
             self.sharePointConfiguration = sharePointConfiguration
@@ -3628,7 +3835,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains the configuration for server-side encryption.
+    /// Contains the configuration for server-side encryption for your managed knowledge base.
     public struct ServerSideEncryptionConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
         public var kmsKeyArn: Swift.String?
@@ -4123,12 +4330,14 @@ extension BedrockAgentClientTypes {
     public enum ParsingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bedrockDataAutomation
         case bedrockFoundationModel
+        case smartParsing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ParsingStrategy] {
             return [
                 .bedrockDataAutomation,
-                .bedrockFoundationModel
+                .bedrockFoundationModel,
+                .smartParsing
             ]
         }
 
@@ -4141,6 +4350,7 @@ extension BedrockAgentClientTypes {
             switch self {
             case .bedrockDataAutomation: return "BEDROCK_DATA_AUTOMATION"
             case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case .smartParsing: return "SMART_PARSING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4155,7 +4365,7 @@ extension BedrockAgentClientTypes {
         public var bedrockDataAutomationConfiguration: BedrockAgentClientTypes.BedrockDataAutomationConfiguration?
         /// If you specify BEDROCK_FOUNDATION_MODEL as the parsing strategy for ingesting your data source, use this object to modify configurations for using a foundation model to parse documents.
         public var bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelConfiguration?
-        /// The parsing strategy for the data source.
+        /// The parsing strategy for the data source. Only SMART_PARSING can be selected for managed knowledge bases. For more information, see [Customize ingestion for managed knowledge bases](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-customize-ingestion.html).
         /// This member is required.
         public var parsingStrategy: BedrockAgentClientTypes.ParsingStrategy?
 
@@ -4206,6 +4416,9 @@ public struct CreateDataSourceInput: Swift.Sendable {
     /// * DELETE: Deletes all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted, only the data. This flag is ignored if an Amazon Web Services account is deleted.
     ///
     /// * RETAIN: Retains all data from your data source that’s converted into vector embeddings upon deletion of a knowledge base or data source resource. Note that the vector store itself is not deleted if you delete a knowledge base or data source resource.
+    ///
+    ///
+    /// For managed knowledge bases, the only supported option is DELETE, which is also the default.
     public var dataDeletionPolicy: BedrockAgentClientTypes.DataDeletionPolicy?
     /// The connection configuration for the data source.
     /// This member is required.
@@ -4248,15 +4461,21 @@ extension BedrockAgentClientTypes {
 
     public enum DataSourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
+        case creating
         case deleteUnsuccessful
         case deleting
+        case failed
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DataSourceStatus] {
             return [
                 .available,
+                .creating,
                 .deleteUnsuccessful,
-                .deleting
+                .deleting,
+                .failed,
+                .updating
             ]
         }
 
@@ -4268,8 +4487,11 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
             case .deleteUnsuccessful: return "DELETE_UNSUCCESSFUL"
             case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4554,6 +4776,38 @@ public struct UpdateDataSourceOutput: Swift.Sendable {
         dataSource: BedrockAgentClientTypes.DataSource? = nil
     ) {
         self.dataSource = dataSource
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently.
+    public var expectedRevisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the knowledge base to remove the resource policy from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        expectedRevisionId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.expectedRevisionId = expectedRevisionId
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+    /// The ARN of the knowledge base that the resource policy was removed from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The revision identifier after the resource policy was deleted.
+    public var revisionId: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.revisionId = revisionId
     }
 }
 
@@ -7619,6 +7873,40 @@ public struct PrepareFlowOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the knowledge base to retrieve the resource policy for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The JSON-formatted resource policy associated with the knowledge base.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The ARN of the knowledge base that the resource policy is associated with.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The revision identifier of the resource policy.
+    /// This member is required.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.resourceArn = resourceArn
+        self.revisionId = revisionId
+    }
+}
+
 public struct GetIngestionJobInput: Swift.Sendable {
     /// The unique identifier of the data source for the data ingestion job you want to get information on.
     /// This member is required.
@@ -7651,6 +7939,8 @@ extension BedrockAgentClientTypes {
         public var numberOfDocumentsFailed: Swift.Int
         /// The total number of source documents that were scanned. Includes new, updated, and unchanged documents.
         public var numberOfDocumentsScanned: Swift.Int
+        /// The number of source documents that were skipped during ingestion.
+        public var numberOfDocumentsSkipped: Swift.Int
         /// The number of metadata files that were updated or deleted.
         public var numberOfMetadataDocumentsModified: Swift.Int
         /// The total number of metadata files that were scanned. Includes new, updated, and unchanged files.
@@ -7664,6 +7954,7 @@ extension BedrockAgentClientTypes {
             numberOfDocumentsDeleted: Swift.Int = 0,
             numberOfDocumentsFailed: Swift.Int = 0,
             numberOfDocumentsScanned: Swift.Int = 0,
+            numberOfDocumentsSkipped: Swift.Int = 0,
             numberOfMetadataDocumentsModified: Swift.Int = 0,
             numberOfMetadataDocumentsScanned: Swift.Int = 0,
             numberOfModifiedDocumentsIndexed: Swift.Int = 0,
@@ -7672,6 +7963,7 @@ extension BedrockAgentClientTypes {
             self.numberOfDocumentsDeleted = numberOfDocumentsDeleted
             self.numberOfDocumentsFailed = numberOfDocumentsFailed
             self.numberOfDocumentsScanned = numberOfDocumentsScanned
+            self.numberOfDocumentsSkipped = numberOfDocumentsSkipped
             self.numberOfMetadataDocumentsModified = numberOfMetadataDocumentsModified
             self.numberOfMetadataDocumentsScanned = numberOfMetadataDocumentsScanned
             self.numberOfModifiedDocumentsIndexed = numberOfModifiedDocumentsIndexed
@@ -8639,6 +8931,38 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// An access control entry specifying a principal and their access level.
+    public struct DocumentAccessControlEntry: Swift.Sendable {
+        /// Whether to allow or deny access.
+        /// This member is required.
+        public var access: BedrockAgentClientTypes.AccessControlAccess?
+        /// The user identifier.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of principal.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.AccessControlPrincipalType?
+
+        public init(
+            access: BedrockAgentClientTypes.AccessControlAccess? = nil,
+            name: Swift.String? = nil,
+            type: BedrockAgentClientTypes.AccessControlPrincipalType? = nil
+        ) {
+            self.access = access
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.DocumentAccessControlEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     public enum MetadataValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case boolean
         case number
@@ -8768,6 +9092,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains information about the metadata associate with the content to ingest into a knowledge base. Choose a type and include the field that corresponds to it.
     public struct DocumentMetadata: Swift.Sendable {
+        /// Access control list for the document. Used when metadata type is IN_LINE_ATTRIBUTE.
+        public var accessControlList: [BedrockAgentClientTypes.DocumentAccessControlEntry]?
         /// An array of objects, each of which defines a metadata attribute to associate with the content to ingest. You define the attributes inline.
         public var inlineAttributes: [BedrockAgentClientTypes.MetadataAttribute]?
         /// The Amazon S3 location of the file containing metadata to associate with the content to ingest.
@@ -8777,15 +9103,22 @@ extension BedrockAgentClientTypes {
         public var type: BedrockAgentClientTypes.MetadataSourceType?
 
         public init(
+            accessControlList: [BedrockAgentClientTypes.DocumentAccessControlEntry]? = nil,
             inlineAttributes: [BedrockAgentClientTypes.MetadataAttribute]? = nil,
             s3Location: BedrockAgentClientTypes.CustomS3Location? = nil,
             type: BedrockAgentClientTypes.MetadataSourceType? = nil
         ) {
+            self.accessControlList = accessControlList
             self.inlineAttributes = inlineAttributes
             self.s3Location = s3Location
             self.type = type
         }
     }
+}
+
+extension BedrockAgentClientTypes.DocumentMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DocumentMetadata(inlineAttributes: \(Swift.String(describing: inlineAttributes)), s3Location: \(Swift.String(describing: s3Location)), type: \(Swift.String(describing: type)), accessControlList: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -8941,6 +9274,199 @@ extension BedrockAgentClientTypes {
             kendraIndexArn: Swift.String? = nil
         ) {
             self.kendraIndexArn = kendraIndexArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for segmenting audio content during multimodal knowledge base ingestion. Determines how audio files are divided into chunks for processing.
+    public struct AudioSegmentationConfiguration: Swift.Sendable {
+        /// The duration in seconds for each audio segment. Audio files will be divided into chunks of this length for processing.
+        /// This member is required.
+        public var fixedLengthDuration: Swift.Int?
+
+        public init(
+            fixedLengthDuration: Swift.Int? = nil
+        ) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration settings for processing audio content in multimodal knowledge bases.
+    public struct AudioConfiguration: Swift.Sendable {
+        /// Configuration for segmenting audio content during processing.
+        /// This member is required.
+        public var segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration?
+
+        public init(
+            segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration? = nil
+        ) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Bedrock models embedding data type. Can be either float32 or binary.
+    public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case binary
+        case float32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddingDataType] {
+            return [
+                .binary,
+                .float32
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .float32: return "FLOAT32"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration for segmenting video content during multimodal knowledge base ingestion. Determines how video files are divided into chunks for processing.
+    public struct VideoSegmentationConfiguration: Swift.Sendable {
+        /// The duration in seconds for each video segment. Video files will be divided into chunks of this length for processing.
+        /// This member is required.
+        public var fixedLengthDuration: Swift.Int?
+
+        public init(
+            fixedLengthDuration: Swift.Int? = nil
+        ) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configuration settings for processing video content in multimodal knowledge bases.
+    public struct VideoConfiguration: Swift.Sendable {
+        /// Configuration for segmenting video content during processing.
+        /// This member is required.
+        public var segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration?
+
+        public init(
+            segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration? = nil
+        ) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The vector configuration details for the Bedrock embeddings model.
+    public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
+        /// Configuration settings for processing audio content in multimodal knowledge bases.
+        public var audio: [BedrockAgentClientTypes.AudioConfiguration]?
+        /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
+        public var dimensions: Swift.Int?
+        /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+        public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
+        /// Configuration settings for processing video content in multimodal knowledge bases.
+        public var video: [BedrockAgentClientTypes.VideoConfiguration]?
+
+        public init(
+            audio: [BedrockAgentClientTypes.AudioConfiguration]? = nil,
+            dimensions: Swift.Int? = nil,
+            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil,
+            video: [BedrockAgentClientTypes.VideoConfiguration]? = nil
+        ) {
+            self.audio = audio
+            self.dimensions = dimensions
+            self.embeddingDataType = embeddingDataType
+            self.video = video
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The configuration details for the embeddings model.
+    public struct EmbeddingModelConfiguration: Swift.Sendable {
+        /// The vector configuration details on the Bedrock embeddings model.
+        public var bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?
+
+        public init(
+            bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration? = nil
+        ) {
+            self.bedrockEmbeddingModelConfiguration = bedrockEmbeddingModelConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Choose CUSTOM to provide your own Bedrock embedding model ARN. Choose MANAGED to use a service-managed embedding model. For more information, see [Embedding model options](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html#kb-managed-embedding-models).
+    public enum EmbeddingModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case managed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmbeddingModelType] {
+            return [
+                .custom,
+                .managed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .managed: return "MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configurations for a managed knowledge base.
+    public struct ManagedKnowledgeBaseConfiguration: Swift.Sendable {
+        /// The ARN for the embeddings model.
+        public var embeddingModelArn: Swift.String?
+        /// The configuration details for the embeddings model.
+        public var embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration?
+        /// Choose CUSTOM to provide your own Bedrock embedding model ARN. Choose MANAGED to use a service-managed embedding model. For more information, see [Embedding model options](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html#kb-managed-embedding-models).
+        public var embeddingModelType: BedrockAgentClientTypes.EmbeddingModelType?
+        /// Contains the configuration for server-side encryption for your managed knowledge base.
+        public var serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration?
+
+        public init(
+            embeddingModelArn: Swift.String? = nil,
+            embeddingModelConfiguration: BedrockAgentClientTypes.EmbeddingModelConfiguration? = nil,
+            embeddingModelType: BedrockAgentClientTypes.EmbeddingModelType? = nil,
+            serverSideEncryptionConfiguration: BedrockAgentClientTypes.ServerSideEncryptionConfiguration? = nil
+        ) {
+            self.embeddingModelArn = embeddingModelArn
+            self.embeddingModelConfiguration = embeddingModelConfiguration
+            self.embeddingModelType = embeddingModelType
+            self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         }
     }
 }
@@ -9453,8 +9979,10 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// The type of a knowledge base.
     public enum KnowledgeBaseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case kendra
+        case managed
         case sql
         case vector
         case sdkUnknown(Swift.String)
@@ -9462,6 +9990,7 @@ extension BedrockAgentClientTypes {
         public static var allCases: [KnowledgeBaseType] {
             return [
                 .kendra,
+                .managed,
                 .sql,
                 .vector
             ]
@@ -9475,146 +10004,11 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .kendra: return "KENDRA"
+            case .managed: return "MANAGED"
             case .sql: return "SQL"
             case .vector: return "VECTOR"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Configuration for segmenting audio content during multimodal knowledge base ingestion. Determines how audio files are divided into chunks for processing.
-    public struct AudioSegmentationConfiguration: Swift.Sendable {
-        /// The duration in seconds for each audio segment. Audio files will be divided into chunks of this length for processing.
-        /// This member is required.
-        public var fixedLengthDuration: Swift.Int?
-
-        public init(
-            fixedLengthDuration: Swift.Int? = nil
-        ) {
-            self.fixedLengthDuration = fixedLengthDuration
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Configuration settings for processing audio content in multimodal knowledge bases.
-    public struct AudioConfiguration: Swift.Sendable {
-        /// Configuration for segmenting audio content during processing.
-        /// This member is required.
-        public var segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration?
-
-        public init(
-            segmentationConfiguration: BedrockAgentClientTypes.AudioSegmentationConfiguration? = nil
-        ) {
-            self.segmentationConfiguration = segmentationConfiguration
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Bedrock models embedding data type. Can be either float32 or binary.
-    public enum EmbeddingDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case binary
-        case float32
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EmbeddingDataType] {
-            return [
-                .binary,
-                .float32
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .binary: return "BINARY"
-            case .float32: return "FLOAT32"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Configuration for segmenting video content during multimodal knowledge base ingestion. Determines how video files are divided into chunks for processing.
-    public struct VideoSegmentationConfiguration: Swift.Sendable {
-        /// The duration in seconds for each video segment. Video files will be divided into chunks of this length for processing.
-        /// This member is required.
-        public var fixedLengthDuration: Swift.Int?
-
-        public init(
-            fixedLengthDuration: Swift.Int? = nil
-        ) {
-            self.fixedLengthDuration = fixedLengthDuration
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Configuration settings for processing video content in multimodal knowledge bases.
-    public struct VideoConfiguration: Swift.Sendable {
-        /// Configuration for segmenting video content during processing.
-        /// This member is required.
-        public var segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration?
-
-        public init(
-            segmentationConfiguration: BedrockAgentClientTypes.VideoSegmentationConfiguration? = nil
-        ) {
-            self.segmentationConfiguration = segmentationConfiguration
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// The vector configuration details for the Bedrock embeddings model.
-    public struct BedrockEmbeddingModelConfiguration: Swift.Sendable {
-        /// Configuration settings for processing audio content in multimodal knowledge bases.
-        public var audio: [BedrockAgentClientTypes.AudioConfiguration]?
-        /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
-        public var dimensions: Swift.Int?
-        /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
-        public var embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType?
-        /// Configuration settings for processing video content in multimodal knowledge bases.
-        public var video: [BedrockAgentClientTypes.VideoConfiguration]?
-
-        public init(
-            audio: [BedrockAgentClientTypes.AudioConfiguration]? = nil,
-            dimensions: Swift.Int? = nil,
-            embeddingDataType: BedrockAgentClientTypes.EmbeddingDataType? = nil,
-            video: [BedrockAgentClientTypes.VideoConfiguration]? = nil
-        ) {
-            self.audio = audio
-            self.dimensions = dimensions
-            self.embeddingDataType = embeddingDataType
-            self.video = video
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// The configuration details for the embeddings model.
-    public struct EmbeddingModelConfiguration: Swift.Sendable {
-        /// The vector configuration details on the Bedrock embeddings model.
-        public var bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration?
-
-        public init(
-            bedrockEmbeddingModelConfiguration: BedrockAgentClientTypes.BedrockEmbeddingModelConfiguration? = nil
-        ) {
-            self.bedrockEmbeddingModelConfiguration = bedrockEmbeddingModelConfiguration
         }
     }
 }
@@ -9647,9 +10041,9 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains information about a storage location for images extracted from multimodal documents in your data source.
+    /// Contains information about a storage location for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
     public struct SupplementalDataStorageLocation: Swift.Sendable {
-        /// Contains information about the Amazon S3 location for the extracted images.
+        /// Contains information about the Amazon S3 location for the extracted multimedia content.
         public var s3Location: BedrockAgentClientTypes.S3Location?
         /// Specifies the storage service used for this location.
         /// This member is required.
@@ -9667,9 +10061,9 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Specifies configurations for the storage location of the images extracted from multimodal documents in your data source. These images can be retrieved and returned to the end user.
+    /// Specifies configurations for the storage location of multimedia content (images, audio, and video) extracted from multimodal documents in your data source. This content can be retrieved and returned to the end user with timestamp references for audio and video segments.
     public struct SupplementalDataStorageConfiguration: Swift.Sendable {
-        /// A list of objects specifying storage locations for images extracted from multimodal documents in your data source.
+        /// A list of objects specifying storage locations for multimedia content (images, audio, and video) extracted from multimodal documents in your data source.
         /// This member is required.
         public var storageLocations: [BedrockAgentClientTypes.SupplementalDataStorageLocation]?
 
@@ -9711,9 +10105,11 @@ extension BedrockAgentClientTypes {
     public struct KnowledgeBaseConfiguration: Swift.Sendable {
         /// Settings for an Amazon Kendra knowledge base.
         public var kendraKnowledgeBaseConfiguration: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration?
+        /// Configurations for a managed knowledge base.
+        public var managedKnowledgeBaseConfiguration: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration?
         /// Specifies configurations for a knowledge base connected to an SQL database.
         public var sqlKnowledgeBaseConfiguration: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration?
-        /// The type of data that the data source is converted into for the knowledge base.
+        /// The type of data that the data source is converted into for the knowledge base. Choose MANAGED to create a managed knowledge base.
         /// This member is required.
         public var type: BedrockAgentClientTypes.KnowledgeBaseType?
         /// Contains details about the model that's used to convert the data source into vector embeddings.
@@ -9721,11 +10117,13 @@ extension BedrockAgentClientTypes {
 
         public init(
             kendraKnowledgeBaseConfiguration: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration? = nil,
+            managedKnowledgeBaseConfiguration: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration? = nil,
             sqlKnowledgeBaseConfiguration: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseType? = nil,
             vectorKnowledgeBaseConfiguration: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration? = nil
         ) {
             self.kendraKnowledgeBaseConfiguration = kendraKnowledgeBaseConfiguration
+            self.managedKnowledgeBaseConfiguration = managedKnowledgeBaseConfiguration
             self.sqlKnowledgeBaseConfiguration = sqlKnowledgeBaseConfiguration
             self.type = type
             self.vectorKnowledgeBaseConfiguration = vectorKnowledgeBaseConfiguration
@@ -10178,6 +10576,7 @@ extension BedrockAgentClientTypes.S3VectorsConfiguration: Swift.CustomDebugStrin
 
 extension BedrockAgentClientTypes {
 
+    /// The storage type of a knowledge base.
     public enum KnowledgeBaseStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mongoDbAtlas
         case neptuneAnalytics
@@ -10317,6 +10716,7 @@ extension BedrockAgentClientTypes {
         case deleteUnsuccessful
         case deleting
         case failed
+        case updateUnsuccessful
         case updating
         case sdkUnknown(Swift.String)
 
@@ -10327,6 +10727,7 @@ extension BedrockAgentClientTypes {
                 .deleteUnsuccessful,
                 .deleting,
                 .failed,
+                .updateUnsuccessful,
                 .updating
             ]
         }
@@ -10343,6 +10744,7 @@ extension BedrockAgentClientTypes {
             case .deleteUnsuccessful: return "DELETE_UNSUCCESSFUL"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .updateUnsuccessful: return "UPDATE_UNSUCCESSFUL"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -11319,6 +11721,44 @@ public struct UpdatePromptOutput: Swift.Sendable {
 extension UpdatePromptOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UpdatePromptOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), defaultVariant: \(Swift.String(describing: defaultVariant)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), variants: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The expected revision identifier of the resource policy. Use this to prevent conflicts when multiple users update the same policy concurrently. Specify the revisionId from the most recent GetResourcePolicy or PutResourcePolicy response.
+    public var expectedRevisionId: Swift.String?
+    /// The JSON-formatted resource policy to associate with the knowledge base.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the knowledge base to attach the resource policy to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        expectedRevisionId: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.expectedRevisionId = expectedRevisionId
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The ARN of the knowledge base that the resource policy was attached to.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The revision identifier of the resource policy. Use this value in the expectedRevisionId field of a subsequent PutResourcePolicy or DeleteResourcePolicy request.
+    /// This member is required.
+    public var revisionId: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.revisionId = revisionId
+    }
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
@@ -12381,6 +12821,28 @@ extension DeletePromptInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/resourcepolicy/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let expectedRevisionId = value.expectedRevisionId {
+            let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
+            items.append(expectedRevisionIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension DisassociateAgentCollaboratorInput {
 
     static func urlPathProvider(_ value: DisassociateAgentCollaboratorInput) -> Swift.String? {
@@ -12604,6 +13066,16 @@ extension GetPromptInput {
             items.append(promptVersionQueryItem)
         }
         return items
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/resourcepolicy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -12858,6 +13330,16 @@ extension PrepareFlowInput {
             return nil
         }
         return "/flows/\(flowIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/resourcepolicy/\(resourceArn.urlPercentEncoding())"
     }
 }
 
@@ -13335,6 +13817,15 @@ extension ListKnowledgeBasesInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expectedRevisionId"].write(value.expectedRevisionId)
+        try writer["policy"].write(value.policy)
     }
 }
 
@@ -13816,6 +14307,19 @@ extension DeletePromptOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteResourcePolicyOutput()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        return value
+    }
+}
+
 extension DisassociateAgentCollaboratorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAgentCollaboratorOutput {
@@ -14031,6 +14535,20 @@ extension GetPromptOutput {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.variants = try reader["variants"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14265,6 +14783,19 @@ extension PrepareFlowOutput {
         var value = PrepareFlowOutput()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14910,6 +15441,25 @@ enum DeletePromptOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateAgentCollaboratorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15184,6 +15734,24 @@ enum GetKnowledgeBaseDocumentsOutputError {
 }
 
 enum GetPromptOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15521,6 +16089,25 @@ enum PrepareFlowOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16287,6 +16874,21 @@ extension BedrockAgentClientTypes.AudioConfiguration {
     }
 }
 
+extension BedrockAgentClientTypes.AudioExtractionConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.AudioExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionStatus"].write(value.audioExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.AudioExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.AudioExtractionConfiguration()
+        value.audioExtractionStatus = try reader["audioExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockAgentClientTypes.AudioSegmentationConfiguration {
 
     static func write(value: BedrockAgentClientTypes.AudioSegmentationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16716,6 +17318,7 @@ extension BedrockAgentClientTypes.DataSourceConfiguration {
     static func write(value: BedrockAgentClientTypes.DataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["confluenceConfiguration"].write(value.confluenceConfiguration, with: BedrockAgentClientTypes.ConfluenceDataSourceConfiguration.write(value:to:))
+        try writer["managedKnowledgeBaseConnectorConfiguration"].write(value.managedKnowledgeBaseConnectorConfiguration, with: BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration.write(value:to:))
         try writer["s3Configuration"].write(value.s3Configuration, with: BedrockAgentClientTypes.S3DataSourceConfiguration.write(value:to:))
         try writer["salesforceConfiguration"].write(value.salesforceConfiguration, with: BedrockAgentClientTypes.SalesforceDataSourceConfiguration.write(value:to:))
         try writer["sharePointConfiguration"].write(value.sharePointConfiguration, with: BedrockAgentClientTypes.SharePointDataSourceConfiguration.write(value:to:))
@@ -16727,6 +17330,7 @@ extension BedrockAgentClientTypes.DataSourceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.DataSourceConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.managedKnowledgeBaseConnectorConfiguration = try reader["managedKnowledgeBaseConnectorConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration.read(from:))
         value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: BedrockAgentClientTypes.S3DataSourceConfiguration.read(from:))
         value.webConfiguration = try reader["webConfiguration"].readIfPresent(with: BedrockAgentClientTypes.WebDataSourceConfiguration.read(from:))
         value.confluenceConfiguration = try reader["confluenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ConfluenceDataSourceConfiguration.read(from:))
@@ -16748,6 +17352,33 @@ extension BedrockAgentClientTypes.DataSourceSummary {
         value.description = try reader["description"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension BedrockAgentClientTypes.DeletionProtectionConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.DeletionProtectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deletionProtectionStatus"].write(value.deletionProtectionStatus)
+        try writer["deletionProtectionThreshold"].write(value.deletionProtectionThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.DeletionProtectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.DeletionProtectionConfiguration()
+        value.deletionProtectionStatus = try reader["deletionProtectionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.deletionProtectionThreshold = try reader["deletionProtectionThreshold"].readIfPresent() ?? 15
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.DocumentAccessControlEntry {
+
+    static func write(value: BedrockAgentClientTypes.DocumentAccessControlEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["access"].write(value.access)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -16784,6 +17415,7 @@ extension BedrockAgentClientTypes.DocumentMetadata {
 
     static func write(value: BedrockAgentClientTypes.DocumentMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessControlList"].writeList(value.accessControlList, memberWritingClosure: BedrockAgentClientTypes.DocumentAccessControlEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inlineAttributes"].writeList(value.inlineAttributes, memberWritingClosure: BedrockAgentClientTypes.MetadataAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["s3Location"].write(value.s3Location, with: BedrockAgentClientTypes.CustomS3Location.write(value:to:))
         try writer["type"].write(value.type)
@@ -17402,6 +18034,21 @@ extension BedrockAgentClientTypes.HierarchicalChunkingLevelConfiguration {
     }
 }
 
+extension BedrockAgentClientTypes.ImageExtractionConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.ImageExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageExtractionStatus"].write(value.imageExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ImageExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.ImageExtractionConfiguration()
+        value.imageExtractionStatus = try reader["imageExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockAgentClientTypes.IncompatibleConnectionDataTypeFlowValidationDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.IncompatibleConnectionDataTypeFlowValidationDetails {
@@ -17484,6 +18131,7 @@ extension BedrockAgentClientTypes.IngestionJobStatistics {
         value.numberOfMetadataDocumentsModified = try reader["numberOfMetadataDocumentsModified"].readIfPresent() ?? 0
         value.numberOfDocumentsDeleted = try reader["numberOfDocumentsDeleted"].readIfPresent() ?? 0
         value.numberOfDocumentsFailed = try reader["numberOfDocumentsFailed"].readIfPresent() ?? 0
+        value.numberOfDocumentsSkipped = try reader["numberOfDocumentsSkipped"].readIfPresent() ?? 0
         return value
     }
 }
@@ -17625,6 +18273,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration {
     static func write(value: BedrockAgentClientTypes.KnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["kendraKnowledgeBaseConfiguration"].write(value.kendraKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration.write(value:to:))
+        try writer["managedKnowledgeBaseConfiguration"].write(value.managedKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration.write(value:to:))
         try writer["sqlKnowledgeBaseConfiguration"].write(value.sqlKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration.write(value:to:))
         try writer["type"].write(value.type)
         try writer["vectorKnowledgeBaseConfiguration"].write(value.vectorKnowledgeBaseConfiguration, with: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration.write(value:to:))
@@ -17635,6 +18284,7 @@ extension BedrockAgentClientTypes.KnowledgeBaseConfiguration {
         var value = BedrockAgentClientTypes.KnowledgeBaseConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.vectorKnowledgeBaseConfiguration = try reader["vectorKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration.read(from:))
+        value.managedKnowledgeBaseConfiguration = try reader["managedKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration.read(from:))
         value.kendraKnowledgeBaseConfiguration = try reader["kendraKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.KendraKnowledgeBaseConfiguration.read(from:))
         value.sqlKnowledgeBaseConfiguration = try reader["sqlKnowledgeBaseConfiguration"].readIfPresent(with: BedrockAgentClientTypes.SqlKnowledgeBaseConfiguration.read(from:))
         return value
@@ -17853,6 +18503,65 @@ extension BedrockAgentClientTypes.MalformedNodeInputExpressionFlowValidationDeta
         value.node = try reader["node"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent() ?? ""
         value.cause = try reader["cause"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["embeddingModelArn"].write(value.embeddingModelArn)
+        try writer["embeddingModelConfiguration"].write(value.embeddingModelConfiguration, with: BedrockAgentClientTypes.EmbeddingModelConfiguration.write(value:to:))
+        try writer["embeddingModelType"].write(value.embeddingModelType)
+        try writer["serverSideEncryptionConfiguration"].write(value.serverSideEncryptionConfiguration, with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.ManagedKnowledgeBaseConfiguration()
+        value.embeddingModelType = try reader["embeddingModelType"].readIfPresent()
+        value.embeddingModelArn = try reader["embeddingModelArn"].readIfPresent()
+        value.embeddingModelConfiguration = try reader["embeddingModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EmbeddingModelConfiguration.read(from:))
+        value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectorParameters"].write(value.connectorParameters)
+        try writer["deletionProtectionConfiguration"].write(value.deletionProtectionConfiguration, with: BedrockAgentClientTypes.DeletionProtectionConfiguration.write(value:to:))
+        try writer["mediaExtractionConfiguration"].write(value.mediaExtractionConfiguration, with: BedrockAgentClientTypes.MediaExtractionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.ManagedKnowledgeBaseConnectorConfiguration()
+        value.deletionProtectionConfiguration = try reader["deletionProtectionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.DeletionProtectionConfiguration.read(from:))
+        value.mediaExtractionConfiguration = try reader["mediaExtractionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MediaExtractionConfiguration.read(from:))
+        value.connectorParameters = try reader["connectorParameters"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MediaExtractionConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.MediaExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioExtractionConfiguration"].write(value.audioExtractionConfiguration, with: BedrockAgentClientTypes.AudioExtractionConfiguration.write(value:to:))
+        try writer["imageExtractionConfiguration"].write(value.imageExtractionConfiguration, with: BedrockAgentClientTypes.ImageExtractionConfiguration.write(value:to:))
+        try writer["videoExtractionConfiguration"].write(value.videoExtractionConfiguration, with: BedrockAgentClientTypes.VideoExtractionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MediaExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MediaExtractionConfiguration()
+        value.imageExtractionConfiguration = try reader["imageExtractionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ImageExtractionConfiguration.read(from:))
+        value.audioExtractionConfiguration = try reader["audioExtractionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.AudioExtractionConfiguration.read(from:))
+        value.videoExtractionConfiguration = try reader["videoExtractionConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VideoExtractionConfiguration.read(from:))
         return value
     }
 }
@@ -19992,6 +20701,21 @@ extension BedrockAgentClientTypes.VideoConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.VideoConfiguration()
         value.segmentationConfiguration = try reader["segmentationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VideoSegmentationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VideoExtractionConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VideoExtractionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoExtractionStatus"].write(value.videoExtractionStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VideoExtractionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VideoExtractionConfiguration()
+        value.videoExtractionStatus = try reader["videoExtractionStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

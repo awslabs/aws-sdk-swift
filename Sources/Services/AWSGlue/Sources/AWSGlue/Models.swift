@@ -614,6 +614,224 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// A form on an asset, consisting of the form type identifier and its JSON content.
+    public struct AssetFormEntry: Swift.Sendable {
+        /// The JSON content of the form, conforming to the schema of the specified form type.
+        public var content: Swift.String?
+        /// The identifier of the form type that defines this form's schema.
+        public var formTypeId: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            formTypeId: Swift.String? = nil
+        ) {
+            self.content = content
+            self.formTypeId = formTypeId
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A reference to a form type that is included in an asset type.
+    public struct AssetTypeFormReference: Swift.Sendable {
+        /// The identifier of the referenced form type.
+        /// This member is required.
+        public var formTypeIdentifier: Swift.String?
+
+        public init(
+            formTypeIdentifier: Swift.String? = nil
+        ) {
+            self.formTypeIdentifier = formTypeIdentifier
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A summary of an asset type.
+    public struct AssetTypeItem: Swift.Sendable {
+        /// The identifier of the asset type.
+        public var id: Swift.String?
+        /// The name of the asset type.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+/// Two processes are trying to modify a resource simultaneously.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModificationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A specified entity does not exist
+public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Indicates whether or not the exception relates to a federated source.
+        public internal(set) var fromFederationSource: Swift.Bool? = nil
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        fromFederationSource: Swift.Bool? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.fromFederationSource = fromFederationSource
+        self.properties.message = message
+    }
+}
+
+/// An internal service error occurred.
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The input provided was not valid.
+public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Indicates whether or not the exception relates to a federated source.
+        public internal(set) var fromFederationSource: Swift.Bool? = nil
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidInputException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        fromFederationSource: Swift.Bool? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.fromFederationSource = fromFederationSource
+        self.properties.message = message
+    }
+}
+
+/// The throttling threshhold was exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateGlossaryTermsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The list of glossary term identifiers to associate with the asset.
+    /// This member is required.
+    public var glossaryTermIdentifiers: [Swift.String]?
+    /// The unique identifier of the asset to associate glossary terms with.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        glossaryTermIdentifiers: [Swift.String]? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        self.identifier = identifier
+    }
+}
+
+public struct AssociateGlossaryTermsOutput: Swift.Sendable {
+    /// The glossary terms now associated with the asset.
+    public var glossaryTerms: [Swift.String]?
+    /// The unique identifier of the asset.
+    public var identifier: Swift.String?
+
+    public init(
+        glossaryTerms: [Swift.String]? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.glossaryTerms = glossaryTerms
+        self.identifier = identifier
+    }
+}
+
+extension GlueClientTypes {
+
     /// Specifies a single column in a Glue schema definition.
     public struct GlueStudioSchemaColumn: Swift.Sendable {
         /// The data type of the column as defined in Glue Studio.
@@ -1197,34 +1415,6 @@ extension GlueClientTypes {
     }
 }
 
-/// A specified entity does not exist
-public struct EntityNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Indicates whether or not the exception relates to a federated source.
-        public internal(set) var fromFederationSource: Swift.Bool? = nil
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        fromFederationSource: Swift.Bool? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.fromFederationSource = fromFederationSource
-        self.properties.message = message
-    }
-}
-
 /// An encryption operation failed.
 public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1245,58 +1435,6 @@ public struct GlueEncryptionException: ClientRuntime.ModeledError, AWSClientRunt
     public init(
         message: Swift.String? = nil
     ) {
-        self.properties.message = message
-    }
-}
-
-/// An internal service error occurred.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServiceException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The input provided was not valid.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Indicates whether or not the exception relates to a federated source.
-        public internal(set) var fromFederationSource: Swift.Bool? = nil
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidInputException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        fromFederationSource: Swift.Bool? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.fromFederationSource = fromFederationSource
         self.properties.message = message
     }
 }
@@ -3453,6 +3591,97 @@ public struct BatchGetDevEndpointsOutput: Swift.Sendable {
     ) {
         self.devEndpoints = devEndpoints
         self.devEndpointsNotFound = devEndpointsNotFound
+    }
+}
+
+public struct BatchGetIterableFormsInput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
+    /// The list of item identifiers to retrieve. Each identifier can be an item ID or item name.
+    /// This member is required.
+    public var itemIdentifiers: [Swift.String]?
+    /// The name of the iterable form to retrieve items from.
+    /// This member is required.
+    public var iterableFormName: Swift.String?
+
+    public init(
+        assetIdentifier: Swift.String? = nil,
+        itemIdentifiers: [Swift.String]? = nil,
+        iterableFormName: Swift.String? = nil
+    ) {
+        self.assetIdentifier = assetIdentifier
+        self.itemIdentifiers = itemIdentifiers
+        self.iterableFormName = iterableFormName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An error that occurred when retrieving an iterable form item.
+    public struct ItemError: Swift.Sendable {
+        /// The error code.
+        public var code: Swift.String?
+        /// The identifier of the item that caused the error.
+        public var itemIdentifier: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            itemIdentifier: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.itemIdentifier = itemIdentifier
+            self.message = message
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A full iterable form item with its forms.
+    public struct IterableFormItem: Swift.Sendable {
+        /// Additional attachments on the item for more context, keyed by attachment name.
+        public var attachments: [Swift.String: GlueClientTypes.AssetFormEntry]?
+        /// The forms on the item, keyed by form name.
+        public var forms: [Swift.String: GlueClientTypes.AssetFormEntry]?
+        /// The identifiers of the glossary terms associated with the item.
+        public var glossaryTerms: [Swift.String]?
+        /// The unique identifier of the item.
+        public var itemId: Swift.String?
+        /// The name of the item.
+        public var itemName: Swift.String?
+
+        public init(
+            attachments: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+            forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+            glossaryTerms: [Swift.String]? = nil,
+            itemId: Swift.String? = nil,
+            itemName: Swift.String? = nil
+        ) {
+            self.attachments = attachments
+            self.forms = forms
+            self.glossaryTerms = glossaryTerms
+            self.itemId = itemId
+            self.itemName = itemName
+        }
+    }
+}
+
+public struct BatchGetIterableFormsOutput: Swift.Sendable {
+    /// The list of errors for items that could not be retrieved.
+    public var errors: [GlueClientTypes.ItemError]?
+    /// The list of retrieved iterable form items.
+    public var items: [GlueClientTypes.IterableFormItem]?
+
+    public init(
+        errors: [GlueClientTypes.ItemError]? = nil,
+        items: [GlueClientTypes.IterableFormItem]? = nil
+    ) {
+        self.errors = errors
+        self.items = items
     }
 }
 
@@ -8619,30 +8848,6 @@ public struct BatchGetPartitionOutput: Swift.Sendable {
     }
 }
 
-/// The throttling threshhold was exceeded.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension GlueClientTypes {
 
     public enum TableOptimizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -10764,30 +10969,6 @@ public struct CreateBlueprintOutput: Swift.Sendable {
     }
 }
 
-/// Two processes are trying to modify a resource simultaneously.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModificationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// A federated resource already exists.
 public struct FederatedResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -12626,6 +12807,101 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
         self.workerType = workerType
         self.yarnEndpointAddress = yarnEndpointAddress
         self.zeppelinRemoteSparkInterpreterPort = zeppelinRemoteSparkInterpreterPort
+    }
+}
+
+public struct CreateGlossaryInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the glossary.
+    public var description: Swift.String?
+    /// The name of the glossary.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+    }
+}
+
+public struct CreateGlossaryOutput: Swift.Sendable {
+    /// The description of the glossary.
+    public var description: Swift.String?
+    /// The unique identifier of the glossary.
+    public var id: Swift.String?
+    /// The name of the glossary.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.description = description
+        self.id = id
+        self.name = name
+    }
+}
+
+public struct CreateGlossaryTermInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the glossary in which to create the term.
+    /// This member is required.
+    public var glossaryIdentifier: Swift.String?
+    /// A long description of the glossary term.
+    public var longDescription: Swift.String?
+    /// The name of the glossary term.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A short description of the glossary term.
+    public var shortDescription: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        glossaryIdentifier: Swift.String? = nil,
+        longDescription: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortDescription: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.glossaryIdentifier = glossaryIdentifier
+        self.longDescription = longDescription
+        self.name = name
+        self.shortDescription = shortDescription
+    }
+}
+
+public struct CreateGlossaryTermOutput: Swift.Sendable {
+    /// The unique identifier of the glossary containing this term.
+    public var glossaryId: Swift.String?
+    /// The unique identifier of the glossary term.
+    public var id: Swift.String?
+    /// The long description of the glossary term.
+    public var longDescription: Swift.String?
+    /// The name of the glossary term.
+    public var name: Swift.String?
+    /// The short description of the glossary term.
+    public var shortDescription: Swift.String?
+
+    public init(
+        glossaryId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        longDescription: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortDescription: Swift.String? = nil
+    ) {
+        self.glossaryId = glossaryId
+        self.id = id
+        self.longDescription = longDescription
+        self.name = name
+        self.shortDescription = shortDescription
     }
 }
 
@@ -15652,6 +15928,68 @@ public struct CreateWorkflowOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteAssetInput: Swift.Sendable {
+    /// The unique identifier of the asset to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteAssetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAssetTypeInput: Swift.Sendable {
+    /// The identifier of the asset type to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteAssetTypeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAttachmentInput: Swift.Sendable {
+    /// The name of the attachment to delete.
+    /// This member is required.
+    public var attachmentName: Swift.String?
+    /// The unique identifier of the asset from which to delete the attachment.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        attachmentName: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.attachmentName = attachmentName
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteAttachmentOutput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
 public struct DeleteBlueprintInput: Swift.Sendable {
     /// The name of the blueprint to delete.
     /// This member is required.
@@ -15975,6 +16313,57 @@ public struct DeleteDevEndpointInput: Swift.Sendable {
 }
 
 public struct DeleteDevEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteFormTypeInput: Swift.Sendable {
+    /// The identifier of the form type to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteFormTypeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteGlossaryInput: Swift.Sendable {
+    /// The unique identifier of the glossary to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteGlossaryOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteGlossaryTermInput: Swift.Sendable {
+    /// The unique identifier of the glossary term to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteGlossaryTermOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -17654,6 +18043,149 @@ public struct DescribeIntegrationsOutput: Swift.Sendable {
     ) {
         self.integrations = integrations
         self.marker = marker
+    }
+}
+
+public struct DisassociateGlossaryTermsInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The list of glossary term identifiers to disassociate from the asset.
+    /// This member is required.
+    public var glossaryTermIdentifiers: [Swift.String]?
+    /// The unique identifier of the asset to disassociate glossary terms from.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        glossaryTermIdentifiers: [Swift.String]? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.glossaryTermIdentifiers = glossaryTermIdentifiers
+        self.identifier = identifier
+    }
+}
+
+public struct DisassociateGlossaryTermsOutput: Swift.Sendable {
+    /// The remaining glossary terms associated with the asset.
+    public var glossaryTerms: [Swift.String]?
+    /// The unique identifier of the asset.
+    public var identifier: Swift.String?
+
+    public init(
+        glossaryTerms: [Swift.String]? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.glossaryTerms = glossaryTerms
+        self.identifier = identifier
+    }
+}
+
+public struct GetAssetInput: Swift.Sendable {
+    /// The unique identifier of the asset to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+extension GlueClientTypes {
+
+    /// An iterable form available on an asset, identified by its form type.
+    public struct IterableFormEntry: Swift.Sendable {
+        /// The form type identifier of the iterable form (for example, columns), used to retrieve its items via ListIterableForms or BatchGetIterableForms.
+        public var formTypeId: Swift.String?
+
+        public init(
+            formTypeId: Swift.String? = nil
+        ) {
+            self.formTypeId = formTypeId
+        }
+    }
+}
+
+public struct GetAssetOutput: Swift.Sendable {
+    /// The identifier of the asset type for this asset.
+    /// This member is required.
+    public var assetTypeId: Swift.String?
+    /// Additional attachments on the asset for more context, keyed by attachment name.
+    public var attachments: [Swift.String: GlueClientTypes.AssetFormEntry]?
+    /// The timestamp at which the asset was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the asset.
+    public var description: Swift.String?
+    /// The forms on the asset, keyed by form name.
+    public var forms: [Swift.String: GlueClientTypes.AssetFormEntry]?
+    /// The identifiers of the glossary terms associated with the asset.
+    public var glossaryTerms: [Swift.String]?
+    /// The unique identifier of the asset.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The iterable forms available on the asset, keyed by form name (for example, columns). Use the form name with ListIterableForms or BatchGetIterableForms to retrieve the form's items.
+    public var iterableForms: [Swift.String: GlueClientTypes.IterableFormEntry]?
+    /// The name of the asset.
+    public var name: Swift.String?
+    /// The timestamp at which the asset was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        assetTypeId: Swift.String? = nil,
+        attachments: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+        glossaryTerms: [Swift.String]? = nil,
+        id: Swift.String? = nil,
+        iterableForms: [Swift.String: GlueClientTypes.IterableFormEntry]? = nil,
+        name: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.assetTypeId = assetTypeId
+        self.attachments = attachments
+        self.createdAt = createdAt
+        self.description = description
+        self.forms = forms
+        self.glossaryTerms = glossaryTerms
+        self.id = id
+        self.iterableForms = iterableForms
+        self.name = name
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetAssetTypeInput: Swift.Sendable {
+    /// The identifier of the asset type to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetAssetTypeOutput: Swift.Sendable {
+    /// The forms that make up the asset type, keyed by form name.
+    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
+    /// The identifier of the asset type.
+    public var id: Swift.String?
+    /// The name of the asset type.
+    public var name: Swift.String?
+
+    public init(
+        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.forms = forms
+        self.id = id
+        self.name = name
     }
 }
 
@@ -20659,6 +21191,107 @@ public struct GetEntityRecordsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.records = records
+    }
+}
+
+public struct GetFormTypeInput: Swift.Sendable {
+    /// The identifier of the form type to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetFormTypeOutput: Swift.Sendable {
+    /// The identifier of the form type.
+    public var id: Swift.String?
+    /// The name of the form type.
+    public var name: Swift.String?
+    /// The Smithy IDL schema of the form type.
+    public var schema: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schema: Swift.String? = nil
+    ) {
+        self.id = id
+        self.name = name
+        self.schema = schema
+    }
+}
+
+public struct GetGlossaryInput: Swift.Sendable {
+    /// The unique identifier of the glossary to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetGlossaryOutput: Swift.Sendable {
+    /// The description of the glossary.
+    public var description: Swift.String?
+    /// The unique identifier of the glossary.
+    public var id: Swift.String?
+    /// The name of the glossary.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.description = description
+        self.id = id
+        self.name = name
+    }
+}
+
+public struct GetGlossaryTermInput: Swift.Sendable {
+    /// The unique identifier of the glossary term to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetGlossaryTermOutput: Swift.Sendable {
+    /// The unique identifier of the glossary containing this term.
+    public var glossaryId: Swift.String?
+    /// The unique identifier of the glossary term.
+    public var id: Swift.String?
+    /// The long description of the glossary term.
+    public var longDescription: Swift.String?
+    /// The name of the glossary term.
+    public var name: Swift.String?
+    /// The short description of the glossary term.
+    public var shortDescription: Swift.String?
+
+    public init(
+        glossaryId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        longDescription: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortDescription: Swift.String? = nil
+    ) {
+        self.glossaryId = glossaryId
+        self.id = id
+        self.longDescription = longDescription
+        self.name = name
+        self.shortDescription = shortDescription
     }
 }
 
@@ -24493,6 +25126,36 @@ public struct ImportCatalogToGlueOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct ListAssetTypesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAssetTypesOutput: Swift.Sendable {
+    /// The list of asset type items.
+    public var items: [GlueClientTypes.AssetTypeItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.AssetTypeItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListBlueprintsInput: Swift.Sendable {
     /// The maximum size of a list to return.
     public var maxResults: Swift.Int?
@@ -25679,6 +26342,167 @@ public struct ListEntitiesOutput: Swift.Sendable {
     }
 }
 
+public struct ListFormTypesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A summary of a form type.
+    public struct FormTypeItem: Swift.Sendable {
+        /// The identifier of the form type.
+        public var id: Swift.String?
+        /// The name of the form type.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+public struct ListFormTypesOutput: Swift.Sendable {
+    /// The list of form type items.
+    /// This member is required.
+    public var items: [GlueClientTypes.FormTypeItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.FormTypeItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGlossariesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A summary of a business glossary.
+    public struct GlossaryItem: Swift.Sendable {
+        /// The description of the glossary.
+        public var description: Swift.String?
+        /// The unique identifier of the glossary.
+        public var id: Swift.String?
+        /// The name of the glossary.
+        public var name: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+public struct ListGlossariesOutput: Swift.Sendable {
+    /// The list of glossary items.
+    public var items: [GlueClientTypes.GlossaryItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.GlossaryItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGlossaryTermsInput: Swift.Sendable {
+    /// The unique identifier of the glossary whose terms to list.
+    /// This member is required.
+    public var glossaryIdentifier: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        glossaryIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.glossaryIdentifier = glossaryIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A summary of a glossary term.
+    public struct GlossaryTermItem: Swift.Sendable {
+        /// The unique identifier of the glossary term.
+        public var id: Swift.String?
+        /// The name of the glossary term.
+        public var name: Swift.String?
+        /// The short description of the glossary term.
+        public var shortDescription: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            shortDescription: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.shortDescription = shortDescription
+        }
+    }
+}
+
+public struct ListGlossaryTermsOutput: Swift.Sendable {
+    /// The list of glossary term items.
+    public var items: [GlueClientTypes.GlossaryTermItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.GlossaryTermItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 extension GlueClientTypes {
 
     /// A filter for integration resource properties.
@@ -25757,6 +26581,73 @@ public struct ListIntegrationResourcePropertiesOutput: Swift.Sendable {
     ) {
         self.integrationResourcePropertyList = integrationResourcePropertyList
         self.marker = marker
+    }
+}
+
+public struct ListIterableFormsInput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
+    /// The name of the iterable form to list items from.
+    /// This member is required.
+    public var iterableFormName: Swift.String?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        assetIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assetIdentifier = assetIdentifier
+        self.iterableFormName = iterableFormName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A summary of an item in an iterable form.
+    public struct IterableFormListItem: Swift.Sendable {
+        /// The description of the item.
+        public var description: Swift.String?
+        /// The identifiers of the glossary terms associated with the item.
+        public var glossaryTerms: [Swift.String]?
+        /// The unique identifier of the item.
+        public var itemId: Swift.String?
+        /// The name of the item.
+        public var itemName: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            glossaryTerms: [Swift.String]? = nil,
+            itemId: Swift.String? = nil,
+            itemName: Swift.String? = nil
+        ) {
+            self.description = description
+            self.glossaryTerms = glossaryTerms
+            self.itemId = itemId
+            self.itemName = itemName
+        }
+    }
+}
+
+public struct ListIterableFormsOutput: Swift.Sendable {
+    /// The list of iterable form items.
+    public var items: [GlueClientTypes.IterableFormListItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.IterableFormListItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -26459,6 +27350,176 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
     }
 }
 
+public struct PutAssetInput: Swift.Sendable {
+    /// The identifier of the asset type for the asset.
+    /// This member is required.
+    public var assetTypeId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the asset.
+    public var description: Swift.String?
+    /// The forms to set on the asset, keyed by form name. Each entry specifies the form type and its JSON content.
+    /// This member is required.
+    public var forms: [Swift.String: GlueClientTypes.AssetFormEntry]?
+    /// The unique identifier of the asset. If an asset with this identifier already exists, it is updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the asset.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        assetTypeId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.assetTypeId = assetTypeId
+        self.clientToken = clientToken
+        self.description = description
+        self.forms = forms
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+public struct PutAssetOutput: Swift.Sendable {
+    /// The timestamp at which the asset was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the asset.
+    public var description: Swift.String?
+    /// The forms attached to the asset, keyed by form name.
+    public var forms: [Swift.String: GlueClientTypes.AssetFormEntry]?
+    /// The unique identifier of the asset.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the asset.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetFormEntry]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.forms = forms
+        self.id = id
+        self.name = name
+    }
+}
+
+public struct PutAssetTypeInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The forms that make up the asset type, keyed by form name. Each entry references the form type that defines the form's schema.
+    /// This member is required.
+    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
+    /// The name of the asset type.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.forms = forms
+        self.name = name
+    }
+}
+
+public struct PutAssetTypeOutput: Swift.Sendable {
+    /// The forms that make up the asset type, keyed by form name.
+    public var forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]?
+    /// The identifier of the asset type.
+    public var id: Swift.String?
+    /// The name of the asset type.
+    public var name: Swift.String?
+
+    public init(
+        forms: [Swift.String: GlueClientTypes.AssetTypeFormReference]? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.forms = forms
+        self.id = id
+        self.name = name
+    }
+}
+
+public struct PutAttachmentInput: Swift.Sendable {
+    /// The unique identifier of the asset to attach the form to.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
+    /// The name of the attachment.
+    /// This member is required.
+    public var attachmentName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The JSON content of the form, conforming to the schema of the specified form type.
+    /// This member is required.
+    public var content: Swift.String?
+    /// The identifier of the form type for this attachment.
+    /// This member is required.
+    public var formTypeId: Swift.String?
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form. When specified along with itemIdentifier, the attachment targets an item within the iterable form rather than the asset itself.
+    public var iterableFormName: Swift.String?
+
+    public init(
+        assetIdentifier: Swift.String? = nil,
+        attachmentName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: Swift.String? = nil,
+        formTypeId: Swift.String? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
+    ) {
+        self.assetIdentifier = assetIdentifier
+        self.attachmentName = attachmentName
+        self.clientToken = clientToken
+        self.content = content
+        self.formTypeId = formTypeId
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
+    }
+}
+
+public struct PutAttachmentOutput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    public var assetId: Swift.String?
+    /// The name of the attachment.
+    public var attachmentName: Swift.String?
+    /// The identifier of the form type for this attachment.
+    public var formTypeId: Swift.String?
+    /// The identifier of the item within the iterable form, if applicable.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form, if the attachment targets an item.
+    public var iterableFormName: Swift.String?
+
+    public init(
+        assetId: Swift.String? = nil,
+        attachmentName: Swift.String? = nil,
+        formTypeId: Swift.String? = nil,
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
+    ) {
+        self.assetId = assetId
+        self.attachmentName = attachmentName
+        self.formTypeId = formTypeId
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
+    }
+}
+
 public struct PutDataCatalogEncryptionSettingsInput: Swift.Sendable {
     /// The ID of the Data Catalog to set the security configuration for. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
@@ -26501,6 +27562,46 @@ public struct PutDataQualityProfileAnnotationInput: Swift.Sendable {
 public struct PutDataQualityProfileAnnotationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct PutFormTypeInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The name of the form type. Must start with an uppercase letter.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Smithy IDL schema definition for the form type.
+    /// This member is required.
+    public var schema: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schema: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.name = name
+        self.schema = schema
+    }
+}
+
+public struct PutFormTypeOutput: Swift.Sendable {
+    /// The identifier of the form type.
+    public var id: Swift.String?
+    /// The name of the form type.
+    public var name: Swift.String?
+    /// The Smithy IDL schema of the form type.
+    public var schema: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        schema: Swift.String? = nil
+    ) {
+        self.id = id
+        self.name = name
+        self.schema = schema
+    }
 }
 
 extension GlueClientTypes {
@@ -27453,6 +28554,215 @@ public struct RunStatementOutput: Swift.Sendable {
         id: Swift.Int = 0
     ) {
         self.id = id
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum SearchFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case greaterthan
+        case greaterthanorequals
+        case lessthan
+        case lessthanorequals
+        case notexists
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchFilterOperator] {
+            return [
+                .equals,
+                .greaterthan,
+                .greaterthanorequals,
+                .lessthan,
+                .lessthanorequals,
+                .notexists
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "equals"
+            case .greaterthan: return "greaterThan"
+            case .greaterthanorequals: return "greaterThanOrEquals"
+            case .lessthan: return "lessThan"
+            case .lessthanorequals: return "lessThanOrEquals"
+            case .notexists: return "notExists"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A filter value. Exactly one of stringValue or longValue must be specified.
+    public enum SearchFilterValue: Swift.Sendable {
+        /// A string filter value.
+        case stringvalue(Swift.String)
+        /// A long integer filter value.
+        case longvalue(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A filter that compares an attribute value using an operator.
+    public struct SearchAttributeFilter: Swift.Sendable {
+        /// The attribute name to filter on.
+        /// This member is required.
+        public var attribute: Swift.String?
+        /// The comparison operator. Valid values are equals, greaterThan, greaterThanOrEquals, lessThan, lessThanOrEquals, and notExists.
+        /// This member is required.
+        public var `operator`: GlueClientTypes.SearchFilterOperator?
+        /// The value to compare against.
+        public var value: GlueClientTypes.SearchFilterValue?
+
+        public init(
+            attribute: Swift.String? = nil,
+            `operator`: GlueClientTypes.SearchFilterOperator? = nil,
+            value: GlueClientTypes.SearchFilterValue? = nil
+        ) {
+            self.attribute = attribute
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A map filter value. Currently supports string comparison only.
+    public enum SearchMapFilterValue: Swift.Sendable {
+        /// A string filter value.
+        case stringvalue(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A filter on a map attribute's key-value pair.
+    public struct SearchMapFilter: Swift.Sendable {
+        /// The map attribute name to filter on.
+        /// This member is required.
+        public var attribute: Swift.String?
+        /// The key within the map attribute to filter on.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value to compare against.
+        /// This member is required.
+        public var value: GlueClientTypes.SearchMapFilterValue?
+
+        public init(
+            attribute: Swift.String? = nil,
+            key: Swift.String? = nil,
+            value: GlueClientTypes.SearchMapFilterValue? = nil
+        ) {
+            self.attribute = attribute
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum SearchSortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchSortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The sort criteria for search results.
+    public struct SearchSort: Swift.Sendable {
+        /// The attribute to sort by.
+        /// This member is required.
+        public var attribute: Swift.String?
+        /// The sort order. Valid values are ASCENDING and DESCENDING.
+        public var order: GlueClientTypes.SearchSortOrder?
+
+        public init(
+            attribute: Swift.String? = nil,
+            order: GlueClientTypes.SearchSortOrder? = nil
+        ) {
+            self.attribute = attribute
+            self.order = order
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A single search result item representing a matched asset.
+    public struct SearchResultItem: Swift.Sendable {
+        /// The description of the matched asset.
+        public var assetDescription: Swift.String?
+        /// The name of the matched asset.
+        public var assetName: Swift.String?
+        /// The identifier of the asset type for the matched asset.
+        public var assetTypeId: Swift.String?
+        /// The unique identifier of the matched asset.
+        public var id: Swift.String?
+        /// The timestamp at which the matched asset was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            assetDescription: Swift.String? = nil,
+            assetName: Swift.String? = nil,
+            assetTypeId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.assetDescription = assetDescription
+            self.assetName = assetName
+            self.assetTypeId = assetTypeId
+            self.id = id
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct SearchOutput: Swift.Sendable {
+    /// The list of assets matching the search criteria.
+    public var items: [GlueClientTypes.SearchResultItem]?
+    /// A continuation token, present if the current segment is not the last.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [GlueClientTypes.SearchResultItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 
@@ -29321,6 +30631,104 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateGlossaryInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The updated description of the glossary.
+    public var description: Swift.String?
+    /// The unique identifier of the glossary to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The updated name of the glossary.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+public struct UpdateGlossaryOutput: Swift.Sendable {
+    /// The description of the glossary.
+    public var description: Swift.String?
+    /// The unique identifier of the glossary.
+    public var id: Swift.String?
+    /// The name of the glossary.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.description = description
+        self.id = id
+        self.name = name
+    }
+}
+
+public struct UpdateGlossaryTermInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the glossary term to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The updated long description of the glossary term.
+    public var longDescription: Swift.String?
+    /// The updated name of the glossary term.
+    public var name: Swift.String?
+    /// The updated short description of the glossary term.
+    public var shortDescription: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        longDescription: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortDescription: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.identifier = identifier
+        self.longDescription = longDescription
+        self.name = name
+        self.shortDescription = shortDescription
+    }
+}
+
+public struct UpdateGlossaryTermOutput: Swift.Sendable {
+    /// The unique identifier of the glossary containing this term.
+    public var glossaryId: Swift.String?
+    /// The unique identifier of the glossary term.
+    public var id: Swift.String?
+    /// The long description of the glossary term.
+    public var longDescription: Swift.String?
+    /// The name of the glossary term.
+    public var name: Swift.String?
+    /// The short description of the glossary term.
+    public var shortDescription: Swift.String?
+
+    public init(
+        glossaryId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        longDescription: Swift.String? = nil,
+        name: Swift.String? = nil,
+        shortDescription: Swift.String? = nil
+    ) {
+        self.glossaryId = glossaryId
+        self.id = id
+        self.longDescription = longDescription
+        self.name = name
+        self.shortDescription = shortDescription
+    }
+}
+
 /// Request to update an existing Glue Identity Center configuration.
 public struct UpdateGlueIdentityCenterConfigurationInput: Swift.Sendable {
     /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
@@ -30750,6 +32158,22 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// A filter clause that supports nested boolean logic. Exactly one of andAllFilters, orAnyFilters, attributeFilter, or mapFilter must be specified.
+    public indirect enum SearchFilterClause: Swift.Sendable {
+        /// A list of filter clauses that must all match (logical AND).
+        case andallfilters([GlueClientTypes.SearchFilterClause])
+        /// A list of filter clauses where at least one must match (logical OR).
+        case oranyfilters([GlueClientTypes.SearchFilterClause])
+        /// A filter on a single attribute value.
+        case attributefilter(GlueClientTypes.SearchAttributeFilter)
+        /// A filter on a map attribute's key-value pair.
+        case mapfilter(GlueClientTypes.SearchMapFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GlueClientTypes {
+
     /// Specifies a version of a table.
     public struct TableVersion: Swift.Sendable {
         /// The table in question.
@@ -31291,6 +32715,33 @@ public struct GetTableVersionsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.tableVersions = tableVersions
+    }
+}
+
+public struct SearchInput: Swift.Sendable {
+    /// The filter clause to apply to the search. Supports nested AND/OR logic with attribute-level and map-level filters.
+    public var filterClause: GlueClientTypes.SearchFilterClause?
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// The text to search for. At least one of searchText or filterClause must be provided.
+    public var searchText: Swift.String?
+    /// The sort criteria for the search results.
+    public var sort: GlueClientTypes.SearchSort?
+
+    public init(
+        filterClause: GlueClientTypes.SearchFilterClause? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchText: Swift.String? = nil,
+        sort: GlueClientTypes.SearchSort? = nil
+    ) {
+        self.filterClause = filterClause
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchText = searchText
+        self.sort = sort
     }
 }
 
