@@ -1087,18 +1087,43 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// A reference to a document in a third-party provider, such as a Confluence page linked via an integration.
+    public struct IntegratedDocument: Swift.Sendable {
+        /// The identifier of the integration that provides access to the document.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The provider-specific resource identifier for the document.
+        /// This member is required.
+        public var resourceId: Swift.String?
+
+        public init(
+            integrationId: Swift.String? = nil,
+            resourceId: Swift.String? = nil
+        ) {
+            self.integrationId = integrationId
+            self.resourceId = resourceId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a document that provides context for security testing.
     public struct DocumentInfo: Swift.Sendable {
         /// The unique identifier of the artifact associated with the document.
         public var artifactId: Swift.String?
+        /// A reference to a document in an integrated third-party provider.
+        public var integratedDocument: SecurityAgentClientTypes.IntegratedDocument?
         /// The Amazon S3 location of the document.
         public var s3Location: Swift.String?
 
         public init(
             artifactId: Swift.String? = nil,
+            integratedDocument: SecurityAgentClientTypes.IntegratedDocument? = nil,
             s3Location: Swift.String? = nil
         ) {
             self.artifactId = artifactId
+            self.integratedDocument = integratedDocument
             self.s3Location = s3Location
         }
     }
@@ -1186,6 +1211,200 @@ extension SecurityAgentClientTypes {
     }
 }
 
+extension SecurityAgentClientTypes {
+
+    /// Contains information about a successfully created security requirement.
+    public struct BatchCreateSecurityRequirementResult: Swift.Sendable {
+        /// The date and time the security requirement was created, in UTC format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the security requirement.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The security domain the requirement belongs to.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The evaluation criteria used to assess compliance with this requirement.
+        /// This member is required.
+        public var evaluation: Swift.String?
+        /// The name of the security requirement.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier of the pack containing the security requirement.
+        /// This member is required.
+        public var packId: Swift.String?
+        /// The recommended remediation steps when the requirement is not met.
+        public var remediation: Swift.String?
+        /// The date and time the security requirement was last updated, in UTC format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            evaluation: Swift.String? = nil,
+            name: Swift.String? = nil,
+            packId: Swift.String? = nil,
+            remediation: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.domain = domain
+            self.evaluation = evaluation
+            self.name = name
+            self.packId = packId
+            self.remediation = remediation
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// The request could not be completed due to a conflict with the current state of the resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Error description.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains the details for a security requirement to create within a pack.
+    public struct CreateSecurityRequirementEntry: Swift.Sendable {
+        /// A description of the security requirement.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The security domain the requirement belongs to.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The evaluation criteria used to assess compliance with this requirement.
+        /// This member is required.
+        public var evaluation: Swift.String?
+        /// The name of the security requirement.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The recommended remediation steps when the requirement is not met.
+        public var remediation: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            evaluation: Swift.String? = nil,
+            name: Swift.String? = nil,
+            remediation: Swift.String? = nil
+        ) {
+            self.description = description
+            self.domain = domain
+            self.evaluation = evaluation
+            self.name = name
+            self.remediation = remediation
+        }
+    }
+}
+
+public struct BatchCreateSecurityRequirementsInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack to add requirements to.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The list of security requirements to create.
+    /// This member is required.
+    public var securityRequirements: [SecurityAgentClientTypes.CreateSecurityRequirementEntry]?
+
+    public init(
+        packId: Swift.String? = nil,
+        securityRequirements: [SecurityAgentClientTypes.CreateSecurityRequirementEntry]? = nil
+    ) {
+        self.packId = packId
+        self.securityRequirements = securityRequirements
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains information about an error that occurred for a specific security requirement during a batch operation.
+    public struct BatchSecurityRequirementError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name of the security requirement that caused the error.
+        /// This member is required.
+        public var securityRequirementName: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            securityRequirementName: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.securityRequirementName = securityRequirementName
+        }
+    }
+}
+
+public struct BatchCreateSecurityRequirementsOutput: Swift.Sendable {
+    /// The list of errors for security requirements that failed to be created.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]?
+    /// The list of security requirements that were successfully created.
+    /// This member is required.
+    public var securityRequirements: [SecurityAgentClientTypes.BatchCreateSecurityRequirementResult]?
+
+    public init(
+        errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]? = nil,
+        securityRequirements: [SecurityAgentClientTypes.BatchCreateSecurityRequirementResult]? = nil
+    ) {
+        self.errors = errors
+        self.securityRequirements = securityRequirements
+    }
+}
+
 /// Input for deleting multiple code reviews.
 public struct BatchDeleteCodeReviewsInput: Swift.Sendable {
     /// The unique identifier of the agent space that contains the code reviews to delete.
@@ -1259,6 +1478,38 @@ public struct BatchDeletePentestsInput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// Strategy for handling resources created during a pentest.
+    public enum CleanUpStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Attempt to delete resources created during the pentest on a best-effort basis.
+        case bestEffortDelete
+        /// Retain all resources created during the pentest.
+        case retainAll
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CleanUpStrategy] {
+            return [
+                .bestEffortDelete,
+                .retainAll
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bestEffortDelete: return "BEST_EFFORT_DELETE"
+            case .retainAll: return "RETAIN_ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Strategy for automated code remediation.
     public enum CodeRemediationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Automatically generate code remediation for findings.
@@ -1283,6 +1534,38 @@ extension SecurityAgentClientTypes {
             switch self {
             case .automatic: return "AUTOMATIC"
             case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Type of managed skill that can be enabled or disabled for a pentest.
+    public enum SkillType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The finding personalization skill learns customer preferences from finding edits and aligns future findings accordingly.
+        case findingPersonalization
+        /// The login optimization skill learns application login flows to improve authentication success across runs.
+        case loginOptimization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SkillType] {
+            return [
+                .findingPersonalization,
+                .loginOptimization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .findingPersonalization: return "FINDING_PERSONALIZATION"
+            case .loginOptimization: return "LOGIN_OPTIMIZATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1575,10 +1858,14 @@ extension SecurityAgentClientTypes {
         /// The assets included in the pentest.
         /// This member is required.
         public var assets: SecurityAgentClientTypes.Assets?
+        /// Strategy for cleaning up resources after pentest job completion.
+        public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest.
         public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
         /// The date and time the pentest was created, in UTC format.
         public var createdAt: Foundation.Date?
+        /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
+        public var disableManagedSkills: [SecurityAgentClientTypes.SkillType]?
         /// The list of risk types excluded from the pentest.
         public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
         /// The CloudWatch Logs configuration for the pentest.
@@ -1601,8 +1888,10 @@ extension SecurityAgentClientTypes {
         public init(
             agentSpaceId: Swift.String? = nil,
             assets: SecurityAgentClientTypes.Assets? = nil,
+            cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
+            disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
             excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
             networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
@@ -1614,8 +1903,10 @@ extension SecurityAgentClientTypes {
         ) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
+            self.disableManagedSkills = disableManagedSkills
             self.excludeRiskTypes = excludeRiskTypes
             self.logConfig = logConfig
             self.networkTrafficConfig = networkTrafficConfig
@@ -1657,6 +1948,93 @@ public struct BatchDeletePentestsOutput: Swift.Sendable {
     public init(
         deleted: [SecurityAgentClientTypes.Pentest]? = nil,
         failed: [SecurityAgentClientTypes.DeletePentestFailure]? = nil
+    ) {
+        self.deleted = deleted
+        self.failed = failed
+    }
+}
+
+public struct BatchDeleteSecurityRequirementsInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack to remove requirements from.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The list of security requirement names to delete.
+    /// This member is required.
+    public var securityRequirementNames: [Swift.String]?
+
+    public init(
+        packId: Swift.String? = nil,
+        securityRequirementNames: [Swift.String]? = nil
+    ) {
+        self.packId = packId
+        self.securityRequirementNames = securityRequirementNames
+    }
+}
+
+public struct BatchDeleteSecurityRequirementsOutput: Swift.Sendable {
+    /// The list of security requirement names that were successfully deleted.
+    /// This member is required.
+    public var deletedSecurityRequirementNames: [Swift.String]?
+    /// The list of errors for security requirements that failed to be deleted.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]?
+
+    public init(
+        deletedSecurityRequirementNames: [Swift.String]? = nil,
+        errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]? = nil
+    ) {
+        self.deletedSecurityRequirementNames = deletedSecurityRequirementNames
+        self.errors = errors
+    }
+}
+
+/// Input for deleting multiple threat models.
+public struct BatchDeleteThreatModelsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat models to delete.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of threat model identifiers to delete.
+    /// This member is required.
+    public var threatModelIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelIds = threatModelIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains information about a threat model that failed to delete.
+    public struct DeleteThreatModelFailure: Swift.Sendable {
+        /// The reason the threat model failed to delete.
+        public var reason: Swift.String?
+        /// The unique identifier of the threat model that failed to delete.
+        public var threatModelId: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            threatModelId: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.threatModelId = threatModelId
+        }
+    }
+}
+
+/// Output for the BatchDeleteThreatModels operation.
+public struct BatchDeleteThreatModelsOutput: Swift.Sendable {
+    /// The list of threat model identifiers that were successfully deleted.
+    public var deleted: [Swift.String]?
+    /// The list of threat models that failed to delete, including the reason for each failure.
+    public var failed: [SecurityAgentClientTypes.DeleteThreatModelFailure]?
+
+    public init(
+        deleted: [Swift.String]? = nil,
+        failed: [SecurityAgentClientTypes.DeleteThreatModelFailure]? = nil
     ) {
         self.deleted = deleted
         self.failed = failed
@@ -1884,6 +2262,8 @@ extension SecurityAgentClientTypes {
         case preflight
         /// Static code and network scan analysis step.
         case staticAnalysis
+        /// Simulated validation step that dynamically confirms vulnerability exploitability.
+        case validation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StepName] {
@@ -1891,7 +2271,8 @@ extension SecurityAgentClientTypes {
                 .finalizing,
                 .pentest,
                 .preflight,
-                .staticAnalysis
+                .staticAnalysis,
+                .validation
             ]
         }
 
@@ -1906,6 +2287,7 @@ extension SecurityAgentClientTypes {
             case .pentest: return "PENTEST"
             case .preflight: return "PREFLIGHT"
             case .staticAnalysis: return "STATIC_ANALYSIS"
+            case .validation: return "VALIDATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1962,7 +2344,7 @@ extension SecurityAgentClientTypes {
     public struct Step: Swift.Sendable {
         /// The date and time the step was created, in UTC format.
         public var createdAt: Foundation.Date?
-        /// The name of the step. Valid values include PREFLIGHT, STATIC_ANALYSIS, PENTEST, and FINALIZING.
+        /// The name of the step. Valid values include PREFLIGHT, STATIC_ANALYSIS, PENTEST, VALIDATION, and FINALIZING.
         public var name: SecurityAgentClientTypes.StepName?
         /// The current status of the step.
         public var status: SecurityAgentClientTypes.StepStatus?
@@ -2298,6 +2680,36 @@ public struct BatchGetCodeReviewsInput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// Mode of validation to perform on findings
+    public enum ValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case simulated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationMode] {
+            return [
+                .disabled,
+                .simulated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .simulated: return "SIMULATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a code review configuration that defines the parameters for automated security-focused code analysis, including target assets and logging configuration.
     public struct CodeReview: Swift.Sendable {
         /// The unique identifier of the agent space that contains the code review.
@@ -2322,6 +2734,8 @@ extension SecurityAgentClientTypes {
         public var title: Swift.String?
         /// The date and time the code review was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The validation mode for the code review. Valid values are SIMULATED and DISABLED.
+        public var validationMode: SecurityAgentClientTypes.ValidationMode?
 
         public init(
             agentSpaceId: Swift.String? = nil,
@@ -2332,7 +2746,8 @@ extension SecurityAgentClientTypes {
             logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
             serviceRole: Swift.String? = nil,
             title: Swift.String? = nil,
-            updatedAt: Foundation.Date? = nil
+            updatedAt: Foundation.Date? = nil,
+            validationMode: SecurityAgentClientTypes.ValidationMode? = nil
         ) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
@@ -2343,6 +2758,7 @@ extension SecurityAgentClientTypes {
             self.serviceRole = serviceRole
             self.title = title
             self.updatedAt = updatedAt
+            self.validationMode = validationMode
         }
     }
 }
@@ -2608,6 +3024,45 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Per-finding sandbox validation status
+    public enum ValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case confirmed
+        case notReproduced
+        case notValidated
+        case validating
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationStatus] {
+            return [
+                .confirmed,
+                .notReproduced,
+                .notValidated,
+                .validating,
+                .validationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confirmed: return "CONFIRMED"
+            case .notReproduced: return "NOT_REPRODUCED"
+            case .notValidated: return "NOT_VALIDATED"
+            case .validating: return "VALIDATING"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents an environment variable required to run a verification script.
     public struct VerificationScriptEnvVar: Swift.Sendable {
         /// The name of the environment variable.
@@ -2659,6 +3114,8 @@ extension SecurityAgentClientTypes {
         /// The unique identifier of the agent space associated with the finding.
         /// This member is required.
         public var agentSpaceId: Swift.String?
+        /// The rationale provided by the alignment agent explaining how the finding was adjusted based on customer preferences.
+        public var alignmentRationale: Swift.String?
         /// The attack script used to reproduce the finding.
         public var attackScript: Swift.String?
         /// The file locations involved in the vulnerability, as reported by the code scanner.
@@ -2673,6 +3130,8 @@ extension SecurityAgentClientTypes {
         public var confidence: SecurityAgentClientTypes.ConfidenceLevel?
         /// The date and time the finding was created, in UTC format.
         public var createdAt: Foundation.Date?
+        /// A customer-provided note on the finding.
+        public var customerNote: Swift.String?
         /// A description of the finding.
         public var description: Swift.String?
         /// The unique identifier of the finding.
@@ -2700,11 +3159,14 @@ extension SecurityAgentClientTypes {
         public var taskId: Swift.String?
         /// The date and time the finding was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The simulated validation status of the finding. Valid values are NOT_VALIDATED, VALIDATING, CONFIRMED, NOT_REPRODUCED, and VALIDATION_FAILED.
+        public var validationStatus: SecurityAgentClientTypes.ValidationStatus?
         /// The verification script metadata for reproducing the finding, including download URL, instructions, and required environment variables.
         public var verificationScript: SecurityAgentClientTypes.VerificationScript?
 
         public init(
             agentSpaceId: Swift.String? = nil,
+            alignmentRationale: Swift.String? = nil,
             attackScript: Swift.String? = nil,
             codeLocations: [SecurityAgentClientTypes.CodeLocation]? = nil,
             codeRemediationTask: SecurityAgentClientTypes.CodeRemediationTask? = nil,
@@ -2712,6 +3174,7 @@ extension SecurityAgentClientTypes {
             codeReviewJobId: Swift.String? = nil,
             confidence: SecurityAgentClientTypes.ConfidenceLevel? = nil,
             createdAt: Foundation.Date? = nil,
+            customerNote: Swift.String? = nil,
             description: Swift.String? = nil,
             findingId: Swift.String? = nil,
             lastUpdatedBy: Swift.String? = nil,
@@ -2725,9 +3188,11 @@ extension SecurityAgentClientTypes {
             status: SecurityAgentClientTypes.FindingStatus? = nil,
             taskId: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
+            validationStatus: SecurityAgentClientTypes.ValidationStatus? = nil,
             verificationScript: SecurityAgentClientTypes.VerificationScript? = nil
         ) {
             self.agentSpaceId = agentSpaceId
+            self.alignmentRationale = alignmentRationale
             self.attackScript = attackScript
             self.codeLocations = codeLocations
             self.codeRemediationTask = codeRemediationTask
@@ -2735,6 +3200,7 @@ extension SecurityAgentClientTypes {
             self.codeReviewJobId = codeReviewJobId
             self.confidence = confidence
             self.createdAt = createdAt
+            self.customerNote = customerNote
             self.description = description
             self.findingId = findingId
             self.lastUpdatedBy = lastUpdatedBy
@@ -2748,6 +3214,7 @@ extension SecurityAgentClientTypes {
             self.status = status
             self.taskId = taskId
             self.updatedAt = updatedAt
+            self.validationStatus = validationStatus
             self.verificationScript = verificationScript
         }
     }
@@ -2795,10 +3262,14 @@ extension SecurityAgentClientTypes {
         public var actors: [SecurityAgentClientTypes.Actor]?
         /// The list of domains allowed during the pentest job.
         public var allowedDomains: [SecurityAgentClientTypes.Endpoint]?
+        /// Strategy for cleaning up resources after pentest job completion.
+        public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest job.
         public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
         /// The date and time the pentest job was created, in UTC format.
         public var createdAt: Foundation.Date?
+        /// A list of managed skills disabled for this pentest job. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
+        public var disableManagedSkills: [SecurityAgentClientTypes.SkillType]?
         /// The list of documents providing context for the pentest job.
         public var documents: [SecurityAgentClientTypes.DocumentInfo]?
         /// The list of endpoints being tested in the pentest job.
@@ -2841,8 +3312,10 @@ extension SecurityAgentClientTypes {
         public init(
             actors: [SecurityAgentClientTypes.Actor]? = nil,
             allowedDomains: [SecurityAgentClientTypes.Endpoint]? = nil,
+            cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
+            disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
             documents: [SecurityAgentClientTypes.DocumentInfo]? = nil,
             endpoints: [SecurityAgentClientTypes.Endpoint]? = nil,
             errorInformation: SecurityAgentClientTypes.ErrorInformation? = nil,
@@ -2865,8 +3338,10 @@ extension SecurityAgentClientTypes {
         ) {
             self.actors = actors
             self.allowedDomains = allowedDomains
+            self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
+            self.disableManagedSkills = disableManagedSkills
             self.documents = documents
             self.endpoints = endpoints
             self.errorInformation = errorInformation
@@ -3035,6 +3510,90 @@ public struct BatchGetPentestsOutput: Swift.Sendable {
     ) {
         self.notFound = notFound
         self.pentests = pentests
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains information about a successfully retrieved security requirement.
+    public struct BatchGetSecurityRequirementResult: Swift.Sendable {
+        /// The date and time the security requirement was created, in UTC format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the security requirement.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The security domain the requirement belongs to.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The evaluation criteria used to assess compliance with this requirement.
+        /// This member is required.
+        public var evaluation: Swift.String?
+        /// The name of the security requirement.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier of the pack containing the security requirement.
+        /// This member is required.
+        public var packId: Swift.String?
+        /// The recommended remediation steps when the requirement is not met.
+        public var remediation: Swift.String?
+        /// The date and time the security requirement was last updated, in UTC format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            evaluation: Swift.String? = nil,
+            name: Swift.String? = nil,
+            packId: Swift.String? = nil,
+            remediation: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.domain = domain
+            self.evaluation = evaluation
+            self.name = name
+            self.packId = packId
+            self.remediation = remediation
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct BatchGetSecurityRequirementsInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack to retrieve requirements from.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The list of security requirement names to retrieve.
+    /// This member is required.
+    public var securityRequirementNames: [Swift.String]?
+
+    public init(
+        packId: Swift.String? = nil,
+        securityRequirementNames: [Swift.String]? = nil
+    ) {
+        self.packId = packId
+        self.securityRequirementNames = securityRequirementNames
+    }
+}
+
+public struct BatchGetSecurityRequirementsOutput: Swift.Sendable {
+    /// The list of errors for security requirements that failed to be retrieved.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]?
+    /// The list of security requirements that were successfully retrieved.
+    /// This member is required.
+    public var securityRequirements: [SecurityAgentClientTypes.BatchGetSecurityRequirementResult]?
+
+    public init(
+        errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]? = nil,
+        securityRequirements: [SecurityAgentClientTypes.BatchGetSecurityRequirementResult]? = nil
+    ) {
+        self.errors = errors
+        self.securityRequirements = securityRequirements
     }
 }
 
@@ -3277,6 +3836,770 @@ public struct BatchGetTargetDomainsOutput: Swift.Sendable {
     }
 }
 
+/// Input for BatchGetThreatModelJobs operation.
+public struct BatchGetThreatModelJobsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat model jobs.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of threat model job identifiers to retrieve.
+    /// This member is required.
+    public var threatModelJobIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelJobIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelJobIds = threatModelJobIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a threat model job, which is an execution instance of a threat model.
+    public struct ThreatModelJob: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The date and time the threat model job was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The list of documents used for threat modeling.
+        public var documents: [SecurityAgentClientTypes.DocumentInfo]?
+        /// Error information if the threat model job encountered an error.
+        public var errorInformation: SecurityAgentClientTypes.ErrorInformation?
+        /// The date and time the threat model job execution ended, in UTC format.
+        public var executionEndTime: Foundation.Date?
+        /// The date and time the threat model job execution started, in UTC format.
+        public var executionStartTime: Foundation.Date?
+        /// The list of integrated repositories used for threat modeling.
+        public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
+        /// The scoped documents for the agent to focus on during threat modeling.
+        public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+        /// The list of source code repositories used for threat modeling.
+        public var sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]?
+        /// The current status of the threat model job.
+        public var status: SecurityAgentClientTypes.JobStatus?
+        /// The system overview generated during threat modeling.
+        public var systemOverview: Swift.String?
+        /// The unique identifier of the threat model associated with the job.
+        public var threatModelId: Swift.String?
+        /// The unique identifier of the threat model job.
+        public var threatModelJobId: Swift.String?
+        /// The title of the threat model job.
+        public var title: Swift.String?
+        /// The date and time the threat model job was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            documents: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+            errorInformation: SecurityAgentClientTypes.ErrorInformation? = nil,
+            executionEndTime: Foundation.Date? = nil,
+            executionStartTime: Foundation.Date? = nil,
+            integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
+            scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+            sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
+            status: SecurityAgentClientTypes.JobStatus? = nil,
+            systemOverview: Swift.String? = nil,
+            threatModelId: Swift.String? = nil,
+            threatModelJobId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.createdAt = createdAt
+            self.documents = documents
+            self.errorInformation = errorInformation
+            self.executionEndTime = executionEndTime
+            self.executionStartTime = executionStartTime
+            self.integratedRepositories = integratedRepositories
+            self.scopeDocs = scopeDocs
+            self.sourceCode = sourceCode
+            self.status = status
+            self.systemOverview = systemOverview
+            self.threatModelId = threatModelId
+            self.threatModelJobId = threatModelJobId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetThreatModelJobs operation.
+public struct BatchGetThreatModelJobsOutput: Swift.Sendable {
+    /// The list of threat model job identifiers that were not found.
+    public var notFound: [Swift.String]?
+    /// The list of threat model jobs that were found.
+    public var threatModelJobs: [SecurityAgentClientTypes.ThreatModelJob]?
+
+    public init(
+        notFound: [Swift.String]? = nil,
+        threatModelJobs: [SecurityAgentClientTypes.ThreatModelJob]? = nil
+    ) {
+        self.notFound = notFound
+        self.threatModelJobs = threatModelJobs
+    }
+}
+
+/// Input for retrieving multiple tasks associated with a threat model job.
+public struct BatchGetThreatModelJobTasksInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the tasks.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of task identifiers to retrieve.
+    /// This member is required.
+    public var threatModelJobTaskIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelJobTaskIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelJobTaskIds = threatModelJobTaskIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents an individual task within a threat model job.
+    public struct ThreatModelJobTask: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The date and time the task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// A description of the task.
+        public var description: Swift.String?
+        /// The current execution status of the task.
+        public var executionStatus: SecurityAgentClientTypes.TaskExecutionStatus?
+        /// The location of the task execution logs.
+        public var logsLocation: SecurityAgentClientTypes.LogLocation?
+        /// The unique identifier of the task.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The unique identifier of the threat model associated with the task.
+        public var threatModelId: Swift.String?
+        /// The unique identifier of the threat model job that contains the task.
+        public var threatModelJobId: Swift.String?
+        /// The title of the task.
+        public var title: Swift.String?
+        /// The date and time the task was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            executionStatus: SecurityAgentClientTypes.TaskExecutionStatus? = nil,
+            logsLocation: SecurityAgentClientTypes.LogLocation? = nil,
+            taskId: Swift.String? = nil,
+            threatModelId: Swift.String? = nil,
+            threatModelJobId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.createdAt = createdAt
+            self.description = description
+            self.executionStatus = executionStatus
+            self.logsLocation = logsLocation
+            self.taskId = taskId
+            self.threatModelId = threatModelId
+            self.threatModelJobId = threatModelJobId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetThreatModelJobTasks operation.
+public struct BatchGetThreatModelJobTasksOutput: Swift.Sendable {
+    /// The list of task identifiers that were not found.
+    public var notFound: [Swift.String]?
+    /// The list of threat model job tasks that were found.
+    public var threatModelJobTasks: [SecurityAgentClientTypes.ThreatModelJobTask]?
+
+    public init(
+        notFound: [Swift.String]? = nil,
+        threatModelJobTasks: [SecurityAgentClientTypes.ThreatModelJobTask]? = nil
+    ) {
+        self.notFound = notFound
+        self.threatModelJobTasks = threatModelJobTasks
+    }
+}
+
+/// Input for retrieving multiple threat models by their IDs.
+public struct BatchGetThreatModelsInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat models.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of threat model identifiers to retrieve.
+    /// This member is required.
+    public var threatModelIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelIds = threatModelIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a threat model configuration that defines the parameters for automated threat analysis, including target assets and logging configuration.
+    public struct ThreatModel: Swift.Sendable {
+        /// The unique identifier of the agent space that contains the threat model.
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The assets included in the threat model.
+        /// This member is required.
+        public var assets: SecurityAgentClientTypes.Assets?
+        /// The date and time the threat model was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// A description of the application or system being threat modeled.
+        public var description: Swift.String?
+        /// The CloudWatch Logs configuration for the threat model.
+        public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+        /// The scoped documents for the agent to focus on during threat modeling.
+        public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+        /// The IAM service role used for the threat model.
+        public var serviceRole: Swift.String?
+        /// The unique identifier of the threat model.
+        /// This member is required.
+        public var threatModelId: Swift.String?
+        /// The title of the threat model.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The date and time the threat model was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            assets: SecurityAgentClientTypes.Assets? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+            scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+            serviceRole: Swift.String? = nil,
+            threatModelId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.assets = assets
+            self.createdAt = createdAt
+            self.description = description
+            self.logConfig = logConfig
+            self.scopeDocs = scopeDocs
+            self.serviceRole = serviceRole
+            self.threatModelId = threatModelId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the BatchGetThreatModels operation.
+public struct BatchGetThreatModelsOutput: Swift.Sendable {
+    /// The list of threat model identifiers that were not found.
+    public var notFound: [Swift.String]?
+    /// The list of threat models that were found.
+    public var threatModels: [SecurityAgentClientTypes.ThreatModel]?
+
+    public init(
+        notFound: [Swift.String]? = nil,
+        threatModels: [SecurityAgentClientTypes.ThreatModel]? = nil
+    ) {
+        self.notFound = notFound
+        self.threatModels = threatModels
+    }
+}
+
+/// Input for retrieving multiple threats.
+public struct BatchGetThreatsInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The list of threat identifiers to retrieve.
+    /// This member is required.
+    public var threatIds: [Swift.String]?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatIds: [Swift.String]? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatIds = threatIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// DFD element that a threat is anchored to.
+    public struct ThreatAnchorShape: Swift.Sendable {
+        /// The identifier of the DFD element.
+        public var id: Swift.String?
+        /// The kind of DFD element.
+        public var kind: Swift.String?
+        /// The package identifier containing the DFD element.
+        public var packageId: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            kind: Swift.String? = nil,
+            packageId: Swift.String? = nil
+        ) {
+            self.id = id
+            self.kind = kind
+            self.packageId = packageId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Indicates whether a threat was created or updated by a customer or an agent.
+    public enum ThreatActor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Threat was created or updated by an agent.
+        case agent
+        /// Threat was created or updated by a customer.
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThreatActor] {
+            return [
+                .agent,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Source code file supporting a threat.
+    public struct ThreatEvidenceShape: Swift.Sendable {
+        /// The package identifier containing the evidence file.
+        public var packageId: Swift.String?
+        /// The file path of the evidence.
+        public var path: Swift.String?
+
+        public init(
+            packageId: Swift.String? = nil,
+            path: Swift.String? = nil
+        ) {
+            self.packageId = packageId
+            self.path = path
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Severity level for a threat.
+    public enum ThreatSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case info
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThreatSeverity] {
+            return [
+                .critical,
+                .high,
+                .info,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .info: return "INFO"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Status of a threat.
+    public enum ThreatStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dismissed
+        case `open`
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThreatStatus] {
+            return [
+                .dismissed,
+                .open,
+                .resolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dismissed: return "DISMISSED"
+            case .open: return "OPEN"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// STRIDE threat classification category.
+    public enum StrideCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case denialOfService
+        case elevationOfPrivilege
+        case informationDisclosure
+        case repudiation
+        case spoofing
+        case tampering
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StrideCategory] {
+            return [
+                .denialOfService,
+                .elevationOfPrivilege,
+                .informationDisclosure,
+                .repudiation,
+                .spoofing,
+                .tampering
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .denialOfService: return "DENIAL_OF_SERVICE"
+            case .elevationOfPrivilege: return "ELEVATION_OF_PRIVILEGE"
+            case .informationDisclosure: return "INFORMATION_DISCLOSURE"
+            case .repudiation: return "REPUDIATION"
+            case .spoofing: return "SPOOFING"
+            case .tampering: return "TAMPERING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Represents a threat identified during threat modeling.
+    public struct Threat: Swift.Sendable {
+        /// The DFD element this threat is anchored to.
+        public var anchor: SecurityAgentClientTypes.ThreatAnchorShape?
+        /// Optional customer comment on the threat.
+        public var comments: Swift.String?
+        /// The date and time the threat was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// Who created this threat.
+        public var createdBy: SecurityAgentClientTypes.ThreatActor?
+        /// The source code files supporting the threat.
+        public var evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]?
+        /// The specific assets affected by the threat.
+        public var impactedAssets: [Swift.String]?
+        /// The security goals affected by the threat.
+        public var impactedGoal: [Swift.String]?
+        /// The conditions required for the threat to be exploitable.
+        public var prerequisites: Swift.String?
+        /// The recommended mitigation guidance for this threat.
+        public var recommendation: Swift.String?
+        /// The severity level of the threat.
+        public var severity: SecurityAgentClientTypes.ThreatSeverity?
+        /// The natural-language threat statement.
+        public var statement: Swift.String?
+        /// The current status of the threat.
+        public var status: SecurityAgentClientTypes.ThreatStatus?
+        /// The STRIDE categories applicable to this threat.
+        public var stride: [SecurityAgentClientTypes.StrideCategory]?
+        /// What the threat source can do.
+        public var threatAction: Swift.String?
+        /// The unique identifier of the threat.
+        public var threatId: Swift.String?
+        /// The direct consequence of the threat action.
+        public var threatImpact: Swift.String?
+        /// The unique identifier of the threat model job that produced the threat.
+        public var threatJobId: Swift.String?
+        /// The actor or origin of the threat.
+        public var threatSource: Swift.String?
+        /// A short title summarizing the threat.
+        public var title: Swift.String?
+        /// The date and time the threat was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+        /// Who last updated this threat.
+        public var updatedBy: SecurityAgentClientTypes.ThreatActor?
+
+        public init(
+            anchor: SecurityAgentClientTypes.ThreatAnchorShape? = nil,
+            comments: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: SecurityAgentClientTypes.ThreatActor? = nil,
+            evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]? = nil,
+            impactedAssets: [Swift.String]? = nil,
+            impactedGoal: [Swift.String]? = nil,
+            prerequisites: Swift.String? = nil,
+            recommendation: Swift.String? = nil,
+            severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+            statement: Swift.String? = nil,
+            status: SecurityAgentClientTypes.ThreatStatus? = nil,
+            stride: [SecurityAgentClientTypes.StrideCategory]? = nil,
+            threatAction: Swift.String? = nil,
+            threatId: Swift.String? = nil,
+            threatImpact: Swift.String? = nil,
+            threatJobId: Swift.String? = nil,
+            threatSource: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: SecurityAgentClientTypes.ThreatActor? = nil
+        ) {
+            self.anchor = anchor
+            self.comments = comments
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.evidence = evidence
+            self.impactedAssets = impactedAssets
+            self.impactedGoal = impactedGoal
+            self.prerequisites = prerequisites
+            self.recommendation = recommendation
+            self.severity = severity
+            self.statement = statement
+            self.status = status
+            self.stride = stride
+            self.threatAction = threatAction
+            self.threatId = threatId
+            self.threatImpact = threatImpact
+            self.threatJobId = threatJobId
+            self.threatSource = threatSource
+            self.title = title
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+/// Output for the BatchGetThreats operation.
+public struct BatchGetThreatsOutput: Swift.Sendable {
+    /// The list of threat identifiers that were not found.
+    public var notFound: [Swift.String]?
+    /// The list of threats that were found.
+    public var threats: [SecurityAgentClientTypes.Threat]?
+
+    public init(
+        notFound: [Swift.String]? = nil,
+        threats: [SecurityAgentClientTypes.Threat]? = nil
+    ) {
+        self.notFound = notFound
+        self.threats = threats
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains the details for updating an existing security requirement within a pack. The name is an immutable identifier used to locate the requirement and cannot be modified.
+    public struct UpdateSecurityRequirementEntry: Swift.Sendable {
+        /// The updated description of the security requirement.
+        public var description: Swift.String?
+        /// The updated security domain the requirement belongs to.
+        public var domain: Swift.String?
+        /// The updated evaluation criteria used to assess compliance with this requirement.
+        public var evaluation: Swift.String?
+        /// The name of the security requirement to update. This is an immutable identifier and cannot be changed once the requirement is created.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The updated remediation steps when the requirement is not met.
+        public var remediation: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            evaluation: Swift.String? = nil,
+            name: Swift.String? = nil,
+            remediation: Swift.String? = nil
+        ) {
+            self.description = description
+            self.domain = domain
+            self.evaluation = evaluation
+            self.name = name
+            self.remediation = remediation
+        }
+    }
+}
+
+public struct BatchUpdateSecurityRequirementsInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack containing the requirements to update.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The list of security requirement updates to apply.
+    /// This member is required.
+    public var securityRequirements: [SecurityAgentClientTypes.UpdateSecurityRequirementEntry]?
+
+    public init(
+        packId: Swift.String? = nil,
+        securityRequirements: [SecurityAgentClientTypes.UpdateSecurityRequirementEntry]? = nil
+    ) {
+        self.packId = packId
+        self.securityRequirements = securityRequirements
+    }
+}
+
+public struct BatchUpdateSecurityRequirementsOutput: Swift.Sendable {
+    /// The list of errors for security requirements that failed to be updated.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]?
+    /// The list of security requirement names that were successfully updated.
+    /// This member is required.
+    public var updatedSecurityRequirementNames: [Swift.String]?
+
+    public init(
+        errors: [SecurityAgentClientTypes.BatchSecurityRequirementError]? = nil,
+        updatedSecurityRequirementNames: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.updatedSecurityRequirementNames = updatedSecurityRequirementNames
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for creating a Bitbucket integration.
+    public struct BitbucketIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned from the consent redirect.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The Atlassian installation identifier, available from the Atlassian administration console.
+        /// This member is required.
+        public var installationId: Swift.String?
+        /// The CSRF state token echoed back from the OAuth redirect.
+        /// This member is required.
+        public var state: Swift.String?
+        /// The Bitbucket workspace slug that identifies the workspace to integrate, for example acme-corp.
+        /// This member is required.
+        public var workspace: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            installationId: Swift.String? = nil,
+            state: Swift.String? = nil,
+            workspace: Swift.String? = nil
+        ) {
+            self.code = code
+            self.installationId = installationId
+            self.state = state
+            self.workspace = workspace
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Metadata for an integrated Bitbucket repository.
+    public struct BitbucketRepositoryMetadata: Swift.Sendable {
+        /// Defines the visibility level of provider resources. PRIVATE indicates restricted access, while PUBLIC indicates open access.
+        public var accessType: SecurityAgentClientTypes.AccessType?
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+        /// The workspace slug that owns the repository.
+        /// This member is required.
+        public var workspace: Swift.String?
+
+        public init(
+            accessType: SecurityAgentClientTypes.AccessType? = nil,
+            name: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil,
+            workspace: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.name = name
+            self.providerResourceId = providerResourceId
+            self.workspace = workspace
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A Bitbucket repository integrated as a resource.
+    public struct BitbucketRepositoryResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The workspace slug that owns the repository.
+        /// This member is required.
+        public var workspace: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            workspace: Swift.String? = nil
+        ) {
+            self.name = name
+            self.workspace = workspace
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated Bitbucket repository.
+    public struct BitbucketResourceCapabilities: Swift.Sendable {
+        /// Whether to post code review comments on pull requests.
+        public var leaveComments: Swift.Bool?
+        /// Whether to create pull requests with automated fixes.
+        public var remediateCode: Swift.Bool?
+
+        public init(
+            leaveComments: Swift.Bool? = nil,
+            remediateCode: Swift.Bool? = nil
+        ) {
+            self.leaveComments = leaveComments
+            self.remediateCode = remediateCode
+        }
+    }
+}
+
 extension SecurityAgentClientTypes {
 
     /// Contains summary information about a code review job.
@@ -3396,28 +4719,130 @@ extension SecurityAgentClientTypes {
     }
 }
 
-/// The request could not be completed due to a conflict with the current state of the resource.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension SecurityAgentClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// Error description.
+    /// Metadata for an integrated Confluence document.
+    public struct ConfluenceDocumentMetadata: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
         /// This member is required.
-        public internal(set) var message: Swift.String? = nil
+        public var name: Swift.String?
+        /// The Confluence page identifier.
+        /// This member is required.
+        public var pageId: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+        /// The Confluence space key containing the document.
+        /// This member is required.
+        public var spaceKey: Swift.String?
+        /// The display title of the Confluence space.
+        public var spaceTitle: Swift.String?
+        /// The display title of the Confluence page.
+        public var title: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            pageId: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil,
+            spaceKey: Swift.String? = nil,
+            spaceTitle: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.name = name
+            self.pageId = pageId
+            self.providerResourceId = providerResourceId
+            self.spaceKey = spaceKey
+            self.spaceTitle = spaceTitle
+            self.title = title
+        }
     }
+}
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+extension SecurityAgentClientTypes {
 
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+    /// A Confluence document (page) integrated as a resource.
+    public struct ConfluenceDocumentResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Confluence page identifier.
+        /// This member is required.
+        public var pageId: Swift.String?
+        /// The Confluence space key containing the document.
+        /// This member is required.
+        public var spaceKey: Swift.String?
+        /// The display title of the Confluence space.
+        public var spaceTitle: Swift.String?
+        /// The display title of the Confluence page.
+        public var title: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            pageId: Swift.String? = nil,
+            spaceKey: Swift.String? = nil,
+            spaceTitle: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.name = name
+            self.pageId = pageId
+            self.spaceKey = spaceKey
+            self.spaceTitle = spaceTitle
+            self.title = title
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for creating a Confluence integration.
+    public struct ConfluenceIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned from the consent redirect.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The Atlassian installation identifier, available from the Atlassian administration console.
+        /// This member is required.
+        public var installationId: Swift.String?
+        /// The Confluence Cloud site URL, for example https://mysite.atlassian.net.
+        /// This member is required.
+        public var siteUrl: Swift.String?
+        /// The CSRF state token echoed back from the OAuth redirect.
+        /// This member is required.
+        public var state: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            installationId: Swift.String? = nil,
+            siteUrl: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.code = code
+            self.installationId = installationId
+            self.siteUrl = siteUrl
+            self.state = state
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated Confluence space.
+    public struct ConfluenceResourceCapabilities: Swift.Sendable {
+        /// Whether to create documents in this space.
+        public var createDocument: Swift.Bool?
+        /// Whether to fetch documents from this space.
+        public var fetchDocument: Swift.Bool?
+        /// Whether to update documents in this space.
+        public var updateDocument: Swift.Bool?
+
+        public init(
+            createDocument: Swift.Bool? = nil,
+            fetchDocument: Swift.Bool? = nil,
+            updateDocument: Swift.Bool? = nil
+        ) {
+            self.createDocument = createDocument
+            self.fetchDocument = fetchDocument
+            self.updateDocument = updateDocument
+        }
     }
 }
 
@@ -3438,6 +4863,8 @@ public struct CreateCodeReviewInput: Swift.Sendable {
     /// The title of the code review.
     /// This member is required.
     public var title: Swift.String?
+    /// The validation mode for the code review. Valid values are SIMULATED and DISABLED.
+    public var validationMode: SecurityAgentClientTypes.ValidationMode?
 
     public init(
         agentSpaceId: Swift.String? = nil,
@@ -3445,7 +4872,8 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         serviceRole: Swift.String? = nil,
-        title: Swift.String? = nil
+        title: Swift.String? = nil,
+        validationMode: SecurityAgentClientTypes.ValidationMode? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
@@ -3453,6 +4881,7 @@ public struct CreateCodeReviewInput: Swift.Sendable {
         self.logConfig = logConfig
         self.serviceRole = serviceRole
         self.title = title
+        self.validationMode = validationMode
     }
 }
 
@@ -3477,6 +4906,8 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
     public var title: Swift.String?
     /// The date and time the code review was last updated, in UTC format.
     public var updatedAt: Foundation.Date?
+    /// The validation mode for the code review.
+    public var validationMode: SecurityAgentClientTypes.ValidationMode?
 
     public init(
         agentSpaceId: Swift.String? = nil,
@@ -3487,7 +4918,8 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        validationMode: SecurityAgentClientTypes.ValidationMode? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
@@ -3498,6 +4930,7 @@ public struct CreateCodeReviewOutput: Swift.Sendable {
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
+        self.validationMode = validationMode
     }
 }
 
@@ -3508,44 +4941,44 @@ extension SecurityAgentClientTypes {
         /// The OAuth authorization code received from GitHub.
         /// This member is required.
         public var code: Swift.String?
+        /// The installation identifier provided by GitHub Enterprise Server on the install callback. Required for GitHub Enterprise Server integrations and ignored for GitHub.com.
+        public var installationId: Swift.String?
         /// The name of the GitHub organization to integrate with.
         public var organizationName: Swift.String?
         /// The CSRF state token for validating the OAuth flow.
         /// This member is required.
         public var state: Swift.String?
+        /// The HTTPS URL of a self-hosted GitHub Enterprise Server instance. Omit this value for GitHub.com.
+        public var targetUrl: Swift.String?
 
         public init(
             code: Swift.String? = nil,
+            installationId: Swift.String? = nil,
             organizationName: Swift.String? = nil,
-            state: Swift.String? = nil
+            state: Swift.String? = nil,
+            targetUrl: Swift.String? = nil
         ) {
             self.code = code
+            self.installationId = installationId
             self.organizationName = organizationName
             self.state = state
+            self.targetUrl = targetUrl
         }
     }
 }
 
 extension SecurityAgentClientTypes {
 
-    /// The provider-specific input for creating an integration. This is a union type that contains provider-specific configuration.
-    public enum ProviderInput: Swift.Sendable {
-        /// The GitHub-specific input for creating an integration.
-        case github(SecurityAgentClientTypes.GitHubIntegrationInput)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Third-party provider type.
-    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case github
+    /// The type of GitLab access token.
+    public enum GitLabTokenType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case group
+        case personal
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [Provider] {
+        public static var allCases: [GitLabTokenType] {
             return [
-                .github
+                .group,
+                .personal
             ]
         }
 
@@ -3556,7 +4989,94 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .group: return "GROUP"
+            case .personal: return "PERSONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for creating a GitLab integration.
+    public struct GitLabIntegrationInput: Swift.Sendable {
+        /// The GitLab access token used to authenticate. This can be a personal access token or a group access token.
+        /// This member is required.
+        public var accessToken: Swift.String?
+        /// The identifier of the GitLab group. Required when tokenType is group and ignored for personal tokens.
+        public var groupId: Swift.String?
+        /// The HTTPS URL of a self-managed GitLab instance. Omit this value for GitLab SaaS (gitlab.com).
+        public var targetUrl: Swift.String?
+        /// The type of GitLab access token provided in accessToken.
+        /// This member is required.
+        public var tokenType: SecurityAgentClientTypes.GitLabTokenType?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            groupId: Swift.String? = nil,
+            targetUrl: Swift.String? = nil,
+            tokenType: SecurityAgentClientTypes.GitLabTokenType? = nil
+        ) {
+            self.accessToken = accessToken
+            self.groupId = groupId
+            self.targetUrl = targetUrl
+            self.tokenType = tokenType
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.GitLabIntegrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GitLabIntegrationInput(groupId: \(Swift.String(describing: groupId)), targetUrl: \(Swift.String(describing: targetUrl)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\")"}
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The provider-specific input for creating an integration. This is a union type that contains provider-specific configuration.
+    public enum ProviderInput: Swift.Sendable {
+        /// The GitHub-specific input for creating an integration.
+        case github(SecurityAgentClientTypes.GitHubIntegrationInput)
+        /// The configuration for a GitLab integration.
+        case gitlab(SecurityAgentClientTypes.GitLabIntegrationInput)
+        /// The configuration for a Bitbucket integration.
+        case bitbucket(SecurityAgentClientTypes.BitbucketIntegrationInput)
+        /// The configuration for a Confluence integration.
+        case confluence(SecurityAgentClientTypes.ConfluenceIntegrationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Third-party provider type.
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bitbucket
+        case confluence
+        case github
+        case gitlab
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .bitbucket,
+                .confluence,
+                .github,
+                .gitlab
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bitbucket: return "BITBUCKET"
+            case .confluence: return "CONFLUENCE"
             case .github: return "GITHUB"
+            case .gitlab: return "GITLAB"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3572,6 +5092,8 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var integrationDisplayName: Swift.String?
     /// The identifier of the AWS KMS key to use for encrypting data associated with the integration.
     public var kmsKeyId: Swift.String?
+    /// The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
+    public var privateConnectionName: Swift.String?
     /// The integration provider. Currently, only GITHUB is supported.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
@@ -3582,12 +5104,14 @@ public struct CreateIntegrationInput: Swift.Sendable {
         input: SecurityAgentClientTypes.ProviderInput? = nil,
         integrationDisplayName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        privateConnectionName: Swift.String? = nil,
         provider: SecurityAgentClientTypes.Provider? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.input = input
         self.integrationDisplayName = integrationDisplayName
         self.kmsKeyId = kmsKeyId
+        self.privateConnectionName = privateConnectionName
         self.provider = provider
         self.tags = tags
     }
@@ -3733,6 +5257,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var assets: SecurityAgentClientTypes.Assets?
     /// The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
+    public var disableManagedSkills: [SecurityAgentClientTypes.SkillType]?
     /// The list of risk types to exclude from the pentest.
     public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
     /// The CloudWatch Logs configuration for the pentest.
@@ -3751,6 +5277,7 @@ public struct CreatePentestInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
@@ -3761,6 +5288,7 @@ public struct CreatePentestInput: Swift.Sendable {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
         self.codeRemediationStrategy = codeRemediationStrategy
+        self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
         self.networkTrafficConfig = networkTrafficConfig
@@ -3811,6 +5339,383 @@ public struct CreatePentestOutput: Swift.Sendable {
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for a self-managed private connection.
+    public struct SelfManagedInput: Swift.Sendable {
+        /// The certificate for the private connection.
+        public var certificate: Swift.String?
+        /// The identifier or ARN of the resource configuration.
+        /// This member is required.
+        public var resourceConfigurationId: Swift.String?
+
+        public init(
+            certificate: Swift.String? = nil,
+            resourceConfigurationId: Swift.String? = nil
+        ) {
+            self.certificate = certificate
+            self.resourceConfigurationId = resourceConfigurationId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.SelfManagedInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SelfManagedInput(resourceConfigurationId: \(Swift.String(describing: resourceConfigurationId)), certificate: \"CONTENT_REDACTED\")"}
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The DNS resolution mode for a resource gateway.
+    public enum ResourceConfigDnsResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inVpc
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceConfigDnsResolution] {
+            return [
+                .inVpc,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inVpc: return "IN_VPC"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The IP address type of a resource gateway.
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualStack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DUAL_STACK"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for a service-managed private connection.
+    public struct ServiceManagedInput: Swift.Sendable {
+        /// The certificate for the private connection.
+        public var certificate: Swift.String?
+        /// The DNS resolution mode for the resource gateway. Defaults to PUBLIC when not set.
+        public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+        /// The IP address or DNS name of the target resource.
+        /// This member is required.
+        public var hostAddress: Swift.String?
+        /// The IP address type of the service-managed resource gateway.
+        public var ipAddressType: SecurityAgentClientTypes.IpAddressType?
+        /// The number of IPv4 addresses in each elastic network interface for the service-managed resource gateway.
+        public var ipv4AddressesPerEni: Swift.Int?
+        /// The TCP port ranges that a consumer can use to access the resource.
+        public var portRanges: [Swift.String]?
+        /// The security groups to attach to the service-managed resource gateway.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnets that the service-managed resource gateway spans.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+        /// The VPC to create the service-managed resource gateway in.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            certificate: Swift.String? = nil,
+            dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+            hostAddress: Swift.String? = nil,
+            ipAddressType: SecurityAgentClientTypes.IpAddressType? = nil,
+            ipv4AddressesPerEni: Swift.Int? = nil,
+            portRanges: [Swift.String]? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.certificate = certificate
+            self.dnsResolution = dnsResolution
+            self.hostAddress = hostAddress
+            self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
+            self.portRanges = portRanges
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.ServiceManagedInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceManagedInput(dnsResolution: \(Swift.String(describing: dnsResolution)), hostAddress: \(Swift.String(describing: hostAddress)), ipAddressType: \(Swift.String(describing: ipAddressType)), ipv4AddressesPerEni: \(Swift.String(describing: ipv4AddressesPerEni)), portRanges: \(Swift.String(describing: portRanges)), securityGroupIds: \(Swift.String(describing: securityGroupIds)), subnetIds: \(Swift.String(describing: subnetIds)), vpcId: \(Swift.String(describing: vpcId)), certificate: \"CONTENT_REDACTED\")"}
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration for a private connection. Specify either a service-managed or a self-managed mode.
+    public enum PrivateConnectionMode: Swift.Sendable {
+        /// The configuration for a service-managed private connection, where the service manages the resource gateway lifecycle.
+        case servicemanaged(SecurityAgentClientTypes.ServiceManagedInput)
+        /// The configuration for a self-managed private connection, where you manage your own resource configuration.
+        case selfmanaged(SecurityAgentClientTypes.SelfManagedInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreatePrivateConnectionInput: Swift.Sendable {
+    /// The configuration for the private connection. Specify either a service-managed or a self-managed mode.
+    /// This member is required.
+    public var mode: SecurityAgentClientTypes.PrivateConnectionMode?
+    /// A unique name for the private connection within your account.
+    /// This member is required.
+    public var privateConnectionName: Swift.String?
+    /// The tags to attach to the private connection.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        mode: SecurityAgentClientTypes.PrivateConnectionMode? = nil,
+        privateConnectionName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.mode = mode
+        self.privateConnectionName = privateConnectionName
+        self.tags = tags
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The status of a private connection.
+    public enum PrivateConnectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case createInProgress
+        case deleteFailed
+        case deleteInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivateConnectionStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The type of a private connection, indicating whether it is service-managed or self-managed.
+    public enum PrivateConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfManaged
+        case serviceManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivateConnectionType] {
+            return [
+                .selfManaged,
+                .serviceManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .selfManaged: return "SELF_MANAGED"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePrivateConnectionOutput: Swift.Sendable {
+    /// The date and time the connection's certificate expires, in UTC format.
+    public var certificateExpiryTime: Foundation.Date?
+    /// The DNS resolution mode for the resource gateway.
+    public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+    /// A message describing why the private connection entered a failed state, if applicable.
+    public var failureMessage: Swift.String?
+    /// The IP address or DNS name of the target resource.
+    public var hostAddress: Swift.String?
+    /// The name of the private connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource configuration.
+    public var resourceConfigurationId: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource gateway.
+    public var resourceGatewayId: Swift.String?
+    /// The current status of the private connection.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.PrivateConnectionStatus?
+    /// The tags attached to the private connection.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of the private connection, indicating whether it is service-managed or self-managed.
+    /// This member is required.
+    public var type: SecurityAgentClientTypes.PrivateConnectionType?
+    /// The identifier of the VPC the resource gateway is created in.
+    public var vpcId: Swift.String?
+
+    public init(
+        certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
+        hostAddress: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.PrivateConnectionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: SecurityAgentClientTypes.PrivateConnectionType? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
+        self.hostAddress = hostAddress
+        self.name = name
+        self.resourceConfigurationId = resourceConfigurationId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.vpcId = vpcId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    public enum SecurityRequirementPackStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityRequirementPackStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateSecurityRequirementPackInput: Swift.Sendable {
+    /// A description of the security requirement pack.
+    public var description: Swift.String?
+    /// The identifier of the AWS KMS key used to encrypt pack contents.
+    public var kmsKeyId: Swift.String?
+    /// The name of the security requirement pack.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the pack. Defaults to ENABLED if not provided.
+    public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+    /// The tags to associate with the security requirement pack.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.kmsKeyId = kmsKeyId
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+public struct CreateSecurityRequirementPackOutput: Swift.Sendable {
+    /// The identifier of the AWS KMS key used to encrypt pack contents.
+    public var kmsKeyId: Swift.String?
+    /// The unique identifier of the created security requirement pack.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The status of the created security requirement pack.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+
+    public init(
+        kmsKeyId: Swift.String? = nil,
+        packId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil
+    ) {
+        self.kmsKeyId = kmsKeyId
+        self.packId = packId
+        self.status = status
     }
 }
 
@@ -3872,6 +5777,295 @@ public struct CreateTargetDomainOutput: Swift.Sendable {
         self.verificationStatus = verificationStatus
         self.verificationStatusReason = verificationStatusReason
         self.verifiedAt = verifiedAt
+    }
+}
+
+/// Input for creating a new threat.
+public struct CreateThreatInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The DFD element this threat is anchored to.
+    public var anchor: SecurityAgentClientTypes.ThreatAnchorShape?
+    /// Optional customer comment on the threat.
+    public var comments: Swift.String?
+    /// The source code files supporting the threat.
+    public var evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]?
+    /// The specific assets affected by the threat.
+    public var impactedAssets: [Swift.String]?
+    /// The security goals affected by the threat.
+    public var impactedGoal: [Swift.String]?
+    /// The conditions required for the threat to be exploitable.
+    public var prerequisites: Swift.String?
+    /// The recommended mitigation guidance for this threat.
+    public var recommendation: Swift.String?
+    /// The severity level of the threat.
+    public var severity: SecurityAgentClientTypes.ThreatSeverity?
+    /// The natural-language threat statement.
+    public var statement: Swift.String?
+    /// The STRIDE categories applicable to this threat.
+    public var stride: [SecurityAgentClientTypes.StrideCategory]?
+    /// What the threat source can do.
+    public var threatAction: Swift.String?
+    /// The direct consequence of the threat action.
+    public var threatImpact: Swift.String?
+    /// The unique identifier of the threat model job the threat belongs to.
+    /// This member is required.
+    public var threatJobId: Swift.String?
+    /// The actor or origin of the threat.
+    public var threatSource: Swift.String?
+    /// A short title summarizing the threat.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        anchor: SecurityAgentClientTypes.ThreatAnchorShape? = nil,
+        comments: Swift.String? = nil,
+        evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]? = nil,
+        impactedAssets: [Swift.String]? = nil,
+        impactedGoal: [Swift.String]? = nil,
+        prerequisites: Swift.String? = nil,
+        recommendation: Swift.String? = nil,
+        severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+        statement: Swift.String? = nil,
+        stride: [SecurityAgentClientTypes.StrideCategory]? = nil,
+        threatAction: Swift.String? = nil,
+        threatImpact: Swift.String? = nil,
+        threatJobId: Swift.String? = nil,
+        threatSource: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.anchor = anchor
+        self.comments = comments
+        self.evidence = evidence
+        self.impactedAssets = impactedAssets
+        self.impactedGoal = impactedGoal
+        self.prerequisites = prerequisites
+        self.recommendation = recommendation
+        self.severity = severity
+        self.statement = statement
+        self.stride = stride
+        self.threatAction = threatAction
+        self.threatImpact = threatImpact
+        self.threatJobId = threatJobId
+        self.threatSource = threatSource
+        self.title = title
+    }
+}
+
+/// Output for the CreateThreat operation.
+public struct CreateThreatOutput: Swift.Sendable {
+    /// The DFD element this threat is anchored to.
+    public var anchor: SecurityAgentClientTypes.ThreatAnchorShape?
+    /// Optional customer comment on the threat.
+    public var comments: Swift.String?
+    /// The date and time the threat was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// Who created this threat.
+    public var createdBy: SecurityAgentClientTypes.ThreatActor?
+    /// The source code files supporting the threat.
+    public var evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]?
+    /// The specific assets affected by the threat.
+    public var impactedAssets: [Swift.String]?
+    /// The security goals affected by the threat.
+    public var impactedGoal: [Swift.String]?
+    /// The conditions required for the threat to be exploitable.
+    public var prerequisites: Swift.String?
+    /// The recommended mitigation guidance for this threat.
+    public var recommendation: Swift.String?
+    /// The severity level of the threat.
+    public var severity: SecurityAgentClientTypes.ThreatSeverity?
+    /// The natural-language threat statement.
+    public var statement: Swift.String?
+    /// The current status of the threat.
+    public var status: SecurityAgentClientTypes.ThreatStatus?
+    /// The STRIDE categories applicable to this threat.
+    public var stride: [SecurityAgentClientTypes.StrideCategory]?
+    /// What the threat source can do.
+    public var threatAction: Swift.String?
+    /// The unique identifier of the created threat.
+    /// This member is required.
+    public var threatId: Swift.String?
+    /// The direct consequence of the threat action.
+    public var threatImpact: Swift.String?
+    /// The unique identifier of the threat model job the threat belongs to.
+    /// This member is required.
+    public var threatJobId: Swift.String?
+    /// The actor or origin of the threat.
+    public var threatSource: Swift.String?
+    /// A short title summarizing the threat.
+    public var title: Swift.String?
+    /// The date and time the threat was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+    /// Who last updated this threat.
+    public var updatedBy: SecurityAgentClientTypes.ThreatActor?
+
+    public init(
+        anchor: SecurityAgentClientTypes.ThreatAnchorShape? = nil,
+        comments: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: SecurityAgentClientTypes.ThreatActor? = nil,
+        evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]? = nil,
+        impactedAssets: [Swift.String]? = nil,
+        impactedGoal: [Swift.String]? = nil,
+        prerequisites: Swift.String? = nil,
+        recommendation: Swift.String? = nil,
+        severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+        statement: Swift.String? = nil,
+        status: SecurityAgentClientTypes.ThreatStatus? = nil,
+        stride: [SecurityAgentClientTypes.StrideCategory]? = nil,
+        threatAction: Swift.String? = nil,
+        threatId: Swift.String? = nil,
+        threatImpact: Swift.String? = nil,
+        threatJobId: Swift.String? = nil,
+        threatSource: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: SecurityAgentClientTypes.ThreatActor? = nil
+    ) {
+        self.anchor = anchor
+        self.comments = comments
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.evidence = evidence
+        self.impactedAssets = impactedAssets
+        self.impactedGoal = impactedGoal
+        self.prerequisites = prerequisites
+        self.recommendation = recommendation
+        self.severity = severity
+        self.statement = statement
+        self.status = status
+        self.stride = stride
+        self.threatAction = threatAction
+        self.threatId = threatId
+        self.threatImpact = threatImpact
+        self.threatJobId = threatJobId
+        self.threatSource = threatSource
+        self.title = title
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Destination for publishing scan reports to an integrated document provider.
+    public struct ReportDestination: Swift.Sendable {
+        /// The container identifier where the report will be published.
+        /// This member is required.
+        public var containerId: Swift.String?
+        /// The existing document identifier to update instead of creating a new document.
+        public var documentId: Swift.String?
+        /// The integration identifier for the document provider.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The parent document identifier under which the report will be created.
+        public var parentId: Swift.String?
+
+        public init(
+            containerId: Swift.String? = nil,
+            documentId: Swift.String? = nil,
+            integrationId: Swift.String? = nil,
+            parentId: Swift.String? = nil
+        ) {
+            self.containerId = containerId
+            self.documentId = documentId
+            self.integrationId = integrationId
+            self.parentId = parentId
+        }
+    }
+}
+
+/// Input for creating a new threat model.
+public struct CreateThreatModelInput: Swift.Sendable {
+    /// The unique identifier of the agent space to create the threat model in.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The assets to include in the threat model.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// A description of the application or system being threat modeled.
+    public var description: Swift.String?
+    /// The CloudWatch Logs configuration for the threat model.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The destination for publishing scan reports to an integrated document provider.
+    public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+    /// The scoped documents for the agent to focus on during threat modeling.
+    public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+    /// The IAM service role to use for the threat model.
+    /// This member is required.
+    public var serviceRole: Swift.String?
+    /// The title of the threat model.
+    /// This member is required.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        description: Swift.String? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+        scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+        serviceRole: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.description = description
+        self.logConfig = logConfig
+        self.reportDestination = reportDestination
+        self.scopeDocs = scopeDocs
+        self.serviceRole = serviceRole
+        self.title = title
+    }
+}
+
+/// Output for the CreateThreatModel operation.
+public struct CreateThreatModelOutput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat model.
+    public var agentSpaceId: Swift.String?
+    /// The assets included in the threat model.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The date and time the threat model was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// A description of the application or system being threat modeled.
+    public var description: Swift.String?
+    /// The CloudWatch Logs configuration for the threat model.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The scoped documents for the agent to focus on during threat modeling.
+    public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+    /// The IAM service role used for the threat model.
+    public var serviceRole: Swift.String?
+    /// The unique identifier of the created threat model.
+    /// This member is required.
+    public var threatModelId: Swift.String?
+    /// The title of the threat model.
+    public var title: Swift.String?
+    /// The date and time the threat model was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+        serviceRole: Swift.String? = nil,
+        threatModelId: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.createdAt = createdAt
+        self.description = description
+        self.logConfig = logConfig
+        self.scopeDocs = scopeDocs
+        self.serviceRole = serviceRole
+        self.threatModelId = threatModelId
+        self.title = title
+        self.updatedAt = updatedAt
     }
 }
 
@@ -3947,6 +6141,89 @@ public struct DeleteMembershipOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeletePrivateConnectionInput: Swift.Sendable {
+    /// The name of the private connection to delete.
+    /// This member is required.
+    public var privateConnectionName: Swift.String?
+
+    public init(
+        privateConnectionName: Swift.String? = nil
+    ) {
+        self.privateConnectionName = privateConnectionName
+    }
+}
+
+public struct DeletePrivateConnectionOutput: Swift.Sendable {
+    /// The date and time the connection's certificate expires, in UTC format.
+    public var certificateExpiryTime: Foundation.Date?
+    /// The DNS resolution mode for the resource gateway.
+    public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+    /// A message describing why the private connection entered a failed state, if applicable.
+    public var failureMessage: Swift.String?
+    /// The IP address or DNS name of the target resource.
+    public var hostAddress: Swift.String?
+    /// The name of the private connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource configuration.
+    public var resourceConfigurationId: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource gateway.
+    public var resourceGatewayId: Swift.String?
+    /// The current status of the private connection.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.PrivateConnectionStatus?
+    /// The tags attached to the private connection.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of the private connection, indicating whether it is service-managed or self-managed.
+    /// This member is required.
+    public var type: SecurityAgentClientTypes.PrivateConnectionType?
+    /// The identifier of the VPC the resource gateway is created in.
+    public var vpcId: Swift.String?
+
+    public init(
+        certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
+        hostAddress: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.PrivateConnectionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: SecurityAgentClientTypes.PrivateConnectionType? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
+        self.hostAddress = hostAddress
+        self.name = name
+        self.resourceConfigurationId = resourceConfigurationId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.vpcId = vpcId
+    }
+}
+
+public struct DeleteSecurityRequirementPackInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack to delete.
+    /// This member is required.
+    public var packId: Swift.String?
+
+    public init(
+        packId: Swift.String? = nil
+    ) {
+        self.packId = packId
+    }
+}
+
+public struct DeleteSecurityRequirementPackOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Input for deleting a target domain.
 public struct DeleteTargetDomainInput: Swift.Sendable {
     /// The unique identifier of the target domain to delete.
@@ -3969,6 +6246,82 @@ public struct DeleteTargetDomainOutput: Swift.Sendable {
         targetDomainId: Swift.String? = nil
     ) {
         self.targetDomainId = targetDomainId
+    }
+}
+
+public struct DescribePrivateConnectionInput: Swift.Sendable {
+    /// The name of the private connection to describe.
+    /// This member is required.
+    public var privateConnectionName: Swift.String?
+
+    public init(
+        privateConnectionName: Swift.String? = nil
+    ) {
+        self.privateConnectionName = privateConnectionName
+    }
+}
+
+public struct DescribePrivateConnectionOutput: Swift.Sendable {
+    /// The date and time the connection's certificate expires, in UTC format.
+    public var certificateExpiryTime: Foundation.Date?
+    /// The DNS resolution mode for the resource gateway.
+    public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+    /// A message describing why the private connection entered a failed state, if applicable.
+    public var failureMessage: Swift.String?
+    /// The IP address or DNS name of the target resource.
+    public var hostAddress: Swift.String?
+    /// The name of the private connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource configuration.
+    public var resourceConfigurationId: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource gateway.
+    public var resourceGatewayId: Swift.String?
+    /// The current status of the private connection.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.PrivateConnectionStatus?
+    /// The tags attached to the private connection.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of the private connection, indicating whether it is service-managed or self-managed.
+    /// This member is required.
+    public var type: SecurityAgentClientTypes.PrivateConnectionType?
+    /// The identifier of the VPC the resource gateway is created in.
+    public var vpcId: Swift.String?
+
+    public init(
+        certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
+        hostAddress: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.PrivateConnectionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: SecurityAgentClientTypes.PrivateConnectionType? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
+        self.hostAddress = hostAddress
+        self.name = name
+        self.resourceConfigurationId = resourceConfigurationId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.vpcId = vpcId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Source of the diff for a differential code scan.
+    public enum DiffSource: Swift.Sendable {
+        /// S3 URI pointing to a unified diff file. The file must be in standard unified diff format and stored in an S3 bucket connected to your Agent Space.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -4047,6 +6400,8 @@ extension SecurityAgentClientTypes {
         public var status: SecurityAgentClientTypes.FindingStatus?
         /// The date and time the finding was last updated, in UTC format.
         public var updatedAt: Foundation.Date?
+        /// The simulated validation status of the finding.
+        public var validationStatus: SecurityAgentClientTypes.ValidationStatus?
 
         public init(
             agentSpaceId: Swift.String? = nil,
@@ -4061,7 +6416,8 @@ extension SecurityAgentClientTypes {
             riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
             riskType: Swift.String? = nil,
             status: SecurityAgentClientTypes.FindingStatus? = nil,
-            updatedAt: Foundation.Date? = nil
+            updatedAt: Foundation.Date? = nil,
+            validationStatus: SecurityAgentClientTypes.ValidationStatus? = nil
         ) {
             self.agentSpaceId = agentSpaceId
             self.codeReviewId = codeReviewId
@@ -4076,6 +6432,7 @@ extension SecurityAgentClientTypes {
             self.riskType = riskType
             self.status = status
             self.updatedAt = updatedAt
+            self.validationStatus = validationStatus
         }
     }
 }
@@ -4182,27 +6539,164 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var integrationId: Swift.String?
     /// The identifier of the AWS KMS key used to encrypt data associated with the integration.
     public var kmsKeyId: Swift.String?
+    /// The name of the private connection used to reach the integration's self-hosted instance over private networking, if one is configured.
+    public var privateConnectionName: Swift.String?
     /// The integration provider.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
     /// The type of the integration provider.
     /// This member is required.
     public var providerType: SecurityAgentClientTypes.ProviderType?
+    /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
+    public var targetUrl: Swift.String?
 
     public init(
         displayName: Swift.String? = nil,
         installationId: Swift.String? = nil,
         integrationId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        privateConnectionName: Swift.String? = nil,
         provider: SecurityAgentClientTypes.Provider? = nil,
-        providerType: SecurityAgentClientTypes.ProviderType? = nil
+        providerType: SecurityAgentClientTypes.ProviderType? = nil,
+        targetUrl: Swift.String? = nil
     ) {
         self.displayName = displayName
         self.installationId = installationId
         self.integrationId = integrationId
         self.kmsKeyId = kmsKeyId
+        self.privateConnectionName = privateConnectionName
         self.provider = provider
         self.providerType = providerType
+        self.targetUrl = targetUrl
+    }
+}
+
+public struct GetSecurityRequirementPackInput: Swift.Sendable {
+    /// The unique identifier of the security requirement pack to retrieve.
+    /// This member is required.
+    public var packId: Swift.String?
+
+    public init(
+        packId: Swift.String? = nil
+    ) {
+        self.packId = packId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    public enum SecurityRequirementPackImportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityRequirementPackImportStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    public enum ManagementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagementType] {
+            return [
+                .awsManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSecurityRequirementPackOutput: Swift.Sendable {
+    /// The date and time the security requirement pack was created, in UTC format.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// A description of the security requirement pack.
+    public var description: Swift.String?
+    /// The status of the security requirements import workflow for this pack.
+    public var importStatus: SecurityAgentClientTypes.SecurityRequirementPackImportStatus?
+    /// The identifier of the AWS KMS key used to encrypt pack contents.
+    public var kmsKeyId: Swift.String?
+    /// The management type of the pack. Valid values are AWS_MANAGED and CUSTOMER_MANAGED.
+    /// This member is required.
+    public var managementType: SecurityAgentClientTypes.ManagementType?
+    /// The name of the security requirement pack.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The unique identifier of the security requirement pack.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The status of the security requirement pack.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+    /// The date and time the security requirement pack was last updated, in UTC format.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The vendor name for AWS managed packs, such as ISO or NIST.
+    public var vendorName: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        importStatus: SecurityAgentClientTypes.SecurityRequirementPackImportStatus? = nil,
+        kmsKeyId: Swift.String? = nil,
+        managementType: SecurityAgentClientTypes.ManagementType? = nil,
+        name: Swift.String? = nil,
+        packId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        vendorName: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.importStatus = importStatus
+        self.kmsKeyId = kmsKeyId
+        self.managementType = managementType
+        self.name = name
+        self.packId = packId
+        self.status = status
+        self.updatedAt = updatedAt
+        self.vendorName = vendorName
     }
 }
 
@@ -4276,6 +6770,189 @@ extension SecurityAgentClientTypes {
     }
 }
 
+extension SecurityAgentClientTypes {
+
+    /// Metadata for an integrated GitLab repository.
+    public struct GitLabRepositoryMetadata: Swift.Sendable {
+        /// Defines the visibility level of provider resources. PRIVATE indicates restricted access, while PUBLIC indicates open access.
+        public var accessType: SecurityAgentClientTypes.AccessType?
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The namespace (group or user path) that owns the project.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+
+        public init(
+            accessType: SecurityAgentClientTypes.AccessType? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.name = name
+            self.namespace = namespace
+            self.providerResourceId = providerResourceId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A GitLab repository integrated as a resource.
+    public struct GitLabRepositoryResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The namespace (group or user path) that owns the project.
+        /// This member is required.
+        public var namespace: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil
+        ) {
+            self.name = name
+            self.namespace = namespace
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated GitLab repository.
+    public struct GitLabResourceCapabilities: Swift.Sendable {
+        /// Whether to post code review comments on merge request discussions.
+        public var leaveComments: Swift.Bool?
+        /// Whether to create merge requests with automated fixes.
+        public var remediateCode: Swift.Bool?
+
+        public init(
+            leaveComments: Swift.Bool? = nil,
+            remediateCode: Swift.Bool? = nil
+        ) {
+            self.leaveComments = leaveComments
+            self.remediateCode = remediateCode
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    public enum SecurityRequirementArtifactFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doc
+        case docx
+        case md
+        case pdf
+        case txt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityRequirementArtifactFormat] {
+            return [
+                .doc,
+                .docx,
+                .md,
+                .pdf,
+                .txt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doc: return "DOC"
+            case .docx: return "DOCX"
+            case .md: return "MD"
+            case .pdf: return "PDF"
+            case .txt: return "TXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A document used as source material for importing security requirements.
+    public struct SecurityRequirementArtifact: Swift.Sendable {
+        /// The binary content of the document.
+        /// This member is required.
+        public var content: Foundation.Data?
+        /// The format of the document. Valid values are MD, PDF, TXT, DOCX, and DOC.
+        /// This member is required.
+        public var format: SecurityAgentClientTypes.SecurityRequirementArtifactFormat?
+        /// The file name of the document.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            content: Foundation.Data? = nil,
+            format: SecurityAgentClientTypes.SecurityRequirementArtifactFormat? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.content = content
+            self.format = format
+            self.name = name
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.SecurityRequirementArtifact: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SecurityRequirementArtifact(format: \(Swift.String(describing: format)), name: \(Swift.String(describing: name)), content: \"CONTENT_REDACTED\")"}
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The source from which to import security requirements. Currently supports document uploads.
+    public enum ImportSource: Swift.Sendable {
+        /// The list of documents to extract security requirements from.
+        case documents([SecurityAgentClientTypes.SecurityRequirementArtifact])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ImportSecurityRequirementsInput: Swift.Sendable {
+    /// The import source containing the documents to extract security requirements from.
+    /// This member is required.
+    public var input: SecurityAgentClientTypes.ImportSource?
+    /// The unique identifier of the security requirement pack to import requirements into.
+    /// This member is required.
+    public var packId: Swift.String?
+
+    public init(
+        input: SecurityAgentClientTypes.ImportSource? = nil,
+        packId: Swift.String? = nil
+    ) {
+        self.input = input
+        self.packId = packId
+    }
+}
+
+public struct ImportSecurityRequirementsOutput: Swift.Sendable {
+    /// The status of the import workflow.
+    /// This member is required.
+    public var importStatus: SecurityAgentClientTypes.SecurityRequirementPackImportStatus?
+    /// The unique identifier of the security requirement pack.
+    /// This member is required.
+    public var packId: Swift.String?
+
+    public init(
+        importStatus: SecurityAgentClientTypes.SecurityRequirementPackImportStatus? = nil,
+        packId: Swift.String? = nil
+    ) {
+        self.importStatus = importStatus
+        self.packId = packId
+    }
+}
+
 public struct InitiateProviderRegistrationInput: Swift.Sendable {
     /// The provider to initiate registration with. Currently, only GITHUB is supported.
     /// This member is required.
@@ -4311,6 +6988,12 @@ extension SecurityAgentClientTypes {
     public enum IntegratedResource: Swift.Sendable {
         /// The GitHub repository resource information.
         case githubrepository(SecurityAgentClientTypes.GitHubRepositoryResource)
+        /// A GitLab repository integrated as a resource.
+        case gitlabrepository(SecurityAgentClientTypes.GitLabRepositoryResource)
+        /// A Bitbucket repository integrated as a resource.
+        case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryResource)
+        /// A Confluence document (page) integrated as a resource.
+        case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentResource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4321,6 +7004,12 @@ extension SecurityAgentClientTypes {
     public enum ProviderResourceCapabilities: Swift.Sendable {
         /// The GitHub-specific resource capabilities.
         case github(SecurityAgentClientTypes.GitHubResourceCapabilities)
+        /// Capabilities for an integrated GitLab repository.
+        case gitlab(SecurityAgentClientTypes.GitLabResourceCapabilities)
+        /// Capabilities for an integrated Bitbucket repository.
+        case bitbucket(SecurityAgentClientTypes.BitbucketResourceCapabilities)
+        /// Capabilities for an integrated Confluence space.
+        case confluence(SecurityAgentClientTypes.ConfluenceResourceCapabilities)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4351,6 +7040,12 @@ extension SecurityAgentClientTypes {
     public enum IntegratedResourceMetadata: Swift.Sendable {
         /// The GitHub repository metadata.
         case githubrepository(SecurityAgentClientTypes.GitHubRepositoryMetadata)
+        /// Metadata for an integrated GitLab repository.
+        case gitlabrepository(SecurityAgentClientTypes.GitLabRepositoryMetadata)
+        /// Metadata for an integrated Bitbucket repository.
+        case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryMetadata)
+        /// Metadata for an integrated Confluence document.
+        case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4424,25 +7119,33 @@ extension SecurityAgentClientTypes {
         /// The unique identifier of the integration.
         /// This member is required.
         public var integrationId: Swift.String?
+        /// The name of the private connection used to reach the integration's self-hosted instance over private networking, if one is configured.
+        public var privateConnectionName: Swift.String?
         /// The integration provider.
         /// This member is required.
         public var provider: SecurityAgentClientTypes.Provider?
         /// The type of the integration provider.
         /// This member is required.
         public var providerType: SecurityAgentClientTypes.ProviderType?
+        /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
+        public var targetUrl: Swift.String?
 
         public init(
             displayName: Swift.String? = nil,
             installationId: Swift.String? = nil,
             integrationId: Swift.String? = nil,
+            privateConnectionName: Swift.String? = nil,
             provider: SecurityAgentClientTypes.Provider? = nil,
-            providerType: SecurityAgentClientTypes.ProviderType? = nil
+            providerType: SecurityAgentClientTypes.ProviderType? = nil,
+            targetUrl: Swift.String? = nil
         ) {
             self.displayName = displayName
             self.installationId = installationId
             self.integrationId = integrationId
+            self.privateConnectionName = privateConnectionName
             self.provider = provider
             self.providerType = providerType
+            self.targetUrl = targetUrl
         }
     }
 }
@@ -4743,11 +7446,13 @@ extension SecurityAgentClientTypes {
     /// Type of resource.
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeRepository
+        case document
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
-                .codeRepository
+                .codeRepository,
+                .document
             ]
         }
 
@@ -4759,6 +7464,7 @@ extension SecurityAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .codeRepository: return "CODE_REPOSITORY"
+            case .document: return "DOCUMENT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5070,7 +7776,7 @@ public struct ListPentestJobTasksInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The unique identifier of the pentest job to list tasks for.
     public var pentestJobId: Swift.String?
-    /// Filter tasks by step name. Valid values include PREFLIGHT, STATIC_ANALYSIS, PENTEST, and FINALIZING.
+    /// Filter tasks by step name. Valid values include PREFLIGHT, STATIC_ANALYSIS, PENTEST, VALIDATION, and FINALIZING.
     public var stepName: SecurityAgentClientTypes.StepName?
 
     public init(
@@ -5225,6 +7931,270 @@ public struct ListPentestsOutput: Swift.Sendable {
     }
 }
 
+public struct ListPrivateConnectionsInput: Swift.Sendable {
+    /// The maximum number of private connections to return in a single response.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Summarizes a private connection.
+    public struct PrivateConnectionSummary: Swift.Sendable {
+        /// The date and time the connection's certificate expires, in UTC format.
+        public var certificateExpiryTime: Foundation.Date?
+        /// The DNS resolution mode for the resource gateway.
+        public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+        /// A message describing why the private connection entered a failed state, if applicable.
+        public var failureMessage: Swift.String?
+        /// The IP address or DNS name of the target resource.
+        public var hostAddress: Swift.String?
+        /// The name of the private connection.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The identifier or ARN of the VPC Lattice resource configuration.
+        public var resourceConfigurationId: Swift.String?
+        /// The identifier or ARN of the VPC Lattice resource gateway.
+        public var resourceGatewayId: Swift.String?
+        /// The current status of the private connection.
+        /// This member is required.
+        public var status: SecurityAgentClientTypes.PrivateConnectionStatus?
+        /// The tags attached to the private connection.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of the private connection, indicating whether it is service-managed or self-managed.
+        /// This member is required.
+        public var type: SecurityAgentClientTypes.PrivateConnectionType?
+        /// The identifier of the VPC the resource gateway is created in.
+        public var vpcId: Swift.String?
+
+        public init(
+            certificateExpiryTime: Foundation.Date? = nil,
+            dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+            failureMessage: Swift.String? = nil,
+            hostAddress: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resourceConfigurationId: Swift.String? = nil,
+            resourceGatewayId: Swift.String? = nil,
+            status: SecurityAgentClientTypes.PrivateConnectionStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: SecurityAgentClientTypes.PrivateConnectionType? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.certificateExpiryTime = certificateExpiryTime
+            self.dnsResolution = dnsResolution
+            self.failureMessage = failureMessage
+            self.hostAddress = hostAddress
+            self.name = name
+            self.resourceConfigurationId = resourceConfigurationId
+            self.resourceGatewayId = resourceGatewayId
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.vpcId = vpcId
+        }
+    }
+}
+
+public struct ListPrivateConnectionsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results, if more results are available.
+    public var nextToken: Swift.String?
+    /// The list of private connections.
+    /// This member is required.
+    public var privateConnections: [SecurityAgentClientTypes.PrivateConnectionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        privateConnections: [SecurityAgentClientTypes.PrivateConnectionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.privateConnections = privateConnections
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Filter criteria for listing security requirement packs.
+    public struct ListSecurityRequirementPackFilter: Swift.Sendable {
+        /// Filter packs by management type. Valid values are AWS_MANAGED and CUSTOMER_MANAGED.
+        public var managementType: SecurityAgentClientTypes.ManagementType?
+        /// Filter packs by status. Valid values are ENABLED and DISABLED.
+        public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+
+        public init(
+            managementType: SecurityAgentClientTypes.ManagementType? = nil,
+            status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil
+        ) {
+            self.managementType = managementType
+            self.status = status
+        }
+    }
+}
+
+public struct ListSecurityRequirementPacksInput: Swift.Sendable {
+    /// The filter criteria for listing security requirement packs.
+    public var filter: SecurityAgentClientTypes.ListSecurityRequirementPackFilter?
+    /// The maximum number of results to return in a single request.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: SecurityAgentClientTypes.ListSecurityRequirementPackFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a security requirement pack.
+    public struct SecurityRequirementPackSummary: Swift.Sendable {
+        /// The date and time the security requirement pack was created, in UTC format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the security requirement pack.
+        public var description: Swift.String?
+        /// The management type of the pack.
+        /// This member is required.
+        public var managementType: SecurityAgentClientTypes.ManagementType?
+        /// The name of the security requirement pack.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier of the security requirement pack.
+        /// This member is required.
+        public var packId: Swift.String?
+        /// The status of the security requirement pack.
+        /// This member is required.
+        public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+        /// The date and time the security requirement pack was last updated, in UTC format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+        /// The vendor name for AWS managed packs.
+        public var vendorName: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            managementType: SecurityAgentClientTypes.ManagementType? = nil,
+            name: Swift.String? = nil,
+            packId: Swift.String? = nil,
+            status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil,
+            updatedAt: Foundation.Date? = nil,
+            vendorName: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.managementType = managementType
+            self.name = name
+            self.packId = packId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.vendorName = vendorName
+        }
+    }
+}
+
+public struct ListSecurityRequirementPacksOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of security requirement pack summaries.
+    /// This member is required.
+    public var securityRequirementPackSummaries: [SecurityAgentClientTypes.SecurityRequirementPackSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        securityRequirementPackSummaries: [SecurityAgentClientTypes.SecurityRequirementPackSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.securityRequirementPackSummaries = securityRequirementPackSummaries
+    }
+}
+
+public struct ListSecurityRequirementsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single request.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the security requirement pack to list requirements for.
+    /// This member is required.
+    public var packId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packId = packId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a security requirement.
+    public struct SecurityRequirementSummary: Swift.Sendable {
+        /// The date and time the security requirement was created, in UTC format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the security requirement.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The name of the security requirement.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The unique identifier of the pack containing the security requirement.
+        /// This member is required.
+        public var packId: Swift.String?
+        /// The date and time the security requirement was last updated, in UTC format.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            packId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.packId = packId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSecurityRequirementsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of security requirement summaries.
+    /// This member is required.
+    public var securityRequirementSummaries: [SecurityAgentClientTypes.SecurityRequirementSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        securityRequirementSummaries: [SecurityAgentClientTypes.SecurityRequirementSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.securityRequirementSummaries = securityRequirementSummaries
+    }
+}
+
 /// Input for ListTagsForResource operation.
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to list tags for.
@@ -5307,6 +8277,467 @@ public struct ListTargetDomainsOutput: Swift.Sendable {
     }
 }
 
+/// Input for ListThreatModelJobs operation.
+public struct ListThreatModelJobsInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the threat model to list jobs for.
+    /// This member is required.
+    public var threatModelId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        threatModelId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.threatModelId = threatModelId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a threat model job.
+    public struct ThreatModelJobSummary: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The date and time the threat model job was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The current status of the threat model job.
+        public var status: SecurityAgentClientTypes.JobStatus?
+        /// The unique identifier of the threat model associated with the job.
+        /// This member is required.
+        public var threatModelId: Swift.String?
+        /// The unique identifier of the threat model job.
+        /// This member is required.
+        public var threatModelJobId: Swift.String?
+        /// The title of the threat model job.
+        public var title: Swift.String?
+        /// The date and time the threat model job was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            status: SecurityAgentClientTypes.JobStatus? = nil,
+            threatModelId: Swift.String? = nil,
+            threatModelJobId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.createdAt = createdAt
+            self.status = status
+            self.threatModelId = threatModelId
+            self.threatModelJobId = threatModelJobId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the ListThreatModelJobs operation.
+public struct ListThreatModelJobsOutput: Swift.Sendable {
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The list of threat model job summaries.
+    public var threatModelJobSummaries: [SecurityAgentClientTypes.ThreatModelJobSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        threatModelJobSummaries: [SecurityAgentClientTypes.ThreatModelJobSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.threatModelJobSummaries = threatModelJobSummaries
+    }
+}
+
+/// Input for listing tasks associated with a threat model job.
+public struct ListThreatModelJobTasksInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the threat model job to list tasks for.
+    /// This member is required.
+    public var threatModelJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        threatModelJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.threatModelJobId = threatModelJobId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a threat model job task.
+    public struct ThreatModelJobTaskSummary: Swift.Sendable {
+        /// The unique identifier of the agent space.
+        public var agentSpaceId: Swift.String?
+        /// The date and time the task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The current execution status of the task.
+        public var executionStatus: SecurityAgentClientTypes.TaskExecutionStatus?
+        /// The unique identifier of the task.
+        /// This member is required.
+        public var taskId: Swift.String?
+        /// The unique identifier of the threat model associated with the task.
+        public var threatModelId: Swift.String?
+        /// The unique identifier of the threat model job that contains the task.
+        public var threatModelJobId: Swift.String?
+        /// The title of the task.
+        public var title: Swift.String?
+        /// The date and time the task was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionStatus: SecurityAgentClientTypes.TaskExecutionStatus? = nil,
+            taskId: Swift.String? = nil,
+            threatModelId: Swift.String? = nil,
+            threatModelJobId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.createdAt = createdAt
+            self.executionStatus = executionStatus
+            self.taskId = taskId
+            self.threatModelId = threatModelId
+            self.threatModelJobId = threatModelJobId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the ListThreatModelJobTasks operation.
+public struct ListThreatModelJobTasksOutput: Swift.Sendable {
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The list of threat model job task summaries.
+    public var threatModelJobTaskSummaries: [SecurityAgentClientTypes.ThreatModelJobTaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        threatModelJobTaskSummaries: [SecurityAgentClientTypes.ThreatModelJobTaskSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.threatModelJobTaskSummaries = threatModelJobTaskSummaries
+    }
+}
+
+/// Input for listing threat models.
+public struct ListThreatModelsInput: Swift.Sendable {
+    /// The unique identifier of the agent space to list threat models for.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a threat model.
+    public struct ThreatModelSummary: Swift.Sendable {
+        /// The unique identifier of the agent space that contains the threat model.
+        /// This member is required.
+        public var agentSpaceId: Swift.String?
+        /// The date and time the threat model was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the threat model.
+        /// This member is required.
+        public var threatModelId: Swift.String?
+        /// The title of the threat model.
+        /// This member is required.
+        public var title: Swift.String?
+        /// The date and time the threat model was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            agentSpaceId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            threatModelId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.agentSpaceId = agentSpaceId
+            self.createdAt = createdAt
+            self.threatModelId = threatModelId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+/// Output for the ListThreatModels operation.
+public struct ListThreatModelsOutput: Swift.Sendable {
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The list of threat model summaries.
+    public var threatModelSummaries: [SecurityAgentClientTypes.ThreatModelSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        threatModelSummaries: [SecurityAgentClientTypes.ThreatModelSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.threatModelSummaries = threatModelSummaries
+    }
+}
+
+/// Input for listing threats.
+public struct ListThreatsInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the threat model job to list threats for.
+    /// This member is required.
+    public var threatJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        threatJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.threatJobId = threatJobId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Contains summary information about a threat.
+    public struct ThreatSummary: Swift.Sendable {
+        /// The date and time the threat was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// Who created this threat.
+        public var createdBy: SecurityAgentClientTypes.ThreatActor?
+        /// The severity level of the threat.
+        public var severity: SecurityAgentClientTypes.ThreatSeverity?
+        /// The natural-language threat statement.
+        public var statement: Swift.String?
+        /// The current status of the threat.
+        public var status: SecurityAgentClientTypes.ThreatStatus?
+        /// The STRIDE categories applicable to this threat.
+        public var stride: [SecurityAgentClientTypes.StrideCategory]?
+        /// The unique identifier of the threat.
+        public var threatId: Swift.String?
+        /// The unique identifier of the threat model job that produced the threat.
+        public var threatJobId: Swift.String?
+        /// A short title summarizing the threat.
+        public var title: Swift.String?
+        /// The date and time the threat was last updated, in UTC format.
+        public var updatedAt: Foundation.Date?
+        /// Who last updated this threat.
+        public var updatedBy: SecurityAgentClientTypes.ThreatActor?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: SecurityAgentClientTypes.ThreatActor? = nil,
+            severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+            statement: Swift.String? = nil,
+            status: SecurityAgentClientTypes.ThreatStatus? = nil,
+            stride: [SecurityAgentClientTypes.StrideCategory]? = nil,
+            threatId: Swift.String? = nil,
+            threatJobId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: SecurityAgentClientTypes.ThreatActor? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.severity = severity
+            self.statement = statement
+            self.status = status
+            self.stride = stride
+            self.threatId = threatId
+            self.threatJobId = threatJobId
+            self.title = title
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+/// Output for the ListThreats operation.
+public struct ListThreatsOutput: Swift.Sendable {
+    /// A token to use for paginating results that are returned in the response.
+    public var nextToken: Swift.String?
+    /// The list of threat summaries.
+    public var threats: [SecurityAgentClientTypes.ThreatSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        threats: [SecurityAgentClientTypes.ThreatSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.threats = threats
+    }
+}
+
+public struct UpdatePrivateConnectionCertificateInput: Swift.Sendable {
+    /// The PEM-encoded certificate chain for the private connection.
+    /// This member is required.
+    public var certificate: Swift.String?
+    /// The name of the private connection to update.
+    /// This member is required.
+    public var privateConnectionName: Swift.String?
+
+    public init(
+        certificate: Swift.String? = nil,
+        privateConnectionName: Swift.String? = nil
+    ) {
+        self.certificate = certificate
+        self.privateConnectionName = privateConnectionName
+    }
+}
+
+extension UpdatePrivateConnectionCertificateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePrivateConnectionCertificateInput(privateConnectionName: \(Swift.String(describing: privateConnectionName)), certificate: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdatePrivateConnectionCertificateOutput: Swift.Sendable {
+    /// The date and time the connection's certificate expires, in UTC format.
+    public var certificateExpiryTime: Foundation.Date?
+    /// The DNS resolution mode for the resource gateway.
+    public var dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution?
+    /// A message describing why the private connection entered a failed state, if applicable.
+    public var failureMessage: Swift.String?
+    /// The IP address or DNS name of the target resource.
+    public var hostAddress: Swift.String?
+    /// The name of the private connection.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource configuration.
+    public var resourceConfigurationId: Swift.String?
+    /// The identifier or ARN of the VPC Lattice resource gateway.
+    public var resourceGatewayId: Swift.String?
+    /// The current status of the private connection.
+    /// This member is required.
+    public var status: SecurityAgentClientTypes.PrivateConnectionStatus?
+    /// The tags attached to the private connection.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of the private connection, indicating whether it is service-managed or self-managed.
+    /// This member is required.
+    public var type: SecurityAgentClientTypes.PrivateConnectionType?
+    /// The identifier of the VPC the resource gateway is created in.
+    public var vpcId: Swift.String?
+
+    public init(
+        certificateExpiryTime: Foundation.Date? = nil,
+        dnsResolution: SecurityAgentClientTypes.ResourceConfigDnsResolution? = nil,
+        failureMessage: Swift.String? = nil,
+        hostAddress: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resourceConfigurationId: Swift.String? = nil,
+        resourceGatewayId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.PrivateConnectionStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: SecurityAgentClientTypes.PrivateConnectionType? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.certificateExpiryTime = certificateExpiryTime
+        self.dnsResolution = dnsResolution
+        self.failureMessage = failureMessage
+        self.hostAddress = hostAddress
+        self.name = name
+        self.resourceConfigurationId = resourceConfigurationId
+        self.resourceGatewayId = resourceGatewayId
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.vpcId = vpcId
+    }
+}
+
+public struct UpdateSecurityRequirementPackInput: Swift.Sendable {
+    /// The updated description of the security requirement pack.
+    public var description: Swift.String?
+    /// The updated name of the security requirement pack.
+    public var name: Swift.String?
+    /// The unique identifier of the security requirement pack to update.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The updated status of the security requirement pack.
+    public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        packId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.packId = packId
+        self.status = status
+    }
+}
+
+public struct UpdateSecurityRequirementPackOutput: Swift.Sendable {
+    /// The description of the security requirement pack.
+    public var description: Swift.String?
+    /// The name of the security requirement pack.
+    public var name: Swift.String?
+    /// The unique identifier of the security requirement pack.
+    /// This member is required.
+    public var packId: Swift.String?
+    /// The status of the security requirement pack.
+    public var status: SecurityAgentClientTypes.SecurityRequirementPackStatus?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        packId: Swift.String? = nil,
+        status: SecurityAgentClientTypes.SecurityRequirementPackStatus? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.packId = packId
+        self.status = status
+    }
+}
+
 /// Input for the StartCodeRemediation operation.
 public struct StartCodeRemediationInput: Swift.Sendable {
     /// The unique identifier of the agent space.
@@ -5347,13 +8778,17 @@ public struct StartCodeReviewJobInput: Swift.Sendable {
     /// The unique identifier of the code review to start a job for.
     /// This member is required.
     public var codeReviewId: Swift.String?
+    /// Source of the diff for a differential scan. When present, the job analyzes only the changed lines instead of performing a full scan.
+    public var diffSource: SecurityAgentClientTypes.DiffSource?
 
     public init(
         agentSpaceId: Swift.String? = nil,
-        codeReviewId: Swift.String? = nil
+        codeReviewId: Swift.String? = nil,
+        diffSource: SecurityAgentClientTypes.DiffSource? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.codeReviewId = codeReviewId
+        self.diffSource = diffSource
     }
 }
 
@@ -5449,6 +8884,61 @@ public struct StartPentestJobOutput: Swift.Sendable {
     }
 }
 
+/// Input for starting a threat model job.
+public struct StartThreatModelJobInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the threat model to start a job for.
+    /// This member is required.
+    public var threatModelId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelId = threatModelId
+    }
+}
+
+/// Output for the StartThreatModelJob operation.
+public struct StartThreatModelJobOutput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    public var agentSpaceId: Swift.String?
+    /// The date and time the threat model job was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// The current status of the threat model job.
+    public var status: SecurityAgentClientTypes.JobStatus?
+    /// The unique identifier of the threat model.
+    public var threatModelId: Swift.String?
+    /// The unique identifier of the started threat model job.
+    /// This member is required.
+    public var threatModelJobId: Swift.String?
+    /// The title of the threat model job.
+    public var title: Swift.String?
+    /// The date and time the threat model job was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        status: SecurityAgentClientTypes.JobStatus? = nil,
+        threatModelId: Swift.String? = nil,
+        threatModelJobId: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.createdAt = createdAt
+        self.status = status
+        self.threatModelId = threatModelId
+        self.threatModelJobId = threatModelJobId
+        self.title = title
+        self.updatedAt = updatedAt
+    }
+}
+
 /// Input for stopping the execution of a code review job.
 public struct StopCodeReviewJobInput: Swift.Sendable {
     /// The unique identifier of the agent space.
@@ -5493,6 +8983,30 @@ public struct StopPentestJobInput: Swift.Sendable {
 
 /// Output for the StopPentestJob operation.
 public struct StopPentestJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Input for stopping a threat model job.
+public struct StopThreatModelJobInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The unique identifier of the threat model job to stop.
+    /// This member is required.
+    public var threatModelJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        threatModelJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.threatModelJobId = threatModelJobId
+    }
+}
+
+/// Output for the StopThreatModelJob operation.
+public struct StopThreatModelJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -5620,6 +9134,8 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
     public var serviceRole: Swift.String?
     /// The updated title of the code review.
     public var title: Swift.String?
+    /// The updated validation mode for the code review. Valid values are SIMULATED and DISABLED.
+    public var validationMode: SecurityAgentClientTypes.ValidationMode?
 
     public init(
         agentSpaceId: Swift.String? = nil,
@@ -5628,7 +9144,8 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         codeReviewId: Swift.String? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         serviceRole: Swift.String? = nil,
-        title: Swift.String? = nil
+        title: Swift.String? = nil,
+        validationMode: SecurityAgentClientTypes.ValidationMode? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
@@ -5637,6 +9154,7 @@ public struct UpdateCodeReviewInput: Swift.Sendable {
         self.logConfig = logConfig
         self.serviceRole = serviceRole
         self.title = title
+        self.validationMode = validationMode
     }
 }
 
@@ -5661,6 +9179,8 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
     public var title: Swift.String?
     /// The date and time the code review was last updated, in UTC format.
     public var updatedAt: Foundation.Date?
+    /// The validation mode for the code review.
+    public var validationMode: SecurityAgentClientTypes.ValidationMode?
 
     public init(
         agentSpaceId: Swift.String? = nil,
@@ -5671,7 +9191,8 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         serviceRole: Swift.String? = nil,
         title: Swift.String? = nil,
-        updatedAt: Foundation.Date? = nil
+        updatedAt: Foundation.Date? = nil,
+        validationMode: SecurityAgentClientTypes.ValidationMode? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
@@ -5682,6 +9203,7 @@ public struct UpdateCodeReviewOutput: Swift.Sendable {
         self.serviceRole = serviceRole
         self.title = title
         self.updatedAt = updatedAt
+        self.validationMode = validationMode
     }
 }
 
@@ -5690,23 +9212,51 @@ public struct UpdateFindingInput: Swift.Sendable {
     /// The unique identifier of the agent space that contains the finding.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// The updated attack script for the finding.
+    public var attackScript: Swift.String?
+    /// A customer-provided note on the finding.
+    public var customerNote: Swift.String?
+    /// The updated description for the finding.
+    public var description: Swift.String?
     /// The unique identifier of the finding to update.
     /// This member is required.
     public var findingId: Swift.String?
+    /// The updated name for the finding.
+    public var name: Swift.String?
+    /// The updated reasoning for the finding.
+    public var reasoning: Swift.String?
     /// The updated risk level for the finding.
     public var riskLevel: SecurityAgentClientTypes.RiskLevel?
+    /// The updated numerical risk score for the finding.
+    public var riskScore: Swift.String?
+    /// The updated risk type for the finding.
+    public var riskType: Swift.String?
     /// The updated status for the finding.
     public var status: SecurityAgentClientTypes.FindingStatus?
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        attackScript: Swift.String? = nil,
+        customerNote: Swift.String? = nil,
+        description: Swift.String? = nil,
         findingId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        reasoning: Swift.String? = nil,
         riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
+        riskScore: Swift.String? = nil,
+        riskType: Swift.String? = nil,
         status: SecurityAgentClientTypes.FindingStatus? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.attackScript = attackScript
+        self.customerNote = customerNote
+        self.description = description
         self.findingId = findingId
+        self.name = name
+        self.reasoning = reasoning
         self.riskLevel = riskLevel
+        self.riskScore = riskScore
+        self.riskType = riskType
         self.status = status
     }
 }
@@ -5753,6 +9303,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var assets: SecurityAgentClientTypes.Assets?
     /// The updated code remediation strategy for the pentest.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
+    /// The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
+    public var disableManagedSkills: [SecurityAgentClientTypes.SkillType]?
     /// The updated list of risk types to exclude from the pentest.
     public var excludeRiskTypes: [SecurityAgentClientTypes.RiskType]?
     /// The updated CloudWatch Logs configuration for the pentest.
@@ -5773,6 +9325,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
+        disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
         networkTrafficConfig: SecurityAgentClientTypes.NetworkTrafficConfig? = nil,
@@ -5784,6 +9337,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
         self.codeRemediationStrategy = codeRemediationStrategy
+        self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
         self.networkTrafficConfig = networkTrafficConfig
@@ -5833,6 +9387,265 @@ public struct UpdatePentestOutput: Swift.Sendable {
         self.logConfig = logConfig
         self.pentestId = pentestId
         self.serviceRole = serviceRole
+        self.title = title
+        self.updatedAt = updatedAt
+    }
+}
+
+/// Input for updating an existing threat.
+public struct UpdateThreatInput: Swift.Sendable {
+    /// The unique identifier of the agent space.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The updated DFD element this threat is anchored to.
+    public var anchor: SecurityAgentClientTypes.ThreatAnchorShape?
+    /// Optional customer comment.
+    public var comments: Swift.String?
+    /// The updated source code files supporting the threat.
+    public var evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]?
+    /// The updated list of specific assets affected by the threat.
+    public var impactedAssets: [Swift.String]?
+    /// The updated security goals affected by the threat.
+    public var impactedGoal: [Swift.String]?
+    /// The updated conditions required for the threat to be exploitable.
+    public var prerequisites: Swift.String?
+    /// The updated recommended mitigation guidance for this threat.
+    public var recommendation: Swift.String?
+    /// The updated severity level of the threat.
+    public var severity: SecurityAgentClientTypes.ThreatSeverity?
+    /// The updated natural-language threat statement.
+    public var statement: Swift.String?
+    /// The updated status of the threat.
+    public var status: SecurityAgentClientTypes.ThreatStatus?
+    /// The updated description of what the threat source can do.
+    public var threatAction: Swift.String?
+    /// The unique identifier of the threat to update.
+    /// This member is required.
+    public var threatId: Swift.String?
+    /// The updated direct consequence of the threat action.
+    public var threatImpact: Swift.String?
+    /// The updated actor or origin of the threat.
+    public var threatSource: Swift.String?
+    /// A short title summarizing the threat.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        anchor: SecurityAgentClientTypes.ThreatAnchorShape? = nil,
+        comments: Swift.String? = nil,
+        evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]? = nil,
+        impactedAssets: [Swift.String]? = nil,
+        impactedGoal: [Swift.String]? = nil,
+        prerequisites: Swift.String? = nil,
+        recommendation: Swift.String? = nil,
+        severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+        statement: Swift.String? = nil,
+        status: SecurityAgentClientTypes.ThreatStatus? = nil,
+        threatAction: Swift.String? = nil,
+        threatId: Swift.String? = nil,
+        threatImpact: Swift.String? = nil,
+        threatSource: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.anchor = anchor
+        self.comments = comments
+        self.evidence = evidence
+        self.impactedAssets = impactedAssets
+        self.impactedGoal = impactedGoal
+        self.prerequisites = prerequisites
+        self.recommendation = recommendation
+        self.severity = severity
+        self.statement = statement
+        self.status = status
+        self.threatAction = threatAction
+        self.threatId = threatId
+        self.threatImpact = threatImpact
+        self.threatSource = threatSource
+        self.title = title
+    }
+}
+
+/// Output for the UpdateThreat operation.
+public struct UpdateThreatOutput: Swift.Sendable {
+    /// The DFD element this threat is anchored to.
+    public var anchor: SecurityAgentClientTypes.ThreatAnchorShape?
+    /// Optional customer comment on the threat.
+    public var comments: Swift.String?
+    /// The date and time the threat was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// Who created this threat.
+    public var createdBy: SecurityAgentClientTypes.ThreatActor?
+    /// The source code files supporting the threat.
+    public var evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]?
+    /// The specific assets affected by the threat.
+    public var impactedAssets: [Swift.String]?
+    /// The security goals affected by the threat.
+    public var impactedGoal: [Swift.String]?
+    /// The conditions required for the threat to be exploitable.
+    public var prerequisites: Swift.String?
+    /// The recommended mitigation guidance for this threat.
+    public var recommendation: Swift.String?
+    /// The severity level of the threat.
+    public var severity: SecurityAgentClientTypes.ThreatSeverity?
+    /// The natural-language threat statement.
+    public var statement: Swift.String?
+    /// The current status of the threat.
+    public var status: SecurityAgentClientTypes.ThreatStatus?
+    /// The STRIDE categories applicable to this threat.
+    public var stride: [SecurityAgentClientTypes.StrideCategory]?
+    /// What the threat source can do.
+    public var threatAction: Swift.String?
+    /// The unique identifier of the threat.
+    /// This member is required.
+    public var threatId: Swift.String?
+    /// The direct consequence of the threat action.
+    public var threatImpact: Swift.String?
+    /// The unique identifier of the threat model job the threat belongs to.
+    /// This member is required.
+    public var threatJobId: Swift.String?
+    /// The actor or origin of the threat.
+    public var threatSource: Swift.String?
+    /// A short title summarizing the threat.
+    public var title: Swift.String?
+    /// The date and time the threat was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+    /// Who last updated this threat.
+    public var updatedBy: SecurityAgentClientTypes.ThreatActor?
+
+    public init(
+        anchor: SecurityAgentClientTypes.ThreatAnchorShape? = nil,
+        comments: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: SecurityAgentClientTypes.ThreatActor? = nil,
+        evidence: [SecurityAgentClientTypes.ThreatEvidenceShape]? = nil,
+        impactedAssets: [Swift.String]? = nil,
+        impactedGoal: [Swift.String]? = nil,
+        prerequisites: Swift.String? = nil,
+        recommendation: Swift.String? = nil,
+        severity: SecurityAgentClientTypes.ThreatSeverity? = nil,
+        statement: Swift.String? = nil,
+        status: SecurityAgentClientTypes.ThreatStatus? = nil,
+        stride: [SecurityAgentClientTypes.StrideCategory]? = nil,
+        threatAction: Swift.String? = nil,
+        threatId: Swift.String? = nil,
+        threatImpact: Swift.String? = nil,
+        threatJobId: Swift.String? = nil,
+        threatSource: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: SecurityAgentClientTypes.ThreatActor? = nil
+    ) {
+        self.anchor = anchor
+        self.comments = comments
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.evidence = evidence
+        self.impactedAssets = impactedAssets
+        self.impactedGoal = impactedGoal
+        self.prerequisites = prerequisites
+        self.recommendation = recommendation
+        self.severity = severity
+        self.statement = statement
+        self.status = status
+        self.stride = stride
+        self.threatAction = threatAction
+        self.threatId = threatId
+        self.threatImpact = threatImpact
+        self.threatJobId = threatJobId
+        self.threatSource = threatSource
+        self.title = title
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
+    }
+}
+
+/// Input for updating an existing threat model.
+public struct UpdateThreatModelInput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat model.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The updated assets for the threat model.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The updated description of the application or system being threat modeled.
+    public var description: Swift.String?
+    /// The updated CloudWatch Logs configuration for the threat model.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The updated scoped documents for the agent to focus on during threat modeling.
+    public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+    /// The updated IAM service role for the threat model.
+    public var serviceRole: Swift.String?
+    /// The unique identifier of the threat model to update.
+    /// This member is required.
+    public var threatModelId: Swift.String?
+    /// The updated title of the threat model.
+    public var title: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        description: Swift.String? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+        serviceRole: Swift.String? = nil,
+        threatModelId: Swift.String? = nil,
+        title: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.description = description
+        self.logConfig = logConfig
+        self.scopeDocs = scopeDocs
+        self.serviceRole = serviceRole
+        self.threatModelId = threatModelId
+        self.title = title
+    }
+}
+
+/// Output for the UpdateThreatModel operation.
+public struct UpdateThreatModelOutput: Swift.Sendable {
+    /// The unique identifier of the agent space that contains the threat model.
+    public var agentSpaceId: Swift.String?
+    /// The assets included in the threat model.
+    public var assets: SecurityAgentClientTypes.Assets?
+    /// The date and time the threat model was created, in UTC format.
+    public var createdAt: Foundation.Date?
+    /// A description of the application or system being threat modeled.
+    public var description: Swift.String?
+    /// The CloudWatch Logs configuration for the threat model.
+    public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
+    /// The scoped documents for the agent to focus on during threat modeling.
+    public var scopeDocs: [SecurityAgentClientTypes.DocumentInfo]?
+    /// The IAM service role used for the threat model.
+    public var serviceRole: Swift.String?
+    /// The unique identifier of the threat model.
+    /// This member is required.
+    public var threatModelId: Swift.String?
+    /// The title of the threat model.
+    public var title: Swift.String?
+    /// The date and time the threat model was last updated, in UTC format.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        assets: SecurityAgentClientTypes.Assets? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
+        scopeDocs: [SecurityAgentClientTypes.DocumentInfo]? = nil,
+        serviceRole: Swift.String? = nil,
+        threatModelId: Swift.String? = nil,
+        title: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.assets = assets
+        self.createdAt = createdAt
+        self.description = description
+        self.logConfig = logConfig
+        self.scopeDocs = scopeDocs
+        self.serviceRole = serviceRole
+        self.threatModelId = threatModelId
         self.title = title
         self.updatedAt = updatedAt
     }
@@ -5894,6 +9707,13 @@ extension AddArtifactInput {
     }
 }
 
+extension BatchCreateSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: BatchCreateSecurityRequirementsInput) -> Swift.String? {
+        return "/BatchCreateSecurityRequirements"
+    }
+}
+
 extension BatchDeleteCodeReviewsInput {
 
     static func urlPathProvider(_ value: BatchDeleteCodeReviewsInput) -> Swift.String? {
@@ -5905,6 +9725,20 @@ extension BatchDeletePentestsInput {
 
     static func urlPathProvider(_ value: BatchDeletePentestsInput) -> Swift.String? {
         return "/BatchDeletePentests"
+    }
+}
+
+extension BatchDeleteSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteSecurityRequirementsInput) -> Swift.String? {
+        return "/BatchDeleteSecurityRequirements"
+    }
+}
+
+extension BatchDeleteThreatModelsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteThreatModelsInput) -> Swift.String? {
+        return "/BatchDeleteThreatModels"
     }
 }
 
@@ -5971,10 +9805,52 @@ extension BatchGetPentestsInput {
     }
 }
 
+extension BatchGetSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: BatchGetSecurityRequirementsInput) -> Swift.String? {
+        return "/BatchGetSecurityRequirements"
+    }
+}
+
 extension BatchGetTargetDomainsInput {
 
     static func urlPathProvider(_ value: BatchGetTargetDomainsInput) -> Swift.String? {
         return "/BatchGetTargetDomains"
+    }
+}
+
+extension BatchGetThreatModelJobsInput {
+
+    static func urlPathProvider(_ value: BatchGetThreatModelJobsInput) -> Swift.String? {
+        return "/BatchGetThreatModelJobs"
+    }
+}
+
+extension BatchGetThreatModelJobTasksInput {
+
+    static func urlPathProvider(_ value: BatchGetThreatModelJobTasksInput) -> Swift.String? {
+        return "/BatchGetThreatModelJobTasks"
+    }
+}
+
+extension BatchGetThreatModelsInput {
+
+    static func urlPathProvider(_ value: BatchGetThreatModelsInput) -> Swift.String? {
+        return "/BatchGetThreatModels"
+    }
+}
+
+extension BatchGetThreatsInput {
+
+    static func urlPathProvider(_ value: BatchGetThreatsInput) -> Swift.String? {
+        return "/BatchGetThreats"
+    }
+}
+
+extension BatchUpdateSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateSecurityRequirementsInput) -> Swift.String? {
+        return "/BatchUpdateSecurityRequirements"
     }
 }
 
@@ -6020,10 +9896,38 @@ extension CreatePentestInput {
     }
 }
 
+extension CreatePrivateConnectionInput {
+
+    static func urlPathProvider(_ value: CreatePrivateConnectionInput) -> Swift.String? {
+        return "/CreatePrivateConnection"
+    }
+}
+
+extension CreateSecurityRequirementPackInput {
+
+    static func urlPathProvider(_ value: CreateSecurityRequirementPackInput) -> Swift.String? {
+        return "/CreateSecurityRequirementPack"
+    }
+}
+
 extension CreateTargetDomainInput {
 
     static func urlPathProvider(_ value: CreateTargetDomainInput) -> Swift.String? {
         return "/CreateTargetDomain"
+    }
+}
+
+extension CreateThreatInput {
+
+    static func urlPathProvider(_ value: CreateThreatInput) -> Swift.String? {
+        return "/CreateThreat"
+    }
+}
+
+extension CreateThreatModelInput {
+
+    static func urlPathProvider(_ value: CreateThreatModelInput) -> Swift.String? {
+        return "/CreateThreatModel"
     }
 }
 
@@ -6062,10 +9966,31 @@ extension DeleteMembershipInput {
     }
 }
 
+extension DeletePrivateConnectionInput {
+
+    static func urlPathProvider(_ value: DeletePrivateConnectionInput) -> Swift.String? {
+        return "/DeletePrivateConnection"
+    }
+}
+
+extension DeleteSecurityRequirementPackInput {
+
+    static func urlPathProvider(_ value: DeleteSecurityRequirementPackInput) -> Swift.String? {
+        return "/DeleteSecurityRequirementPack"
+    }
+}
+
 extension DeleteTargetDomainInput {
 
     static func urlPathProvider(_ value: DeleteTargetDomainInput) -> Swift.String? {
         return "/DeleteTargetDomain"
+    }
+}
+
+extension DescribePrivateConnectionInput {
+
+    static func urlPathProvider(_ value: DescribePrivateConnectionInput) -> Swift.String? {
+        return "/DescribePrivateConnection"
     }
 }
 
@@ -6087,6 +10012,20 @@ extension GetIntegrationInput {
 
     static func urlPathProvider(_ value: GetIntegrationInput) -> Swift.String? {
         return "/GetIntegration"
+    }
+}
+
+extension GetSecurityRequirementPackInput {
+
+    static func urlPathProvider(_ value: GetSecurityRequirementPackInput) -> Swift.String? {
+        return "/GetSecurityRequirementPack"
+    }
+}
+
+extension ImportSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: ImportSecurityRequirementsInput) -> Swift.String? {
+        return "/ImportSecurityRequirements"
     }
 }
 
@@ -6195,6 +10134,27 @@ extension ListPentestsInput {
     }
 }
 
+extension ListPrivateConnectionsInput {
+
+    static func urlPathProvider(_ value: ListPrivateConnectionsInput) -> Swift.String? {
+        return "/ListPrivateConnections"
+    }
+}
+
+extension ListSecurityRequirementPacksInput {
+
+    static func urlPathProvider(_ value: ListSecurityRequirementPacksInput) -> Swift.String? {
+        return "/ListSecurityRequirementPacks"
+    }
+}
+
+extension ListSecurityRequirementsInput {
+
+    static func urlPathProvider(_ value: ListSecurityRequirementsInput) -> Swift.String? {
+        return "/ListSecurityRequirements"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -6209,6 +10169,34 @@ extension ListTargetDomainsInput {
 
     static func urlPathProvider(_ value: ListTargetDomainsInput) -> Swift.String? {
         return "/ListTargetDomains"
+    }
+}
+
+extension ListThreatModelJobsInput {
+
+    static func urlPathProvider(_ value: ListThreatModelJobsInput) -> Swift.String? {
+        return "/ListThreatModelJobs"
+    }
+}
+
+extension ListThreatModelJobTasksInput {
+
+    static func urlPathProvider(_ value: ListThreatModelJobTasksInput) -> Swift.String? {
+        return "/ListThreatModelJobTasks"
+    }
+}
+
+extension ListThreatModelsInput {
+
+    static func urlPathProvider(_ value: ListThreatModelsInput) -> Swift.String? {
+        return "/ListThreatModels"
+    }
+}
+
+extension ListThreatsInput {
+
+    static func urlPathProvider(_ value: ListThreatsInput) -> Swift.String? {
+        return "/ListThreats"
     }
 }
 
@@ -6233,6 +10221,13 @@ extension StartPentestJobInput {
     }
 }
 
+extension StartThreatModelJobInput {
+
+    static func urlPathProvider(_ value: StartThreatModelJobInput) -> Swift.String? {
+        return "/StartThreatModelJob"
+    }
+}
+
 extension StopCodeReviewJobInput {
 
     static func urlPathProvider(_ value: StopCodeReviewJobInput) -> Swift.String? {
@@ -6244,6 +10239,13 @@ extension StopPentestJobInput {
 
     static func urlPathProvider(_ value: StopPentestJobInput) -> Swift.String? {
         return "/StopPentestJob"
+    }
+}
+
+extension StopThreatModelJobInput {
+
+    static func urlPathProvider(_ value: StopThreatModelJobInput) -> Swift.String? {
+        return "/StopThreatModelJob"
     }
 }
 
@@ -6325,10 +10327,38 @@ extension UpdatePentestInput {
     }
 }
 
+extension UpdatePrivateConnectionCertificateInput {
+
+    static func urlPathProvider(_ value: UpdatePrivateConnectionCertificateInput) -> Swift.String? {
+        return "/UpdatePrivateConnectionCertificate"
+    }
+}
+
+extension UpdateSecurityRequirementPackInput {
+
+    static func urlPathProvider(_ value: UpdateSecurityRequirementPackInput) -> Swift.String? {
+        return "/UpdateSecurityRequirementPack"
+    }
+}
+
 extension UpdateTargetDomainInput {
 
     static func urlPathProvider(_ value: UpdateTargetDomainInput) -> Swift.String? {
         return "/UpdateTargetDomain"
+    }
+}
+
+extension UpdateThreatInput {
+
+    static func urlPathProvider(_ value: UpdateThreatInput) -> Swift.String? {
+        return "/UpdateThreat"
+    }
+}
+
+extension UpdateThreatModelInput {
+
+    static func urlPathProvider(_ value: UpdateThreatModelInput) -> Swift.String? {
+        return "/UpdateThreatModel"
     }
 }
 
@@ -6350,6 +10380,15 @@ extension AddArtifactInput {
     }
 }
 
+extension BatchCreateSecurityRequirementsInput {
+
+    static func write(value: BatchCreateSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+        try writer["securityRequirements"].writeList(value.securityRequirements, memberWritingClosure: SecurityAgentClientTypes.CreateSecurityRequirementEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDeleteCodeReviewsInput {
 
     static func write(value: BatchDeleteCodeReviewsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6365,6 +10404,24 @@ extension BatchDeletePentestsInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["pentestIds"].writeList(value.pentestIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDeleteSecurityRequirementsInput {
+
+    static func write(value: BatchDeleteSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+        try writer["securityRequirementNames"].writeList(value.securityRequirementNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDeleteThreatModelsInput {
+
+    static func write(value: BatchDeleteThreatModelsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelIds"].writeList(value.threatModelIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6448,11 +10505,65 @@ extension BatchGetPentestsInput {
     }
 }
 
+extension BatchGetSecurityRequirementsInput {
+
+    static func write(value: BatchGetSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+        try writer["securityRequirementNames"].writeList(value.securityRequirementNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchGetTargetDomainsInput {
 
     static func write(value: BatchGetTargetDomainsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["targetDomainIds"].writeList(value.targetDomainIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetThreatModelJobsInput {
+
+    static func write(value: BatchGetThreatModelJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelJobIds"].writeList(value.threatModelJobIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetThreatModelJobTasksInput {
+
+    static func write(value: BatchGetThreatModelJobTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelJobTaskIds"].writeList(value.threatModelJobTaskIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetThreatModelsInput {
+
+    static func write(value: BatchGetThreatModelsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelIds"].writeList(value.threatModelIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetThreatsInput {
+
+    static func write(value: BatchGetThreatsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatIds"].writeList(value.threatIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchUpdateSecurityRequirementsInput {
+
+    static func write(value: BatchUpdateSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+        try writer["securityRequirements"].writeList(value.securityRequirements, memberWritingClosure: SecurityAgentClientTypes.UpdateSecurityRequirementEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6491,6 +10602,7 @@ extension CreateCodeReviewInput {
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
+        try writer["validationMode"].write(value.validationMode)
     }
 }
 
@@ -6501,6 +10613,7 @@ extension CreateIntegrationInput {
         try writer["input"].write(value.input, with: SecurityAgentClientTypes.ProviderInput.write(value:to:))
         try writer["integrationDisplayName"].write(value.integrationDisplayName)
         try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["privateConnectionName"].write(value.privateConnectionName)
         try writer["provider"].write(value.provider)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -6525,12 +10638,35 @@ extension CreatePentestInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
+        try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
         try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
+    }
+}
+
+extension CreatePrivateConnectionInput {
+
+    static func write(value: CreatePrivateConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode, with: SecurityAgentClientTypes.PrivateConnectionMode.write(value:to:))
+        try writer["privateConnectionName"].write(value.privateConnectionName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateSecurityRequirementPackInput {
+
+    static func write(value: CreateSecurityRequirementPackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -6541,6 +10677,44 @@ extension CreateTargetDomainInput {
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["targetDomainName"].write(value.targetDomainName)
         try writer["verificationMethod"].write(value.verificationMethod)
+    }
+}
+
+extension CreateThreatInput {
+
+    static func write(value: CreateThreatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["anchor"].write(value.anchor, with: SecurityAgentClientTypes.ThreatAnchorShape.write(value:to:))
+        try writer["comments"].write(value.comments)
+        try writer["evidence"].writeList(value.evidence, memberWritingClosure: SecurityAgentClientTypes.ThreatEvidenceShape.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["impactedAssets"].writeList(value.impactedAssets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["impactedGoal"].writeList(value.impactedGoal, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["prerequisites"].write(value.prerequisites)
+        try writer["recommendation"].write(value.recommendation)
+        try writer["severity"].write(value.severity)
+        try writer["statement"].write(value.statement)
+        try writer["stride"].writeList(value.stride, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.StrideCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["threatAction"].write(value.threatAction)
+        try writer["threatImpact"].write(value.threatImpact)
+        try writer["threatJobId"].write(value.threatJobId)
+        try writer["threatSource"].write(value.threatSource)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension CreateThreatModelInput {
+
+    static func write(value: CreateThreatModelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
+        try writer["scopeDocs"].writeList(value.scopeDocs, memberWritingClosure: SecurityAgentClientTypes.DocumentInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceRole"].write(value.serviceRole)
+        try writer["title"].write(value.title)
     }
 }
 
@@ -6588,11 +10762,35 @@ extension DeleteMembershipInput {
     }
 }
 
+extension DeletePrivateConnectionInput {
+
+    static func write(value: DeletePrivateConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privateConnectionName"].write(value.privateConnectionName)
+    }
+}
+
+extension DeleteSecurityRequirementPackInput {
+
+    static func write(value: DeleteSecurityRequirementPackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+    }
+}
+
 extension DeleteTargetDomainInput {
 
     static func write(value: DeleteTargetDomainInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["targetDomainId"].write(value.targetDomainId)
+    }
+}
+
+extension DescribePrivateConnectionInput {
+
+    static func write(value: DescribePrivateConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privateConnectionName"].write(value.privateConnectionName)
     }
 }
 
@@ -6618,6 +10816,23 @@ extension GetIntegrationInput {
     static func write(value: GetIntegrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["integrationId"].write(value.integrationId)
+    }
+}
+
+extension GetSecurityRequirementPackInput {
+
+    static func write(value: GetSecurityRequirementPackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packId"].write(value.packId)
+    }
+}
+
+extension ImportSecurityRequirementsInput {
+
+    static func write(value: ImportSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input, with: SecurityAgentClientTypes.ImportSource.write(value:to:))
+        try writer["packId"].write(value.packId)
     }
 }
 
@@ -6788,12 +11003,84 @@ extension ListPentestsInput {
     }
 }
 
+extension ListPrivateConnectionsInput {
+
+    static func write(value: ListPrivateConnectionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSecurityRequirementPacksInput {
+
+    static func write(value: ListSecurityRequirementPacksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: SecurityAgentClientTypes.ListSecurityRequirementPackFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSecurityRequirementsInput {
+
+    static func write(value: ListSecurityRequirementsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["packId"].write(value.packId)
+    }
+}
+
 extension ListTargetDomainsInput {
 
     static func write(value: ListTargetDomainsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListThreatModelJobsInput {
+
+    static func write(value: ListThreatModelJobsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["threatModelId"].write(value.threatModelId)
+    }
+}
+
+extension ListThreatModelJobTasksInput {
+
+    static func write(value: ListThreatModelJobTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["threatModelJobId"].write(value.threatModelJobId)
+    }
+}
+
+extension ListThreatModelsInput {
+
+    static func write(value: ListThreatModelsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListThreatsInput {
+
+    static func write(value: ListThreatsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["threatJobId"].write(value.threatJobId)
     }
 }
 
@@ -6814,6 +11101,7 @@ extension StartCodeReviewJobInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["codeReviewId"].write(value.codeReviewId)
+        try writer["diffSource"].write(value.diffSource, with: SecurityAgentClientTypes.DiffSource.write(value:to:))
     }
 }
 
@@ -6823,6 +11111,15 @@ extension StartPentestJobInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["pentestId"].write(value.pentestId)
+    }
+}
+
+extension StartThreatModelJobInput {
+
+    static func write(value: StartThreatModelJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelId"].write(value.threatModelId)
     }
 }
 
@@ -6841,6 +11138,15 @@ extension StopPentestJobInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["pentestJobId"].write(value.pentestJobId)
+    }
+}
+
+extension StopThreatModelJobInput {
+
+    static func write(value: StopThreatModelJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["threatModelJobId"].write(value.threatModelJobId)
     }
 }
 
@@ -6886,6 +11192,7 @@ extension UpdateCodeReviewInput {
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
         try writer["title"].write(value.title)
+        try writer["validationMode"].write(value.validationMode)
     }
 }
 
@@ -6894,8 +11201,15 @@ extension UpdateFindingInput {
     static func write(value: UpdateFindingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["attackScript"].write(value.attackScript)
+        try writer["customerNote"].write(value.customerNote)
+        try writer["description"].write(value.description)
         try writer["findingId"].write(value.findingId)
+        try writer["name"].write(value.name)
+        try writer["reasoning"].write(value.reasoning)
         try writer["riskLevel"].write(value.riskLevel)
+        try writer["riskScore"].write(value.riskScore)
+        try writer["riskType"].write(value.riskType)
         try writer["status"].write(value.status)
     }
 }
@@ -6917,6 +11231,7 @@ extension UpdatePentestInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
+        try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
         try writer["networkTrafficConfig"].write(value.networkTrafficConfig, with: SecurityAgentClientTypes.NetworkTrafficConfig.write(value:to:))
@@ -6927,12 +11242,70 @@ extension UpdatePentestInput {
     }
 }
 
+extension UpdatePrivateConnectionCertificateInput {
+
+    static func write(value: UpdatePrivateConnectionCertificateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate)
+        try writer["privateConnectionName"].write(value.privateConnectionName)
+    }
+}
+
+extension UpdateSecurityRequirementPackInput {
+
+    static func write(value: UpdateSecurityRequirementPackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["packId"].write(value.packId)
+        try writer["status"].write(value.status)
+    }
+}
+
 extension UpdateTargetDomainInput {
 
     static func write(value: UpdateTargetDomainInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["targetDomainId"].write(value.targetDomainId)
         try writer["verificationMethod"].write(value.verificationMethod)
+    }
+}
+
+extension UpdateThreatInput {
+
+    static func write(value: UpdateThreatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["anchor"].write(value.anchor, with: SecurityAgentClientTypes.ThreatAnchorShape.write(value:to:))
+        try writer["comments"].write(value.comments)
+        try writer["evidence"].writeList(value.evidence, memberWritingClosure: SecurityAgentClientTypes.ThreatEvidenceShape.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["impactedAssets"].writeList(value.impactedAssets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["impactedGoal"].writeList(value.impactedGoal, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["prerequisites"].write(value.prerequisites)
+        try writer["recommendation"].write(value.recommendation)
+        try writer["severity"].write(value.severity)
+        try writer["statement"].write(value.statement)
+        try writer["status"].write(value.status)
+        try writer["threatAction"].write(value.threatAction)
+        try writer["threatId"].write(value.threatId)
+        try writer["threatImpact"].write(value.threatImpact)
+        try writer["threatSource"].write(value.threatSource)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension UpdateThreatModelInput {
+
+    static func write(value: UpdateThreatModelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["logConfig"].write(value.logConfig, with: SecurityAgentClientTypes.CloudWatchLog.write(value:to:))
+        try writer["scopeDocs"].writeList(value.scopeDocs, memberWritingClosure: SecurityAgentClientTypes.DocumentInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceRole"].write(value.serviceRole)
+        try writer["threatModelId"].write(value.threatModelId)
+        try writer["title"].write(value.title)
     }
 }
 
@@ -6952,6 +11325,19 @@ extension AddArtifactOutput {
         let reader = responseReader
         var value = AddArtifactOutput()
         value.artifactId = try reader["artifactId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchCreateSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchCreateSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchCreateSecurityRequirementsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchSecurityRequirementError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityRequirements = try reader["securityRequirements"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchCreateSecurityRequirementResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6978,6 +11364,32 @@ extension BatchDeletePentestsOutput {
         var value = BatchDeletePentestsOutput()
         value.deleted = try reader["deleted"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.Pentest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DeletePentestFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchDeleteSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteSecurityRequirementsOutput()
+        value.deletedSecurityRequirementNames = try reader["deletedSecurityRequirementNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchSecurityRequirementError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchDeleteThreatModelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteThreatModelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteThreatModelsOutput()
+        value.deleted = try reader["deleted"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DeleteThreatModelFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7098,6 +11510,19 @@ extension BatchGetPentestsOutput {
     }
 }
 
+extension BatchGetSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSecurityRequirementsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchSecurityRequirementError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityRequirements = try reader["securityRequirements"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchGetSecurityRequirementResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetTargetDomainsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetTargetDomainsOutput {
@@ -7107,6 +11532,71 @@ extension BatchGetTargetDomainsOutput {
         var value = BatchGetTargetDomainsOutput()
         value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.targetDomains = try reader["targetDomains"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TargetDomain.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetThreatModelJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetThreatModelJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetThreatModelJobsOutput()
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatModelJobs = try reader["threatModelJobs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModelJob.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetThreatModelJobTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetThreatModelJobTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetThreatModelJobTasksOutput()
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatModelJobTasks = try reader["threatModelJobTasks"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModelJobTask.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetThreatModelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetThreatModelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetThreatModelsOutput()
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatModels = try reader["threatModels"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchGetThreatsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetThreatsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetThreatsOutput()
+        value.notFound = try reader["notFound"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchUpdateSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateSecurityRequirementsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchSecurityRequirementError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedSecurityRequirementNames = try reader["updatedSecurityRequirementNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -7159,6 +11649,7 @@ extension CreateCodeReviewOutput {
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.validationMode = try reader["validationMode"].readIfPresent()
         return value
     }
 }
@@ -7202,6 +11693,42 @@ extension CreatePentestOutput {
     }
 }
 
+extension CreatePrivateConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePrivateConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePrivateConnectionOutput()
+        value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.hostAddress = try reader["hostAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateSecurityRequirementPackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSecurityRequirementPackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSecurityRequirementPackOutput()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateTargetDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTargetDomainOutput {
@@ -7216,6 +11743,59 @@ extension CreateTargetDomainOutput {
         value.verificationStatus = try reader["verificationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.verificationStatusReason = try reader["verificationStatusReason"].readIfPresent()
         value.verifiedAt = try reader["verifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CreateThreatOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateThreatOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateThreatOutput()
+        value.anchor = try reader["anchor"].readIfPresent(with: SecurityAgentClientTypes.ThreatAnchorShape.read(from:))
+        value.comments = try reader["comments"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.evidence = try reader["evidence"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatEvidenceShape.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impactedAssets = try reader["impactedAssets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impactedGoal = try reader["impactedGoal"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prerequisites = try reader["prerequisites"].readIfPresent()
+        value.recommendation = try reader["recommendation"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent()
+        value.statement = try reader["statement"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.stride = try reader["stride"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.StrideCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatAction = try reader["threatAction"].readIfPresent()
+        value.threatId = try reader["threatId"].readIfPresent() ?? ""
+        value.threatImpact = try reader["threatImpact"].readIfPresent()
+        value.threatJobId = try reader["threatJobId"].readIfPresent() ?? ""
+        value.threatSource = try reader["threatSource"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateThreatModelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateThreatModelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateThreatModelOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7260,6 +11840,35 @@ extension DeleteMembershipOutput {
     }
 }
 
+extension DeletePrivateConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePrivateConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeletePrivateConnectionOutput()
+        value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.hostAddress = try reader["hostAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteSecurityRequirementPackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSecurityRequirementPackOutput {
+        return DeleteSecurityRequirementPackOutput()
+    }
+}
+
 extension DeleteTargetDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTargetDomainOutput {
@@ -7268,6 +11877,28 @@ extension DeleteTargetDomainOutput {
         let reader = responseReader
         var value = DeleteTargetDomainOutput()
         value.targetDomainId = try reader["targetDomainId"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribePrivateConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribePrivateConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribePrivateConnectionOutput()
+        value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.hostAddress = try reader["hostAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
         return value
     }
 }
@@ -7316,8 +11947,44 @@ extension GetIntegrationOutput {
         value.installationId = try reader["installationId"].readIfPresent() ?? ""
         value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
         value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetUrl = try reader["targetUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension GetSecurityRequirementPackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSecurityRequirementPackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSecurityRequirementPackOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.importStatus = try reader["importStatus"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.managementType = try reader["managementType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.vendorName = try reader["vendorName"].readIfPresent()
+        return value
+    }
+}
+
+extension ImportSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportSecurityRequirementsOutput()
+        value.importStatus = try reader["importStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.packId = try reader["packId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7517,6 +12184,45 @@ extension ListPentestsOutput {
     }
 }
 
+extension ListPrivateConnectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPrivateConnectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPrivateConnectionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.privateConnections = try reader["privateConnections"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.PrivateConnectionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListSecurityRequirementPacksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSecurityRequirementPacksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSecurityRequirementPacksOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.securityRequirementPackSummaries = try reader["securityRequirementPackSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SecurityRequirementPackSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListSecurityRequirementsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSecurityRequirementsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSecurityRequirementsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.securityRequirementSummaries = try reader["securityRequirementSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SecurityRequirementSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -7538,6 +12244,58 @@ extension ListTargetDomainsOutput {
         var value = ListTargetDomainsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.targetDomainSummaries = try reader["targetDomainSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TargetDomainSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThreatModelJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatModelJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThreatModelJobsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.threatModelJobSummaries = try reader["threatModelJobSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModelJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThreatModelJobTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatModelJobTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThreatModelJobTasksOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.threatModelJobTaskSummaries = try reader["threatModelJobTaskSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModelJobTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThreatModelsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatModelsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThreatModelsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.threatModelSummaries = try reader["threatModelSummaries"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListThreatsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThreatsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7585,6 +12343,24 @@ extension StartPentestJobOutput {
     }
 }
 
+extension StartThreatModelJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartThreatModelJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartThreatModelJobOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.threatModelId = try reader["threatModelId"].readIfPresent()
+        value.threatModelJobId = try reader["threatModelJobId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension StopCodeReviewJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCodeReviewJobOutput {
@@ -7596,6 +12372,13 @@ extension StopPentestJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopPentestJobOutput {
         return StopPentestJobOutput()
+    }
+}
+
+extension StopThreatModelJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopThreatModelJobOutput {
+        return StopThreatModelJobOutput()
     }
 }
 
@@ -7660,6 +12443,7 @@ extension UpdateCodeReviewOutput {
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.validationMode = try reader["validationMode"].readIfPresent()
         return value
     }
 }
@@ -7698,6 +12482,43 @@ extension UpdatePentestOutput {
     }
 }
 
+extension UpdatePrivateConnectionCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePrivateConnectionCertificateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePrivateConnectionCertificateOutput()
+        value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.hostAddress = try reader["hostAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateSecurityRequirementPackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSecurityRequirementPackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSecurityRequirementPackOutput()
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateTargetDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTargetDomainOutput {
@@ -7712,6 +12533,59 @@ extension UpdateTargetDomainOutput {
         value.verificationStatus = try reader["verificationStatus"].readIfPresent() ?? .sdkUnknown("")
         value.verificationStatusReason = try reader["verificationStatusReason"].readIfPresent()
         value.verifiedAt = try reader["verifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension UpdateThreatOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThreatOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateThreatOutput()
+        value.anchor = try reader["anchor"].readIfPresent(with: SecurityAgentClientTypes.ThreatAnchorShape.read(from:))
+        value.comments = try reader["comments"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.evidence = try reader["evidence"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatEvidenceShape.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impactedAssets = try reader["impactedAssets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impactedGoal = try reader["impactedGoal"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prerequisites = try reader["prerequisites"].readIfPresent()
+        value.recommendation = try reader["recommendation"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent()
+        value.statement = try reader["statement"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.stride = try reader["stride"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.StrideCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatAction = try reader["threatAction"].readIfPresent()
+        value.threatId = try reader["threatId"].readIfPresent() ?? ""
+        value.threatImpact = try reader["threatImpact"].readIfPresent()
+        value.threatJobId = try reader["threatJobId"].readIfPresent() ?? ""
+        value.threatSource = try reader["threatSource"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateThreatModelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThreatModelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateThreatModelOutput()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["description"].readIfPresent()
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7752,6 +12626,26 @@ enum AddArtifactOutputError {
     }
 }
 
+enum BatchCreateSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchDeleteCodeReviewsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7766,6 +12660,38 @@ enum BatchDeleteCodeReviewsOutputError {
 }
 
 enum BatchDeletePentestsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDeleteThreatModelsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7900,6 +12826,24 @@ enum BatchGetPentestsOutputError {
     }
 }
 
+enum BatchGetSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetTargetDomainsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7908,6 +12852,77 @@ enum BatchGetTargetDomainsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetThreatModelJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetThreatModelJobTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetThreatModelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetThreatsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchUpdateSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7997,7 +13012,71 @@ enum CreatePentestOutputError {
     }
 }
 
+enum CreatePrivateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSecurityRequirementPackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateTargetDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateThreatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateThreatModelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8086,6 +13165,44 @@ enum DeleteMembershipOutputError {
     }
 }
 
+enum DeletePrivateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSecurityRequirementPackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTargetDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8094,6 +13211,24 @@ enum DeleteTargetDomainOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribePrivateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8141,6 +13276,44 @@ enum GetIntegrationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSecurityRequirementPackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ImportSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8364,6 +13537,58 @@ enum ListPentestsOutputError {
     }
 }
 
+enum ListPrivateConnectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSecurityRequirementPacksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSecurityRequirementsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8378,6 +13603,58 @@ enum ListTagsForResourceOutputError {
 }
 
 enum ListTargetDomainsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThreatModelJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThreatModelJobTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThreatModelsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListThreatsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8429,6 +13706,19 @@ enum StartPentestJobOutputError {
     }
 }
 
+enum StartThreatModelJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopCodeReviewJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8443,6 +13733,19 @@ enum StopCodeReviewJobOutputError {
 }
 
 enum StopPentestJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopThreatModelJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8565,7 +13868,71 @@ enum UpdatePentestOutputError {
     }
 }
 
+enum UpdatePrivateConnectionCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSecurityRequirementPackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTargetDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateThreatOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateThreatModelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8664,6 +14031,19 @@ extension ConflictException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8838,6 +14218,102 @@ extension SecurityAgentClientTypes.AWSResources {
     }
 }
 
+extension SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchCreateSecurityRequirementResult()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.evaluation = try reader["evaluation"].readIfPresent() ?? ""
+        value.remediation = try reader["remediation"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BatchGetSecurityRequirementResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchGetSecurityRequirementResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchGetSecurityRequirementResult()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.evaluation = try reader["evaluation"].readIfPresent() ?? ""
+        value.remediation = try reader["remediation"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BatchSecurityRequirementError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchSecurityRequirementError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchSecurityRequirementError()
+        value.securityRequirementName = try reader["securityRequirementName"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.BitbucketIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
+        try writer["state"].write(value.state)
+        try writer["workspace"].write(value.workspace)
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BitbucketRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BitbucketRepositoryMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
+        value.accessType = try reader["accessType"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketRepositoryResource {
+
+    static func write(value: SecurityAgentClientTypes.BitbucketRepositoryResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["workspace"].write(value.workspace)
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.BitbucketResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["leaveComments"].write(value.leaveComments)
+        try writer["remediateCode"].write(value.remediateCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BitbucketResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BitbucketResourceCapabilities()
+        value.leaveComments = try reader["leaveComments"].readIfPresent()
+        value.remediateCode = try reader["remediateCode"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.Category {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.Category {
@@ -8915,6 +14391,7 @@ extension SecurityAgentClientTypes.CodeReview {
         value.serviceRole = try reader["serviceRole"].readIfPresent()
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.validationMode = try reader["validationMode"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9031,6 +14508,75 @@ extension SecurityAgentClientTypes.CodeReviewSummary {
     }
 }
 
+extension SecurityAgentClientTypes.ConfluenceDocumentMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ConfluenceDocumentMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ConfluenceDocumentMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.spaceKey = try reader["spaceKey"].readIfPresent() ?? ""
+        value.pageId = try reader["pageId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent()
+        value.spaceTitle = try reader["spaceTitle"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ConfluenceDocumentResource {
+
+    static func write(value: SecurityAgentClientTypes.ConfluenceDocumentResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["pageId"].write(value.pageId)
+        try writer["spaceKey"].write(value.spaceKey)
+        try writer["spaceTitle"].write(value.spaceTitle)
+        try writer["title"].write(value.title)
+    }
+}
+
+extension SecurityAgentClientTypes.ConfluenceIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.ConfluenceIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
+        try writer["siteUrl"].write(value.siteUrl)
+        try writer["state"].write(value.state)
+    }
+}
+
+extension SecurityAgentClientTypes.ConfluenceResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.ConfluenceResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createDocument"].write(value.createDocument)
+        try writer["fetchDocument"].write(value.fetchDocument)
+        try writer["updateDocument"].write(value.updateDocument)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ConfluenceResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ConfluenceResourceCapabilities()
+        value.fetchDocument = try reader["fetchDocument"].readIfPresent()
+        value.createDocument = try reader["createDocument"].readIfPresent()
+        value.updateDocument = try reader["updateDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CreateSecurityRequirementEntry {
+
+    static func write(value: SecurityAgentClientTypes.CreateSecurityRequirementEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["domain"].write(value.domain)
+        try writer["evaluation"].write(value.evaluation)
+        try writer["name"].write(value.name)
+        try writer["remediation"].write(value.remediation)
+    }
+}
+
 extension SecurityAgentClientTypes.CustomHeader {
 
     static func write(value: SecurityAgentClientTypes.CustomHeader?, to writer: SmithyJSON.Writer) throws {
@@ -9070,6 +14616,30 @@ extension SecurityAgentClientTypes.DeletePentestFailure {
     }
 }
 
+extension SecurityAgentClientTypes.DeleteThreatModelFailure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.DeleteThreatModelFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.DeleteThreatModelFailure()
+        value.threatModelId = try reader["threatModelId"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.DiffSource {
+
+    static func write(value: SecurityAgentClientTypes.DiffSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3uri(s3uri):
+                try writer["s3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension SecurityAgentClientTypes.DiscoveredEndpoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.DiscoveredEndpoint {
@@ -9103,6 +14673,7 @@ extension SecurityAgentClientTypes.DocumentInfo {
     static func write(value: SecurityAgentClientTypes.DocumentInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["artifactId"].write(value.artifactId)
+        try writer["integratedDocument"].write(value.integratedDocument, with: SecurityAgentClientTypes.IntegratedDocument.write(value:to:))
         try writer["s3Location"].write(value.s3Location)
     }
 
@@ -9111,6 +14682,7 @@ extension SecurityAgentClientTypes.DocumentInfo {
         var value = SecurityAgentClientTypes.DocumentInfo()
         value.s3Location = try reader["s3Location"].readIfPresent()
         value.artifactId = try reader["artifactId"].readIfPresent()
+        value.integratedDocument = try reader["integratedDocument"].readIfPresent(with: SecurityAgentClientTypes.IntegratedDocument.read(from:))
         return value
     }
 }
@@ -9173,11 +14745,14 @@ extension SecurityAgentClientTypes.Finding {
         value.riskScore = try reader["riskScore"].readIfPresent()
         value.reasoning = try reader["reasoning"].readIfPresent()
         value.confidence = try reader["confidence"].readIfPresent()
+        value.validationStatus = try reader["validationStatus"].readIfPresent()
         value.attackScript = try reader["attackScript"].readIfPresent()
         value.codeRemediationTask = try reader["codeRemediationTask"].readIfPresent(with: SecurityAgentClientTypes.CodeRemediationTask.read(from:))
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.customerNote = try reader["customerNote"].readIfPresent()
         value.codeLocations = try reader["codeLocations"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.CodeLocation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.verificationScript = try reader["verificationScript"].readIfPresent(with: SecurityAgentClientTypes.VerificationScript.read(from:))
+        value.alignmentRationale = try reader["alignmentRationale"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9200,6 +14775,7 @@ extension SecurityAgentClientTypes.FindingSummary {
         value.riskType = try reader["riskType"].readIfPresent()
         value.riskLevel = try reader["riskLevel"].readIfPresent()
         value.confidence = try reader["confidence"].readIfPresent()
+        value.validationStatus = try reader["validationStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9211,8 +14787,10 @@ extension SecurityAgentClientTypes.GitHubIntegrationInput {
     static func write(value: SecurityAgentClientTypes.GitHubIntegrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
         try writer["organizationName"].write(value.organizationName)
         try writer["state"].write(value.state)
+        try writer["targetUrl"].write(value.targetUrl)
     }
 }
 
@@ -9255,6 +14833,56 @@ extension SecurityAgentClientTypes.GitHubResourceCapabilities {
     }
 }
 
+extension SecurityAgentClientTypes.GitLabIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.GitLabIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessToken"].write(value.accessToken)
+        try writer["groupId"].write(value.groupId)
+        try writer["targetUrl"].write(value.targetUrl)
+        try writer["tokenType"].write(value.tokenType)
+    }
+}
+
+extension SecurityAgentClientTypes.GitLabRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.GitLabRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.GitLabRepositoryMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.accessType = try reader["accessType"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.GitLabRepositoryResource {
+
+    static func write(value: SecurityAgentClientTypes.GitLabRepositoryResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["namespace"].write(value.namespace)
+    }
+}
+
+extension SecurityAgentClientTypes.GitLabResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.GitLabResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["leaveComments"].write(value.leaveComments)
+        try writer["remediateCode"].write(value.remediateCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.GitLabResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.GitLabResourceCapabilities()
+        value.leaveComments = try reader["leaveComments"].readIfPresent()
+        value.remediateCode = try reader["remediateCode"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.HttpVerification {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.HttpVerification {
@@ -9273,6 +14901,36 @@ extension SecurityAgentClientTypes.IdCConfiguration {
         var value = SecurityAgentClientTypes.IdCConfiguration()
         value.idcApplicationArn = try reader["idcApplicationArn"].readIfPresent()
         value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ImportSource {
+
+    static func write(value: SecurityAgentClientTypes.ImportSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .documents(documents):
+                try writer["documents"].writeList(documents, memberWritingClosure: SecurityAgentClientTypes.SecurityRequirementArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.IntegratedDocument {
+
+    static func write(value: SecurityAgentClientTypes.IntegratedDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationId"].write(value.integrationId)
+        try writer["resourceId"].write(value.resourceId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.IntegratedDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.IntegratedDocument()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9299,8 +14957,14 @@ extension SecurityAgentClientTypes.IntegratedResource {
     static func write(value: SecurityAgentClientTypes.IntegratedResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .bitbucketrepository(bitbucketrepository):
+                try writer["bitbucketRepository"].write(bitbucketrepository, with: SecurityAgentClientTypes.BitbucketRepositoryResource.write(value:to:))
+            case let .confluencedocument(confluencedocument):
+                try writer["confluenceDocument"].write(confluencedocument, with: SecurityAgentClientTypes.ConfluenceDocumentResource.write(value:to:))
             case let .githubrepository(githubrepository):
                 try writer["githubRepository"].write(githubrepository, with: SecurityAgentClientTypes.GitHubRepositoryResource.write(value:to:))
+            case let .gitlabrepository(gitlabrepository):
+                try writer["gitlabRepository"].write(gitlabrepository, with: SecurityAgentClientTypes.GitLabRepositoryResource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -9324,6 +14988,12 @@ extension SecurityAgentClientTypes.IntegratedResourceMetadata {
         switch name {
             case "githubRepository":
                 return .githubrepository(try reader["githubRepository"].read(with: SecurityAgentClientTypes.GitHubRepositoryMetadata.read(from:)))
+            case "gitlabRepository":
+                return .gitlabrepository(try reader["gitlabRepository"].read(with: SecurityAgentClientTypes.GitLabRepositoryMetadata.read(from:)))
+            case "bitbucketRepository":
+                return .bitbucketrepository(try reader["bitbucketRepository"].read(with: SecurityAgentClientTypes.BitbucketRepositoryMetadata.read(from:)))
+            case "confluenceDocument":
+                return .confluencedocument(try reader["confluenceDocument"].read(with: SecurityAgentClientTypes.ConfluenceDocumentMetadata.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -9367,7 +15037,18 @@ extension SecurityAgentClientTypes.IntegrationSummary {
         value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.targetUrl = try reader["targetUrl"].readIfPresent()
+        value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
         return value
+    }
+}
+
+extension SecurityAgentClientTypes.ListSecurityRequirementPackFilter {
+
+    static func write(value: SecurityAgentClientTypes.ListSecurityRequirementPackFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["managementType"].write(value.managementType)
+        try writer["status"].write(value.status)
     }
 }
 
@@ -9490,6 +15171,8 @@ extension SecurityAgentClientTypes.Pentest {
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: SecurityAgentClientTypes.VpcConfig.read(from:))
         value.networkTrafficConfig = try reader["networkTrafficConfig"].readIfPresent(with: SecurityAgentClientTypes.NetworkTrafficConfig.read(from:))
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
+        value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9522,6 +15205,8 @@ extension SecurityAgentClientTypes.PentestJob {
         value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
+        value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
+        value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9557,13 +15242,54 @@ extension SecurityAgentClientTypes.PentestSummary {
     }
 }
 
+extension SecurityAgentClientTypes.PrivateConnectionMode {
+
+    static func write(value: SecurityAgentClientTypes.PrivateConnectionMode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .selfmanaged(selfmanaged):
+                try writer["selfManaged"].write(selfmanaged, with: SecurityAgentClientTypes.SelfManagedInput.write(value:to:))
+            case let .servicemanaged(servicemanaged):
+                try writer["serviceManaged"].write(servicemanaged, with: SecurityAgentClientTypes.ServiceManagedInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SecurityAgentClientTypes.PrivateConnectionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.PrivateConnectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.PrivateConnectionSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceGatewayId = try reader["resourceGatewayId"].readIfPresent()
+        value.hostAddress = try reader["hostAddress"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
+        value.certificateExpiryTime = try reader["certificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dnsResolution = try reader["dnsResolution"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.ProviderInput {
 
     static func write(value: SecurityAgentClientTypes.ProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .bitbucket(bitbucket):
+                try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketIntegrationInput.write(value:to:))
+            case let .confluence(confluence):
+                try writer["confluence"].write(confluence, with: SecurityAgentClientTypes.ConfluenceIntegrationInput.write(value:to:))
             case let .github(github):
                 try writer["github"].write(github, with: SecurityAgentClientTypes.GitHubIntegrationInput.write(value:to:))
+            case let .gitlab(gitlab):
+                try writer["gitlab"].write(gitlab, with: SecurityAgentClientTypes.GitLabIntegrationInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -9575,8 +15301,14 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
     static func write(value: SecurityAgentClientTypes.ProviderResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .bitbucket(bitbucket):
+                try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketResourceCapabilities.write(value:to:))
+            case let .confluence(confluence):
+                try writer["confluence"].write(confluence, with: SecurityAgentClientTypes.ConfluenceResourceCapabilities.write(value:to:))
             case let .github(github):
                 try writer["github"].write(github, with: SecurityAgentClientTypes.GitHubResourceCapabilities.write(value:to:))
+            case let .gitlab(gitlab):
+                try writer["gitlab"].write(gitlab, with: SecurityAgentClientTypes.GitLabResourceCapabilities.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -9588,9 +15320,92 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
         switch name {
             case "github":
                 return .github(try reader["github"].read(with: SecurityAgentClientTypes.GitHubResourceCapabilities.read(from:)))
+            case "gitlab":
+                return .gitlab(try reader["gitlab"].read(with: SecurityAgentClientTypes.GitLabResourceCapabilities.read(from:)))
+            case "bitbucket":
+                return .bitbucket(try reader["bitbucket"].read(with: SecurityAgentClientTypes.BitbucketResourceCapabilities.read(from:)))
+            case "confluence":
+                return .confluence(try reader["confluence"].read(with: SecurityAgentClientTypes.ConfluenceResourceCapabilities.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SecurityAgentClientTypes.ReportDestination {
+
+    static func write(value: SecurityAgentClientTypes.ReportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerId"].write(value.containerId)
+        try writer["documentId"].write(value.documentId)
+        try writer["integrationId"].write(value.integrationId)
+        try writer["parentId"].write(value.parentId)
+    }
+}
+
+extension SecurityAgentClientTypes.SecurityRequirementArtifact {
+
+    static func write(value: SecurityAgentClientTypes.SecurityRequirementArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["format"].write(value.format)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension SecurityAgentClientTypes.SecurityRequirementPackSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.SecurityRequirementPackSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.SecurityRequirementPackSummary()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.vendorName = try reader["vendorName"].readIfPresent()
+        value.managementType = try reader["managementType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.SecurityRequirementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.SecurityRequirementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.SecurityRequirementSummary()
+        value.packId = try reader["packId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.SelfManagedInput {
+
+    static func write(value: SecurityAgentClientTypes.SelfManagedInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate)
+        try writer["resourceConfigurationId"].write(value.resourceConfigurationId)
+    }
+}
+
+extension SecurityAgentClientTypes.ServiceManagedInput {
+
+    static func write(value: SecurityAgentClientTypes.ServiceManagedInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate)
+        try writer["dnsResolution"].write(value.dnsResolution)
+        try writer["hostAddress"].write(value.hostAddress)
+        try writer["ipAddressType"].write(value.ipAddressType)
+        try writer["ipv4AddressesPerEni"].write(value.ipv4AddressesPerEni)
+        try writer["portRanges"].writeList(value.portRanges, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcId"].write(value.vpcId)
     }
 }
 
@@ -9687,6 +15502,213 @@ extension SecurityAgentClientTypes.TaskSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension SecurityAgentClientTypes.Threat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.Threat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.Threat()
+        value.threatId = try reader["threatId"].readIfPresent()
+        value.threatJobId = try reader["threatJobId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.statement = try reader["statement"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.comments = try reader["comments"].readIfPresent()
+        value.threatSource = try reader["threatSource"].readIfPresent()
+        value.prerequisites = try reader["prerequisites"].readIfPresent()
+        value.threatAction = try reader["threatAction"].readIfPresent()
+        value.threatImpact = try reader["threatImpact"].readIfPresent()
+        value.impactedGoal = try reader["impactedGoal"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impactedAssets = try reader["impactedAssets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.anchor = try reader["anchor"].readIfPresent(with: SecurityAgentClientTypes.ThreatAnchorShape.read(from:))
+        value.evidence = try reader["evidence"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ThreatEvidenceShape.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stride = try reader["stride"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.StrideCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recommendation = try reader["recommendation"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatAnchorShape {
+
+    static func write(value: SecurityAgentClientTypes.ThreatAnchorShape?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["kind"].write(value.kind)
+        try writer["packageId"].write(value.packageId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatAnchorShape {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatAnchorShape()
+        value.kind = try reader["kind"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.packageId = try reader["packageId"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatEvidenceShape {
+
+    static func write(value: SecurityAgentClientTypes.ThreatEvidenceShape?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["packageId"].write(value.packageId)
+        try writer["path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatEvidenceShape {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatEvidenceShape()
+        value.packageId = try reader["packageId"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModel()
+        value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModelJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModelJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModelJob()
+        value.threatModelJobId = try reader["threatModelJobId"].readIfPresent()
+        value.threatModelId = try reader["threatModelId"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.executionStartTime = try reader["executionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.executionEndTime = try reader["executionEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceCode = try reader["sourceCode"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SourceCodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scopeDocs = try reader["scopeDocs"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.DocumentInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
+        value.systemOverview = try reader["systemOverview"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModelJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModelJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModelJobSummary()
+        value.threatModelJobId = try reader["threatModelJobId"].readIfPresent() ?? ""
+        value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModelJobTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModelJobTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModelJobTask()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.threatModelId = try reader["threatModelId"].readIfPresent()
+        value.threatModelJobId = try reader["threatModelJobId"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.logsLocation = try reader["logsLocation"].readIfPresent(with: SecurityAgentClientTypes.LogLocation.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModelJobTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModelJobTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModelJobTaskSummary()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.threatModelId = try reader["threatModelId"].readIfPresent()
+        value.threatModelJobId = try reader["threatModelJobId"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.executionStatus = try reader["executionStatus"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatModelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatModelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatModelSummary()
+        value.threatModelId = try reader["threatModelId"].readIfPresent() ?? ""
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ThreatSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ThreatSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ThreatSummary()
+        value.threatId = try reader["threatId"].readIfPresent()
+        value.threatJobId = try reader["threatJobId"].readIfPresent()
+        value.title = try reader["title"].readIfPresent()
+        value.statement = try reader["statement"].readIfPresent()
+        value.severity = try reader["severity"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.stride = try reader["stride"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.StrideCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.UpdateSecurityRequirementEntry {
+
+    static func write(value: SecurityAgentClientTypes.UpdateSecurityRequirementEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["domain"].write(value.domain)
+        try writer["evaluation"].write(value.evaluation)
+        try writer["name"].write(value.name)
+        try writer["remediation"].write(value.remediation)
     }
 }
 

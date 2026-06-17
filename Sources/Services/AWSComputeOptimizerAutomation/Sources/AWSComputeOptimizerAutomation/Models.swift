@@ -1175,33 +1175,57 @@ extension ComputeOptimizerAutomationClientTypes {
 
     public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case numericEquals
+        case numericEqualsIfExists
         case numericGreaterThan
         case numericGreaterThanEquals
+        case numericGreaterThanEqualsIfExists
+        case numericGreaterThanIfExists
         case numericLessThan
         case numericLessThanEquals
+        case numericLessThanEqualsIfExists
+        case numericLessThanIfExists
         case numericNotEquals
+        case numericNotEqualsIfExists
         case stringEquals
+        case stringEqualsIfExists
         case stringEqualsIgnoreCase
+        case stringEqualsIgnoreCaseIfExists
         case stringLike
+        case stringLikeIfExists
         case stringNotEquals
+        case stringNotEqualsIfExists
         case stringNotEqualsIgnoreCase
+        case stringNotEqualsIgnoreCaseIfExists
         case stringNotLike
+        case stringNotLikeIfExists
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ComparisonOperator] {
             return [
                 .numericEquals,
+                .numericEqualsIfExists,
                 .numericGreaterThan,
                 .numericGreaterThanEquals,
+                .numericGreaterThanEqualsIfExists,
+                .numericGreaterThanIfExists,
                 .numericLessThan,
                 .numericLessThanEquals,
+                .numericLessThanEqualsIfExists,
+                .numericLessThanIfExists,
                 .numericNotEquals,
+                .numericNotEqualsIfExists,
                 .stringEquals,
+                .stringEqualsIfExists,
                 .stringEqualsIgnoreCase,
+                .stringEqualsIgnoreCaseIfExists,
                 .stringLike,
+                .stringLikeIfExists,
                 .stringNotEquals,
+                .stringNotEqualsIfExists,
                 .stringNotEqualsIgnoreCase,
-                .stringNotLike
+                .stringNotEqualsIgnoreCaseIfExists,
+                .stringNotLike,
+                .stringNotLikeIfExists
             ]
         }
 
@@ -1213,17 +1237,29 @@ extension ComputeOptimizerAutomationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .numericEquals: return "NumericEquals"
+            case .numericEqualsIfExists: return "NumericEqualsIfExists"
             case .numericGreaterThan: return "NumericGreaterThan"
             case .numericGreaterThanEquals: return "NumericGreaterThanEquals"
+            case .numericGreaterThanEqualsIfExists: return "NumericGreaterThanEqualsIfExists"
+            case .numericGreaterThanIfExists: return "NumericGreaterThanIfExists"
             case .numericLessThan: return "NumericLessThan"
             case .numericLessThanEquals: return "NumericLessThanEquals"
+            case .numericLessThanEqualsIfExists: return "NumericLessThanEqualsIfExists"
+            case .numericLessThanIfExists: return "NumericLessThanIfExists"
             case .numericNotEquals: return "NumericNotEquals"
+            case .numericNotEqualsIfExists: return "NumericNotEqualsIfExists"
             case .stringEquals: return "StringEquals"
+            case .stringEqualsIfExists: return "StringEqualsIfExists"
             case .stringEqualsIgnoreCase: return "StringEqualsIgnoreCase"
+            case .stringEqualsIgnoreCaseIfExists: return "StringEqualsIgnoreCaseIfExists"
             case .stringLike: return "StringLike"
+            case .stringLikeIfExists: return "StringLikeIfExists"
             case .stringNotEquals: return "StringNotEquals"
+            case .stringNotEqualsIfExists: return "StringNotEqualsIfExists"
             case .stringNotEqualsIgnoreCase: return "StringNotEqualsIgnoreCase"
+            case .stringNotEqualsIgnoreCaseIfExists: return "StringNotEqualsIgnoreCaseIfExists"
             case .stringNotLike: return "StringNotLike"
+            case .stringNotLikeIfExists: return "StringNotLikeIfExists"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1280,7 +1316,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Defines a condition for filtering based on integer values with comparison operators.
     public struct IntegerCriteriaCondition: Swift.Sendable {
-        /// The comparison operator to use, such as equals, greater than, less than, etc.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The list of integer values to compare against using the specified comparison operator.
         public var values: [Swift.Int]?
@@ -1299,7 +1335,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Criteria condition for filtering based on string values, including comparison operators and target values.
     public struct StringCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the string criteria, such as equals, not equals, or contains.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// List of string values to compare against when applying the criteria condition.
         public var values: [Swift.String]?
@@ -1318,7 +1354,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Defines a condition for filtering based on double/floating-point numeric values with comparison operators.
     public struct DoubleCriteriaCondition: Swift.Sendable {
-        /// The comparison operator to use, such as equals, greater than, less than, etc.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The list of double values to compare against using the specified comparison operator.
         public var values: [Swift.Double]?
@@ -1337,7 +1373,7 @@ extension ComputeOptimizerAutomationClientTypes {
 
     /// Criteria condition for filtering resources based on their tags, including comparison operators and values.
     public struct ResourceTagsCriteriaCondition: Swift.Sendable {
-        /// The comparison operator used to evaluate the tag criteria, such as equals, not equals, or contains.
+        /// The comparison operator used to evaluate the attribute against the specified values.
         public var comparison: ComputeOptimizerAutomationClientTypes.ComparisonOperator?
         /// The tag key to use for comparison when filtering resources.
         public var key: Swift.String?

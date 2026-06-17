@@ -1155,9 +1155,9 @@ extension DevOpsAgentClient {
     ///
     /// Creates a new Trigger in the specified agent space
     ///
-    /// - Parameter input: [no documentation found] (Type: `CreateTriggerInput`)
+    /// - Parameter input: Request structure for creating a new Trigger (Type: `CreateTriggerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `CreateTriggerOutput`)
+    /// - Returns: Response structure for creating a new Trigger (Type: `CreateTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,9 +1524,9 @@ extension DevOpsAgentClient {
     ///
     /// Deletes a Trigger from the specified agent space
     ///
-    /// - Parameter input: [no documentation found] (Type: `DeleteTriggerInput`)
+    /// - Parameter input: Request structure for deleting a Trigger (Type: `DeleteTriggerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `DeleteTriggerOutput`)
+    /// - Returns: Response structure for deleting a Trigger (Type: `DeleteTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,9 +2702,9 @@ extension DevOpsAgentClient {
     ///
     /// Gets a Trigger from the specified agent space
     ///
-    /// - Parameter input: [no documentation found] (Type: `GetTriggerInput`)
+    /// - Parameter input: Request structure for getting a Trigger (Type: `GetTriggerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `GetTriggerOutput`)
+    /// - Returns: Response structure for getting a Trigger (Type: `GetTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3969,9 +3969,9 @@ extension DevOpsAgentClient {
     ///
     /// Lists Triggers in the specified agent space
     ///
-    /// - Parameter input: [no documentation found] (Type: `ListTriggersInput`)
+    /// - Parameter input: Request structure for listing Triggers in an agent space (Type: `ListTriggersInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `ListTriggersOutput`)
+    /// - Returns: Response structure for listing Triggers (Type: `ListTriggersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5107,9 +5107,9 @@ extension DevOpsAgentClient {
     ///
     /// Updates the status of an existing Trigger
     ///
-    /// - Parameter input: [no documentation found] (Type: `UpdateTriggerInput`)
+    /// - Parameter input: Request structure for updating a Trigger (Type: `UpdateTriggerInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `UpdateTriggerOutput`)
+    /// - Returns: Response structure for updating a Trigger (Type: `UpdateTriggerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

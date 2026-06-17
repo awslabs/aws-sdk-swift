@@ -372,3 +372,161 @@ extension PaginatorSequence where OperationStackInput == ListPentestsInput, Oper
         return try await self.asyncCompactMap { item in item.pentestSummaries }
     }
 }
+extension SecurityAgentClient {
+    /// Paginate over `[ListSecurityRequirementsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityRequirementsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityRequirementsOutput`
+    public func listSecurityRequirementsPaginated(input: ListSecurityRequirementsInput) -> ClientRuntime.PaginatorSequence<ListSecurityRequirementsInput, ListSecurityRequirementsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSecurityRequirementsInput, ListSecurityRequirementsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSecurityRequirements(input:))
+    }
+}
+
+extension ListSecurityRequirementsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSecurityRequirementsInput {
+        return ListSecurityRequirementsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            packId: self.packId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSecurityRequirementsInput, OperationStackOutput == ListSecurityRequirementsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityRequirementsPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.SecurityRequirementSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.SecurityRequirementSummary]`
+    public func securityRequirementSummaries() async throws -> [SecurityAgentClientTypes.SecurityRequirementSummary] {
+        return try await self.asyncCompactMap { item in item.securityRequirementSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListThreatModelJobsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThreatModelJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThreatModelJobsOutput`
+    public func listThreatModelJobsPaginated(input: ListThreatModelJobsInput) -> ClientRuntime.PaginatorSequence<ListThreatModelJobsInput, ListThreatModelJobsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThreatModelJobsInput, ListThreatModelJobsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreatModelJobs(input:))
+    }
+}
+
+extension ListThreatModelJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThreatModelJobsInput {
+        return ListThreatModelJobsInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            threatModelId: self.threatModelId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThreatModelJobsInput, OperationStackOutput == ListThreatModelJobsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThreatModelJobsPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.ThreatModelJobSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.ThreatModelJobSummary]`
+    public func threatModelJobSummaries() async throws -> [SecurityAgentClientTypes.ThreatModelJobSummary] {
+        return try await self.asyncCompactMap { item in item.threatModelJobSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListThreatModelJobTasksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThreatModelJobTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThreatModelJobTasksOutput`
+    public func listThreatModelJobTasksPaginated(input: ListThreatModelJobTasksInput) -> ClientRuntime.PaginatorSequence<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListThreatModelJobTasksInput, ListThreatModelJobTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreatModelJobTasks(input:))
+    }
+}
+
+extension ListThreatModelJobTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThreatModelJobTasksInput {
+        return ListThreatModelJobTasksInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            threatModelJobId: self.threatModelJobId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThreatModelJobTasksInput, OperationStackOutput == ListThreatModelJobTasksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThreatModelJobTasksPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.ThreatModelJobTaskSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.ThreatModelJobTaskSummary]`
+    public func threatModelJobTaskSummaries() async throws -> [SecurityAgentClientTypes.ThreatModelJobTaskSummary] {
+        return try await self.asyncCompactMap { item in item.threatModelJobTaskSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListThreatModelsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThreatModelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThreatModelsOutput`
+    public func listThreatModelsPaginated(input: ListThreatModelsInput) -> ClientRuntime.PaginatorSequence<ListThreatModelsInput, ListThreatModelsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThreatModelsInput, ListThreatModelsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreatModels(input:))
+    }
+}
+
+extension ListThreatModelsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThreatModelsInput {
+        return ListThreatModelsInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThreatModelsInput, OperationStackOutput == ListThreatModelsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThreatModelsPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.ThreatModelSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.ThreatModelSummary]`
+    public func threatModelSummaries() async throws -> [SecurityAgentClientTypes.ThreatModelSummary] {
+        return try await self.asyncCompactMap { item in item.threatModelSummaries }
+    }
+}
+extension SecurityAgentClient {
+    /// Paginate over `[ListThreatsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThreatsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThreatsOutput`
+    public func listThreatsPaginated(input: ListThreatsInput) -> ClientRuntime.PaginatorSequence<ListThreatsInput, ListThreatsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThreatsInput, ListThreatsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreats(input:))
+    }
+}
+
+extension ListThreatsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThreatsInput {
+        return ListThreatsInput(
+            agentSpaceId: self.agentSpaceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            threatJobId: self.threatJobId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThreatsInput, OperationStackOutput == ListThreatsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThreatsPaginated`
+    /// to access the nested member `[SecurityAgentClientTypes.ThreatSummary]`
+    /// - Returns: `[SecurityAgentClientTypes.ThreatSummary]`
+    public func threats() async throws -> [SecurityAgentClientTypes.ThreatSummary] {
+        return try await self.asyncCompactMap { item in item.threats }
+    }
+}

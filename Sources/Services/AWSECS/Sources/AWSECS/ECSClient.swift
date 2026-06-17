@@ -615,7 +615,7 @@ extension ECSClient {
 extension ECSClient {
     /// Performs the `ContinueServiceDeployment` operation on the `ECS` service.
     ///
-    /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit action. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call [DescribeServiceDeployments](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceDeployments.html) and inspect the lifecycleHookDetails field.
+    /// Continues or rolls back an Amazon ECS service deployment that is paused at a lifecycle hook. When a service deployment reaches a lifecycle stage that has a PAUSE hook configured, the deployment pauses and waits for an explicit action. Use this API to either continue the deployment to the next stage or roll back to the previous service revision. To find the hookId of the paused hook, call [DescribeServiceDeployments](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeServiceDeployments.html) and inspect the lifecycleHookDetails field. For more information, see [Continuing Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/continue-service-deployment.html) in the Amazon Elastic Container Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ContinueServiceDeploymentInput`)
     ///
@@ -628,7 +628,7 @@ extension ECSClient {
     /// - `ClientException` : These errors are usually caused by a client action. This client action might be using an action or resource on behalf of a user that doesn't have permissions to use the action or resource. Or, it might be specifying an identifier that isn't valid.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+    /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the ContinueServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func continueServiceDeployment(input: ContinueServiceDeploymentInput) async throws -> ContinueServiceDeploymentOutput {
         var config = config
@@ -5397,7 +5397,7 @@ extension ECSClient {
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InvalidParameterException` : The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
     /// - `ServerException` : These errors are usually caused by a server issue.
-    /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+    /// - `ServiceDeploymentNotFoundException` : The service deploy ARN that you specified in the ContinueServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
     /// - `UnsupportedFeatureException` : The specified task isn't supported in this Region.
     public func stopServiceDeployment(input: StopServiceDeploymentInput) async throws -> StopServiceDeploymentOutput {
         var config = config
