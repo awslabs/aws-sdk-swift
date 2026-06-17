@@ -9893,6 +9893,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
     /// The data sources to associate with the OpenSearch application.
     public var dataSources: [OpenSearchClientTypes.DataSource]?
+    /// Configuration settings for integrating IAM Identity Center with the OpenSearch application.
+    public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
     /// The unique identifier for the OpenSearch application to be updated.
     /// This member is required.
     public var id: Swift.String?
@@ -9900,10 +9902,12 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public init(
         appConfigs: [OpenSearchClientTypes.AppConfig]? = nil,
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
+        iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
         id: Swift.String? = nil
     ) {
         self.appConfigs = appConfigs
         self.dataSources = dataSources
+        self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
     }
 }
@@ -12004,6 +12008,7 @@ extension UpdateApplicationInput {
         guard let value else { return }
         try writer["appConfigs"].writeList(value.appConfigs, memberWritingClosure: OpenSearchClientTypes.AppConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
     }
 }
 
