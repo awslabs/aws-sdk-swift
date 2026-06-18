@@ -12984,6 +12984,164 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configurations that SageMaker uses when updating the AMI versions.
+    public struct RollingDeploymentPolicy: Swift.Sendable {
+        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration to use when updating the AMI versions.
+    public struct DeploymentConfiguration: Swift.Sendable {
+        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
+        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
+        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
+        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
+        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The strategy for applying automatic patches to instances.
+    ///
+    /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+    ///
+    /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+    public enum ClusterPatchingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case whenAllIdle
+        case whenIdle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterPatchingStrategy] {
+            return [
+                .whenAllIdle,
+                .whenIdle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .whenAllIdle: return "WhenAllIdle"
+            case .whenIdle: return "WhenIdle"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The schedule configuration for automatic patching.
+    public struct ClusterPatchSchedule: Swift.Sendable {
+        /// The date and time of the next scheduled automatic patch. The system sets this automatically when a patch is detected. Use this field to reschedule the patch to a different date.
+        public var nextPatchDate: Foundation.Date?
+
+        public init(
+            nextPatchDate: Foundation.Date? = nil
+        ) {
+            self.nextPatchDate = nextPatchDate
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for automatic patching of the instance group. When configured, the system automatically applies security patch AMI updates to the instance group.
+    public struct ClusterAutoPatchConfig: Swift.Sendable {
+        /// The deployment configuration for rolling patch updates, including rollback settings and batch sizes. Only applicable when using a rolling patching strategy.
+        public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The schedule for automatic patching, including the next patch date.
+        public var patchSchedule: SageMakerClientTypes.ClusterPatchSchedule?
+        /// The strategy for applying patches to instances in the group.
+        /// This member is required.
+        public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
+
+        public init(
+            deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            patchSchedule: SageMakerClientTypes.ClusterPatchSchedule? = nil,
+            patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
+        ) {
+            self.deploymentConfig = deploymentConfig
+            self.patchSchedule = patchSchedule
+            self.patchingStrategy = patchingStrategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The schedule details for automatic patching, including the next scheduled patch date.
+    public struct ClusterPatchScheduleDetails: Swift.Sendable {
+        /// The date and time of the next scheduled automatic patch.
+        public var nextPatchDate: Foundation.Date?
+
+        public init(
+            nextPatchDate: Foundation.Date? = nil
+        ) {
+            self.nextPatchDate = nextPatchDate
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The auto-patching configuration details for the instance group, including the patching strategy and schedule.
+    public struct ClusterAutoPatchConfigDetails: Swift.Sendable {
+        /// The currently active patch schedule that the system will execute.
+        public var currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The deployment configuration for rolling patch updates.
+        public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The requested patch schedule. Differs from CurrentPatchSchedule when a reschedule request is pending.
+        public var desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The strategy used for applying patches to instances in the group.
+        public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
+
+        public init(
+            currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
+        ) {
+            self.currentPatchSchedule = currentPatchSchedule
+            self.deploymentConfig = deploymentConfig
+            self.desiredPatchSchedule = desiredPatchSchedule
+            self.patchingStrategy = patchingStrategy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum ClusterAutoScalerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case karpenter
         case sdkUnknown(Swift.String)
@@ -13683,13 +13841,21 @@ extension SageMakerClientTypes {
     /// * UpToDate: The resource is running the latest available AMI version.
     ///
     /// * UpdateAvailable: A newer AMI version is available for the resource.
+    ///
+    /// * SecurityUpdateRequired: The current AMI has known security vulnerabilities, and a patched version is available.
+    ///
+    /// * EndOfLife: The AMI variant has reached end of support and an upgrade is required.
     public enum ClusterImageVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case endOfLife
+        case securityUpdateRequired
         case updateAvailable
         case upToDate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterImageVersionStatus] {
             return [
+                .endOfLife,
+                .securityUpdateRequired,
                 .updateAvailable,
                 .upToDate
             ]
@@ -13702,53 +13868,12 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .endOfLife: return "EndOfLife"
+            case .securityUpdateRequired: return "SecurityUpdateRequired"
             case .updateAvailable: return "UpdateAvailable"
             case .upToDate: return "UpToDate"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    /// The configurations that SageMaker uses when updating the AMI versions.
-    public struct RollingDeploymentPolicy: Swift.Sendable {
-        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
-        /// This member is required.
-        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
-        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-
-        public init(
-            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
-            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
-        ) {
-            self.maximumBatchSize = maximumBatchSize
-            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    /// The configuration to use when updating the AMI versions.
-    public struct DeploymentConfiguration: Swift.Sendable {
-        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
-        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
-        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
-        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
-        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
-        public var waitIntervalInSeconds: Swift.Int?
-
-        public init(
-            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
-            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
-            waitIntervalInSeconds: Swift.Int? = nil
-        ) {
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.rollingUpdatePolicy = rollingUpdatePolicy
-            self.waitIntervalInSeconds = waitIntervalInSeconds
         }
     }
 }
@@ -14154,14 +14279,20 @@ extension SageMakerClientTypes {
         public var activeOperations: [Swift.String: Swift.Int]?
         /// The configuration to use when updating the AMI versions.
         public var activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The auto-patching configuration for the instance group, including the current patching strategy and next scheduled patch date.
+        public var autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfigDetails?
         /// The instance capacity requirements for the instance group.
         public var capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements?
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public var currentCount: Swift.Int?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
         public var currentImageId: Swift.String?
+        /// The version of the HyperPod-managed AMI currently running on the instance group.
+        public var currentImageReleaseVersion: Swift.String?
         /// The ID of the Amazon Machine Image (AMI) desired for the instance group.
         public var desiredImageId: Swift.String?
+        /// The desired version of the HyperPod-managed AMI for the instance group. This may differ from the current version when an update is pending.
+        public var desiredImageReleaseVersion: Swift.String?
         /// The execution role for the instance group to assume.
         public var executionRole: Swift.String?
         /// The status of the image version for the instance group. Indicates whether the instance group is running the latest image version or if an update is available.
@@ -14232,10 +14363,13 @@ extension SageMakerClientTypes {
         public init(
             activeOperations: [Swift.String: Swift.Int]? = nil,
             activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfigDetails? = nil,
             capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements? = nil,
             currentCount: Swift.Int? = nil,
             currentImageId: Swift.String? = nil,
+            currentImageReleaseVersion: Swift.String? = nil,
             desiredImageId: Swift.String? = nil,
+            desiredImageReleaseVersion: Swift.String? = nil,
             executionRole: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
@@ -14261,10 +14395,13 @@ extension SageMakerClientTypes {
         ) {
             self.activeOperations = activeOperations
             self.activeSoftwareUpdateConfig = activeSoftwareUpdateConfig
+            self.autoPatchConfig = autoPatchConfig
             self.capacityRequirements = capacityRequirements
             self.currentCount = currentCount
             self.currentImageId = currentImageId
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.desiredImageId = desiredImageId
+            self.desiredImageReleaseVersion = desiredImageReleaseVersion
             self.executionRole = executionRole
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
@@ -14372,6 +14509,8 @@ extension SageMakerClientTypes {
 
     /// The specifications of an instance group that you need to define.
     public struct ClusterInstanceGroupSpecification: Swift.Sendable {
+        /// The configuration for automatic OS security patching. If present, the system automatically applies PATCH AMI updates to this instance group.
+        public var autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfig?
         /// Specifies the capacity requirements for the instance group.
         public var capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements?
         /// Specifies an IAM execution role to be assumed by the instance group.
@@ -14397,6 +14536,8 @@ extension SageMakerClientTypes {
         ///
         /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
         public var imageId: Swift.String?
+        /// The version of the HyperPod-managed AMI to use for the instance group. Uses semantic versioning in the format MAJOR.MINOR.PATCH (for example, 1.2.3). If omitted, the latest available version is used.
+        public var imageReleaseVersion: Swift.String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         /// This member is required.
         public var instanceCount: Swift.Int?
@@ -14444,9 +14585,11 @@ extension SageMakerClientTypes {
         public var trainingPlanArn: Swift.String?
 
         public init(
+            autoPatchConfig: SageMakerClientTypes.ClusterAutoPatchConfig? = nil,
             capacityRequirements: SageMakerClientTypes.ClusterCapacityRequirements? = nil,
             executionRole: Swift.String? = nil,
             imageId: Swift.String? = nil,
+            imageReleaseVersion: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceRequirements: SageMakerClientTypes.ClusterInstanceRequirements? = nil,
@@ -14463,9 +14606,11 @@ extension SageMakerClientTypes {
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil
         ) {
+            self.autoPatchConfig = autoPatchConfig
             self.capacityRequirements = capacityRequirements
             self.executionRole = executionRole
             self.imageId = imageId
+            self.imageReleaseVersion = imageReleaseVersion
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceRequirements = instanceRequirements
@@ -14578,8 +14723,12 @@ extension SageMakerClientTypes {
         public var capacityType: SageMakerClientTypes.ClusterCapacityType?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
         public var currentImageId: Swift.String?
+        /// The version of the HyperPod-managed AMI currently running on the node.
+        public var currentImageReleaseVersion: Swift.String?
         /// The ID of the Amazon Machine Image (AMI) desired for the node.
         public var desiredImageId: Swift.String?
+        /// The desired version of the HyperPod-managed AMI for the node. This may differ from the current version when an update is pending.
+        public var desiredImageReleaseVersion: Swift.String?
         /// The status of the image version for the cluster node.
         public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// The instance group name in which the instance is.
@@ -14622,7 +14771,9 @@ extension SageMakerClientTypes {
         public init(
             capacityType: SageMakerClientTypes.ClusterCapacityType? = nil,
             currentImageId: Swift.String? = nil,
+            currentImageReleaseVersion: Swift.String? = nil,
             desiredImageId: Swift.String? = nil,
+            desiredImageReleaseVersion: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -14645,7 +14796,9 @@ extension SageMakerClientTypes {
         ) {
             self.capacityType = capacityType
             self.currentImageId = currentImageId
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.desiredImageId = desiredImageId
+            self.desiredImageReleaseVersion = desiredImageReleaseVersion
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -14728,6 +14881,8 @@ extension SageMakerClientTypes {
 
     /// Lists a summary of the properties of an instance (also called a node interchangeably) of a SageMaker HyperPod cluster.
     public struct ClusterNodeSummary: Swift.Sendable {
+        /// The version of the HyperPod-managed AMI currently running on the node.
+        public var currentImageReleaseVersion: Swift.String?
         /// The status of the image version for the cluster node.
         public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// The name of the instance group in which the instance is.
@@ -14755,6 +14910,7 @@ extension SageMakerClientTypes {
         public var ultraServerInfo: SageMakerClientTypes.UltraServerInfo?
 
         public init(
+            currentImageReleaseVersion: Swift.String? = nil,
             imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -14766,6 +14922,7 @@ extension SageMakerClientTypes {
             privateDnsHostname: Swift.String? = nil,
             ultraServerInfo: SageMakerClientTypes.UltraServerInfo? = nil
         ) {
+            self.currentImageReleaseVersion = currentImageReleaseVersion
             self.imageVersionStatus = imageVersionStatus
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -15331,6 +15488,8 @@ extension SageMakerClientTypes {
         /// The time when the SageMaker HyperPod cluster is created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// The aggregate status of the image version across the cluster's instance groups.
+        public var imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus?
         /// A list of Amazon Resource Names (ARNs) of the training plans associated with this cluster. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
         public var trainingPlanArns: [Swift.String]?
 
@@ -15339,12 +15498,14 @@ extension SageMakerClientTypes {
             clusterName: Swift.String? = nil,
             clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
             creationTime: Foundation.Date? = nil,
+            imageVersionStatus: SageMakerClientTypes.ClusterImageVersionStatus? = nil,
             trainingPlanArns: [Swift.String]? = nil
         ) {
             self.clusterArn = clusterArn
             self.clusterName = clusterName
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
+            self.imageVersionStatus = imageVersionStatus
             self.trainingPlanArns = trainingPlanArns
         }
     }
@@ -59491,13 +59652,17 @@ extension SageMakerClientTypes {
 
     /// The configuration that describes specifications of the instance groups to update.
     public struct UpdateClusterSoftwareInstanceGroupSpecification: Swift.Sendable {
+        /// The version of the HyperPod-managed AMI to update to for the instance group. Uses semantic versioning in the format MAJOR.MINOR.PATCH.
+        public var imageReleaseVersion: Swift.String?
         /// The name of the instance group to update.
         /// This member is required.
         public var instanceGroupName: Swift.String?
 
         public init(
+            imageReleaseVersion: Swift.String? = nil,
             instanceGroupName: Swift.String? = nil
         ) {
+            self.imageReleaseVersion = imageReleaseVersion
             self.instanceGroupName = instanceGroupName
         }
     }

@@ -328,6 +328,7 @@ extension FilterLogEventsInput: ClientRuntime.PaginateToken {
             logStreamNamePrefix: self.logStreamNamePrefix,
             logStreamNames: self.logStreamNames,
             nextToken: token,
+            startFromHead: self.startFromHead,
             startTime: self.startTime,
             unmask: self.unmask
         )}

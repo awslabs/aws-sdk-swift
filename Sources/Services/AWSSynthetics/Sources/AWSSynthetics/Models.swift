@@ -53,6 +53,49 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SyntheticsClientTypes {
 
+    /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
+    public struct VpcConfigInput: Swift.Sendable {
+        /// Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false
+        public var ipv6AllowedForDualStack: Swift.Bool?
+        /// The IDs of the security groups for this canary.
+        public var securityGroupIds: [Swift.String]?
+        /// The IDs of the subnets where this canary is to run.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that specifies a replica location for a canary, including the Region and optional VPC configuration.
+    public struct AddReplicaLocationInput: Swift.Sendable {
+        /// The Amazon Web Services Region where the canary replica should be created, for example us-east-1.
+        /// This member is required.
+        public var location: Swift.String?
+        /// The VPC configuration to use for the canary replica in this location. If not specified, the replica runs without VPC connectivity.
+        public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
+
+        public init(
+            location: Swift.String? = nil,
+            vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
+        ) {
+            self.location = location
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     public enum EncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sseKms
         case sseS3
@@ -466,6 +509,225 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    public enum LocationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case replica
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocationType] {
+            return [
+                .primary,
+                .replica
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "Primary"
+            case .replica: return "Replica"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    public enum CanaryState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case error
+        case ready
+        case running
+        case starting
+        case stopped
+        case stopping
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CanaryState] {
+            return [
+                .creating,
+                .deleting,
+                .error,
+                .ready,
+                .running,
+                .starting,
+                .stopped,
+                .stopping,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .ready: return "READY"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    public enum ReplicationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inprogress
+        case insync
+        case inconsistent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationState] {
+            return [
+                .inprogress,
+                .insync,
+                .inconsistent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inprogress: return "InProgress"
+            case .insync: return "InSync"
+            case .inconsistent: return "Inconsistent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that contains information about the replication status of a canary replica.
+    public struct ReplicationStatus: Swift.Sendable {
+        /// The replication state of the replica. Valid values are InProgress, InSync, and Inconsistent.
+        public var state: SyntheticsClientTypes.ReplicationState?
+        /// A description that provides more detail about the current replication state.
+        public var stateReason: Swift.String?
+        /// A code that provides more detail about the current replication state.
+        public var stateReasonCode: Swift.String?
+
+        public init(
+            state: SyntheticsClientTypes.ReplicationState? = nil,
+            stateReason: Swift.String? = nil,
+            stateReasonCode: Swift.String? = nil
+        ) {
+            self.state = state
+            self.stateReason = stateReason
+            self.stateReasonCode = stateReasonCode
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
+    public struct VpcConfigOutput: Swift.Sendable {
+        /// Indicates whether this canary allows outbound IPv6 traffic if it is connected to dual-stack subnets.
+        public var ipv6AllowedForDualStack: Swift.Bool?
+        /// The IDs of the security groups for this canary.
+        public var securityGroupIds: [Swift.String]?
+        /// The IDs of the subnets where this canary is to run.
+        public var subnetIds: [Swift.String]?
+        /// The IDs of the VPC where this canary is to run.
+        public var vpcId: Swift.String?
+
+        public init(
+            ipv6AllowedForDualStack: Swift.Bool? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that contains information about a canary replica in a specific location.
+    public struct Replica: Swift.Sendable {
+        /// The current state of the canary in this replica location.
+        public var canaryState: SyntheticsClientTypes.CanaryState?
+        /// The date and time that the replica was last modified.
+        public var lastModified: Foundation.Date?
+        /// The Amazon Web Services Region where this replica is located.
+        public var location: Swift.String?
+        /// A structure that contains information about the replication status of this replica.
+        public var replicationStatus: SyntheticsClientTypes.ReplicationStatus?
+        /// The VPC configuration for the canary replica in this location.
+        public var vpcConfig: SyntheticsClientTypes.VpcConfigOutput?
+
+        public init(
+            canaryState: SyntheticsClientTypes.CanaryState? = nil,
+            lastModified: Foundation.Date? = nil,
+            location: Swift.String? = nil,
+            replicationStatus: SyntheticsClientTypes.ReplicationStatus? = nil,
+            vpcConfig: SyntheticsClientTypes.VpcConfigOutput? = nil
+        ) {
+            self.canaryState = canaryState
+            self.lastModified = lastModified
+            self.location = location
+            self.replicationStatus = replicationStatus
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that contains information about the multi-location configuration of a canary, including whether it is a primary or replica, the primary location, and the list of replicas.
+    public struct MultiLocationConfig: Swift.Sendable {
+        /// Indicates whether this canary is the Primary or a Replica in the multi-location configuration.
+        public var locationType: SyntheticsClientTypes.LocationType?
+        /// The Amazon Web Services Region where the primary canary is located.
+        public var primaryLocation: Swift.String?
+        /// A list of replicas for this canary. This field is present only for the primary location canary.
+        public var replicas: [SyntheticsClientTypes.Replica]?
+        /// The overall replication state of the canary across all replica locations. This field is present only for the primary location canary. Valid values are InProgress, InSync, and Inconsistent.
+        public var replicationState: SyntheticsClientTypes.ReplicationState?
+
+        public init(
+            locationType: SyntheticsClientTypes.LocationType? = nil,
+            primaryLocation: Swift.String? = nil,
+            replicas: [SyntheticsClientTypes.Replica]? = nil,
+            replicationState: SyntheticsClientTypes.ReplicationState? = nil
+        ) {
+            self.locationType = locationType
+            self.primaryLocation = primaryLocation
+            self.replicas = replicas
+            self.replicationState = replicationState
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     public enum ProvisionedResourceCleanupSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case off
@@ -554,56 +816,6 @@ extension SyntheticsClientTypes {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
             self.retryConfig = retryConfig
-        }
-    }
-}
-
-extension SyntheticsClientTypes {
-
-    public enum CanaryState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creating
-        case deleting
-        case error
-        case ready
-        case running
-        case starting
-        case stopped
-        case stopping
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CanaryState] {
-            return [
-                .creating,
-                .deleting,
-                .error,
-                .ready,
-                .running,
-                .starting,
-                .stopped,
-                .stopping,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .error: return "ERROR"
-            case .ready: return "READY"
-            case .running: return "RUNNING"
-            case .starting: return "STARTING"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -742,33 +954,6 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
-    /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
-    public struct VpcConfigOutput: Swift.Sendable {
-        /// Indicates whether this canary allows outbound IPv6 traffic if it is connected to dual-stack subnets.
-        public var ipv6AllowedForDualStack: Swift.Bool?
-        /// The IDs of the security groups for this canary.
-        public var securityGroupIds: [Swift.String]?
-        /// The IDs of the subnets where this canary is to run.
-        public var subnetIds: [Swift.String]?
-        /// The IDs of the VPC where this canary is to run.
-        public var vpcId: Swift.String?
-
-        public init(
-            ipv6AllowedForDualStack: Swift.Bool? = nil,
-            securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil,
-            vpcId: Swift.String? = nil
-        ) {
-            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-            self.vpcId = vpcId
-        }
-    }
-}
-
-extension SyntheticsClientTypes {
-
     /// This structure contains all information about one canary in your account.
     public struct Canary: Swift.Sendable {
         /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
@@ -791,6 +976,8 @@ extension SyntheticsClientTypes {
         public var failureRetentionPeriodInDays: Swift.Int?
         /// The unique ID of this canary.
         public var id: Swift.String?
+        /// If this canary is part of a multi-location configuration, this structure contains information about the canary's location type, primary location, and replicas.
+        public var multiLocationConfig: SyntheticsClientTypes.MultiLocationConfig?
         /// The name of the canary.
         public var name: Swift.String?
         /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If it is AUTOMATIC, the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
@@ -827,6 +1014,7 @@ extension SyntheticsClientTypes {
             executionRoleArn: Swift.String? = nil,
             failureRetentionPeriodInDays: Swift.Int? = nil,
             id: Swift.String? = nil,
+            multiLocationConfig: SyntheticsClientTypes.MultiLocationConfig? = nil,
             name: Swift.String? = nil,
             provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
             runConfig: SyntheticsClientTypes.CanaryRunConfigOutput? = nil,
@@ -850,6 +1038,7 @@ extension SyntheticsClientTypes {
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
+            self.multiLocationConfig = multiLocationConfig
             self.name = name
             self.provisionedResourceCleanup = provisionedResourceCleanup
             self.runConfig = runConfig
@@ -1036,6 +1225,8 @@ extension SyntheticsClientTypes {
         public var dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
         public var id: Swift.String?
+        /// The Amazon Web Services Region where this canary run was executed.
+        public var location: Swift.String?
         /// The name of the canary.
         public var name: Swift.String?
         /// The count in number of the retry attempt.
@@ -1052,6 +1243,7 @@ extension SyntheticsClientTypes {
             browserType: SyntheticsClientTypes.BrowserType? = nil,
             dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput? = nil,
             id: Swift.String? = nil,
+            location: Swift.String? = nil,
             name: Swift.String? = nil,
             retryAttempt: Swift.Int? = nil,
             scheduledRunId: Swift.String? = nil,
@@ -1062,6 +1254,7 @@ extension SyntheticsClientTypes {
             self.browserType = browserType
             self.dryRunConfig = dryRunConfig
             self.id = id
+            self.location = location
             self.name = name
             self.retryAttempt = retryAttempt
             self.scheduledRunId = scheduledRunId
@@ -1253,30 +1446,9 @@ extension SyntheticsClientTypes {
     }
 }
 
-extension SyntheticsClientTypes {
-
-    /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
-    public struct VpcConfigInput: Swift.Sendable {
-        /// Set this to true to allow outbound IPv6 traffic on VPC canaries that are connected to dual-stack subnets. The default is false
-        public var ipv6AllowedForDualStack: Swift.Bool?
-        /// The IDs of the security groups for this canary.
-        public var securityGroupIds: [Swift.String]?
-        /// The IDs of the subnets where this canary is to run.
-        public var subnetIds: [Swift.String]?
-
-        public init(
-            ipv6AllowedForDualStack: Swift.Bool? = nil,
-            securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil
-        ) {
-            self.ipv6AllowedForDualStack = ipv6AllowedForDualStack
-            self.securityGroupIds = securityGroupIds
-            self.subnetIds = subnetIds
-        }
-    }
-}
-
 public struct CreateCanaryInput: Swift.Sendable {
+    /// A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica. You can add up to 50 replica locations.
+    public var addReplicaLocations: [SyntheticsClientTypes.AddReplicaLocationInput]?
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
@@ -1329,6 +1501,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
 
     public init(
+        addReplicaLocations: [SyntheticsClientTypes.AddReplicaLocationInput]? = nil,
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
         browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
@@ -1345,6 +1518,7 @@ public struct CreateCanaryInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
     ) {
+        self.addReplicaLocations = addReplicaLocations
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
         self.browserConfigs = browserConfigs
@@ -2150,6 +2324,8 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateCanaryInput: Swift.Sendable {
+    /// A list of locations (Amazon Web Services Regions) to add as replicas for the canary. Each location specifies a Region and optional VPC configuration for the replica. You can add up to 50 replica locations.
+    public var addReplicaLocations: [SyntheticsClientTypes.AddReplicaLocationInput]?
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
@@ -2183,6 +2359,8 @@ public struct UpdateCanaryInput: Swift.Sendable {
     public var name: Swift.String?
     /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
     public var provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting?
+    /// A list of locations (Amazon Web Services Regions) to remove as replicas for the canary. You must specify at least one location to remove. All replicas can be removed in a single API call and you cannot remove the primary location.
+    public var removeReplicaLocations: [Swift.String]?
     /// A structure that contains the timeout value that is used for each individual run of the canary. Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
     public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
     /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
@@ -2199,6 +2377,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
     public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
 
     public init(
+        addReplicaLocations: [SyntheticsClientTypes.AddReplicaLocationInput]? = nil,
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
         browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
@@ -2208,6 +2387,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         failureRetentionPeriodInDays: Swift.Int? = nil,
         name: Swift.String? = nil,
         provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
+        removeReplicaLocations: [Swift.String]? = nil,
         runConfig: SyntheticsClientTypes.CanaryRunConfigInput? = nil,
         runtimeVersion: Swift.String? = nil,
         schedule: SyntheticsClientTypes.CanaryScheduleInput? = nil,
@@ -2216,6 +2396,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         visualReferences: [SyntheticsClientTypes.VisualReferenceInput]? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
     ) {
+        self.addReplicaLocations = addReplicaLocations
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
         self.browserConfigs = browserConfigs
@@ -2225,6 +2406,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
         self.name = name
         self.provisionedResourceCleanup = provisionedResourceCleanup
+        self.removeReplicaLocations = removeReplicaLocations
         self.runConfig = runConfig
         self.runtimeVersion = runtimeVersion
         self.schedule = schedule
@@ -2494,6 +2676,7 @@ extension CreateCanaryInput {
 
     static func write(value: CreateCanaryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AddReplicaLocations"].writeList(value.addReplicaLocations, memberWritingClosure: SyntheticsClientTypes.AddReplicaLocationInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
         try writer["BrowserConfigs"].writeList(value.browserConfigs, memberWritingClosure: SyntheticsClientTypes.BrowserConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2629,6 +2812,7 @@ extension UpdateCanaryInput {
 
     static func write(value: UpdateCanaryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AddReplicaLocations"].writeList(value.addReplicaLocations, memberWritingClosure: SyntheticsClientTypes.AddReplicaLocationInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
         try writer["BrowserConfigs"].writeList(value.browserConfigs, memberWritingClosure: SyntheticsClientTypes.BrowserConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2637,6 +2821,7 @@ extension UpdateCanaryInput {
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
         try writer["ProvisionedResourceCleanup"].write(value.provisionedResourceCleanup)
+        try writer["RemoveReplicaLocations"].writeList(value.removeReplicaLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RunConfig"].write(value.runConfig, with: SyntheticsClientTypes.CanaryRunConfigInput.write(value:to:))
         try writer["RuntimeVersion"].write(value.runtimeVersion)
         try writer["Schedule"].write(value.schedule, with: SyntheticsClientTypes.CanaryScheduleInput.write(value:to:))
@@ -3384,6 +3569,15 @@ extension AccessDeniedException {
     }
 }
 
+extension SyntheticsClientTypes.AddReplicaLocationInput {
+
+    static func write(value: SyntheticsClientTypes.AddReplicaLocationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location)
+        try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigInput.write(value:to:))
+    }
+}
+
 extension SyntheticsClientTypes.ArtifactConfigInput {
 
     static func write(value: SyntheticsClientTypes.ArtifactConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -3458,6 +3652,7 @@ extension SyntheticsClientTypes.Canary {
         value.browserConfigs = try reader["BrowserConfigs"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BrowserConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.engineConfigs = try reader["EngineConfigs"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.EngineConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visualReferences = try reader["VisualReferences"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.VisualReferenceOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.multiLocationConfig = try reader["MultiLocationConfig"].readIfPresent(with: SyntheticsClientTypes.MultiLocationConfig.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.artifactConfig = try reader["ArtifactConfig"].readIfPresent(with: SyntheticsClientTypes.ArtifactConfigOutput.read(from:))
         value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.DryRunConfigOutput.read(from:))
@@ -3527,6 +3722,7 @@ extension SyntheticsClientTypes.CanaryRun {
         value.artifactS3Location = try reader["ArtifactS3Location"].readIfPresent()
         value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.CanaryDryRunConfigOutput.read(from:))
         value.browserType = try reader["BrowserType"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
         return value
     }
 }
@@ -3690,6 +3886,45 @@ extension SyntheticsClientTypes.GroupSummary {
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.MultiLocationConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.MultiLocationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.MultiLocationConfig()
+        value.locationType = try reader["LocationType"].readIfPresent()
+        value.primaryLocation = try reader["PrimaryLocation"].readIfPresent()
+        value.replicas = try reader["Replicas"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.Replica.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationState = try reader["ReplicationState"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.Replica {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Replica {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.Replica()
+        value.location = try reader["Location"].readIfPresent()
+        value.replicationStatus = try reader["ReplicationStatus"].readIfPresent(with: SyntheticsClientTypes.ReplicationStatus.read(from:))
+        value.canaryState = try reader["CanaryState"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SyntheticsClientTypes.VpcConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.ReplicationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.ReplicationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.ReplicationStatus()
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
         return value
     }
 }

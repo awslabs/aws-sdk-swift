@@ -718,6 +718,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -861,6 +862,7 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AliasLimitExceededException` : Lambda couldn't create the alias because your Amazon Web Services account has exceeded the maximum number of aliases allowed per Lambda function. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
@@ -1345,6 +1347,7 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
@@ -1897,6 +1900,7 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -1966,6 +1970,8 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func deleteLayerVersion(input: DeleteLayerVersionInput) async throws -> DeleteLayerVersionOutput {
@@ -2713,6 +2719,7 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `CodeSigningConfigNotFoundException` : The specified code signing configuration does not exist.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
@@ -3606,6 +3613,9 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `CodeArtifactUserDeletedException` : The Lambda function couldn't be invoked because its code artifact user has been deleted. Wait for Lambda to provision a new code artifact user, or update the function's code package to recreate it.
+    /// - `CodeArtifactUserFailedException` : The Lambda function couldn't be invoked because provisioning of its code artifact user failed. Update the function's code package or check the Lambda function's State and StateReasonCode for additional context.
+    /// - `CodeArtifactUserPendingException` : The Lambda function couldn't be invoked because its code artifact user is still being provisioned. Wait for the function's State to become Active and try the request again.
     /// - `DurableExecutionAlreadyStartedException` : The durable execution with the specified name has already been started. Each durable execution name must be unique within the function. Use a different name or check the status of the existing execution.
     /// - `EC2AccessDeniedException` : Need additional permissions to configure VPC settings.
     /// - `EC2ThrottledException` : Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
@@ -3615,6 +3625,7 @@ extension LambdaClient {
     /// - `EFSMountFailureException` : The Lambda function couldn't mount the configured file system due to a permission or configuration issue.
     /// - `EFSMountTimeoutException` : The Lambda function made a network connection to the configured file system, but the mount operation timed out.
     /// - `ENILimitReachedException` : Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+    /// - `ENINotReadyException` : Lambda couldn't invoke the Lambda function because the elastic network interface (ENI) configured for its VPC connection isn't ready yet. Wait a few moments and try the request again. For more information about VPC configuration, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
     /// - `InvalidRequestContentException` : The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     /// - `InvalidRuntimeException` : The runtime or runtime version specified is not supported.
@@ -3625,6 +3636,7 @@ extension LambdaClient {
     /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
     /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
     /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `ModeNotSupportedException` : The Lambda function doesn't support the invocation mode requested. For example, calling Invoke with InvocationType=RequestResponse on a function configured for asynchronous-only invocation, or vice versa. For more information about invocation types, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/invocation-options.html).
     /// - `NoPublishedVersionException` : The function has no published versions available.
     /// - `RecursiveInvocationException` : Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
     /// - `RequestTooLargeException` : The request payload exceeded the Invoke request body JSON input quota. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
@@ -3636,8 +3648,10 @@ extension LambdaClient {
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
     /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota. For more information about Lambda service quotas, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html). To request a quota increase, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
     /// - `SnapStartNotReadyException` : Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
+    /// - `SnapStartRegenerationFailureException` : Lambda couldn't regenerate the SnapStart snapshot for the function. SnapStart-enabled functions periodically regenerate snapshots when their underlying runtime or dependencies change; this regeneration failed. Wait for Lambda to retry, or update the function's configuration to trigger a new snapshot. For more information, see [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     /// - `SnapStartTimeoutException` : Lambda couldn't restore the snapshot within the timeout limit.
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -3712,11 +3726,35 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `EC2AccessDeniedException` : Need additional permissions to configure VPC settings.
+    /// - `EC2ThrottledException` : Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
+    /// - `EC2UnexpectedException` : Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
+    /// - `EFSIOException` : An error occurred when reading from or writing to a connected file system.
+    /// - `EFSMountConnectivityException` : The Lambda function couldn't make a network connection to the configured file system.
+    /// - `EFSMountFailureException` : The Lambda function couldn't mount the configured file system due to a permission or configuration issue.
+    /// - `EFSMountTimeoutException` : The Lambda function made a network connection to the configured file system, but the mount operation timed out.
+    /// - `ENILimitReachedException` : Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
     /// - `InvalidRequestContentException` : The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     /// - `InvalidRuntimeException` : The runtime or runtime version specified is not supported.
+    /// - `InvalidSecurityGroupIDException` : The security group ID provided in the Lambda function VPC configuration is not valid.
+    /// - `InvalidSubnetIDException` : The subnet ID provided in the Lambda function VPC configuration is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+    /// - `ModeNotSupportedException` : The Lambda function doesn't support the invocation mode requested. For example, calling Invoke with InvocationType=RequestResponse on a function configured for asynchronous-only invocation, or vice versa. For more information about invocation types, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/invocation-options.html).
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
+    /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
+    /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
+    /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
     /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota. For more information about Lambda service quotas, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html). To request a quota increase, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide.
+    /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
+    /// - `SnapStartNotReadyException` : Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
+    /// - `SnapStartRegenerationFailureException` : Lambda couldn't regenerate the SnapStart snapshot for the function. SnapStart-enabled functions periodically regenerate snapshots when their underlying runtime or dependencies change; this regeneration failed. Wait for Lambda to retry, or update the function's configuration to trigger a new snapshot. For more information, see [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// - `SnapStartTimeoutException` : Lambda couldn't restore the snapshot within the timeout limit.
+    /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public func invokeAsync(input: InvokeAsyncInput) async throws -> InvokeAsyncOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3813,8 +3851,10 @@ extension LambdaClient {
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
     /// - `SerializedRequestEntityTooLargeException` : The request payload exceeded the maximum allowed size for serialized request entities.
     /// - `ServiceException` : The Lambda service encountered an internal error.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota. For more information about Lambda service quotas, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html). To request a quota increase, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide.
     /// - `SnapStartException` : The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
     /// - `SnapStartNotReadyException` : Lambda is initializing your function. You can invoke the function when the [function state](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html) becomes Active.
+    /// - `SnapStartRegenerationFailureException` : Lambda couldn't regenerate the SnapStart snapshot for the function. SnapStart-enabled functions periodically regenerate snapshots when their underlying runtime or dependencies change; this regeneration failed. Wait for Lambda to retry, or update the function's configuration to trigger a new snapshot. For more information, see [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     /// - `SnapStartTimeoutException` : Lambda couldn't restore the snapshot within the timeout limit.
     /// - `SubnetIPAddressLimitReachedException` : Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -5656,6 +5696,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `PublicPolicyException` : The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -5726,6 +5767,7 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func sendDurableExecutionCallbackFailure(input: SendDurableExecutionCallbackFailureInput) async throws -> SendDurableExecutionCallbackFailureOutput {
@@ -5797,6 +5839,7 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func sendDurableExecutionCallbackHeartbeat(input: SendDurableExecutionCallbackHeartbeatInput) async throws -> SendDurableExecutionCallbackHeartbeatOutput {
@@ -5865,6 +5908,7 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func sendDurableExecutionCallbackSuccess(input: SendDurableExecutionCallbackSuccessInput) async throws -> SendDurableExecutionCallbackSuccessOutput {

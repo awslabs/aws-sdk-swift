@@ -10095,6 +10095,42 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration for a specific set of metrics to collect for a service.
+    public struct MetricConfiguration: Swift.Sendable {
+        /// The list of metric names to configure. The supported metric names are CPUUtilization and MemoryUtilization.
+        /// This member is required.
+        public var metricNames: [Swift.String]?
+        /// The resolution, in seconds, at which to collect the metrics. The valid values are 20 and 60.
+        /// This member is required.
+        public var resolutionSeconds: Swift.Int?
+
+        public init(
+            metricNames: [Swift.String]? = nil,
+            resolutionSeconds: Swift.Int? = nil
+        ) {
+            self.metricNames = metricNames
+            self.resolutionSeconds = resolutionSeconds
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The optional monitoring configuration for a service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public struct MonitoringConfiguration: Swift.Sendable {
+        /// The list of metric configurations for the service monitoring.
+        public var metricConfigurations: [ECSClientTypes.MetricConfiguration]?
+
+        public init(
+            metricConfigurations: [ECSClientTypes.MetricConfiguration]? = nil
+        ) {
+            self.metricConfigurations = metricConfigurations
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum AssignPublicIp: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -10886,6 +10922,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var launchType: ECSClientTypes.LaunchType?
     /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public var monitoring: ECSClientTypes.MonitoringConfiguration?
     /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
     /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
@@ -10947,6 +10985,7 @@ public struct CreateServiceInput: Swift.Sendable {
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         launchType: ECSClientTypes.LaunchType? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
         placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
         placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
@@ -10974,6 +11013,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.launchType = launchType
         self.loadBalancers = loadBalancers
+        self.monitoring = monitoring
         self.networkConfiguration = networkConfiguration
         self.placementConstraints = placementConstraints
         self.placementStrategy = placementStrategy
@@ -12230,6 +12270,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+    /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+    public var monitoring: ECSClientTypes.MonitoringConfiguration?
     /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
     /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
@@ -12266,6 +12308,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         forceNewDeployment: Swift.Bool? = false,
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+        monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
         placementConstraints: [ECSClientTypes.PlacementConstraint]? = nil,
         placementStrategy: [ECSClientTypes.PlacementStrategy]? = nil,
@@ -12289,6 +12332,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.forceNewDeployment = forceNewDeployment
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.loadBalancers = loadBalancers
+        self.monitoring = monitoring
         self.networkConfiguration = networkConfiguration
         self.placementConstraints = placementConstraints
         self.placementStrategy = placementStrategy
@@ -12949,6 +12993,8 @@ extension ECSClientTypes {
         public var launchType: ECSClientTypes.LaunchType?
         /// The load balancers the service revision uses.
         public var loadBalancers: [ECSClientTypes.LoadBalancer]?
+        /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+        public var monitoring: ECSClientTypes.MonitoringConfiguration?
         /// The network configuration for a task or service.
         public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
         /// The platform family the service revision uses.
@@ -12982,6 +13028,7 @@ extension ECSClientTypes {
             guardDutyEnabled: Swift.Bool = false,
             launchType: ECSClientTypes.LaunchType? = nil,
             loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
+            monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
             networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
             platformFamily: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
@@ -13003,6 +13050,7 @@ extension ECSClientTypes {
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
             self.loadBalancers = loadBalancers
+            self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion

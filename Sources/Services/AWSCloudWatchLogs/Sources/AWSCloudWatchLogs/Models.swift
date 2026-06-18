@@ -4793,6 +4793,8 @@ public struct FilterLogEventsInput: Swift.Sendable {
     public var logStreamNames: [Swift.String]?
     /// The token for the next set of events to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
+    /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used. Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
+    public var startFromHead: Swift.Bool?
     /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
     public var startTime: Swift.Int?
     /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
@@ -4808,6 +4810,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
         logStreamNamePrefix: Swift.String? = nil,
         logStreamNames: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
+        startFromHead: Swift.Bool? = nil,
         startTime: Swift.Int? = nil,
         unmask: Swift.Bool? = false
     ) {
@@ -4820,6 +4823,7 @@ public struct FilterLogEventsInput: Swift.Sendable {
         self.logStreamNamePrefix = logStreamNamePrefix
         self.logStreamNames = logStreamNames
         self.nextToken = nextToken
+        self.startFromHead = startFromHead
         self.startTime = startTime
         self.unmask = unmask
     }
@@ -4847,7 +4851,7 @@ extension CloudWatchLogsClientTypes {
 public struct FilterLogEventsOutput: Swift.Sendable {
     /// The matched events.
     public var events: [CloudWatchLogsClientTypes.FilteredLogEvent]?
-    /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
+    /// The token for the next set of items in the sorting direction specified by the startFromHead parameter in the first request. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
     public var nextToken: Swift.String?
     /// Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
     public var searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]?

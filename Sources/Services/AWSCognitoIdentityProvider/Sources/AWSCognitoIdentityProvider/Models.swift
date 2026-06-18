@@ -6861,16 +6861,58 @@ public struct CreateUserPoolClientOutput: Swift.Sendable {
 
 extension CognitoIdentityProviderClientTypes {
 
-    /// The configuration for a hosted UI custom domain.
+    public enum SecurityPolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tlsV1
+        case tlsV122021
+        case tlsV132025
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityPolicyType] {
+            return [
+                .tlsV1,
+                .tlsV122021,
+                .tlsV132025
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tlsV1: return "TLS_V1"
+            case .tlsV122021: return "TLS_V1_2_2021"
+            case .tlsV132025: return "TLS_V1_3_2025"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The configuration for a custom domain, including the SSL certificate and TLS security policy.
     public struct CustomDomainConfigType: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         /// This member is required.
         public var certificateArn: Swift.String?
+        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that CloudFront uses when communicating with viewers (clients). Valid values are as follows:
+        ///
+        /// * TLS_V1: Supports TLS 1.0 and later. Provides the broadest client compatibility.
+        ///
+        /// * TLS_V1_2_2021: Supports TLS 1.2 and later with 2021 cipher suites. Recommended minimum for most use cases.
+        ///
+        /// * TLS_V1_3_2025: Supports TLS 1.3 and later with 2025 cipher suites. Provides the strongest security posture.
+        public var securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType?
 
         public init(
-            certificateArn: Swift.String? = nil
+            certificateArn: Swift.String? = nil,
+            securityPolicy: CognitoIdentityProviderClientTypes.SecurityPolicyType? = nil
         ) {
             self.certificateArn = certificateArn
+            self.securityPolicy = securityPolicy
         }
     }
 }
