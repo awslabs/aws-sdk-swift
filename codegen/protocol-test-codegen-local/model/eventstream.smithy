@@ -1,20 +1,28 @@
 $version: "2"
+
 namespace aws.protocoltests.eventstream
 
-use aws.protocols#restJson1
 use aws.api#service
 use aws.auth#sigv4
+use aws.protocols#restJson1
 
 @restJson1
 @sigv4(name: "event-stream-test")
 @service(sdkId: "EventStreamTest")
-service TestService { version: "123", operations: [TestStreamOp] }
+service TestService {
+    version: "123"
+    operations: [
+        TestStreamOp
+    ]
+}
 
 @http(method: "POST", uri: "/test")
 operation TestStreamOp {
-    input: TestStreamInputOutput,
-    output: TestStreamInputOutput,
-    errors: [SomeError],
+    input: TestStreamInputOutput
+    output: TestStreamInputOutput
+    errors: [
+        SomeError
+    ]
 }
 
 structure TestStreamInputOutput {
@@ -25,17 +33,17 @@ structure TestStreamInputOutput {
 
 @error("client")
 structure SomeError {
-    Message: String,
+    Message: String
 }
 
 union TestUnion {
-    Foo: String,
-    Bar: Integer,
+    Foo: String
+    Bar: Integer
 }
 
 structure TestStruct {
-    someString: String,
-    someInt: Integer,
+    someString: String
+    someInt: Integer
 }
 
 enum TestEnum {
@@ -50,49 +58,87 @@ intEnum TestIntEnum {
     C = 2
 }
 
-structure MessageWithBlob { @eventPayload data: Blob }
+structure MessageWithBlob {
+    @eventPayload
+    data: Blob
+}
 
-structure MessageWithString { @eventPayload data: String }
+structure MessageWithString {
+    @eventPayload
+    data: String
+}
 
-structure MessageWithStruct { @eventPayload someStruct: TestStruct }
+structure MessageWithStruct {
+    @eventPayload
+    someStruct: TestStruct
+}
 
-structure MessageWithUnion { @eventPayload someUnion: TestUnion }
+structure MessageWithUnion {
+    @eventPayload
+    someUnion: TestUnion
+}
 
 structure MessageWithHeaders {
-    @eventHeader blob: Blob,
-    @eventHeader boolean: Boolean,
-    @eventHeader byte: Byte,
-    @eventHeader int: Integer,
-    @eventHeader intEnum: TestIntEnum,
-    @eventHeader long: Long,
-    @eventHeader short: Short,
-    @eventHeader string: String,
-    @eventHeader enum: TestEnum,
-    @eventHeader timestamp: Timestamp,
+    @eventHeader
+    blob: Blob
+
+    @eventHeader
+    boolean: Boolean
+
+    @eventHeader
+    byte: Byte
+
+    @eventHeader
+    int: Integer
+
+    @eventHeader
+    intEnum: TestIntEnum
+
+    @eventHeader
+    long: Long
+
+    @eventHeader
+    short: Short
+
+    @eventHeader
+    string: String
+
+    @eventHeader
+    enum: TestEnum
+
+    @eventHeader
+    timestamp: Timestamp
 }
+
 structure MessageWithHeaderAndPayload {
-    @eventHeader header: String,
-    @eventPayload payload: Blob,
+    @eventHeader
+    header: String
+
+    @eventPayload
+    payload: Blob
 }
+
 structure MessageWithNoHeaderPayloadTraits {
-    someInt: Integer,
-    someString: String,
+    someInt: Integer
+    someString: String
 }
 
 structure MessageWithUnboundPayloadTraits {
-    @eventHeader header: String,
-    unboundString: String,
+    @eventHeader
+    header: String
+
+    unboundString: String
 }
 
 @streaming
 union TestStream {
-    MessageWithBlob: MessageWithBlob,
-    MessageWithString: MessageWithString,
-    MessageWithStruct: MessageWithStruct,
-    MessageWithUnion: MessageWithUnion,
-    MessageWithHeaders: MessageWithHeaders,
-    MessageWithHeaderAndPayload: MessageWithHeaderAndPayload,
-    MessageWithNoHeaderPayloadTraits: MessageWithNoHeaderPayloadTraits,
-    MessageWithUnboundPayloadTraits: MessageWithUnboundPayloadTraits,
-    SomeError: SomeError,
+    MessageWithBlob: MessageWithBlob
+    MessageWithString: MessageWithString
+    MessageWithStruct: MessageWithStruct
+    MessageWithUnion: MessageWithUnion
+    MessageWithHeaders: MessageWithHeaders
+    MessageWithHeaderAndPayload: MessageWithHeaderAndPayload
+    MessageWithNoHeaderPayloadTraits: MessageWithNoHeaderPayloadTraits
+    MessageWithUnboundPayloadTraits: MessageWithUnboundPayloadTraits
+    SomeError: SomeError
 }

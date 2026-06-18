@@ -2,73 +2,71 @@ $version: "1.0"
 
 namespace aws.protocoltests.restjson
 
-use aws.protocols#restJson1
 use aws.api#service
+use aws.protocols#restJson1
 use smithy.test#httpRequestTests
 use smithy.test#httpResponseTests
 
 apply QueryPrecedence @httpRequestTests([
     {
-        id: "UrlParamsKeyEncoding",
-        documentation: "Keys and values must be url encoded",
-        protocol: restJson1,
-        method: "POST",
-        uri: "/Precedence",
-        body: "",
-        queryParams: ["bar=%26%F0%9F%90%B1", "hello%20there=how%27s%20your%20encoding%3F", "a%20%26%20b%20%26%20c=better%20encode%20%3D%20this"],
+        id: "UrlParamsKeyEncoding"
+        documentation: "Keys and values must be url encoded"
+        protocol: restJson1
+        method: "POST"
+        uri: "/Precedence"
+        body: ""
+        queryParams: ["bar=%26%F0%9F%90%B1", "hello%20there=how%27s%20your%20encoding%3F", "a%20%26%20b%20%26%20c=better%20encode%20%3D%20this"]
         params: {
-            foo: "&🐱",
-            baz: {
-                "hello there": "how's your encoding?",
-                "a & b & c": "better encode = this"
-            }
-        },
-        appliesTo: "client",
-    },
+            foo: "&🐱"
+            baz: { "hello there": "how's your encoding?", "a & b & c": "better encode = this" }
+        }
+        appliesTo: "client"
+    }
     {
-        id: "RestJsonQueryPrecedenceForbid",
-        documentation: "Prefer named query parameters when serializing",
-        protocol: restJson1,
-        method: "POST",
-        uri: "/Precedence",
-        body: "",
-        queryParams: [
-            "bar=named",
-            "qux=alsoFromMap"
-        ],
-        forbidQueryParams: ["bar=fromMap"],
+        id: "RestJsonQueryPrecedenceForbid"
+        documentation: "Prefer named query parameters when serializing"
+        protocol: restJson1
+        method: "POST"
+        uri: "/Precedence"
+        body: ""
+        queryParams: ["bar=named", "qux=alsoFromMap"]
+        forbidQueryParams: ["bar=fromMap"]
         params: {
-            foo: "named",
-            baz: {
-                bar: "fromMap",
-                qux: "alsoFromMap"
-            }
-        },
-        appliesTo: "client",
-    }]
-)
+            foo: "named"
+            baz: { bar: "fromMap", qux: "alsoFromMap" }
+        }
+        appliesTo: "client"
+    }
+])
 
 /// A REST JSON service that sends JSON requests and responses.
 @service(sdkId: "Rest Json Protocol")
 @restJson1
 service RestJsonExtras {
-    version: "2019-12-16",
-    operations: [EnumPayload, StringPayload, PrimitiveIntHeader, EnumQuery, CreateNestedMap, CreateNestedSparseMap]
+    version: "2019-12-16"
+    operations: [
+        EnumPayload
+        StringPayload
+        PrimitiveIntHeader
+        EnumQuery
+        CreateNestedMap
+        CreateNestedSparseMap
+    ]
 }
 
 @http(uri: "/EnumPayload", method: "POST")
 @httpRequestTests([
     {
-        id: "EnumPayload",
-        uri: "/EnumPayload",
-        body: "enumvalue",
-        params: { payload: "enumvalue" },
-        method: "POST",
+        id: "EnumPayload"
+        uri: "/EnumPayload"
+        body: "enumvalue"
+        params: { payload: "enumvalue" }
+        method: "POST"
         protocol: "aws.protocols#restJson1"
     }
 ])
 operation EnumPayload {
-    input: EnumPayloadInput,
+    input: EnumPayloadInput
     output: EnumPayloadInput
 }
 
@@ -80,16 +78,16 @@ structure EnumPayloadInput {
 @http(uri: "/StringPayload", method: "POST")
 @httpRequestTests([
     {
-        id: "StringPayload",
-        uri: "/StringPayload",
-        body: "rawstring",
-        params: { payload: "rawstring" },
-        method: "POST",
+        id: "StringPayload"
+        uri: "/StringPayload"
+        body: "rawstring"
+        params: { payload: "rawstring" }
+        method: "POST"
         protocol: "aws.protocols#restJson1"
     }
 ])
 operation StringPayload {
-    input: StringPayloadInput,
+    input: StringPayloadInput
     output: StringPayloadInput
 }
 
@@ -100,10 +98,10 @@ structure StringPayloadInput {
 
 @httpResponseTests([
     {
-        id: "DeserPrimitiveHeader",
-        protocol: "aws.protocols#restJson1",
-        code: 200,
-        headers: { "x-field": "123" },
+        id: "DeserPrimitiveHeader"
+        protocol: "aws.protocols#restJson1"
+        code: 200
+        headers: { "x-field": "123" }
         params: { field: 123 }
     }
 ])
@@ -123,10 +121,10 @@ structure PrimitiveIntHeaderInput {
 @http(uri: "/foo/{enum}", method: "GET")
 @httpRequestTests([
     {
-        id: "EnumQueryRequest",
-        uri: "/foo/enumvalue",
-        params: { enum: "enumvalue" },
-        method: "GET",
+        id: "EnumQueryRequest"
+        uri: "/foo/enumvalue"
+        params: { enum: "enumvalue" }
+        method: "GET"
         protocol: "aws.protocols#restJson1"
     }
 ])
@@ -152,9 +150,9 @@ structure EnumQueryInput {
         body: "{\"nestedMaps\":{\"a\":{\"b\":[\"x\",\"y\",\"z\"]}}}"
         bodyMediaType: "application/json"
         params: {
-            "nestedMaps": {
-                "a": {
-                    "b": ["x", "y", "z"]
+            nestedMaps: {
+                a: {
+                    b: ["x", "y", "z"]
                 }
             }
         }
@@ -167,16 +165,16 @@ structure EnumQueryInput {
         code: 201
         body: "{\"nestedMaps\":{\"a\":{\"b\":[\"x\",\"y\",\"z\"]}}}"
         params: {
-            "nestedMaps": {
-                "a": {
-                    "b": ["x", "y", "z"]
+            nestedMaps: {
+                a: {
+                    b: ["x", "y", "z"]
                 }
             }
         }
     }
 ])
 operation CreateNestedMap {
-    input: HasNestedMap,
+    input: HasNestedMap
     output: HasNestedMap
 }
 
@@ -210,18 +208,16 @@ list StringList {
         body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null},\"sparseStructureMap\":{\"m\":{\"string\":\"rst\"},\"n\":null}}"
         bodyMediaType: "application/json"
         params: {
-            "nestedSparseMaps": {
-                "a": {
-                    "b": ["x", null, "y", null, "z", null]
-                    "c": null
-                },
-                "d": null
-            }
-            "sparseStructureMap": {
-                "m": {
-                    "string": "rst"
+            nestedSparseMaps: {
+                a: {
+                    b: ["x", null, "y", null, "z", null]
+                    c: null
                 }
-                "n": null
+                d: null
+            }
+            sparseStructureMap: {
+                m: { string: "rst" }
+                n: null
             }
         }
     }
@@ -233,24 +229,22 @@ list StringList {
         code: 201
         body: "{\"nestedSparseMaps\":{\"a\":{\"b\":[\"x\",null,\"y\",null,\"z\",null],\"c\":null},\"d\":null},\"sparseStructureMap\":{\"m\":{\"string\":\"rst\"},\"n\":null}}"
         params: {
-            "nestedSparseMaps": {
-                "a": {
-                    "b": ["x", null, "y", null, "z", null]
-                    "c": null
+            nestedSparseMaps: {
+                a: {
+                    b: ["x", null, "y", null, "z", null]
+                    c: null
                 }
-                "d": null
+                d: null
             }
-            "sparseStructureMap": {
-                "m": {
-                    "string": "rst"
-                }
-                "n": null
+            sparseStructureMap: {
+                m: { string: "rst" }
+                n: null
             }
         }
     }
 ])
 operation CreateNestedSparseMap {
-    input: HasNestedSparseMap,
+    input: HasNestedSparseMap
     output: HasNestedSparseMap
 }
 

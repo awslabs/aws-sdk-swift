@@ -2,123 +2,115 @@ $version: "2.0"
 
 namespace aws.endpointtests.stringarray
 
-use smithy.rules#endpointRuleSet
-use smithy.rules#endpointTests
-use smithy.rules#staticContextParams
-use smithy.rules#operationContextParams
 use aws.api#service
 use aws.protocols#restJson1
+use smithy.rules#endpointRuleSet
+use smithy.rules#endpointTests
+use smithy.rules#operationContextParams
+use smithy.rules#staticContextParams
 
 @endpointRuleSet({
-    version: "1.0",
+    version: "1.0"
     parameters: {
         stringArrayParam: {
-            type: "stringArray",
-            required: true,
-            default: ["defaultValue1", "defaultValue2"],
+            type: "stringArray"
+            required: true
+            default: ["defaultValue1", "defaultValue2"]
             documentation: "docs"
         }
-    },
+    }
     rules: [
         {
-            "documentation": "Template first array value into URI if set",
-            "conditions": [
+            documentation: "Template first array value into URI if set"
+            conditions: [
                 {
-                    "fn": "getAttr",
-                    "argv": [
+                    fn: "getAttr"
+                    argv: [
                         {
-                            "ref": "stringArrayParam"
-                        },
+                            ref: "stringArrayParam"
+                        }
                         "[0]"
-                    ],
-                    "assign": "arrayValue"
+                    ]
+                    assign: "arrayValue"
                 }
-            ],
-            "endpoint": {
-                "url": "https://example.com/{arrayValue}"
-            },
-            "type": "endpoint"
-        },
+            ]
+            endpoint: { url: "https://example.com/{arrayValue}" }
+            type: "endpoint"
+        }
         {
-            "conditions": [],
-            "documentation": "error fallthrough",
-            "error": "no array values set",
-            "type": "error"
+            conditions: []
+            documentation: "error fallthrough"
+            error: "no array values set"
+            type: "error"
         }
     ]
 })
 @endpointTests({
-    "version": "1.0",
-    "testCases": [
+    version: "1.0"
+    testCases: [
         {
-            "documentation": "Default array values used"
-            "params": {}
-            "expect": {
-                "endpoint": {
-                    "url": "https://example.com/defaultValue1"
-                }
-            },
-            "operationInputs": [
+            documentation: "Default array values used"
+            params: {}
+            expect: {
+                endpoint: { url: "https://example.com/defaultValue1" }
+            }
+            operationInputs: [
                 {
-                    "operationName": "NoBindingsOperation",
+                    operationName: "NoBindingsOperation"
                 }
             ]
-        },
+        }
         {
-            "documentation": "Empty array",
-            "params": {
-                "stringArrayParam": []
+            documentation: "Empty array"
+            params: {
+                stringArrayParam: []
             }
-            "expect": {
-                "error": "no array values set"
-            },
-            "operationInputs": [
+            expect: { error: "no array values set" }
+            operationInputs: [
                 {
-                    "operationName": "EmptyStaticContextOperation",
+                    operationName: "EmptyStaticContextOperation"
                 }
             ]
-        },
+        }
         {
-            "documentation": "Static value",
-            "params": {
-                "stringArrayParam": ["staticValue1"]
+            documentation: "Static value"
+            params: {
+                stringArrayParam: ["staticValue1"]
             }
-            "expect": {
-                "endpoint": {
-                    "url": "https://example.com/staticValue1"
-                }
-            },
-            "operationInputs": [
+            expect: {
+                endpoint: { url: "https://example.com/staticValue1" }
+            }
+            operationInputs: [
                 {
-                    "operationName": "StaticContextOperation",
+                    operationName: "StaticContextOperation"
                 }
             ]
-        },
+        }
         {
-            "documentation": "bound value from input",
-            "params": {
-                "stringArrayParam": ["key1"]
+            documentation: "bound value from input"
+            params: {
+                stringArrayParam: ["key1"]
             }
-            "expect": {
-                "endpoint": {
-                    "url": "https://example.com/key1"
-                }
-            },
-            "operationInputs": [
+            expect: {
+                endpoint: { url: "https://example.com/key1" }
+            }
+            operationInputs: [
                 {
-                    "operationName": "ListOfObjectsOperation",
-                    "operationParams": {
-                        "nested": {
-                            "listOfObjects": [{"key": "key1"}]
+                    operationName: "ListOfObjectsOperation"
+                    operationParams: {
+                        nested: {
+                            listOfObjects: [
+                                {
+                                    key: "key1"
+                                }
+                            ]
                         }
-                    },
-                },
+                    }
+                }
                 {
-                    "operationName": "MapOperation",
-                    "operationParams": {
-                        "map": {
-                            "key1": "value1"
-                        }
+                    operationName: "MapOperation"
+                    operationParams: {
+                        map: { key1: "value1" }
                     }
                 }
             ]
@@ -128,23 +120,25 @@ use aws.protocols#restJson1
 @service(sdkId: "EndpointStringArray")
 @restJson1
 service EndpointStringArray {
-    version: "2022-01-01",
+    version: "2022-01-01"
     operations: [
-        NoBindingsOperation,
-        EmptyStaticContextOperation,
-        StaticContextOperation,
-        ListOfObjectsOperation,
+        NoBindingsOperation
+        EmptyStaticContextOperation
+        StaticContextOperation
+        ListOfObjectsOperation
         MapOperation
     ]
 }
 
 @http(uri: "/1", method: "POST")
 operation NoBindingsOperation {
-    input:= {}
+    input := {}
 }
 
 @staticContextParams(
-    "stringArrayParam": {value: []}
+    stringArrayParam: {
+        value: []
+    }
 )
 @http(uri: "/2", method: "POST")
 operation EmptyStaticContextOperation {
@@ -152,7 +146,9 @@ operation EmptyStaticContextOperation {
 }
 
 @staticContextParams(
-    "stringArrayParam": {value: ["staticValue1"]}
+    stringArrayParam: {
+        value: ["staticValue1"]
+    }
 )
 @http(uri: "/3", method: "POST")
 operation StaticContextOperation {
@@ -160,21 +156,21 @@ operation StaticContextOperation {
 }
 
 @operationContextParams(
-    "stringArrayParam": {path: "nested.listOfObjects[*].key"}
+    stringArrayParam: { path: "nested.listOfObjects[*].key" }
 )
 @http(uri: "/4", method: "POST")
 operation ListOfObjectsOperation {
-    input:= {
+    input := {
         nested: Nested
     }
 }
 
 @operationContextParams(
-    "stringArrayParam": {path: "keys(map)"}
+    stringArrayParam: { path: "keys(map)" }
 )
 @http(uri: "/5", method: "POST")
 operation MapOperation {
-    input:= {
+    input := {
         map: Map
     }
 }
@@ -188,10 +184,10 @@ list ListOfObjects {
 }
 
 structure ObjectMember {
-    key: String,
+    key: String
 }
 
 map Map {
-    key: String,
+    key: String
     value: String
 }
