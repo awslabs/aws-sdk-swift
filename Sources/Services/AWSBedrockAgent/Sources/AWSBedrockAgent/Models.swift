@@ -6747,6 +6747,35 @@ public struct DeleteFlowVersionOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentClientTypes {
+
+    public enum IncludedData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allData
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludedData] {
+            return [
+                .allData,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allData: return "ALL_DATA"
+            case .metadataOnly: return "METADATA_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetFlowVersionInput: Swift.Sendable {
     /// The unique identifier of the flow for which to get information.
     /// This member is required.
@@ -6754,13 +6783,17 @@ public struct GetFlowVersionInput: Swift.Sendable {
     /// The version of the flow for which to get information.
     /// This member is required.
     public var flowVersion: Swift.String?
+    /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+    public var includedData: BedrockAgentClientTypes.IncludedData?
 
     public init(
         flowIdentifier: Swift.String? = nil,
-        flowVersion: Swift.String? = nil
+        flowVersion: Swift.String? = nil,
+        includedData: BedrockAgentClientTypes.IncludedData? = nil
     ) {
         self.flowIdentifier = flowIdentifier
         self.flowVersion = flowVersion
+        self.includedData = includedData
     }
 }
 
@@ -6842,11 +6875,15 @@ public struct GetFlowInput: Swift.Sendable {
     /// The unique identifier of the flow.
     /// This member is required.
     public var flowIdentifier: Swift.String?
+    /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+    public var includedData: BedrockAgentClientTypes.IncludedData?
 
     public init(
-        flowIdentifier: Swift.String? = nil
+        flowIdentifier: Swift.String? = nil,
+        includedData: BedrockAgentClientTypes.IncludedData? = nil
     ) {
         self.flowIdentifier = flowIdentifier
+        self.includedData = includedData
     }
 }
 
@@ -11472,6 +11509,8 @@ public struct DeletePromptOutput: Swift.Sendable {
 }
 
 public struct GetPromptInput: Swift.Sendable {
+    /// Controls the scope of data returned. Set to METADATA_ONLY to return only resource metadata. Set to ALL_DATA or omit this field to return the full response.
+    public var includedData: BedrockAgentClientTypes.IncludedData?
     /// The unique identifier of the prompt.
     /// This member is required.
     public var promptIdentifier: Swift.String?
@@ -11479,9 +11518,11 @@ public struct GetPromptInput: Swift.Sendable {
     public var promptVersion: Swift.String?
 
     public init(
+        includedData: BedrockAgentClientTypes.IncludedData? = nil,
         promptIdentifier: Swift.String? = nil,
         promptVersion: Swift.String? = nil
     ) {
+        self.includedData = includedData
         self.promptIdentifier = promptIdentifier
         self.promptVersion = promptVersion
     }
@@ -12982,6 +13023,18 @@ extension GetFlowInput {
     }
 }
 
+extension GetFlowInput {
+
+    static func queryItemProvider(_ value: GetFlowInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includedData = value.includedData {
+            let includedDataQueryItem = Smithy.URIQueryItem(name: "includedData".urlPercentEncoding(), value: Swift.String(includedData.rawValue).urlPercentEncoding())
+            items.append(includedDataQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetFlowAliasInput {
 
     static func urlPathProvider(_ value: GetFlowAliasInput) -> Swift.String? {
@@ -13005,6 +13058,18 @@ extension GetFlowVersionInput {
             return nil
         }
         return "/flows/\(flowIdentifier.urlPercentEncoding())/versions/\(flowVersion.urlPercentEncoding())"
+    }
+}
+
+extension GetFlowVersionInput {
+
+    static func queryItemProvider(_ value: GetFlowVersionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includedData = value.includedData {
+            let includedDataQueryItem = Smithy.URIQueryItem(name: "includedData".urlPercentEncoding(), value: Swift.String(includedData.rawValue).urlPercentEncoding())
+            items.append(includedDataQueryItem)
+        }
+        return items
     }
 }
 
@@ -13064,6 +13129,10 @@ extension GetPromptInput {
         if let promptVersion = value.promptVersion {
             let promptVersionQueryItem = Smithy.URIQueryItem(name: "promptVersion".urlPercentEncoding(), value: Swift.String(promptVersion).urlPercentEncoding())
             items.append(promptVersionQueryItem)
+        }
+        if let includedData = value.includedData {
+            let includedDataQueryItem = Smithy.URIQueryItem(name: "includedData".urlPercentEncoding(), value: Swift.String(includedData.rawValue).urlPercentEncoding())
+            items.append(includedDataQueryItem)
         }
         return items
     }

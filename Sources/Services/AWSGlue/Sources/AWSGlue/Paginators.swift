@@ -1377,22 +1377,22 @@ extension PaginatorSequence where OperationStackInput == ListWorkflowsInput, Ope
     }
 }
 extension GlueClient {
-    /// Paginate over `[SearchOutput]` results.
+    /// Paginate over `[SearchAssetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
     /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
     /// until then. If there are errors in your request, you will see the failures only after you start iterating.
     /// - Parameters:
-    ///     - input: A `[SearchInput]` to start pagination
-    /// - Returns: An `AsyncSequence` that can iterate over `SearchOutput`
-    public func searchPaginated(input: SearchInput) -> ClientRuntime.PaginatorSequence<SearchInput, SearchOutput> {
-        return ClientRuntime.PaginatorSequence<SearchInput, SearchOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.search(input:))
+    ///     - input: A `[SearchAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchAssetsOutput`
+    public func searchAssetsPaginated(input: SearchAssetsInput) -> ClientRuntime.PaginatorSequence<SearchAssetsInput, SearchAssetsOutput> {
+        return ClientRuntime.PaginatorSequence<SearchAssetsInput, SearchAssetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchAssets(input:))
     }
 }
 
-extension SearchInput: ClientRuntime.PaginateToken {
-    public func usingPaginationToken(_ token: Swift.String) -> SearchInput {
-        return SearchInput(
+extension SearchAssetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchAssetsInput {
+        return SearchAssetsInput(
             filterClause: self.filterClause,
             maxResults: self.maxResults,
             nextToken: token,
@@ -1401,8 +1401,8 @@ extension SearchInput: ClientRuntime.PaginateToken {
         )}
 }
 
-extension PaginatorSequence where OperationStackInput == SearchInput, OperationStackOutput == SearchOutput {
-    /// This paginator transforms the `AsyncSequence` returned by `searchPaginated`
+extension PaginatorSequence where OperationStackInput == SearchAssetsInput, OperationStackOutput == SearchAssetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchAssetsPaginated`
     /// to access the nested member `[GlueClientTypes.SearchResultItem]`
     /// - Returns: `[GlueClientTypes.SearchResultItem]`
     public func items() async throws -> [GlueClientTypes.SearchResultItem] {

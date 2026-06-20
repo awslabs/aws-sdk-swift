@@ -1753,6 +1753,115 @@ public struct AssociatePackagesOutput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration for creating a new workspace when attaching a data source to an OpenSearch application. The workspace is created after the data source is successfully attached.
+    public struct WorkspaceConfigurationInput: Swift.Sendable {
+        /// The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are OBSERVABILITY, SECURITY_ANALYTICS, and SEARCH.
+        /// This member is required.
+        public var workspaceType: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            workspaceType: Swift.String? = nil
+        ) {
+            self.name = name
+            self.workspaceType = workspaceType
+        }
+    }
+}
+
+public struct AttachDataSourceInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication, GetApplication, and DeleteApplication.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with workspaceId.
+    public var workspaceConfiguration: OpenSearchClientTypes.WorkspaceConfigurationInput?
+    /// The identifier of an existing workspace to update with the new data source. Mutually exclusive with workspaceConfiguration.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        workspaceConfiguration: OpenSearchClientTypes.WorkspaceConfigurationInput? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.workspaceConfiguration = workspaceConfiguration
+        self.workspaceId = workspaceId
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DataSourceAttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceAttachmentStatus] {
+            return [
+                .attached,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "ATTACHED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AttachDataSourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The unique identifier assigned to the data source attachment.
+    public var attachmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+    /// The status of the data source attachment. Valid values are PENDING (waiting for resources to become active), ATTACHED (successfully attached), and FAILED (attachment timed out or encountered a non-retryable error).
+    public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+    ) {
+        self.arn = arn
+        self.attachmentId = attachmentId
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.status = status
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum AWSServicePrincipal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case applicationOpensearchserviceAmazonawsCom
         case sdkUnknown(Swift.String)
@@ -5323,6 +5432,50 @@ public struct DeregisterCapabilityOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDataSourceAttachmentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
+public struct DescribeDataSourceAttachmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The unique identifier assigned to the data source attachment.
+    public var attachmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+    /// The status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+    public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        attachmentId: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+    ) {
+        self.arn = arn
+        self.attachmentId = attachmentId
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+        self.status = status
+    }
+}
+
 /// Container for the parameters to the DescribeDomain operation.
 public struct DescribeDomainInput: Swift.Sendable {
     /// The name of the domain that you want information about.
@@ -7618,6 +7771,42 @@ public struct DescribeVpcEndpointsOutput: Swift.Sendable {
     }
 }
 
+public struct DetachDataSourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier or name of the OpenSearch application to detach the data source from.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
+public struct DetachDataSourceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var arn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var dataSourceArn: Swift.String?
+    /// The unique identifier of the OpenSearch application.
+    public var id: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        dataSourceArn: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.dataSourceArn = dataSourceArn
+        self.id = id
+    }
+}
+
 /// Container for the request parameters to the DissociatePackage operation.
 public struct DissociatePackageInput: Swift.Sendable {
     /// Name of the domain to dissociate the package from.
@@ -8554,6 +8743,64 @@ public struct ListApplicationsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.applicationSummaries = applicationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDataSourceAttachmentsInput: Swift.Sendable {
+    /// The unique identifier or name of the OpenSearch application to list attachments for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return per page. The default is 50.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Summary information about a data source attachment, including its identifier, data source ARN, and current status.
+    public struct DataSourceAttachmentSummary: Swift.Sendable {
+        /// The unique identifier assigned to the data source attachment.
+        public var attachmentId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+        public var dataSourceArn: Swift.String?
+        /// The current status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+        public var status: OpenSearchClientTypes.DataSourceAttachmentStatus?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            dataSourceArn: Swift.String? = nil,
+            status: OpenSearchClientTypes.DataSourceAttachmentStatus? = nil
+        ) {
+            self.attachmentId = attachmentId
+            self.dataSourceArn = dataSourceArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListDataSourceAttachmentsOutput: Swift.Sendable {
+    /// A list of data source attachment summaries for the specified application.
+    public var attachments: [OpenSearchClientTypes.DataSourceAttachmentSummary]?
+    /// The pagination token to use in a subsequent call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachments: [OpenSearchClientTypes.DataSourceAttachmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachments = attachments
         self.nextToken = nextToken
     }
 }
@@ -10568,6 +10815,16 @@ extension AssociatePackagesInput {
     }
 }
 
+extension AttachDataSourceInput {
+
+    static func urlPathProvider(_ value: AttachDataSourceInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/attachDataSource"
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func urlPathProvider(_ value: AuthorizeVpcEndpointAccessInput) -> Swift.String? {
@@ -10746,6 +11003,16 @@ extension DeregisterCapabilityInput {
             return nil
         }
         return "/2021-01-01/opensearch/application/\(applicationId.urlPercentEncoding())/capability/deregister/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeDataSourceAttachmentInput {
+
+    static func urlPathProvider(_ value: DescribeDataSourceAttachmentInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/describeDataSourceAttachment"
     }
 }
 
@@ -10984,6 +11251,16 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
+extension DetachDataSourceInput {
+
+    static func urlPathProvider(_ value: DetachDataSourceInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/detachDataSource"
+    }
+}
+
 extension DissociatePackageInput {
 
     static func urlPathProvider(_ value: DissociatePackageInput) -> Swift.String? {
@@ -11201,6 +11478,16 @@ extension ListApplicationsInput {
             }
         }
         return items
+    }
+}
+
+extension ListDataSourceAttachmentsInput {
+
+    static func urlPathProvider(_ value: ListDataSourceAttachmentsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())/listDataSourceAttachments"
     }
 }
 
@@ -11735,6 +12022,17 @@ extension AssociatePackagesInput {
     }
 }
 
+extension AttachDataSourceInput {
+
+    static func write(value: AttachDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+        try writer["workspaceConfiguration"].write(value.workspaceConfiguration, with: OpenSearchClientTypes.WorkspaceConfigurationInput.write(value:to:))
+        try writer["workspaceId"].write(value.workspaceId)
+    }
+}
+
 extension AuthorizeVpcEndpointAccessInput {
 
     static func write(value: AuthorizeVpcEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
@@ -11851,6 +12149,14 @@ extension CreateVpcEndpointInput {
     }
 }
 
+extension DescribeDataSourceAttachmentInput {
+
+    static func write(value: DescribeDataSourceAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+    }
+}
+
 extension DescribeDomainsInput {
 
     static func write(value: DescribeDomainsInput?, to writer: SmithyJSON.Writer) throws {
@@ -11907,12 +12213,29 @@ extension DescribeVpcEndpointsInput {
     }
 }
 
+extension DetachDataSourceInput {
+
+    static func write(value: DetachDataSourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceArn"].write(value.dataSourceArn)
+    }
+}
+
 extension DissociatePackagesInput {
 
     static func write(value: DissociatePackagesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
         try writer["PackageList"].writeList(value.packageList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListDataSourceAttachmentsInput {
+
+    static func write(value: ListDataSourceAttachmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -12191,6 +12514,22 @@ extension AssociatePackagesOutput {
     }
 }
 
+extension AttachDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachDataSourceOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension AuthorizeVpcEndpointAccessOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AuthorizeVpcEndpointAccessOutput {
@@ -12425,6 +12764,22 @@ extension DeregisterCapabilityOutput {
     }
 }
 
+extension DescribeDataSourceAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDataSourceAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDataSourceAttachmentOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainOutput {
@@ -12638,6 +12993,20 @@ extension DescribeVpcEndpointsOutput {
     }
 }
 
+extension DetachDataSourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachDataSourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachDataSourceOutput()
+        value.arn = try reader["arn"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension DissociatePackageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DissociatePackageOutput {
@@ -12834,6 +13203,19 @@ extension ListApplicationsOutput {
         let reader = responseReader
         var value = ListApplicationsOutput()
         value.applicationSummaries = try reader["ApplicationSummaries"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ApplicationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDataSourceAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataSourceAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataSourceAttachmentsOutput()
+        value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSourceAttachmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -13366,6 +13748,25 @@ enum AssociatePackagesOutputError {
     }
 }
 
+enum AttachDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AuthorizeVpcEndpointAccessOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13715,6 +14116,24 @@ enum DeregisterCapabilityOutputError {
     }
 }
 
+enum DescribeDataSourceAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13991,6 +14410,25 @@ enum DescribeVpcEndpointsOutputError {
     }
 }
 
+enum DetachDataSourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DissociatePackageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14240,6 +14678,24 @@ enum ListApplicationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataSourceAttachmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15662,6 +16118,18 @@ extension OpenSearchClientTypes.DataSource {
         value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
         value.dataSourceDescription = try reader["dataSourceDescription"].readIfPresent()
         value.iamRoleForDataSourceArn = try reader["iamRoleForDataSourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DataSourceAttachmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DataSourceAttachmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DataSourceAttachmentSummary()
+        value.attachmentId = try reader["attachmentId"].readIfPresent()
+        value.dataSourceArn = try reader["dataSourceArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -17206,6 +17674,15 @@ extension OpenSearchClientTypes.WindowStartTime {
         value.hours = try reader["Hours"].readIfPresent() ?? 0
         value.minutes = try reader["Minutes"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension OpenSearchClientTypes.WorkspaceConfigurationInput {
+
+    static func write(value: OpenSearchClientTypes.WorkspaceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["workspaceType"].write(value.workspaceType)
     }
 }
 
