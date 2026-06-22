@@ -111,6 +111,11 @@ public struct DeleteSubscriptionFilterOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteSyslogConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTransformerOutput: Swift.Sendable {
 
     public init() { }
@@ -147,6 +152,11 @@ public struct PutRetentionPolicyOutput: Swift.Sendable {
 }
 
 public struct PutSubscriptionFilterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutSyslogConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2544,6 +2554,22 @@ public struct DeleteSubscriptionFilterInput: Swift.Sendable {
     ) {
         self.filterName = filterName
         self.logGroupName = logGroupName
+    }
+}
+
+public struct DeleteSyslogConfigurationInput: Swift.Sendable {
+    /// The name or ARN of the log group to remove the syslog configuration from.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+    /// The ID of the VPC endpoint associated with the syslog configuration to delete.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -7430,6 +7456,97 @@ public struct ListSourcesForS3TableIntegrationOutput: Swift.Sendable {
     }
 }
 
+public struct ListSyslogConfigurationsInput: Swift.Sendable {
+    /// The name or ARN of the log group to filter syslog configurations for.
+    public var logGroupIdentifier: Swift.String?
+    /// The maximum number of syslog configurations to return in the response.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. You received this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The ID of the VPC endpoint to filter syslog configurations for.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum SyslogSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpce
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyslogSourceType] {
+            return [
+                .vpce
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpce: return "VPCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains information about a syslog configuration associated with a log group.
+    public struct SyslogConfiguration: Swift.Sendable {
+        /// The time when the syslog configuration was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public var createdAt: Swift.Int?
+        /// The ARN of the log group associated with this syslog configuration.
+        public var logGroupArn: Swift.String?
+        /// The source type for the syslog configuration.
+        public var sourceType: CloudWatchLogsClientTypes.SyslogSourceType?
+        /// The ID of the VPC endpoint used for syslog ingestion.
+        public var vpcEndpointId: Swift.String?
+
+        public init(
+            createdAt: Swift.Int? = nil,
+            logGroupArn: Swift.String? = nil,
+            sourceType: CloudWatchLogsClientTypes.SyslogSourceType? = nil,
+            vpcEndpointId: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.logGroupArn = logGroupArn
+            self.sourceType = sourceType
+            self.vpcEndpointId = vpcEndpointId
+        }
+    }
+}
+
+public struct ListSyslogConfigurationsOutput: Swift.Sendable {
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+    /// The list of syslog configurations.
+    public var syslogConfigurations: [CloudWatchLogsClientTypes.SyslogConfiguration]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        syslogConfigurations: [CloudWatchLogsClientTypes.SyslogConfiguration]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.syslogConfigurations = syslogConfigurations
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the resource that you want to view tags for. The ARN format of a log group is arn:aws:logs:Region:account-id:log-group:log-group-name  The ARN format of a destination is arn:aws:logs:Region:account-id:destination:destination-name  For more information about ARN format, see [CloudWatch Logs resources and operations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/iam-access-control-overview-cwl.html).
     /// This member is required.
@@ -7828,6 +7945,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.
     ///
+    /// * For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.
+    ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
     ///
     /// * For DevOps Agent, the valid value is APPLICATION_LOGS.
@@ -7840,6 +7959,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.
     ///
+    /// * For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.
+    ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
@@ -7850,7 +7971,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.
     ///
-    /// * For Quick, the valid values are CHAT_LOGS and FEEDBACK_LOGS.
+    /// * For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.
     ///
     /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
@@ -8391,6 +8512,22 @@ public struct PutSubscriptionFilterInput: Swift.Sendable {
         self.filterPattern = filterPattern
         self.logGroupName = logGroupName
         self.roleArn = roleArn
+    }
+}
+
+public struct PutSyslogConfigurationInput: Swift.Sendable {
+    /// The name or ARN of the log group to associate with the syslog configuration.
+    /// This member is required.
+    public var logGroupIdentifier: Swift.String?
+    /// The ID of the VPC endpoint to use for syslog ingestion.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        logGroupIdentifier: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.logGroupIdentifier = logGroupIdentifier
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 

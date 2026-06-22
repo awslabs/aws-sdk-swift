@@ -19,6 +19,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.mapWritingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
@@ -103,6 +104,216 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Type of instrumentation configuration
+    public enum InstrumentationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Temporary instrumentation that expires automatically (default 24 hours)
+        case breakpoint
+        /// Permanent instrumentation that persists until explicitly deleted
+        case probe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstrumentationType] {
+            return [
+                .breakpoint,
+                .probe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .breakpoint: return "BREAKPOINT"
+            case .probe: return "PROBE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Parameters for targeted delete by ARN list.
+    public struct BatchDeleteByResourceArns: Swift.Sendable {
+        /// Instrumentation type: BREAKPOINT or PROBE.
+        /// This member is required.
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// List of resource ARNs to delete.
+        /// This member is required.
+        public var resourceArns: [Swift.String]?
+
+        public init(
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            resourceArns: [Swift.String]? = nil
+        ) {
+            self.instrumentationType = instrumentationType
+            self.resourceArns = resourceArns
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Scope parameters for bulk delete by scope.
+    public struct BatchDeleteScope: Swift.Sendable {
+        /// Environment identifier for the instrumentation configurations.
+        /// This member is required.
+        public var environment: Swift.String?
+        /// Instrumentation type: BREAKPOINT or PROBE.
+        /// This member is required.
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// Service name for the instrumentation configurations.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            environment: Swift.String? = nil,
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.service = service
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Union type for batch delete target selection. Exactly one of the two modes must be specified.
+    public enum BatchDeleteDeletionTarget: Swift.Sendable {
+        /// Delete all configurations matching the specified scope.
+        case scope(ApplicationSignalsClientTypes.BatchDeleteScope)
+        /// Delete specific configurations by ARN list.
+        case resourcearns(ApplicationSignalsClientTypes.BatchDeleteByResourceArns)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct BatchDeleteInstrumentationConfigurationsInput: Swift.Sendable {
+    /// The deletion target - either bulk by scope or targeted by ARN list.
+    /// This member is required.
+    public var deletionTarget: ApplicationSignalsClientTypes.BatchDeleteDeletionTarget?
+
+    public init(
+        deletionTarget: ApplicationSignalsClientTypes.BatchDeleteDeletionTarget? = nil
+    ) {
+        self.deletionTarget = deletionTarget
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Error codes for batch delete item-level failures.
+    public enum BatchDeleteErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Insufficient permissions to delete the configuration.
+        case accessDenied
+        /// Internal service error for this item.
+        case internalServiceError
+        /// Configuration already deleted or expired.
+        case resourceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchDeleteErrorCode] {
+            return [
+                .accessDenied,
+                .internalServiceError,
+                .resourceNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDeniedException"
+            case .internalServiceError: return "InternalServiceException"
+            case .resourceNotFound: return "ResourceNotFoundException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Represents an error that occurred when attempting to delete a configuration.
+    public struct BatchDeleteError: Swift.Sendable {
+        /// Error code indicating the type of failure.
+        /// This member is required.
+        public var code: ApplicationSignalsClientTypes.BatchDeleteErrorCode?
+        /// Descriptive error message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// ARN of the configuration that failed to delete.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            code: ApplicationSignalsClientTypes.BatchDeleteErrorCode? = nil,
+            message: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Represents a successfully deleted instrumentation configuration.
+    public struct BatchDeleteSuccessfulDeletion: Swift.Sendable {
+        /// Location hash of the deleted configuration (populated only when deleting by scope).
+        public var locationHash: Swift.String?
+        /// ARN of the deleted configuration (populated only when deleting by ARN list).
+        public var resourceArn: Swift.String?
+        /// Signal type of the deleted configuration (populated only when deleting by scope).
+        public var signalType: Swift.String?
+
+        public init(
+            locationHash: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            signalType: Swift.String? = nil
+        ) {
+            self.locationHash = locationHash
+            self.resourceArn = resourceArn
+            self.signalType = signalType
+        }
+    }
+}
+
+public struct BatchDeleteInstrumentationConfigurationsOutput: Swift.Sendable {
+    /// Number of configurations successfully deleted. When deleting by scope, this is the total count of deleted items. When deleting by ARN list, this equals the length of SuccessfulDeletions.
+    /// This member is required.
+    public var deletedCount: Swift.Int?
+    /// List of configurations that failed to delete.
+    /// This member is required.
+    public var errors: [ApplicationSignalsClientTypes.BatchDeleteError]?
+    /// List of successfully deleted configurations. Deleting by scope populates SignalType and LocationHash per item. Deleting by ARN list populates ResourceArn per item.
+    /// This member is required.
+    public var successfulDeletions: [ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion]?
+
+    public init(
+        deletedCount: Swift.Int? = nil,
+        errors: [ApplicationSignalsClientTypes.BatchDeleteError]? = nil,
+        successfulDeletions: [ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion]? = nil
+    ) {
+        self.deletedCount = deletedCount
+        self.errors = errors
+        self.successfulDeletions = successfulDeletions
     }
 }
 
@@ -1190,9 +1401,795 @@ public struct BatchUpdateExclusionWindowsOutput: Swift.Sendable {
     }
 }
 
+/// This operation attempted to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// This request exceeds a service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Guardrails that prevent instrumentation from impacting application performance by limiting how much data is captured.
+    public struct CaptureLimitsConfig: Swift.Sendable {
+        /// The maximum nesting depth to traverse inside collections. Defaults to 3.
+        public var maxCollectionDepth: Swift.Int?
+        /// The maximum number of items to capture from any collection to prevent large payloads. Defaults to 10.
+        public var maxCollectionWidth: Swift.Int?
+        /// The maximum number of fields to capture for any object. Defaults to 10.
+        public var maxFieldsPerObject: Swift.Int?
+        /// The maximum number of times the instrumentation point can be hit before it is automatically disabled. Defaults to 100.
+        public var maxHits: Swift.Int?
+        /// The maximum depth for nested object traversal when capturing structured data. Defaults to 3.
+        public var maxObjectDepth: Swift.Int?
+        /// The maximum number of stack frames to capture in stack traces. Defaults to 2.
+        public var maxStackFrames: Swift.Int?
+        /// The maximum total size, in bytes, of a captured stack trace. Defaults to 1000.
+        public var maxStackTraceSize: Swift.Int?
+        /// The maximum length of captured string values in characters. Strings longer than this are truncated. Defaults to 128.
+        public var maxStringLength: Swift.Int?
+
+        public init(
+            maxCollectionDepth: Swift.Int? = nil,
+            maxCollectionWidth: Swift.Int? = nil,
+            maxFieldsPerObject: Swift.Int? = nil,
+            maxHits: Swift.Int? = nil,
+            maxObjectDepth: Swift.Int? = nil,
+            maxStackFrames: Swift.Int? = nil,
+            maxStackTraceSize: Swift.Int? = nil,
+            maxStringLength: Swift.Int? = nil
+        ) {
+            self.maxCollectionDepth = maxCollectionDepth
+            self.maxCollectionWidth = maxCollectionWidth
+            self.maxFieldsPerObject = maxFieldsPerObject
+            self.maxHits = maxHits
+            self.maxObjectDepth = maxObjectDepth
+            self.maxStackFrames = maxStackFrames
+            self.maxStackTraceSize = maxStackTraceSize
+            self.maxStringLength = maxStringLength
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Defines what data to capture for code-level instrumentation, including arguments, return values, stack traces, local variables, and safety limits.
+    public struct CodeCaptureConfiguration: Swift.Sendable {
+        /// The function arguments to capture. Omit to capture defaults, use an empty list to capture none, use ["*"] to capture all arguments, or specify argument names to capture selectively (up to 10 entries).
+        public var captureArguments: [Swift.String]?
+        /// Safety limits that bound what is captured, including hit counts, string length, collection depth, and stack trace size.
+        /// This member is required.
+        public var captureLimits: ApplicationSignalsClientTypes.CaptureLimitsConfig?
+        /// The local variables to capture by name. Omit or pass an empty list to capture none. You can specify up to 20 names.
+        public var captureLocals: [Swift.String]?
+        /// Whether to capture the return value. Defaults to false.
+        public var captureReturn: Swift.Bool?
+        /// Whether to capture a stack trace when the instrumentation point is hit. Defaults to true.
+        public var captureStackTrace: Swift.Bool?
+
+        public init(
+            captureArguments: [Swift.String]? = nil,
+            captureLimits: ApplicationSignalsClientTypes.CaptureLimitsConfig? = nil,
+            captureLocals: [Swift.String]? = nil,
+            captureReturn: Swift.Bool? = nil,
+            captureStackTrace: Swift.Bool? = nil
+        ) {
+            self.captureArguments = captureArguments
+            self.captureLimits = captureLimits
+            self.captureLocals = captureLocals
+            self.captureReturn = captureReturn
+            self.captureStackTrace = captureStackTrace
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A union that defines what data to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings.
+    public enum CaptureConfiguration: Swift.Sendable {
+        /// Capture settings for code-level instrumentation, including arguments, return values, stack traces, local variables, and safety limits.
+        case codecapture(ApplicationSignalsClientTypes.CodeCaptureConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The programming language of the instrumentation point. Java, Python, and JavaScript are currently supported.
+    public enum ProgrammingLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case java
+        case javascript
+        case python
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProgrammingLanguage] {
+            return [
+                .java,
+                .javascript,
+                .python
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .java: return "Java"
+            case .javascript: return "Javascript"
+            case .python: return "Python"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Identifies a code location to instrument, including the programming language, code unit, class, method, file path, and optional line number.
+    public struct CodeLocation: Swift.Sendable {
+        /// The class or type name that contains the method. This is required for Java and optional for Python module-level functions.
+        public var className: Swift.String?
+        /// The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service.
+        public var codeUnit: Swift.String?
+        /// The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/PaymentProcessor.py.
+        /// This member is required.
+        public var filePath: Swift.String?
+        /// The programming language for this instrumentation point, such as Java, Python, or JavaScript.
+        /// This member is required.
+        public var language: ApplicationSignalsClientTypes.ProgrammingLanguage?
+        /// The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed.
+        public var lineNumber: Swift.Int?
+        /// The method or function name to instrument, such as validateCreditCard or __init__.
+        public var methodName: Swift.String?
+
+        public init(
+            className: Swift.String? = nil,
+            codeUnit: Swift.String? = nil,
+            filePath: Swift.String? = nil,
+            language: ApplicationSignalsClientTypes.ProgrammingLanguage? = nil,
+            lineNumber: Swift.Int? = nil,
+            methodName: Swift.String? = nil
+        ) {
+            self.className = className
+            self.codeUnit = codeUnit
+            self.filePath = filePath
+            self.language = language
+            self.lineNumber = lineNumber
+            self.methodName = methodName
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A union that identifies the location to instrument. Specify a CodeLocation for code-level instrumentation.
+    public enum Location: Swift.Sendable {
+        /// A code location for code-level instrumentation, including language, code unit, class, method, file path, and optional line number.
+        case codelocation(ApplicationSignalsClientTypes.CodeLocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The telemetry signal type for instrumentation.
+    ///
+    /// * SNAPSHOT - Captures a snapshot of the instrumentation point.
+    public enum DynamicInstrumentationSignalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case snapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicInstrumentationSignalType] {
+            return [
+                .snapshot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .snapshot: return "SNAPSHOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A key-value pair associated with a resource. Tags can help you organize and categorize your resources.
+    public struct Tag: Swift.Sendable {
+        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value for the specified tag key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct CreateInstrumentationConfigurationInput: Swift.Sendable {
+    /// Client-side filters that target specific instances. Each object in the array is AND-matched on its keys, and multiple objects are OR-matched to decide where to apply the instrumentation.
+    public var attributeFilters: [[Swift.String: Swift.String]]?
+    /// Specifies what to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings.
+    /// This member is required.
+    public var captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration?
+    /// An optional short description (up to 50 characters) that explains the purpose of this instrumentation.
+    public var description: Swift.String?
+    /// The environment that the service is running in, such as eks:cluster-prod/namespace or ec2:production.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// For BREAKPOINT: optional, defaults to 24 hours, must be between 5 min and 24 hours. For PROBE: not supported. PROBE configurations are permanent and persist until explicitly deleted.
+    public var expiresAt: Foundation.Date?
+    /// Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent)
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation.
+    /// This member is required.
+    public var location: ApplicationSignalsClientTypes.Location?
+    /// The name of the service to instrument. This should match the service.name resource attribute reported by the application.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The telemetry signal type to emit for this instrumentation. The supported value is SNAPSHOT.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+    /// An optional list of key-value pairs to associate with the instrumentation configuration. Tags can help you organize and categorize your resources.
+    public var tags: [ApplicationSignalsClientTypes.Tag]?
+
+    public init(
+        attributeFilters: [[Swift.String: Swift.String]]? = nil,
+        captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration? = nil,
+        description: Swift.String? = nil,
+        environment: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        location: ApplicationSignalsClientTypes.Location? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil,
+        tags: [ApplicationSignalsClientTypes.Tag]? = nil
+    ) {
+        self.attributeFilters = attributeFilters
+        self.captureConfiguration = captureConfiguration
+        self.description = description
+        self.environment = environment
+        self.expiresAt = expiresAt
+        self.instrumentationType = instrumentationType
+        self.location = location
+        self.service = service
+        self.signalType = signalType
+        self.tags = tags
+    }
+}
+
+public struct CreateInstrumentationConfigurationOutput: Swift.Sendable {
+    /// ARN for the created instrumentation configuration
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The attribute filters returned with the configuration so SDKs can perform client-side targeting.
+    public var attributeFilters: [[Swift.String: Swift.String]]?
+    /// The capture settings that were stored for this instrumentation configuration.
+    /// This member is required.
+    public var captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration?
+    /// The server-generated creation timestamp for this instrumentation configuration.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The optional description that was stored with the instrumentation configuration.
+    public var description: Swift.String?
+    /// The environment for the instrumentation configuration, echoed from the request.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// The timestamp after which this configuration is no longer served to clients. Present only for BREAKPOINT configurations; PROBE configurations do not expire.
+    public var expiresAt: Foundation.Date?
+    /// The type of instrumentation that was created, echoed from the request.
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// The location where instrumentation is applied, echoed from the request.
+    /// This member is required.
+    public var location: ApplicationSignalsClientTypes.Location?
+    /// A stable hash computed from the location that uniquely identifies this instrumentation point within the service, environment, and signal type.
+    /// This member is required.
+    public var locationHash: Swift.String?
+    /// The service name for the instrumentation configuration, echoed from the request.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The telemetry signal type for the instrumentation configuration, echoed from the request.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+
+    public init(
+        arn: Swift.String? = nil,
+        attributeFilters: [[Swift.String: Swift.String]]? = nil,
+        captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        environment: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        location: ApplicationSignalsClientTypes.Location? = nil,
+        locationHash: Swift.String? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil
+    ) {
+        self.arn = arn
+        self.attributeFilters = attributeFilters
+        self.captureConfiguration = captureConfiguration
+        self.createdAt = createdAt
+        self.description = description
+        self.environment = environment
+        self.expiresAt = expiresAt
+        self.instrumentationType = instrumentationType
+        self.location = location
+        self.locationHash = locationHash
+        self.service = service
+        self.signalType = signalType
+    }
+}
+
 public struct DeleteGroupingConfigurationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// Union type for identifying an instrumentation configuration by code location or locationHash. Used in Get/Delete/GetStatus operations to allow flexible identification.
+    public enum LocationIdentifier: Swift.Sendable {
+        /// The full code location specification (will be hashed internally)
+        case codelocation(ApplicationSignalsClientTypes.CodeLocation)
+        /// The pre-computed location hash (16-character hex string)
+        case locationhash(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DeleteInstrumentationConfigurationInput: Swift.Sendable {
+    /// Environment name for the instrumentation configuration.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to identify the configuration to delete.
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// Location identifier - either full code location or a pre-computed hash.
+    /// This member is required.
+    public var locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier?
+    /// Service name for the instrumentation configuration.
+    /// This member is required.
+    public var service: Swift.String?
+    /// Signal type for the instrumentation configuration.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+
+    public init(
+        environment: Swift.String? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil
+    ) {
+        self.environment = environment
+        self.instrumentationType = instrumentationType
+        self.locationIdentifier = locationIdentifier
+        self.service = service
+        self.signalType = signalType
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The status of a delete request for an instrumentation configuration. The value is DELETED after a successful deletion.
+    public enum DynamicInstrumentationDeletionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicInstrumentationDeletionStatus] {
+            return [
+                .deleted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteInstrumentationConfigurationOutput: Swift.Sendable {
+    /// The result of the delete request. The value is DELETED when the configuration has been removed.
+    /// This member is required.
+    public var deletionStatus: ApplicationSignalsClientTypes.DynamicInstrumentationDeletionStatus?
+
+    public init(
+        deletionStatus: ApplicationSignalsClientTypes.DynamicInstrumentationDeletionStatus? = nil
+    ) {
+        self.deletionStatus = deletionStatus
+    }
+}
+
+public struct GetInstrumentationConfigurationInput: Swift.Sendable {
+    /// Environment name for the instrumentation configuration.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to identify the configuration to retrieve.
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// Location identifier - either full code location or a pre-computed hash.
+    /// This member is required.
+    public var locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier?
+    /// Service name for the instrumentation configuration.
+    /// This member is required.
+    public var service: Swift.String?
+    /// Signal type for the instrumentation configuration.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+
+    public init(
+        environment: Swift.String? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil
+    ) {
+        self.environment = environment
+        self.instrumentationType = instrumentationType
+        self.locationIdentifier = locationIdentifier
+        self.service = service
+        self.signalType = signalType
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The full instrumentation configuration, including the instrumentation type, service, environment, signal type, location details, stable location hash, capture settings, filters, expiration, creation time, and ARN.
+    public struct InstrumentationConfiguration: Swift.Sendable {
+        /// ARN for the instrumentation configuration
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Client-side filters that determine which instances apply this instrumentation.
+        public var attributeFilters: [[Swift.String: Swift.String]]?
+        /// The capture settings for this instrumentation configuration.
+        /// This member is required.
+        public var captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration?
+        /// The timestamp when this instrumentation configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// An optional short description of the instrumentation configuration.
+        public var description: Swift.String?
+        /// The environment where the service is running.
+        /// This member is required.
+        public var environment: Swift.String?
+        /// The timestamp when this configuration expires.
+        public var expiresAt: Foundation.Date?
+        /// The type of instrumentation for this configuration.
+        /// This member is required.
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// The location where this instrumentation is applied.
+        /// This member is required.
+        public var location: ApplicationSignalsClientTypes.Location?
+        /// The stable hash derived from the location that uniquely identifies this instrumentation point within the service and environment.
+        /// This member is required.
+        public var locationHash: Swift.String?
+        /// The service that this instrumentation configuration targets.
+        /// This member is required.
+        public var service: Swift.String?
+        /// The telemetry signal type for this instrumentation configuration.
+        /// This member is required.
+        public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+
+        public init(
+            arn: Swift.String? = nil,
+            attributeFilters: [[Swift.String: Swift.String]]? = nil,
+            captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            environment: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            location: ApplicationSignalsClientTypes.Location? = nil,
+            locationHash: Swift.String? = nil,
+            service: Swift.String? = nil,
+            signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil
+        ) {
+            self.arn = arn
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.createdAt = createdAt
+            self.description = description
+            self.environment = environment
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.locationHash = locationHash
+            self.service = service
+            self.signalType = signalType
+        }
+    }
+}
+
+public struct GetInstrumentationConfigurationOutput: Swift.Sendable {
+    /// The complete instrumentation configuration, including its location hash, capture settings, filters, expiration, and creation time.
+    /// This member is required.
+    public var configuration: ApplicationSignalsClientTypes.InstrumentationConfiguration?
+
+    public init(
+        configuration: ApplicationSignalsClientTypes.InstrumentationConfiguration? = nil
+    ) {
+        self.configuration = configuration
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The status of an instrumentation configuration on a host.
+    ///
+    /// * READY - The configuration has been applied but has not been hit yet.
+    ///
+    /// * ERROR - Applying the configuration failed; see the error cause.
+    ///
+    /// * ACTIVE - The configuration has been hit and is capturing data.
+    ///
+    /// * DISABLED - The configuration was disabled, for example because a limit was reached.
+    public enum InstrumentationConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabled
+        case error
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstrumentationConfigurationStatus] {
+            return [
+                .active,
+                .disabled,
+                .error,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disabled: return "DISABLED"
+            case .error: return "ERROR"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetInstrumentationConfigurationStatusInput: Swift.Sendable {
+    /// The end of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    public var endTime: Foundation.Date?
+    /// Environment name for the instrumentation configuration.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to identify the configuration to retrieve.
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// Location identifier - either full code location or a pre-computed hash.
+    /// This member is required.
+    public var locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier?
+    /// The maximum number of status events to return in one call. The default is 60.
+    public var maxResults: Swift.Int?
+    /// Use the token returned by a previous call to retrieve the next page of status events.
+    public var nextToken: Swift.String?
+    /// Service name for the instrumentation configuration.
+    /// This member is required.
+    public var service: Swift.String?
+    /// Signal type for the instrumentation configuration.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+    /// The start of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    public var startTime: Foundation.Date?
+    /// The single status to query for. If omitted, only ACTIVE status events are returned.
+    public var status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        environment: Swift.String? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        locationIdentifier: ApplicationSignalsClientTypes.LocationIdentifier? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil,
+        startTime: Foundation.Date? = nil,
+        status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus? = nil
+    ) {
+        self.endTime = endTime
+        self.environment = environment
+        self.instrumentationType = instrumentationType
+        self.locationIdentifier = locationIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.service = service
+        self.signalType = signalType
+        self.startTime = startTime
+        self.status = status
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The reason why applying an instrumentation configuration failed.
+    ///
+    /// * FILE_NOT_FOUND - The specified file or file location could not be located.
+    ///
+    /// * METHOD_NOT_FOUND - The specified method or function does not exist.
+    ///
+    /// * LINE_NOT_EXECUTABLE - The specified line does not contain executable code.
+    ///
+    /// * OVERLOADED_METHODS - Multiple overloaded methods were found; provide a line number to disambiguate.
+    ///
+    /// * LANGUAGE_MISMATCH - The language specified in the configuration does not match the service.
+    ///
+    /// * RUNTIME_ERROR - A runtime error occurred while applying the instrumentation.
+    public enum InstrumentationErrorCause: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fileNotFound
+        case languageMismatch
+        case lineNotExecutable
+        case methodNotFound
+        case overloadedMethods
+        case runtimeError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstrumentationErrorCause] {
+            return [
+                .fileNotFound,
+                .languageMismatch,
+                .lineNotExecutable,
+                .methodNotFound,
+                .overloadedMethods,
+                .runtimeError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fileNotFound: return "FILE_NOT_FOUND"
+            case .languageMismatch: return "LANGUAGE_MISMATCH"
+            case .lineNotExecutable: return "LINE_NOT_EXECUTABLE"
+            case .methodNotFound: return "METHOD_NOT_FOUND"
+            case .overloadedMethods: return "OVERLOADED_METHODS"
+            case .runtimeError: return "RUNTIME_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A status event for an instrumentation configuration returned by GetInstrumentationConfigurationStatus. Events include the timestamp and, for errors, an error cause.
+    public struct InstrumentationStatusEvent: Swift.Sendable {
+        /// The error cause when the status is ERROR.
+        public var errorCause: ApplicationSignalsClientTypes.InstrumentationErrorCause?
+        /// The time when the status was reported, rounded to the nearest minute.
+        /// This member is required.
+        public var time: Foundation.Date?
+
+        public init(
+            errorCause: ApplicationSignalsClientTypes.InstrumentationErrorCause? = nil,
+            time: Foundation.Date? = nil
+        ) {
+            self.errorCause = errorCause
+            self.time = time
+        }
+    }
+}
+
+public struct GetInstrumentationConfigurationStatusOutput: Swift.Sendable {
+    /// The environment echoed from the request.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// The list of status events within the requested time window, sorted with the most recent first. Error events include an error cause.
+    /// This member is required.
+    public var events: [ApplicationSignalsClientTypes.InstrumentationStatusEvent]?
+    /// The code location echoed from the request.
+    /// This member is required.
+    public var location: ApplicationSignalsClientTypes.Location?
+    /// Pagination token to continue retrieving status events.
+    public var nextToken: Swift.String?
+    /// The service name echoed from the request.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The telemetry signal type echoed from the request.
+    /// This member is required.
+    public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+    /// The status that was queried. If not specified in the request, this is ACTIVE.
+    /// This member is required.
+    public var status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus?
+
+    public init(
+        environment: Swift.String? = nil,
+        events: [ApplicationSignalsClientTypes.InstrumentationStatusEvent]? = nil,
+        location: ApplicationSignalsClientTypes.Location? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil,
+        status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus? = nil
+    ) {
+        self.environment = environment
+        self.events = events
+        self.location = location
+        self.nextToken = nextToken
+        self.service = service
+        self.signalType = signalType
+        self.status = status
+    }
 }
 
 public struct GetServiceInput: Swift.Sendable {
@@ -2109,6 +3106,138 @@ public struct ListGroupingAttributeDefinitionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListInstrumentationConfigurationsInput: Swift.Sendable {
+    /// The environment that the service is running in.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// Type of instrumentation configuration (BREAKPOINT or PROBE). Required to determine which backing store to query.
+    /// This member is required.
+    public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+    /// The maximum number of configurations to return in one call. The default is 50 and the maximum is 100.
+    public var maxResults: Swift.Int?
+    /// Use the token returned by a previous call to retrieve the next page of configurations.
+    public var nextToken: Swift.String?
+    /// The name of the service to retrieve instrumentation configurations for.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The timestamp from the last successful sync. When provided, the response returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
+    public var syncedAt: Foundation.Date?
+
+    public init(
+        environment: Swift.String? = nil,
+        instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        syncedAt: Foundation.Date? = nil
+    ) {
+        self.environment = environment
+        self.instrumentationType = instrumentationType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.service = service
+        self.syncedAt = syncedAt
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// An instrumentation configuration that omits service and environment because they are provided at a higher level, such as in a list response.
+    public struct InstrumentationConfigurationWithoutServiceEnv: Swift.Sendable {
+        /// ARN for the instrumentation configuration
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Client-side filters that determine which instances apply this instrumentation.
+        public var attributeFilters: [[Swift.String: Swift.String]]?
+        /// The capture settings for this instrumentation configuration.
+        /// This member is required.
+        public var captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration?
+        /// The timestamp when this instrumentation configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// An optional short description of the instrumentation configuration.
+        public var description: Swift.String?
+        /// The timestamp when this configuration expires.
+        public var expiresAt: Foundation.Date?
+        /// The type of instrumentation for this configuration.
+        /// This member is required.
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// The location where this instrumentation is applied.
+        /// This member is required.
+        public var location: ApplicationSignalsClientTypes.Location?
+        /// The stable hash derived from the location that identifies this instrumentation point.
+        /// This member is required.
+        public var locationHash: Swift.String?
+        /// The telemetry signal type for this instrumentation configuration.
+        /// This member is required.
+        public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+
+        public init(
+            arn: Swift.String? = nil,
+            attributeFilters: [[Swift.String: Swift.String]]? = nil,
+            captureConfiguration: ApplicationSignalsClientTypes.CaptureConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            location: ApplicationSignalsClientTypes.Location? = nil,
+            locationHash: Swift.String? = nil,
+            signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil
+        ) {
+            self.arn = arn
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.createdAt = createdAt
+            self.description = description
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.locationHash = locationHash
+            self.signalType = signalType
+        }
+    }
+}
+
+public struct ListInstrumentationConfigurationsOutput: Swift.Sendable {
+    /// Indicates whether there are configuration changes since the provided SyncedAt timestamp.
+    /// This member is required.
+    public var changed: Swift.Bool?
+    /// The environment associated with the returned configurations.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// The current set of active instrumentation configurations for the service and environment. Items omit service and environment because they are provided in the request.
+    public var latestConfigurations: [ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv]?
+    /// Pagination token to continue listing configurations when more results are available.
+    public var nextToken: Swift.String?
+    /// The service name associated with the returned configurations.
+    /// This member is required.
+    public var service: Swift.String?
+    /// The suggested number of seconds to wait before the next sync request. This is at least 60 seconds to prevent excessive polling.
+    /// This member is required.
+    public var syncInterval: Swift.Int?
+    /// The server timestamp to supply on the next sync call.
+    /// This member is required.
+    public var syncedAt: Foundation.Date?
+
+    public init(
+        changed: Swift.Bool? = nil,
+        environment: Swift.String? = nil,
+        latestConfigurations: [ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv]? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        syncInterval: Swift.Int? = nil,
+        syncedAt: Foundation.Date? = nil
+    ) {
+        self.changed = changed
+        self.environment = environment
+        self.latestConfigurations = latestConfigurations
+        self.nextToken = nextToken
+        self.service = service
+        self.syncInterval = syncInterval
+        self.syncedAt = syncedAt
+    }
+}
+
 public struct ListServiceDependenciesInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested end time will be rounded to the nearest hour.
     /// This member is required.
@@ -2699,27 +3828,6 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     }
 }
 
-extension ApplicationSignalsClientTypes {
-
-    /// A key-value pair associated with a resource. Tags can help you organize and categorize your resources.
-    public struct Tag: Swift.Sendable {
-        /// A string that you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value for the specified tag key.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
 public struct ListTagsForResourceOutput: Swift.Sendable {
     /// The list of tag keys and values associated with the resource you specified.
     public var tags: [ApplicationSignalsClientTypes.Tag]?
@@ -2776,51 +3884,167 @@ public struct PutGroupingConfigurationOutput: Swift.Sendable {
     }
 }
 
-/// This operation attempted to create a resource that already exists.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension ApplicationSignalsClientTypes {
 
-    public struct Properties: Swift.Sendable {
+    /// The status of a single instrumentation configuration reported by an SDK instance.
+    public struct InstrumentationConfigurationStatusReport: Swift.Sendable {
+        /// The error cause when the status is ERROR, such as the file or method not being found.
+        public var errorCause: ApplicationSignalsClientTypes.InstrumentationErrorCause?
+        /// The type of instrumentation configuration being reported.
         /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// The stable hash of the instrumentation location that identifies the configuration being reported.
+        /// This member is required.
+        public var locationHash: Swift.String?
+        /// The telemetry signal type for this instrumentation configuration.
+        /// This member is required.
+        public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+        /// The status of the instrumentation configuration: READY, ERROR, ACTIVE, or DISABLED.
+        /// This member is required.
+        public var status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus?
+        /// The timestamp when the status event occurred.
+        /// This member is required.
+        public var time: Foundation.Date?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            errorCause: ApplicationSignalsClientTypes.InstrumentationErrorCause? = nil,
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            locationHash: Swift.String? = nil,
+            signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil,
+            status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus? = nil,
+            time: Foundation.Date? = nil
+        ) {
+            self.errorCause = errorCause
+            self.instrumentationType = instrumentationType
+            self.locationHash = locationHash
+            self.signalType = signalType
+            self.status = status
+            self.time = time
+        }
     }
 }
 
-/// This request exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+public struct ReportInstrumentationConfigurationStatusInput: Swift.Sendable {
+    /// An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, timestamp, and optional error cause.
+    /// This member is required.
+    public var configurations: [ApplicationSignalsClientTypes.InstrumentationConfigurationStatusReport]?
+    /// The environment that the service is running in.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// The service that the reported configurations belong to.
+    /// This member is required.
+    public var service: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        configurations: [ApplicationSignalsClientTypes.InstrumentationConfigurationStatusReport]? = nil,
+        environment: Swift.String? = nil,
+        service: Swift.String? = nil
     ) {
-        self.properties.message = message
+        self.configurations = configurations
+        self.environment = environment
+        self.service = service
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The reason an instrumentation status event could not be processed.
+    ///
+    /// * THROTTLED - The request exceeded allowed throughput.
+    ///
+    /// * INTERNAL_ERROR - An internal server error occurred while processing the event.
+    ///
+    /// * VALIDATION_ERROR - The event failed validation.
+    public enum UnprocessedStatusEventFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalError
+        case throttled
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnprocessedStatusEventFailureReason] {
+            return [
+                .internalError,
+                .throttled,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "INTERNAL_ERROR"
+            case .throttled: return "THROTTLED"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// A status event that could not be processed by the service.
+    public struct UnprocessedStatusEvent: Swift.Sendable {
+        /// The reason why this status event could not be processed, such as throttling or validation errors.
+        /// This member is required.
+        public var failedReason: ApplicationSignalsClientTypes.UnprocessedStatusEventFailureReason?
+        /// The type of instrumentation configuration for the unprocessed status event.
+        /// This member is required.
+        public var instrumentationType: ApplicationSignalsClientTypes.InstrumentationType?
+        /// The stable hash of the instrumentation location for the unprocessed event.
+        /// This member is required.
+        public var locationHash: Swift.String?
+        /// The telemetry signal type for the unprocessed status event.
+        /// This member is required.
+        public var signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType?
+        /// The status that failed to be processed.
+        /// This member is required.
+        public var status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus?
+        /// The timestamp of the status event that failed to be processed.
+        /// This member is required.
+        public var time: Foundation.Date?
+
+        public init(
+            failedReason: ApplicationSignalsClientTypes.UnprocessedStatusEventFailureReason? = nil,
+            instrumentationType: ApplicationSignalsClientTypes.InstrumentationType? = nil,
+            locationHash: Swift.String? = nil,
+            signalType: ApplicationSignalsClientTypes.DynamicInstrumentationSignalType? = nil,
+            status: ApplicationSignalsClientTypes.InstrumentationConfigurationStatus? = nil,
+            time: Foundation.Date? = nil
+        ) {
+            self.failedReason = failedReason
+            self.instrumentationType = instrumentationType
+            self.locationHash = locationHash
+            self.signalType = signalType
+            self.status = status
+            self.time = time
+        }
+    }
+}
+
+public struct ReportInstrumentationConfigurationStatusOutput: Swift.Sendable {
+    /// The environment echoed from the request.
+    /// This member is required.
+    public var environment: Swift.String?
+    /// The service name echoed from the request.
+    /// This member is required.
+    public var service: Swift.String?
+    /// Status events that failed to be processed. Each entry includes the configuration identifiers, status, timestamp, and a reason for the failure.
+    /// This member is required.
+    public var unprocessedStatusEvents: [ApplicationSignalsClientTypes.UnprocessedStatusEvent]?
+
+    public init(
+        environment: Swift.String? = nil,
+        service: Swift.String? = nil,
+        unprocessedStatusEvents: [ApplicationSignalsClientTypes.UnprocessedStatusEvent]? = nil
+    ) {
+        self.environment = environment
+        self.service = service
+        self.unprocessedStatusEvents = unprocessedStatusEvents
     }
 }
 
@@ -3477,6 +4701,13 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension BatchDeleteInstrumentationConfigurationsInput {
+
+    static func urlPathProvider(_ value: BatchDeleteInstrumentationConfigurationsInput) -> Swift.String? {
+        return "/batch-delete-instrumentation-configurations"
+    }
+}
+
 extension BatchGetServiceLevelObjectiveBudgetReportInput {
 
     static func urlPathProvider(_ value: BatchGetServiceLevelObjectiveBudgetReportInput) -> Swift.String? {
@@ -3488,6 +4719,13 @@ extension BatchUpdateExclusionWindowsInput {
 
     static func urlPathProvider(_ value: BatchUpdateExclusionWindowsInput) -> Swift.String? {
         return "/exclusion-windows"
+    }
+}
+
+extension CreateInstrumentationConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateInstrumentationConfigurationInput) -> Swift.String? {
+        return "/create-instrumentation-configuration"
     }
 }
 
@@ -3505,6 +4743,13 @@ extension DeleteGroupingConfigurationInput {
     }
 }
 
+extension DeleteInstrumentationConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteInstrumentationConfigurationInput) -> Swift.String? {
+        return "/delete-instrumentation-configuration"
+    }
+}
+
 extension DeleteServiceLevelObjectiveInput {
 
     static func urlPathProvider(_ value: DeleteServiceLevelObjectiveInput) -> Swift.String? {
@@ -3512,6 +4757,20 @@ extension DeleteServiceLevelObjectiveInput {
             return nil
         }
         return "/slo/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetInstrumentationConfigurationInput {
+
+    static func urlPathProvider(_ value: GetInstrumentationConfigurationInput) -> Swift.String? {
+        return "/get-instrumentation-configuration"
+    }
+}
+
+extension GetInstrumentationConfigurationStatusInput {
+
+    static func urlPathProvider(_ value: GetInstrumentationConfigurationStatusInput) -> Swift.String? {
+        return "/get-instrumentation-configuration-status"
     }
 }
 
@@ -3626,6 +4885,13 @@ extension ListGroupingAttributeDefinitionsInput {
             items.append(awsAccountIdQueryItem)
         }
         return items
+    }
+}
+
+extension ListInstrumentationConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListInstrumentationConfigurationsInput) -> Swift.String? {
+        return "/list-instrumentation-configurations"
     }
 }
 
@@ -3873,6 +5139,13 @@ extension PutGroupingConfigurationInput {
     }
 }
 
+extension ReportInstrumentationConfigurationStatusInput {
+
+    static func urlPathProvider(_ value: ReportInstrumentationConfigurationStatusInput) -> Swift.String? {
+        return "/report-instrumentation-configuration-status"
+    }
+}
+
 extension StartDiscoveryInput {
 
     static func urlPathProvider(_ value: StartDiscoveryInput) -> Swift.String? {
@@ -3904,6 +5177,14 @@ extension UpdateServiceLevelObjectiveInput {
     }
 }
 
+extension BatchDeleteInstrumentationConfigurationsInput {
+
+    static func write(value: BatchDeleteInstrumentationConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionTarget"].write(value.deletionTarget, with: ApplicationSignalsClientTypes.BatchDeleteDeletionTarget.write(value:to:))
+    }
+}
+
 extension BatchGetServiceLevelObjectiveBudgetReportInput {
 
     static func write(value: BatchGetServiceLevelObjectiveBudgetReportInput?, to writer: SmithyJSON.Writer) throws {
@@ -3923,6 +5204,23 @@ extension BatchUpdateExclusionWindowsInput {
     }
 }
 
+extension CreateInstrumentationConfigurationInput {
+
+    static func write(value: CreateInstrumentationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilters"].writeList(value.attributeFilters, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["CaptureConfiguration"].write(value.captureConfiguration, with: ApplicationSignalsClientTypes.CaptureConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Environment"].write(value.environment)
+        try writer["ExpiresAt"].writeTimestamp(value.expiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["Location"].write(value.location, with: ApplicationSignalsClientTypes.Location.write(value:to:))
+        try writer["Service"].write(value.service)
+        try writer["SignalType"].write(value.signalType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ApplicationSignalsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateServiceLevelObjectiveInput {
 
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
@@ -3936,6 +5234,47 @@ extension CreateServiceLevelObjectiveInput {
         try writer["RequestBasedSliConfig"].write(value.requestBasedSliConfig, with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig.write(value:to:))
         try writer["SliConfig"].write(value.sliConfig, with: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ApplicationSignalsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DeleteInstrumentationConfigurationInput {
+
+    static func write(value: DeleteInstrumentationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Environment"].write(value.environment)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["LocationIdentifier"].write(value.locationIdentifier, with: ApplicationSignalsClientTypes.LocationIdentifier.write(value:to:))
+        try writer["Service"].write(value.service)
+        try writer["SignalType"].write(value.signalType)
+    }
+}
+
+extension GetInstrumentationConfigurationInput {
+
+    static func write(value: GetInstrumentationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Environment"].write(value.environment)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["LocationIdentifier"].write(value.locationIdentifier, with: ApplicationSignalsClientTypes.LocationIdentifier.write(value:to:))
+        try writer["Service"].write(value.service)
+        try writer["SignalType"].write(value.signalType)
+    }
+}
+
+extension GetInstrumentationConfigurationStatusInput {
+
+    static func write(value: GetInstrumentationConfigurationStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Environment"].write(value.environment)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["LocationIdentifier"].write(value.locationIdentifier, with: ApplicationSignalsClientTypes.LocationIdentifier.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Service"].write(value.service)
+        try writer["SignalType"].write(value.signalType)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -3966,6 +5305,19 @@ extension ListEntityEventsInput {
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["Entity"].writeMap(value.entity, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ListInstrumentationConfigurationsInput {
+
+    static func write(value: ListInstrumentationConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Environment"].write(value.environment)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Service"].write(value.service)
+        try writer["SyncedAt"].writeTimestamp(value.syncedAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -4026,6 +5378,16 @@ extension PutGroupingConfigurationInput {
     }
 }
 
+extension ReportInstrumentationConfigurationStatusInput {
+
+    static func write(value: ReportInstrumentationConfigurationStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Configurations"].writeList(value.configurations, memberWritingClosure: ApplicationSignalsClientTypes.InstrumentationConfigurationStatusReport.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Environment"].write(value.environment)
+        try writer["Service"].write(value.service)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -4057,6 +5419,20 @@ extension UpdateServiceLevelObjectiveInput {
     }
 }
 
+extension BatchDeleteInstrumentationConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteInstrumentationConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDeleteInstrumentationConfigurationsOutput()
+        value.deletedCount = try reader["DeletedCount"].readIfPresent() ?? 0
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BatchDeleteError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successfulDeletions = try reader["SuccessfulDeletions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetServiceLevelObjectiveBudgetReportOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetServiceLevelObjectiveBudgetReportOutput {
@@ -4084,6 +5460,29 @@ extension BatchUpdateExclusionWindowsOutput {
     }
 }
 
+extension CreateInstrumentationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInstrumentationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateInstrumentationConfigurationOutput()
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.attributeFilters = try reader["AttributeFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.captureConfiguration = try reader["CaptureConfiguration"].readIfPresent(with: ApplicationSignalsClientTypes.CaptureConfiguration.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.environment = try reader["Environment"].readIfPresent() ?? ""
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.instrumentationType = try reader["InstrumentationType"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent(with: ApplicationSignalsClientTypes.Location.read(from:))
+        value.locationHash = try reader["LocationHash"].readIfPresent() ?? ""
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.signalType = try reader["SignalType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateServiceLevelObjectiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceLevelObjectiveOutput {
@@ -4103,10 +5502,52 @@ extension DeleteGroupingConfigurationOutput {
     }
 }
 
+extension DeleteInstrumentationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteInstrumentationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteInstrumentationConfigurationOutput()
+        value.deletionStatus = try reader["DeletionStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteServiceLevelObjectiveOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteServiceLevelObjectiveOutput {
         return DeleteServiceLevelObjectiveOutput()
+    }
+}
+
+extension GetInstrumentationConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstrumentationConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInstrumentationConfigurationOutput()
+        value.configuration = try reader["Configuration"].readIfPresent(with: ApplicationSignalsClientTypes.InstrumentationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GetInstrumentationConfigurationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstrumentationConfigurationStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInstrumentationConfigurationStatusOutput()
+        value.environment = try reader["Environment"].readIfPresent() ?? ""
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.InstrumentationStatusEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.location = try reader["Location"].readIfPresent(with: ApplicationSignalsClientTypes.Location.read(from:))
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.signalType = try reader["SignalType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -4177,6 +5618,24 @@ extension ListGroupingAttributeDefinitionsOutput {
         value.groupingAttributeDefinitions = try reader["GroupingAttributeDefinitions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ListInstrumentationConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInstrumentationConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInstrumentationConfigurationsOutput()
+        value.changed = try reader["Changed"].readIfPresent() ?? false
+        value.environment = try reader["Environment"].readIfPresent() ?? ""
+        value.latestConfigurations = try reader["LatestConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.syncInterval = try reader["SyncInterval"].readIfPresent() ?? 0
+        value.syncedAt = try reader["SyncedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4306,6 +5765,20 @@ extension PutGroupingConfigurationOutput {
     }
 }
 
+extension ReportInstrumentationConfigurationStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ReportInstrumentationConfigurationStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ReportInstrumentationConfigurationStatusOutput()
+        value.environment = try reader["Environment"].readIfPresent() ?? ""
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.unprocessedStatusEvents = try reader["UnprocessedStatusEvents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.UnprocessedStatusEvent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension StartDiscoveryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDiscoveryOutput {
@@ -4339,6 +5812,21 @@ extension UpdateServiceLevelObjectiveOutput {
     }
 }
 
+enum BatchDeleteInstrumentationConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetServiceLevelObjectiveBudgetReportOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4363,6 +5851,23 @@ enum BatchUpdateExclusionWindowsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateInstrumentationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4404,7 +5909,55 @@ enum DeleteGroupingConfigurationOutputError {
     }
 }
 
+enum DeleteInstrumentationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteServiceLevelObjectiveOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInstrumentationConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInstrumentationConfigurationStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4490,6 +6043,22 @@ enum ListGroupingAttributeDefinitionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInstrumentationConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4634,6 +6203,21 @@ enum PutGroupingConfigurationOutputError {
     }
 }
 
+enum ReportInstrumentationConfigurationStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartDiscoveryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4738,19 +6322,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConflictException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
@@ -4770,6 +6341,19 @@ extension ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4850,6 +6434,64 @@ extension ApplicationSignalsClientTypes.AuditTargetEntity {
     }
 }
 
+extension ApplicationSignalsClientTypes.BatchDeleteByResourceArns {
+
+    static func write(value: ApplicationSignalsClientTypes.BatchDeleteByResourceArns?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["ResourceArns"].writeList(value.resourceArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchDeleteDeletionTarget {
+
+    static func write(value: ApplicationSignalsClientTypes.BatchDeleteDeletionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .resourcearns(resourcearns):
+                try writer["ResourceArns"].write(resourcearns, with: ApplicationSignalsClientTypes.BatchDeleteByResourceArns.write(value:to:))
+            case let .scope(scope):
+                try writer["Scope"].write(scope, with: ApplicationSignalsClientTypes.BatchDeleteScope.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchDeleteError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchDeleteError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BatchDeleteError()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchDeleteScope {
+
+    static func write(value: ApplicationSignalsClientTypes.BatchDeleteScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Environment"].write(value.environment)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["Service"].write(value.service)
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BatchDeleteSuccessfulDeletion()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.signalType = try reader["SignalType"].readIfPresent()
+        value.locationHash = try reader["LocationHash"].readIfPresent()
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
@@ -4904,6 +6546,59 @@ extension ApplicationSignalsClientTypes.CanaryEntity {
     }
 }
 
+extension ApplicationSignalsClientTypes.CaptureConfiguration {
+
+    static func write(value: ApplicationSignalsClientTypes.CaptureConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .codecapture(codecapture):
+                try writer["CodeCapture"].write(codecapture, with: ApplicationSignalsClientTypes.CodeCaptureConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CaptureConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CodeCapture":
+                return .codecapture(try reader["CodeCapture"].read(with: ApplicationSignalsClientTypes.CodeCaptureConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.CaptureLimitsConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.CaptureLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCollectionDepth"].write(value.maxCollectionDepth)
+        try writer["MaxCollectionWidth"].write(value.maxCollectionWidth)
+        try writer["MaxFieldsPerObject"].write(value.maxFieldsPerObject)
+        try writer["MaxHits"].write(value.maxHits)
+        try writer["MaxObjectDepth"].write(value.maxObjectDepth)
+        try writer["MaxStackFrames"].write(value.maxStackFrames)
+        try writer["MaxStackTraceSize"].write(value.maxStackTraceSize)
+        try writer["MaxStringLength"].write(value.maxStringLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CaptureLimitsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.CaptureLimitsConfig()
+        value.maxHits = try reader["MaxHits"].readIfPresent()
+        value.maxStringLength = try reader["MaxStringLength"].readIfPresent()
+        value.maxCollectionWidth = try reader["MaxCollectionWidth"].readIfPresent()
+        value.maxCollectionDepth = try reader["MaxCollectionDepth"].readIfPresent()
+        value.maxStackFrames = try reader["MaxStackFrames"].readIfPresent()
+        value.maxStackTraceSize = try reader["MaxStackTraceSize"].readIfPresent()
+        value.maxObjectDepth = try reader["MaxObjectDepth"].readIfPresent()
+        value.maxFieldsPerObject = try reader["MaxFieldsPerObject"].readIfPresent()
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.ChangeEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ChangeEvent {
@@ -4917,6 +6612,54 @@ extension ApplicationSignalsClientTypes.ChangeEvent {
         value.eventId = try reader["EventId"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent()
         value.eventName = try reader["EventName"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.CodeCaptureConfiguration {
+
+    static func write(value: ApplicationSignalsClientTypes.CodeCaptureConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CaptureArguments"].writeList(value.captureArguments, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CaptureLimits"].write(value.captureLimits, with: ApplicationSignalsClientTypes.CaptureLimitsConfig.write(value:to:))
+        try writer["CaptureLocals"].writeList(value.captureLocals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CaptureReturn"].write(value.captureReturn)
+        try writer["CaptureStackTrace"].write(value.captureStackTrace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CodeCaptureConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.CodeCaptureConfiguration()
+        value.captureArguments = try reader["CaptureArguments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.captureReturn = try reader["CaptureReturn"].readIfPresent()
+        value.captureStackTrace = try reader["CaptureStackTrace"].readIfPresent()
+        value.captureLocals = try reader["CaptureLocals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.captureLimits = try reader["CaptureLimits"].readIfPresent(with: ApplicationSignalsClientTypes.CaptureLimitsConfig.read(from:))
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.CodeLocation {
+
+    static func write(value: ApplicationSignalsClientTypes.CodeLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClassName"].write(value.className)
+        try writer["CodeUnit"].write(value.codeUnit)
+        try writer["FilePath"].write(value.filePath)
+        try writer["Language"].write(value.language)
+        try writer["LineNumber"].write(value.lineNumber)
+        try writer["MethodName"].write(value.methodName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CodeLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.CodeLocation()
+        value.language = try reader["Language"].readIfPresent() ?? .sdkUnknown("")
+        value.codeUnit = try reader["CodeUnit"].readIfPresent()
+        value.className = try reader["ClassName"].readIfPresent()
+        value.methodName = try reader["MethodName"].readIfPresent()
+        value.filePath = try reader["FilePath"].readIfPresent() ?? ""
+        value.lineNumber = try reader["LineNumber"].readIfPresent()
         return value
     }
 }
@@ -5090,6 +6833,70 @@ extension ApplicationSignalsClientTypes.GroupingConfiguration {
     }
 }
 
+extension ApplicationSignalsClientTypes.InstrumentationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.InstrumentationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.InstrumentationConfiguration()
+        value.instrumentationType = try reader["InstrumentationType"].readIfPresent() ?? .sdkUnknown("")
+        value.service = try reader["Service"].readIfPresent() ?? ""
+        value.environment = try reader["Environment"].readIfPresent() ?? ""
+        value.signalType = try reader["SignalType"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent(with: ApplicationSignalsClientTypes.Location.read(from:))
+        value.locationHash = try reader["LocationHash"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.attributeFilters = try reader["AttributeFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.captureConfiguration = try reader["CaptureConfiguration"].readIfPresent(with: ApplicationSignalsClientTypes.CaptureConfiguration.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.InstrumentationConfigurationStatusReport {
+
+    static func write(value: ApplicationSignalsClientTypes.InstrumentationConfigurationStatusReport?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorCause"].write(value.errorCause)
+        try writer["InstrumentationType"].write(value.instrumentationType)
+        try writer["LocationHash"].write(value.locationHash)
+        try writer["SignalType"].write(value.signalType)
+        try writer["Status"].write(value.status)
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv()
+        value.instrumentationType = try reader["InstrumentationType"].readIfPresent() ?? .sdkUnknown("")
+        value.signalType = try reader["SignalType"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["Location"].readIfPresent(with: ApplicationSignalsClientTypes.Location.read(from:))
+        value.locationHash = try reader["LocationHash"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.attributeFilters = try reader["AttributeFilters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.captureConfiguration = try reader["CaptureConfiguration"].readIfPresent(with: ApplicationSignalsClientTypes.CaptureConfiguration.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.InstrumentationStatusEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.InstrumentationStatusEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.InstrumentationStatusEvent()
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.errorCause = try reader["ErrorCause"].readIfPresent()
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.Interval {
 
     static func write(value: ApplicationSignalsClientTypes.Interval?, to writer: SmithyJSON.Writer) throws {
@@ -5114,6 +6921,45 @@ extension ApplicationSignalsClientTypes.Interval {
                 return .calendarinterval(try reader["CalendarInterval"].read(with: ApplicationSignalsClientTypes.CalendarInterval.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.Location {
+
+    static func write(value: ApplicationSignalsClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .codelocation(codelocation):
+                try writer["CodeLocation"].write(codelocation, with: ApplicationSignalsClientTypes.CodeLocation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "CodeLocation":
+                return .codelocation(try reader["CodeLocation"].read(with: ApplicationSignalsClientTypes.CodeLocation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.LocationIdentifier {
+
+    static func write(value: ApplicationSignalsClientTypes.LocationIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .codelocation(codelocation):
+                try writer["CodeLocation"].write(codelocation, with: ApplicationSignalsClientTypes.CodeLocation.write(value:to:))
+            case let .locationhash(locationhash):
+                try writer["LocationHash"].write(locationhash)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
@@ -5637,6 +7483,21 @@ extension ApplicationSignalsClientTypes.Tag {
         var value = ApplicationSignalsClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.UnprocessedStatusEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.UnprocessedStatusEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.UnprocessedStatusEvent()
+        value.instrumentationType = try reader["InstrumentationType"].readIfPresent() ?? .sdkUnknown("")
+        value.signalType = try reader["SignalType"].readIfPresent() ?? .sdkUnknown("")
+        value.locationHash = try reader["LocationHash"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.failedReason = try reader["FailedReason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

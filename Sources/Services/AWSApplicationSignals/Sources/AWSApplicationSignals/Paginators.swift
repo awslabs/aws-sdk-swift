@@ -12,6 +12,44 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ApplicationSignalsClient {
+    /// Paginate over `[GetInstrumentationConfigurationStatusOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetInstrumentationConfigurationStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInstrumentationConfigurationStatusOutput`
+    public func getInstrumentationConfigurationStatusPaginated(input: GetInstrumentationConfigurationStatusInput) -> ClientRuntime.PaginatorSequence<GetInstrumentationConfigurationStatusInput, GetInstrumentationConfigurationStatusOutput> {
+        return ClientRuntime.PaginatorSequence<GetInstrumentationConfigurationStatusInput, GetInstrumentationConfigurationStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getInstrumentationConfigurationStatus(input:))
+    }
+}
+
+extension GetInstrumentationConfigurationStatusInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetInstrumentationConfigurationStatusInput {
+        return GetInstrumentationConfigurationStatusInput(
+            endTime: self.endTime,
+            environment: self.environment,
+            instrumentationType: self.instrumentationType,
+            locationIdentifier: self.locationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            service: self.service,
+            signalType: self.signalType,
+            startTime: self.startTime,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetInstrumentationConfigurationStatusInput, OperationStackOutput == GetInstrumentationConfigurationStatusOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getInstrumentationConfigurationStatusPaginated`
+    /// to access the nested member `[ApplicationSignalsClientTypes.InstrumentationStatusEvent]`
+    /// - Returns: `[ApplicationSignalsClientTypes.InstrumentationStatusEvent]`
+    public func events() async throws -> [ApplicationSignalsClientTypes.InstrumentationStatusEvent] {
+        return try await self.asyncCompactMap { item in item.events }
+    }
+}
+extension ApplicationSignalsClient {
     /// Paginate over `[ListEntityEventsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -42,6 +80,40 @@ extension PaginatorSequence where OperationStackInput == ListEntityEventsInput, 
     /// - Returns: `[ApplicationSignalsClientTypes.ChangeEvent]`
     public func changeEvents() async throws -> [ApplicationSignalsClientTypes.ChangeEvent] {
         return try await self.asyncCompactMap { item in item.changeEvents }
+    }
+}
+extension ApplicationSignalsClient {
+    /// Paginate over `[ListInstrumentationConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInstrumentationConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInstrumentationConfigurationsOutput`
+    public func listInstrumentationConfigurationsPaginated(input: ListInstrumentationConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListInstrumentationConfigurationsInput, ListInstrumentationConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInstrumentationConfigurationsInput, ListInstrumentationConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInstrumentationConfigurations(input:))
+    }
+}
+
+extension ListInstrumentationConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInstrumentationConfigurationsInput {
+        return ListInstrumentationConfigurationsInput(
+            environment: self.environment,
+            instrumentationType: self.instrumentationType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            service: self.service,
+            syncedAt: self.syncedAt
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInstrumentationConfigurationsInput, OperationStackOutput == ListInstrumentationConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInstrumentationConfigurationsPaginated`
+    /// to access the nested member `[ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv]`
+    /// - Returns: `[ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv]`
+    public func latestConfigurations() async throws -> [ApplicationSignalsClientTypes.InstrumentationConfigurationWithoutServiceEnv] {
+        return try await self.asyncCompactMap { item in item.latestConfigurations }
     }
 }
 extension ApplicationSignalsClient {

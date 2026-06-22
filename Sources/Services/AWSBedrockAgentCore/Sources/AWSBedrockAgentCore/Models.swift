@@ -8338,6 +8338,32 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    public enum ExtractionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtractionMode] {
+            return [
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .skip: return "SKIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Value associated with the eventMetadata key.
     public enum MetadataValue: Swift.Sendable {
         /// Value associated with the eventMetadata key.
@@ -8435,6 +8461,8 @@ public struct CreateEventInput: Swift.Sendable {
     /// The timestamp when the event occurred. If not specified, the current time is used.
     /// This member is required.
     public var eventTimestamp: Foundation.Date?
+    /// Controls long-term memory extraction for this event. When set to SKIP, the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual.
+    public var extractionMode: BedrockAgentCoreClientTypes.ExtractionMode?
     /// The identifier of the AgentCore Memory resource in which to create the event.
     /// This member is required.
     public var memoryId: Swift.String?
@@ -8451,6 +8479,7 @@ public struct CreateEventInput: Swift.Sendable {
         branch: BedrockAgentCoreClientTypes.Branch? = nil,
         clientToken: Swift.String? = nil,
         eventTimestamp: Foundation.Date? = nil,
+        extractionMode: BedrockAgentCoreClientTypes.ExtractionMode? = nil,
         memoryId: Swift.String? = nil,
         metadata: [Swift.String: BedrockAgentCoreClientTypes.MetadataValue]? = nil,
         payload: [BedrockAgentCoreClientTypes.PayloadType]? = nil,
@@ -8460,6 +8489,7 @@ public struct CreateEventInput: Swift.Sendable {
         self.branch = branch
         self.clientToken = clientToken
         self.eventTimestamp = eventTimestamp
+        self.extractionMode = extractionMode
         self.memoryId = memoryId
         self.metadata = metadata
         self.payload = payload
@@ -12320,6 +12350,7 @@ extension CreateEventInput {
         try writer["branch"].write(value.branch, with: BedrockAgentCoreClientTypes.Branch.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["eventTimestamp"].writeTimestamp(value.eventTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["extractionMode"].write(value.extractionMode)
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: BedrockAgentCoreClientTypes.MetadataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["payload"].writeList(value.payload, memberWritingClosure: BedrockAgentCoreClientTypes.PayloadType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["sessionId"].write(value.sessionId)

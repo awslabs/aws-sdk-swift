@@ -2972,7 +2972,7 @@ extension EC2Client {
 
     /// Performs the `AttachImageWatermark` operation on the `EC2` service.
     ///
-    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html), [CopyImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html), and [CreateRestoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateRestoreImageTask.html). Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
+    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html), and [CopyImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html). Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
     ///
     /// - Parameter input: [no documentation found] (Type: `AttachImageWatermarkInput`)
     ///
@@ -3682,16 +3682,14 @@ extension EC2Client {
     ///
     /// * assessing
     ///
-    /// * scheduled — requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down. The cancellation charge depends on how close the reservation is to its start date.
+    /// * scheduled
     ///
     /// * active and there is no commitment duration or the commitment duration has elapsed.
     ///
-    /// * active during the commitment duration — requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down. The Capacity Reservation transitions to cancelling while charges are applied.
-    ///
-    /// * delayed — the commitment duration is waived, so no cancellation charge applies.
+    /// * active during the commitment duration, if you provide a cancellation quote ID and accept the cancellation charges. Use CreateCapacityReservationCancellationQuote to generate a quote. The Capacity Reservation transitions to cancelling while charges are applied.
     ///
     ///
-    /// You can't modify or cancel a Capacity Block. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html). Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
+    /// You can't modify or cancel a Capacity Block. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html). If a future-dated Capacity Reservation enters the delayed state, the commitment duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelCapacityReservationInput`)
     ///
@@ -46352,7 +46350,12 @@ extension EC2Client {
 
     /// Performs the `ReplaceImageCriteriaInAllowedImagesSettings` operation on the `EC2` service.
     ///
-    /// Sets or replaces the criteria for Allowed AMIs. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to:
+    ///
+    /// * 10 ImageCriterion
+    ///
+    ///
+    /// The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ReplaceImageCriteriaInAllowedImagesSettingsInput`)
     ///

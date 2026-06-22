@@ -67365,6 +67365,33 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The watermark filter criteria for an allowed image. Each entry can specify one or more fields. All specified fields must match the same watermark on the image.
+    public struct ImageWatermarkFilterResponse: Swift.Sendable {
+        /// The maximum number of days that have elapsed since the source image was created. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceSourceImageCreated: Swift.Int?
+        /// The maximum number of days that have elapsed since the watermark was attached to the image. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceWatermarkCreated: Swift.Int?
+        /// The Region where the watermark was originally created. Supports wildcards (*, ?).
+        public var sourceImageRegion: Swift.String?
+        /// The accountId:name of the watermark. Supports wildcards (*, ?).
+        public var watermarkKey: Swift.String?
+
+        public init(
+            maximumDaysSinceSourceImageCreated: Swift.Int? = nil,
+            maximumDaysSinceWatermarkCreated: Swift.Int? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.maximumDaysSinceSourceImageCreated = maximumDaysSinceSourceImageCreated
+            self.maximumDaysSinceWatermarkCreated = maximumDaysSinceWatermarkCreated
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkKey = watermarkKey
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
     public struct ImageCriterion: Swift.Sendable {
         /// The maximum age for allowed images.
@@ -67399,6 +67426,8 @@ extension EC2ClientTypes {
         ///
         /// Maximum: 200 values
         public var imageProviders: [Swift.String]?
+        /// The watermark criteria that an AMI must match to be allowed. An AMI is allowed if it carries at least one watermark that satisfies an ImageWatermarkFilter. A watermark satisfies a filter when all specified fields in the ImageWatermarkFilter match the corresponding values on the watermark of the AMI. Maximum: 50 values
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
 
@@ -67407,12 +67436,14 @@ extension EC2ClientTypes {
             deprecationTimeCondition: EC2ClientTypes.DeprecationTimeCondition? = nil,
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]? = nil,
             marketplaceProductCodes: [Swift.String]? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
             self.imageNames = imageNames
             self.imageProviders = imageProviders
+            self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
         }
     }
@@ -77646,6 +77677,10 @@ extension EC2ClientTypes {
         ///
         /// * Connect
         ///
+        /// * VPN Concentrator
+        ///
+        /// * Client VPN
+        ///
         ///
         /// You must first delete all transit gateway attachments configured prior to modifying the ASN on the transit gateway.
         public var amazonSideAsn: Swift.Int?
@@ -80778,6 +80813,33 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The watermark filter criteria for an allowed image. Each entry can specify one or more fields. All specified fields must match the same watermark on the image.
+    public struct ImageWatermarkFilterRequest: Swift.Sendable {
+        /// The maximum number of days that have elapsed since the source image was created. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceSourceImageCreated: Swift.Int?
+        /// The maximum number of days that have elapsed since the watermark was attached to the image. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maximumDaysSinceWatermarkCreated: Swift.Int?
+        /// The Region where the watermark was originally created. Supports wildcards (*, ?).
+        public var sourceImageRegion: Swift.String?
+        /// The accountId:name of the watermark. Supports wildcards (*, ?).
+        public var watermarkKey: Swift.String?
+
+        public init(
+            maximumDaysSinceSourceImageCreated: Swift.Int? = nil,
+            maximumDaysSinceWatermarkCreated: Swift.Int? = nil,
+            sourceImageRegion: Swift.String? = nil,
+            watermarkKey: Swift.String? = nil
+        ) {
+            self.maximumDaysSinceSourceImageCreated = maximumDaysSinceSourceImageCreated
+            self.maximumDaysSinceWatermarkCreated = maximumDaysSinceWatermarkCreated
+            self.sourceImageRegion = sourceImageRegion
+            self.watermarkKey = watermarkKey
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. The ImageCriteria can include up to:
     ///
     /// * 10 ImageCriterion
@@ -80790,6 +80852,8 @@ extension EC2ClientTypes {
     /// * 50 values for ImageNames
     ///
     /// * 50 values for MarketplaceProductCodes
+    ///
+    /// * 50 values for ImageWatermarks
     ///
     ///
     /// For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
@@ -80826,6 +80890,8 @@ extension EC2ClientTypes {
         ///
         /// Maximum: 200 values
         public var imageProviders: [Swift.String]?
+        /// The watermark criteria that an AMI must match to be allowed. An AMI is allowed if it carries at least one watermark that satisfies an ImageWatermarkFilter. A watermark satisfies a filter when all specified fields in the ImageWatermarkFilter match the corresponding values on the watermark of the AMI. Maximum: 50 values
+        public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
 
@@ -80834,12 +80900,14 @@ extension EC2ClientTypes {
             deprecationTimeCondition: EC2ClientTypes.DeprecationTimeConditionRequest? = nil,
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
+            imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]? = nil,
             marketplaceProductCodes: [Swift.String]? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
             self.imageNames = imageNames
             self.imageProviders = imageProviders
+            self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
         }
     }
@@ -124770,6 +124838,7 @@ extension EC2ClientTypes.ImageCriterion {
         value.imageNames = try reader["imageNameSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.deprecationTimeCondition = try reader["deprecationTimeCondition"].readIfPresent(with: EC2ClientTypes.DeprecationTimeCondition.read(from:))
         value.creationDateCondition = try reader["creationDateCondition"].readIfPresent(with: EC2ClientTypes.CreationDateCondition.read(from:))
+        value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermarkFilterResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -124785,6 +124854,9 @@ extension EC2ClientTypes.ImageCriterionRequest {
         }
         if !(value.imageProviders?.isEmpty ?? true) {
             try writer["ImageProvider"].writeList(value.imageProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.imageWatermarks?.isEmpty ?? true) {
+            try writer["ImageWatermark"].writeList(value.imageWatermarks, memberWritingClosure: EC2ClientTypes.ImageWatermarkFilterRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         if !(value.marketplaceProductCodes?.isEmpty ?? true) {
             try writer["MarketplaceProductCode"].writeList(value.marketplaceProductCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
@@ -124937,6 +125009,30 @@ extension EC2ClientTypes.ImageWatermark {
         value.sourceImageId = try reader["sourceImageId"].readIfPresent()
         value.sourceImageCreationTime = try reader["sourceImageCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.watermarkCreationTime = try reader["watermarkCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension EC2ClientTypes.ImageWatermarkFilterRequest {
+
+    static func write(value: EC2ClientTypes.ImageWatermarkFilterRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumDaysSinceSourceImageCreated"].write(value.maximumDaysSinceSourceImageCreated)
+        try writer["MaximumDaysSinceWatermarkCreated"].write(value.maximumDaysSinceWatermarkCreated)
+        try writer["SourceImageRegion"].write(value.sourceImageRegion)
+        try writer["WatermarkKey"].write(value.watermarkKey)
+    }
+}
+
+extension EC2ClientTypes.ImageWatermarkFilterResponse {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageWatermarkFilterResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageWatermarkFilterResponse()
+        value.watermarkKey = try reader["watermarkKey"].readIfPresent()
+        value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
+        value.maximumDaysSinceSourceImageCreated = try reader["maximumDaysSinceSourceImageCreated"].readIfPresent()
+        value.maximumDaysSinceWatermarkCreated = try reader["maximumDaysSinceWatermarkCreated"].readIfPresent()
         return value
     }
 }
