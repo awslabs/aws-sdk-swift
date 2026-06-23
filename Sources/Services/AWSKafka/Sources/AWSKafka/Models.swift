@@ -1993,7 +1993,6 @@ extension KafkaClientTypes {
         /// Details for mTLS client authentication.
         public var mtls: KafkaClientTypes.KafkaClusterMTLSAuthentication?
         /// Details for SASL/SCRAM client authentication.
-        /// This member is required.
         public var saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication?
 
         public init(
