@@ -43601,22 +43601,18 @@ extension QuickSightClientTypes {
 
     public enum SpaceQuickSightResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case actionConnector
-        case artifact
         case dashboard
         case dataSet
         case knowledgeBase
-        case space
         case topic
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SpaceQuickSightResourceType] {
             return [
                 .actionConnector,
-                .artifact,
                 .dashboard,
                 .dataSet,
                 .knowledgeBase,
-                .space,
                 .topic
             ]
         }
@@ -43629,11 +43625,9 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .actionConnector: return "ACTION_CONNECTOR"
-            case .artifact: return "ARTIFACT"
             case .dashboard: return "DASHBOARD"
             case .dataSet: return "DATA_SET"
             case .knowledgeBase: return "KNOWLEDGE_BASE"
-            case .space: return "SPACE"
             case .topic: return "TOPIC"
             case let .sdkUnknown(s): return s
             }

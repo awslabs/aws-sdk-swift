@@ -2322,8 +2322,10 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsSavingsOpportunityPercentage
         case rootVolume
         case tags
+        case utilizationMetricsVolumeIopsExceededMaximum
         case utilizationMetricsVolumeReadBytesPerSecondMaximum
         case utilizationMetricsVolumeReadOpsPerSecondMaximum
+        case utilizationMetricsVolumeThroughputExceededMaximum
         case utilizationMetricsVolumeWriteBytesPerSecondMaximum
         case utilizationMetricsVolumeWriteOpsPerSecondMaximum
         case volumeArn
@@ -2362,8 +2364,10 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .rootVolume,
                 .tags,
+                .utilizationMetricsVolumeIopsExceededMaximum,
                 .utilizationMetricsVolumeReadBytesPerSecondMaximum,
                 .utilizationMetricsVolumeReadOpsPerSecondMaximum,
+                .utilizationMetricsVolumeThroughputExceededMaximum,
                 .utilizationMetricsVolumeWriteBytesPerSecondMaximum,
                 .utilizationMetricsVolumeWriteOpsPerSecondMaximum,
                 .volumeArn
@@ -2408,8 +2412,10 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .rootVolume: return "RootVolume"
             case .tags: return "Tags"
+            case .utilizationMetricsVolumeIopsExceededMaximum: return "UtilizationMetricsVolumeIOPSExceededMaximum"
             case .utilizationMetricsVolumeReadBytesPerSecondMaximum: return "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
             case .utilizationMetricsVolumeReadOpsPerSecondMaximum: return "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
+            case .utilizationMetricsVolumeThroughputExceededMaximum: return "UtilizationMetricsVolumeThroughputExceededMaximum"
             case .utilizationMetricsVolumeWriteBytesPerSecondMaximum: return "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
             case .utilizationMetricsVolumeWriteOpsPerSecondMaximum: return "UtilizationMetricsVolumeWriteOpsPerSecondMaximum"
             case .volumeArn: return "VolumeArn"
@@ -4288,16 +4294,20 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
 
     public enum EBSMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case volumeIopsExceeded
         case volumeReadBytesPerSecond
         case volumeReadOpsPerSecond
+        case volumeThroughputExceeded
         case volumeWriteBytesPerSecond
         case volumeWriteOpsPerSecond
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EBSMetricName] {
             return [
+                .volumeIopsExceeded,
                 .volumeReadBytesPerSecond,
                 .volumeReadOpsPerSecond,
+                .volumeThroughputExceeded,
                 .volumeWriteBytesPerSecond,
                 .volumeWriteOpsPerSecond
             ]
@@ -4310,8 +4320,10 @@ extension ComputeOptimizerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .volumeIopsExceeded: return "VolumeIOPSExceeded"
             case .volumeReadBytesPerSecond: return "VolumeReadBytesPerSecond"
             case .volumeReadOpsPerSecond: return "VolumeReadOpsPerSecond"
+            case .volumeThroughputExceeded: return "VolumeThroughputExceeded"
             case .volumeWriteBytesPerSecond: return "VolumeWriteBytesPerSecond"
             case .volumeWriteOpsPerSecond: return "VolumeWriteOpsPerSecond"
             case let .sdkUnknown(s): return s
@@ -4333,6 +4345,10 @@ extension ComputeOptimizerClientTypes {
         /// * VolumeReadBytesPerSecond - The bytes read per second from the volume in a specified period of time. Unit: Bytes
         ///
         /// * VolumeWriteBytesPerSecond - The bytes written to the volume in a specified period of time. Unit: Bytes
+        ///
+        /// * VolumeIOPSExceeded - Indicates whether the volume's provisioned IOPS performance was exceeded in a specified period of time. A value of 1 means the provisioned IOPS were exceeded; a value of 0 means they were not. Unit: None
+        ///
+        /// * VolumeThroughputExceeded - Indicates whether the volume's provisioned throughput performance was exceeded in a specified period of time. A value of 1 means the provisioned throughput was exceeded; a value of 0 means it was not. Unit: None
         public var name: ComputeOptimizerClientTypes.EBSMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
         public var statistic: ComputeOptimizerClientTypes.MetricStatistic?

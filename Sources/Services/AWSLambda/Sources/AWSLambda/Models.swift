@@ -441,6 +441,34 @@ public struct AddLayerVersionPermissionOutput: Swift.Sendable {
     }
 }
 
+/// The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see [Block public access to Lambda resources](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#access-control-block-public-access).
+public struct PublicPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PublicPolicyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 extension LambdaClientTypes {
 
     public enum FunctionUrlAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -596,6 +624,34 @@ extension LambdaClientTypes {
             self.revisionId = revisionId
             self.routingConfig = routingConfig
         }
+    }
+}
+
+/// Lambda couldn't create the alias because your Amazon Web Services account has exceeded the maximum number of aliases allowed per Lambda function. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+public struct AliasLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AliasLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
     }
 }
 
@@ -1680,7 +1736,7 @@ extension LambdaClientTypes {
         public var name: Swift.String?
         /// The unique identifier of the parent operation, if this operation is running within a child context.
         public var parentId: Swift.String?
-        /// The payload for successful operations.
+        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT, STEP, WAIT, and CALLBACK operations.
         public var payload: Swift.String?
         /// Options for step operations.
         public var stepOptions: LambdaClientTypes.StepOptions?
@@ -5046,6 +5102,7 @@ extension LambdaClientTypes {
         case invalidzipfileexception
         case kmskeyaccessdenied
         case kmskeynotfound
+        case servicequotaexceededexception
         case subnetoutofipaddresses
         case vcpulimitexceeded
         case sdkUnknown(Swift.String)
@@ -5084,6 +5141,7 @@ extension LambdaClientTypes {
                 .invalidzipfileexception,
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
+                .servicequotaexceededexception,
                 .subnetoutofipaddresses,
                 .vcpulimitexceeded
             ]
@@ -5128,6 +5186,7 @@ extension LambdaClientTypes {
             case .invalidzipfileexception: return "InvalidZipFileException"
             case .kmskeyaccessdenied: return "KMSKeyAccessDenied"
             case .kmskeynotfound: return "KMSKeyNotFound"
+            case .servicequotaexceededexception: return "ServiceQuotaExceededException"
             case .subnetoutofipaddresses: return "SubnetOutOfIPAddresses"
             case .vcpulimitexceeded: return "VcpuLimitExceeded"
             case let .sdkUnknown(s): return s
@@ -5293,6 +5352,7 @@ extension LambdaClientTypes {
         case kmskeyaccessdenied
         case kmskeynotfound
         case restoring
+        case servicequotaexceededexception
         case subnetoutofipaddresses
         case vcpulimitexceeded
         case sdkUnknown(Swift.String)
@@ -5335,6 +5395,7 @@ extension LambdaClientTypes {
                 .kmskeyaccessdenied,
                 .kmskeynotfound,
                 .restoring,
+                .servicequotaexceededexception,
                 .subnetoutofipaddresses,
                 .vcpulimitexceeded
             ]
@@ -5383,6 +5444,7 @@ extension LambdaClientTypes {
             case .kmskeyaccessdenied: return "KMSKeyAccessDenied"
             case .kmskeynotfound: return "KMSKeyNotFound"
             case .restoring: return "Restoring"
+            case .servicequotaexceededexception: return "ServiceQuotaExceededException"
             case .subnetoutofipaddresses: return "SubnetOutOfIPAddresses"
             case .vcpulimitexceeded: return "VcpuLimitExceeded"
             case let .sdkUnknown(s): return s
@@ -6699,6 +6761,90 @@ public struct GetRuntimeManagementConfigOutput: Swift.Sendable {
     }
 }
 
+/// The Lambda function couldn't be invoked because its code artifact user has been deleted. Wait for Lambda to provision a new code artifact user, or update the function's code package to recreate it.
+public struct CodeArtifactUserDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CodeArtifactUserDeletedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The Lambda function couldn't be invoked because provisioning of its code artifact user failed. Update the function's code package or check the Lambda function's State and StateReasonCode for additional context.
+public struct CodeArtifactUserFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CodeArtifactUserFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The Lambda function couldn't be invoked because its code artifact user is still being provisioned. Wait for the function's State to become Active and try the request again.
+public struct CodeArtifactUserPendingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CodeArtifactUserPendingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The durable execution with the specified name has already been started. Each durable execution name must be unique within the function. Use a different name or check the status of the existing execution.
 public struct DurableExecutionAlreadyStartedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6921,6 +7067,34 @@ public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRun
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ENILimitReachedException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Lambda couldn't invoke the Lambda function because the elastic network interface (ENI) configured for its VPC connection isn't ready yet. Wait a few moments and try the request again. For more information about VPC configuration, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
+public struct ENINotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ENINotReadyException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -7173,6 +7347,34 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
+/// The Lambda function doesn't support the invocation mode requested. For example, calling Invoke with InvocationType=RequestResponse on a function configured for asynchronous-only invocation, or vice versa. For more information about invocation types, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/invocation-options.html).
+public struct ModeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ModeNotSupportedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The function has no published versions available.
 public struct NoPublishedVersionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7393,6 +7595,34 @@ public struct SerializedRequestEntityTooLargeException: ClientRuntime.ModeledErr
     }
 }
 
+/// The request would exceed a service quota. For more information about Lambda service quotas, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html). To request a quota increase, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
 public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7429,6 +7659,34 @@ public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientR
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "SnapStartNotReadyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Lambda couldn't regenerate the SnapStart snapshot for the function. SnapStart-enabled functions periodically regenerate snapshots when their underlying runtime or dependencies change; this regeneration failed. Wait for Lambda to retry, or update the function's configuration to trigger a new snapshot. For more information, see [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+public struct SnapStartRegenerationFailureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SnapStartRegenerationFailureException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -11065,7 +11323,7 @@ public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
     public var maxItems: Swift.Int?
     /// The function version or alias. If not specified, lists executions for the $LATEST version.
     public var qualifier: Swift.String?
-    /// Set to true to return results in reverse chronological order (newest first). Default is false.
+    /// Set to true to return results in chronological order (oldest first). Default is false.
     public var reverseOrder: Swift.Bool?
     /// Filter executions that started after this timestamp (ISO 8601 format).
     public var startedAfter: Foundation.Date?
@@ -15229,6 +15487,7 @@ enum AddPermissionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PolicyLengthExceededException": return try PolicyLengthExceededException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -15262,6 +15521,7 @@ enum CreateAliasOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AliasLimitExceededException": return try AliasLimitExceededException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15374,6 +15634,7 @@ enum DeleteAliasOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15516,6 +15777,7 @@ enum DeleteFunctionUrlConfigOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -15533,6 +15795,8 @@ enum DeleteLayerVersionOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15715,6 +15979,7 @@ enum GetFunctionCodeSigningConfigOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "CodeSigningConfigNotFoundException": return try CodeSigningConfigNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -15937,6 +16202,9 @@ enum InvokeOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "CodeArtifactUserDeletedException": return try CodeArtifactUserDeletedException.makeError(baseError: baseError)
+            case "CodeArtifactUserFailedException": return try CodeArtifactUserFailedException.makeError(baseError: baseError)
+            case "CodeArtifactUserPendingException": return try CodeArtifactUserPendingException.makeError(baseError: baseError)
             case "DurableExecutionAlreadyStartedException": return try DurableExecutionAlreadyStartedException.makeError(baseError: baseError)
             case "EC2AccessDeniedException": return try EC2AccessDeniedException.makeError(baseError: baseError)
             case "EC2ThrottledException": return try EC2ThrottledException.makeError(baseError: baseError)
@@ -15946,6 +16214,7 @@ enum InvokeOutputError {
             case "EFSMountFailureException": return try EFSMountFailureException.makeError(baseError: baseError)
             case "EFSMountTimeoutException": return try EFSMountTimeoutException.makeError(baseError: baseError)
             case "ENILimitReachedException": return try ENILimitReachedException.makeError(baseError: baseError)
+            case "ENINotReadyException": return try ENINotReadyException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidRequestContentException": return try InvalidRequestContentException.makeError(baseError: baseError)
             case "InvalidRuntimeException": return try InvalidRuntimeException.makeError(baseError: baseError)
@@ -15956,6 +16225,7 @@ enum InvokeOutputError {
             case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
             case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
             case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ModeNotSupportedException": return try ModeNotSupportedException.makeError(baseError: baseError)
             case "NoPublishedVersionException": return try NoPublishedVersionException.makeError(baseError: baseError)
             case "RecursiveInvocationException": return try RecursiveInvocationException.makeError(baseError: baseError)
             case "RequestTooLargeException": return try RequestTooLargeException.makeError(baseError: baseError)
@@ -15967,8 +16237,10 @@ enum InvokeOutputError {
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
             case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
+            case "SnapStartRegenerationFailureException": return try SnapStartRegenerationFailureException.makeError(baseError: baseError)
             case "SnapStartTimeoutException": return try SnapStartTimeoutException.makeError(baseError: baseError)
             case "SubnetIPAddressLimitReachedException": return try SubnetIPAddressLimitReachedException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -15986,11 +16258,35 @@ enum InvokeAsyncOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "EC2AccessDeniedException": return try EC2AccessDeniedException.makeError(baseError: baseError)
+            case "EC2ThrottledException": return try EC2ThrottledException.makeError(baseError: baseError)
+            case "EC2UnexpectedException": return try EC2UnexpectedException.makeError(baseError: baseError)
+            case "EFSIOException": return try EFSIOException.makeError(baseError: baseError)
+            case "EFSMountConnectivityException": return try EFSMountConnectivityException.makeError(baseError: baseError)
+            case "EFSMountFailureException": return try EFSMountFailureException.makeError(baseError: baseError)
+            case "EFSMountTimeoutException": return try EFSMountTimeoutException.makeError(baseError: baseError)
+            case "ENILimitReachedException": return try ENILimitReachedException.makeError(baseError: baseError)
             case "InvalidRequestContentException": return try InvalidRequestContentException.makeError(baseError: baseError)
             case "InvalidRuntimeException": return try InvalidRuntimeException.makeError(baseError: baseError)
+            case "InvalidSecurityGroupIDException": return try InvalidSecurityGroupIDException.makeError(baseError: baseError)
+            case "InvalidSubnetIDException": return try InvalidSubnetIDException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
+            case "ModeNotSupportedException": return try ModeNotSupportedException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
+            case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
+            case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
+            case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
+            case "SnapStartRegenerationFailureException": return try SnapStartRegenerationFailureException.makeError(baseError: baseError)
+            case "SnapStartTimeoutException": return try SnapStartTimeoutException.makeError(baseError: baseError)
+            case "SubnetIPAddressLimitReachedException": return try SubnetIPAddressLimitReachedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -16033,8 +16329,10 @@ enum InvokeWithResponseStreamOutputError {
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
             case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
+            case "SnapStartRegenerationFailureException": return try SnapStartRegenerationFailureException.makeError(baseError: baseError)
             case "SnapStartTimeoutException": return try SnapStartTimeoutException.makeError(baseError: baseError)
             case "SubnetIPAddressLimitReachedException": return try SubnetIPAddressLimitReachedException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16487,6 +16785,7 @@ enum RemovePermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "PublicPolicyException": return try PublicPolicyException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16505,6 +16804,7 @@ enum SendDurableExecutionCallbackFailureOutputError {
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16522,6 +16822,7 @@ enum SendDurableExecutionCallbackHeartbeatOutputError {
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16539,6 +16840,7 @@ enum SendDurableExecutionCallbackSuccessOutputError {
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16855,6 +17157,34 @@ extension TooManyRequestsException {
     }
 }
 
+extension PublicPolicyException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PublicPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = PublicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AliasLimitExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AliasLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = AliasLimitExceededException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CapacityProviderLimitExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CapacityProviderLimitExceededException {
@@ -16958,6 +17288,48 @@ extension ProvisionedConcurrencyConfigNotFoundException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ProvisionedConcurrencyConfigNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ProvisionedConcurrencyConfigNotFoundException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CodeArtifactUserDeletedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeArtifactUserDeletedException {
+        let reader = baseError.errorBodyReader
+        var value = CodeArtifactUserDeletedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CodeArtifactUserFailedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeArtifactUserFailedException {
+        let reader = baseError.errorBodyReader
+        var value = CodeArtifactUserFailedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CodeArtifactUserPendingException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CodeArtifactUserPendingException {
+        let reader = baseError.errorBodyReader
+        var value = CodeArtifactUserPendingException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -17094,6 +17466,20 @@ extension ENILimitReachedException {
     }
 }
 
+extension ENINotReadyException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ENINotReadyException {
+        let reader = baseError.errorBodyReader
+        var value = ENINotReadyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidRequestContentException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidRequestContentException {
@@ -17220,6 +17606,20 @@ extension KMSNotFoundException {
     }
 }
 
+extension ModeNotSupportedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ModeNotSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = ModeNotSupportedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NoPublishedVersionException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> NoPublishedVersionException {
@@ -17332,6 +17732,20 @@ extension SerializedRequestEntityTooLargeException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension SnapStartException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartException {
@@ -17351,6 +17765,20 @@ extension SnapStartNotReadyException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartNotReadyException {
         let reader = baseError.errorBodyReader
         var value = SnapStartNotReadyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SnapStartRegenerationFailureException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SnapStartRegenerationFailureException {
+        let reader = baseError.errorBodyReader
+        var value = SnapStartRegenerationFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -18104,6 +18532,11 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
         value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
         value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
+        value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.functionArn = try reader["FunctionArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
@@ -18121,13 +18554,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.amazonManagedKafkaEventSourceConfig = try reader["AmazonManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig.read(from:))
         value.selfManagedKafkaEventSourceConfig = try reader["SelfManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.read(from:))
-        value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
         value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
-        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
-        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
-        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
-        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         return value
     }
@@ -18356,19 +18784,19 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.lastUpdateStatusReason = try reader["LastUpdateStatusReason"].readIfPresent()
         value.lastUpdateStatusReasonCode = try reader["LastUpdateStatusReasonCode"].readIfPresent()
         value.fileSystemConfigs = try reader["FileSystemConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.FileSystemConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.packageType = try reader["PackageType"].readIfPresent()
-        value.imageConfigResponse = try reader["ImageConfigResponse"].readIfPresent(with: LambdaClientTypes.ImageConfigResponse.read(from:))
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
+        value.packageType = try reader["PackageType"].readIfPresent()
+        value.imageConfigResponse = try reader["ImageConfigResponse"].readIfPresent(with: LambdaClientTypes.ImageConfigResponse.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent(with: LambdaClientTypes.EphemeralStorage.read(from:))
         value.snapStart = try reader["SnapStart"].readIfPresent(with: LambdaClientTypes.SnapStartResponse.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.LoggingConfig.read(from:))
+        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
-        value.tenancyConfig = try reader["TenancyConfig"].readIfPresent(with: LambdaClientTypes.TenancyConfig.read(from:))
         return value
     }
 }
@@ -18657,9 +19085,9 @@ extension LambdaClientTypes.LayerVersionsListItem {
         value.version = try reader["Version"].readIfPresent() ?? 0
         value.description = try reader["Description"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readIfPresent()
+        value.compatibleArchitectures = try reader["CompatibleArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.compatibleRuntimes = try reader["CompatibleRuntimes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Runtime>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.licenseInfo = try reader["LicenseInfo"].readIfPresent()
-        value.compatibleArchitectures = try reader["CompatibleArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

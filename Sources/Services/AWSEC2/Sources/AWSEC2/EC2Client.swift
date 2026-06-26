@@ -2972,7 +2972,7 @@ extension EC2Client {
 
     /// Performs the `AttachImageWatermark` operation on the `EC2` service.
     ///
-    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html), [CopyImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html), and [CreateRestoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateRestoreImageTask.html). Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
+    /// Attaches a watermark to a non-public AMI. The watermark is a structured identifier that automatically propagates to all derivative images created through [CreateImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateImage.html), and [CopyImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CopyImage.html). Only the AMI owner can attach watermarks. Watermarks cannot be added to public AMIs.
     ///
     /// - Parameter input: [no documentation found] (Type: `AttachImageWatermarkInput`)
     ///
@@ -46350,7 +46350,12 @@ extension EC2Client {
 
     /// Performs the `ReplaceImageCriteriaInAllowedImagesSettings` operation on the `EC2` service.
     ///
-    /// Sets or replaces the criteria for Allowed AMIs. The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
+    /// Sets or replaces the criteria for Allowed AMIs. The ImageCriteria can include up to:
+    ///
+    /// * 10 ImageCriterion
+    ///
+    ///
+    /// The Allowed AMIs feature does not restrict the AMIs owned by your account. Regardless of the criteria you set, the AMIs created by your account will always be discoverable and usable by users in your account. For more information, see [Control the discovery and use of AMIs in Amazon EC2 with Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html) in Amazon EC2 User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ReplaceImageCriteriaInAllowedImagesSettingsInput`)
     ///

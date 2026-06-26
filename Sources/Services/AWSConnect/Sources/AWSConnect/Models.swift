@@ -6292,20 +6292,71 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about automatic fail configuration for an evaluation form.
+    public struct AutomaticFailConfiguration: Swift.Sendable {
+        /// The referenceId of the target section for auto failure.
+        public var targetSection: Swift.String?
+
+        public init(
+            targetSection: Swift.String? = nil
+        ) {
+            self.targetSection = targetSection
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the points configuration for an answer option.
+    public struct QuestionOptionPointsConfiguration: Swift.Sendable {
+        /// The flag to mark the option as a bonus option.
+        public var isBonus: Swift.Bool
+        /// The point value assigned to the answer option.
+        /// This member is required.
+        public var pointValue: Swift.Int
+
+        public init(
+            isBonus: Swift.Bool = false,
+            pointValue: Swift.Int = 0
+        ) {
+            self.isBonus = isBonus
+            self.pointValue = pointValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// An option for a multi-select question in an evaluation form.
     public struct EvaluationFormMultiSelectQuestionOption: Swift.Sendable {
+        /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
+        public var automaticFail: Swift.Bool
+        /// Information about automatic fail configuration for an evaluation form.
+        public var automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// Reference identifier for this option.
         /// This member is required.
         public var refId: Swift.String?
+        /// The score assigned to the answer option.
+        public var score: Swift.Int
         /// Display text for this option.
         /// This member is required.
         public var text: Swift.String?
 
         public init(
+            automaticFail: Swift.Bool = false,
+            automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             refId: Swift.String? = nil,
+            score: Swift.Int = 0,
             text: Swift.String? = nil
         ) {
+            self.automaticFail = automaticFail
+            self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
+            self.score = score
             self.text = text
         }
     }
@@ -6435,21 +6486,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Information about automatic fail configuration for an evaluation form.
-    public struct AutomaticFailConfiguration: Swift.Sendable {
-        /// The referenceId of the target section for auto failure.
-        public var targetSection: Swift.String?
-
-        public init(
-            targetSection: Swift.String? = nil
-        ) {
-            self.targetSection = targetSection
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// Information about the option range used for scoring in numeric questions.
     public struct EvaluationFormNumericQuestionOption: Swift.Sendable {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
@@ -6462,6 +6498,8 @@ extension ConnectClientTypes {
         /// The minimum answer value of the range option.
         /// This member is required.
         public var minValue: Swift.Int
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// The score assigned to answer values within the range option.
         public var score: Swift.Int
 
@@ -6470,12 +6508,14 @@ extension ConnectClientTypes {
             automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
             maxValue: Swift.Int = 0,
             minValue: Swift.Int = 0,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             score: Swift.Int = 0
         ) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
             self.maxValue = maxValue
             self.minValue = minValue
+            self.pointsConfiguration = pointsConfiguration
             self.score = score
         }
     }
@@ -6635,6 +6675,8 @@ extension ConnectClientTypes {
         public var automaticFail: Swift.Bool
         /// Whether automatic fail is configured on a single select question.
         public var automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration?
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration?
         /// The identifier of the answer option. An identifier must be unique within the question.
         /// This member is required.
         public var refId: Swift.String?
@@ -6647,12 +6689,14 @@ extension ConnectClientTypes {
         public init(
             automaticFail: Swift.Bool = false,
             automaticFailConfiguration: ConnectClientTypes.AutomaticFailConfiguration? = nil,
+            pointsConfiguration: ConnectClientTypes.QuestionOptionPointsConfiguration? = nil,
             refId: Swift.String? = nil,
             score: Swift.Int = 0,
             text: Swift.String? = nil
         ) {
             self.automaticFail = automaticFail
             self.automaticFailConfiguration = automaticFailConfiguration
+            self.pointsConfiguration = pointsConfiguration
             self.refId = refId
             self.score = score
             self.text = text
@@ -6727,6 +6771,105 @@ extension ConnectClientTypes {
         /// Properties for multi-select question types.
         case multiselect(ConnectClientTypes.EvaluationFormMultiSelectQuestionProperties)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the points configuration for a question.
+    public struct QuestionPointsConfiguration: Swift.Sendable {
+        /// The flag to mark the question as a bonus question.
+        public var isBonus: Swift.Bool
+        /// The maximum point value.
+        public var maxPointValue: Swift.Int
+        /// The minimum point value.
+        public var minPointValue: Swift.Int
+
+        public init(
+            isBonus: Swift.Bool = false,
+            maxPointValue: Swift.Int = 0,
+            minPointValue: Swift.Int = 0
+        ) {
+            self.isBonus = isBonus
+            self.maxPointValue = maxPointValue
+            self.minPointValue = minPointValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum PerformanceCategoryName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exceedsExpectations
+        case needsImprovement
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceCategoryName] {
+            return [
+                .exceedsExpectations,
+                .needsImprovement
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exceedsExpectations: return "EXCEEDS_EXPECTATIONS"
+            case .needsImprovement: return "NEEDS_IMPROVEMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a score threshold for a performance category.
+    public struct EvaluationFormScoreThreshold: Swift.Sendable {
+        /// The maximum score percentage for the performance category.
+        public var maxScorePercentage: Swift.Double
+        /// The minimum score percentage for the performance category.
+        public var minScorePercentage: Swift.Double
+        /// The performance category name.
+        /// This member is required.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
+
+        public init(
+            maxScorePercentage: Swift.Double = 0.0,
+            minScorePercentage: Swift.Double = 0.0,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil
+        ) {
+            self.maxScorePercentage = maxScorePercentage
+            self.minScorePercentage = minScorePercentage
+            self.performanceCategory = performanceCategory
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Scoring configuration for a question in an evaluation form.
+    public struct EvaluationFormQuestionScoringConfiguration: Swift.Sendable {
+        /// The flag to exclude the question from scoring.
+        public var isExcludedFromScoring: Swift.Bool
+        /// The points configuration for point-based scoring.
+        public var pointsConfiguration: ConnectClientTypes.QuestionPointsConfiguration?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
+
+        public init(
+            isExcludedFromScoring: Swift.Bool = false,
+            pointsConfiguration: ConnectClientTypes.QuestionPointsConfiguration? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil
+        ) {
+            self.isExcludedFromScoring = isExcludedFromScoring
+            self.pointsConfiguration = pointsConfiguration
+            self.scoreThresholds = scoreThresholds
+        }
     }
 }
 
@@ -6880,12 +7023,14 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormScoringMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pointsBased
         case questionOnly
         case sectionOnly
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormScoringMode] {
             return [
+                .pointsBased,
                 .questionOnly,
                 .sectionOnly
             ]
@@ -6898,6 +7043,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .pointsBased: return "POINTS_BASED"
             case .questionOnly: return "QUESTION_ONLY"
             case .sectionOnly: return "SECTION_ONLY"
             case let .sdkUnknown(s): return s
@@ -6942,15 +7088,19 @@ extension ConnectClientTypes {
         /// The scoring mode of the evaluation form.
         /// This member is required.
         public var mode: ConnectClientTypes.EvaluationFormScoringMode?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
         /// The scoring status of the evaluation form.
         /// This member is required.
         public var status: ConnectClientTypes.EvaluationFormScoringStatus?
 
         public init(
             mode: ConnectClientTypes.EvaluationFormScoringMode? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
             status: ConnectClientTypes.EvaluationFormScoringStatus? = nil
         ) {
             self.mode = mode
+            self.scoreThresholds = scoreThresholds
             self.status = status
         }
     }
@@ -13938,21 +14088,33 @@ extension ConnectClientTypes {
         public var appliedWeight: Swift.Double?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public var automaticFail: Swift.Bool
+        /// The points earned for the item.
+        public var earnedPoints: Swift.Int
+        /// The maximum base points possible for the item.
+        public var maxBasePoint: Swift.Int
         /// The flag to mark the item as not applicable for scoring.
         public var notApplicable: Swift.Bool
         /// The score percentage for an item in a contact evaluation.
         public var percentage: Swift.Double
+        /// The performance category for the score.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
 
         public init(
             appliedWeight: Swift.Double? = nil,
             automaticFail: Swift.Bool = false,
+            earnedPoints: Swift.Int = 0,
+            maxBasePoint: Swift.Int = 0,
             notApplicable: Swift.Bool = false,
-            percentage: Swift.Double = 0.0
+            percentage: Swift.Double = 0.0,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil
         ) {
             self.appliedWeight = appliedWeight
             self.automaticFail = automaticFail
+            self.earnedPoints = earnedPoints
+            self.maxBasePoint = maxBasePoint
             self.notApplicable = notApplicable
             self.percentage = percentage
+            self.performanceCategory = performanceCategory
         }
     }
 }
@@ -14774,6 +14936,38 @@ public struct DescribeEvaluationFormInput: Swift.Sendable {
         self.evaluationFormId = evaluationFormId
         self.evaluationFormVersion = evaluationFormVersion
         self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormValidationStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -18776,7 +18970,7 @@ extension ConnectClientTypes {
         public var queues: [Swift.String]?
         /// A list of up to 100 routing profile IDs or ARNs.
         public var routingProfiles: [Swift.String]?
-        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
+        /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria. Accepts filter values up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.
         public var routingStepExpressions: [Swift.String]?
         /// A list of up to 10 subtypes can be provided.
         public var subtypes: [Swift.String]?
@@ -19466,6 +19660,144 @@ public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
     }
 }
 
+public struct GetEvaluationFormValidationInput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the evaluation form to retrieve validation results for.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about an evaluation form item affected by a validation finding.
+    public struct EvaluationFormValidationFindingItem: Swift.Sendable {
+        /// The specific property of the evaluation form item that the finding relates to.
+        public var property: Swift.String?
+        /// The identifier of the evaluation form item (question or section) affected by the finding.
+        public var refId: Swift.String?
+
+        public init(
+            property: Swift.String? = nil,
+            refId: Swift.String? = nil
+        ) {
+            self.property = property
+            self.refId = refId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum EvaluationFormValidationFindingSeverity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationFormValidationFindingSeverity] {
+            return [
+                .error,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a finding from the evaluation form validation process. Each finding identifies a structural issue or quality improvement opportunity for the evaluation form.
+    public struct EvaluationFormValidationFinding: Swift.Sendable {
+        /// A description of the validation issue.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A code that identifies the type of validation issue found.
+        /// This member is required.
+        public var issueCode: Swift.String?
+        /// A list of evaluation form items affected by this finding.
+        public var items: [ConnectClientTypes.EvaluationFormValidationFindingItem]?
+        /// The severity of the finding. Valid values: WARNING, ERROR.
+        /// This member is required.
+        public var severity: ConnectClientTypes.EvaluationFormValidationFindingSeverity?
+        /// A suggested fix for the validation issue.
+        public var suggestion: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            issueCode: Swift.String? = nil,
+            items: [ConnectClientTypes.EvaluationFormValidationFindingItem]? = nil,
+            severity: ConnectClientTypes.EvaluationFormValidationFindingSeverity? = nil,
+            suggestion: Swift.String? = nil
+        ) {
+            self.description = description
+            self.issueCode = issueCode
+            self.items = items
+            self.severity = severity
+            self.suggestion = suggestion
+        }
+    }
+}
+
+public struct GetEvaluationFormValidationOutput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int
+    /// The reason the validation failed. This field is populated only when the status is FAILED.
+    public var failureReason: Swift.String?
+    /// A list of findings from the validation process. Each finding identifies a structural issue or quality improvement for the evaluation form, and may include a suggested fix. This field is populated when the status is COMPLETED.
+    public var findings: [ConnectClientTypes.EvaluationFormValidationFinding]?
+    /// The timestamp when the validation process was started.
+    /// This member is required.
+    public var startedTime: Foundation.Date?
+    /// The current status of the validation process. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+    /// This member is required.
+    public var status: ConnectClientTypes.EvaluationFormValidationStatus?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int = 0,
+        failureReason: Swift.String? = nil,
+        findings: [ConnectClientTypes.EvaluationFormValidationFinding]? = nil,
+        startedTime: Foundation.Date? = nil,
+        status: ConnectClientTypes.EvaluationFormValidationStatus? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.failureReason = failureReason
+        self.findings = findings
+        self.startedTime = startedTime
+        self.status = status
+    }
+}
+
 /// No user with the specified credentials was found in the Connect Customer instance.
 public struct UserNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -20140,7 +20472,7 @@ public struct GetMetricDataV2Input: Swift.Sendable {
     ///
     /// * connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filter value examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.
     ///
-    /// * ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. This filter is case-sensitive and order-sensitive. JSON string fields must be sorted in ascending order, and JSON array order must be preserved.
+    /// * ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.
     ///
     /// * TRUE and FALSE are the only valid filter values for the Q_CONNECT_ENABLED filter key.
     ///
@@ -26802,19 +27134,159 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Filters to be applied to search results.
-    public struct EvaluationSearchFilter: Swift.Sendable {
-        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
-        ///
-        /// * The top level list specifies conditions that need to be applied with OR operator.
-        ///
-        /// * The inner list specifies conditions that need to be applied with AND operator.
-        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+    public enum ContactEvaluationAttributeKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contactAgentId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactEvaluationAttributeKey] {
+            return [
+                .contactAgentId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contactAgentId: return "ContactAgentId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The value of a contact evaluation attribute condition.
+    public struct ContactEvaluationAttributeValue: Swift.Sendable {
+        /// A string value for the attribute.
+        public var stringValue: Swift.String?
 
         public init(
-            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil
+            stringValue: Swift.String? = nil
+        ) {
+            self.stringValue = stringValue
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ContactEvaluationAttributeComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactEvaluationAttributeComparisonType] {
+            return [
+                .exact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exact: return "EXACT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An attribute condition for contact evaluation filtering.
+    public struct ContactEvaluationAttributeCondition: Swift.Sendable {
+        /// The key of the attribute.
+        public var attributeKey: ConnectClientTypes.ContactEvaluationAttributeKey?
+        /// The value of the attribute.
+        public var attributeValue: ConnectClientTypes.ContactEvaluationAttributeValue?
+        /// The comparison type for the condition.
+        public var comparisonType: ConnectClientTypes.ContactEvaluationAttributeComparisonType?
+
+        public init(
+            attributeKey: ConnectClientTypes.ContactEvaluationAttributeKey? = nil,
+            attributeValue: ConnectClientTypes.ContactEvaluationAttributeValue? = nil,
+            comparisonType: ConnectClientTypes.ContactEvaluationAttributeComparisonType? = nil
+        ) {
+            self.attributeKey = attributeKey
+            self.attributeValue = attributeValue
+            self.comparisonType = comparisonType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A list of conditions which would be applied together with an AND condition.
+    public struct ContactEvaluationAttributeAndCondition: Swift.Sendable {
+        /// A list of attribute conditions to apply.
+        public var attributeConditions: [ConnectClientTypes.ContactEvaluationAttributeCondition]?
+        /// A list of tag conditions to apply.
+        public var tagConditions: [ConnectClientTypes.TagCondition]?
+
+        public init(
+            attributeConditions: [ConnectClientTypes.ContactEvaluationAttributeCondition]? = nil,
+            tagConditions: [ConnectClientTypes.TagCondition]? = nil
+        ) {
+            self.attributeConditions = attributeConditions
+            self.tagConditions = tagConditions
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// An object that can be used to specify tag conditions and attribute conditions inside the SearchFilter for contact evaluations. This accepts an OR or AND (List of List) input where:
+    ///
+    /// * The top level list specifies conditions that need to be applied with OR operator.
+    ///
+    /// * The inner list specifies conditions that need to be applied with AND operator.
+    public struct ContactEvaluationAttributeFilter: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andCondition: ConnectClientTypes.ContactEvaluationAttributeAndCondition?
+        /// An attribute condition to apply.
+        public var contactEvaluationAttributeCondition: ConnectClientTypes.ContactEvaluationAttributeCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.ContactEvaluationAttributeAndCondition]?
+        /// A tag condition to apply.
+        public var tagCondition: ConnectClientTypes.TagCondition?
+
+        public init(
+            andCondition: ConnectClientTypes.ContactEvaluationAttributeAndCondition? = nil,
+            contactEvaluationAttributeCondition: ConnectClientTypes.ContactEvaluationAttributeCondition? = nil,
+            orConditions: [ConnectClientTypes.ContactEvaluationAttributeAndCondition]? = nil,
+            tagCondition: ConnectClientTypes.TagCondition? = nil
+        ) {
+            self.andCondition = andCondition
+            self.contactEvaluationAttributeCondition = contactEvaluationAttributeCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Filters to be applied to search results.
+    public struct EvaluationSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify tag conditions.
+        public var attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter?
+        /// An object that can be used to specify tag conditions and attribute conditions for contact evaluations.
+        public var contactEvaluationAttributeFilter: ConnectClientTypes.ContactEvaluationAttributeFilter?
+
+        public init(
+            attributeFilter: ConnectClientTypes.ControlPlaneAttributeFilter? = nil,
+            contactEvaluationAttributeFilter: ConnectClientTypes.ContactEvaluationAttributeFilter? = nil
         ) {
             self.attributeFilter = attributeFilter
+            self.contactEvaluationAttributeFilter = contactEvaluationAttributeFilter
         }
     }
 }
@@ -26844,9 +27316,15 @@ extension ConnectClientTypes {
         public var contactParticipantId: Swift.String?
         /// Role of a contact participant in the evaluation.
         public var contactParticipantRole: ConnectClientTypes.ContactParticipantRole?
+        /// The points earned for the evaluation.
+        public var earnedPoints: Swift.Int?
         /// The Amazon Resource Name (ARN) of the person who evaluated the contact.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// The maximum base points possible for the evaluation.
+        public var maxBasePoint: Swift.Int?
+        /// The performance category for the evaluation score.
+        public var performanceCategory: ConnectClientTypes.PerformanceCategoryName?
         /// Identifier for the review.
         public var reviewId: Swift.String?
         /// Identifier of the sampling job.
@@ -26869,7 +27347,10 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             contactParticipantId: Swift.String? = nil,
             contactParticipantRole: ConnectClientTypes.ContactParticipantRole? = nil,
+            earnedPoints: Swift.Int? = nil,
             evaluatorArn: Swift.String? = nil,
+            maxBasePoint: Swift.Int? = nil,
+            performanceCategory: ConnectClientTypes.PerformanceCategoryName? = nil,
             reviewId: Swift.String? = nil,
             samplingJobId: Swift.String? = nil,
             scoreAutomaticFail: Swift.Bool = false,
@@ -26886,7 +27367,10 @@ extension ConnectClientTypes {
             self.contactId = contactId
             self.contactParticipantId = contactParticipantId
             self.contactParticipantRole = contactParticipantRole
+            self.earnedPoints = earnedPoints
             self.evaluatorArn = evaluatorArn
+            self.maxBasePoint = maxBasePoint
+            self.performanceCategory = performanceCategory
             self.reviewId = reviewId
             self.samplingJobId = samplingJobId
             self.scoreAutomaticFail = scoreAutomaticFail
@@ -30447,6 +30931,50 @@ public struct StartEmailContactOutput: Swift.Sendable {
         contactId: Swift.String? = nil
     ) {
         self.contactId = contactId
+    }
+}
+
+public struct StartEvaluationFormValidationInput: Swift.Sendable {
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// The version of the evaluation form to validate.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int? = 0,
+        instanceId: Swift.String? = nil
+    ) {
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
+        self.instanceId = instanceId
+    }
+}
+
+public struct StartEvaluationFormValidationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) for the evaluation form resource.
+    /// This member is required.
+    public var evaluationFormArn: Swift.String?
+    /// The unique identifier for the evaluation form.
+    /// This member is required.
+    public var evaluationFormId: Swift.String?
+    /// A version of the evaluation form.
+    /// This member is required.
+    public var evaluationFormVersion: Swift.Int
+
+    public init(
+        evaluationFormArn: Swift.String? = nil,
+        evaluationFormId: Swift.String? = nil,
+        evaluationFormVersion: Swift.Int = 0
+    ) {
+        self.evaluationFormArn = evaluationFormArn
+        self.evaluationFormId = evaluationFormId
+        self.evaluationFormVersion = evaluationFormVersion
     }
 }
 
@@ -34414,6 +34942,8 @@ extension ConnectClientTypes {
         /// The identifier of the question. An identifier must be unique within the evaluation form.
         /// This member is required.
         public var refId: Swift.String?
+        /// The scoring configuration of the question.
+        public var scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?
         /// The title of the question.
         /// This member is required.
         public var title: Swift.String?
@@ -34427,6 +34957,7 @@ extension ConnectClientTypes {
             questionType: ConnectClientTypes.EvaluationFormQuestionType? = nil,
             questionTypeProperties: ConnectClientTypes.EvaluationFormQuestionTypeProperties? = nil,
             refId: Swift.String? = nil,
+            scoringConfiguration: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
         ) {
@@ -34436,6 +34967,7 @@ extension ConnectClientTypes {
             self.questionType = questionType
             self.questionTypeProperties = questionTypeProperties
             self.refId = refId
+            self.scoringConfiguration = scoringConfiguration
             self.title = title
             self.weight = weight
         }
@@ -35605,12 +36137,16 @@ extension ConnectClientTypes {
     public struct EvaluationFormSection: Swift.Sendable {
         /// The instructions of the section.
         public var instructions: Swift.String?
+        /// The flag to exclude the section from scoring.
+        public var isExcludedFromScoring: Swift.Bool
         /// The items of the section.
         /// This member is required.
         public var items: [ConnectClientTypes.EvaluationFormItem]?
         /// The identifier of the section. An identifier must be unique within the evaluation form.
         /// This member is required.
         public var refId: Swift.String?
+        /// The score thresholds for performance categories.
+        public var scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]?
         /// The title of the section.
         /// This member is required.
         public var title: Swift.String?
@@ -35619,14 +36155,18 @@ extension ConnectClientTypes {
 
         public init(
             instructions: Swift.String? = nil,
+            isExcludedFromScoring: Swift.Bool = false,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             refId: Swift.String? = nil,
+            scoreThresholds: [ConnectClientTypes.EvaluationFormScoreThreshold]? = nil,
             title: Swift.String? = nil,
             weight: Swift.Double = 0.0
         ) {
             self.instructions = instructions
+            self.isExcludedFromScoring = isExcludedFromScoring
             self.items = items
             self.refId = refId
+            self.scoreThresholds = scoreThresholds
             self.title = title
             self.weight = weight
         }
@@ -35667,6 +36207,10 @@ extension ConnectClientTypes {
         /// The timestamp for when the evaluation form was last updated.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
+        /// The timestamp when the most recent validation was started for this evaluation form.
+        public var lastValidationTime: Foundation.Date?
+        /// The status of the most recent validation run for this evaluation form. Valid values: IN_PROGRESS, COMPLETED, FAILED.
+        public var latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus?
         /// The flag indicating whether the evaluation form is locked for changes.
         /// This member is required.
         public var locked: Swift.Bool
@@ -35697,6 +36241,8 @@ extension ConnectClientTypes {
             languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            lastValidationTime: Foundation.Date? = nil,
+            latestValidationStatus: ConnectClientTypes.EvaluationFormValidationStatus? = nil,
             locked: Swift.Bool = false,
             reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
@@ -35716,6 +36262,8 @@ extension ConnectClientTypes {
             self.languageConfiguration = languageConfiguration
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.lastValidationTime = lastValidationTime
+            self.latestValidationStatus = latestValidationStatus
             self.locked = locked
             self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
@@ -38611,6 +39159,31 @@ extension GetEffectiveHoursOfOperationsInput {
     }
 }
 
+extension GetEvaluationFormValidationInput {
+
+    static func urlPathProvider(_ value: GetEvaluationFormValidationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = value.evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/validation-results"
+    }
+}
+
+extension GetEvaluationFormValidationInput {
+
+    static func queryItemProvider(_ value: GetEvaluationFormValidationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let evaluationFormVersion = value.evaluationFormVersion {
+            let evaluationFormVersionQueryItem = Smithy.URIQueryItem(name: "version".urlPercentEncoding(), value: Swift.String(evaluationFormVersion).urlPercentEncoding())
+            items.append(evaluationFormVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetFederationTokenInput {
 
     static func urlPathProvider(_ value: GetFederationTokenInput) -> Swift.String? {
@@ -40974,6 +41547,19 @@ extension StartEmailContactInput {
 
     static func urlPathProvider(_ value: StartEmailContactInput) -> Swift.String? {
         return "/contact/email"
+    }
+}
+
+extension StartEvaluationFormValidationInput {
+
+    static func urlPathProvider(_ value: StartEvaluationFormValidationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let evaluationFormId = value.evaluationFormId else {
+            return nil
+        }
+        return "/evaluation-forms/\(instanceId.urlPercentEncoding())/\(evaluationFormId.urlPercentEncoding())/validate"
     }
 }
 
@@ -43561,6 +44147,14 @@ extension StartEmailContactInput {
     }
 }
 
+extension StartEvaluationFormValidationInput {
+
+    static func write(value: StartEvaluationFormValidationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationFormVersion"].write(value.evaluationFormVersion)
+    }
+}
+
 extension StartOutboundChatContactInput {
 
     static func write(value: StartOutboundChatContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -46123,6 +46717,23 @@ extension GetEffectiveHoursOfOperationsOutput {
     }
 }
 
+extension GetEvaluationFormValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEvaluationFormValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEvaluationFormValidationOutput()
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormValidationFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startedTime = try reader["StartedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetFederationTokenOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFederationTokenOutput {
@@ -47706,6 +48317,20 @@ extension StartEmailContactOutput {
         let reader = responseReader
         var value = StartEmailContactOutput()
         value.contactId = try reader["ContactId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartEvaluationFormValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartEvaluationFormValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartEvaluationFormValidationOutput()
+        value.evaluationFormArn = try reader["EvaluationFormArn"].readIfPresent() ?? ""
+        value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
+        value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
     }
 }
@@ -51570,6 +52195,23 @@ enum GetEffectiveHoursOfOperationsOutputError {
     }
 }
 
+enum GetEvaluationFormValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFederationTokenOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -53779,6 +54421,25 @@ enum StartEmailContactOutputError {
             case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartEvaluationFormValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -56790,6 +57451,44 @@ extension ConnectClientTypes.ContactEvaluation {
     }
 }
 
+extension ConnectClientTypes.ContactEvaluationAttributeAndCondition {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeAndCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeConditions"].writeList(value.attributeConditions, memberWritingClosure: ConnectClientTypes.ContactEvaluationAttributeCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagConditions"].writeList(value.tagConditions, memberWritingClosure: ConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeCondition {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeKey"].write(value.attributeKey)
+        try writer["AttributeValue"].write(value.attributeValue, with: ConnectClientTypes.ContactEvaluationAttributeValue.write(value:to:))
+        try writer["ComparisonType"].write(value.comparisonType)
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeFilter {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndCondition"].write(value.andCondition, with: ConnectClientTypes.ContactEvaluationAttributeAndCondition.write(value:to:))
+        try writer["ContactEvaluationAttributeCondition"].write(value.contactEvaluationAttributeCondition, with: ConnectClientTypes.ContactEvaluationAttributeCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.ContactEvaluationAttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagCondition"].write(value.tagCondition, with: ConnectClientTypes.TagCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ContactEvaluationAttributeValue {
+
+    static func write(value: ConnectClientTypes.ContactEvaluationAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StringValue"].write(value.stringValue)
+    }
+}
+
 extension ConnectClientTypes.ContactFilter {
 
     static func write(value: ConnectClientTypes.ContactFilter?, to writer: SmithyJSON.Writer) throws {
@@ -57965,6 +58664,8 @@ extension ConnectClientTypes.EvaluationForm {
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
+        value.latestValidationStatus = try reader["LatestValidationStatus"].readIfPresent()
+        value.lastValidationTime = try reader["LastValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -58211,7 +58912,11 @@ extension ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
 
     static func write(value: ConnectClientTypes.EvaluationFormMultiSelectQuestionOption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutomaticFail"].write(value.automaticFail)
+        try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["RefId"].write(value.refId)
+        try writer["Score"].write(value.score)
         try writer["Text"].write(value.text)
     }
 
@@ -58220,6 +58925,10 @@ extension ConnectClientTypes.EvaluationFormMultiSelectQuestionOption {
         var value = ConnectClientTypes.EvaluationFormMultiSelectQuestionOption()
         value.refId = try reader["RefId"].readIfPresent() ?? ""
         value.text = try reader["Text"].readIfPresent() ?? ""
+        value.score = try reader["Score"].readIfPresent() ?? 0
+        value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
+        value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58279,6 +58988,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionOption {
         try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
         try writer["MaxValue"].write(value.maxValue)
         try writer["MinValue"].write(value.minValue)
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["Score"].write(value.score)
     }
 
@@ -58290,6 +59000,7 @@ extension ConnectClientTypes.EvaluationFormNumericQuestionOption {
         value.score = try reader["Score"].readIfPresent() ?? 0
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58325,6 +59036,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         try writer["QuestionType"].write(value.questionType)
         try writer["QuestionTypeProperties"].write(value.questionTypeProperties, with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.write(value:to:))
         try writer["RefId"].write(value.refId)
+        try writer["ScoringConfiguration"].write(value.scoringConfiguration, with: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
         try writer["Weight"].write(value.weight)
     }
@@ -58340,6 +59052,7 @@ extension ConnectClientTypes.EvaluationFormQuestion {
         value.questionTypeProperties = try reader["QuestionTypeProperties"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionTypeProperties.read(from:))
         value.enablement = try reader["Enablement"].readIfPresent(with: ConnectClientTypes.EvaluationFormItemEnablementConfiguration.read(from:))
         value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.scoringConfiguration = try reader["ScoringConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration.read(from:))
         return value
     }
 }
@@ -58355,6 +59068,25 @@ extension ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormQuestionAutomationAnswerSource()
         value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormQuestionScoringConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationFormQuestionScoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsExcludedFromScoring"].write(value.isExcludedFromScoring)
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionPointsConfiguration.write(value:to:))
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormQuestionScoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormQuestionScoringConfiguration()
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionPointsConfiguration.read(from:))
+        value.isExcludedFromScoring = try reader["IsExcludedFromScoring"].readIfPresent() ?? false
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58395,11 +59127,31 @@ extension ConnectClientTypes.EvaluationFormQuestionTypeProperties {
     }
 }
 
+extension ConnectClientTypes.EvaluationFormScoreThreshold {
+
+    static func write(value: ConnectClientTypes.EvaluationFormScoreThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxScorePercentage"].write(value.maxScorePercentage)
+        try writer["MinScorePercentage"].write(value.minScorePercentage)
+        try writer["PerformanceCategory"].write(value.performanceCategory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormScoreThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormScoreThreshold()
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent() ?? .sdkUnknown("")
+        value.minScorePercentage = try reader["MinScorePercentage"].readIfPresent() ?? 0
+        value.maxScorePercentage = try reader["MaxScorePercentage"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ConnectClientTypes.EvaluationFormScoringStrategy {
 
     static func write(value: ConnectClientTypes.EvaluationFormScoringStrategy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Mode"].write(value.mode)
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Status"].write(value.status)
     }
 
@@ -58408,6 +59160,7 @@ extension ConnectClientTypes.EvaluationFormScoringStrategy {
         var value = ConnectClientTypes.EvaluationFormScoringStrategy()
         value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58464,8 +59217,10 @@ extension ConnectClientTypes.EvaluationFormSection {
     static func write(value: ConnectClientTypes.EvaluationFormSection?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Instructions"].write(value.instructions)
+        try writer["IsExcludedFromScoring"].write(value.isExcludedFromScoring)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RefId"].write(value.refId)
+        try writer["ScoreThresholds"].writeList(value.scoreThresholds, memberWritingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Title"].write(value.title)
         try writer["Weight"].write(value.weight)
     }
@@ -58478,6 +59233,8 @@ extension ConnectClientTypes.EvaluationFormSection {
         value.instructions = try reader["Instructions"].readIfPresent()
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.isExcludedFromScoring = try reader["IsExcludedFromScoring"].readIfPresent() ?? false
+        value.scoreThresholds = try reader["ScoreThresholds"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormScoreThreshold.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58531,6 +59288,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
         guard let value else { return }
         try writer["AutomaticFail"].write(value.automaticFail)
         try writer["AutomaticFailConfiguration"].write(value.automaticFailConfiguration, with: ConnectClientTypes.AutomaticFailConfiguration.write(value:to:))
+        try writer["PointsConfiguration"].write(value.pointsConfiguration, with: ConnectClientTypes.QuestionOptionPointsConfiguration.write(value:to:))
         try writer["RefId"].write(value.refId)
         try writer["Score"].write(value.score)
         try writer["Text"].write(value.text)
@@ -58544,6 +59302,7 @@ extension ConnectClientTypes.EvaluationFormSingleSelectQuestionOption {
         value.score = try reader["Score"].readIfPresent() ?? 0
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.automaticFailConfiguration = try reader["AutomaticFailConfiguration"].readIfPresent(with: ConnectClientTypes.AutomaticFailConfiguration.read(from:))
+        value.pointsConfiguration = try reader["PointsConfiguration"].readIfPresent(with: ConnectClientTypes.QuestionOptionPointsConfiguration.read(from:))
         return value
     }
 }
@@ -58628,6 +59387,31 @@ extension ConnectClientTypes.EvaluationFormTextQuestionProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.EvaluationFormTextQuestionProperties()
         value.automation = try reader["Automation"].readIfPresent(with: ConnectClientTypes.EvaluationFormTextQuestionAutomation.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormValidationFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormValidationFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormValidationFinding()
+        value.issueCode = try reader["IssueCode"].readIfPresent() ?? ""
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationFormValidationFindingItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.suggestion = try reader["Suggestion"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationFormValidationFindingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationFormValidationFindingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationFormValidationFindingItem()
+        value.refId = try reader["RefId"].readIfPresent()
+        value.property = try reader["Property"].readIfPresent()
         return value
     }
 }
@@ -58806,6 +59590,9 @@ extension ConnectClientTypes.EvaluationScore {
         value.notApplicable = try reader["NotApplicable"].readIfPresent() ?? false
         value.automaticFail = try reader["AutomaticFail"].readIfPresent() ?? false
         value.appliedWeight = try reader["AppliedWeight"].readIfPresent()
+        value.earnedPoints = try reader["EarnedPoints"].readIfPresent() ?? 0
+        value.maxBasePoint = try reader["MaxBasePoint"].readIfPresent() ?? 0
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent()
         return value
     }
 }
@@ -58829,6 +59616,7 @@ extension ConnectClientTypes.EvaluationSearchFilter {
     static func write(value: ConnectClientTypes.EvaluationSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeFilter"].write(value.attributeFilter, with: ConnectClientTypes.ControlPlaneAttributeFilter.write(value:to:))
+        try writer["ContactEvaluationAttributeFilter"].write(value.contactEvaluationAttributeFilter, with: ConnectClientTypes.ContactEvaluationAttributeFilter.write(value:to:))
     }
 }
 
@@ -58853,6 +59641,9 @@ extension ConnectClientTypes.EvaluationSearchMetadata {
         value.reviewId = try reader["ReviewId"].readIfPresent()
         value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
         value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
+        value.earnedPoints = try reader["EarnedPoints"].readIfPresent()
+        value.maxBasePoint = try reader["MaxBasePoint"].readIfPresent()
+        value.performanceCategory = try reader["PerformanceCategory"].readIfPresent()
         return value
     }
 }
@@ -60862,6 +61653,42 @@ extension ConnectClientTypes.QualityMetrics {
         var value = ConnectClientTypes.QualityMetrics()
         value.agent = try reader["Agent"].readIfPresent(with: ConnectClientTypes.AgentQualityMetrics.read(from:))
         value.customer = try reader["Customer"].readIfPresent(with: ConnectClientTypes.CustomerQualityMetrics.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.QuestionOptionPointsConfiguration {
+
+    static func write(value: ConnectClientTypes.QuestionOptionPointsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsBonus"].write(value.isBonus)
+        try writer["PointValue"].write(value.pointValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuestionOptionPointsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QuestionOptionPointsConfiguration()
+        value.pointValue = try reader["PointValue"].readIfPresent() ?? 0
+        value.isBonus = try reader["IsBonus"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ConnectClientTypes.QuestionPointsConfiguration {
+
+    static func write(value: ConnectClientTypes.QuestionPointsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsBonus"].write(value.isBonus)
+        try writer["MaxPointValue"].write(value.maxPointValue)
+        try writer["MinPointValue"].write(value.minPointValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.QuestionPointsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.QuestionPointsConfiguration()
+        value.maxPointValue = try reader["MaxPointValue"].readIfPresent() ?? 0
+        value.minPointValue = try reader["MinPointValue"].readIfPresent() ?? 0
+        value.isBonus = try reader["IsBonus"].readIfPresent() ?? false
         return value
     }
 }

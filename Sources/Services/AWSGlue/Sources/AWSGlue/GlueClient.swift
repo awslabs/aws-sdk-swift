@@ -19101,13 +19101,13 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `Search` operation on the `Glue` service.
+    /// Performs the `SearchAssets` operation on the `Glue` service.
     ///
     /// Searches for assets in Glue Data Catalog using full-text search, filters, sorting, and aggregations. Returns matching assets with relevance-ranked results.
     ///
-    /// - Parameter input: [no documentation found] (Type: `SearchInput`)
+    /// - Parameter input: [no documentation found] (Type: `SearchAssetsInput`)
     ///
-    /// - Returns: [no documentation found] (Type: `SearchOutput`)
+    /// - Returns: [no documentation found] (Type: `SearchAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19116,17 +19116,17 @@ extension GlueClient {
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `ThrottlingException` : The throttling threshhold was exceeded.
-    public func search(input: SearchInput) async throws -> SearchOutput {
+    public func searchAssets(input: SearchAssetsInput) async throws -> SearchAssetsOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
-        let operation = GlueClient.searchOperation
+        let operation = GlueClient.searchAssetsOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
-                      .withOperation(value: "search")
+                      .withOperation(value: "searchAssets")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
@@ -19145,27 +19145,27 @@ extension GlueClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchInput, SearchOutput>())
-        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchInput, SearchOutput>())
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchInput, SearchOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAssetsInput, SearchAssetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
-        builder.applySigner(ClientRuntime.SignerMiddleware<SearchOutput>())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchAssetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchInput, SearchOutput>(overrides: ["X-Amz-Target": "AWSGlue.Search"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchInput, SearchOutput>(contentType: "application/x-amz-json-1.1"))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchInput, SearchOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchInput, SearchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchAssetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchAssetsInput, SearchAssetsOutput>(overrides: ["X-Amz-Target": "AWSGlue.SearchAssets"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAssetsInput, SearchAssetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAssetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAssetsInput, SearchAssetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAssetsInput, SearchAssetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.retryStrategy(self.retryStrategy)
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Glue"))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchInput, SearchOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAssetsInput, SearchAssetsOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Search")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAssets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

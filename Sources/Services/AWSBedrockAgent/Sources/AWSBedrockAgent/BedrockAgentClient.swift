@@ -3059,6 +3059,7 @@ extension BedrockAgentClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFlowInput, GetFlowOutput>(GetFlowInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowInput, GetFlowOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetFlowInput, GetFlowOutput>(GetFlowInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowOutput>(GetFlowOutput.httpOutput(from:), GetFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowInput, GetFlowOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -3197,6 +3198,7 @@ extension BedrockAgentClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFlowVersionInput, GetFlowVersionOutput>(GetFlowVersionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowVersionInput, GetFlowVersionOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetFlowVersionInput, GetFlowVersionOutput>(GetFlowVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowVersionOutput>(GetFlowVersionOutput.httpOutput(from:), GetFlowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowVersionInput, GetFlowVersionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

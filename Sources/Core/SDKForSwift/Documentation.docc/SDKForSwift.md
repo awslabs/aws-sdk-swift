@@ -535,6 +535,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSLambda](/sdk-for-swift/latest/api/awslambda/documentation/awslambda)
 
+[AWSLambdaCore](/sdk-for-swift/latest/api/awslambdacore/documentation/awslambdacore)
+
+[AWSLambdaMicrovms](/sdk-for-swift/latest/api/awslambdamicrovms/documentation/awslambdamicrovms)
+
 [AWSLaunchWizard](/sdk-for-swift/latest/api/awslaunchwizard/documentation/awslaunchwizard)
 
 [AWSLexModelBuildingService](/sdk-for-swift/latest/api/awslexmodelbuildingservice/documentation/awslexmodelbuildingservice)

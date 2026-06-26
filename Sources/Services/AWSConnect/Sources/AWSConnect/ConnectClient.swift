@@ -12762,6 +12762,75 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetEvaluationFormValidation` operation on the `Connect` service.
+    ///
+    /// Retrieves the status and results of a validation process started by [StartEvaluationFormValidation](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartEvaluationFormValidation.html). Returns the current execution status (IN_PROGRESS, COMPLETED, or FAILED), the validated form version, and when completed, a list of findings that identify structural issues and quality improvements for the evaluation form, and may include suggested fixes. If the validation failed, a reason is provided indicating the cause of the failure.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetEvaluationFormValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetEvaluationFormValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func getEvaluationFormValidation(input: GetEvaluationFormValidationInput) async throws -> GetEvaluationFormValidationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEvaluationFormValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>(GetEvaluationFormValidationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>(GetEvaluationFormValidationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEvaluationFormValidationOutput>(GetEvaluationFormValidationOutput.httpOutput(from:), GetEvaluationFormValidationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetEvaluationFormValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetEvaluationFormValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetEvaluationFormValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetEvaluationFormValidationInput, GetEvaluationFormValidationOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEvaluationFormValidation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetFederationToken` operation on the `Connect` service.
     ///
     /// Supports SAML sign-in for Connect Customer. Retrieves a token for federation. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Connect Customer, see [Configure SAML with IAM for Connect Customer in the Connect Customer Administrator Guide.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html) This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears: Provided identity: Principal: .... User: .... cannot be used for federation with Connect Customer
@@ -21484,6 +21553,79 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartEmailContact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartEvaluationFormValidation` operation on the `Connect` service.
+    ///
+    /// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use [GetEvaluationFormValidation](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetEvaluationFormValidation.html) to retrieve the status and results once the validation completes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartEvaluationFormValidationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartEvaluationFormValidationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func startEvaluationFormValidation(input: StartEvaluationFormValidationInput) async throws -> StartEvaluationFormValidationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startEvaluationFormValidation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>(StartEvaluationFormValidationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartEvaluationFormValidationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEvaluationFormValidationOutput>(StartEvaluationFormValidationOutput.httpOutput(from:), StartEvaluationFormValidationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartEvaluationFormValidationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartEvaluationFormValidationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartEvaluationFormValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartEvaluationFormValidationInput, StartEvaluationFormValidationOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartEvaluationFormValidation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

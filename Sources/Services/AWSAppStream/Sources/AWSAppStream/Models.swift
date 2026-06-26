@@ -223,15 +223,19 @@ extension AppStreamClientTypes {
     /// * COMPUTER_VISION - Allows agents to take screenshots of the desktop.
     ///
     /// * COMPUTER_INPUT - Allows agents to click, type, and scroll on the desktop. Requires COMPUTER_VISION to also be enabled.
+    ///
+    /// * FORWARD_MCP_TOOLS - Allows agents to interact with applications and the desktop operating system through direct MCP calls rather than using computer use tools. Forwards MCP tools configured on the WorkSpaces application session to the agent.
     public enum AgentAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case computerInput
         case computerVision
+        case forwardMcpTools
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AgentAction] {
             return [
                 .computerInput,
-                .computerVision
+                .computerVision,
+                .forwardMcpTools
             ]
         }
 
@@ -244,6 +248,7 @@ extension AppStreamClientTypes {
             switch self {
             case .computerInput: return "COMPUTER_INPUT"
             case .computerVision: return "COMPUTER_VISION"
+            case .forwardMcpTools: return "FORWARD_MCP_TOOLS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -283,7 +288,7 @@ extension AppStreamClientTypes {
 
     /// A permission setting for an agent action. Each setting specifies an agent action and whether it is enabled or disabled.
     public struct AgentAccessSetting: Swift.Sendable {
-        /// The agent action to configure. Valid values are COMPUTER_VISION and COMPUTER_INPUT. If you enable COMPUTER_INPUT, you must also enable COMPUTER_VISION.
+        /// The agent action to configure. Valid values are COMPUTER_VISION, COMPUTER_INPUT, and FORWARD_MCP_TOOLS. If you enable COMPUTER_INPUT, you must also enable COMPUTER_VISION.
         /// This member is required.
         public var agentAction: AppStreamClientTypes.AgentAction?
         /// Whether the agent action is enabled or disabled.
@@ -296,6 +301,45 @@ extension AppStreamClientTypes {
         ) {
             self.agentAction = agentAction
             self.permission = permission
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The user control mode for agent sessions.
+    ///
+    /// * VIEW_ONLY - Users can view and observe agent actions as they happen.
+    ///
+    /// * VIEW_STOP - Users can view agent actions and stop the agent if needed.
+    ///
+    /// * DISABLED - Users cannot view or stop the agent session.
+    public enum UserControlMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case viewOnly
+        case viewStop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserControlMode] {
+            return [
+                .disabled,
+                .viewOnly,
+                .viewStop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .viewOnly: return "VIEW_ONLY"
+            case .viewStop: return "VIEW_STOP"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -317,19 +361,23 @@ extension AppStreamClientTypes {
         /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting.
         /// This member is required.
         public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        public var userControlMode: AppStreamClientTypes.UserControlMode?
 
         public init(
             s3BucketArn: Swift.String? = nil,
             screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
             screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
             screenshotsUploadEnabled: Swift.Bool? = nil,
-            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
+            userControlMode: AppStreamClientTypes.UserControlMode? = nil
         ) {
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
             self.screenshotsUploadEnabled = screenshotsUploadEnabled
             self.settings = settings
+            self.userControlMode = userControlMode
         }
     }
 }
@@ -348,19 +396,23 @@ extension AppStreamClientTypes {
         public var screenshotsUploadEnabled: Swift.Bool?
         /// The list of agent access settings that define permissions for each agent action.
         public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        public var userControlMode: AppStreamClientTypes.UserControlMode?
 
         public init(
             s3BucketArn: Swift.String? = nil,
             screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
             screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
             screenshotsUploadEnabled: Swift.Bool? = nil,
-            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
+            userControlMode: AppStreamClientTypes.UserControlMode? = nil
         ) {
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
             self.screenshotsUploadEnabled = screenshotsUploadEnabled
             self.settings = settings
+            self.userControlMode = userControlMode
         }
     }
 }

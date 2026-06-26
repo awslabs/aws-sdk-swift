@@ -633,7 +633,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func acceptMatch(input: AcceptMatchInput) async throws -> AcceptMatchOutput {
         var config = config
@@ -723,7 +723,7 @@ extension GameLiftClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `OutOfCapacityException` : The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func claimGameServer(input: ClaimGameServerInput) async throws -> ClaimGameServerOutput {
@@ -1105,11 +1105,11 @@ extension GameLiftClient {
     ///
     /// * ContainerGroupType (GAME_SERVER)
     ///
-    /// * OperatingSystem (omit to use default value)
+    /// * OperatingSystem
     ///
-    /// * TotalMemoryLimitMebibytes (omit to use default value)
+    /// * TotalMemoryLimitMebibytes
     ///
-    /// * TotalVcpuLimit (omit to use default value)
+    /// * TotalVcpuLimit
     ///
     /// * At least one GameServerContainerDefinition
     ///
@@ -1119,7 +1119,7 @@ extension GameLiftClient {
     ///
     /// * PortConfiguration
     ///
-    /// * ServerSdkVersion (omit to use default value)
+    /// * ServerSdkVersion
     ///
     ///
     ///
@@ -1133,11 +1133,11 @@ extension GameLiftClient {
     ///
     /// * ContainerGroupType (PER_INSTANCE)
     ///
-    /// * OperatingSystem (omit to use default value)
+    /// * OperatingSystem
     ///
-    /// * TotalMemoryLimitMebibytes (omit to use default value)
+    /// * TotalMemoryLimitMebibytes
     ///
-    /// * TotalVcpuLimit (omit to use default value)
+    /// * TotalVcpuLimit
     ///
     /// * At least one SupportContainerDefinition
     ///
@@ -1274,7 +1274,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
@@ -1360,7 +1360,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -1544,7 +1544,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -1666,7 +1666,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createGameSessionQueue(input: CreateGameSessionQueueInput) async throws -> CreateGameSessionQueueOutput {
@@ -1830,7 +1830,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func createMatchmakingConfiguration(input: CreateMatchmakingConfigurationInput) async throws -> CreateMatchmakingConfigurationOutput {
@@ -2000,7 +2000,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSession(input: CreatePlayerSessionInput) async throws -> CreatePlayerSessionOutput {
@@ -2083,7 +2083,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createPlayerSessions(input: CreatePlayerSessionsInput) async throws -> CreatePlayerSessionsOutput {
@@ -2241,7 +2241,22 @@ extension GameLiftClient {
 
     /// Performs the `CreateVpcPeeringAuthorization` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html) to establish the peering connection. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). You can peer with VPCs that are owned by any Amazon Web Services account you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. To request authorization to create a connection, call this operation from the Amazon Web Services account with the VPC that you want to peer to your Amazon GameLift Servers fleet. For example, to enable your game servers to retrieve data from a DynamoDB table, use the account that manages that DynamoDB resource. Identify the following values: (1) The ID of the VPC that you want to peer with, and (2) the ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. If successful, VPC peering is authorized for the specified VPC. To request authorization to delete a connection, call this operation from the Amazon Web Services account with the VPC that is peered with your Amazon GameLift Servers fleet. Identify the following values: (1) VPC ID that you want to delete the peering connection for, and (2) ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. The authorization remains valid for 24 hours unless it is canceled. You must create or delete the peering connection while the authorization is valid. Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// This API works with the following fleet types: EC2 Requests authorization to create or delete a peer connection between the VPC for your Amazon GameLift Servers fleet and a virtual private cloud (VPC) in your Amazon Web Services account. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. After you've received authorization, use [CreateVpcPeeringConnection](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringConnection.html) to establish the peering connection. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). You can peer with VPCs that are owned by any Amazon Web Services account you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. To request authorization to create a connection, call this operation from the Amazon Web Services account with the VPC that you want to peer to your Amazon GameLift Servers fleet. For example, to enable your game servers to retrieve data from a DynamoDB table, use the account that manages that DynamoDB resource. Identify the following values: (1) The ID of the VPC that you want to peer with, and (2) the ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. If successful, VPC peering is authorized for the specified VPC. To request authorization to delete a connection, call this operation from the Amazon Web Services account with the VPC that is peered with your Amazon GameLift Servers fleet. Identify the following values: (1) VPC ID that you want to delete the peering connection for, and (2) ID of the Amazon Web Services account that you use to manage Amazon GameLift Servers. The authorization remains valid for 24 hours unless it is canceled. You must create or delete the peering connection while the authorization is valid. Amazon GameLift Servers uses the caller's credentials to update peer-VPC resources. The IAM user that calls this operation must have the following Amazon EC2 permissions enabled:
+    ///
+    /// * ec2:AcceptVpcPeeringConnection
+    ///
+    /// * ec2:AuthorizeSecurityGroupEgress
+    ///
+    /// * ec2:AuthorizeSecurityGroupIngress
+    ///
+    /// * ec2:CreateRoute
+    ///
+    /// * ec2:DescribeRouteTables
+    ///
+    /// * ec2:DescribeSecurityGroups
+    ///
+    ///
+    /// Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringAuthorizationInput`)
     ///
@@ -2252,7 +2267,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringAuthorization(input: CreateVpcPeeringAuthorizationInput) async throws -> CreateVpcPeeringAuthorizationOutput {
         var config = config
@@ -2321,7 +2336,22 @@ extension GameLiftClient {
 
     /// Performs the `CreateVpcPeeringConnection` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web Services account with the VPC for your Amazon GameLift Servers fleet. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. You can peer with VPCs in any Amazon Web Services account that you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). Before calling this operation to establish the peering connection, you first need to use [CreateVpcPeeringAuthorization](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringAuthorization.html) and identify the VPC you want to peer with. Once the authorization for the specified VPC is issued, you have 24 hours to establish the connection. These two operations handle all tasks necessary to peer the two VPCs, including acceptance, updating routing tables, etc. To establish the connection, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that you want to peer with; and (3) The ID of the VPC you want to peer with. This operation is asynchronous. If successful, a connection request is created. You can use continuous polling to track the request's status using [DescribeVpcPeeringConnections](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeVpcPeeringConnections.html) , or by monitoring fleet events for success or failure using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html) . Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// This API works with the following fleet types: EC2 Establishes a VPC peering connection between a virtual private cloud (VPC) in an Amazon Web Services account with the VPC for your Amazon GameLift Servers fleet. VPC peering enables the game servers on your fleet to communicate directly with other Amazon Web Services resources. You can peer with VPCs in any Amazon Web Services account that you have access to, including the account that you use to manage your Amazon GameLift Servers fleets. You cannot peer with VPCs that are in different Regions. For more information, see [VPC Peering with Amazon GameLift Servers Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html). Before calling this operation to establish the peering connection, you first need to use [CreateVpcPeeringAuthorization](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateVpcPeeringAuthorization.html) and identify the VPC you want to peer with. Once the authorization for the specified VPC is issued, you have 24 hours to establish the connection. These two operations handle all tasks necessary to peer the two VPCs, including acceptance, updating routing tables, etc. To establish the connection, call this operation from the Amazon Web Services account that is used to manage the Amazon GameLift Servers fleets. Identify the following values: (1) The ID of the fleet you want to be enable a VPC peering connection for; (2) The Amazon Web Services account with the VPC that you want to peer with; and (3) The ID of the VPC you want to peer with. This operation is asynchronous. If successful, a connection request is created. You can use continuous polling to track the request's status using [DescribeVpcPeeringConnections](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeVpcPeeringConnections.html) , or by monitoring fleet events for success or failure using [DescribeFleetEvents](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetEvents.html) . Amazon GameLift Servers uses the caller's credentials to update peer-VPC resources. The IAM user that calls this operation must have the following Amazon EC2 permissions enabled:
+    ///
+    /// * ec2:AcceptVpcPeeringConnection
+    ///
+    /// * ec2:AuthorizeSecurityGroupEgress
+    ///
+    /// * ec2:AuthorizeSecurityGroupIngress
+    ///
+    /// * ec2:CreateRoute
+    ///
+    /// * ec2:DescribeRouteTables
+    ///
+    /// * ec2:DescribeSecurityGroups
+    ///
+    ///
+    /// Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVpcPeeringConnectionInput`)
     ///
@@ -2332,7 +2362,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func createVpcPeeringConnection(input: CreateVpcPeeringConnectionInput) async throws -> CreateVpcPeeringConnectionOutput {
         var config = config
@@ -2412,7 +2442,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutput {
@@ -2493,7 +2523,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteBuild(input: DeleteBuildInput) async throws -> DeleteBuildOutput {
@@ -2574,7 +2604,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -2676,7 +2706,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -2759,7 +2789,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
@@ -2840,7 +2870,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteFleetLocations(input: DeleteFleetLocationsInput) async throws -> DeleteFleetLocationsOutput {
@@ -2930,7 +2960,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameServerGroup(input: DeleteGameServerGroupInput) async throws -> DeleteGameServerGroupOutput {
         var config = config
@@ -3010,7 +3040,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteGameSessionQueue(input: DeleteGameSessionQueueInput) async throws -> DeleteGameSessionQueueOutput {
@@ -3091,7 +3121,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutput {
         var config = config
@@ -3171,7 +3201,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingConfiguration(input: DeleteMatchmakingConfigurationInput) async throws -> DeleteMatchmakingConfigurationOutput {
@@ -3254,7 +3284,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteMatchmakingRuleSet(input: DeleteMatchmakingRuleSetInput) async throws -> DeleteMatchmakingRuleSetOutput {
@@ -3335,7 +3365,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func deleteScalingPolicy(input: DeleteScalingPolicyInput) async throws -> DeleteScalingPolicyOutput {
@@ -3416,7 +3446,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteScript(input: DeleteScriptInput) async throws -> DeleteScriptOutput {
@@ -3497,7 +3527,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringAuthorization(input: DeleteVpcPeeringAuthorizationInput) async throws -> DeleteVpcPeeringAuthorizationOutput {
         var config = config
@@ -3577,7 +3607,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutput {
         var config = config
@@ -3657,7 +3687,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterCompute(input: DeregisterComputeInput) async throws -> DeregisterComputeOutput {
         var config = config
@@ -3737,7 +3767,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func deregisterGameServer(input: DeregisterGameServerInput) async throws -> DeregisterGameServerOutput {
         var config = config
@@ -3817,7 +3847,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeAlias(input: DescribeAliasInput) async throws -> DescribeAliasOutput {
         var config = config
@@ -3897,7 +3927,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeBuild(input: DescribeBuildInput) async throws -> DescribeBuildOutput {
         var config = config
@@ -3990,7 +4020,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeCompute(input: DescribeComputeInput) async throws -> DescribeComputeOutput {
@@ -4076,7 +4106,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerFleet(input: DescribeContainerFleetInput) async throws -> DescribeContainerFleetOutput {
@@ -4166,7 +4196,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupDefinition(input: DescribeContainerGroupDefinitionInput) async throws -> DescribeContainerGroupDefinitionOutput {
@@ -4245,7 +4275,7 @@ extension GameLiftClient {
     /// * Optionally filter results to a single container by providing a ContainerName.
     ///
     ///
-    /// Results This operation returns the fleet ID, location, container group definition ARN, container group type, compute name (for game server container groups), instance ID, and a list of ContainerGroupPortMapping objects. Each object contains the container name, runtime ID, and a list of port mappings that show how container ports map to connection ports on the instance. Learn more [Connect to containers](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)[Create a container group definition](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-create-groups.html)
+    /// Results This operation returns the fleet ID, fleet ARN, location, container group definition ARN, container group type, compute name (for game server container groups), instance ID, and a list of ContainerGroupPortMapping objects. Each object contains the container name, runtime ID, and a list of port mappings that show how container ports map to connection ports on the instance. Learn more [Connect to containers](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-remote-access.html)[Create a container group definition](https://docs.aws.amazon.com/gamelift/latest/developerguide/containers-create-groups.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeContainerGroupPortMappingsInput`)
     ///
@@ -4257,7 +4287,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeContainerGroupPortMappings(input: DescribeContainerGroupPortMappingsInput) async throws -> DescribeContainerGroupPortMappingsOutput {
@@ -4441,7 +4471,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetAttributes(input: DescribeFleetAttributesInput) async throws -> DescribeFleetAttributesOutput {
         var config = config
@@ -4528,7 +4558,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetCapacity(input: DescribeFleetCapacityInput) async throws -> DescribeFleetCapacityOutput {
@@ -4616,7 +4646,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetDeployment(input: DescribeFleetDeploymentInput) async throws -> DescribeFleetDeploymentOutput {
@@ -4697,7 +4727,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetEvents(input: DescribeFleetEventsInput) async throws -> DescribeFleetEventsOutput {
@@ -4774,7 +4804,7 @@ extension GameLiftClient {
     /// * To get data for all locations, provide a fleet identifier only. Location data is returned in no particular order.
     ///
     ///
-    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. This operation does not return the home Region. To get information on a fleet's home Region, call DescribeFleetAttributes. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting
+    /// When requesting attributes for multiple locations, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a LocationAttributes object is returned for each requested location. If the fleet does not have a requested location, no information is returned. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)[ Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeFleetLocationAttributesInput`)
     ///
@@ -4785,7 +4815,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationAttributes(input: DescribeFleetLocationAttributesInput) async throws -> DescribeFleetLocationAttributesOutput {
@@ -4866,7 +4896,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationCapacity(input: DescribeFleetLocationCapacityInput) async throws -> DescribeFleetLocationCapacityOutput {
@@ -4947,7 +4977,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetLocationUtilization(input: DescribeFleetLocationUtilizationInput) async throws -> DescribeFleetLocationUtilizationOutput {
@@ -5035,7 +5065,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeFleetPortSettings(input: DescribeFleetPortSettingsInput) async throws -> DescribeFleetPortSettingsOutput {
@@ -5123,7 +5153,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeFleetUtilization(input: DescribeFleetUtilizationInput) async throws -> DescribeFleetUtilizationOutput {
         var config = config
@@ -5203,7 +5233,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServer(input: DescribeGameServerInput) async throws -> DescribeGameServerOutput {
         var config = config
@@ -5283,7 +5313,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerGroup(input: DescribeGameServerGroupInput) async throws -> DescribeGameServerGroupOutput {
         var config = config
@@ -5363,7 +5393,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameServerInstances(input: DescribeGameServerInstancesInput) async throws -> DescribeGameServerInstancesOutput {
         var config = config
@@ -5452,7 +5482,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -5534,7 +5564,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionPlacement(input: DescribeGameSessionPlacementInput) async throws -> DescribeGameSessionPlacementOutput {
         var config = config
@@ -5614,7 +5644,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeGameSessionQueues(input: DescribeGameSessionQueuesInput) async throws -> DescribeGameSessionQueuesOutput {
         var config = config
@@ -5703,7 +5733,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -5794,7 +5824,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeInstances(input: DescribeInstancesInput) async throws -> DescribeInstancesOutput {
@@ -6035,7 +6065,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeMatchmakingRuleSets(input: DescribeMatchmakingRuleSetsInput) async throws -> DescribeMatchmakingRuleSetsOutput {
         var config = config
@@ -6124,7 +6154,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describePlayerSessions(input: DescribePlayerSessionsInput) async throws -> DescribePlayerSessionsOutput {
         var config = config
@@ -6204,7 +6234,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeRuntimeConfiguration(input: DescribeRuntimeConfigurationInput) async throws -> DescribeRuntimeConfigurationOutput {
         var config = config
@@ -6284,7 +6314,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func describeScalingPolicies(input: DescribeScalingPoliciesInput) async throws -> DescribeScalingPoliciesOutput {
@@ -6365,7 +6395,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeScript(input: DescribeScriptInput) async throws -> DescribeScriptOutput {
         var config = config
@@ -6523,7 +6553,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func describeVpcPeeringConnections(input: DescribeVpcPeeringConnectionsInput) async throws -> DescribeVpcPeeringConnectionsOutput {
         var config = config
@@ -6612,7 +6642,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAccess(input: GetComputeAccessInput) async throws -> GetComputeAccessOutput {
@@ -6706,7 +6736,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getComputeAuthToken(input: GetComputeAuthTokenInput) async throws -> GetComputeAuthTokenOutput {
@@ -6787,7 +6817,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getGameSessionLogUrl(input: GetGameSessionLogUrlInput) async throws -> GetGameSessionLogUrlOutput {
         var config = config
@@ -6874,7 +6904,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func getInstanceAccess(input: GetInstanceAccessInput) async throws -> GetInstanceAccessOutput {
         var config = config
@@ -6956,7 +6986,7 @@ extension GameLiftClient {
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func getPlayerConnectionDetails(input: GetPlayerConnectionDetailsInput) async throws -> GetPlayerConnectionDetailsOutput {
@@ -7382,7 +7412,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listContainerGroupDefinitionVersions(input: ListContainerGroupDefinitionVersionsInput) async throws -> ListContainerGroupDefinitionVersionsOutput {
@@ -7557,7 +7587,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listFleetDeployments(input: ListFleetDeploymentsInput) async throws -> ListFleetDeploymentsOutput {
@@ -7647,7 +7677,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         var config = config
@@ -8043,7 +8073,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -8124,7 +8154,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func putScalingPolicy(input: PutScalingPolicyInput) async throws -> PutScalingPolicyOutput {
@@ -8374,7 +8404,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func requestUploadCredentials(input: RequestUploadCredentialsInput) async throws -> RequestUploadCredentialsOutput {
         var config = config
@@ -8454,7 +8484,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resolveAlias(input: ResolveAliasInput) async throws -> ResolveAliasOutput {
@@ -8535,7 +8565,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func resumeGameServerGroup(input: ResumeGameServerGroupInput) async throws -> ResumeGameServerGroupOutput {
         var config = config
@@ -8646,7 +8676,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TerminalRoutingStrategyException` : The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -8735,7 +8765,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startFleetActions(input: StartFleetActionsInput) async throws -> StartFleetActionsOutput {
@@ -8857,7 +8887,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startGameSessionPlacement(input: StartGameSessionPlacementInput) async throws -> StartGameSessionPlacementOutput {
@@ -8938,7 +8968,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchBackfill(input: StartMatchBackfillInput) async throws -> StartMatchBackfillOutput {
         var config = config
@@ -9018,7 +9048,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func startMatchmaking(input: StartMatchmakingInput) async throws -> StartMatchmakingOutput {
         var config = config
@@ -9105,7 +9135,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopFleetActions(input: StopFleetActionsInput) async throws -> StopFleetActionsOutput {
@@ -9186,7 +9216,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func stopGameSessionPlacement(input: StopGameSessionPlacementInput) async throws -> StopGameSessionPlacementOutput {
         var config = config
@@ -9266,7 +9296,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func stopMatchmaking(input: StopMatchmakingInput) async throws -> StopMatchmakingOutput {
         var config = config
@@ -9351,7 +9381,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func suspendGameServerGroup(input: SuspendGameServerGroupInput) async throws -> SuspendGameServerGroupOutput {
         var config = config
@@ -9431,7 +9461,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -9520,7 +9550,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func terminateGameSession(input: TerminateGameSessionInput) async throws -> TerminateGameSessionOutput {
@@ -9601,7 +9631,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `TaggingFailedException` : The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -9682,7 +9712,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutput {
         var config = config
@@ -9762,7 +9792,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateBuild(input: UpdateBuildInput) async throws -> UpdateBuildOutput {
         var config = config
@@ -9865,7 +9895,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
@@ -9942,7 +9972,7 @@ extension GameLiftClient {
     ///
     /// * Update based on a specific version of the container group definition. Specify the container group definition name and a source version number, or use an ARN value with a version number. Provide updated values for the properties that you want to change only. All other values remain the same as the source version.
     ///
-    /// * Change a game server container definition. Provide the updated container definition.
+    /// * Change a game server container definition. Provide a complete set of container definitions, including the updated definition.
     ///
     /// * Add or change a support container definition. Provide a complete set of container definitions, including the updated definition.
     ///
@@ -9961,7 +9991,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateContainerGroupDefinition(input: UpdateContainerGroupDefinitionInput) async throws -> UpdateContainerGroupDefinitionOutput {
@@ -10045,7 +10075,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetAttributes(input: UpdateFleetAttributesInput) async throws -> UpdateFleetAttributesOutput {
         var config = config
@@ -10135,7 +10165,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateFleetCapacity(input: UpdateFleetCapacityInput) async throws -> UpdateFleetCapacityOutput {
@@ -10205,7 +10235,7 @@ extension GameLiftClient {
 
     /// Performs the `UpdateFleetPortSettings` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2, Container Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations, and permissions you want to remove in InboundPermissionRevocations. Permissions to be removed must match existing fleet permissions. If successful, the fleet ID for the updated fleet is returned. For fleets with remote locations, port setting updates can take time to propagate across all locations. You can check the status of updates in each location by calling DescribeFleetPortSettings with a location name. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
+    /// This API works with the following fleet types: EC2, Container Updates permissions that allow inbound traffic to connect to game sessions in the fleet. To update settings, specify the fleet ID to be updated and specify the changes to be made. List the permissions you want to add in InboundPermissionAuthorizations, and permissions you want to remove in InboundPermissionRevocations. Permissions to be removed must match existing fleet permissions. If successful, the fleet identifiers for the updated fleet are returned. For fleets with remote locations, port setting updates can take time to propagate across all locations. You can check the status of updates in each location by calling DescribeFleetPortSettings with a location name. Learn more [Setting up Amazon GameLift Servers fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/fleets-intro.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFleetPortSettingsInput`)
     ///
@@ -10219,7 +10249,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateFleetPortSettings(input: UpdateFleetPortSettingsInput) async throws -> UpdateFleetPortSettingsOutput {
         var config = config
@@ -10308,7 +10338,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServer(input: UpdateGameServerInput) async throws -> UpdateGameServerOutput {
         var config = config
@@ -10377,7 +10407,7 @@ extension GameLiftClient {
 
     /// Performs the `UpdateGameServerGroup` operation on the `GameLift` service.
     ///
-    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scaling policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that Amazon GameLift Servers FleetIQ can continue to perform instance balancing activity. If successful, a GameServerGroup object is returned. Learn more [Amazon GameLift Servers FleetIQ Guide](https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html)
+    /// This API works with the following fleet types: EC2 (FleetIQ) Updates Amazon GameLift Servers FleetIQ-specific properties for a game server group. Many Auto Scaling group properties are updated on the Auto Scaling group directly, including the launch template, Auto Scaling policies, and maximum/minimum/desired instance counts. To update the game server group, specify the game server group ID and provide the updated values. Before applying the updates, the new values are validated to ensure that Amazon GameLift Servers FleetIQ can continue to perform instance balancing activity. If successful, a GameServerGroup object is returned. Target tracking Auto Scaling policies on the Auto Scaling group cannot be updated through the Amazon Web Services Management Console. Instead, use the Amazon Elastic Compute Cloud Auto Scaling [PutScalingPolicy](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_PutScalingPolicy.html) API action to update these policies. Learn more [Amazon GameLift Servers FleetIQ Guide](https://docs.aws.amazon.com/gamelift/latest/fleetiqguide/gsg-intro.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGameServerGroupInput`)
     ///
@@ -10388,7 +10418,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameServerGroup(input: UpdateGameServerGroupInput) async throws -> UpdateGameServerGroupOutput {
         var config = config
@@ -10470,7 +10500,7 @@ extension GameLiftClient {
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidGameSessionStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `NotReadyException` : The operation failed because Amazon GameLift Servers has not yet finished validating this compute. We recommend attempting 8 to 10 retries over 3 to 5 minutes with [exponential backoffs and jitter](http://aws.amazon.com/blogs/https:/aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/).
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSession(input: UpdateGameSessionInput) async throws -> UpdateGameSessionOutput {
@@ -10551,7 +10581,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateGameSessionQueue(input: UpdateGameSessionQueueInput) async throws -> UpdateGameSessionQueueOutput {
         var config = config
@@ -10631,7 +10661,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnsupportedRegionException` : The requested operation is not supported in the Region specified.
     public func updateMatchmakingConfiguration(input: UpdateMatchmakingConfigurationInput) async throws -> UpdateMatchmakingConfigurationOutput {
         var config = config
@@ -10713,7 +10743,7 @@ extension GameLiftClient {
     /// - `InvalidFleetStatusException` : The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     /// - `LimitExceededException` : The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateRuntimeConfiguration(input: UpdateRuntimeConfigurationInput) async throws -> UpdateRuntimeConfigurationOutput {
         var config = config
@@ -10793,7 +10823,7 @@ extension GameLiftClient {
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     /// - `InvalidRequestException` : One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
-    /// - `NotFoundException` : The requested resources was not found. The resource was either not created yet or deleted.
+    /// - `NotFoundException` : The requested resource was not found. The resource was either not created yet or deleted.
     /// - `UnauthorizedException` : The client failed authentication. Clients should not retry such requests.
     public func updateScript(input: UpdateScriptInput) async throws -> UpdateScriptOutput {
         var config = config

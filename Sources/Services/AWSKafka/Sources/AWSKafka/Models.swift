@@ -1921,6 +1921,22 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Details for mTLS client authentication.
+    public struct KafkaClusterMTLSAuthentication: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// The SASL/SCRAM authentication mechanism.
     public enum KafkaClusterSaslScramMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sha256
@@ -1974,13 +1990,16 @@ extension KafkaClientTypes {
 
     /// Details of the client authentication used by the Apache Kafka cluster.
     public struct KafkaClusterClientAuthentication: Swift.Sendable {
+        /// Details for mTLS client authentication.
+        public var mtls: KafkaClientTypes.KafkaClusterMTLSAuthentication?
         /// Details for SASL/SCRAM client authentication.
-        /// This member is required.
         public var saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication?
 
         public init(
+            mtls: KafkaClientTypes.KafkaClusterMTLSAuthentication? = nil,
             saslScram: KafkaClientTypes.KafkaClusterSaslScramAuthentication? = nil
         ) {
+            self.mtls = mtls
             self.saslScram = saslScram
         }
     }
@@ -9906,6 +9925,7 @@ extension KafkaClientTypes.KafkaClusterClientAuthentication {
 
     static func write(value: KafkaClientTypes.KafkaClusterClientAuthentication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mTLS"].write(value.mtls, with: KafkaClientTypes.KafkaClusterMTLSAuthentication.write(value:to:))
         try writer["saslScram"].write(value.saslScram, with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.write(value:to:))
     }
 
@@ -9913,6 +9933,7 @@ extension KafkaClientTypes.KafkaClusterClientAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.KafkaClusterClientAuthentication()
         value.saslScram = try reader["saslScram"].readIfPresent(with: KafkaClientTypes.KafkaClusterSaslScramAuthentication.read(from:))
+        value.mtls = try reader["mTLS"].readIfPresent(with: KafkaClientTypes.KafkaClusterMTLSAuthentication.read(from:))
         return value
     }
 }
@@ -9962,6 +9983,21 @@ extension KafkaClientTypes.KafkaClusterEncryptionInTransit {
         var value = KafkaClientTypes.KafkaClusterEncryptionInTransit()
         value.encryptionType = try reader["encryptionType"].readIfPresent() ?? .sdkUnknown("")
         value.rootCaCertificate = try reader["rootCaCertificate"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterMTLSAuthentication {
+
+    static func write(value: KafkaClientTypes.KafkaClusterMTLSAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterMTLSAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterMTLSAuthentication()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
     }
 }

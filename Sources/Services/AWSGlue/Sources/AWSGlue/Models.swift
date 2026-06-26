@@ -795,38 +795,38 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct AssociateGlossaryTermsInput: Swift.Sendable {
+    /// The unique identifier of the asset to associate glossary terms with.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The list of glossary term identifiers to associate with the asset.
     /// This member is required.
     public var glossaryTermIdentifiers: [Swift.String]?
-    /// The unique identifier of the asset to associate glossary terms with.
-    /// This member is required.
-    public var identifier: Swift.String?
 
     public init(
+        assetIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        glossaryTermIdentifiers: [Swift.String]? = nil,
-        identifier: Swift.String? = nil
+        glossaryTermIdentifiers: [Swift.String]? = nil
     ) {
+        self.assetIdentifier = assetIdentifier
         self.clientToken = clientToken
         self.glossaryTermIdentifiers = glossaryTermIdentifiers
-        self.identifier = identifier
     }
 }
 
 public struct AssociateGlossaryTermsOutput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    public var assetIdentifier: Swift.String?
     /// The glossary terms now associated with the asset.
     public var glossaryTerms: [Swift.String]?
-    /// The unique identifier of the asset.
-    public var identifier: Swift.String?
 
     public init(
-        glossaryTerms: [Swift.String]? = nil,
-        identifier: Swift.String? = nil
+        assetIdentifier: Swift.String? = nil,
+        glossaryTerms: [Swift.String]? = nil
     ) {
+        self.assetIdentifier = assetIdentifier
         self.glossaryTerms = glossaryTerms
-        self.identifier = identifier
     }
 }
 
@@ -15963,30 +15963,38 @@ public struct DeleteAssetTypeOutput: Swift.Sendable {
 }
 
 public struct DeleteAttachmentInput: Swift.Sendable {
+    /// The unique identifier of the asset from which to delete the attachment.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
     /// The name of the attachment to delete.
     /// This member is required.
     public var attachmentName: Swift.String?
-    /// The unique identifier of the asset from which to delete the attachment.
-    /// This member is required.
-    public var identifier: Swift.String?
+    /// The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    public var itemIdentifier: Swift.String?
+    /// The name of the iterable form. When specified along with itemIdentifier, the attachment is deleted from an item within the iterable form rather than from the asset itself.
+    public var iterableFormName: Swift.String?
 
     public init(
+        assetIdentifier: Swift.String? = nil,
         attachmentName: Swift.String? = nil,
-        identifier: Swift.String? = nil
+        itemIdentifier: Swift.String? = nil,
+        iterableFormName: Swift.String? = nil
     ) {
+        self.assetIdentifier = assetIdentifier
         self.attachmentName = attachmentName
-        self.identifier = identifier
+        self.itemIdentifier = itemIdentifier
+        self.iterableFormName = iterableFormName
     }
 }
 
 public struct DeleteAttachmentOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var identifier: Swift.String?
+    public var assetIdentifier: Swift.String?
 
     public init(
-        identifier: Swift.String? = nil
+        assetIdentifier: Swift.String? = nil
     ) {
-        self.identifier = identifier
+        self.assetIdentifier = assetIdentifier
     }
 }
 
@@ -18047,38 +18055,38 @@ public struct DescribeIntegrationsOutput: Swift.Sendable {
 }
 
 public struct DisassociateGlossaryTermsInput: Swift.Sendable {
+    /// The unique identifier of the asset to disassociate glossary terms from.
+    /// This member is required.
+    public var assetIdentifier: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The list of glossary term identifiers to disassociate from the asset.
     /// This member is required.
     public var glossaryTermIdentifiers: [Swift.String]?
-    /// The unique identifier of the asset to disassociate glossary terms from.
-    /// This member is required.
-    public var identifier: Swift.String?
 
     public init(
+        assetIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        glossaryTermIdentifiers: [Swift.String]? = nil,
-        identifier: Swift.String? = nil
+        glossaryTermIdentifiers: [Swift.String]? = nil
     ) {
+        self.assetIdentifier = assetIdentifier
         self.clientToken = clientToken
         self.glossaryTermIdentifiers = glossaryTermIdentifiers
-        self.identifier = identifier
     }
 }
 
 public struct DisassociateGlossaryTermsOutput: Swift.Sendable {
+    /// The unique identifier of the asset.
+    public var assetIdentifier: Swift.String?
     /// The remaining glossary terms associated with the asset.
     public var glossaryTerms: [Swift.String]?
-    /// The unique identifier of the asset.
-    public var identifier: Swift.String?
 
     public init(
-        glossaryTerms: [Swift.String]? = nil,
-        identifier: Swift.String? = nil
+        assetIdentifier: Swift.String? = nil,
+        glossaryTerms: [Swift.String]? = nil
     ) {
+        self.assetIdentifier = assetIdentifier
         self.glossaryTerms = glossaryTerms
-        self.identifier = identifier
     }
 }
 
@@ -27495,7 +27503,7 @@ public struct PutAttachmentInput: Swift.Sendable {
 
 public struct PutAttachmentOutput: Swift.Sendable {
     /// The unique identifier of the asset.
-    public var assetId: Swift.String?
+    public var assetIdentifier: Swift.String?
     /// The name of the attachment.
     public var attachmentName: Swift.String?
     /// The identifier of the form type for this attachment.
@@ -27506,13 +27514,13 @@ public struct PutAttachmentOutput: Swift.Sendable {
     public var iterableFormName: Swift.String?
 
     public init(
-        assetId: Swift.String? = nil,
+        assetIdentifier: Swift.String? = nil,
         attachmentName: Swift.String? = nil,
         formTypeId: Swift.String? = nil,
         itemIdentifier: Swift.String? = nil,
         iterableFormName: Swift.String? = nil
     ) {
-        self.assetId = assetId
+        self.assetIdentifier = assetIdentifier
         self.attachmentName = attachmentName
         self.formTypeId = formTypeId
         self.itemIdentifier = itemIdentifier
@@ -28751,7 +28759,7 @@ extension GlueClientTypes {
     }
 }
 
-public struct SearchOutput: Swift.Sendable {
+public struct SearchAssetsOutput: Swift.Sendable {
     /// The list of assets matching the search criteria.
     public var items: [GlueClientTypes.SearchResultItem]?
     /// A continuation token, present if the current segment is not the last.
@@ -32718,7 +32726,7 @@ public struct GetTableVersionsOutput: Swift.Sendable {
     }
 }
 
-public struct SearchInput: Swift.Sendable {
+public struct SearchAssetsInput: Swift.Sendable {
     /// The filter clause to apply to the search. Supports nested AND/OR logic with attribute-level and map-level filters.
     public var filterClause: GlueClientTypes.SearchFilterClause?
     /// The maximum number of results to return in the response.

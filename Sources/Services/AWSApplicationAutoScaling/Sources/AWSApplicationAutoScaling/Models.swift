@@ -2223,7 +2223,9 @@ extension ApplicationAutoScalingClientTypes {
         case ec2spotfleetrequestaveragenetworkin
         case ec2spotfleetrequestaveragenetworkout
         case ecsserviceaveragecpuutilization
+        case ecsserviceaveragecpuutilizationhighresolution
         case ecsserviceaveragememoryutilization
+        case ecsserviceaveragememoryutilizationhighresolution
         case elasticachedatabasecapacityusagecountedforevictpercentage
         case elasticachedatabasememoryusagecountedforevictpercentage
         case elasticachedatabasememoryusagepercentage
@@ -2256,7 +2258,9 @@ extension ApplicationAutoScalingClientTypes {
                 .ec2spotfleetrequestaveragenetworkin,
                 .ec2spotfleetrequestaveragenetworkout,
                 .ecsserviceaveragecpuutilization,
+                .ecsserviceaveragecpuutilizationhighresolution,
                 .ecsserviceaveragememoryutilization,
+                .ecsserviceaveragememoryutilizationhighresolution,
                 .elasticachedatabasecapacityusagecountedforevictpercentage,
                 .elasticachedatabasememoryusagecountedforevictpercentage,
                 .elasticachedatabasememoryusagepercentage,
@@ -2295,7 +2299,9 @@ extension ApplicationAutoScalingClientTypes {
             case .ec2spotfleetrequestaveragenetworkin: return "EC2SpotFleetRequestAverageNetworkIn"
             case .ec2spotfleetrequestaveragenetworkout: return "EC2SpotFleetRequestAverageNetworkOut"
             case .ecsserviceaveragecpuutilization: return "ECSServiceAverageCPUUtilization"
+            case .ecsserviceaveragecpuutilizationhighresolution: return "ECSServiceAverageCPUUtilizationHighResolution"
             case .ecsserviceaveragememoryutilization: return "ECSServiceAverageMemoryUtilization"
+            case .ecsserviceaveragememoryutilizationhighresolution: return "ECSServiceAverageMemoryUtilizationHighResolution"
             case .elasticachedatabasecapacityusagecountedforevictpercentage: return "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage"
             case .elasticachedatabasememoryusagecountedforevictpercentage: return "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
             case .elasticachedatabasememoryusagepercentage: return "ElastiCacheDatabaseMemoryUsagePercentage"
@@ -2323,7 +2329,13 @@ extension ApplicationAutoScalingClientTypes {
 
     /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. For more information, [Predefined metrics for target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html#predefined-metrics) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification: Swift.Sendable {
-        /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
+        /// The metric type. The following are notes about specific metric types:
+        ///
+        /// * ALBRequestCountPerTarget - This metric type applies only to Spot Fleets and ECS services.
+        ///
+        /// * ECSServiceAverageCPUUtilizationHighResolution - The high-resolution version of ECSServiceAverageCPUUtilization that uses 20-second CloudWatch metrics. Use this metric for target tracking scaling policies that evaluate metrics every 20 seconds. You must enable high-resolution metrics in Amazon ECS before creating a scaling policy with this metric type.
+        ///
+        /// * ECSServiceAverageMemoryUtilizationHighResolution - The high-resolution version of ECSServiceAverageMemoryUtilization that uses 20-second CloudWatch metrics. Use this metric for target tracking scaling policies that evaluate metrics every 20 seconds. You must enable high-resolution metrics in Amazon ECS before creating a scaling policy with this metric type.
         /// This member is required.
         public var predefinedMetricType: ApplicationAutoScalingClientTypes.MetricType?
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot Fleet or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is: app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:

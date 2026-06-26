@@ -1487,6 +1487,7 @@ extension EKSClientTypes {
         case clusterLogging
         case computeConfig
         case configurationValues
+        case controlPlaneEgressMode
         case deletionProtection
         case desiredSize
         case encryptionConfig
@@ -1541,6 +1542,7 @@ extension EKSClientTypes {
                 .clusterLogging,
                 .computeConfig,
                 .configurationValues,
+                .controlPlaneEgressMode,
                 .deletionProtection,
                 .desiredSize,
                 .encryptionConfig,
@@ -1601,6 +1603,7 @@ extension EKSClientTypes {
             case .clusterLogging: return "ClusterLogging"
             case .computeConfig: return "ComputeConfig"
             case .configurationValues: return "ConfigurationValues"
+            case .controlPlaneEgressMode: return "ControlPlaneEgressMode"
             case .deletionProtection: return "DeletionProtection"
             case .desiredSize: return "DesiredSize"
             case .encryptionConfig: return "EncryptionConfig"
@@ -1716,6 +1719,7 @@ extension EKSClientTypes {
         case autoModeUpdate
         case capabilityUpdate
         case configUpdate
+        case controlPlaneEgressUpdate
         case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
         case disassociateIdentityProviderConfig
@@ -1738,6 +1742,7 @@ extension EKSClientTypes {
                 .autoModeUpdate,
                 .capabilityUpdate,
                 .configUpdate,
+                .controlPlaneEgressUpdate,
                 .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
                 .disassociateIdentityProviderConfig,
@@ -1766,6 +1771,7 @@ extension EKSClientTypes {
             case .autoModeUpdate: return "AutoModeUpdate"
             case .capabilityUpdate: return "CapabilityUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneEgressUpdate: return "ControlPlaneEgressUpdate"
             case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
@@ -2974,8 +2980,42 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum ControlPlaneEgressModeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerIsolated
+        case customerRouted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlPlaneEgressModeType] {
+            return [
+                .awsManaged,
+                .customerIsolated,
+                .customerRouted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerIsolated: return "CUSTOMER_ISOLATED"
+            case .customerRouted: return "CUSTOMER_ROUTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// An object representing the VPC configuration to use for an Amazon EKS cluster.
     public struct VpcConfigRequest: Swift.Sendable {
+        /// Specifies the control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane and you don't need to configure NAT gateways or other routing infrastructure for control plane traffic. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets. You are responsible for ensuring that the control plane can reach required endpoints such as webhook servers and OIDC providers. The default value is AWS_MANAGED. Once set to CUSTOMER_ROUTED, this setting cannot be changed back to AWS_MANAGED on the same cluster. [Learn more about control plane egress routing in the Amazon EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html)
+        public var controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType?
         /// Set this value to true to enable private access for your cluster's Kubernetes API server endpoint. If you enable private access, Kubernetes API requests from within your cluster's VPC use the private VPC endpoint. The default value for this parameter is false, which disables private access for your Kubernetes API server. If you disable private access and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var endpointPrivateAccess: Swift.Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
@@ -2988,12 +3028,14 @@ extension EKSClientTypes {
         public var subnetIds: [Swift.String]?
 
         public init(
+            controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType? = nil,
             endpointPrivateAccess: Swift.Bool? = nil,
             endpointPublicAccess: Swift.Bool? = nil,
             publicAccessCidrs: [Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -3514,6 +3556,8 @@ extension EKSClientTypes {
     public struct VpcConfigResponse: Swift.Sendable {
         /// The cluster security group that was created by Amazon EKS for the cluster. Managed node groups use this security group for control-plane-to-data-plane communication.
         public var clusterSecurityGroupId: Swift.String?
+        /// The current control plane egress routing mode for the cluster. If the cluster is set to AWS_MANAGED, Amazon EKS manages the egress path from the control plane. If the cluster is set to CUSTOMER_ROUTED, you manage the egress path from the control plane in your VPC subnets. [Learn more about control plane egress routing in the Amazon EKS User Guide.](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-egress.html)
+        public var controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType?
         /// This parameter indicates whether the Amazon EKS private API server endpoint is enabled. If the Amazon EKS private API server endpoint is enabled, Kubernetes API requests that originate from within your cluster's VPC use the private VPC endpoint instead of traversing the internet. If this value is disabled and you have nodes or Fargate pods in the cluster, then ensure that publicAccessCidrs includes the necessary CIDR blocks for communication with the nodes or Fargate pods. For more information, see [Cluster API server endpoint](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide .
         public var endpointPrivateAccess: Swift.Bool
         /// Whether the public API server endpoint is enabled.
@@ -3529,6 +3573,7 @@ extension EKSClientTypes {
 
         public init(
             clusterSecurityGroupId: Swift.String? = nil,
+            controlPlaneEgressMode: EKSClientTypes.ControlPlaneEgressModeType? = nil,
             endpointPrivateAccess: Swift.Bool = false,
             endpointPublicAccess: Swift.Bool = false,
             publicAccessCidrs: [Swift.String]? = nil,
@@ -3537,6 +3582,7 @@ extension EKSClientTypes {
             vpcId: Swift.String? = nil
         ) {
             self.clusterSecurityGroupId = clusterSecurityGroupId
+            self.controlPlaneEgressMode = controlPlaneEgressMode
             self.endpointPrivateAccess = endpointPrivateAccess
             self.endpointPublicAccess = endpointPublicAccess
             self.publicAccessCidrs = publicAccessCidrs
@@ -7683,7 +7729,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var name: Swift.String?
     /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     public var remoteNetworkConfig: EKSClientTypes.RemoteNetworkConfigRequest?
-    /// An object representing the VPC configuration to use for an Amazon EKS cluster.
+    /// An object representing the VPC configuration to use for the cluster update. You can use this parameter to update the control plane egress mode, the subnets used by the cluster, the security groups, and the endpoint access settings.
     public var resourcesVpcConfig: EKSClientTypes.VpcConfigRequest?
     /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
     public var storageConfig: EKSClientTypes.StorageConfigRequest?
@@ -13008,6 +13054,7 @@ extension EKSClientTypes.VpcConfigRequest {
 
     static func write(value: EKSClientTypes.VpcConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["controlPlaneEgressMode"].write(value.controlPlaneEgressMode)
         try writer["endpointPrivateAccess"].write(value.endpointPrivateAccess)
         try writer["endpointPublicAccess"].write(value.endpointPublicAccess)
         try writer["publicAccessCidrs"].writeList(value.publicAccessCidrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13028,6 +13075,7 @@ extension EKSClientTypes.VpcConfigResponse {
         value.endpointPublicAccess = try reader["endpointPublicAccess"].readIfPresent() ?? false
         value.endpointPrivateAccess = try reader["endpointPrivateAccess"].readIfPresent() ?? false
         value.publicAccessCidrs = try reader["publicAccessCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controlPlaneEgressMode = try reader["controlPlaneEgressMode"].readIfPresent()
         return value
     }
 }
