@@ -508,7 +508,7 @@ public struct CreateEntitlementOutput: Swift.Sendable {
 
 extension EvsClientTypes {
 
-    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
+    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network. Not supported when vcfVersion is SELF_DEPLOYED.
     public struct ConnectivityInfo: Swift.Sendable {
         /// The unique IDs for private route server peers.
         /// This member is required.
@@ -714,12 +714,12 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// The DNS hostnames that Amazon EVS uses to install VMware vCenter Server, NSX, SDDC Manager, and Cloud Builder. Each hostname must be unique, and resolve to a domain name that you've registered in your DNS service of choice. Hostnames cannot be changed. VMware VCF requires the deployment of two NSX Edge nodes, and three NSX Manager virtual machines.
+    /// The DNS hostnames that Amazon EVS uses to install VMware vCenter Server, NSX, SDDC Manager, and Cloud Builder. Each hostname must be unique, and resolve to a domain name that you've registered in your DNS service of choice. Hostnames cannot be changed. VMware VCF requires the deployment of two NSX Edge nodes, and three NSX Manager virtual machines. Not supported when vcfVersion is SELF_DEPLOYED.
     public struct VcfHostnames: Swift.Sendable {
         /// The hostname for VMware Cloud Builder.
         /// This member is required.
         public var cloudBuilder: Swift.String?
-        /// The VMware NSX hostname.
+        /// The VMware NSX Virtual IP (VIP) hostname.
         /// This member is required.
         public var nsx: Swift.String?
         /// The hostname for the first NSX Edge node.
@@ -771,12 +771,14 @@ extension EvsClientTypes {
 extension EvsClientTypes {
 
     public enum VcfVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfDeployed
         case vcf521
         case vcf522
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VcfVersion] {
             return [
+                .selfDeployed,
                 .vcf521,
                 .vcf522
             ]
@@ -789,6 +791,7 @@ extension EvsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .selfDeployed: return "SELF_DEPLOYED"
             case .vcf521: return "VCF-5.2.1"
             case .vcf522: return "VCF-5.2.2"
             case let .sdkUnknown(s): return s
@@ -800,21 +803,18 @@ extension EvsClientTypes {
 public struct CreateEnvironmentInput: Swift.Sendable {
     /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
-    /// This member is required.
+    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks. Not supported when vcfVersion is SELF_DEPLOYED.
     public var connectivityInfo: EvsClientTypes.ConnectivityInfo?
     /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
     public var environmentName: Swift.String?
-    /// The ESX hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
-    /// This member is required.
+    /// The ESX hosts to add to the environment. For each host, provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, provide a partition or cluster placement group, or use Amazon EC2 Dedicated Hosts. Not supported when vcfVersion is SELF_DEPLOYED. In that case, you can add hosts using CreateEnvironmentHost after the environment is created.
     public var hosts: [EvsClientTypes.HostInfoForCreate]?
     /// The initial VLAN subnets for the Amazon EVS environment. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     /// This member is required.
     public var initialVlans: EvsClientTypes.InitialVlans?
     /// A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
     public var kmsKeyId: Swift.String?
-    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see [the VCF subscriptions section](https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html) in the Amazon EVS User Guide. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
-    /// This member is required.
+    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see [the VCF subscriptions section](https://docs.aws.amazon.com/evs/latest/userguide/vcf-license-mgmt.html) in the Amazon EVS User Guide. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal. Not supported when vcfVersion is SELF_DEPLOYED.
     public var licenseInfo: [EvsClientTypes.LicenseInfo]?
     /// The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.
     ///
@@ -827,21 +827,23 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     ///
     /// You should avoid modifying the security group rules after deployment, as this can break the persistent connection between the Amazon EVS control plane and VPC. This can cause future environment actions like adding or removing hosts to fail.
     public var serviceAccessSecurityGroups: EvsClientTypes.ServiceAccessSecurityGroups?
-    /// The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. Amazon EVS uses this subnet to validate mandatory DNS records for your VCF appliances and hosts and create the environment.
+    /// The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. The Amazon EVS control plane uses this subnet to interface with your environment. This includes validating DNS records and enabling Amazon EVS Connectors.
     /// This member is required.
     public var serviceAccessSubnetId: Swift.String?
-    /// The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
-    /// This member is required.
+    /// The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS. Not supported when vcfVersion is SELF_DEPLOYED.
     public var siteId: Swift.String?
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     public var tags: [Swift.String: Swift.String]?
-    /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
+    /// Confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
     /// This member is required.
     public var termsAccepted: Swift.Bool?
-    /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
-    /// This member is required.
+    /// The DNS hostnames for the virtual machines that host the VCF management appliances. Provide hostnames for vCenter, NSX Manager, SDDC Manager, and Cloud Builder. Not supported when vcfVersion is SELF_DEPLOYED.
     public var vcfHostnames: EvsClientTypes.VcfHostnames?
     /// The VCF version to use for the environment.
+    ///
+    /// * SELF_DEPLOYED: You install VCF yourself. The licenseInfo, hosts, vcfHostnames, siteId, and connectivityInfo parameters are not supported.
+    ///
+    /// * Any other valid value: Amazon EVS installs and configures VCF for you in the version you specify.
     /// This member is required.
     public var vcfVersion: EvsClientTypes.VcfVersion?
     /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations. Ensure that you specify a VPC that is adequately sized to accommodate the Amazon EVS subnets.
@@ -918,10 +920,16 @@ extension EvsClientTypes {
 extension EvsClientTypes {
 
     public enum CheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connectorHealth
         case hostCount
         case keyCoverage
         case keyReuse
+        case operationsManagerReachability
         case reachability
+        case sddcManagerHostCount
+        case sddcManagerKeyCoverage
+        case sddcManagerKeyReuse
+        case sddcManagerReachability
         case vcenterReachability
         case vcenterVmEvent
         case vcenterVmSync
@@ -929,10 +937,16 @@ extension EvsClientTypes {
 
         public static var allCases: [CheckType] {
             return [
+                .connectorHealth,
                 .hostCount,
                 .keyCoverage,
                 .keyReuse,
+                .operationsManagerReachability,
                 .reachability,
+                .sddcManagerHostCount,
+                .sddcManagerKeyCoverage,
+                .sddcManagerKeyReuse,
+                .sddcManagerReachability,
                 .vcenterReachability,
                 .vcenterVmEvent,
                 .vcenterVmSync
@@ -946,10 +960,16 @@ extension EvsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .connectorHealth: return "CONNECTOR_HEALTH"
             case .hostCount: return "HOST_COUNT"
             case .keyCoverage: return "KEY_COVERAGE"
             case .keyReuse: return "KEY_REUSE"
+            case .operationsManagerReachability: return "OPERATIONS_MANAGER_REACHABILITY"
             case .reachability: return "REACHABILITY"
+            case .sddcManagerHostCount: return "SDDC_MANAGER_HOST_COUNT"
+            case .sddcManagerKeyCoverage: return "SDDC_MANAGER_KEY_COVERAGE"
+            case .sddcManagerKeyReuse: return "SDDC_MANAGER_KEY_REUSE"
+            case .sddcManagerReachability: return "SDDC_MANAGER_REACHABILITY"
             case .vcenterReachability: return "VCENTER_REACHABILITY"
             case .vcenterVmEvent: return "VCENTER_VM_EVENT"
             case .vcenterVmSync: return "VCENTER_VM_SYNC"
@@ -963,26 +983,48 @@ extension EvsClientTypes {
 
     /// A check on the environment to identify environment health and validate VMware VCF licensing compliance.
     public struct Check: Swift.Sendable {
+        /// A unique ID for the check.
+        public var id: Swift.String?
         /// The time when environment health began to be impaired.
         public var impairedSince: Foundation.Date?
         /// The check result.
         public var result: EvsClientTypes.CheckResult?
-        /// The check type. Amazon EVS performs the following checks.
+        /// The check type. Amazon EVS performs the following checks:
         ///
-        /// * KEY_REUSE: checks that the VCF license key is not used by another Amazon EVS environment. This check fails if a used license is added to the environment.
+        /// * KEY_REUSE: Verifies that the VCF license key is not used by another Amazon EVS environment.
         ///
-        /// * KEY_COVERAGE: checks that your VCF license key allocates sufficient vCPU cores for all deployed hosts. The check fails when any assigned hosts in the EVS environment are not covered by license keys, or when any unassigned hosts cannot be covered by available vCPU cores in keys.
+        /// * KEY_COVERAGE: Verifies that the VCF license key allocates sufficient vCPU cores for all deployed hosts.
         ///
-        /// * REACHABILITY: checks that the Amazon EVS control plane has a persistent connection to SDDC Manager. If Amazon EVS cannot reach the environment, this check fails.
+        /// * REACHABILITY: Verifies that the Amazon EVS control plane has a persistent connection to SDDC Manager.
         ///
-        /// * HOST_COUNT: Checks that your environment has a minimum of 4 hosts. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-32 hosts.
+        /// * HOST_COUNT: Verifies that the environment meets the minimum host count.
+        ///
+        /// * VCENTER_REACHABILITY: Verifies vCenter Server reachability through the vCenter connector.
+        ///
+        /// * VCENTER_VM_SYNC: Verifies that the vCenter connector can synchronize VM inventory from vCenter Server.
+        ///
+        /// * VCENTER_VM_EVENT: Verifies that the vCenter connector can receive VM lifecycle events from vCenter Server.
+        ///
+        /// * OPERATIONS_MANAGER_REACHABILITY: Verifies Operations Manager reachability through the Operations Manager connector.
+        ///
+        /// * SDDC_MANAGER_REACHABILITY: Verifies SDDC Manager reachability through the SDDC Manager connector.
+        ///
+        /// * SDDC_MANAGER_HOST_COUNT: Verifies that the host count reported by SDDC Manager meets Amazon EVS minimum requirements.
+        ///
+        /// * SDDC_MANAGER_KEY_COVERAGE: Verifies that the VCF license key configured in SDDC Manager covers all deployed hosts.
+        ///
+        /// * SDDC_MANAGER_KEY_REUSE: Verifies that the VCF license key configured in SDDC Manager is not used by another Amazon EVS environment.
+        ///
+        /// * CONNECTOR_HEALTH: Aggregate health across all connectors in the environment.
         public var type: EvsClientTypes.CheckType?
 
         public init(
+            id: Swift.String? = nil,
             impairedSince: Foundation.Date? = nil,
             result: EvsClientTypes.CheckResult? = nil,
             type: EvsClientTypes.CheckType? = nil
         ) {
+            self.id = id
             self.impairedSince = impairedSince
             self.result = result
             self.type = type
@@ -1047,7 +1089,7 @@ extension EvsClientTypes {
 
     /// An object that represents an Amazon EVS environment.
     public struct Environment: Swift.Sendable {
-        /// A check on the environment to identify instance health and VMware VCF licensing issues.
+        /// A check on the environment to identify connector health.
         public var checks: [EvsClientTypes.Check]?
         /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
         public var connectivityInfo: EvsClientTypes.ConnectivityInfo?
@@ -1148,11 +1190,15 @@ public struct CreateEnvironmentOutput: Swift.Sendable {
 extension EvsClientTypes {
 
     public enum ConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case operationsManager
+        case sddcManager
         case vcenter
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectorType] {
             return [
+                .operationsManager,
+                .sddcManager,
                 .vcenter
             ]
         }
@@ -1164,6 +1210,8 @@ extension EvsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .operationsManager: return "OPERATIONS_MANAGER"
+            case .sddcManager: return "SDDC_MANAGER"
             case .vcenter: return "VCENTER"
             case let .sdkUnknown(s): return s
             }
@@ -1180,10 +1228,16 @@ public struct CreateEnvironmentConnectorInput: Swift.Sendable {
     /// A unique ID for the environment to create the connector in.
     /// This member is required.
     public var environmentId: Swift.String?
-    /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. Do not use credentials with Administrator privileges. We recommend using a service account with the minimum required permissions.
+    /// The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER requires an apiKey field; OPERATIONS_MANAGER and VCENTER require username and password fields. Do not use credentials with Administrator privileges. We recommend using a service account with read-only permissions.
     /// This member is required.
     public var secretIdentifier: Swift.String?
     /// The type of connector to create.
+    ///
+    /// * OPERATIONS_MANAGER: Connector to an Operations Manager appliance. Required for VCF 9x environments.
+    ///
+    /// * SDDC_MANAGER: Connector to an SDDC Manager appliance. Required for VCF 5.x environments.
+    ///
+    /// * VCENTER: Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server license-included.
     /// This member is required.
     public var type: EvsClientTypes.ConnectorType?
 
@@ -1275,7 +1329,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// An object that represents a connector for an Amazon EVS environment. A connector establishes a vCenter connection using the credentials stored in Amazon Web Services Secrets Manager.
+    /// An object that represents a connector for an Amazon EVS environment. A connector establishes a connection to the given appliance type using the credentials stored in Amazon Web Services Secrets Manager.
     public struct Connector: Swift.Sendable {
         /// The fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
         public var applianceFqdn: Swift.String?
@@ -1468,7 +1522,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// An ESX host that runs on an Amazon EC2 bare metal instance. Four hosts are created in an Amazon EVS environment during environment creation. You can add hosts to an environment using the CreateEnvironmentHost operation. Amazon EVS supports 4-32 hosts per environment.
+    /// An ESX host that runs on an Amazon EC2 bare metal instance.
     public struct Host: Swift.Sendable {
         /// The date and time that the host was created.
         public var createdAt: Foundation.Date?

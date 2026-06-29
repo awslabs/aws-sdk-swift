@@ -166,6 +166,106 @@ extension PaginatorSequence where OperationStackInput == ListEnvironmentsInput, 
     }
 }
 extension AppConfigClient {
+    /// Paginate over `[ListExperimentDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExperimentDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentDefinitionsOutput`
+    public func listExperimentDefinitionsPaginated(input: ListExperimentDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListExperimentDefinitionsInput, ListExperimentDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExperimentDefinitionsInput, ListExperimentDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperimentDefinitions(input:))
+    }
+}
+
+extension ListExperimentDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExperimentDefinitionsInput {
+        return ListExperimentDefinitionsInput(
+            applicationIdentifier: self.applicationIdentifier,
+            configurationProfileIdentifier: self.configurationProfileIdentifier,
+            environmentIdentifier: self.environmentIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExperimentDefinitionsInput, OperationStackOutput == ListExperimentDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentDefinitionsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExperimentDefinitionSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExperimentDefinitionSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExperimentDefinitionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension AppConfigClient {
+    /// Paginate over `[ListExperimentRunEventsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExperimentRunEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentRunEventsOutput`
+    public func listExperimentRunEventsPaginated(input: ListExperimentRunEventsInput) -> ClientRuntime.PaginatorSequence<ListExperimentRunEventsInput, ListExperimentRunEventsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExperimentRunEventsInput, ListExperimentRunEventsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperimentRunEvents(input:))
+    }
+}
+
+extension ListExperimentRunEventsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExperimentRunEventsInput {
+        return ListExperimentRunEventsInput(
+            applicationIdentifier: self.applicationIdentifier,
+            experimentDefinitionIdentifier: self.experimentDefinitionIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            run: self.run
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExperimentRunEventsInput, OperationStackOutput == ListExperimentRunEventsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentRunEventsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExperimentRunEvent]`
+    /// - Returns: `[AppConfigClientTypes.ExperimentRunEvent]`
+    public func items() async throws -> [AppConfigClientTypes.ExperimentRunEvent] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension AppConfigClient {
+    /// Paginate over `[ListExperimentRunsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExperimentRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExperimentRunsOutput`
+    public func listExperimentRunsPaginated(input: ListExperimentRunsInput) -> ClientRuntime.PaginatorSequence<ListExperimentRunsInput, ListExperimentRunsOutput> {
+        return ClientRuntime.PaginatorSequence<ListExperimentRunsInput, ListExperimentRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExperimentRuns(input:))
+    }
+}
+
+extension ListExperimentRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExperimentRunsInput {
+        return ListExperimentRunsInput(
+            applicationIdentifier: self.applicationIdentifier,
+            experimentDefinitionIdentifier: self.experimentDefinitionIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExperimentRunsInput, OperationStackOutput == ListExperimentRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listExperimentRunsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExperimentRunSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExperimentRunSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExperimentRunSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension AppConfigClient {
     /// Paginate over `[ListExtensionAssociationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

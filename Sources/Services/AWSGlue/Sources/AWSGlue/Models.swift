@@ -30015,6 +30015,54 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateAssetInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The new description of the asset.
+    public var description: Swift.String?
+    /// The unique identifier of the asset to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The new name of the asset.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+public struct UpdateAssetOutput: Swift.Sendable {
+    /// The description of the asset.
+    public var description: Swift.String?
+    /// The unique identifier of the asset.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the asset.
+    public var name: Swift.String?
+    /// The timestamp at which the asset was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.description = description
+        self.id = id
+        self.name = name
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct UpdateBlueprintInput: Swift.Sendable {
     /// Specifies a path in Amazon S3 where the blueprint is published.
     /// This member is required.

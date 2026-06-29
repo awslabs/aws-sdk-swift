@@ -4193,6 +4193,38 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    /// The storage mode for a function's deployment package.
+    public enum S3ObjectStorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// COPY (default) uploads a copy of your deployment package to Lambda.
+        case copy
+        /// Lambda references the deployment package from the specified Amazon S3 bucket.
+        case reference
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3ObjectStorageMode] {
+            return [
+                .copy,
+                .reference
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .copy: return "COPY"
+            case .reference: return "REFERENCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// The code for the Lambda function. You can either specify an object in Amazon S3, upload a .zip file archive deployment package directly, or specify the URI of a container image.
     public struct FunctionCode: Swift.Sendable {
         /// URI of a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html) in the Amazon ECR registry.
@@ -4201,6 +4233,8 @@ extension LambdaClientTypes {
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the deployment package.
         public var s3Key: Swift.String?
+        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public var s3ObjectVersion: Swift.String?
         /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
@@ -4212,6 +4246,7 @@ extension LambdaClientTypes {
             imageUri: Swift.String? = nil,
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
+            s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode? = nil,
             s3ObjectVersion: Swift.String? = nil,
             sourceKMSKeyArn: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
@@ -4219,6 +4254,7 @@ extension LambdaClientTypes {
             self.imageUri = imageUri
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+            self.s3ObjectStorageMode = s3ObjectStorageMode
             self.s3ObjectVersion = s3ObjectVersion
             self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
@@ -4228,7 +4264,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes.FunctionCode: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FunctionCode(imageUri: \(Swift.String(describing: imageUri)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
+        "FunctionCode(imageUri: \(Swift.String(describing: imageUri)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectStorageMode: \(Swift.String(describing: s3ObjectStorageMode)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 extension LambdaClientTypes {
@@ -5913,8 +5949,57 @@ public struct GetFunctionInput: Swift.Sendable {
 
 extension LambdaClientTypes {
 
+    /// Details about an error related to retrieving a function's deployment package.
+    public struct FunctionCodeLocationError: Swift.Sendable {
+        /// The error code for the failed retrieval.
+        public var errorCode: Swift.String?
+        /// A description of the error.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+}
+
+extension LambdaClientTypes.FunctionCodeLocationError: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FunctionCodeLocationError(errorCode: \(Swift.String(describing: errorCode)), message: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+
+    /// Details about the resolved Amazon S3 object that contains a function's deployment package.
+    public struct ResolvedS3Object: Swift.Sendable {
+        /// The Amazon S3 bucket that contains the deployment package.
+        public var s3Bucket: Swift.String?
+        /// The Amazon S3 key of the deployment package.
+        public var s3Key: Swift.String?
+        /// The version of the deployment package object.
+        public var s3ObjectVersion: Swift.String?
+
+        public init(
+            s3Bucket: Swift.String? = nil,
+            s3Key: Swift.String? = nil,
+            s3ObjectVersion: Swift.String? = nil
+        ) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// Details about a function's deployment package.
     public struct FunctionCodeLocation: Swift.Sendable {
+        /// An object that contains details about an error related to function deployment package retrieval.
+        public var error: LambdaClientTypes.FunctionCodeLocationError?
         /// URI of a container image in the Amazon ECR registry.
         public var imageUri: Swift.String?
         /// A presigned URL that you can use to download the deployment package.
@@ -5923,20 +6008,26 @@ extension LambdaClientTypes {
         public var repositoryType: Swift.String?
         /// The resolved URI for the image.
         public var resolvedImageUri: Swift.String?
+        /// The resolved Amazon S3 object that contains the deployment package.
+        public var resolvedS3Object: LambdaClientTypes.ResolvedS3Object?
         /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk).
         public var sourceKMSKeyArn: Swift.String?
 
         public init(
+            error: LambdaClientTypes.FunctionCodeLocationError? = nil,
             imageUri: Swift.String? = nil,
             location: Swift.String? = nil,
             repositoryType: Swift.String? = nil,
             resolvedImageUri: Swift.String? = nil,
+            resolvedS3Object: LambdaClientTypes.ResolvedS3Object? = nil,
             sourceKMSKeyArn: Swift.String? = nil
         ) {
+            self.error = error
             self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
             self.resolvedImageUri = resolvedImageUri
+            self.resolvedS3Object = resolvedS3Object
             self.sourceKMSKeyArn = sourceKMSKeyArn
         }
     }
@@ -8660,6 +8751,8 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
     public var s3Bucket: Swift.String?
     /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
     public var s3Key: Swift.String?
+    /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+    public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
     /// For versioned objects, the version of the deployment package object to use.
     public var s3ObjectVersion: Swift.String?
     /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
@@ -8677,6 +8770,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         s3Bucket: Swift.String? = nil,
         s3Key: Swift.String? = nil,
+        s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode? = nil,
         s3ObjectVersion: Swift.String? = nil,
         sourceKMSKeyArn: Swift.String? = nil,
         zipFile: Foundation.Data? = nil
@@ -8690,6 +8784,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
         self.revisionId = revisionId
         self.s3Bucket = s3Bucket
         self.s3Key = s3Key
+        self.s3ObjectStorageMode = s3ObjectStorageMode
         self.s3ObjectVersion = s3ObjectVersion
         self.sourceKMSKeyArn = sourceKMSKeyArn
         self.zipFile = zipFile
@@ -8698,7 +8793,7 @@ public struct UpdateFunctionCodeInput: Swift.Sendable {
 
 extension UpdateFunctionCodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), publishTo: \(Swift.String(describing: publishTo)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
+        "UpdateFunctionCodeInput(architectures: \(Swift.String(describing: architectures)), dryRun: \(Swift.String(describing: dryRun)), functionName: \(Swift.String(describing: functionName)), imageUri: \(Swift.String(describing: imageUri)), publish: \(Swift.String(describing: publish)), publishTo: \(Swift.String(describing: publishTo)), revisionId: \(Swift.String(describing: revisionId)), s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectStorageMode: \(Swift.String(describing: s3ObjectStorageMode)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), sourceKMSKeyArn: \(Swift.String(describing: sourceKMSKeyArn)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 /// Details about a function's configuration.
@@ -10977,6 +11072,8 @@ extension LambdaClientTypes {
         public var codeSize: Swift.Int
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public var location: Swift.String?
+        /// Details about the resolved Amazon S3 object that contains a function's deployment package.
+        public var resolvedS3Object: LambdaClientTypes.ResolvedS3Object?
         /// The Amazon Resource Name (ARN) of a signing job.
         public var signingJobArn: Swift.String?
         /// The Amazon Resource Name (ARN) for a signing profile version.
@@ -10986,12 +11083,14 @@ extension LambdaClientTypes {
             codeSha256: Swift.String? = nil,
             codeSize: Swift.Int = 0,
             location: Swift.String? = nil,
+            resolvedS3Object: LambdaClientTypes.ResolvedS3Object? = nil,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil
         ) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.location = location
+            self.resolvedS3Object = resolvedS3Object
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
         }
@@ -11179,6 +11278,8 @@ extension LambdaClientTypes {
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the layer archive.
         public var s3Key: Swift.String?
+        /// The storage mode for a function's deployment package.
+        public var s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode?
         /// For versioned objects, the version of the layer archive object to use.
         public var s3ObjectVersion: Swift.String?
         /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
@@ -11187,11 +11288,13 @@ extension LambdaClientTypes {
         public init(
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
+            s3ObjectStorageMode: LambdaClientTypes.S3ObjectStorageMode? = nil,
             s3ObjectVersion: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
         ) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+            self.s3ObjectStorageMode = s3ObjectStorageMode
             self.s3ObjectVersion = s3ObjectVersion
             self.zipFile = zipFile
         }
@@ -11200,7 +11303,7 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes.LayerVersionContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LayerVersionContentInput(s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
+        "LayerVersionContentInput(s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectStorageMode: \(Swift.String(describing: s3ObjectStorageMode)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
 }
 
 public struct PublishLayerVersionInput: Swift.Sendable {
@@ -13994,6 +14097,7 @@ extension UpdateFunctionCodeInput {
         try writer["RevisionId"].write(value.revisionId)
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectStorageMode"].write(value.s3ObjectStorageMode)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
         try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
         try writer["ZipFile"].write(value.zipFile)
@@ -18732,6 +18836,7 @@ extension LambdaClientTypes.FunctionCode {
         try writer["ImageUri"].write(value.imageUri)
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectStorageMode"].write(value.s3ObjectStorageMode)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
         try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
         try writer["ZipFile"].write(value.zipFile)
@@ -18747,7 +18852,20 @@ extension LambdaClientTypes.FunctionCodeLocation {
         value.location = try reader["Location"].readIfPresent()
         value.imageUri = try reader["ImageUri"].readIfPresent()
         value.resolvedImageUri = try reader["ResolvedImageUri"].readIfPresent()
+        value.resolvedS3Object = try reader["ResolvedS3Object"].readIfPresent(with: LambdaClientTypes.ResolvedS3Object.read(from:))
         value.sourceKMSKeyArn = try reader["SourceKMSKeyArn"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.FunctionCodeLocationError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionCodeLocationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionCodeLocationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionCodeLocationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -19057,6 +19175,7 @@ extension LambdaClientTypes.LayerVersionContentInput {
         guard let value else { return }
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectStorageMode"].write(value.s3ObjectStorageMode)
         try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
         try writer["ZipFile"].write(value.zipFile)
     }
@@ -19072,6 +19191,7 @@ extension LambdaClientTypes.LayerVersionContentOutput {
         value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
+        value.resolvedS3Object = try reader["ResolvedS3Object"].readIfPresent(with: LambdaClientTypes.ResolvedS3Object.read(from:))
         return value
     }
 }
@@ -19234,6 +19354,18 @@ extension LambdaClientTypes.ProvisionedPollerConfig {
         value.minimumPollers = try reader["MinimumPollers"].readIfPresent()
         value.maximumPollers = try reader["MaximumPollers"].readIfPresent()
         value.pollerGroupName = try reader["PollerGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ResolvedS3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ResolvedS3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ResolvedS3Object()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Key = try reader["S3Key"].readIfPresent()
+        value.s3ObjectVersion = try reader["S3ObjectVersion"].readIfPresent()
         return value
     }
 }

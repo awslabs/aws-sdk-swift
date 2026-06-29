@@ -82,6 +82,39 @@ extension CloudWatchClient {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func logAlarmExistsWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAlarmsInput, result: Swift.Result<DescribeAlarmsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "length(LogAlarms[]) > `0`"
+                // JMESPath comparator: "booleanEquals"
+                // JMESPath expected value: "true"
+                guard case .success(let output) = result else { return false }
+                let logAlarms = output.logAlarms
+                let count = Double(logAlarms?.count ?? 0)
+                let number = Double(0)
+                let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
+                return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeAlarmsInput, DescribeAlarmsOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the LogAlarmExists event on the describeAlarms operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeAlarmsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilLogAlarmExists(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAlarmsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAlarmsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.logAlarmExistsWaiterConfig(), operation: self.describeAlarms(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func alarmMuteRuleExistsWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<GetAlarmMuteRuleInput, GetAlarmMuteRuleOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: GetAlarmMuteRuleInput, result: Swift.Result<GetAlarmMuteRuleOutput, Swift.Error>) -> Bool in

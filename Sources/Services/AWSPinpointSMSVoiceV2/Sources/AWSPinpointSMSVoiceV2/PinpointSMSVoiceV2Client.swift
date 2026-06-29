@@ -2991,6 +2991,83 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteRcsMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Deletes an account-level monthly spending limit override for sending RCS messages. Deleting a spend limit override sets the EnforcedLimit to equal the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRcsMessageSpendLimitOverrideInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRcsMessageSpendLimitOverrideOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func deleteRcsMessageSpendLimitOverride(input: DeleteRcsMessageSpendLimitOverrideInput) async throws -> DeleteRcsMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.deleteRcsMessageSpendLimitOverrideOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRcsMessageSpendLimitOverride")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRcsMessageSpendLimitOverrideOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRcsMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.DeleteRcsMessageSpendLimitOverride"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Pinpoint SMS Voice V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRcsMessageSpendLimitOverrideInput, DeleteRcsMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRcsMessageSpendLimitOverride")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteRegistration` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Permanently delete an existing registration from your account.
@@ -7223,6 +7300,86 @@ extension PinpointSMSVoiceV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendRcsMessage` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Creates a new RCS message and sends it to a recipient's phone number. RCS messages support rich content including text, files, rich cards, and carousels with interactive suggested actions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendRcsMessageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendRcsMessageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time or it could be that the requested action isn't valid for the current state or configuration of the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ResourceNotFoundException` : A requested resource couldn't be found.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func sendRcsMessage(input: SendRcsMessageInput) async throws -> SendRcsMessageOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.sendRcsMessageOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendRcsMessage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendRcsMessageInput, SendRcsMessageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendRcsMessageInput, SendRcsMessageOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendRcsMessageInput, SendRcsMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendRcsMessageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendRcsMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendRcsMessageInput, SendRcsMessageOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SendRcsMessage"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendRcsMessageInput, SendRcsMessageOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendRcsMessageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendRcsMessageInput, SendRcsMessageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendRcsMessageInput, SendRcsMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Pinpoint SMS Voice V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendRcsMessageInput, SendRcsMessageOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendRcsMessage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SendTextMessage` operation on the `PinpointSMSVoiceV2` service.
     ///
     /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the End User Messaging SMS User Guide.
@@ -7837,6 +7994,83 @@ extension PinpointSMSVoiceV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetNotifyMessageSpendLimitOverride")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SetRcsMessageSpendLimitOverride` operation on the `PinpointSMSVoiceV2` service.
+    ///
+    /// Sets an account level monthly spend limit override for sending RCS messages. The requested spend limit must be less than or equal to the MaxLimit, which is set by Amazon Web Services.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SetRcsMessageSpendLimitOverrideInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SetRcsMessageSpendLimitOverrideOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient permissions to access the resource.
+    /// - `InternalServerException` : The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
+    /// - `ThrottlingException` : An error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : A validation exception for a field.
+    public func setRcsMessageSpendLimitOverride(input: SetRcsMessageSpendLimitOverrideInput) async throws -> SetRcsMessageSpendLimitOverrideOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = PinpointSMSVoiceV2Client.setRcsMessageSpendLimitOverrideOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "setRcsMessageSpendLimitOverride")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sms-voice")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SetRcsMessageSpendLimitOverrideOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Pinpoint SMS Voice V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SetRcsMessageSpendLimitOverrideOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>(overrides: ["X-Amz-Target": "PinpointSMSVoiceV2.SetRcsMessageSpendLimitOverride"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SetRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Pinpoint SMS Voice V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SetRcsMessageSpendLimitOverrideInput, SetRcsMessageSpendLimitOverrideOutput>(serviceID: serviceName, version: PinpointSMSVoiceV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PinpointSMSVoiceV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetRcsMessageSpendLimitOverride")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
