@@ -2321,9 +2321,9 @@ extension ImagebuilderClientTypes {
 
     /// The logging configuration that's defined for pipeline execution.
     public struct PipelineLoggingConfiguration: Swift.Sendable {
-        /// The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name.
+        /// Specifies the CloudWatch Logs log group name for image build logs. The log group name can contain alphanumeric characters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/imagebuilder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/imagebuilder/image-name.
         public var imageLogGroupName: Swift.String?
-        /// The log group name that Image Builder uses for the log output during creation of a new pipeline. If not specified, the pipeline log group name defaults to /aws/imagebuilder/pipeline/pipeline-name.
+        /// Specifies the CloudWatch Logs log group name for pipeline execution logs. The log group name can contain alphanumeric characters, hyphens, underscores, forward slashes, and periods, up to 512 characters. Log group names not starting with /aws/imagebuilder/ require an executionRole with CloudWatch Logs write permissions. If not specified, defaults to /aws/imagebuilder/pipeline/pipeline-name.
         public var pipelineLogGroupName: Swift.String?
 
         public init(
@@ -2450,7 +2450,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
-    /// Define logging configuration for the image build process.
+    /// Specifies the logging configuration for the image pipeline. Use this to define custom CloudWatch Logs log groups for your pipeline execution logs and image build logs. The service manages log groups with names starting with /aws/imagebuilder/ using the service-linked role. For custom log group names outside of this prefix, you must also provide an executionRole.
     public var loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration?
     /// The name of the image pipeline.
     /// This member is required.
@@ -2527,6 +2527,8 @@ public struct CreateImageRecipeInput: Swift.Sendable {
     public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
     /// Tags that are applied to the AMI that Image Builder creates during the Build phase prior to image distribution.
     public var amiTags: [Swift.String: Swift.String]?
+    /// The AMI watermark names to attach to the output AMI from this recipe. AMI watermarks are lineage markers. They automatically propagate to derivative AMIs when the source AMI is copied or distributed across Regions or accounts. AMI watermarks are supported only for image recipes. AMIs with watermarks cannot be made public.
+    public var amiWatermarks: [Swift.String]?
     /// The block device mappings of the image recipe.
     public var blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
@@ -2564,6 +2566,7 @@ public struct CreateImageRecipeInput: Swift.Sendable {
     public init(
         additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration? = nil,
         amiTags: [Swift.String: Swift.String]? = nil,
+        amiWatermarks: [Swift.String]? = nil,
         blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]? = nil,
         clientToken: Swift.String? = nil,
         components: [ImagebuilderClientTypes.ComponentConfiguration]? = nil,
@@ -2576,6 +2579,7 @@ public struct CreateImageRecipeInput: Swift.Sendable {
     ) {
         self.additionalInstanceConfiguration = additionalInstanceConfiguration
         self.amiTags = amiTags
+        self.amiWatermarks = amiWatermarks
         self.blockDeviceMappings = blockDeviceMappings
         self.clientToken = clientToken
         self.components = components
@@ -3740,15 +3744,15 @@ public struct DistributeImageInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+    /// The Amazon Resource Name (ARN) of the distribution configuration. The configuration defines target Regions, accounts, and AMI settings. The distribution configuration must be in the same Region as this operation.
     /// This member is required.
     public var distributionConfigurationArn: Swift.String?
-    /// The IAM role to use for the distribution.
+    /// The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute the image.
     /// This member is required.
     public var executionRole: Swift.String?
     /// The logging configuration for the distribution.
     public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
-    /// The source image Amazon Resource Name (ARN) to distribute.
+    /// The source image to distribute. Specify an AMI identifier, SSM parameter path, or Image Builder image Amazon Resource Name (ARN). When you specify an Image Builder image Amazon Resource Name (ARN), the image must be in the AVAILABLE state.
     /// This member is required.
     public var sourceImage: Swift.String?
     /// The tags to apply to the distributed image.
@@ -4080,6 +4084,8 @@ extension ImagebuilderClientTypes {
         public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
         /// Tags that are applied to the AMI that Image Builder creates during the Build phase prior to image distribution.
         public var amiTags: [Swift.String: Swift.String]?
+        /// The AMI watermark names attached to the output AMI from this recipe. AMI watermarks are lineage markers that automatically propagate to derivative AMIs when the source AMI is copied or distributed.
+        public var amiWatermarks: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the image recipe.
         public var arn: Swift.String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -4118,6 +4124,7 @@ extension ImagebuilderClientTypes {
         public init(
             additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration? = nil,
             amiTags: [Swift.String: Swift.String]? = nil,
+            amiWatermarks: [Swift.String]? = nil,
             arn: Swift.String? = nil,
             blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]? = nil,
             components: [ImagebuilderClientTypes.ComponentConfiguration]? = nil,
@@ -4134,6 +4141,7 @@ extension ImagebuilderClientTypes {
         ) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.amiTags = amiTags
+            self.amiWatermarks = amiWatermarks
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -8074,16 +8082,16 @@ extension ImagebuilderClientTypes {
 }
 
 public struct SendWorkflowStepActionInput: Swift.Sendable {
-    /// The action for the image creation process to take while a workflow WaitForAction step waits for an asynchronous action to complete.
+    /// The action to perform on the paused workflow step. The workflow step must be in a waiting state to accept an action. The request fails if the step has already timed out or been actioned.
     /// This member is required.
     public var action: ImagebuilderClientTypes.WorkflowStepActionType?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the image build version to send action for.
+    /// The Amazon Resource Name (ARN) of the image build version associated with the workflow step execution. This value must match the image that owns the waiting step. If the ARN does not correspond to the image running the workflow, then the request fails with a validation error.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The reason why this action is sent.
+    /// The reason for the action. This value is stored with the step execution record and is accessible in subsequent workflow steps via step output references.
     public var reason: Swift.String?
     /// Uniquely identifies the workflow step that sent the step action.
     /// This member is required.
@@ -8259,15 +8267,15 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
     public var exclusionRules: ImagebuilderClientTypes.ResourceStateUpdateExclusionRules?
     /// The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
     public var executionRole: Swift.String?
-    /// A list of image resources to update state for.
+    /// Specifies which image resources to include in the state update. When specified, the lifecycle action applies to underlying resources. These resources include AMIs, snapshots, and containers in addition to the Image Builder image resource. Requires executionRole to also be specified. To delete an image and its underlying resources, you must specify includeResources. To delete only the Image Builder image record without affecting underlying resources, use the DeleteImage API instead.
     public var includeResources: ImagebuilderClientTypes.ResourceStateUpdateIncludeResources?
-    /// The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also impact associated resources.
+    /// The Amazon Resource Name (ARN) of the image build version to update. The image must be in one of these terminal states: AVAILABLE, DEPRECATED, DISABLED, FAILED, or CANCELLED. Images with FAILED or CANCELLED status can transition only to DELETED.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Indicates the lifecycle action to take for this request.
+    /// Specifies the lifecycle action to take for this request. For AMI-based images, valid values are AVAILABLE, DEPRECATED, DISABLED, and DELETED. For container-based images, only DELETED is supported.
     /// This member is required.
     public var state: ImagebuilderClientTypes.ResourceState?
-    /// The timestamp that indicates when resources are updated by a lifecycle action.
+    /// Specifies the timestamp when the state transition takes effect. Use this parameter only when the target status is DEPRECATED. The value must be a future time.
     public var updateAt: Foundation.Date?
 
     public init(
@@ -9666,6 +9674,7 @@ extension CreateImageRecipeInput {
         guard let value else { return }
         try writer["additionalInstanceConfiguration"].write(value.additionalInstanceConfiguration, with: ImagebuilderClientTypes.AdditionalInstanceConfiguration.write(value:to:))
         try writer["amiTags"].writeMap(value.amiTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["amiWatermarks"].writeList(value.amiWatermarks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockDeviceMappings"].writeList(value.blockDeviceMappings, memberWritingClosure: ImagebuilderClientTypes.InstanceBlockDeviceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["components"].writeList(value.components, memberWritingClosure: ImagebuilderClientTypes.ComponentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13713,6 +13722,7 @@ extension ImagebuilderClientTypes.ImageRecipe {
         value.workingDirectory = try reader["workingDirectory"].readIfPresent()
         value.additionalInstanceConfiguration = try reader["additionalInstanceConfiguration"].readIfPresent(with: ImagebuilderClientTypes.AdditionalInstanceConfiguration.read(from:))
         value.amiTags = try reader["amiTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.amiWatermarks = try reader["amiWatermarks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

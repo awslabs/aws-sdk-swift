@@ -2382,6 +2382,7 @@ extension ConnectCampaignsV2ClientTypes {
         case campaignOrchestration
         case campaignSms
         case campaignTelephony
+        case campaignWebNotification
         case campaignWhatsApp
         case sdkUnknown(Swift.String)
 
@@ -2391,6 +2392,7 @@ extension ConnectCampaignsV2ClientTypes {
                 .campaignOrchestration,
                 .campaignSms,
                 .campaignTelephony,
+                .campaignWebNotification,
                 .campaignWhatsApp
             ]
         }
@@ -2406,6 +2408,7 @@ extension ConnectCampaignsV2ClientTypes {
             case .campaignOrchestration: return "Campaign-Orchestration"
             case .campaignSms: return "Campaign-SMS"
             case .campaignTelephony: return "Campaign-Telephony"
+            case .campaignWebNotification: return "Campaign-WebNotification"
             case .campaignWhatsApp: return "Campaign-WhatsApp"
             case let .sdkUnknown(s): return s
             }
@@ -2937,11 +2940,66 @@ public struct PutOutboundRequestBatchOutput: Swift.Sendable {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Context metadata for the web notification type channel
+    public struct WebNotificationContext: Swift.Sendable {
+        /// Browser Id for web notification event trigger
+        public var browserId: Swift.String?
+        /// Session Id for web notification event trigger
+        public var sessionId: Swift.String?
+
+        public init(
+            browserId: Swift.String? = nil,
+            sessionId: Swift.String? = nil
+        ) {
+            self.browserId = browserId
+            self.sessionId = sessionId
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Additional metadata related to the event trigger context
+    public struct ChannelContext: Swift.Sendable {
+        /// Context metadata for the web notification type channel
+        public var webNotificationContext: ConnectCampaignsV2ClientTypes.WebNotificationContext?
+
+        public init(
+            webNotificationContext: ConnectCampaignsV2ClientTypes.WebNotificationContext? = nil
+        ) {
+            self.webNotificationContext = webNotificationContext
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Event trigger context data
+    public struct EventTriggerContext: Swift.Sendable {
+        /// Additional metadata related to the event trigger context
+        public var channelContext: ConnectCampaignsV2ClientTypes.ChannelContext?
+        /// Source event object for event triggers
+        public var sourceEvent: Swift.String?
+
+        public init(
+            channelContext: ConnectCampaignsV2ClientTypes.ChannelContext? = nil,
+            sourceEvent: Swift.String? = nil
+        ) {
+            self.channelContext = channelContext
+            self.sourceEvent = sourceEvent
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Information about a profile outbound request
     public struct ProfileOutboundRequest: Swift.Sendable {
         /// Client provided parameter used for idempotency. Its value must be unique for each request.
         /// This member is required.
         public var clientToken: Swift.String?
+        /// Event trigger context data
+        public var eventTriggerContext: ConnectCampaignsV2ClientTypes.EventTriggerContext?
         /// Timestamp with no UTC offset or timezone
         public var expirationTime: Foundation.Date?
         /// Identifier of the customer profile
@@ -2950,10 +3008,12 @@ extension ConnectCampaignsV2ClientTypes {
 
         public init(
             clientToken: Swift.String? = nil,
+            eventTriggerContext: ConnectCampaignsV2ClientTypes.EventTriggerContext? = nil,
             expirationTime: Foundation.Date? = nil,
             profileId: Swift.String? = nil
         ) {
             self.clientToken = clientToken
+            self.eventTriggerContext = eventTriggerContext
             self.expirationTime = expirationTime
             self.profileId = profileId
         }
@@ -5179,6 +5239,14 @@ extension ConnectCampaignsV2ClientTypes.CampaignSummary {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.ChannelContext {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.ChannelContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["webNotificationContext"].write(value.webNotificationContext, with: ConnectCampaignsV2ClientTypes.WebNotificationContext.write(value:to:))
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig {
 
     static func write(value: ConnectCampaignsV2ClientTypes.ChannelSubtypeConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5454,6 +5522,15 @@ extension ConnectCampaignsV2ClientTypes.EventTrigger {
     }
 }
 
+extension ConnectCampaignsV2ClientTypes.EventTriggerContext {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.EventTriggerContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelContext"].write(value.channelContext, with: ConnectCampaignsV2ClientTypes.ChannelContext.write(value:to:))
+        try writer["sourceEvent"].write(value.sourceEvent)
+    }
+}
+
 extension ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.FailedCampaignStateResponse {
@@ -5707,6 +5784,7 @@ extension ConnectCampaignsV2ClientTypes.ProfileOutboundRequest {
     static func write(value: ConnectCampaignsV2ClientTypes.ProfileOutboundRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["eventTriggerContext"].write(value.eventTriggerContext, with: ConnectCampaignsV2ClientTypes.EventTriggerContext.write(value:to:))
         try writer["expirationTime"].writeTimestamp(value.expirationTime, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["profileId"].write(value.profileId)
     }
@@ -6083,6 +6161,15 @@ extension ConnectCampaignsV2ClientTypes.TimeWindow {
         value.openHours = try reader["openHours"].readIfPresent(with: ConnectCampaignsV2ClientTypes.OpenHours.read(from:))
         value.restrictedPeriods = try reader["restrictedPeriods"].readIfPresent(with: ConnectCampaignsV2ClientTypes.RestrictedPeriods.read(from:))
         return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.WebNotificationContext {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.WebNotificationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserId"].write(value.browserId)
+        try writer["sessionId"].write(value.sessionId)
     }
 }
 

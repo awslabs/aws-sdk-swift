@@ -2135,7 +2135,7 @@ extension ImagebuilderClient {
 
     /// Performs the `DistributeImage` operation on the `Imagebuilder` service.
     ///
-    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    /// Distributes an existing AMI to target Regions and accounts without running the full image build process. This operation only runs the distribution phase on an image that has already been built.
     ///
     /// - Parameter input: [no documentation found] (Type: `DistributeImageInput`)
     ///

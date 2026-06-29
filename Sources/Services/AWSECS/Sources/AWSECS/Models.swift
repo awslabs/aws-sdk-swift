@@ -8846,21 +8846,86 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Determines how the deployment circuit breaker calculates the task failure threshold from the threshold value.
+    public enum ThresholdType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, then clamps the result to a minimum of 3 and a maximum of 200. This is the default threshold type.
+        case boundedPercent
+        /// Amazon ECS uses the integer provided in value directly as the failure threshold.
+        case count
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, without applying the 3-to-200 bounds. Use this when the desired count is large enough that the calculated threshold should be allowed to exceed 200.
+        case unboundedPercent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThresholdType] {
+            return [
+                .boundedPercent,
+                .count,
+                .unboundedPercent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boundedPercent: return "BOUNDED_PERCENT"
+            case .count: return "COUNT"
+            case .unboundedPercent: return "UNBOUNDED_PERCENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the failure threshold that the deployment circuit breaker uses to monitor a deployment. The type and value together determine the number of task failures that are tolerated before the circuit breaker triggers. By default, the threshold configuration uses a type of BOUNDED_PERCENT with a value of 50.
+    public struct ThresholdConfiguration: Swift.Sendable {
+        /// Determines how value is used to calculate the failure threshold. For the percentage types (BOUNDED_PERCENT and UNBOUNDED_PERCENT), value is multiplied by the latest service desired count; for COUNT, value is used directly. The default is BOUNDED_PERCENT.
+        /// This member is required.
+        public var type: ECSClientTypes.ThresholdType?
+        /// The integer used to calculate the failure threshold. When type is COUNT, this is the failure threshold itself. When type is a percentage type, this is the percentage that Amazon ECS multiplies by the latest service desired count to calculate the failure threshold.
+        /// This member is required.
+        public var value: Swift.Int
+
+        public init(
+            type: ECSClientTypes.ThresholdType? = nil,
+            value: Swift.Int = 0
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If it is turned on, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. For more information about API failure reasons, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentCircuitBreaker: Swift.Sendable {
         /// Determines whether to use the deployment circuit breaker logic for the service.
         /// This member is required.
         public var enable: Swift.Bool
+        /// Determines whether the deployment circuit breaker resets its failure count when a task reaches a healthy state. When set to true, a healthy task resets the failure count to 0; when false, it doesn't.
+        public var resetOnHealthyTask: Swift.Bool?
         /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         /// This member is required.
         public var rollback: Swift.Bool
+        /// The threshold configuration that controls when the deployment circuit breaker triggers. For more information, see [ThresholdConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ThresholdConfiguration.html).
+        public var thresholdConfiguration: ECSClientTypes.ThresholdConfiguration?
 
         public init(
             enable: Swift.Bool = false,
-            rollback: Swift.Bool = false
+            resetOnHealthyTask: Swift.Bool? = nil,
+            rollback: Swift.Bool = false,
+            thresholdConfiguration: ECSClientTypes.ThresholdConfiguration? = nil
         ) {
             self.enable = enable
+            self.resetOnHealthyTask = resetOnHealthyTask
             self.rollback = rollback
+            self.thresholdConfiguration = thresholdConfiguration
         }
     }
 }
@@ -12146,7 +12211,7 @@ public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Express service to update.
     /// This member is required.
     public var serviceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, taskRoleArn, cpu, or memory.
+    /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
     public var taskDefinitionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
     public var taskRoleArn: Swift.String?
