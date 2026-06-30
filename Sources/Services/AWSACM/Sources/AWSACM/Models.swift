@@ -20,6 +20,21 @@ public struct AddTagsToCertificateOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteAcmeDomainValidationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAcmeEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAcmeExternalAccountBindingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteCertificateOutput: Swift.Sendable {
 
     public init() { }
@@ -50,6 +65,36 @@ public struct ResendValidationEmailOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RevokeAcmeAccountOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct RevokeAcmeExternalAccountBindingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateAcmeDomainValidationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateAcmeEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateCertificateOptionsOutput: Swift.Sendable {
 
     public init() { }
@@ -75,6 +120,39 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ACMClientTypes {
+
+    /// The origin of the certificate's key pair.
+    public enum CertificateKeyPairOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acme
+        case awsManaged
+        case customerProvided
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateKeyPairOrigin] {
+            return [
+                .acme,
+                .awsManaged,
+                .customerProvided
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acme: return "ACME"
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerProvided: return "CUSTOMER_PROVIDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -309,6 +387,12 @@ extension ACMClientTypes {
 
     /// Contains ACM-specific metadata about a certificate.
     public struct AcmCertificateMetadata: Swift.Sendable {
+        /// The ACME account identifier associated with the certificate.
+        public var acmeAccountId: Swift.String?
+        /// The ARN of the ACME endpoint used to issue the certificate.
+        public var acmeEndpointArn: Swift.String?
+        /// The origin of the certificate's key pair.
+        public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// Indicates whether the certificate can be exported.
@@ -337,6 +421,9 @@ extension ACMClientTypes {
         public var validationMethod: ACMClientTypes.ValidationMethod?
 
         public init(
+            acmeAccountId: Swift.String? = nil,
+            acmeEndpointArn: Swift.String? = nil,
+            certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
             createdAt: Foundation.Date? = nil,
             exportOption: ACMClientTypes.CertificateExport? = nil,
             exported: Swift.Bool? = nil,
@@ -351,6 +438,9 @@ extension ACMClientTypes {
             type: ACMClientTypes.CertificateType? = nil,
             validationMethod: ACMClientTypes.ValidationMethod? = nil
         ) {
+            self.acmeAccountId = acmeAccountId
+            self.acmeEndpointArn = acmeEndpointArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
             self.createdAt = createdAt
             self.exportOption = exportOption
             self.exported = exported
@@ -388,7 +478,831 @@ extension ACMClientTypes {
         case managedby(ACMClientTypes.CertificateManagedBy)
         /// Filter by validation method.
         case validationmethod(ACMClientTypes.ValidationMethod)
+        /// Filter by certificate key pair origin.
+        case certificatekeypairorigin(ACMClientTypes.CertificateKeyPairOrigin)
+        /// Filter by ACME endpoint ARN.
+        case acmeendpointarn(Swift.String)
+        /// Filter by ACME account identifier.
+        case acmeaccountid(Swift.String)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeAccountStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deactivated
+        case revoked
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeAccountStatus] {
+            return [
+                .deactivated,
+                .revoked,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deactivated: return "DEACTIVATED"
+            case .revoked: return "REVOKED"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains detailed information about an ACME account.
+    public struct AcmeAccount: Swift.Sendable {
+        /// The URL of the ACME account.
+        public var accountUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the external account binding associated with this ACME account.
+        public var acmeExternalAccountBindingArn: Swift.String?
+        /// The contact information for the ACME account.
+        public var contacts: [Swift.String]?
+        /// The time at which the ACME account was created.
+        public var createdAt: Foundation.Date?
+        /// The thumbprint of the public key associated with the ACME account.
+        public var publicKeyThumbprint: Swift.String?
+        /// The status of the ACME account.
+        public var status: ACMClientTypes.AcmeAccountStatus?
+
+        public init(
+            accountUrl: Swift.String? = nil,
+            acmeExternalAccountBindingArn: Swift.String? = nil,
+            contacts: [Swift.String]? = nil,
+            createdAt: Foundation.Date? = nil,
+            publicKeyThumbprint: Swift.String? = nil,
+            status: ACMClientTypes.AcmeAccountStatus? = nil
+        ) {
+            self.accountUrl = accountUrl
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.contacts = contacts
+            self.createdAt = createdAt
+            self.publicKeyThumbprint = publicKeyThumbprint
+            self.status = status
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains summary information about an ACME account.
+    public struct AcmeAccountSummary: Swift.Sendable {
+        /// The URL of the ACME account.
+        public var accountUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) of the external account binding associated with this ACME account.
+        public var acmeExternalAccountBindingArn: Swift.String?
+        /// The contact information for the ACME account.
+        public var contacts: [Swift.String]?
+        /// The time at which the ACME account was created.
+        public var createdAt: Foundation.Date?
+        /// The thumbprint of the public key associated with the ACME account.
+        public var publicKeyThumbprint: Swift.String?
+        /// The status of the ACME account.
+        public var status: ACMClientTypes.AcmeAccountStatus?
+
+        public init(
+            accountUrl: Swift.String? = nil,
+            acmeExternalAccountBindingArn: Swift.String? = nil,
+            contacts: [Swift.String]? = nil,
+            createdAt: Foundation.Date? = nil,
+            publicKeyThumbprint: Swift.String? = nil,
+            status: ACMClientTypes.AcmeAccountStatus? = nil
+        ) {
+            self.accountUrl = accountUrl
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.contacts = contacts
+            self.createdAt = createdAt
+            self.publicKeyThumbprint = publicKeyThumbprint
+            self.status = status
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeAuthorizationBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preApproved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeAuthorizationBehavior] {
+            return [
+                .preApproved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .preApproved: return "PRE_APPROVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeContact: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notRequired
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeContact] {
+            return [
+                .notRequired,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notRequired: return "NOT_REQUIRED"
+            case .required: return "REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeDomainValidationFailureReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case domainMismatch
+        case domainNotAllowed
+        case endpointNotActive
+        case hostedZoneNotFound
+        case internalFailure
+        case invalidChangeBatch
+        case invalidPublicDomain
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeDomainValidationFailureReason] {
+            return [
+                .accessDenied,
+                .domainMismatch,
+                .domainNotAllowed,
+                .endpointNotActive,
+                .hostedZoneNotFound,
+                .internalFailure,
+                .invalidChangeBatch,
+                .invalidPublicDomain,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .domainMismatch: return "DOMAIN_MISMATCH"
+            case .domainNotAllowed: return "DOMAIN_NOT_ALLOWED"
+            case .endpointNotActive: return "ENDPOINT_NOT_ACTIVE"
+            case .hostedZoneNotFound: return "HOSTED_ZONE_NOT_FOUND"
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .invalidChangeBatch: return "INVALID_CHANGE_BATCH"
+            case .invalidPublicDomain: return "INVALID_PUBLIC_DOMAIN"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains details about a failure.
+    public struct FailureDetails: Swift.Sendable {
+        /// A message describing the failure.
+        public var message: Swift.String?
+        /// The reason for the failure.
+        public var reason: ACMClientTypes.AcmeDomainValidationFailureReason?
+
+        public init(
+            message: Swift.String? = nil,
+            reason: ACMClientTypes.AcmeDomainValidationFailureReason? = nil
+        ) {
+            self.message = message
+            self.reason = reason
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum DomainScopeOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainScopeOption] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Specifies the scope of domain validation.
+    public struct DomainScope: Swift.Sendable {
+        /// Whether validation applies to the exact domain.
+        public var exactDomain: ACMClientTypes.DomainScopeOption?
+        /// Whether validation applies to subdomains.
+        public var subdomains: ACMClientTypes.DomainScopeOption?
+        /// Whether validation applies to wildcard domains.
+        public var wildcards: ACMClientTypes.DomainScopeOption?
+
+        public init(
+            exactDomain: ACMClientTypes.DomainScopeOption? = nil,
+            subdomains: ACMClientTypes.DomainScopeOption? = nil,
+            wildcards: ACMClientTypes.DomainScopeOption? = nil
+        ) {
+            self.exactDomain = exactDomain
+            self.subdomains = subdomains
+            self.wildcards = wildcards
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum RecordType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cname
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordType] {
+            return [
+                .cname
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cname: return "CNAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains a DNS record value that you can use to validate ownership or control of a domain. This is used by the [DescribeCertificate] action.
+    public struct ResourceRecord: Swift.Sendable {
+        /// The name of the DNS record to create in your domain. This is supplied by ACM.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of DNS record. Currently this can be CNAME.
+        /// This member is required.
+        public var type: ACMClientTypes.RecordType?
+        /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: ACMClientTypes.RecordType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// DNS prevalidation details including the resource record for validation.
+    public struct DnsPrevalidationDetails: Swift.Sendable {
+        /// The scope of domains covered by this prevalidation.
+        public var domainScope: ACMClientTypes.DomainScope?
+        /// The Route 53 hosted zone ID for DNS validation.
+        public var hostedZoneId: Swift.String?
+        /// The DNS resource record to create for domain validation.
+        public var resourceRecord: ACMClientTypes.ResourceRecord?
+
+        public init(
+            domainScope: ACMClientTypes.DomainScope? = nil,
+            hostedZoneId: Swift.String? = nil,
+            resourceRecord: ACMClientTypes.ResourceRecord? = nil
+        ) {
+            self.domainScope = domainScope
+            self.hostedZoneId = hostedZoneId
+            self.resourceRecord = resourceRecord
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains details about the prevalidation configuration.
+    public enum PrevalidationDetails: Swift.Sendable {
+        /// DNS-based prevalidation details.
+        case dnsprevalidation(ACMClientTypes.DnsPrevalidationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum PrevalidationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dnsPrevalidation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrevalidationType] {
+            return [
+                .dnsPrevalidation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dnsPrevalidation: return "DNS_PREVALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeDomainValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleting
+        case invalid
+        case valid
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeDomainValidationStatus] {
+            return [
+                .deleting,
+                .invalid,
+                .valid,
+                .validating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "DELETING"
+            case .invalid: return "INVALID"
+            case .valid: return "VALID"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains detailed information about an ACME domain validation.
+    public struct AcmeDomainValidation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation.
+        public var acmeDomainValidationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The time at which the domain validation was created.
+        public var createdAt: Foundation.Date?
+        /// The domain name being validated.
+        public var domainName: Swift.String?
+        /// Details about the failure, if the validation failed.
+        public var failureDetails: ACMClientTypes.FailureDetails?
+        /// Details about the prevalidation configuration.
+        public var prevalidationDetails: ACMClientTypes.PrevalidationDetails?
+        /// The type of prevalidation used.
+        public var prevalidationType: ACMClientTypes.PrevalidationType?
+        /// The status of the domain validation.
+        public var status: ACMClientTypes.AcmeDomainValidationStatus?
+        /// The time at which the domain validation was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeDomainValidationArn: Swift.String? = nil,
+            acmeEndpointArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            domainName: Swift.String? = nil,
+            failureDetails: ACMClientTypes.FailureDetails? = nil,
+            prevalidationDetails: ACMClientTypes.PrevalidationDetails? = nil,
+            prevalidationType: ACMClientTypes.PrevalidationType? = nil,
+            status: ACMClientTypes.AcmeDomainValidationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+            self.acmeEndpointArn = acmeEndpointArn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.failureDetails = failureDetails
+            self.prevalidationDetails = prevalidationDetails
+            self.prevalidationType = prevalidationType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains summary information about an ACME domain validation.
+    public struct AcmeDomainValidationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME domain validation.
+        public var acmeDomainValidationArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The time at which the domain validation was created.
+        public var createdAt: Foundation.Date?
+        /// The domain name being validated.
+        public var domainName: Swift.String?
+        /// Details about the failure, if the validation failed.
+        public var failureDetails: ACMClientTypes.FailureDetails?
+        /// Details about the prevalidation configuration.
+        public var prevalidationDetails: ACMClientTypes.PrevalidationDetails?
+        /// The type of prevalidation used.
+        public var prevalidationType: ACMClientTypes.PrevalidationType?
+        /// The status of the domain validation.
+        public var status: ACMClientTypes.AcmeDomainValidationStatus?
+        /// The time at which the domain validation was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeDomainValidationArn: Swift.String? = nil,
+            acmeEndpointArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            domainName: Swift.String? = nil,
+            failureDetails: ACMClientTypes.FailureDetails? = nil,
+            prevalidationDetails: ACMClientTypes.PrevalidationDetails? = nil,
+            prevalidationType: ACMClientTypes.PrevalidationType? = nil,
+            status: ACMClientTypes.AcmeDomainValidationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeDomainValidationArn = acmeDomainValidationArn
+            self.acmeEndpointArn = acmeEndpointArn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.failureDetails = failureDetails
+            self.prevalidationDetails = prevalidationDetails
+            self.prevalidationType = prevalidationType
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum PublicKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ecPrime256V1
+        case ecSecp384R1
+        case rsa2048
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublicKeyAlgorithm] {
+            return [
+                .ecPrime256V1,
+                .ecSecp384R1,
+                .rsa2048
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ecPrime256V1: return "EC_prime256v1"
+            case .ecSecp384R1: return "EC_secp384r1"
+            case .rsa2048: return "RSA_2048"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Configuration for a public certificate authority.
+    public struct PublicCertificateAuthority: Swift.Sendable {
+        /// The key algorithms allowed for certificates issued by this certificate authority.
+        public var allowedKeyAlgorithms: [ACMClientTypes.PublicKeyAlgorithm]?
+
+        public init(
+            allowedKeyAlgorithms: [ACMClientTypes.PublicKeyAlgorithm]? = nil
+        ) {
+            self.allowedKeyAlgorithms = allowedKeyAlgorithms
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Defines the certificate authority to use for an ACME endpoint.
+    public enum CertificateAuthority: Swift.Sendable {
+        /// Configuration for using a public certificate authority.
+        case publiccertificateauthority(ACMClientTypes.PublicCertificateAuthority)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ACMClientTypes {
+
+    /// A key-value pair that identifies or specifies metadata about an ACM resource.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum AcmeEndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcmeEndpointStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains detailed information about an ACME endpoint.
+    public struct AcmeEndpoint: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The authorization behavior of the ACME endpoint.
+        public var authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior?
+        /// The certificate authority configuration for the ACME endpoint.
+        public var certificateAuthority: ACMClientTypes.CertificateAuthority?
+        /// Tags applied to certificates issued through this ACME endpoint.
+        public var certificateTags: [ACMClientTypes.Tag]?
+        /// Whether ACME clients must provide contact information during account registration.
+        public var contact: ACMClientTypes.AcmeContact?
+        /// The time at which the ACME endpoint was created.
+        public var createdAt: Foundation.Date?
+        /// The URL of the ACME endpoint.
+        public var endpointUrl: Swift.String?
+        /// The reason the ACME endpoint failed, if applicable.
+        public var failureReason: Swift.String?
+        /// The status of the ACME endpoint.
+        public var status: ACMClientTypes.AcmeEndpointStatus?
+        /// The time at which the ACME endpoint was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeEndpointArn: Swift.String? = nil,
+            authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior? = nil,
+            certificateAuthority: ACMClientTypes.CertificateAuthority? = nil,
+            certificateTags: [ACMClientTypes.Tag]? = nil,
+            contact: ACMClientTypes.AcmeContact? = nil,
+            createdAt: Foundation.Date? = nil,
+            endpointUrl: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            status: ACMClientTypes.AcmeEndpointStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.certificateTags = certificateTags
+            self.contact = contact
+            self.createdAt = createdAt
+            self.endpointUrl = endpointUrl
+            self.failureReason = failureReason
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains summary information about an ACME endpoint.
+    public struct AcmeEndpointSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The authorization behavior of the ACME endpoint.
+        public var authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior?
+        /// The certificate authority configuration for the ACME endpoint.
+        public var certificateAuthority: ACMClientTypes.CertificateAuthority?
+        /// Tags applied to certificates issued through this ACME endpoint.
+        public var certificateTags: [ACMClientTypes.Tag]?
+        /// Whether ACME clients must provide contact information during account registration.
+        public var contact: ACMClientTypes.AcmeContact?
+        /// The time at which the ACME endpoint was created.
+        public var createdAt: Foundation.Date?
+        /// The URL of the ACME endpoint.
+        public var endpointUrl: Swift.String?
+        /// The reason the ACME endpoint failed, if applicable.
+        public var failureReason: Swift.String?
+        /// The status of the ACME endpoint.
+        public var status: ACMClientTypes.AcmeEndpointStatus?
+        /// The time at which the ACME endpoint was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeEndpointArn: Swift.String? = nil,
+            authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior? = nil,
+            certificateAuthority: ACMClientTypes.CertificateAuthority? = nil,
+            certificateTags: [ACMClientTypes.Tag]? = nil,
+            contact: ACMClientTypes.AcmeContact? = nil,
+            createdAt: Foundation.Date? = nil,
+            endpointUrl: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            status: ACMClientTypes.AcmeEndpointStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.authorizationBehavior = authorizationBehavior
+            self.certificateAuthority = certificateAuthority
+            self.certificateTags = certificateTags
+            self.contact = contact
+            self.createdAt = createdAt
+            self.endpointUrl = endpointUrl
+            self.failureReason = failureReason
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains detailed information about an ACME external account binding.
+    public struct AcmeExternalAccountBinding: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public var acmeExternalAccountBindingArn: Swift.String?
+        /// The time at which the external account binding was created.
+        public var createdAt: Foundation.Date?
+        /// The time at which the external account binding expires.
+        public var expiresAt: Foundation.Date?
+        /// The time at which the external account binding was last used.
+        public var lastUsedAt: Foundation.Date?
+        /// The time at which the external account binding was revoked.
+        public var revokedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the external account binding.
+        public var roleArn: Swift.String?
+        /// The time at which the external account binding was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeEndpointArn: Swift.String? = nil,
+            acmeExternalAccountBindingArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            lastUsedAt: Foundation.Date? = nil,
+            revokedAt: Foundation.Date? = nil,
+            roleArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.lastUsedAt = lastUsedAt
+            self.revokedAt = revokedAt
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Contains summary information about an ACME external account binding.
+    public struct AcmeExternalAccountBindingSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACME endpoint.
+        public var acmeEndpointArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ACME external account binding.
+        public var acmeExternalAccountBindingArn: Swift.String?
+        /// The time at which the external account binding was created.
+        public var createdAt: Foundation.Date?
+        /// The time at which the external account binding expires.
+        public var expiresAt: Foundation.Date?
+        /// The time at which the external account binding was last used.
+        public var lastUsedAt: Foundation.Date?
+        /// The time at which the external account binding was revoked.
+        public var revokedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the external account binding.
+        public var roleArn: Swift.String?
+        /// The time at which the external account binding was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            acmeEndpointArn: Swift.String? = nil,
+            acmeExternalAccountBindingArn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
+            lastUsedAt: Foundation.Date? = nil,
+            revokedAt: Foundation.Date? = nil,
+            roleArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.acmeEndpointArn = acmeEndpointArn
+            self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.lastUsedAt = lastUsedAt
+            self.revokedAt = revokedAt
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
     }
 }
 
@@ -576,23 +1490,26 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-extension ACMClientTypes {
+/// The supplied input failed to satisfy constraints of an Amazon Web Services service.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    /// A key-value pair that identifies or specifies metadata about an ACM resource.
-    public struct Tag: Swift.Sendable {
-        /// The key of the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag.
-        public var value: Swift.String?
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
 
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationError" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -628,58 +1545,6 @@ extension ACMClientTypes {
         ) {
             self.redirectFrom = redirectFrom
             self.redirectTo = redirectTo
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    public enum RecordType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cname
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RecordType] {
-            return [
-                .cname
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cname: return "CNAME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ACMClientTypes {
-
-    /// Contains a DNS record value that you can use to validate ownership or control of a domain. This is used by the [DescribeCertificate] action.
-    public struct ResourceRecord: Swift.Sendable {
-        /// The name of the DNS record to create in your domain. This is supplied by ACM.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The type of DNS record. Currently this can be CNAME.
-        /// This member is required.
-        public var type: ACMClientTypes.RecordType?
-        /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            type: ACMClientTypes.RecordType? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.name = name
-            self.type = type
-            self.value = value
         }
     }
 }
@@ -1187,10 +2052,16 @@ extension ACMClientTypes {
 
     /// Contains metadata about an ACM certificate. This structure is returned in the response to a [DescribeCertificate] request.
     public struct CertificateDetail: Swift.Sendable {
+        /// The ACME account identifier associated with the certificate.
+        public var acmeAccountId: Swift.String?
+        /// The ARN of the ACME endpoint used to issue the certificate.
+        public var acmeEndpointArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the certificate. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var certificateArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the private certificate authority (CA) that issued the certificate. This has the following format: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public var certificateAuthorityArn: Swift.String?
+        /// The origin of the certificate's key pair.
+        public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// The fully qualified domain name for the certificate, such as www.example.com or example.com.
@@ -1243,8 +2114,11 @@ extension ACMClientTypes {
         public var type: ACMClientTypes.CertificateType?
 
         public init(
+            acmeAccountId: Swift.String? = nil,
+            acmeEndpointArn: Swift.String? = nil,
             certificateArn: Swift.String? = nil,
             certificateAuthorityArn: Swift.String? = nil,
+            certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
             domainValidationOptions: [ACMClientTypes.DomainValidation]? = nil,
@@ -1271,8 +2145,11 @@ extension ACMClientTypes {
             subjectAlternativeNames: [Swift.String]? = nil,
             type: ACMClientTypes.CertificateType? = nil
         ) {
+            self.acmeAccountId = acmeAccountId
+            self.acmeEndpointArn = acmeEndpointArn
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
             self.createdAt = createdAt
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
@@ -1474,6 +2351,296 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+/// The request processing has failed because of an unknown error, exception, or failure.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// A service quota has been exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ACMClientTypes {
+
+    /// DNS prevalidation options for domain validation.
+    public struct DnsPrevalidationOptions: Swift.Sendable {
+        /// The scope of domains covered by this prevalidation.
+        public var domainScope: ACMClientTypes.DomainScope?
+        /// The Route 53 hosted zone ID for DNS validation.
+        public var hostedZoneId: Swift.String?
+
+        public init(
+            domainScope: ACMClientTypes.DomainScope? = nil,
+            hostedZoneId: Swift.String? = nil
+        ) {
+            self.domainScope = domainScope
+            self.hostedZoneId = hostedZoneId
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Specifies prevalidation options for domain validation.
+    public enum PrevalidationOptions: Swift.Sendable {
+        /// DNS-based prevalidation options.
+        case dnsprevalidation(ACMClientTypes.DnsPrevalidationOptions)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateAcmeDomainValidationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The domain name to validate.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var idempotencyToken: Swift.String?
+    /// The prevalidation options for the domain.
+    /// This member is required.
+    public var prevalidationOptions: ACMClientTypes.PrevalidationOptions?
+    /// One or more tags to associate with the domain validation.
+    public var tags: [ACMClientTypes.Tag]?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        idempotencyToken: Swift.String? = nil,
+        prevalidationOptions: ACMClientTypes.PrevalidationOptions? = nil,
+        tags: [ACMClientTypes.Tag]? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.domainName = domainName
+        self.idempotencyToken = idempotencyToken
+        self.prevalidationOptions = prevalidationOptions
+        self.tags = tags
+    }
+}
+
+public struct CreateAcmeDomainValidationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created domain validation.
+    /// This member is required.
+    public var acmeDomainValidationArn: Swift.String?
+
+    public init(
+        acmeDomainValidationArn: Swift.String? = nil
+    ) {
+        self.acmeDomainValidationArn = acmeDomainValidationArn
+    }
+}
+
+public struct CreateAcmeEndpointInput: Swift.Sendable {
+    /// The authorization behavior for the ACME endpoint.
+    /// This member is required.
+    public var authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior?
+    /// The type of certificate authority to use for issuing certificates through this ACME endpoint.
+    /// This member is required.
+    public var certificateAuthority: ACMClientTypes.CertificateAuthority?
+    /// Tags to apply to certificates issued through this ACME endpoint.
+    public var certificateTags: [ACMClientTypes.Tag]?
+    /// Specifies whether ACME clients must provide contact information during account registration.
+    public var contact: ACMClientTypes.AcmeContact?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var idempotencyToken: Swift.String?
+    /// One or more tags to associate with the ACME endpoint.
+    public var tags: [ACMClientTypes.Tag]?
+
+    public init(
+        authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior? = nil,
+        certificateAuthority: ACMClientTypes.CertificateAuthority? = nil,
+        certificateTags: [ACMClientTypes.Tag]? = nil,
+        contact: ACMClientTypes.AcmeContact? = nil,
+        idempotencyToken: Swift.String? = nil,
+        tags: [ACMClientTypes.Tag]? = nil
+    ) {
+        self.authorizationBehavior = authorizationBehavior
+        self.certificateAuthority = certificateAuthority
+        self.certificateTags = certificateTags
+        self.contact = contact
+        self.idempotencyToken = idempotencyToken
+        self.tags = tags
+    }
+}
+
+public struct CreateAcmeEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created ACME endpoint.
+    public var acmeEndpointArn: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+    }
+}
+
+extension ACMClientTypes {
+
+    public enum TimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
+        case hours
+        case minutes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeType] {
+            return [
+                .days,
+                .hours,
+                .minutes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .days: return "DAYS"
+            case .hours: return "HOURS"
+            case .minutes: return "MINUTES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Specifies an expiration configuration.
+    public struct Expiration: Swift.Sendable {
+        /// The time unit for the expiration value.
+        /// This member is required.
+        public var type: ACMClientTypes.TimeType?
+        /// The numeric value of the expiration.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            type: ACMClientTypes.TimeType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+public struct CreateAcmeExternalAccountBindingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The expiration configuration for the external account binding.
+    public var expiration: ACMClientTypes.Expiration?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var idempotencyToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role to associate with the external account binding.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// One or more tags to associate with the external account binding.
+    public var tags: [ACMClientTypes.Tag]?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        expiration: ACMClientTypes.Expiration? = nil,
+        idempotencyToken: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [ACMClientTypes.Tag]? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.expiration = expiration
+        self.idempotencyToken = idempotencyToken
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateAcmeExternalAccountBindingOutput: Swift.Sendable {
+    /// The created external account binding.
+    public var externalAccountBinding: ACMClientTypes.AcmeExternalAccountBinding?
+
+    public init(
+        externalAccountBinding: ACMClientTypes.AcmeExternalAccountBinding? = nil
+    ) {
+        self.externalAccountBinding = externalAccountBinding
+    }
+}
+
+public struct DeleteAcmeDomainValidationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME domain validation to delete.
+    /// This member is required.
+    public var acmeDomainValidationArn: Swift.String?
+
+    public init(
+        acmeDomainValidationArn: Swift.String? = nil
+    ) {
+        self.acmeDomainValidationArn = acmeDomainValidationArn
+    }
+}
+
+public struct DeleteAcmeEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint to delete.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+    }
+}
+
+public struct DeleteAcmeExternalAccountBindingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME external account binding to delete.
+    /// This member is required.
+    public var acmeExternalAccountBindingArn: Swift.String?
+
+    public init(
+        acmeExternalAccountBindingArn: Swift.String? = nil
+    ) {
+        self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+    }
+}
+
 /// The certificate is in use by another Amazon Web Services service in the caller's account. Remove the association and try again.
 public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1506,6 +2673,103 @@ public struct DeleteCertificateInput: Swift.Sendable {
         certificateArn: Swift.String? = nil
     ) {
         self.certificateArn = certificateArn
+    }
+}
+
+public struct DescribeAcmeAccountInput: Swift.Sendable {
+    /// The URL of the ACME account.
+    /// This member is required.
+    public var accountUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+
+    public init(
+        accountUrl: Swift.String? = nil,
+        acmeEndpointArn: Swift.String? = nil
+    ) {
+        self.accountUrl = accountUrl
+        self.acmeEndpointArn = acmeEndpointArn
+    }
+}
+
+public struct DescribeAcmeAccountOutput: Swift.Sendable {
+    /// The ACME account details.
+    public var acmeAccount: ACMClientTypes.AcmeAccount?
+
+    public init(
+        acmeAccount: ACMClientTypes.AcmeAccount? = nil
+    ) {
+        self.acmeAccount = acmeAccount
+    }
+}
+
+public struct DescribeAcmeDomainValidationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME domain validation.
+    /// This member is required.
+    public var acmeDomainValidationArn: Swift.String?
+
+    public init(
+        acmeDomainValidationArn: Swift.String? = nil
+    ) {
+        self.acmeDomainValidationArn = acmeDomainValidationArn
+    }
+}
+
+public struct DescribeAcmeDomainValidationOutput: Swift.Sendable {
+    /// The ACME domain validation details.
+    public var acmeDomainValidation: ACMClientTypes.AcmeDomainValidation?
+
+    public init(
+        acmeDomainValidation: ACMClientTypes.AcmeDomainValidation? = nil
+    ) {
+        self.acmeDomainValidation = acmeDomainValidation
+    }
+}
+
+public struct DescribeAcmeEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+    }
+}
+
+public struct DescribeAcmeEndpointOutput: Swift.Sendable {
+    /// The ACME endpoint details.
+    public var acmeEndpoint: ACMClientTypes.AcmeEndpoint?
+
+    public init(
+        acmeEndpoint: ACMClientTypes.AcmeEndpoint? = nil
+    ) {
+        self.acmeEndpoint = acmeEndpoint
+    }
+}
+
+public struct DescribeAcmeExternalAccountBindingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME external account binding.
+    /// This member is required.
+    public var acmeExternalAccountBindingArn: Swift.String?
+
+    public init(
+        acmeExternalAccountBindingArn: Swift.String? = nil
+    ) {
+        self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+    }
+}
+
+public struct DescribeAcmeExternalAccountBindingOutput: Swift.Sendable {
+    /// The external account binding details.
+    public var externalAccountBinding: ACMClientTypes.AcmeExternalAccountBinding?
+
+    public init(
+        externalAccountBinding: ACMClientTypes.AcmeExternalAccountBinding? = nil
+    ) {
+        self.externalAccountBinding = externalAccountBinding
     }
 }
 
@@ -1617,6 +2881,33 @@ public struct GetAccountConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct GetAcmeExternalAccountBindingCredentialsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME external account binding.
+    /// This member is required.
+    public var acmeExternalAccountBindingArn: Swift.String?
+
+    public init(
+        acmeExternalAccountBindingArn: Swift.String? = nil
+    ) {
+        self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+    }
+}
+
+public struct GetAcmeExternalAccountBindingCredentialsOutput: Swift.Sendable {
+    /// The key identifier for the external account binding credentials.
+    public var keyId: Swift.String?
+    /// The MAC key for the external account binding credentials.
+    public var macKey: Swift.String?
+
+    public init(
+        keyId: Swift.String? = nil,
+        macKey: Swift.String? = nil
+    ) {
+        self.keyId = keyId
+        self.macKey = macKey
+    }
+}
+
 public struct GetCertificateInput: Swift.Sendable {
     /// String that contains a certificate ARN in the following format: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
     /// This member is required.
@@ -1707,6 +2998,141 @@ public struct ImportCertificateOutput: Swift.Sendable {
     }
 }
 
+public struct ListAcmeAccountsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeAccountsOutput: Swift.Sendable {
+    /// The list of ACME accounts.
+    public var acmeAccounts: [ACMClientTypes.AcmeAccountSummary]?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeAccounts: [ACMClientTypes.AcmeAccountSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeAccounts = acmeAccounts
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeDomainValidationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeDomainValidationsOutput: Swift.Sendable {
+    /// The list of domain validations.
+    public var acmeDomainValidations: [ACMClientTypes.AcmeDomainValidationSummary]?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeDomainValidations: [ACMClientTypes.AcmeDomainValidationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeDomainValidations = acmeDomainValidations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeEndpointsInput: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeEndpointsOutput: Swift.Sendable {
+    /// The list of ACME endpoints.
+    public var acmeEndpoints: [ACMClientTypes.AcmeEndpointSummary]?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeEndpoints: [ACMClientTypes.AcmeEndpointSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeEndpoints = acmeEndpoints
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeExternalAccountBindingsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAcmeExternalAccountBindingsOutput: Swift.Sendable {
+    /// The list of external account bindings.
+    public var externalAccountBindings: [ACMClientTypes.AcmeExternalAccountBindingSummary]?
+    /// A token for pagination.
+    public var nextToken: Swift.String?
+
+    public init(
+        externalAccountBindings: [ACMClientTypes.AcmeExternalAccountBindingSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.externalAccountBindings = externalAccountBindings
+        self.nextToken = nextToken
+    }
+}
+
 /// One or more of request parameters specified is not valid.
 public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1716,29 +3142,6 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidArgsException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The supplied input failed to satisfy constraints of an Amazon Web Services service.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationError" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1840,6 +3243,8 @@ extension ACMClientTypes {
 }
 
 public struct ListCertificatesInput: Swift.Sendable {
+    /// Filter the certificate list by certificate key pair origin. Specify one or more CertificateKeyPairOrigin values. Default filtering returns only certificates with key pair origin of AWS_MANAGED and CUSTOMER_PROVIDED.
+    public var certificateKeyPairOrigins: [ACMClientTypes.CertificateKeyPairOrigin]?
     /// Filter the certificate list by status value.
     public var certificateStatuses: [ACMClientTypes.CertificateStatus]?
     /// Filter the certificate list. For more information, see the [Filters] structure.
@@ -1854,6 +3259,7 @@ public struct ListCertificatesInput: Swift.Sendable {
     public var sortOrder: ACMClientTypes.SortOrder?
 
     public init(
+        certificateKeyPairOrigins: [ACMClientTypes.CertificateKeyPairOrigin]? = nil,
         certificateStatuses: [ACMClientTypes.CertificateStatus]? = nil,
         includes: ACMClientTypes.Filters? = nil,
         maxItems: Swift.Int? = nil,
@@ -1861,6 +3267,7 @@ public struct ListCertificatesInput: Swift.Sendable {
         sortBy: ACMClientTypes.SortBy? = nil,
         sortOrder: ACMClientTypes.SortOrder? = nil
     ) {
+        self.certificateKeyPairOrigins = certificateKeyPairOrigins
         self.certificateStatuses = certificateStatuses
         self.includes = includes
         self.maxItems = maxItems
@@ -1876,13 +3283,15 @@ extension ACMClientTypes {
     public struct CertificateSummary: Swift.Sendable {
         /// Amazon Resource Name (ARN) of the certificate. This is of the form: arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
         public var certificateArn: Swift.String?
+        /// The origin of the certificate's key pair.
+        public var certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin?
         /// The time at which the certificate was requested.
         public var createdAt: Foundation.Date?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
         public var domainName: Swift.String?
         /// Indicates if export is enabled for the certificate.
         public var exportOption: ACMClientTypes.CertificateExport?
-        /// Indicates whether the certificate has been exported. This value exists only when the certificate type is PRIVATE.
+        /// Indicates whether the certificate has been exported.
         public var exported: Swift.Bool?
         /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
         public var extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]?
@@ -1917,6 +3326,7 @@ extension ACMClientTypes {
 
         public init(
             certificateArn: Swift.String? = nil,
+            certificateKeyPairOrigin: ACMClientTypes.CertificateKeyPairOrigin? = nil,
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
             exportOption: ACMClientTypes.CertificateExport? = nil,
@@ -1938,6 +3348,7 @@ extension ACMClientTypes {
             type: ACMClientTypes.CertificateType? = nil
         ) {
             self.certificateArn = certificateArn
+            self.certificateKeyPairOrigin = certificateKeyPairOrigin
             self.createdAt = createdAt
             self.domainName = domainName
             self.exportOption = exportOption
@@ -1990,6 +3401,29 @@ public struct ListTagsForCertificateInput: Swift.Sendable {
 
 public struct ListTagsForCertificateOutput: Swift.Sendable {
     /// The key-value pairs that define the applied tags.
+    public var tags: [ACMClientTypes.Tag]?
+
+    public init(
+        tags: [ACMClientTypes.Tag]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The ARN of the ACM resource for which to list tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The tags associated with the resource.
     public var tags: [ACMClientTypes.Tag]?
 
     public init(
@@ -2227,6 +3661,35 @@ public struct ResendValidationEmailInput: Swift.Sendable {
     }
 }
 
+public struct RevokeAcmeAccountInput: Swift.Sendable {
+    /// The URL of the ACME account to revoke.
+    /// This member is required.
+    public var accountUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the ACME endpoint.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+
+    public init(
+        accountUrl: Swift.String? = nil,
+        acmeEndpointArn: Swift.String? = nil
+    ) {
+        self.accountUrl = accountUrl
+        self.acmeEndpointArn = acmeEndpointArn
+    }
+}
+
+public struct RevokeAcmeExternalAccountBindingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME external account binding to revoke.
+    /// This member is required.
+    public var acmeExternalAccountBindingArn: Swift.String?
+
+    public init(
+        acmeExternalAccountBindingArn: Swift.String? = nil
+    ) {
+        self.acmeExternalAccountBindingArn = acmeExternalAccountBindingArn
+    }
+}
+
 public struct RevokeCertificateInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
     /// This member is required.
@@ -2259,7 +3722,10 @@ extension ACMClientTypes {
 
     /// The field to sort search results by.
     public enum SearchCertificatesSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case acmeAccountId
+        case acmeEndpointArn
         case certificateArn
+        case certificateKeyPairOrigin
         case commonName
         case createdAt
         case exported
@@ -2281,7 +3747,10 @@ extension ACMClientTypes {
 
         public static var allCases: [SearchCertificatesSortBy] {
             return [
+                .acmeAccountId,
+                .acmeEndpointArn,
                 .certificateArn,
+                .certificateKeyPairOrigin,
                 .commonName,
                 .createdAt,
                 .exported,
@@ -2309,7 +3778,10 @@ extension ACMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .acmeAccountId: return "ACME_ACCOUNT_ID"
+            case .acmeEndpointArn: return "ACME_ENDPOINT_ARN"
             case .certificateArn: return "CERTIFICATE_ARN"
+            case .certificateKeyPairOrigin: return "CERTIFICATE_KEY_PAIR_ORIGIN"
             case .commonName: return "COMMON_NAME"
             case .createdAt: return "CREATED_AT"
             case .exported: return "EXPORTED"
@@ -2590,6 +4062,80 @@ public struct SearchCertificatesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.results = results
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The ARN of the ACM resource to which the tag is to be applied.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The key-value pair that defines the tag to apply.
+    /// This member is required.
+    public var tags: [ACMClientTypes.Tag]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [ACMClientTypes.Tag]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The ARN of the ACM resource from which the tag is to be removed.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The key of each tag to remove.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UpdateAcmeDomainValidationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME domain validation to update.
+    /// This member is required.
+    public var acmeDomainValidationArn: Swift.String?
+    /// The updated prevalidation options.
+    public var prevalidationOptions: ACMClientTypes.PrevalidationOptions?
+
+    public init(
+        acmeDomainValidationArn: Swift.String? = nil,
+        prevalidationOptions: ACMClientTypes.PrevalidationOptions? = nil
+    ) {
+        self.acmeDomainValidationArn = acmeDomainValidationArn
+        self.prevalidationOptions = prevalidationOptions
+    }
+}
+
+public struct UpdateAcmeEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the ACME endpoint to update.
+    /// This member is required.
+    public var acmeEndpointArn: Swift.String?
+    /// The updated authorization behavior.
+    public var authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior?
+    /// The updated certificate authority configuration.
+    public var certificateAuthority: ACMClientTypes.CertificateAuthority?
+    /// The updated contact requirement.
+    public var contact: ACMClientTypes.AcmeContact?
+
+    public init(
+        acmeEndpointArn: Swift.String? = nil,
+        authorizationBehavior: ACMClientTypes.AcmeAuthorizationBehavior? = nil,
+        certificateAuthority: ACMClientTypes.CertificateAuthority? = nil,
+        contact: ACMClientTypes.AcmeContact? = nil
+    ) {
+        self.acmeEndpointArn = acmeEndpointArn
+        self.authorizationBehavior = authorizationBehavior
+        self.certificateAuthority = certificateAuthority
+        self.contact = contact
     }
 }
 

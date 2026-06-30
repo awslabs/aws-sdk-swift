@@ -475,10 +475,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTDataPlane](/sdk-for-swift/latest/api/awsiotdataplane/documentation/awsiotdataplane)
 
-[AWSIoTEvents](/sdk-for-swift/latest/api/awsiotevents/documentation/awsiotevents)
-
-[AWSIoTEventsData](/sdk-for-swift/latest/api/awsioteventsdata/documentation/awsioteventsdata)
-
 [AWSIoTFleetWise](/sdk-for-swift/latest/api/awsiotfleetwise/documentation/awsiotfleetwise)
 
 [AWSIoTJobsDataPlane](/sdk-for-swift/latest/api/awsiotjobsdataplane/documentation/awsiotjobsdataplane)
@@ -675,8 +671,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPI](/sdk-for-swift/latest/api/awspi/documentation/awspi)
 
-[AWSPanorama](/sdk-for-swift/latest/api/awspanorama/documentation/awspanorama)
-
 [AWSPartnerCentralAccount](/sdk-for-swift/latest/api/awspartnercentralaccount/documentation/awspartnercentralaccount)
 
 [AWSPartnerCentralBenefits](/sdk-for-swift/latest/api/awspartnercentralbenefits/documentation/awspartnercentralbenefits)
@@ -867,8 +861,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSignin](/sdk-for-swift/latest/api/awssignin/documentation/awssignin)
 
-[AWSSimSpaceWeaver](/sdk-for-swift/latest/api/awssimspaceweaver/documentation/awssimspaceweaver)
-
 [AWSSimpleDBv2](/sdk-for-swift/latest/api/awssimpledbv2/documentation/awssimpledbv2)
 
 [AWSSnowDeviceManagement](/sdk-for-swift/latest/api/awssnowdevicemanagement/documentation/awssnowdevicemanagement)
@@ -886,6 +878,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSupport](/sdk-for-swift/latest/api/awssupport/documentation/awssupport)
 
 [AWSSupportApp](/sdk-for-swift/latest/api/awssupportapp/documentation/awssupportapp)
+
+[AWSSupportAuthZ](/sdk-for-swift/latest/api/awssupportauthz/documentation/awssupportauthz)
 
 [AWSSustainability](/sdk-for-swift/latest/api/awssustainability/documentation/awssustainability)
 

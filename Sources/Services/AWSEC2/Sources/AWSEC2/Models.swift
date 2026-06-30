@@ -35572,6 +35572,80 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum PayerResponsibilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpcendpointaccount
+        case vpcendpointserviceaccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityType] {
+            return [
+                .vpcendpointaccount,
+                .vpcendpointserviceaccount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpcendpointaccount: return "vpc-endpoint-account"
+            case .vpcendpointserviceaccount: return "vpc-endpoint-service-account"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum PayerResponsibilityScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpcendpointcharges
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PayerResponsibilityScope] {
+            return [
+                .vpcendpointcharges
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpcendpointcharges: return "vpc-endpoint-charges"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a payer responsibility setting for a VPC endpoint.
+    public struct PayerResponsibilityEntry: Swift.Sendable {
+        /// The Amazon Web Services account to which the usage is charged.
+        public var payerResponsibilityType: EC2ClientTypes.PayerResponsibilityType?
+        /// The scope of usage/charges.
+        public var scope: EC2ClientTypes.PayerResponsibilityScope?
+
+        public init(
+            payerResponsibilityType: EC2ClientTypes.PayerResponsibilityType? = nil,
+            scope: EC2ClientTypes.PayerResponsibilityScope? = nil
+        ) {
+            self.payerResponsibilityType = payerResponsibilityType
+            self.scope = scope
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deleted
@@ -35646,6 +35720,8 @@ extension EC2ClientTypes {
         public var networkInterfaceIds: [Swift.String]?
         /// The ID of the Amazon Web Services account that owns the endpoint.
         public var ownerId: Swift.String?
+        /// The payer responsibility settings for the endpoint.
+        public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
         /// The policy document associated with the endpoint, if applicable.
         public var policyDocument: Swift.String?
         /// (Interface endpoint) Indicates whether the VPC is associated with a private hosted zone.
@@ -35687,6 +35763,7 @@ extension EC2ClientTypes {
             lastError: EC2ClientTypes.LastError? = nil,
             networkInterfaceIds: [Swift.String]? = nil,
             ownerId: Swift.String? = nil,
+            payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             policyDocument: Swift.String? = nil,
             privateDnsEnabled: Swift.Bool? = nil,
             requesterManaged: Swift.Bool? = nil,
@@ -35713,6 +35790,7 @@ extension EC2ClientTypes {
             self.lastError = lastError
             self.networkInterfaceIds = networkInterfaceIds
             self.ownerId = ownerId
+            self.payerResponsibilities = payerResponsibilities
             self.policyDocument = policyDocument
             self.privateDnsEnabled = privateDnsEnabled
             self.requesterManaged = requesterManaged
@@ -63573,6 +63651,8 @@ extension EC2ClientTypes {
         public var ipAddressType: EC2ClientTypes.IpAddressType?
         /// The Amazon Resource Names (ARNs) of the network load balancers for the service.
         public var networkLoadBalancerArns: [Swift.String]?
+        /// The payer responsibility settings for the endpoint.
+        public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
         /// The ID of the service to which the endpoint is connected.
         public var serviceId: Swift.String?
         /// The tags.
@@ -63594,6 +63674,7 @@ extension EC2ClientTypes {
             gatewayLoadBalancerArns: [Swift.String]? = nil,
             ipAddressType: EC2ClientTypes.IpAddressType? = nil,
             networkLoadBalancerArns: [Swift.String]? = nil,
+            payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             serviceId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
             vpcEndpointConnectionId: Swift.String? = nil,
@@ -63607,6 +63688,7 @@ extension EC2ClientTypes {
             self.gatewayLoadBalancerArns = gatewayLoadBalancerArns
             self.ipAddressType = ipAddressType
             self.networkLoadBalancerArns = networkLoadBalancerArns
+            self.payerResponsibilities = payerResponsibilities
             self.serviceId = serviceId
             self.tags = tags
             self.vpcEndpointConnectionId = vpcEndpointConnectionId
@@ -78914,6 +78996,51 @@ public struct ModifyVpcEndpointConnectionNotificationOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyVpcEndpointPayerResponsibilityInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Web Services account to which the usage of VPC endpoint is charged.
+    /// This member is required.
+    public var payerResponsibility: EC2ClientTypes.PayerResponsibilityType?
+    /// The scope of usage/charges for which the billing account is being modified.
+    /// This member is required.
+    public var scope: EC2ClientTypes.PayerResponsibilityScope?
+    /// The ID of the VPC endpoint service.
+    public var serviceId: Swift.String?
+    /// The ID of the VPC endpoint.
+    /// This member is required.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        payerResponsibility: EC2ClientTypes.PayerResponsibilityType? = nil,
+        scope: EC2ClientTypes.PayerResponsibilityScope? = nil,
+        serviceId: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.payerResponsibility = payerResponsibility
+        self.scope = scope
+        self.serviceId = serviceId
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct ModifyVpcEndpointPayerResponsibilityOutput: Swift.Sendable {
+    /// The payer responsibility settings for the VPC endpoint.
+    public var payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]?
+    /// The ID of the VPC endpoint.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.payerResponsibilities = payerResponsibilities
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
 public struct ModifyVpcEndpointServiceConfigurationInput: Swift.Sendable {
     /// Indicates whether requests to create an endpoint to the service must be accepted.
     public var acceptanceRequired: Swift.Bool?
@@ -88876,6 +89003,13 @@ extension ModifyVpcEndpointInput {
 extension ModifyVpcEndpointConnectionNotificationInput {
 
     static func urlPathProvider(_ value: ModifyVpcEndpointConnectionNotificationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyVpcEndpointPayerResponsibilityInput {
+
+    static func urlPathProvider(_ value: ModifyVpcEndpointPayerResponsibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -99983,6 +100117,20 @@ extension ModifyVpcEndpointConnectionNotificationInput {
     }
 }
 
+extension ModifyVpcEndpointPayerResponsibilityInput {
+
+    static func write(value: ModifyVpcEndpointPayerResponsibilityInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PayerResponsibility"].write(value.payerResponsibility)
+        try writer["Scope"].write(value.scope)
+        try writer["ServiceId"].write(value.serviceId)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+        try writer["Action"].write("ModifyVpcEndpointPayerResponsibility")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyVpcEndpointServiceConfigurationInput {
 
     static func write(value: ModifyVpcEndpointServiceConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
@@ -109830,6 +109978,19 @@ extension ModifyVpcEndpointConnectionNotificationOutput {
         let reader = responseReader
         var value = ModifyVpcEndpointConnectionNotificationOutput()
         value.returnValue = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyVpcEndpointPayerResponsibilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyVpcEndpointPayerResponsibilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyVpcEndpointPayerResponsibilityOutput()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -119737,6 +119898,19 @@ enum ModifyVpcEndpointConnectionNotificationOutputError {
     }
 }
 
+enum ModifyVpcEndpointPayerResponsibilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyVpcEndpointServiceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -129121,6 +129295,17 @@ extension EC2ClientTypes.PathStatementRequest {
     }
 }
 
+extension EC2ClientTypes.PayerResponsibilityEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PayerResponsibilityEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PayerResponsibilityEntry()
+        value.scope = try reader["scope"].readIfPresent()
+        value.payerResponsibilityType = try reader["payerResponsibilityType"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.PciId {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PciId {
@@ -133862,6 +134047,7 @@ extension EC2ClientTypes.VpcEndpoint {
         value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
         value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
         value.serviceRegion = try reader["serviceRegion"].readIfPresent()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -133904,6 +134090,7 @@ extension EC2ClientTypes.VpcEndpointConnection {
         value.vpcEndpointConnectionId = try reader["vpcEndpointConnectionId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcEndpointRegion = try reader["vpcEndpointRegion"].readIfPresent()
+        value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }

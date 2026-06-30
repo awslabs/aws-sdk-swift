@@ -1370,6 +1370,57 @@ public struct AssociateEncryptionConfigInput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    public enum CancellationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CancellationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .successful: return "Successful"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Contains information about the latest cancellation of an update to an Amazon EKS cluster.
+    public struct Cancellation: Swift.Sendable {
+        /// A message providing additional details about the cancellation, such as the reason for the cancellation or failure details.
+        public var reason: Swift.String?
+        /// The current status of the cancellation. Valid values are InProgress, Failed, and Successful.
+        public var status: EKSClientTypes.CancellationStatus?
+
+        public init(
+            reason: Swift.String? = nil,
+            status: EKSClientTypes.CancellationStatus? = nil
+        ) {
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
         case admissionRequestDenied
@@ -1728,6 +1779,7 @@ extension EKSClientTypes {
         case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
         case vendedLogsUpdate
+        case versionRollback
         case versionUpdate
         case vpcConfigUpdate
         case zonalShiftConfigUpdate
@@ -1751,6 +1803,7 @@ extension EKSClientTypes {
                 .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
                 .vendedLogsUpdate,
+                .versionRollback,
                 .versionUpdate,
                 .vpcConfigUpdate,
                 .zonalShiftConfigUpdate
@@ -1780,6 +1833,7 @@ extension EKSClientTypes {
             case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
             case .vendedLogsUpdate: return "VendedLogsUpdate"
+            case .versionRollback: return "VersionRollback"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
             case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"
@@ -1793,6 +1847,8 @@ extension EKSClientTypes {
 
     /// An object representing an asynchronous update.
     public struct Update: Swift.Sendable {
+        /// The latest cancellation information for the update. This field is present only if any cancellation is attempted for the update.
+        public var cancellation: EKSClientTypes.Cancellation?
         /// The Unix epoch timestamp at object creation.
         public var createdAt: Foundation.Date?
         /// Any errors associated with a Failed update.
@@ -1807,6 +1863,7 @@ extension EKSClientTypes {
         public var type: EKSClientTypes.UpdateType?
 
         public init(
+            cancellation: EKSClientTypes.Cancellation? = nil,
             createdAt: Foundation.Date? = nil,
             errors: [EKSClientTypes.ErrorDetail]? = nil,
             id: Swift.String? = nil,
@@ -1814,6 +1871,7 @@ extension EKSClientTypes {
             status: EKSClientTypes.UpdateStatus? = nil,
             type: EKSClientTypes.UpdateType? = nil
         ) {
+            self.cancellation = cancellation
             self.createdAt = createdAt
             self.errors = errors
             self.id = id
@@ -1933,6 +1991,65 @@ extension EKSClientTypes {
         ) {
             self.name = name
         }
+    }
+}
+
+/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
+public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The Amazon EKS cluster associated with the exception.
+        public internal(set) var clusterName: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.clusterName = clusterName
+        self.properties.message = message
+    }
+}
+
+public struct CancelUpdateInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Amazon EKS cluster associated with the update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ID of the update to cancel.
+    /// This member is required.
+    public var updateId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        name: Swift.String? = nil,
+        updateId: Swift.String? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.name = name
+        self.updateId = updateId
+    }
+}
+
+public struct CancelUpdateOutput: Swift.Sendable {
+    /// The full description of the specified update.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.update = update
     }
 }
 
@@ -6068,12 +6185,14 @@ extension EKSClientTypes {
 
     public enum Category: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case misconfiguration
+        case rollbackReadiness
         case upgradeReadiness
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Category] {
             return [
                 .misconfiguration,
+                .rollbackReadiness,
                 .upgradeReadiness
             ]
         }
@@ -6086,6 +6205,7 @@ extension EKSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .misconfiguration: return "MISCONFIGURATION"
+            case .rollbackReadiness: return "ROLLBACK_READINESS"
             case .upgradeReadiness: return "UPGRADE_READINESS"
             case let .sdkUnknown(s): return s
             }
@@ -7780,41 +7900,31 @@ public struct UpdateClusterConfigOutput: Swift.Sendable {
     }
 }
 
-/// Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
-public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension EKSClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// The Amazon EKS cluster associated with the exception.
-        public internal(set) var clusterName: Swift.String? = nil
-        public internal(set) var message: Swift.String? = nil
-    }
+    /// The rollback configuration for the cluster version rollback.
+    public struct RollbackConfig: Swift.Sendable {
+        /// The length of time in minutes to wait before cancelling the update. Timeout is a minimum-bound property, meaning the timeout occurs no sooner than the time you specify, but can occur shortly thereafter. This value can be between 120 (2 hours) and 10080 (7 days). Default: 720 (12 hours) if not specified.
+        public var timeoutMinutes: Swift.Int?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        clusterName: Swift.String? = nil,
-        message: Swift.String? = nil
-    ) {
-        self.properties.clusterName = clusterName
-        self.properties.message = message
+        public init(
+            timeoutMinutes: Swift.Int? = nil
+        ) {
+            self.timeoutMinutes = timeoutMinutes
+        }
     }
 }
 
 public struct UpdateClusterVersionInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientRequestToken: Swift.String?
-    /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+    /// Set this value to true to override upgrade-blocking or rollback-blocking readiness checks when updating a cluster.
     public var force: Swift.Bool?
     /// The name of the Amazon EKS cluster to update.
     /// This member is required.
     public var name: Swift.String?
+    /// The rollback configuration for the cluster version rollback.
+    public var rollbackConfig: EKSClientTypes.RollbackConfig?
     /// The desired Kubernetes version following a successful update.
     /// This member is required.
     public var version: Swift.String?
@@ -7823,11 +7933,13 @@ public struct UpdateClusterVersionInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         force: Swift.Bool? = false,
         name: Swift.String? = nil,
+        rollbackConfig: EKSClientTypes.RollbackConfig? = nil,
         version: Swift.String? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.force = force
         self.name = name
+        self.rollbackConfig = rollbackConfig
         self.version = version
     }
 }
@@ -8099,6 +8211,19 @@ extension AssociateIdentityProviderConfigInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/identity-provider-configs/associate"
+    }
+}
+
+extension CancelUpdateInput {
+
+    static func urlPathProvider(_ value: CancelUpdateInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        guard let updateId = value.updateId else {
+            return nil
+        }
+        return "/clusters/\(name.urlPercentEncoding())/updates/\(updateId.urlPercentEncoding())/cancel-update"
     }
 }
 
@@ -9162,6 +9287,14 @@ extension AssociateIdentityProviderConfigInput {
     }
 }
 
+extension CancelUpdateInput {
+
+    static func write(value: CancelUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+    }
+}
+
 extension CreateAccessEntryInput {
 
     static func write(value: CreateAccessEntryInput?, to writer: SmithyJSON.Writer) throws {
@@ -9404,6 +9537,7 @@ extension UpdateClusterVersionInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["force"].write(value.force)
+        try writer["rollbackConfig"].write(value.rollbackConfig, with: EKSClientTypes.RollbackConfig.write(value:to:))
         try writer["version"].write(value.version)
     }
 }
@@ -9489,6 +9623,18 @@ extension AssociateIdentityProviderConfigOutput {
         let reader = responseReader
         var value = AssociateIdentityProviderConfigOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
+        return value
+    }
+}
+
+extension CancelUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelUpdateOutput()
         value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
         return value
     }
@@ -10278,6 +10424,27 @@ enum AssociateIdentityProviderConfigOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -11477,6 +11644,20 @@ extension ThrottlingException {
     }
 }
 
+extension InvalidStateException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidStateException()
+        value.properties.clusterName = try reader["clusterName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceLimitExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceLimitExceededException {
@@ -11566,20 +11747,6 @@ extension ResourcePropagationDelayException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourcePropagationDelayException {
         let reader = baseError.errorBodyReader
         var value = ResourcePropagationDelayException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStateException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStateException()
-        value.properties.clusterName = try reader["clusterName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11887,6 +12054,17 @@ extension EKSClientTypes.BlockStorage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.BlockStorage()
         value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.Cancellation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Cancellation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Cancellation()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
         return value
     }
 }
@@ -12900,6 +13078,14 @@ extension EKSClientTypes.RemotePodNetwork {
     }
 }
 
+extension EKSClientTypes.RollbackConfig {
+
+    static func write(value: EKSClientTypes.RollbackConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["timeoutMinutes"].write(value.timeoutMinutes)
+    }
+}
+
 extension EKSClientTypes.SsoIdentity {
 
     static func write(value: EKSClientTypes.SsoIdentity?, to writer: SmithyJSON.Writer) throws {
@@ -12965,6 +13151,7 @@ extension EKSClientTypes.Update {
         value.params = try reader["params"].readListIfPresent(memberReadingClosure: EKSClientTypes.UpdateParam.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: EKSClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cancellation = try reader["cancellation"].readIfPresent(with: EKSClientTypes.Cancellation.read(from:))
         return value
     }
 }

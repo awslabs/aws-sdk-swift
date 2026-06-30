@@ -4189,6 +4189,7 @@ extension ConnectClientTypes {
         case emailMessagePlainText
         case emailMessagePlainTextRedacted
         case emailMessageRedacted
+        case voiceRecording
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FileUseCaseType] {
@@ -4198,7 +4199,8 @@ extension ConnectClientTypes {
                 .emailMessage,
                 .emailMessagePlainText,
                 .emailMessagePlainTextRedacted,
-                .emailMessageRedacted
+                .emailMessageRedacted,
+                .voiceRecording
             ]
         }
 
@@ -4215,6 +4217,7 @@ extension ConnectClientTypes {
             case .emailMessagePlainText: return "EMAIL_MESSAGE_PLAIN_TEXT"
             case .emailMessagePlainTextRedacted: return "EMAIL_MESSAGE_PLAIN_TEXT_REDACTED"
             case .emailMessageRedacted: return "EMAIL_MESSAGE_REDACTED"
+            case .voiceRecording: return "VOICE_RECORDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4909,6 +4912,65 @@ public struct CreateAgentStatusOutput: Swift.Sendable {
     ) {
         self.agentStatusARN = agentStatusARN
         self.agentStatusId = agentStatusId
+    }
+}
+
+public struct CreateAttachedFileInput: Swift.Sendable {
+    /// The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported. This value must be a valid ARN.
+    /// This member is required.
+    public var associatedResourceArn: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The S3 URI of the file to be attached. Only S3 source URIs are supported.
+    /// This member is required.
+    public var fileSourceUri: Swift.String?
+    /// The use case for the file. Only VOICE_RECORDING is supported.
+    /// This member is required.
+    public var fileUseCaseType: ConnectClientTypes.FileUseCaseType?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        associatedResourceArn: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        fileSourceUri: Swift.String? = nil,
+        fileUseCaseType: ConnectClientTypes.FileUseCaseType? = nil,
+        instanceId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.associatedResourceArn = associatedResourceArn
+        self.clientToken = clientToken
+        self.fileSourceUri = fileSourceUri
+        self.fileUseCaseType = fileUseCaseType
+        self.instanceId = instanceId
+        self.tags = tags
+    }
+}
+
+/// Response from CreateAttachedFile API.
+public struct CreateAttachedFileOutput: Swift.Sendable {
+    /// The time of Creation of the file resource as an ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2024-05-03T02:41:28.172Z.
+    public var creationTime: Swift.String?
+    /// The unique identifier of the attached file resource (ARN).
+    public var fileArn: Swift.String?
+    /// The unique identifier of the attached file resource.
+    public var fileId: Swift.String?
+    /// The current status of the attached file. Valid values: PROCESSING | APPROVED | REJECTED | FAILED.
+    public var fileStatus: ConnectClientTypes.FileStatusType?
+
+    public init(
+        creationTime: Swift.String? = nil,
+        fileArn: Swift.String? = nil,
+        fileId: Swift.String? = nil,
+        fileStatus: ConnectClientTypes.FileStatusType? = nil
+    ) {
+        self.creationTime = creationTime
+        self.fileArn = fileArn
+        self.fileId = fileId
+        self.fileStatus = fileStatus
     }
 }
 
@@ -30494,6 +30556,336 @@ public struct StartChatContactOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The language configuration for conversational analytics.
+    public struct LanguageConfiguration: Swift.Sendable {
+        /// The language locale setting for conversational analytics.
+        public var languageLocale: Swift.String?
+
+        public init(
+            languageLocale: Swift.String? = nil
+        ) {
+            self.languageLocale = languageLocale
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Behavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Behavior] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum MaskMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entitytype
+        case pii
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaskMode] {
+            return [
+                .entitytype,
+                .pii
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entitytype: return "EntityType"
+            case .pii: return "PII"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Policy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case redactedandoriginal
+        case redactedonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Policy] {
+            return [
+                .none,
+                .redactedandoriginal,
+                .redactedonly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "None"
+            case .redactedandoriginal: return "RedactedAndOriginal"
+            case .redactedonly: return "RedactedOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The redaction configuration for conversational analytics.
+    public struct RedactionConfiguration: Swift.Sendable {
+        /// Controls whether redaction is applied to the analytics output. Valid values: Enable | Disable.
+        /// This member is required.
+        public var behavior: ConnectClientTypes.Behavior?
+        /// The list of PII entity types to redact from the transcript (for example, NAME, ADDRESS, CREDIT_DEBIT_NUMBER).
+        public var entities: [Swift.String]?
+        /// The masking mode that determines how redacted content is replaced in the output. Valid values: PII (replaces with the literal string [PII]) | EntityType (replaces with the entity type name, for example [NAME]).
+        public var maskMode: ConnectClientTypes.MaskMode?
+        /// The redaction output policy that determines which versions of the transcript are stored. Valid values: None | RedactedOnly | RedactedAndOriginal.
+        /// This member is required.
+        public var policy: ConnectClientTypes.Policy?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil,
+            entities: [Swift.String]? = nil,
+            maskMode: ConnectClientTypes.MaskMode? = nil,
+            policy: ConnectClientTypes.Policy? = nil
+        ) {
+            self.behavior = behavior
+            self.entities = entities
+            self.maskMode = maskMode
+            self.policy = policy
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The rules configuration for conversational analytics. Controls whether Contact Lens rules are evaluated against the analytics output.
+    public struct RulesConfiguration: Swift.Sendable {
+        /// Controls whether Contact Lens rules are evaluated for the contact. Valid values: Enable | Disable.
+        public var behavior: ConnectClientTypes.Behavior?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The sentiment configuration for conversational analytics.
+    public struct SentimentConfiguration: Swift.Sendable {
+        /// Controls whether sentiment analysis is applied to the analytics output. Valid values: Enable | Disable.
+        /// This member is required.
+        public var behavior: ConnectClientTypes.Behavior?
+
+        public init(
+            behavior: ConnectClientTypes.Behavior? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum SummaryMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedinteraction
+        case contactchain
+        case postcontact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryMode] {
+            return [
+                .automatedinteraction,
+                .contactchain,
+                .postcontact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedinteraction: return "AutomatedInteraction"
+            case .contactchain: return "ContactChain"
+            case .postcontact: return "PostContact"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The summary configuration for conversational analytics.
+    public struct SummaryConfiguration: Swift.Sendable {
+        /// The summary modes that determine what type of summarization is generated. Valid values: PostContact | AutomatedInteraction | ContactChain.
+        /// This member is required.
+        public var summaryModes: [ConnectClientTypes.SummaryMode]?
+
+        public init(
+            summaryModes: [ConnectClientTypes.SummaryMode]? = nil
+        ) {
+            self.summaryModes = summaryModes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The configuration for conversational analytics.
+    public struct AnalyticsConfiguration: Swift.Sendable {
+        /// The language configuration for conversational analytics.
+        /// This member is required.
+        public var languageConfiguration: ConnectClientTypes.LanguageConfiguration?
+        /// The redaction configuration for conversational analytics.
+        /// This member is required.
+        public var redactionConfiguration: ConnectClientTypes.RedactionConfiguration?
+        /// The rules configuration for conversational analytics.
+        /// This member is required.
+        public var rulesConfiguration: ConnectClientTypes.RulesConfiguration?
+        /// The sentiment configuration for conversational analytics.
+        /// This member is required.
+        public var sentimentConfiguration: ConnectClientTypes.SentimentConfiguration?
+        /// The summary configuration for conversational analytics.
+        /// This member is required.
+        public var summaryConfiguration: ConnectClientTypes.SummaryConfiguration?
+
+        public init(
+            languageConfiguration: ConnectClientTypes.LanguageConfiguration? = nil,
+            redactionConfiguration: ConnectClientTypes.RedactionConfiguration? = nil,
+            rulesConfiguration: ConnectClientTypes.RulesConfiguration? = nil,
+            sentimentConfiguration: ConnectClientTypes.SentimentConfiguration? = nil,
+            summaryConfiguration: ConnectClientTypes.SummaryConfiguration? = nil
+        ) {
+            self.languageConfiguration = languageConfiguration
+            self.redactionConfiguration = redactionConfiguration
+            self.rulesConfiguration = rulesConfiguration
+            self.sentimentConfiguration = sentimentConfiguration
+            self.summaryConfiguration = summaryConfiguration
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum AnalyticsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatedinteraction
+        case contactlens
+        case postcontact
+        case realtime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalyticsMode] {
+            return [
+                .automatedinteraction,
+                .contactlens,
+                .postcontact,
+                .realtime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatedinteraction: return "AutomatedInteraction"
+            case .contactlens: return "ContactLens"
+            case .postcontact: return "PostContact"
+            case .realtime: return "RealTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartContactConversationalAnalyticsJobInput: Swift.Sendable {
+    /// The configuration for the conversational analytics job.
+    /// This member is required.
+    public var analyticsConfiguration: ConnectClientTypes.AnalyticsConfiguration?
+    /// The analytics modes to run for the contact. Valid values: PostContact.
+    /// This member is required.
+    public var analyticsModes: [ConnectClientTypes.AnalyticsMode]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the contact in this instance of Connect Customer.
+    /// This member is required.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        analyticsConfiguration: ConnectClientTypes.AnalyticsConfiguration? = nil,
+        analyticsModes: [ConnectClientTypes.AnalyticsMode]? = nil,
+        clientToken: Swift.String? = nil,
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.analyticsConfiguration = analyticsConfiguration
+        self.analyticsModes = analyticsModes
+        self.clientToken = clientToken
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+public struct StartContactConversationalAnalyticsJobOutput: Swift.Sendable {
+    /// The identifier of the contact.
+    public var contactId: Swift.String?
+    /// The identifier of the Connect Customer instance.
+    public var instanceId: Swift.String?
+
+    public init(
+        contactId: Swift.String? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.contactId = contactId
+        self.instanceId = instanceId
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Configuration information about automated evaluations.
     public struct AutoEvaluationConfiguration: Swift.Sendable {
         /// Whether automated evaluations are enabled.
@@ -37242,6 +37634,30 @@ extension CreateAgentStatusInput {
     }
 }
 
+extension CreateAttachedFileInput {
+
+    static func urlPathProvider(_ value: CreateAttachedFileInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/attached-files/\(instanceId.urlPercentEncoding())/files"
+    }
+}
+
+extension CreateAttachedFileInput {
+
+    static func queryItemProvider(_ value: CreateAttachedFileInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let associatedResourceArn = value.associatedResourceArn else {
+            let message = "Creating a URL Query Item failed. associatedResourceArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let associatedResourceArnQueryItem = Smithy.URIQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
+        items.append(associatedResourceArnQueryItem)
+        return items
+    }
+}
+
 extension CreateContactInput {
 
     static func urlPathProvider(_ value: CreateContactInput) -> Swift.String? {
@@ -41512,6 +41928,19 @@ extension StartChatContactInput {
     }
 }
 
+extension StartContactConversationalAnalyticsJobInput {
+
+    static func urlPathProvider(_ value: StartContactConversationalAnalyticsJobInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let contactId = value.contactId else {
+            return nil
+        }
+        return "/contact/start-conversational-analytics-job/\(instanceId.urlPercentEncoding())/\(contactId.urlPercentEncoding())"
+    }
+}
+
 extension StartContactEvaluationInput {
 
     static func urlPathProvider(_ value: StartContactEvaluationInput) -> Swift.String? {
@@ -42907,6 +43336,17 @@ extension CreateAgentStatusInput {
     }
 }
 
+extension CreateAttachedFileInput {
+
+    static func write(value: CreateAttachedFileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["FileSourceUri"].write(value.fileSourceUri)
+        try writer["FileUseCaseType"].write(value.fileUseCaseType)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateContactInput {
 
     static func write(value: CreateContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -44078,6 +44518,16 @@ extension StartChatContactInput {
         try writer["RelatedContactId"].write(value.relatedContactId)
         try writer["SegmentAttributes"].writeMap(value.segmentAttributes, valueWritingClosure: ConnectClientTypes.SegmentAttributeValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SupportedMessagingContentTypes"].writeList(value.supportedMessagingContentTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartContactConversationalAnalyticsJobInput {
+
+    static func write(value: StartContactConversationalAnalyticsJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalyticsConfiguration"].write(value.analyticsConfiguration, with: ConnectClientTypes.AnalyticsConfiguration.write(value:to:))
+        try writer["AnalyticsModes"].writeList(value.analyticsModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.AnalyticsMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
     }
 }
 
@@ -45319,6 +45769,21 @@ extension CreateAgentStatusOutput {
         var value = CreateAgentStatusOutput()
         value.agentStatusARN = try reader["AgentStatusARN"].readIfPresent()
         value.agentStatusId = try reader["AgentStatusId"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAttachedFileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAttachedFileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAttachedFileOutput()
+        value.creationTime = try reader["CreationTime"].readIfPresent()
+        value.fileArn = try reader["FileArn"].readIfPresent()
+        value.fileId = try reader["FileId"].readIfPresent()
+        value.fileStatus = try reader["FileStatus"].readIfPresent()
         return value
     }
 }
@@ -48270,6 +48735,19 @@ extension StartChatContactOutput {
     }
 }
 
+extension StartContactConversationalAnalyticsJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartContactConversationalAnalyticsJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartContactConversationalAnalyticsJobOutput()
+        value.contactId = try reader["ContactId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartContactEvaluationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartContactEvaluationOutput {
@@ -49669,6 +50147,25 @@ enum CreateAgentStatusOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAttachedFileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -54334,6 +54831,25 @@ enum StartChatContactOutputError {
     }
 }
 
+enum StartContactConversationalAnalyticsJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartContactEvaluationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -56704,6 +57220,18 @@ extension ConnectClientTypes.AllowedExtension {
         var value = ConnectClientTypes.AllowedExtension()
         value.`extension` = try reader["Extension"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ConnectClientTypes.AnalyticsConfiguration {
+
+    static func write(value: ConnectClientTypes.AnalyticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.LanguageConfiguration.write(value:to:))
+        try writer["RedactionConfiguration"].write(value.redactionConfiguration, with: ConnectClientTypes.RedactionConfiguration.write(value:to:))
+        try writer["RulesConfiguration"].write(value.rulesConfiguration, with: ConnectClientTypes.RulesConfiguration.write(value:to:))
+        try writer["SentimentConfiguration"].write(value.sentimentConfiguration, with: ConnectClientTypes.SentimentConfiguration.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: ConnectClientTypes.SummaryConfiguration.write(value:to:))
     }
 }
 
@@ -60575,6 +61103,14 @@ extension ConnectClientTypes.KinesisVideoStreamConfig {
     }
 }
 
+extension ConnectClientTypes.LanguageConfiguration {
+
+    static func write(value: ConnectClientTypes.LanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LanguageLocale"].write(value.languageLocale)
+    }
+}
+
 extension ConnectClientTypes.LexBot {
 
     static func write(value: ConnectClientTypes.LexBot?, to writer: SmithyJSON.Writer) throws {
@@ -62190,6 +62726,17 @@ extension ConnectClientTypes.RecurrencePattern {
     }
 }
 
+extension ConnectClientTypes.RedactionConfiguration {
+
+    static func write(value: ConnectClientTypes.RedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+        try writer["Entities"].writeList(value.entities, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaskMode"].write(value.maskMode)
+        try writer["Policy"].write(value.policy)
+    }
+}
+
 extension ConnectClientTypes.Reference {
 
     static func write(value: ConnectClientTypes.Reference?, to writer: SmithyJSON.Writer) throws {
@@ -62503,6 +63050,14 @@ extension ConnectClientTypes.RuleAction {
         value.endAssociatedTasksAction = try reader["EndAssociatedTasksAction"].readIfPresent(with: ConnectClientTypes.EndAssociatedTasksActionDefinition.read(from:))
         value.submitAutoEvaluationAction = try reader["SubmitAutoEvaluationAction"].readIfPresent(with: ConnectClientTypes.SubmitAutoEvaluationActionDefinition.read(from:))
         return value
+    }
+}
+
+extension ConnectClientTypes.RulesConfiguration {
+
+    static func write(value: ConnectClientTypes.RulesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
     }
 }
 
@@ -62822,6 +63377,14 @@ extension ConnectClientTypes.SendNotificationActionDefinition {
     }
 }
 
+extension ConnectClientTypes.SentimentConfiguration {
+
+    static func write(value: ConnectClientTypes.SentimentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+    }
+}
+
 extension ConnectClientTypes.ServiceQuotaExceededExceptionReason {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ServiceQuotaExceededExceptionReason {
@@ -62983,6 +63546,14 @@ extension ConnectClientTypes.SuccessfulRequest {
         value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
         value.contactId = try reader["ContactId"].readIfPresent()
         return value
+    }
+}
+
+extension ConnectClientTypes.SummaryConfiguration {
+
+    static func write(value: ConnectClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SummaryModes"].writeList(value.summaryModes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.SummaryMode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

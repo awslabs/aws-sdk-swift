@@ -5168,6 +5168,345 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// Contains the network and authentication settings for a connection, including connection credentials, physical network requirements, and compute-environment validation options.
+    public struct ConnectivityProperties: Swift.Sendable {
+        /// The Athena properties for this configuration.
+        public var athenaProperties: [Swift.String: Swift.String]?
+        /// The authentication settings for this configuration.
+        public var authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationInput?
+        /// The connection properties for this configuration.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// The description of the connectivity configuration.
+        public var description: Swift.String?
+        /// The name of the connectivity configuration.
+        public var name: Swift.String?
+        /// The physical network requirements for the connection, such as the subnet, security group, and VPC settings needed to reach the data source.
+        public var physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements?
+        /// The Python properties for this configuration.
+        public var pythonProperties: [Swift.String: Swift.String]?
+        /// The Spark properties for this configuration.
+        public var sparkProperties: [Swift.String: Swift.String]?
+        /// Specifies whether to validate credentials for the connectivity configuration. Defaults to true if not specified.
+        public var validateCredentials: Swift.Bool?
+        /// The compute environments to use when validating connectivity. The service validates that the connection is reachable from each specified environment.
+        public var validateForComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]?
+
+        public init(
+            athenaProperties: [Swift.String: Swift.String]? = nil,
+            authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationInput? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            physicalConnectionRequirements: DataZoneClientTypes.PhysicalConnectionRequirements? = nil,
+            pythonProperties: [Swift.String: Swift.String]? = nil,
+            sparkProperties: [Swift.String: Swift.String]? = nil,
+            validateCredentials: Swift.Bool? = nil,
+            validateForComputeEnvironments: [DataZoneClientTypes.ComputeEnvironments]? = nil
+        ) {
+            self.athenaProperties = athenaProperties
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.description = description
+            self.name = name
+            self.physicalConnectionRequirements = physicalConnectionRequirements
+            self.pythonProperties = pythonProperties
+            self.sparkProperties = sparkProperties
+            self.validateCredentials = validateCredentials
+            self.validateForComputeEnvironments = validateForComputeEnvironments
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Contains the configuration for mapping user identities to Snowflake users, including the username attribute and optional prefix applied during the mapping.
+    public struct IdentityMapping: Swift.Sendable {
+        /// The prefix used for the identity mapping.
+        public var `prefix`: Swift.String?
+        /// The username attribute used for the identity mapping.
+        /// This member is required.
+        public var usernameAttribute: Swift.String?
+
+        public init(
+            `prefix`: Swift.String? = nil,
+            usernameAttribute: Swift.String? = nil
+        ) {
+            self.`prefix` = `prefix`
+            self.usernameAttribute = usernameAttribute
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum Timezone: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case africaJohannesburg
+        case americaMontreal
+        case americaSaoPaulo
+        case asiaBahrain
+        case asiaBangkok
+        case asiaCalcutta
+        case asiaDubai
+        case asiaHongKong
+        case asiaJakarta
+        case asiaKualaLumpur
+        case asiaSeoul
+        case asiaShanghai
+        case asiaSingapore
+        case asiaTaipei
+        case asiaTokyo
+        case australiaMelbourne
+        case australiaSydney
+        case canadaCentral
+        case cet
+        case cst6cdt
+        case etcGmt
+        case etcGmt0
+        case etcGmtAdd0
+        case etcGmtAdd1
+        case etcGmtAdd10
+        case etcGmtAdd11
+        case etcGmtAdd12
+        case etcGmtAdd2
+        case etcGmtAdd3
+        case etcGmtAdd4
+        case etcGmtAdd5
+        case etcGmtAdd6
+        case etcGmtAdd7
+        case etcGmtAdd8
+        case etcGmtAdd9
+        case etcGmtNeg0
+        case etcGmtNeg1
+        case etcGmtNeg10
+        case etcGmtNeg11
+        case etcGmtNeg12
+        case etcGmtNeg13
+        case etcGmtNeg14
+        case etcGmtNeg2
+        case etcGmtNeg3
+        case etcGmtNeg4
+        case etcGmtNeg5
+        case etcGmtNeg6
+        case etcGmtNeg7
+        case etcGmtNeg8
+        case etcGmtNeg9
+        case europeDublin
+        case europeLondon
+        case europeParis
+        case europeStockholm
+        case europeZurich
+        case israel
+        case mexicoGeneral
+        case mst7mdt
+        case pacificAuckland
+        case usCentral
+        case usEastern
+        case usMountain
+        case usPacific
+        case utc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Timezone] {
+            return [
+                .africaJohannesburg,
+                .americaMontreal,
+                .americaSaoPaulo,
+                .asiaBahrain,
+                .asiaBangkok,
+                .asiaCalcutta,
+                .asiaDubai,
+                .asiaHongKong,
+                .asiaJakarta,
+                .asiaKualaLumpur,
+                .asiaSeoul,
+                .asiaShanghai,
+                .asiaSingapore,
+                .asiaTaipei,
+                .asiaTokyo,
+                .australiaMelbourne,
+                .australiaSydney,
+                .canadaCentral,
+                .cet,
+                .cst6cdt,
+                .etcGmt,
+                .etcGmt0,
+                .etcGmtAdd0,
+                .etcGmtAdd1,
+                .etcGmtAdd10,
+                .etcGmtAdd11,
+                .etcGmtAdd12,
+                .etcGmtAdd2,
+                .etcGmtAdd3,
+                .etcGmtAdd4,
+                .etcGmtAdd5,
+                .etcGmtAdd6,
+                .etcGmtAdd7,
+                .etcGmtAdd8,
+                .etcGmtAdd9,
+                .etcGmtNeg0,
+                .etcGmtNeg1,
+                .etcGmtNeg10,
+                .etcGmtNeg11,
+                .etcGmtNeg12,
+                .etcGmtNeg13,
+                .etcGmtNeg14,
+                .etcGmtNeg2,
+                .etcGmtNeg3,
+                .etcGmtNeg4,
+                .etcGmtNeg5,
+                .etcGmtNeg6,
+                .etcGmtNeg7,
+                .etcGmtNeg8,
+                .etcGmtNeg9,
+                .europeDublin,
+                .europeLondon,
+                .europeParis,
+                .europeStockholm,
+                .europeZurich,
+                .israel,
+                .mexicoGeneral,
+                .mst7mdt,
+                .pacificAuckland,
+                .usCentral,
+                .usEastern,
+                .usMountain,
+                .usPacific,
+                .utc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .africaJohannesburg: return "AFRICA_JOHANNESBURG"
+            case .americaMontreal: return "AMERICA_MONTREAL"
+            case .americaSaoPaulo: return "AMERICA_SAO_PAULO"
+            case .asiaBahrain: return "ASIA_BAHRAIN"
+            case .asiaBangkok: return "ASIA_BANGKOK"
+            case .asiaCalcutta: return "ASIA_CALCUTTA"
+            case .asiaDubai: return "ASIA_DUBAI"
+            case .asiaHongKong: return "ASIA_HONG_KONG"
+            case .asiaJakarta: return "ASIA_JAKARTA"
+            case .asiaKualaLumpur: return "ASIA_KUALA_LUMPUR"
+            case .asiaSeoul: return "ASIA_SEOUL"
+            case .asiaShanghai: return "ASIA_SHANGHAI"
+            case .asiaSingapore: return "ASIA_SINGAPORE"
+            case .asiaTaipei: return "ASIA_TAIPEI"
+            case .asiaTokyo: return "ASIA_TOKYO"
+            case .australiaMelbourne: return "AUSTRALIA_MELBOURNE"
+            case .australiaSydney: return "AUSTRALIA_SYDNEY"
+            case .canadaCentral: return "CANADA_CENTRAL"
+            case .cet: return "CET"
+            case .cst6cdt: return "CST6CDT"
+            case .etcGmt: return "ETC_GMT"
+            case .etcGmt0: return "ETC_GMT0"
+            case .etcGmtAdd0: return "ETC_GMT_ADD_0"
+            case .etcGmtAdd1: return "ETC_GMT_ADD_1"
+            case .etcGmtAdd10: return "ETC_GMT_ADD_10"
+            case .etcGmtAdd11: return "ETC_GMT_ADD_11"
+            case .etcGmtAdd12: return "ETC_GMT_ADD_12"
+            case .etcGmtAdd2: return "ETC_GMT_ADD_2"
+            case .etcGmtAdd3: return "ETC_GMT_ADD_3"
+            case .etcGmtAdd4: return "ETC_GMT_ADD_4"
+            case .etcGmtAdd5: return "ETC_GMT_ADD_5"
+            case .etcGmtAdd6: return "ETC_GMT_ADD_6"
+            case .etcGmtAdd7: return "ETC_GMT_ADD_7"
+            case .etcGmtAdd8: return "ETC_GMT_ADD_8"
+            case .etcGmtAdd9: return "ETC_GMT_ADD_9"
+            case .etcGmtNeg0: return "ETC_GMT_NEG_0"
+            case .etcGmtNeg1: return "ETC_GMT_NEG_1"
+            case .etcGmtNeg10: return "ETC_GMT_NEG_10"
+            case .etcGmtNeg11: return "ETC_GMT_NEG_11"
+            case .etcGmtNeg12: return "ETC_GMT_NEG_12"
+            case .etcGmtNeg13: return "ETC_GMT_NEG_13"
+            case .etcGmtNeg14: return "ETC_GMT_NEG_14"
+            case .etcGmtNeg2: return "ETC_GMT_NEG_2"
+            case .etcGmtNeg3: return "ETC_GMT_NEG_3"
+            case .etcGmtNeg4: return "ETC_GMT_NEG_4"
+            case .etcGmtNeg5: return "ETC_GMT_NEG_5"
+            case .etcGmtNeg6: return "ETC_GMT_NEG_6"
+            case .etcGmtNeg7: return "ETC_GMT_NEG_7"
+            case .etcGmtNeg8: return "ETC_GMT_NEG_8"
+            case .etcGmtNeg9: return "ETC_GMT_NEG_9"
+            case .europeDublin: return "EUROPE_DUBLIN"
+            case .europeLondon: return "EUROPE_LONDON"
+            case .europeParis: return "EUROPE_PARIS"
+            case .europeStockholm: return "EUROPE_STOCKHOLM"
+            case .europeZurich: return "EUROPE_ZURICH"
+            case .israel: return "ISRAEL"
+            case .mexicoGeneral: return "MEXICO_GENERAL"
+            case .mst7mdt: return "MST7MDT"
+            case .pacificAuckland: return "PACIFIC_AUCKLAND"
+            case .usCentral: return "US_CENTRAL"
+            case .usEastern: return "US_EASTERN"
+            case .usMountain: return "US_MOUNTAIN"
+            case .usPacific: return "US_PACIFIC"
+            case .utc: return "UTC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Contains the settings for configuring lineage sync on a Snowflake connection, including the schedule, timezone, and enabled state.
+    public struct LineageSyncInput: Swift.Sendable {
+        /// Specifies whether lineage sync is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The schedule of the lineage sync.
+        public var schedule: Swift.String?
+        /// The timezone of the lineage sync schedule.
+        public var timezone: DataZoneClientTypes.Timezone?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            schedule: Swift.String? = nil,
+            timezone: DataZoneClientTypes.Timezone? = nil
+        ) {
+            self.enabled = enabled
+            self.schedule = schedule
+            self.timezone = timezone
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Contains the Snowflake-specific settings required when creating or updating a connection, including the Snowflake role, identity mapping, and lineage sync configuration.
+    public struct SnowflakePropertiesInput: Swift.Sendable {
+        /// The connectivity properties of the Snowflake connection.
+        public var connectivityProperties: DataZoneClientTypes.ConnectivityProperties?
+        /// The identity mapping configuration for the Snowflake connection.
+        /// This member is required.
+        public var identityMapping: DataZoneClientTypes.IdentityMapping?
+        /// The lineage sync configuration for the Snowflake connection.
+        public var lineageSync: DataZoneClientTypes.LineageSyncInput?
+        /// The Snowflake role used to access Snowflake resources.
+        /// This member is required.
+        public var snowflakeRole: Swift.String?
+
+        public init(
+            connectivityProperties: DataZoneClientTypes.ConnectivityProperties? = nil,
+            identityMapping: DataZoneClientTypes.IdentityMapping? = nil,
+            lineageSync: DataZoneClientTypes.LineageSyncInput? = nil,
+            snowflakeRole: Swift.String? = nil
+        ) {
+            self.connectivityProperties = connectivityProperties
+            self.identityMapping = identityMapping
+            self.lineageSync = lineageSync
+            self.snowflakeRole = snowflakeRole
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Spark EMR properties.
     public struct SparkEmrPropertiesInput: Swift.Sendable {
         /// The compute ARN of Spark EMR.
@@ -5340,6 +5679,8 @@ extension DataZoneClientTypes {
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesInput)
         /// The Amazon S3 properties of a connection.
         case s3properties(DataZoneClientTypes.S3PropertiesInput)
+        /// The Snowflake-specific connection properties to use when creating the connection.
+        case snowflakeproperties(DataZoneClientTypes.SnowflakePropertiesInput)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesInput)
         /// The MLflow properties of a connection.
@@ -5633,6 +5974,68 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// Contains the current state of lineage sync for a Snowflake connection, including the schedule, timezone, enabled state, and the ID of the associated lineage job.
+    public struct LineageSyncOutput: Swift.Sendable {
+        /// Specifies whether lineage sync is enabled.
+        public var enabled: Swift.Bool?
+        /// The ID of the lineage sync job.
+        public var lineageJobId: Swift.String?
+        /// The schedule of the lineage sync.
+        public var schedule: Swift.String?
+        /// The timezone of the lineage sync schedule.
+        public var timezone: DataZoneClientTypes.Timezone?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            lineageJobId: Swift.String? = nil,
+            schedule: Swift.String? = nil,
+            timezone: DataZoneClientTypes.Timezone? = nil
+        ) {
+            self.enabled = enabled
+            self.lineageJobId = lineageJobId
+            self.schedule = schedule
+            self.timezone = timezone
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Contains the Snowflake-specific settings returned for an existing connection, including the current role, identity mapping, lineage sync state, and connection status.
+    public struct SnowflakePropertiesOutput: Swift.Sendable {
+        /// An error message returned if the Snowflake connection failed to establish or validate.
+        public var errorMessage: Swift.String?
+        /// The identity mapping configuration for the Snowflake connection.
+        /// This member is required.
+        public var identityMapping: DataZoneClientTypes.IdentityMapping?
+        /// The lineage sync configuration for the Snowflake connection.
+        /// This member is required.
+        public var lineageSync: DataZoneClientTypes.LineageSyncOutput?
+        /// The Snowflake role used to access Snowflake resources.
+        /// This member is required.
+        public var snowflakeRole: Swift.String?
+        /// The status of the Snowflake connection.
+        /// This member is required.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            identityMapping: DataZoneClientTypes.IdentityMapping? = nil,
+            lineageSync: DataZoneClientTypes.LineageSyncOutput? = nil,
+            snowflakeRole: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.identityMapping = identityMapping
+            self.lineageSync = lineageSync
+            self.snowflakeRole = snowflakeRole
+            self.status = status
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum GovernanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsManaged
         case userManaged
@@ -5882,6 +6285,8 @@ extension DataZoneClientTypes {
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesOutput)
         /// The Amazon S3 properties of a connection.
         case s3properties(DataZoneClientTypes.S3PropertiesOutput)
+        /// The Snowflake-specific connection properties for an existing connection.
+        case snowflakeproperties(DataZoneClientTypes.SnowflakePropertiesOutput)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesOutput)
         /// The MLflow properties of a connection.
@@ -6047,6 +6452,52 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// Contains the connectivity settings to update on an existing connection. Include only the fields you want to change.
+    public struct ConnectivityPropertiesPatch: Swift.Sendable {
+        /// The authentication settings to update.
+        public var authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationPatch?
+        /// The connection properties to update.
+        public var connectionProperties: [Swift.String: Swift.String]?
+        /// A description of the connectivity properties update.
+        public var description: Swift.String?
+
+        public init(
+            authenticationConfiguration: DataZoneClientTypes.AuthenticationConfigurationPatch? = nil,
+            connectionProperties: [Swift.String: Swift.String]? = nil,
+            description: Swift.String? = nil
+        ) {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.connectionProperties = connectionProperties
+            self.description = description
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Contains the Snowflake-specific settings to update on an existing connection. Include only the fields you want to change.
+    public struct SnowflakePropertiesPatch: Swift.Sendable {
+        /// The connectivity properties patch of the Snowflake connection.
+        public var connectivityPropertiesPatch: DataZoneClientTypes.ConnectivityPropertiesPatch?
+        /// The lineage sync configuration for the Snowflake connection.
+        public var lineageSync: DataZoneClientTypes.LineageSyncInput?
+        /// The Snowflake role used to access Snowflake resources.
+        public var snowflakeRole: Swift.String?
+
+        public init(
+            connectivityPropertiesPatch: DataZoneClientTypes.ConnectivityPropertiesPatch? = nil,
+            lineageSync: DataZoneClientTypes.LineageSyncInput? = nil,
+            snowflakeRole: Swift.String? = nil
+        ) {
+            self.connectivityPropertiesPatch = connectivityPropertiesPatch
+            self.lineageSync = lineageSync
+            self.snowflakeRole = snowflakeRole
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Spark EMR properties patch.
     public struct SparkEmrPropertiesPatch: Swift.Sendable {
         /// The compute ARN in the Spark EMR properties patch.
@@ -6127,6 +6578,8 @@ extension DataZoneClientTypes {
         case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesPatch)
         /// The Amazon S3 properties of a connection properties patch.
         case s3properties(DataZoneClientTypes.S3PropertiesPatch)
+        /// The Snowflake-specific connection properties to update.
+        case snowflakeproperties(DataZoneClientTypes.SnowflakePropertiesPatch)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesPatch)
         /// The MLflow properties of a connection.
@@ -7304,221 +7757,6 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
-    public enum Timezone: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case africaJohannesburg
-        case americaMontreal
-        case americaSaoPaulo
-        case asiaBahrain
-        case asiaBangkok
-        case asiaCalcutta
-        case asiaDubai
-        case asiaHongKong
-        case asiaJakarta
-        case asiaKualaLumpur
-        case asiaSeoul
-        case asiaShanghai
-        case asiaSingapore
-        case asiaTaipei
-        case asiaTokyo
-        case australiaMelbourne
-        case australiaSydney
-        case canadaCentral
-        case cet
-        case cst6cdt
-        case etcGmt
-        case etcGmt0
-        case etcGmtAdd0
-        case etcGmtAdd1
-        case etcGmtAdd10
-        case etcGmtAdd11
-        case etcGmtAdd12
-        case etcGmtAdd2
-        case etcGmtAdd3
-        case etcGmtAdd4
-        case etcGmtAdd5
-        case etcGmtAdd6
-        case etcGmtAdd7
-        case etcGmtAdd8
-        case etcGmtAdd9
-        case etcGmtNeg0
-        case etcGmtNeg1
-        case etcGmtNeg10
-        case etcGmtNeg11
-        case etcGmtNeg12
-        case etcGmtNeg13
-        case etcGmtNeg14
-        case etcGmtNeg2
-        case etcGmtNeg3
-        case etcGmtNeg4
-        case etcGmtNeg5
-        case etcGmtNeg6
-        case etcGmtNeg7
-        case etcGmtNeg8
-        case etcGmtNeg9
-        case europeDublin
-        case europeLondon
-        case europeParis
-        case europeStockholm
-        case europeZurich
-        case israel
-        case mexicoGeneral
-        case mst7mdt
-        case pacificAuckland
-        case usCentral
-        case usEastern
-        case usMountain
-        case usPacific
-        case utc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Timezone] {
-            return [
-                .africaJohannesburg,
-                .americaMontreal,
-                .americaSaoPaulo,
-                .asiaBahrain,
-                .asiaBangkok,
-                .asiaCalcutta,
-                .asiaDubai,
-                .asiaHongKong,
-                .asiaJakarta,
-                .asiaKualaLumpur,
-                .asiaSeoul,
-                .asiaShanghai,
-                .asiaSingapore,
-                .asiaTaipei,
-                .asiaTokyo,
-                .australiaMelbourne,
-                .australiaSydney,
-                .canadaCentral,
-                .cet,
-                .cst6cdt,
-                .etcGmt,
-                .etcGmt0,
-                .etcGmtAdd0,
-                .etcGmtAdd1,
-                .etcGmtAdd10,
-                .etcGmtAdd11,
-                .etcGmtAdd12,
-                .etcGmtAdd2,
-                .etcGmtAdd3,
-                .etcGmtAdd4,
-                .etcGmtAdd5,
-                .etcGmtAdd6,
-                .etcGmtAdd7,
-                .etcGmtAdd8,
-                .etcGmtAdd9,
-                .etcGmtNeg0,
-                .etcGmtNeg1,
-                .etcGmtNeg10,
-                .etcGmtNeg11,
-                .etcGmtNeg12,
-                .etcGmtNeg13,
-                .etcGmtNeg14,
-                .etcGmtNeg2,
-                .etcGmtNeg3,
-                .etcGmtNeg4,
-                .etcGmtNeg5,
-                .etcGmtNeg6,
-                .etcGmtNeg7,
-                .etcGmtNeg8,
-                .etcGmtNeg9,
-                .europeDublin,
-                .europeLondon,
-                .europeParis,
-                .europeStockholm,
-                .europeZurich,
-                .israel,
-                .mexicoGeneral,
-                .mst7mdt,
-                .pacificAuckland,
-                .usCentral,
-                .usEastern,
-                .usMountain,
-                .usPacific,
-                .utc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .africaJohannesburg: return "AFRICA_JOHANNESBURG"
-            case .americaMontreal: return "AMERICA_MONTREAL"
-            case .americaSaoPaulo: return "AMERICA_SAO_PAULO"
-            case .asiaBahrain: return "ASIA_BAHRAIN"
-            case .asiaBangkok: return "ASIA_BANGKOK"
-            case .asiaCalcutta: return "ASIA_CALCUTTA"
-            case .asiaDubai: return "ASIA_DUBAI"
-            case .asiaHongKong: return "ASIA_HONG_KONG"
-            case .asiaJakarta: return "ASIA_JAKARTA"
-            case .asiaKualaLumpur: return "ASIA_KUALA_LUMPUR"
-            case .asiaSeoul: return "ASIA_SEOUL"
-            case .asiaShanghai: return "ASIA_SHANGHAI"
-            case .asiaSingapore: return "ASIA_SINGAPORE"
-            case .asiaTaipei: return "ASIA_TAIPEI"
-            case .asiaTokyo: return "ASIA_TOKYO"
-            case .australiaMelbourne: return "AUSTRALIA_MELBOURNE"
-            case .australiaSydney: return "AUSTRALIA_SYDNEY"
-            case .canadaCentral: return "CANADA_CENTRAL"
-            case .cet: return "CET"
-            case .cst6cdt: return "CST6CDT"
-            case .etcGmt: return "ETC_GMT"
-            case .etcGmt0: return "ETC_GMT0"
-            case .etcGmtAdd0: return "ETC_GMT_ADD_0"
-            case .etcGmtAdd1: return "ETC_GMT_ADD_1"
-            case .etcGmtAdd10: return "ETC_GMT_ADD_10"
-            case .etcGmtAdd11: return "ETC_GMT_ADD_11"
-            case .etcGmtAdd12: return "ETC_GMT_ADD_12"
-            case .etcGmtAdd2: return "ETC_GMT_ADD_2"
-            case .etcGmtAdd3: return "ETC_GMT_ADD_3"
-            case .etcGmtAdd4: return "ETC_GMT_ADD_4"
-            case .etcGmtAdd5: return "ETC_GMT_ADD_5"
-            case .etcGmtAdd6: return "ETC_GMT_ADD_6"
-            case .etcGmtAdd7: return "ETC_GMT_ADD_7"
-            case .etcGmtAdd8: return "ETC_GMT_ADD_8"
-            case .etcGmtAdd9: return "ETC_GMT_ADD_9"
-            case .etcGmtNeg0: return "ETC_GMT_NEG_0"
-            case .etcGmtNeg1: return "ETC_GMT_NEG_1"
-            case .etcGmtNeg10: return "ETC_GMT_NEG_10"
-            case .etcGmtNeg11: return "ETC_GMT_NEG_11"
-            case .etcGmtNeg12: return "ETC_GMT_NEG_12"
-            case .etcGmtNeg13: return "ETC_GMT_NEG_13"
-            case .etcGmtNeg14: return "ETC_GMT_NEG_14"
-            case .etcGmtNeg2: return "ETC_GMT_NEG_2"
-            case .etcGmtNeg3: return "ETC_GMT_NEG_3"
-            case .etcGmtNeg4: return "ETC_GMT_NEG_4"
-            case .etcGmtNeg5: return "ETC_GMT_NEG_5"
-            case .etcGmtNeg6: return "ETC_GMT_NEG_6"
-            case .etcGmtNeg7: return "ETC_GMT_NEG_7"
-            case .etcGmtNeg8: return "ETC_GMT_NEG_8"
-            case .etcGmtNeg9: return "ETC_GMT_NEG_9"
-            case .europeDublin: return "EUROPE_DUBLIN"
-            case .europeLondon: return "EUROPE_LONDON"
-            case .europeParis: return "EUROPE_PARIS"
-            case .europeStockholm: return "EUROPE_STOCKHOLM"
-            case .europeZurich: return "EUROPE_ZURICH"
-            case .israel: return "ISRAEL"
-            case .mexicoGeneral: return "MEXICO_GENERAL"
-            case .mst7mdt: return "MST7MDT"
-            case .pacificAuckland: return "PACIFIC_AUCKLAND"
-            case .usCentral: return "US_CENTRAL"
-            case .usEastern: return "US_EASTERN"
-            case .usMountain: return "US_MOUNTAIN"
-            case .usPacific: return "US_PACIFIC"
-            case .utc: return "UTC"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
     /// The details of the schedule of the data source runs.
     public struct ScheduleConfiguration: Swift.Sendable {
         /// The schedule of the data source runs.
@@ -8361,7 +8599,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var environmentAccountIdentifier: Swift.String?
     /// The region of the account in which the environment is being created.
     public var environmentAccountRegion: Swift.String?
-    /// The ID of the blueprint with which the environment is being created.
+    /// The ID of the blueprint with which the environment is being created. This parameter is only valid for V1 domains. If provided for a V2 domain, the service returns a ValidationException.
     public var environmentBlueprintIdentifier: Swift.String?
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
@@ -38619,6 +38857,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
             case let .s3properties(s3properties):
                 try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesInput.write(value:to:))
+            case let .snowflakeproperties(snowflakeproperties):
+                try writer["snowflakeProperties"].write(snowflakeproperties, with: DataZoneClientTypes.SnowflakePropertiesInput.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
             case let .sparkglueproperties(sparkglueproperties):
@@ -38657,6 +38897,8 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
             case "s3Properties":
                 return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
+            case "snowflakeProperties":
+                return .snowflakeproperties(try reader["snowflakeProperties"].read(with: DataZoneClientTypes.SnowflakePropertiesOutput.read(from:)))
             case "amazonQProperties":
                 return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
             case "mlflowProperties":
@@ -38696,6 +38938,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
             case let .s3properties(s3properties):
                 try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
+            case let .snowflakeproperties(snowflakeproperties):
+                try writer["snowflakeProperties"].write(snowflakeproperties, with: DataZoneClientTypes.SnowflakePropertiesPatch.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
             case let .vpcproperties(vpcproperties):
@@ -38723,6 +38967,33 @@ extension DataZoneClientTypes.ConnectionSummary {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.scope = try reader["scope"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.ConnectivityProperties {
+
+    static func write(value: DataZoneClientTypes.ConnectivityProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["athenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["physicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: DataZoneClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["pythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["sparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["validateCredentials"].write(value.validateCredentials)
+        try writer["validateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.ComputeEnvironments>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataZoneClientTypes.ConnectivityPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.ConnectivityPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authenticationConfiguration"].write(value.authenticationConfiguration, with: DataZoneClientTypes.AuthenticationConfigurationPatch.write(value:to:))
+        try writer["connectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["description"].write(value.description)
     }
 }
 
@@ -40142,6 +40413,23 @@ extension DataZoneClientTypes.IamUserProfileDetails {
     }
 }
 
+extension DataZoneClientTypes.IdentityMapping {
+
+    static func write(value: DataZoneClientTypes.IdentityMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prefix"].write(value.`prefix`)
+        try writer["usernameAttribute"].write(value.usernameAttribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.IdentityMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.IdentityMapping()
+        value.usernameAttribute = try reader["usernameAttribute"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        return value
+    }
+}
+
 extension DataZoneClientTypes.Import {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.Import {
@@ -40460,6 +40748,29 @@ extension DataZoneClientTypes.LineageSqlQueryRunDetails {
         value.totalQueriesProcessed = try reader["totalQueriesProcessed"].readIfPresent()
         value.numQueriesFailed = try reader["numQueriesFailed"].readIfPresent()
         value.errorMessages = try reader["errorMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.LineageSyncInput {
+
+    static func write(value: DataZoneClientTypes.LineageSyncInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["schedule"].write(value.schedule)
+        try writer["timezone"].write(value.timezone)
+    }
+}
+
+extension DataZoneClientTypes.LineageSyncOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.LineageSyncOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.LineageSyncOutput()
+        value.lineageJobId = try reader["lineageJobId"].readIfPresent()
+        value.timezone = try reader["timezone"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent()
         return value
     }
 }
@@ -42336,6 +42647,41 @@ extension DataZoneClientTypes.SingleSignOn {
         value.userAssignment = try reader["userAssignment"].readIfPresent()
         value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
         return value
+    }
+}
+
+extension DataZoneClientTypes.SnowflakePropertiesInput {
+
+    static func write(value: DataZoneClientTypes.SnowflakePropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectivityProperties"].write(value.connectivityProperties, with: DataZoneClientTypes.ConnectivityProperties.write(value:to:))
+        try writer["identityMapping"].write(value.identityMapping, with: DataZoneClientTypes.IdentityMapping.write(value:to:))
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.LineageSyncInput.write(value:to:))
+        try writer["snowflakeRole"].write(value.snowflakeRole)
+    }
+}
+
+extension DataZoneClientTypes.SnowflakePropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.SnowflakePropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.SnowflakePropertiesOutput()
+        value.snowflakeRole = try reader["snowflakeRole"].readIfPresent() ?? ""
+        value.identityMapping = try reader["identityMapping"].readIfPresent(with: DataZoneClientTypes.IdentityMapping.read(from:))
+        value.lineageSync = try reader["lineageSync"].readIfPresent(with: DataZoneClientTypes.LineageSyncOutput.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.SnowflakePropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.SnowflakePropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectivityPropertiesPatch"].write(value.connectivityPropertiesPatch, with: DataZoneClientTypes.ConnectivityPropertiesPatch.write(value:to:))
+        try writer["lineageSync"].write(value.lineageSync, with: DataZoneClientTypes.LineageSyncInput.write(value:to:))
+        try writer["snowflakeRole"].write(value.snowflakeRole)
     }
 }
 

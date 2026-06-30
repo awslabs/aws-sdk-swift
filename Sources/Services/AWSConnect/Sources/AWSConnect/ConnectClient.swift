@@ -3110,6 +3110,81 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateAttachedFile` operation on the `Connect` service.
+    ///
+    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream processing such as conversational analytics. The AssociatedResourceArn must be the ARN of a completed voice contact, FileUseCaseType must be set to VOICE_RECORDING, and FileSourceUri must be a valid S3 URI. For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAttachedFileInput`)
+    ///
+    /// - Returns: Response from CreateAttachedFile API. (Type: `CreateAttachedFileOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createAttachedFile(input: CreateAttachedFileInput) async throws -> CreateAttachedFileOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAttachedFile")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAttachedFileInput, CreateAttachedFileOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(CreateAttachedFileInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(CreateAttachedFileInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAttachedFileInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAttachedFileOutput>(CreateAttachedFileOutput.httpOutput(from:), CreateAttachedFileOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAttachedFileOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAttachedFileOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAttachedFileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAttachedFileInput, CreateAttachedFileOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAttachedFile")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateContact` operation on the `Connect` service.
     ///
     /// Only the VOICE, EMAIL, and TASK channels are supported.
@@ -21174,6 +21249,79 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartChatContact")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartContactConversationalAnalyticsJob` operation on the `Connect` service.
+    ///
+    /// Starts a Contact Lens post-call analytics job for the specified contact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration. A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI. For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartContactConversationalAnalyticsJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartContactConversationalAnalyticsJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func startContactConversationalAnalyticsJob(input: StartContactConversationalAnalyticsJobInput) async throws -> StartContactConversationalAnalyticsJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startContactConversationalAnalyticsJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>(StartContactConversationalAnalyticsJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContactConversationalAnalyticsJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContactConversationalAnalyticsJobOutput>(StartContactConversationalAnalyticsJobOutput.httpOutput(from:), StartContactConversationalAnalyticsJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartContactConversationalAnalyticsJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartContactConversationalAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartContactConversationalAnalyticsJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartContactConversationalAnalyticsJobInput, StartContactConversationalAnalyticsJobOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartContactConversationalAnalyticsJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

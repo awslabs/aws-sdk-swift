@@ -1228,6 +1228,127 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a container association, returned by the [ListContainerAssociations] operation. You can use this information to retrieve the full details of a container association using [DescribeContainerAssociation].
+    public struct ContainerAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the container association.
+        public var arn: Swift.String?
+        /// The descriptive name of the container association.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContainerAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerAssociationStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A key-value pair that defines a container attribute filter for a container monitoring configuration.
+    public struct ContainerAttribute: Swift.Sendable {
+        /// The key of the container attribute to filter on.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the container attribute to filter on.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Defines a container cluster to monitor, along with optional attribute filters that narrow the scope of monitored containers within the cluster.
+    public struct ContainerMonitoringConfiguration: Swift.Sendable {
+        /// A list of key-value pairs that filter which containers within the cluster are monitored. Only containers that match the specified attributes are included.
+        public var attributeFilters: [NetworkFirewallClientTypes.ContainerAttribute]?
+        /// The Amazon Resource Name (ARN) of the container cluster to monitor.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+
+        public init(
+            attributeFilters: [NetworkFirewallClientTypes.ContainerAttribute]? = nil,
+            clusterArn: Swift.String? = nil
+        ) {
+            self.attributeFilters = attributeFilters
+            self.clusterArn = clusterArn
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContainerMonitoringType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ecs
+        case eks
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerMonitoringType] {
+            return [
+                .ecs,
+                .eks
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ecs: return "ECS"
+            case .eks: return "EKS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Unable to perform the operation because doing so would violate a limit setting.
 public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1248,6 +1369,75 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct CreateContainerAssociationInput: Swift.Sendable {
+    /// The descriptive name of the container association. You can't change the name of a container association after you create it.
+    /// This member is required.
+    public var containerAssociationName: Swift.String?
+    /// The list of container monitoring configurations that define which clusters and container attributes to monitor.
+    /// This member is required.
+    public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
+    /// A description of the container association.
+    public var description: Swift.String?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+    /// This member is required.
+    public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
+
+    public init(
+        containerAssociationName: Swift.String? = nil,
+        containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]? = nil,
+        description: Swift.String? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        type: NetworkFirewallClientTypes.ContainerMonitoringType? = nil
+    ) {
+        self.containerAssociationName = containerAssociationName
+        self.containerMonitoringConfigurations = containerMonitoringConfigurations
+        self.description = description
+        self.tags = tags
+        self.type = type
+    }
+}
+
+public struct CreateContainerAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association.
+    public var containerAssociationName: Swift.String?
+    /// The container monitoring configurations for this container association.
+    public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
+    /// A description of the container association.
+    public var description: Swift.String?
+    /// The current status of the container association.
+    public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
+    /// The key:value pairs associated with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The type of container orchestration platform. Either ECS or EKS.
+    public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil,
+        containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]? = nil,
+        description: Swift.String? = nil,
+        status: NetworkFirewallClientTypes.ContainerAssociationStatus? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        type: NetworkFirewallClientTypes.ContainerMonitoringType? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+        self.containerMonitoringConfigurations = containerMonitoringConfigurations
+        self.description = description
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.updateToken = updateToken
     }
 }
 
@@ -1710,7 +1900,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Describes the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle and Network Firewall removes the flow entry from its flow table. Existing connections and flows are not impacted when you update this value. Only new connections after you update this value are impacted.
+    /// Describes the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle and Network Firewall removes the flow entry from its flow table. When you update this value, existing connections will be treated according to your stream exception policy configuration.
     public struct FlowTimeouts: Swift.Sendable {
         /// The number of seconds that can pass without any TCP traffic sent through the firewall before the firewall determines that the connection is idle. After the idle timeout passes, data packets are dropped, however, the next TCP SYN packet is considered a new flow and is processed by the firewall. Clients or targets can use TCP keepalive packets to reset the idle timeout. You can define the TcpIdleTimeoutSeconds value to be between 60 and 6000 seconds. If no value is provided, it defaults to 350 seconds.
         public var tcpIdleTimeoutSeconds: Swift.Int?
@@ -4062,6 +4252,40 @@ public struct CreateVpcEndpointAssociationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteContainerAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationName: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+    }
+}
+
+public struct DeleteContainerAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association.
+    public var containerAssociationName: Swift.String?
+    /// The current status of the container association.
+    public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil,
+        status: NetworkFirewallClientTypes.ContainerAssociationStatus? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+        self.status = status
+    }
+}
+
 public struct DeleteFirewallInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
@@ -4418,6 +4642,68 @@ public struct DeleteVpcEndpointAssociationOutput: Swift.Sendable {
     ) {
         self.vpcEndpointAssociation = vpcEndpointAssociation
         self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
+public struct DescribeContainerAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationName: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+    }
+}
+
+public struct DescribeContainerAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association.
+    public var containerAssociationName: Swift.String?
+    /// The container monitoring configurations for this container association.
+    public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
+    /// A description of the container association.
+    public var description: Swift.String?
+    /// The last time that the container association was updated or resolved new container IP addresses.
+    public var lastUpdatedTime: Foundation.Date?
+    /// The number of CIDR blocks that have been resolved from the monitored containers for this container association.
+    public var resolvedCidrCount: Swift.Int?
+    /// The current status of the container association.
+    public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
+    /// The key:value pairs associated with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The type of container orchestration platform. Either ECS or EKS.
+    public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+    public var updateToken: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil,
+        containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]? = nil,
+        description: Swift.String? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        resolvedCidrCount: Swift.Int? = nil,
+        status: NetworkFirewallClientTypes.ContainerAssociationStatus? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        type: NetworkFirewallClientTypes.ContainerMonitoringType? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+        self.containerMonitoringConfigurations = containerMonitoringConfigurations
+        self.description = description
+        self.lastUpdatedTime = lastUpdatedTime
+        self.resolvedCidrCount = resolvedCidrCount
+        self.status = status
+        self.tags = tags
+        self.type = type
+        self.updateToken = updateToken
     }
 }
 
@@ -5719,6 +6005,36 @@ public struct ListAnalysisReportsOutput: Swift.Sendable {
     }
 }
 
+public struct ListContainerAssociationsInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContainerAssociationsOutput: Swift.Sendable {
+    /// The container association metadata objects.
+    public var containerAssociations: [NetworkFirewallClientTypes.ContainerAssociationSummary]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        containerAssociations: [NetworkFirewallClientTypes.ContainerAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.containerAssociations = containerAssociations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListFirewallPoliciesInput: Swift.Sendable {
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
@@ -6726,6 +7042,83 @@ public struct UpdateAvailabilityZoneChangeProtectionOutput: Swift.Sendable {
         self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
         self.firewallArn = firewallArn
         self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateContainerAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    public var containerAssociationName: Swift.String?
+    /// The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
+    /// This member is required.
+    public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
+    /// A description of the container association.
+    public var description: Swift.String?
+    /// The key:value pairs associated with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The type of container orchestration platform. This must match the type specified when the container association was created.
+    /// This member is required.
+    public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil,
+        containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]? = nil,
+        description: Swift.String? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        type: NetworkFirewallClientTypes.ContainerMonitoringType? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+        self.containerMonitoringConfigurations = containerMonitoringConfigurations
+        self.description = description
+        self.tags = tags
+        self.type = type
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateContainerAssociationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the container association.
+    public var containerAssociationArn: Swift.String?
+    /// The descriptive name of the container association.
+    public var containerAssociationName: Swift.String?
+    /// The container monitoring configurations for this container association.
+    public var containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]?
+    /// A description of the container association.
+    public var description: Swift.String?
+    /// The current status of the container association.
+    public var status: NetworkFirewallClientTypes.ContainerAssociationStatus?
+    /// The key:value pairs associated with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The type of container orchestration platform. Either ECS or EKS.
+    public var type: NetworkFirewallClientTypes.ContainerMonitoringType?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+    public var updateToken: Swift.String?
+
+    public init(
+        containerAssociationArn: Swift.String? = nil,
+        containerAssociationName: Swift.String? = nil,
+        containerMonitoringConfigurations: [NetworkFirewallClientTypes.ContainerMonitoringConfiguration]? = nil,
+        description: Swift.String? = nil,
+        status: NetworkFirewallClientTypes.ContainerAssociationStatus? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        type: NetworkFirewallClientTypes.ContainerMonitoringType? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.containerAssociationArn = containerAssociationArn
+        self.containerAssociationName = containerAssociationName
+        self.containerMonitoringConfigurations = containerMonitoringConfigurations
+        self.description = description
+        self.status = status
+        self.tags = tags
+        self.type = type
         self.updateToken = updateToken
     }
 }

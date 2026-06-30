@@ -1471,6 +1471,8 @@ extension PartnerCentralSellingClientTypes {
     public enum RelatedEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsMarketplaceOffers
         case awsMarketplaceOfferSets
+        case awsMarketplaceProducts
+        case awsMarketplaceSolutions
         case awsProducts
         case solutions
         case sdkUnknown(Swift.String)
@@ -1479,6 +1481,8 @@ extension PartnerCentralSellingClientTypes {
             return [
                 .awsMarketplaceOffers,
                 .awsMarketplaceOfferSets,
+                .awsMarketplaceProducts,
+                .awsMarketplaceSolutions,
                 .awsProducts,
                 .solutions
             ]
@@ -1493,6 +1497,8 @@ extension PartnerCentralSellingClientTypes {
             switch self {
             case .awsMarketplaceOffers: return "AwsMarketplaceOffers"
             case .awsMarketplaceOfferSets: return "AwsMarketplaceOfferSets"
+            case .awsMarketplaceProducts: return "AwsMarketplaceProducts"
+            case .awsMarketplaceSolutions: return "AwsMarketplaceSolutions"
             case .awsProducts: return "AwsProducts"
             case .solutions: return "Solutions"
             case let .sdkUnknown(s): return s
@@ -2826,15 +2832,23 @@ extension PartnerCentralSellingClientTypes {
 
     /// Represents other entities related to the AWS opportunity, such as AWS products, partner solutions, and marketplace offers. These associations help build a complete picture of the solution being sold.
     public struct AwsOpportunityRelatedEntities: Swift.Sendable {
+        /// The AWS Marketplace product ARNs associated with this opportunity.
+        public var awsMarketplaceProducts: [Swift.String]?
+        /// The AWS Marketplace solution ARNs associated with this opportunity.
+        public var awsMarketplaceSolutions: [Swift.String]?
         /// Specifies the AWS products associated with the opportunity. This field helps track the specific products that are part of the proposed solution.
         public var awsProducts: [Swift.String]?
         /// Specifies the partner solutions related to the opportunity. These solutions represent the partner's offerings that are being positioned as part of the overall AWS opportunity.
         public var solutions: [Swift.String]?
 
         public init(
+            awsMarketplaceProducts: [Swift.String]? = nil,
+            awsMarketplaceSolutions: [Swift.String]? = nil,
             awsProducts: [Swift.String]? = nil,
             solutions: [Swift.String]? = nil
         ) {
+            self.awsMarketplaceProducts = awsMarketplaceProducts
+            self.awsMarketplaceSolutions = awsMarketplaceSolutions
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
@@ -6510,6 +6524,10 @@ extension PartnerCentralSellingClientTypes {
         public var awsMarketplaceOfferSets: [Swift.String]?
         /// Takes one value per opportunity. Each value is an Amazon Resource Name (ARN), in this format: "offers": ["arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/Offer/offer-sampleOffer32"]. Use the [ListEntities](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html) action in the Marketplace Catalog APIs for a list of offers in the associated Marketplace seller account.
         public var awsMarketplaceOffers: [Swift.String]?
+        /// Specifies the AWS Marketplace products to associate with the Opportunity. Each value is an Amazon Resource Name (ARN) that identifies a product listing in AWS Marketplace.
+        public var awsMarketplaceProducts: [Swift.String]?
+        /// Specifies the AWS Marketplace solutions to associate with the Opportunity. Each value is an Amazon Resource Name (ARN) that identifies a solution listing in AWS Marketplace.
+        public var awsMarketplaceSolutions: [Swift.String]?
         /// Enables the association of specific Amazon Web Services products with the Opportunity. Partners can indicate the relevant Amazon Web Services products for the Opportunity's solution and align with the customer's needs. Returns multiple values separated by commas. For example, "AWSProducts" : ["AmazonRedshift", "AWSAppFabric", "AWSCleanRooms"]. Use the file with the list of Amazon Web Services products hosted on GitHub: [ Amazon Web Services products](https://github.com/aws-samples/partner-crm-integration-samples/blob/main/resources/aws_products.json).
         public var awsProducts: [Swift.String]?
         /// Enables partner solutions or offerings' association with an opportunity. To associate a solution, provide the solution's unique identifier, which you can obtain with the ListSolutions operation. If the specific solution identifier is not available, you can use the value Other and provide details about the solution in the otherSolutionOffered field. But when the opportunity reaches the Committed stage or beyond, the Other value cannot be used, and a valid solution identifier must be provided. By associating the relevant solutions with the opportunity, you can communicate the offerings that are being considered or implemented to address the customer's business problem.
@@ -6518,11 +6536,15 @@ extension PartnerCentralSellingClientTypes {
         public init(
             awsMarketplaceOfferSets: [Swift.String]? = nil,
             awsMarketplaceOffers: [Swift.String]? = nil,
+            awsMarketplaceProducts: [Swift.String]? = nil,
+            awsMarketplaceSolutions: [Swift.String]? = nil,
             awsProducts: [Swift.String]? = nil,
             solutions: [Swift.String]? = nil
         ) {
             self.awsMarketplaceOfferSets = awsMarketplaceOfferSets
             self.awsMarketplaceOffers = awsMarketplaceOffers
+            self.awsMarketplaceProducts = awsMarketplaceProducts
+            self.awsMarketplaceSolutions = awsMarketplaceSolutions
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
@@ -8626,6 +8648,8 @@ extension PartnerCentralSellingClientTypes {
 }
 
 public struct ListSolutionsInput: Swift.Sendable {
+    /// Filters results by AWS Marketplace solution ARN. You can provide up to 10 ARNs.
+    public var awsMarketplaceSolutionArn: [Swift.String]?
     /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
     /// This member is required.
     public var catalog: Swift.String?
@@ -8643,6 +8667,7 @@ public struct ListSolutionsInput: Swift.Sendable {
     public var status: [PartnerCentralSellingClientTypes.SolutionStatus]?
 
     public init(
+        awsMarketplaceSolutionArn: [Swift.String]? = nil,
         catalog: Swift.String? = nil,
         category: [Swift.String]? = nil,
         identifier: [Swift.String]? = nil,
@@ -8651,6 +8676,7 @@ public struct ListSolutionsInput: Swift.Sendable {
         sort: PartnerCentralSellingClientTypes.SolutionSort? = nil,
         status: [PartnerCentralSellingClientTypes.SolutionStatus]? = nil
     ) {
+        self.awsMarketplaceSolutionArn = awsMarketplaceSolutionArn
         self.catalog = catalog
         self.category = category
         self.identifier = identifier
@@ -8667,6 +8693,8 @@ extension PartnerCentralSellingClientTypes {
     public struct SolutionBase: Swift.Sendable {
         /// The SolutionBase structure provides essential information about a solution.
         public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the AWS Marketplace solution associated with this partner solution.
+        public var awsMarketplaceSolutionArn: Swift.String?
         /// Specifies the catalog in which the solution is hosted, either AWS or Sandbox. This helps partners differentiate between live solutions and those in testing environments.
         /// This member is required.
         public var catalog: Swift.String?
@@ -8688,6 +8716,7 @@ extension PartnerCentralSellingClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            awsMarketplaceSolutionArn: Swift.String? = nil,
             catalog: Swift.String? = nil,
             category: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
@@ -8696,6 +8725,7 @@ extension PartnerCentralSellingClientTypes {
             status: PartnerCentralSellingClientTypes.SolutionStatus? = nil
         ) {
             self.arn = arn
+            self.awsMarketplaceSolutionArn = awsMarketplaceSolutionArn
             self.catalog = catalog
             self.category = category
             self.createdDate = createdDate

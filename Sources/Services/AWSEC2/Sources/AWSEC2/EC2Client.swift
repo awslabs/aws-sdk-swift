@@ -43928,6 +43928,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyVpcEndpointPayerResponsibility` operation on the `EC2` service.
+    ///
+    /// Modifies the billing account for VPC endpoint usage/charges.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointPayerResponsibilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyVpcEndpointPayerResponsibilityOutput`)
+    public func modifyVpcEndpointPayerResponsibility(input: ModifyVpcEndpointPayerResponsibilityInput) async throws -> ModifyVpcEndpointPayerResponsibilityOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyVpcEndpointPayerResponsibility")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>(ModifyVpcEndpointPayerResponsibilityInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyVpcEndpointPayerResponsibilityOutput>(ModifyVpcEndpointPayerResponsibilityOutput.httpOutput(from:), ModifyVpcEndpointPayerResponsibilityOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVpcEndpointPayerResponsibilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyVpcEndpointPayerResponsibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyVpcEndpointPayerResponsibilityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyVpcEndpointPayerResponsibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyVpcEndpointPayerResponsibilityInput, ModifyVpcEndpointPayerResponsibilityOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVpcEndpointPayerResponsibility")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyVpcEndpointServiceConfiguration` operation on the `EC2` service.
     ///
     /// Modifies the attributes of the specified VPC endpoint service configuration. If you set or modify the private DNS name, you must prove that you own the private DNS domain name.

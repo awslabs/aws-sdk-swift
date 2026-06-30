@@ -836,6 +836,82 @@ extension EKSClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelUpdate` operation on the `EKS` service.
+    ///
+    /// Cancels an in-progress update to an Amazon EKS cluster on a best-effort basis. Cancellation is only performed if the update can be cancelled. Currently, this is supported for VersionRollback update types on EKS Auto Mode clusters when nodes are rolling back. A successful cancellation stops the node rollback. After cancellation, nodes converge to the current cluster version honoring configured disruption controls. If the control plane rollback has already begun, the cancellation request fails.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelUpdateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelUpdateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
+    /// - `InvalidStateException` : Amazon EKS detected upgrade readiness issues. Call the [ListInsights](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html) API to view detected upgrade blocking issues. Pass the [force](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody) flag when updating to override upgrade readiness errors.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests.
+    public func cancelUpdate(input: CancelUpdateInput) async throws -> CancelUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelUpdate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "eks")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelUpdateInput, CancelUpdateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CancelUpdateInput, CancelUpdateOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelUpdateInput, CancelUpdateOutput>(CancelUpdateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelUpdateInput, CancelUpdateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelUpdateInput, CancelUpdateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelUpdateInput, CancelUpdateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelUpdateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelUpdateInput, CancelUpdateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelUpdateOutput>(CancelUpdateOutput.httpOutput(from:), CancelUpdateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelUpdateInput, CancelUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelUpdateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EKS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelUpdateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelUpdateInput, CancelUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelUpdateInput, CancelUpdateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EKS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelUpdateInput, CancelUpdateOutput>(serviceID: serviceName, version: EKSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EKS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAccessEntry` operation on the `EKS` service.
     ///
     /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-authConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
