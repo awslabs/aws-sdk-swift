@@ -1295,6 +1295,63 @@ public struct GetServiceViewInput: Swift.Sendable {
 
 extension ResourceExplorer2ClientTypes {
 
+    /// The type of a service-linked recorder.
+    ///
+    /// * AWS – Managed by an Amazon Web Services service.
+    ///
+    /// * THIRD_PARTY – Managed by a third-party service.
+    public enum RecorderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case thirdParty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecorderType] {
+            return [
+                .aws,
+                .thirdParty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .thirdParty: return "THIRD_PARTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about the service-linked recorder paired with a service view.
+    public struct ServiceLinkedRecorderInfo: Swift.Sendable {
+        /// The name of the service-linked recorder, such as AWSConfigurationRecorderForObservabilityAdmin.
+        public var recorderName: Swift.String?
+        /// The type of the recorder. Valid values are AWS and THIRD_PARTY.
+        public var recorderType: ResourceExplorer2ClientTypes.RecorderType?
+        /// The service principal of the Amazon Web Services service that owns the service-linked recorder, such as observabilityadmin.amazonaws.com.
+        public var servicePrincipal: Swift.String?
+
+        public init(
+            recorderName: Swift.String? = nil,
+            recorderType: ResourceExplorer2ClientTypes.RecorderType? = nil,
+            servicePrincipal: Swift.String? = nil
+        ) {
+            self.recorderName = recorderName
+            self.recorderType = recorderType
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
     /// Contains the configuration and properties of a Resource Explorer service view.
     public struct ServiceView: Swift.Sendable {
         /// A search filter defines which resources can be part of a search query result set.
@@ -1303,6 +1360,8 @@ extension ResourceExplorer2ClientTypes {
         public var includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]?
         /// The scope type of the service view, which determines what resources are included.
         public var scopeType: Swift.String?
+        /// Information about the service-linked recorder associated with this service view. When a service view is paired with a service-linked recorder, Resource Explorer uses the recorder's resource type list to filter search results and streaming data.
+        public var serviceLinkedRecorder: ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo?
         /// The Amazon Resource Name (ARN) of the service view.
         /// This member is required.
         public var serviceViewArn: Swift.String?
@@ -1315,6 +1374,7 @@ extension ResourceExplorer2ClientTypes {
             filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
             includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
             scopeType: Swift.String? = nil,
+            serviceLinkedRecorder: ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo? = nil,
             serviceViewArn: Swift.String? = nil,
             serviceViewName: Swift.String? = nil,
             streamingAccessForService: Swift.String? = nil
@@ -1322,6 +1382,7 @@ extension ResourceExplorer2ClientTypes {
             self.filters = filters
             self.includedProperties = includedProperties
             self.scopeType = scopeType
+            self.serviceLinkedRecorder = serviceLinkedRecorder
             self.serviceViewArn = serviceViewArn
             self.serviceViewName = serviceViewName
             self.streamingAccessForService = streamingAccessForService
@@ -1331,7 +1392,7 @@ extension ResourceExplorer2ClientTypes {
 
 extension ResourceExplorer2ClientTypes.ServiceView: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), serviceViewName: \(Swift.String(describing: serviceViewName)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
+        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceLinkedRecorder: \(Swift.String(describing: serviceLinkedRecorder)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), serviceViewName: \(Swift.String(describing: serviceViewName)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetServiceViewOutput: Swift.Sendable {
@@ -1503,6 +1564,8 @@ extension ResourceExplorer2ClientTypes {
     public struct Resource: Swift.Sendable {
         /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
         public var arn: Swift.String?
+        /// The CloudFormation resource type identifier for the resource, such as AWS::EC2::Instance or AWS::S3::Bucket.
+        public var cfnResourceType: Swift.String?
         /// The date and time that Resource Explorer last queried this resource and updated the index with the latest information about the resource.
         public var lastReportedAt: Foundation.Date?
         /// The Amazon Web Services account that owns the resource.
@@ -1518,6 +1581,7 @@ extension ResourceExplorer2ClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            cfnResourceType: Swift.String? = nil,
             lastReportedAt: Foundation.Date? = nil,
             owningAccountId: Swift.String? = nil,
             properties: [ResourceExplorer2ClientTypes.ResourceProperty]? = nil,
@@ -1526,6 +1590,7 @@ extension ResourceExplorer2ClientTypes {
             service: Swift.String? = nil
         ) {
             self.arn = arn
+            self.cfnResourceType = cfnResourceType
             self.lastReportedAt = lastReportedAt
             self.owningAccountId = owningAccountId
             self.properties = properties
@@ -1690,15 +1755,19 @@ extension ResourceExplorer2ClientTypes {
 
     /// A structure that describes a resource type supported by Amazon Web Services Resource Explorer.
     public struct SupportedResourceType: Swift.Sendable {
+        /// The CloudFormation resource type identifiers for this resource type, such as AWS::EC2::Instance.
+        public var cfnResourceTypes: [Swift.String]?
         /// The unique identifier of the resource type.
         public var resourceType: Swift.String?
         /// The Amazon Web Services service that is associated with the resource type. This is the primary service that lets you create and interact with resources of this type.
         public var service: Swift.String?
 
         public init(
+            cfnResourceTypes: [Swift.String]? = nil,
             resourceType: Swift.String? = nil,
             service: Swift.String? = nil
         ) {
+            self.cfnResourceTypes = cfnResourceTypes
             self.resourceType = resourceType
             self.service = service
         }
@@ -3571,6 +3640,7 @@ extension ResourceExplorer2ClientTypes.Resource {
         value.region = try reader["Region"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.service = try reader["Service"].readIfPresent()
+        value.cfnResourceType = try reader["CfnResourceType"].readIfPresent()
         value.lastReportedAt = try reader["LastReportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.ResourceProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -3615,6 +3685,18 @@ extension ResourceExplorer2ClientTypes.SearchFilter {
     }
 }
 
+extension ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.recorderName = try reader["RecorderName"].readIfPresent()
+        value.recorderType = try reader["RecorderType"].readIfPresent()
+        return value
+    }
+}
+
 extension ResourceExplorer2ClientTypes.ServiceView {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ServiceView {
@@ -3626,6 +3708,7 @@ extension ResourceExplorer2ClientTypes.ServiceView {
         value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamingAccessForService = try reader["StreamingAccessForService"].readIfPresent()
         value.scopeType = try reader["ScopeType"].readIfPresent()
+        value.serviceLinkedRecorder = try reader["ServiceLinkedRecorder"].readIfPresent(with: ResourceExplorer2ClientTypes.ServiceLinkedRecorderInfo.read(from:))
         return value
     }
 }
@@ -3648,6 +3731,7 @@ extension ResourceExplorer2ClientTypes.SupportedResourceType {
         var value = ResourceExplorer2ClientTypes.SupportedResourceType()
         value.service = try reader["Service"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.cfnResourceTypes = try reader["CFNResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -3400,6 +3400,7 @@ extension WAFV2ClientTypes {
 extension WAFV2ClientTypes {
 
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreGateway
         case apiGateway
         case appRunnerService
         case cloudfront
@@ -3409,6 +3410,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [AssociatedResourceType] {
             return [
+                .agentcoreGateway,
                 .apiGateway,
                 .appRunnerService,
                 .cloudfront,
@@ -3424,6 +3426,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentcoreGateway: return "AGENTCORE_GATEWAY"
             case .apiGateway: return "API_GATEWAY"
             case .appRunnerService: return "APP_RUNNER_SERVICE"
             case .cloudfront: return "CLOUDFRONT"
@@ -3910,6 +3913,8 @@ public struct AssociateWebACLInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -5653,6 +5658,8 @@ public struct DisassociateWebACLInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6792,7 +6799,7 @@ extension WAFV2ClientTypes {
         /// The name of the AI bot.
         /// This member is required.
         public var sourceName: Swift.String?
-        /// Whether the AI bot's identity was verified.
+        /// Indicates whether the AI bot's identity was verified — for example, through a cryptographically signed request (Web Bot Auth) or another published verification method. This value is meaningful only when GroupBy is NAME, where each result represents a single, identifiable bot. For all other GroupBy values (CATEGORY, INTENT, ORGANIZATION, or WEBACL), a result aggregates multiple bots that may have different verification states, so Verified is always returned as false and should be ignored. Type and required-ness are unchanged (Boolean, optional).
         public var verified: Swift.Bool
 
         public init(
@@ -7557,6 +7564,8 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
     ///
     /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+    ///
+    /// * For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -8004,6 +8013,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentcoreGateway
         case amplify
         case apiGateway
         case applicationLoadBalancer
@@ -8015,6 +8025,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .agentcoreGateway,
                 .amplify,
                 .apiGateway,
                 .applicationLoadBalancer,
@@ -8032,6 +8043,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentcoreGateway: return "AGENTCORE_GATEWAY"
             case .amplify: return "AMPLIFY"
             case .apiGateway: return "API_GATEWAY"
             case .applicationLoadBalancer: return "APPLICATION_LOAD_BALANCER"

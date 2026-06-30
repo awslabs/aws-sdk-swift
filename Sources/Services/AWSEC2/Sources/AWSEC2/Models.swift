@@ -28204,6 +28204,7 @@ extension EC2ClientTypes {
     public enum PlacementStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cluster
         case partition
+        case precisionTime
         case spread
         case sdkUnknown(Swift.String)
 
@@ -28211,6 +28212,7 @@ extension EC2ClientTypes {
             return [
                 .cluster,
                 .partition,
+                .precisionTime,
                 .spread
             ]
         }
@@ -28224,6 +28226,7 @@ extension EC2ClientTypes {
             switch self {
             case .cluster: return "cluster"
             case .partition: return "partition"
+            case .precisionTime: return "precision-time"
             case .spread: return "spread"
             case let .sdkUnknown(s): return s
             }
@@ -28240,6 +28243,8 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
     public var linkedGroupId: Swift.String?
     /// Reserved for internal use.
     public var `operator`: EC2ClientTypes.OperatorRequest?
+    /// The ID of a parent placement group. Valid only when Strategy is set to cluster.
+    public var parentGroupId: Swift.String?
     /// The number of partitions. Valid only when Strategy is set to partition.
     public var partitionCount: Swift.Int?
     /// Determines how placement groups spread instances.
@@ -28258,6 +28263,7 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
         groupName: Swift.String? = nil,
         linkedGroupId: Swift.String? = nil,
         `operator`: EC2ClientTypes.OperatorRequest? = nil,
+        parentGroupId: Swift.String? = nil,
         partitionCount: Swift.Int? = nil,
         spreadLevel: EC2ClientTypes.SpreadLevel? = nil,
         strategy: EC2ClientTypes.PlacementStrategy? = nil,
@@ -28267,6 +28273,7 @@ public struct CreatePlacementGroupInput: Swift.Sendable {
         self.groupName = groupName
         self.linkedGroupId = linkedGroupId
         self.`operator` = `operator`
+        self.parentGroupId = parentGroupId
         self.partitionCount = partitionCount
         self.spreadLevel = spreadLevel
         self.strategy = strategy
@@ -28323,6 +28330,8 @@ extension EC2ClientTypes {
         public var linkedGroupId: Swift.String?
         /// The service provider that manages the Placement Group.
         public var `operator`: EC2ClientTypes.OperatorResponse?
+        /// The ID of the parent placement group.
+        public var parentGroupId: Swift.String?
         /// The number of partitions. Valid only if strategy is set to partition.
         public var partitionCount: Swift.Int?
         /// The spread level for the placement group. Only Outpost placement groups can be spread across hosts.
@@ -28340,6 +28349,7 @@ extension EC2ClientTypes {
             groupName: Swift.String? = nil,
             linkedGroupId: Swift.String? = nil,
             `operator`: EC2ClientTypes.OperatorResponse? = nil,
+            parentGroupId: Swift.String? = nil,
             partitionCount: Swift.Int? = nil,
             spreadLevel: EC2ClientTypes.SpreadLevel? = nil,
             state: EC2ClientTypes.PlacementGroupState? = nil,
@@ -28351,6 +28361,7 @@ extension EC2ClientTypes {
             self.groupName = groupName
             self.linkedGroupId = linkedGroupId
             self.`operator` = `operator`
+            self.parentGroupId = parentGroupId
             self.partitionCount = partitionCount
             self.spreadLevel = spreadLevel
             self.state = state
@@ -56118,7 +56129,7 @@ public struct DescribePlacementGroupsInput: Swift.Sendable {
     ///
     /// * state - The state of the placement group (pending | available | deleting | deleted).
     ///
-    /// * strategy - The strategy of the placement group (cluster | spread | partition).
+    /// * strategy - The strategy of the placement group (cluster | spread | partition | precision-time).
     ///
     /// * tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
     ///
@@ -91406,6 +91417,7 @@ extension CreatePlacementGroupInput {
         try writer["GroupName"].write(value.groupName)
         try writer["LinkedGroupId"].write(value.linkedGroupId)
         try writer["Operator"].write(value.`operator`, with: EC2ClientTypes.OperatorRequest.write(value:to:))
+        try writer["ParentGroupId"].write(value.parentGroupId)
         try writer["PartitionCount"].write(value.partitionCount)
         try writer["SpreadLevel"].write(value.spreadLevel)
         try writer["Strategy"].write(value.strategy)
@@ -129347,6 +129359,7 @@ extension EC2ClientTypes.PlacementGroup {
         value.spreadLevel = try reader["spreadLevel"].readIfPresent()
         value.linkedGroupId = try reader["linkedGroupId"].readIfPresent()
         value.`operator` = try reader["operator"].readIfPresent(with: EC2ClientTypes.OperatorResponse.read(from:))
+        value.parentGroupId = try reader["parentGroupId"].readIfPresent()
         return value
     }
 }

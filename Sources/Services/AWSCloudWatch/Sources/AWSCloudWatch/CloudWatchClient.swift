@@ -785,7 +785,7 @@ extension CloudWatchClient {
 
     /// Performs the `DeleteAlarms` operation on the `CloudWatch` service.
     ///
-    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
+    /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. Log alarms cannot be batch deleted. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAlarmsInput`)
     ///
@@ -794,6 +794,7 @@ extension CloudWatchClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ResourceConflict` : The operation could not be completed because the request conflicts with the current state of the alarm or its underlying scheduled query resource.
     /// - `ResourceNotFound` : The named resource does not exist.
     public func deleteAlarms(input: DeleteAlarmsInput) async throws -> DeleteAlarmsOutput {
         var config = config
@@ -3666,6 +3667,85 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutInsightRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutLogAlarm` operation on the `CloudWatch` service.
+    ///
+    /// Creates or updates a log alarm. A log alarm evaluates the results of a CloudWatch Logs scheduled query against the configured threshold and comparison operator to determine its state. When you create a log alarm, the operation creates a service-managed CloudWatch Logs scheduled query that runs the query string you provide on the schedule you configure. Each scheduled query execution returns one or more aggregated values determined by the AggregationExpression, and each aggregated value is compared against the alarm Threshold to determine the alarm state. The alarm uses M-out-of-N evaluation: if QueryResultsToAlarm out of the most recent QueryResultsToEvaluate query results breach the threshold, the alarm transitions to ALARM. Log alarms support the alarm states (OK, ALARM, INSUFFICIENT_DATA). Configure transition actions using OKActions, AlarmActions, and InsufficientDataActions. If you call this operation with the name of an existing log alarm, the operation replaces the previous configuration of that alarm. Permissions To create or update a log alarm, you must have the cloudwatch:PutLogAlarm permission. The IAM role specified in ScheduledQueryRoleARN must grant the CloudWatch Alarms service permission to execute scheduled queries on the specified log groups. If you set ActionLogLineCount, the role specified in ActionLogLineRoleArn must grant permission to retrieve log events for inclusion in alarm notifications.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutLogAlarmInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutLogAlarmOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
+    /// - `ResourceConflict` : The operation could not be completed because the request conflicts with the current state of the alarm or its underlying scheduled query resource.
+    public func putLogAlarm(input: PutLogAlarmInput) async throws -> PutLogAlarmOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.putLogAlarmOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putLogAlarm")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutLogAlarmOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLogAlarmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogAlarmOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogAlarmInput, PutLogAlarmOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogAlarmInput, PutLogAlarmOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLogAlarm")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

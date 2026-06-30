@@ -531,6 +531,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         case keywordsPerPool
         case monthlySpendLimitReachedForMedia
         case monthlySpendLimitReachedForNotify
+        case monthlySpendLimitReachedForRcs
         case monthlySpendLimitReachedForText
         case monthlySpendLimitReachedForVoice
         case notifyConfigurationsPerAccount
@@ -562,6 +563,7 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .keywordsPerPool,
                 .monthlySpendLimitReachedForMedia,
                 .monthlySpendLimitReachedForNotify,
+                .monthlySpendLimitReachedForRcs,
                 .monthlySpendLimitReachedForText,
                 .monthlySpendLimitReachedForVoice,
                 .notifyConfigurationsPerAccount,
@@ -599,6 +601,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .keywordsPerPool: return "KEYWORDS_PER_POOL"
             case .monthlySpendLimitReachedForMedia: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_MEDIA"
             case .monthlySpendLimitReachedForNotify: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_NOTIFY"
+            case .monthlySpendLimitReachedForRcs: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_RCS"
             case .monthlySpendLimitReachedForText: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_TEXT"
             case .monthlySpendLimitReachedForVoice: return "MONTHLY_SPEND_LIMIT_REACHED_FOR_VOICE"
             case .notifyConfigurationsPerAccount: return "NOTIFY_CONFIGURATIONS_PER_ACCOUNT"
@@ -1336,6 +1339,15 @@ extension PinpointSMSVoiceV2ClientTypes {
         case mediaTtlExpired
         case mediaUnknown
         case mediaUnreachable
+        case rcsAll
+        case rcsDelivered
+        case rcsFailed
+        case rcsFallenBackToSms
+        case rcsProtectBlocked
+        case rcsQueued
+        case rcsRead
+        case rcsSent
+        case rcsTtlExpired
         case textAll
         case textBlocked
         case textCarrierBlocked
@@ -1383,6 +1395,15 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .mediaTtlExpired,
                 .mediaUnknown,
                 .mediaUnreachable,
+                .rcsAll,
+                .rcsDelivered,
+                .rcsFailed,
+                .rcsFallenBackToSms,
+                .rcsProtectBlocked,
+                .rcsQueued,
+                .rcsRead,
+                .rcsSent,
+                .rcsTtlExpired,
                 .textAll,
                 .textBlocked,
                 .textCarrierBlocked,
@@ -1436,6 +1457,15 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .mediaTtlExpired: return "MEDIA_TTL_EXPIRED"
             case .mediaUnknown: return "MEDIA_UNKNOWN"
             case .mediaUnreachable: return "MEDIA_UNREACHABLE"
+            case .rcsAll: return "RCS_ALL"
+            case .rcsDelivered: return "RCS_DELIVERED"
+            case .rcsFailed: return "RCS_FAILED"
+            case .rcsFallenBackToSms: return "RCS_FALLEN_BACK_TO_SMS"
+            case .rcsProtectBlocked: return "RCS_PROTECT_BLOCKED"
+            case .rcsQueued: return "RCS_QUEUED"
+            case .rcsRead: return "RCS_READ"
+            case .rcsSent: return "RCS_SENT"
+            case .rcsTtlExpired: return "RCS_TTL_EXPIRED"
             case .textAll: return "TEXT_ALL"
             case .textBlocked: return "TEXT_BLOCKED"
             case .textCarrierBlocked: return "TEXT_CARRIER_BLOCKED"
@@ -2467,6 +2497,14 @@ public struct CreateRcsAgentOutput: Swift.Sendable {
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     /// This member is required.
     public var twoWayEnabled: Swift.Bool
+    /// The name of the S3 bucket where inbound RCS media files are stored.
+    public var twoWayMediaS3BucketName: Swift.String?
+    /// The key prefix used for inbound RCS media objects in the S3 bucket.
+    public var twoWayMediaS3KeyPrefix: Swift.String?
+    /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it.
+    public var twoWayMediaS3Role: Swift.String?
+    /// The list of RCS event types enabled for two-way messaging on the agent.
+    public var twoWayRcsEventsEnabled: [Swift.String]?
 
     public init(
         createdTimestamp: Foundation.Date? = nil,
@@ -2479,7 +2517,11 @@ public struct CreateRcsAgentOutput: Swift.Sendable {
         tags: [PinpointSMSVoiceV2ClientTypes.Tag]? = nil,
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
-        twoWayEnabled: Swift.Bool = false
+        twoWayEnabled: Swift.Bool = false,
+        twoWayMediaS3BucketName: Swift.String? = nil,
+        twoWayMediaS3KeyPrefix: Swift.String? = nil,
+        twoWayMediaS3Role: Swift.String? = nil,
+        twoWayRcsEventsEnabled: [Swift.String]? = nil
     ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -2492,6 +2534,10 @@ public struct CreateRcsAgentOutput: Swift.Sendable {
         self.twoWayChannelArn = twoWayChannelArn
         self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
+        self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+        self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+        self.twoWayMediaS3Role = twoWayMediaS3Role
+        self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
     }
 }
 
@@ -3699,6 +3745,8 @@ public struct DeleteRcsAgentOutput: Swift.Sendable {
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     /// This member is required.
     public var twoWayEnabled: Swift.Bool
+    /// The list of RCS event types that were enabled for two-way messaging on the deleted agent.
+    public var twoWayRcsEventsEnabled: [Swift.String]?
 
     public init(
         createdTimestamp: Foundation.Date? = nil,
@@ -3710,7 +3758,8 @@ public struct DeleteRcsAgentOutput: Swift.Sendable {
         status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
-        twoWayEnabled: Swift.Bool = false
+        twoWayEnabled: Swift.Bool = false,
+        twoWayRcsEventsEnabled: [Swift.String]? = nil
     ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -3722,6 +3771,23 @@ public struct DeleteRcsAgentOutput: Swift.Sendable {
         self.twoWayChannelArn = twoWayChannelArn
         self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
+        self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+    }
+}
+
+public struct DeleteRcsMessageSpendLimitOverrideInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteRcsMessageSpendLimitOverrideOutput: Swift.Sendable {
+    /// The current monthly limit to enforce on RCS message spending.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
     }
 }
 
@@ -6072,6 +6138,14 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
         /// This member is required.
         public var twoWayEnabled: Swift.Bool
+        /// The name of the S3 bucket where inbound RCS media files are stored.
+        public var twoWayMediaS3BucketName: Swift.String?
+        /// The key prefix used for inbound RCS media objects in the S3 bucket.
+        public var twoWayMediaS3KeyPrefix: Swift.String?
+        /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket.
+        public var twoWayMediaS3Role: Swift.String?
+        /// The list of RCS event types enabled for two-way messaging on the agent.
+        public var twoWayRcsEventsEnabled: [Swift.String]?
 
         public init(
             createdTimestamp: Foundation.Date? = nil,
@@ -6085,7 +6159,11 @@ extension PinpointSMSVoiceV2ClientTypes {
             testingAgent: PinpointSMSVoiceV2ClientTypes.TestingAgentInformation? = nil,
             twoWayChannelArn: Swift.String? = nil,
             twoWayChannelRole: Swift.String? = nil,
-            twoWayEnabled: Swift.Bool = false
+            twoWayEnabled: Swift.Bool = false,
+            twoWayMediaS3BucketName: Swift.String? = nil,
+            twoWayMediaS3KeyPrefix: Swift.String? = nil,
+            twoWayMediaS3Role: Swift.String? = nil,
+            twoWayRcsEventsEnabled: [Swift.String]? = nil
         ) {
             self.createdTimestamp = createdTimestamp
             self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -6099,6 +6177,10 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.twoWayChannelArn = twoWayChannelArn
             self.twoWayChannelRole = twoWayChannelRole
             self.twoWayEnabled = twoWayEnabled
+            self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+            self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+            self.twoWayMediaS3Role = twoWayMediaS3Role
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
         }
     }
 }
@@ -7517,6 +7599,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public enum SpendLimitName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mediaMessageMonthlySpendLimit
         case notifyMessageMonthlySpendLimit
+        case rcsMessageMonthlySpendLimit
         case textMessageMonthlySpendLimit
         case voiceMessageMonthlySpendLimit
         case sdkUnknown(Swift.String)
@@ -7525,6 +7608,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .mediaMessageMonthlySpendLimit,
                 .notifyMessageMonthlySpendLimit,
+                .rcsMessageMonthlySpendLimit,
                 .textMessageMonthlySpendLimit,
                 .voiceMessageMonthlySpendLimit
             ]
@@ -7539,6 +7623,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .mediaMessageMonthlySpendLimit: return "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT"
             case .notifyMessageMonthlySpendLimit: return "NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT"
+            case .rcsMessageMonthlySpendLimit: return "RCS_MESSAGE_MONTHLY_SPEND_LIMIT"
             case .textMessageMonthlySpendLimit: return "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
             case .voiceMessageMonthlySpendLimit: return "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
             case let .sdkUnknown(s): return s
@@ -9307,7 +9392,7 @@ public struct RequestSenderIdInput: Swift.Sendable {
     public var isoCountryCode: Swift.String?
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     public var messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]?
-    /// The sender ID string to request.
+    /// The sender ID string to request. The sender ID can be 1-11 alphanumeric characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen.
     /// This member is required.
     public var senderId: Swift.String?
     /// An array of tags (key and value pairs) to associate with the sender ID.
@@ -9652,6 +9737,548 @@ public struct SendNotifyVoiceMessageOutput: Swift.Sendable {
     }
 }
 
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum RcsFallbackChannel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mms
+        case sms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RcsFallbackChannel] {
+            return [
+                .mms,
+                .sms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mms: return "MMS"
+            case .sms: return "SMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// Configuration for SMS or MMS fallback when RCS delivery fails or the TimeToLive expires without delivery confirmation.
+    public struct RcsFallbackConfiguration: Swift.Sendable {
+        /// The fallback channel to use when RCS delivery fails. Valid values are SMS and MMS. SMS and MMS are mutually exclusive.
+        /// This member is required.
+        public var channel: PinpointSMSVoiceV2ClientTypes.RcsFallbackChannel?
+        /// An array of S3 URIs to media files for MMS fallback. Only valid when Channel is MMS.
+        public var mediaUrls: [Swift.String]?
+        /// The text body of the fallback message. Required for SMS fallback. For MMS fallback, at least one of MessageBody or MediaUrls must be provided.
+        public var messageBody: Swift.String?
+        /// The origination identity to use for the fallback message. This can be a PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. Pool IDs and pool ARNs are not accepted. If not specified and the original message was sent via a pool, the service selects a suitable number from the pool.
+        public var originationIdentity: Swift.String?
+
+        public init(
+            channel: PinpointSMSVoiceV2ClientTypes.RcsFallbackChannel? = nil,
+            mediaUrls: [Swift.String]? = nil,
+            messageBody: Swift.String? = nil,
+            originationIdentity: Swift.String? = nil
+        ) {
+            self.channel = channel
+            self.mediaUrls = mediaUrls
+            self.messageBody = messageBody
+            self.originationIdentity = originationIdentity
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The media content of a carousel card. Display height is restricted to SHORT or MEDIUM (TALL is not supported in carousels).
+    public struct RcsCarouselCardMedia: Swift.Sendable {
+        /// The S3 URI of the media file for the carousel card. Maximum 2000 characters.
+        /// This member is required.
+        public var fileUrl: Swift.String?
+        /// The display height of the media in the carousel card. Valid values are SHORT and MEDIUM.
+        public var height: Swift.String?
+        /// The S3 URI of an optional thumbnail image for the carousel card media. Maximum 2000 characters.
+        public var thumbnailUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil,
+            height: Swift.String? = nil,
+            thumbnailUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+            self.height = height
+            self.thumbnailUrl = thumbnailUrl
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action that creates a calendar event on the recipient's device.
+    public struct RcsCreateCalendarEventAction: Swift.Sendable {
+        /// An optional description for the calendar event. Maximum 500 characters.
+        public var description: Swift.String?
+        /// The end time of the calendar event in ISO 8601 format.
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The start time of the calendar event in ISO 8601 format.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+        /// The display text of the action. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+        /// The title of the calendar event. Maximum 100 characters.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            postbackData: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            text: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.endTime = endTime
+            self.postbackData = postbackData
+            self.startTime = startTime
+            self.text = text
+            self.title = title
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action that initiates a phone call to a specified number when tapped by the recipient.
+    public struct RcsDialPhoneAction: Swift.Sendable {
+        /// The phone number to dial in E.164 format.
+        /// This member is required.
+        public var phoneNumber: Swift.String?
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The display text of the action. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            phoneNumber: Swift.String? = nil,
+            postbackData: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.phoneNumber = phoneNumber
+            self.postbackData = postbackData
+            self.text = text
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action that opens a URL in the recipient's browser or an in-app webview.
+    public struct RcsOpenUrlAction: Swift.Sendable {
+        /// How to open the URL. BROWSER opens in the device's default browser. WEBVIEW opens in an in-app webview.
+        public var application: Swift.String?
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The display text of the action. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+        /// The URL to open. Must start with https://. Maximum 2048 characters.
+        /// This member is required.
+        public var url: Swift.String?
+        /// The display mode of the webview. Valid values are FULL, HALF, and TALL. Only applicable when Application is WEBVIEW.
+        public var webviewViewMode: Swift.String?
+
+        public init(
+            application: Swift.String? = nil,
+            postbackData: Swift.String? = nil,
+            text: Swift.String? = nil,
+            url: Swift.String? = nil,
+            webviewViewMode: Swift.String? = nil
+        ) {
+            self.application = application
+            self.postbackData = postbackData
+            self.text = text
+            self.url = url
+            self.webviewViewMode = webviewViewMode
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested reply action that sends predefined text and postback data when tapped by the recipient.
+    public struct RcsReplyAction: Swift.Sendable {
+        /// The postback data sent to your webhook when the user taps this reply. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The display text of the suggested reply. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            postbackData: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.postbackData = postbackData
+            self.text = text
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action that requests the recipient's current location.
+    public struct RcsRequestLocationAction: Swift.Sendable {
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The display text of the action. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            postbackData: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.postbackData = postbackData
+            self.text = text
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action that shows a location on a map when tapped by the recipient.
+    public struct RcsShowLocationAction: Swift.Sendable {
+        /// An optional label for the location pin. Maximum 100 characters.
+        public var label: Swift.String?
+        /// The latitude of the location. Valid values are -90 to 90.
+        /// This member is required.
+        public var latitude: Swift.Double?
+        /// The longitude of the location. Valid values are -180 to 180.
+        /// This member is required.
+        public var longitude: Swift.Double?
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        /// This member is required.
+        public var postbackData: Swift.String?
+        /// The display text of the action. Maximum 25 characters.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            label: Swift.String? = nil,
+            latitude: Swift.Double? = nil,
+            longitude: Swift.Double? = nil,
+            postbackData: Swift.String? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.label = label
+            self.latitude = latitude
+            self.longitude = longitude
+            self.postbackData = postbackData
+            self.text = text
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A suggested action displayed to the RCS message recipient. Can be a reply, open URL, dial phone, show location, request location, or create calendar event.
+    public enum RcsSuggestedAction: Swift.Sendable {
+        /// A suggested reply that sends predefined text and postback data when tapped.
+        case reply(PinpointSMSVoiceV2ClientTypes.RcsReplyAction)
+        /// A suggested action that opens a URL in the user's browser or a webview.
+        case openurl(PinpointSMSVoiceV2ClientTypes.RcsOpenUrlAction)
+        /// A suggested action that initiates a phone call to the specified number.
+        case dialphone(PinpointSMSVoiceV2ClientTypes.RcsDialPhoneAction)
+        /// A suggested action that shows a location on a map.
+        case showlocation(PinpointSMSVoiceV2ClientTypes.RcsShowLocationAction)
+        /// A suggested action that requests the user's current location.
+        case requestlocation(PinpointSMSVoiceV2ClientTypes.RcsRequestLocationAction)
+        /// A suggested action that creates a calendar event on the user's device.
+        case createcalendarevent(PinpointSMSVoiceV2ClientTypes.RcsCreateCalendarEventAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The content of a carousel card, including title, description, media, and card-level suggested actions. Media height is restricted to SHORT or MEDIUM.
+    public struct RcsCarouselCardContent: Swift.Sendable {
+        /// The description text of the carousel card. Maximum 2000 characters.
+        public var description: Swift.String?
+        /// The media content of the carousel card. Media height is restricted to SHORT or MEDIUM (TALL is not supported in carousels).
+        public var media: PinpointSMSVoiceV2ClientTypes.RcsCarouselCardMedia?
+        /// Card-level suggested actions for this carousel card. Maximum 4 suggestions per card.
+        public var suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]?
+        /// The title of the carousel card. Maximum 200 characters.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            media: PinpointSMSVoiceV2ClientTypes.RcsCarouselCardMedia? = nil,
+            suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.media = media
+            self.suggestions = suggestions
+            self.title = title
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A carousel of 2 to 10 scrollable rich cards.
+    public struct RcsCarousel: Swift.Sendable {
+        /// The list of cards in the carousel. Minimum 2, maximum 10 cards.
+        /// This member is required.
+        public var cardContents: [PinpointSMSVoiceV2ClientTypes.RcsCarouselCardContent]?
+        /// The width of cards in the carousel. Valid values are SMALL and MEDIUM.
+        /// This member is required.
+        public var cardWidth: Swift.String?
+
+        public init(
+            cardContents: [PinpointSMSVoiceV2ClientTypes.RcsCarouselCardContent]? = nil,
+            cardWidth: Swift.String? = nil
+        ) {
+            self.cardContents = cardContents
+            self.cardWidth = cardWidth
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A file message containing a media file (image, video, audio, or PDF) with an optional thumbnail.
+    public struct RcsFileMessage: Swift.Sendable {
+        /// The S3 URI of the media file to send, in the format s3://bucket-name/key. The service downloads the file from your S3 bucket, rehosts it, and generates a presigned URL for the aggregator. Maximum 2000 characters.
+        /// This member is required.
+        public var fileUrl: Swift.String?
+        /// The S3 URI of an optional thumbnail image for the media file, in the format s3://bucket-name/key. Maximum 2000 characters.
+        public var thumbnailUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil,
+            thumbnailUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+            self.thumbnailUrl = thumbnailUrl
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The media content of a rich card, including the file URL, optional thumbnail, and display height.
+    public struct RcsCardMedia: Swift.Sendable {
+        /// The S3 URI of the media file for the card, in the format s3://bucket-name/key. Maximum 2000 characters.
+        /// This member is required.
+        public var fileUrl: Swift.String?
+        /// The display height of the media in the card. Valid values are SHORT, MEDIUM, and TALL.
+        public var height: Swift.String?
+        /// The S3 URI of an optional thumbnail image for the card media. Maximum 2000 characters.
+        public var thumbnailUrl: Swift.String?
+
+        public init(
+            fileUrl: Swift.String? = nil,
+            height: Swift.String? = nil,
+            thumbnailUrl: Swift.String? = nil
+        ) {
+            self.fileUrl = fileUrl
+            self.height = height
+            self.thumbnailUrl = thumbnailUrl
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The content of a rich card, including title, description, media, and card-level suggested actions.
+    public struct RcsCardContent: Swift.Sendable {
+        /// The description text of the card. Maximum 2000 characters.
+        public var description: Swift.String?
+        /// The media content of the card, including the file URL, optional thumbnail, and display height.
+        public var media: PinpointSMSVoiceV2ClientTypes.RcsCardMedia?
+        /// Card-level suggested actions. Maximum 4 suggestions per card.
+        public var suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]?
+        /// The title of the card. Maximum 200 characters.
+        public var title: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            media: PinpointSMSVoiceV2ClientTypes.RcsCardMedia? = nil,
+            suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.description = description
+            self.media = media
+            self.suggestions = suggestions
+            self.title = title
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A standalone rich card with media, title, description, and suggested actions.
+    public struct RcsStandaloneCard: Swift.Sendable {
+        /// The content of the rich card, including title, description, media, and card-level suggested actions.
+        /// This member is required.
+        public var cardContent: PinpointSMSVoiceV2ClientTypes.RcsCardContent?
+        /// The orientation of the rich card. Valid values are HORIZONTAL and VERTICAL.
+        /// This member is required.
+        public var cardOrientation: Swift.String?
+        /// The alignment of the thumbnail image in a horizontal card. Valid values are LEFT and RIGHT. Only applicable when CardOrientation is HORIZONTAL.
+        public var thumbnailImageAlignment: Swift.String?
+
+        public init(
+            cardContent: PinpointSMSVoiceV2ClientTypes.RcsCardContent? = nil,
+            cardOrientation: Swift.String? = nil,
+            thumbnailImageAlignment: Swift.String? = nil
+        ) {
+            self.cardContent = cardContent
+            self.cardOrientation = cardOrientation
+            self.thumbnailImageAlignment = thumbnailImageAlignment
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// A plain text RCS message body.
+    public struct RcsTextMessage: Swift.Sendable {
+        /// The text body of the RCS message. Maximum 3072 characters.
+        /// This member is required.
+        public var body: Swift.String?
+
+        public init(
+            body: Swift.String? = nil
+        ) {
+            self.body = body
+        }
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The message body of an RCS message. Exactly one content type must be specified.
+    public enum RcsContent: Swift.Sendable {
+        /// A plain text RCS message.
+        case textmessage(PinpointSMSVoiceV2ClientTypes.RcsTextMessage)
+        /// A file message containing a media file (image, video, audio, or PDF) with an optional thumbnail.
+        case filemessage(PinpointSMSVoiceV2ClientTypes.RcsFileMessage)
+        /// A standalone rich card with media, title, description, and suggested actions.
+        case richcard(PinpointSMSVoiceV2ClientTypes.RcsStandaloneCard)
+        /// A carousel of 2 to 10 scrollable cards, each with media, title, description, and suggested actions.
+        case carousel(PinpointSMSVoiceV2ClientTypes.RcsCarousel)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    /// The content of an RCS message, containing the message body (text, file, rich card, or carousel) and optional message-level suggested actions.
+    public struct RcsMessageContent: Swift.Sendable {
+        /// The content of the RCS message. Exactly one content type must be specified: TextMessage, FileMessage, RichCard, or Carousel.
+        /// This member is required.
+        public var content: PinpointSMSVoiceV2ClientTypes.RcsContent?
+        /// Message-level suggested actions displayed to the recipient. Maximum 11 suggestions per message.
+        public var suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]?
+
+        public init(
+            content: PinpointSMSVoiceV2ClientTypes.RcsContent? = nil,
+            suggestions: [PinpointSMSVoiceV2ClientTypes.RcsSuggestedAction]? = nil
+        ) {
+            self.content = content
+            self.suggestions = suggestions
+        }
+    }
+}
+
+public struct SendRcsMessageInput: Swift.Sendable {
+    /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+    public var configurationSetName: Swift.String?
+    /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+    public var context: [Swift.String: Swift.String]?
+    /// The destination phone number in E.164 format.
+    /// This member is required.
+    public var destinationPhoneNumber: Swift.String?
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+    public var dryRun: Swift.Bool?
+    /// Configuration for SMS or MMS fallback when RCS delivery fails. If provided, the service sends a fallback message via the specified channel when the RCS message fails or the TimeToLive expires.
+    public var fallbackConfiguration: PinpointSMSVoiceV2ClientTypes.RcsFallbackConfiguration?
+    /// The maximum amount that you want to spend, in US dollars, per each RCS message.
+    public var maxPrice: Swift.String?
+    /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
+    public var messageFeedbackEnabled: Swift.Bool?
+    /// The traffic type of the RCS message. Valid values are AUTHENTICATION, TRANSACTION, PROMOTION, SERVICE_REQUEST, and ACKNOWLEDGEMENT. This field is reserved for future use.
+    public var messageTrafficType: Swift.String?
+    /// The origination identity of the message. This can be either the RcsAgentId, RcsAgentArn, PoolId, or PoolArn.
+    /// This member is required.
+    public var originationIdentity: Swift.String?
+    /// The unique identifier of the protect configuration to use.
+    public var protectConfigurationId: Swift.String?
+    /// The content of the RCS message. Contains the message content (text, file, rich card, or carousel) and optional message-level suggested actions.
+    public var rcsMessageContent: PinpointSMSVoiceV2ClientTypes.RcsMessageContent?
+    /// The duration in seconds that the RCS message is valid for delivery. If the message cannot be delivered within this duration, it is considered expired. Valid values are 1 to 172800 (48 hours). If a FallbackConfiguration is provided, the fallback is triggered when the duration expires without delivery confirmation.
+    public var timeToLive: Swift.Int?
+
+    public init(
+        configurationSetName: Swift.String? = nil,
+        context: [Swift.String: Swift.String]? = nil,
+        destinationPhoneNumber: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
+        fallbackConfiguration: PinpointSMSVoiceV2ClientTypes.RcsFallbackConfiguration? = nil,
+        maxPrice: Swift.String? = nil,
+        messageFeedbackEnabled: Swift.Bool? = nil,
+        messageTrafficType: Swift.String? = nil,
+        originationIdentity: Swift.String? = nil,
+        protectConfigurationId: Swift.String? = nil,
+        rcsMessageContent: PinpointSMSVoiceV2ClientTypes.RcsMessageContent? = nil,
+        timeToLive: Swift.Int? = nil
+    ) {
+        self.configurationSetName = configurationSetName
+        self.context = context
+        self.destinationPhoneNumber = destinationPhoneNumber
+        self.dryRun = dryRun
+        self.fallbackConfiguration = fallbackConfiguration
+        self.maxPrice = maxPrice
+        self.messageFeedbackEnabled = messageFeedbackEnabled
+        self.messageTrafficType = messageTrafficType
+        self.originationIdentity = originationIdentity
+        self.protectConfigurationId = protectConfigurationId
+        self.rcsMessageContent = rcsMessageContent
+        self.timeToLive = timeToLive
+    }
+}
+
+public struct SendRcsMessageOutput: Swift.Sendable {
+    /// The unique identifier for the message.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    ) {
+        self.messageId = messageId
+    }
+}
+
 public struct SendTextMessageInput: Swift.Sendable {
     /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     public var configurationSetName: Swift.String?
@@ -9678,7 +10305,7 @@ public struct SendTextMessageInput: Swift.Sendable {
     public var messageFeedbackEnabled: Swift.Bool?
     /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
-    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var originationIdentity: Swift.String?
     /// The unique identifier for the protect configuration.
     public var protectConfigurationId: Swift.String?
@@ -10011,6 +10638,29 @@ public struct SetNotifyMessageSpendLimitOverrideOutput: Swift.Sendable {
     }
 }
 
+public struct SetRcsMessageSpendLimitOverrideInput: Swift.Sendable {
+    /// The new monthly limit to enforce on RCS message spending.
+    /// This member is required.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
+public struct SetRcsMessageSpendLimitOverrideOutput: Swift.Sendable {
+    /// The current monthly limit to enforce on RCS message spending.
+    public var monthlyLimit: Swift.Int?
+
+    public init(
+        monthlyLimit: Swift.Int? = nil
+    ) {
+        self.monthlyLimit = monthlyLimit
+    }
+}
+
 public struct SetTextMessageSpendLimitOverrideInput: Swift.Sendable {
     /// The new monthly limit to enforce on text messages.
     /// This member is required.
@@ -10229,7 +10879,7 @@ public struct UpdateEventDestinationOutput: Swift.Sendable {
 }
 
 public struct UpdateNotifyConfigurationInput: Swift.Sendable {
-    /// The template ID to set as the default, or the special value UNSET_DEFAULT_TEMPLATE to clear the current default template.
+    /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UNSET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration.
     public var defaultTemplateId: Swift.String?
     /// When set to true the notify configuration can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
@@ -10240,7 +10890,7 @@ public struct UpdateNotifyConfigurationInput: Swift.Sendable {
     /// The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the [DescribeNotifyConfigurations] operation.
     /// This member is required.
     public var notifyConfigurationId: Swift.String?
-    /// The pool ID or ARN to associate, or the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool.
+    /// The pool identifier or Amazon Resource Name (ARN) to associate with the notify configuration. Pass the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool from the notify configuration.
     public var poolId: Swift.String?
 
     public init(
@@ -10660,6 +11310,14 @@ public struct UpdateRcsAgentInput: Swift.Sendable {
     public var twoWayChannelRole: Swift.String?
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     public var twoWayEnabled: Swift.Bool?
+    /// The name of the S3 bucket where inbound RCS media files are stored. Two-way messaging must be enabled on the agent. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3Role.
+    public var twoWayMediaS3BucketName: Swift.String?
+    /// The key prefix used for inbound RCS media objects in the S3 bucket.
+    public var twoWayMediaS3KeyPrefix: Swift.String?
+    /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3BucketName.
+    public var twoWayMediaS3Role: Swift.String?
+    /// The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used.
+    public var twoWayRcsEventsEnabled: [Swift.String]?
 
     public init(
         deletionProtectionEnabled: Swift.Bool? = nil,
@@ -10668,7 +11326,11 @@ public struct UpdateRcsAgentInput: Swift.Sendable {
         selfManagedOptOutsEnabled: Swift.Bool? = nil,
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
-        twoWayEnabled: Swift.Bool? = nil
+        twoWayEnabled: Swift.Bool? = nil,
+        twoWayMediaS3BucketName: Swift.String? = nil,
+        twoWayMediaS3KeyPrefix: Swift.String? = nil,
+        twoWayMediaS3Role: Swift.String? = nil,
+        twoWayRcsEventsEnabled: [Swift.String]? = nil
     ) {
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.optOutListName = optOutListName
@@ -10677,6 +11339,10 @@ public struct UpdateRcsAgentInput: Swift.Sendable {
         self.twoWayChannelArn = twoWayChannelArn
         self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
+        self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+        self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+        self.twoWayMediaS3Role = twoWayMediaS3Role
+        self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
     }
 }
 
@@ -10708,6 +11374,14 @@ public struct UpdateRcsAgentOutput: Swift.Sendable {
     /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
     /// This member is required.
     public var twoWayEnabled: Swift.Bool
+    /// The name of the S3 bucket where inbound RCS media files are stored.
+    public var twoWayMediaS3BucketName: Swift.String?
+    /// The key prefix used for inbound RCS media objects in the S3 bucket.
+    public var twoWayMediaS3KeyPrefix: Swift.String?
+    /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket.
+    public var twoWayMediaS3Role: Swift.String?
+    /// The list of RCS event types enabled for two-way messaging on the agent.
+    public var twoWayRcsEventsEnabled: [Swift.String]?
 
     public init(
         createdTimestamp: Foundation.Date? = nil,
@@ -10719,7 +11393,11 @@ public struct UpdateRcsAgentOutput: Swift.Sendable {
         status: PinpointSMSVoiceV2ClientTypes.RcsAgentStatus? = nil,
         twoWayChannelArn: Swift.String? = nil,
         twoWayChannelRole: Swift.String? = nil,
-        twoWayEnabled: Swift.Bool = false
+        twoWayEnabled: Swift.Bool = false,
+        twoWayMediaS3BucketName: Swift.String? = nil,
+        twoWayMediaS3KeyPrefix: Swift.String? = nil,
+        twoWayMediaS3Role: Swift.String? = nil,
+        twoWayRcsEventsEnabled: [Swift.String]? = nil
     ) {
         self.createdTimestamp = createdTimestamp
         self.deletionProtectionEnabled = deletionProtectionEnabled
@@ -10731,6 +11409,10 @@ public struct UpdateRcsAgentOutput: Swift.Sendable {
         self.twoWayChannelArn = twoWayChannelArn
         self.twoWayChannelRole = twoWayChannelRole
         self.twoWayEnabled = twoWayEnabled
+        self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+        self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+        self.twoWayMediaS3Role = twoWayMediaS3Role
+        self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
     }
 }
 

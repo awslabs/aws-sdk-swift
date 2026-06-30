@@ -1734,9 +1734,9 @@ extension ElastiCacheClientTypes {
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
         /// The user supplied description of the replication group.
         public var description: Swift.String?
-        /// The durability setting of the replication group. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+        /// The durability setting of the replication group. For more information, see [Durability](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html).
         public var durability: ElastiCacheClientTypes.Durability?
-        /// The effective durability of the replication group. When Durability is set to default, the service resolves the actual durability based on the engine version, cluster mode, and other parameters. This field reflects the resolved value. For more information, see [Configuring Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/ConfiguringDurability.html).
+        /// The effective durability of the replication group. When Durability is set to default, the service resolves the actual durability based on the engine version, cluster mode, and other parameters. This field reflects the resolved value. For more information, see [Configuring Durability](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.Configuring.html).
         public var effectiveDurability: ElastiCacheClientTypes.EffectiveDurability?
         /// The engine used in a replication group. The options are valkey, memcached or redis.
         public var engine: Swift.String?
@@ -2281,7 +2281,7 @@ extension ElastiCacheClientTypes {
         public var cacheSubnetGroupName: Swift.String?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
         public var dataTiering: ElastiCacheClientTypes.DataTieringStatus?
-        /// The durability setting of the cluster when the snapshot was taken. When restoring from this snapshot, the cluster uses this durability setting unless overridden in the restore request. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+        /// The durability setting of the cluster when the snapshot was taken. When restoring from this snapshot, the cluster uses this durability setting unless overridden in the restore request. For more information, see [Durability](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html).
         public var durability: ElastiCacheClientTypes.Durability?
         /// The name of the cache engine (memcached or redis) used by the source cluster.
         public var engine: Swift.String?
@@ -4122,7 +4122,7 @@ public struct CreateReplicationGroupInput: Swift.Sendable {
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
     /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/data-tiering.html).
     public var dataTieringEnabled: Swift.Bool?
-    /// Specifies the durability setting for the replication group. When set to default, the service determines the effective durability based on the engine version, cluster mode, and other parameters. The resolved setting is reflected in the EffectiveDurability property of the replication group. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+    /// Specifies the durability setting for the replication group. When set to default, the service determines the effective durability based on the engine version, cluster mode, and other parameters. The resolved setting is reflected in the EffectiveDurability property of the replication group. For more information, see [Durability](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html).
     public var durability: ElastiCacheClientTypes.Durability?
     /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
     public var engine: Swift.String?
@@ -7990,7 +7990,7 @@ extension ElastiCacheClientTypes {
 
 /// Represents the input of a ModifyCacheCluster operation.
 public struct ModifyCacheClusterInput: Swift.Sendable {
-    /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. Valid values: true | false Default: false
+    /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. However, a pending node-count increase on Memcached clusters cannot be superseded by a request to add fewer nodes. To change a pending node addition, first cancel it by setting NumCacheNodes equal to the current number of nodes in the cluster, then submit the new request. See the NumCacheNodes parameter for details on node scaling behavior. Valid values: true | false Default: false
     public var applyImmediately: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:
     ///
@@ -8389,7 +8389,7 @@ public struct ModifyReplicationGroupInput: Swift.Sendable {
     public var cacheSecurityGroupNames: [Swift.String]?
     /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     public var clusterMode: ElastiCacheClientTypes.ClusterMode?
-    /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see [Durability](http://docs.aws.amazon.com/AmazonElastiCache/latest/dg/Durability.html).
+    /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see [Durability](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/durability.html).
     public var durability: ElastiCacheClientTypes.Durability?
     /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     public var engine: Swift.String?
