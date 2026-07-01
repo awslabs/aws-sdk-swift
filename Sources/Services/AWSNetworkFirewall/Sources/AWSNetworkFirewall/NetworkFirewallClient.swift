@@ -1035,6 +1035,90 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about container associations, use [ListContainerAssociations] and [DescribeContainerAssociation].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func createContainerAssociation(input: CreateContainerAssociationInput) async throws -> CreateContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.createContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateContainerAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateFirewall` operation on the `NetworkFirewall` service.
     ///
     /// Creates an Network Firewall [Firewall] and accompanying [FirewallStatus] for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a firewall, you use the operations that apply to the settings themselves, for example [UpdateLoggingConfiguration], [AssociateSubnets], and [UpdateFirewallDeleteProtection]. To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about firewalls, use [ListFirewalls] and [DescribeFirewall]. To generate a report on the last 30 days of traffic monitored by a firewall, use [StartAnalysisReport].
@@ -1780,6 +1864,90 @@ extension NetworkFirewallClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpcEndpointAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteContainerAssociation(input: DeleteContainerAssociationInput) async throws -> DeleteContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.deleteContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2703,6 +2871,89 @@ extension NetworkFirewallClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteVpcEndpointAssociation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the properties of a container association.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeContainerAssociation(input: DescribeContainerAssociationInput) async throws -> DescribeContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.describeContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4379,6 +4630,88 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListContainerAssociations` operation on the `NetworkFirewall` service.
+    ///
+    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListContainerAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListContainerAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func listContainerAssociations(input: ListContainerAssociationsInput) async throws -> ListContainerAssociationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.listContainerAssociationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listContainerAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListContainerAssociations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContainerAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListFirewallPolicies` operation on the `NetworkFirewall` service.
     ///
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
@@ -5948,6 +6281,90 @@ extension NetworkFirewallClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAvailabilityZoneChangeProtection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateContainerAssociation` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateContainerAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateContainerAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateContainerAssociation(input: UpdateContainerAssociationInput) async throws -> UpdateContainerAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = NetworkFirewallClient.updateContainerAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateContainerAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateContainerAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Network Firewall"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContainerAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -15720,6 +15720,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Enable or disable explicit weighted prediction for the H.264 encoder. Weighted prediction improves compression efficiency for content with fading or brightness changes between frames.
+    public enum H264ExplicitWeightedPrediction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H264ExplicitWeightedPrediction] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.
     public enum H264FieldEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case forceField
@@ -16424,6 +16454,8 @@ extension MediaConvertClientTypes {
         public var endOfStreamMarkers: MediaConvertClientTypes.H264EndOfStreamMarkers?
         /// Entropy encoding mode. Use CABAC (must be in Main or High profile) or CAVLC.
         public var entropyEncoding: MediaConvertClientTypes.H264EntropyEncoding?
+        /// Enable or disable explicit weighted prediction for the H.264 encoder. Weighted prediction improves compression efficiency for content with fading or brightness changes between frames.
+        public var explicitWeightedPrediction: MediaConvertClientTypes.H264ExplicitWeightedPrediction?
         /// The video encoding method for your MPEG-4 AVC output. Keep the default value, PAFF, to have MediaConvert use PAFF encoding for interlaced outputs. Choose Force field to disable PAFF encoding and create separate interlaced fields. Choose MBAFF to disable PAFF and have MediaConvert use MBAFF encoding for interlaced outputs.
         public var fieldEncoding: MediaConvertClientTypes.H264FieldEncoding?
         /// Only use this setting when you change the default value, AUTO, for the setting H264AdaptiveQuantization. When you keep all defaults, excluding H264AdaptiveQuantization and all other adaptive quantization from your JSON job specification, MediaConvert automatically applies the best types of quantization for your video content. When you set H264AdaptiveQuantization to a value other than AUTO, the default value for H264FlickerAdaptiveQuantization is Disabled. Change this value to Enabled to reduce I-frame pop. I-frame pop appears as a visual flicker that can arise when the encoder saves bits by copying some macroblocks many times from frame to frame, and then refreshes them at the I-frame. When you enable this setting, the encoder updates these macroblocks slightly more often to smooth out the flicker. To manually enable or disable H264FlickerAdaptiveQuantization, you must set Adaptive quantization to a value other than AUTO.
@@ -16510,6 +16542,7 @@ extension MediaConvertClientTypes {
             dynamicSubGop: MediaConvertClientTypes.H264DynamicSubGop? = nil,
             endOfStreamMarkers: MediaConvertClientTypes.H264EndOfStreamMarkers? = nil,
             entropyEncoding: MediaConvertClientTypes.H264EntropyEncoding? = nil,
+            explicitWeightedPrediction: MediaConvertClientTypes.H264ExplicitWeightedPrediction? = nil,
             fieldEncoding: MediaConvertClientTypes.H264FieldEncoding? = nil,
             flickerAdaptiveQuantization: MediaConvertClientTypes.H264FlickerAdaptiveQuantization? = nil,
             framerateControl: MediaConvertClientTypes.H264FramerateControl? = nil,
@@ -16557,6 +16590,7 @@ extension MediaConvertClientTypes {
             self.dynamicSubGop = dynamicSubGop
             self.endOfStreamMarkers = endOfStreamMarkers
             self.entropyEncoding = entropyEncoding
+            self.explicitWeightedPrediction = explicitWeightedPrediction
             self.fieldEncoding = fieldEncoding
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
             self.framerateControl = framerateControl
@@ -21703,6 +21737,29 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Settings for integer-second duration normalization. When this preprocessor is present, the output duration will be adjusted to an exact integer-second boundary. If the input is within the trim threshold of an integer second, trailing frames are dropped. If within the compression threshold and less than 500ms over the previous integer second, the output is sped up slightly. Otherwise, black frames are padded to the next integer second.
+    public struct DurationControl: Swift.Sendable {
+        /// Required. Denominator of the maximum allowed compression ratio.
+        public var integerDurationMaximumCompressionDenominator: Swift.Int?
+        /// Required. Numerator of the maximum allowed compression ratio, defined as overrun divided by target duration. For example, numerator 5 with denominator 100 means max 5% compression. Set to 0 to disable compression entirely (only trim or pad will be used).
+        public var integerDurationMaximumCompressionNumerator: Swift.Int?
+        /// Maximum number of fractional milliseconds past an integer second that qualify for the trim path (frame dropping). Default is 0 (trimming disabled).
+        public var integerDurationTrimThresholdMilliseconds: Swift.Int?
+
+        public init(
+            integerDurationMaximumCompressionDenominator: Swift.Int? = nil,
+            integerDurationMaximumCompressionNumerator: Swift.Int? = nil,
+            integerDurationTrimThresholdMilliseconds: Swift.Int? = nil
+        ) {
+            self.integerDurationMaximumCompressionDenominator = integerDurationMaximumCompressionDenominator
+            self.integerDurationMaximumCompressionNumerator = integerDurationMaximumCompressionNumerator
+            self.integerDurationTrimThresholdMilliseconds = integerDurationTrimThresholdMilliseconds
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Setting for HDR10+ metadata insertion
     public struct Hdr10Plus: Swift.Sendable {
         /// Specify the HDR10+ mastering display normalized peak luminance, in nits. This is the normalized actual peak luminance of the mastering display, as defined by ST 2094-40.
@@ -22095,6 +22152,8 @@ extension MediaConvertClientTypes {
         public var deinterlacer: MediaConvertClientTypes.Deinterlacer?
         /// Enable Dolby Vision feature to produce Dolby Vision compatible video output.
         public var dolbyVision: MediaConvertClientTypes.DolbyVision?
+        /// Enable integer-second duration normalization. When enabled, the output duration is adjusted to land on an exact integer-second boundary. The adjustment method (trim, compress, or pad) is chosen automatically based on how far the input duration is from the nearest integer second.
+        public var durationControl: MediaConvertClientTypes.DurationControl?
         /// Enable HDR10+ analysis and metadata injection. Compatible with HEVC only.
         public var hdr10Plus: MediaConvertClientTypes.Hdr10Plus?
         /// Enable the Image inserter feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
@@ -22110,6 +22169,7 @@ extension MediaConvertClientTypes {
             colorCorrector: MediaConvertClientTypes.ColorCorrector? = nil,
             deinterlacer: MediaConvertClientTypes.Deinterlacer? = nil,
             dolbyVision: MediaConvertClientTypes.DolbyVision? = nil,
+            durationControl: MediaConvertClientTypes.DurationControl? = nil,
             hdr10Plus: MediaConvertClientTypes.Hdr10Plus? = nil,
             imageInserter: MediaConvertClientTypes.ImageInserter? = nil,
             noiseReducer: MediaConvertClientTypes.NoiseReducer? = nil,
@@ -22119,6 +22179,7 @@ extension MediaConvertClientTypes {
             self.colorCorrector = colorCorrector
             self.deinterlacer = deinterlacer
             self.dolbyVision = dolbyVision
+            self.durationControl = durationControl
             self.hdr10Plus = hdr10Plus
             self.imageInserter = imageInserter
             self.noiseReducer = noiseReducer
@@ -23114,6 +23175,7 @@ extension MediaConvertClientTypes {
     public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case avi
         case matroska
+        case mp3
         case mp4
         case mpegps
         case mpegts
@@ -23127,6 +23189,7 @@ extension MediaConvertClientTypes {
             return [
                 .avi,
                 .matroska,
+                .mp3,
                 .mp4,
                 .mpegps,
                 .mpegts,
@@ -23146,6 +23209,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .avi: return "avi"
             case .matroska: return "matroska"
+            case .mp3: return "mp3"
             case .mp4: return "mp4"
             case .mpegps: return "mpegps"
             case .mpegts: return "mpegts"
@@ -23854,7 +23918,7 @@ extension MediaConvertClientTypes {
     public struct Container: Swift.Sendable {
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, or MPEG-PS. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, or MP3. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
         public var startTimecode: Swift.String?
@@ -28915,6 +28979,25 @@ extension MediaConvertClientTypes.DolbyVisionLevel6Metadata {
     }
 }
 
+extension MediaConvertClientTypes.DurationControl {
+
+    static func write(value: MediaConvertClientTypes.DurationControl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integerDurationMaximumCompressionDenominator"].write(value.integerDurationMaximumCompressionDenominator)
+        try writer["integerDurationMaximumCompressionNumerator"].write(value.integerDurationMaximumCompressionNumerator)
+        try writer["integerDurationTrimThresholdMilliseconds"].write(value.integerDurationTrimThresholdMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DurationControl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.DurationControl()
+        value.integerDurationMaximumCompressionDenominator = try reader["integerDurationMaximumCompressionDenominator"].readIfPresent()
+        value.integerDurationMaximumCompressionNumerator = try reader["integerDurationMaximumCompressionNumerator"].readIfPresent()
+        value.integerDurationTrimThresholdMilliseconds = try reader["integerDurationTrimThresholdMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.DvbNitSettings {
 
     static func write(value: MediaConvertClientTypes.DvbNitSettings?, to writer: SmithyJSON.Writer) throws {
@@ -29519,6 +29602,7 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["dynamicSubGop"].write(value.dynamicSubGop)
         try writer["endOfStreamMarkers"].write(value.endOfStreamMarkers)
         try writer["entropyEncoding"].write(value.entropyEncoding)
+        try writer["explicitWeightedPrediction"].write(value.explicitWeightedPrediction)
         try writer["fieldEncoding"].write(value.fieldEncoding)
         try writer["flickerAdaptiveQuantization"].write(value.flickerAdaptiveQuantization)
         try writer["framerateControl"].write(value.framerateControl)
@@ -29570,6 +29654,7 @@ extension MediaConvertClientTypes.H264Settings {
         value.dynamicSubGop = try reader["dynamicSubGop"].readIfPresent()
         value.endOfStreamMarkers = try reader["endOfStreamMarkers"].readIfPresent()
         value.entropyEncoding = try reader["entropyEncoding"].readIfPresent()
+        value.explicitWeightedPrediction = try reader["explicitWeightedPrediction"].readIfPresent()
         value.fieldEncoding = try reader["fieldEncoding"].readIfPresent()
         value.flickerAdaptiveQuantization = try reader["flickerAdaptiveQuantization"].readIfPresent()
         value.framerateControl = try reader["framerateControl"].readIfPresent()
@@ -32427,6 +32512,7 @@ extension MediaConvertClientTypes.VideoPreprocessor {
         try writer["colorCorrector"].write(value.colorCorrector, with: MediaConvertClientTypes.ColorCorrector.write(value:to:))
         try writer["deinterlacer"].write(value.deinterlacer, with: MediaConvertClientTypes.Deinterlacer.write(value:to:))
         try writer["dolbyVision"].write(value.dolbyVision, with: MediaConvertClientTypes.DolbyVision.write(value:to:))
+        try writer["durationControl"].write(value.durationControl, with: MediaConvertClientTypes.DurationControl.write(value:to:))
         try writer["hdr10Plus"].write(value.hdr10Plus, with: MediaConvertClientTypes.Hdr10Plus.write(value:to:))
         try writer["imageInserter"].write(value.imageInserter, with: MediaConvertClientTypes.ImageInserter.write(value:to:))
         try writer["noiseReducer"].write(value.noiseReducer, with: MediaConvertClientTypes.NoiseReducer.write(value:to:))
@@ -32440,6 +32526,7 @@ extension MediaConvertClientTypes.VideoPreprocessor {
         value.colorCorrector = try reader["colorCorrector"].readIfPresent(with: MediaConvertClientTypes.ColorCorrector.read(from:))
         value.deinterlacer = try reader["deinterlacer"].readIfPresent(with: MediaConvertClientTypes.Deinterlacer.read(from:))
         value.dolbyVision = try reader["dolbyVision"].readIfPresent(with: MediaConvertClientTypes.DolbyVision.read(from:))
+        value.durationControl = try reader["durationControl"].readIfPresent(with: MediaConvertClientTypes.DurationControl.read(from:))
         value.hdr10Plus = try reader["hdr10Plus"].readIfPresent(with: MediaConvertClientTypes.Hdr10Plus.read(from:))
         value.imageInserter = try reader["imageInserter"].readIfPresent(with: MediaConvertClientTypes.ImageInserter.read(from:))
         value.noiseReducer = try reader["noiseReducer"].readIfPresent(with: MediaConvertClientTypes.NoiseReducer.read(from:))

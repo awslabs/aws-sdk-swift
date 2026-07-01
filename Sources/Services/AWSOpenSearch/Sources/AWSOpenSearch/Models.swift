@@ -3308,6 +3308,36 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The engine mode for the domain. Valid values are GENERAL (the standard OpenSearch engine) and OPTIMIZED. If you don't specify an engine mode, GENERAL is used. OPTIMIZED requires OpenSearch 3.5 or later, OpenSearch Optimized instance types (OR1, OR2, OM2, or OI2) for the data tier, and is available only for the OBSERVABILITY use cases. The engine mode can't be changed after the domain is created.
+    public enum EngineMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case general
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngineMode] {
+            return [
+                .general,
+                .optimized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .general: return "GENERAL"
+            case .optimized: return "OPTIMIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     public enum RolesKeyIdCOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case groupid
         case groupname
@@ -3596,6 +3626,42 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The primary use case for the domain, which determines the default configuration and the engine modes that are available. Valid values are SEARCH (full-text search, e-commerce, content discovery, and hybrid and semantic search), VECTOR (k-NN and semantic search, and retrieval-augmented generation), OBSERVABILITY (logs, metrics, traces, and dashboards), and MIXED (a combination of search and analytics). If you don't specify a use case, MIXED is used.
+    public enum DomainUseCase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mixed
+        case observability
+        case search
+        case vector
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainUseCase] {
+            return [
+                .mixed,
+                .observability,
+                .search,
+                .vector
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mixed: return "MIXED"
+            case .observability: return "OBSERVABILITY"
+            case .search: return "SEARCH"
+            case .vector: return "VECTOR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Options to specify the subnets and security groups for an Amazon OpenSearch Service VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public struct VPCOptions: Swift.Sendable {
         /// Controls whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
@@ -3656,6 +3722,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Key-value pairs to enable encryption at rest.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. For valid values and requirements, see EngineMode.
+    public var engineMode: OpenSearchClientTypes.EngineMode?
     /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomains).
     public var engineVersion: Swift.String?
     /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -3674,6 +3742,8 @@ public struct CreateDomainInput: Swift.Sendable {
     public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
     /// List of tags to add to the domain upon creation.
     public var tagList: [OpenSearchClientTypes.Tag]?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: OpenSearchClientTypes.DomainUseCase?
     /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
@@ -3691,6 +3761,7 @@ public struct CreateDomainInput: Swift.Sendable {
         domainName: Swift.String? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: OpenSearchClientTypes.EngineMode? = nil,
         engineVersion: Swift.String? = nil,
         identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
@@ -3700,6 +3771,7 @@ public struct CreateDomainInput: Swift.Sendable {
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil,
+        useCase: OpenSearchClientTypes.DomainUseCase? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -3715,6 +3787,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.domainName = domainName
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.engineVersion = engineVersion
         self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
@@ -3724,6 +3797,7 @@ public struct CreateDomainInput: Swift.Sendable {
         self.snapshotOptions = snapshotOptions
         self.softwareUpdateOptions = softwareUpdateOptions
         self.tagList = tagList
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -4209,6 +4283,8 @@ extension OpenSearchClientTypes {
         ///
         /// * Dual stack IP addresses - 'vpcv2':'vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.aos.us-east-1.on.aws'
         public var endpoints: [Swift.String: Swift.String]?
+        /// The engine mode for the domain.
+        public var engineMode: OpenSearchClientTypes.EngineMode?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public var engineVersion: Swift.String?
         /// Configuration options for controlling IAM Identity Center integration within a domain.
@@ -4233,6 +4309,8 @@ extension OpenSearchClientTypes {
         public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
         /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public var upgradeProcessing: Swift.Bool?
+        /// The primary use case for the domain.
+        public var useCase: OpenSearchClientTypes.DomainUseCase?
         /// The VPC configuration for the domain.
         public var vpcOptions: OpenSearchClientTypes.VPCDerivedInfo?
 
@@ -4260,6 +4338,7 @@ extension OpenSearchClientTypes {
             endpoint: Swift.String? = nil,
             endpointV2: Swift.String? = nil,
             endpoints: [Swift.String: Swift.String]? = nil,
+            engineMode: OpenSearchClientTypes.EngineMode? = nil,
             engineVersion: Swift.String? = nil,
             identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptions? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
@@ -4272,6 +4351,7 @@ extension OpenSearchClientTypes {
             snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
+            useCase: OpenSearchClientTypes.DomainUseCase? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfo? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -4297,6 +4377,7 @@ extension OpenSearchClientTypes {
             self.endpoint = endpoint
             self.endpointV2 = endpointV2
             self.endpoints = endpoints
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -4309,6 +4390,7 @@ extension OpenSearchClientTypes {
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
             self.upgradeProcessing = upgradeProcessing
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -6109,6 +6191,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of the engine mode for the domain.
+    public struct EngineModeStatus: Swift.Sendable {
+        /// The engine mode configured for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.EngineMode?
+        /// The current status of the engine mode for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.EngineMode? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The status of the the OpenSearch or Elasticsearch version options for the specified Amazon OpenSearch Service domain.
     public struct VersionStatus: Swift.Sendable {
         /// The OpenSearch or Elasticsearch version for the specified domain.
@@ -6271,6 +6374,27 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The status of the use case for the domain.
+    public struct UseCaseStatus: Swift.Sendable {
+        /// The use case configured for the domain.
+        /// This member is required.
+        public var options: OpenSearchClientTypes.DomainUseCase?
+        /// The current status of the use case for the domain.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init(
+            options: OpenSearchClientTypes.DomainUseCase? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        ) {
+            self.options = options
+            self.status = status
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Status of the VPC options for a specified domain.
     public struct VPCDerivedInfoStatus: Swift.Sendable {
         /// The VPC options for the specified domain.
@@ -6320,6 +6444,8 @@ extension OpenSearchClientTypes {
         public var ebsOptions: OpenSearchClientTypes.EBSOptionsStatus?
         /// Key-value pairs to enable encryption at rest.
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
+        /// The engine mode configured for the domain.
+        public var engineMode: OpenSearchClientTypes.EngineModeStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public var engineVersion: OpenSearchClientTypes.VersionStatus?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -6338,6 +6464,8 @@ extension OpenSearchClientTypes {
         public var snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus?
         /// Software update options for the domain.
         public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus?
+        /// The use case configured for the domain.
+        public var useCase: OpenSearchClientTypes.UseCaseStatus?
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public var vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus?
 
@@ -6355,6 +6483,7 @@ extension OpenSearchClientTypes {
             domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptionsStatus? = nil,
             ebsOptions: OpenSearchClientTypes.EBSOptionsStatus? = nil,
             encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus? = nil,
+            engineMode: OpenSearchClientTypes.EngineModeStatus? = nil,
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
             identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsStatus? = nil,
             ipAddressType: OpenSearchClientTypes.IPAddressTypeStatus? = nil,
@@ -6364,6 +6493,7 @@ extension OpenSearchClientTypes {
             offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus? = nil,
             snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus? = nil,
             softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus? = nil,
+            useCase: OpenSearchClientTypes.UseCaseStatus? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus? = nil
         ) {
             self.accessPolicies = accessPolicies
@@ -6379,6 +6509,7 @@ extension OpenSearchClientTypes {
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -6388,6 +6519,7 @@ extension OpenSearchClientTypes {
             self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
     }
@@ -8674,6 +8806,153 @@ public struct GetUpgradeStatusOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// The type of entity for which to submit insight feedback. Possible values are DomainName.
+    public enum InsightFeedbackEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightFeedbackEntityType] {
+            return [
+                .domain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domain: return "DomainName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Specifies the entity for which to submit insight feedback. An entity represents an Amazon OpenSearch Service domain.
+    public struct InsightFeedbackEntity: Swift.Sendable {
+        /// The type of the entity. Possible values are DomainName.
+        /// This member is required.
+        public var type: OpenSearchClientTypes.InsightFeedbackEntityType?
+        /// The value of the entity, such as a domain name.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            type: OpenSearchClientTypes.InsightFeedbackEntityType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The thumbs up or thumbs down feedback for an insight. Possible values are Up and Down.
+    public enum InsightFeedbackThumbs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case down
+        case up
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightFeedbackThumbs] {
+            return [
+                .down,
+                .up
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .down: return "Down"
+            case .up: return "Up"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Container for the parameters to the InsightFeedback operation.
+public struct InsightFeedbackInput: Swift.Sendable {
+    /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name.
+    /// This member is required.
+    public var entity: OpenSearchClientTypes.InsightFeedbackEntity?
+    /// Optional text feedback providing additional details about the insight. Maximum length is 1000 characters.
+    public var feedbackText: Swift.String?
+    /// The unique identifier of the insight for which to submit feedback.
+    /// This member is required.
+    public var insightId: Swift.String?
+    /// The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down.
+    /// This member is required.
+    public var thumbs: OpenSearchClientTypes.InsightFeedbackThumbs?
+
+    public init(
+        entity: OpenSearchClientTypes.InsightFeedbackEntity? = nil,
+        feedbackText: Swift.String? = nil,
+        insightId: Swift.String? = nil,
+        thumbs: OpenSearchClientTypes.InsightFeedbackThumbs? = nil
+    ) {
+        self.entity = entity
+        self.feedbackText = feedbackText
+        self.insightId = insightId
+        self.thumbs = thumbs
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of an insight response. Possible values are SUCCESS and ERROR.
+    public enum InsightResponseStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightResponseStatus] {
+            return [
+                .error,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The result of an InsightFeedback request. Contains the status of the feedback submission.
+public struct InsightFeedbackOutput: Swift.Sendable {
+    /// The status of the feedback submission. Possible values are SUCCESS and ERROR.
+    public var status: OpenSearchClientTypes.InsightResponseStatus?
+
+    public init(
+        status: OpenSearchClientTypes.InsightResponseStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct ListApplicationsInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return for a given request.
     public var maxResults: Swift.Int?
@@ -10356,6 +10635,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
+    /// The engine mode for the domain. The engine mode can't be changed after the domain is created. For valid values, see EngineMode.
+    public var engineMode: OpenSearchClientTypes.EngineMode?
     /// Configuration settings for enabling and managing IAM Identity Center.
     public var identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput?
     /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
@@ -10370,6 +10651,8 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
     public var snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
     /// Service software update options for the domain.
     public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
+    /// The primary use case for the domain. For valid values, see DomainUseCase.
+    public var useCase: OpenSearchClientTypes.DomainUseCase?
     /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
@@ -10389,6 +10672,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         dryRunMode: OpenSearchClientTypes.DryRunMode? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
+        engineMode: OpenSearchClientTypes.EngineMode? = nil,
         identityCenterOptions: OpenSearchClientTypes.IdentityCenterOptionsInput? = nil,
         ipAddressType: OpenSearchClientTypes.IPAddressType? = nil,
         logPublishingOptions: [Swift.String: OpenSearchClientTypes.LogPublishingOption]? = nil,
@@ -10396,6 +10680,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
         softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
+        useCase: OpenSearchClientTypes.DomainUseCase? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     ) {
         self.accessPolicies = accessPolicies
@@ -10413,6 +10698,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.dryRunMode = dryRunMode
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
+        self.engineMode = engineMode
         self.identityCenterOptions = identityCenterOptions
         self.ipAddressType = ipAddressType
         self.logPublishingOptions = logPublishingOptions
@@ -10420,6 +10706,7 @@ public struct UpdateDomainConfigInput: Swift.Sendable {
         self.offPeakWindowOptions = offPeakWindowOptions
         self.snapshotOptions = snapshotOptions
         self.softwareUpdateOptions = softwareUpdateOptions
+        self.useCase = useCase
         self.vpcOptions = vpcOptions
     }
 }
@@ -11452,6 +11739,13 @@ extension GetUpgradeStatusInput {
     }
 }
 
+extension InsightFeedbackInput {
+
+    static func urlPathProvider(_ value: InsightFeedbackInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/insight-feedback"
+    }
+}
+
 extension ListApplicationsInput {
 
     static func urlPathProvider(_ value: ListApplicationsInput) -> Swift.String? {
@@ -12090,6 +12384,7 @@ extension CreateDomainInput {
         try writer["DomainName"].write(value.domainName)
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["IPAddressType"].write(value.ipAddressType)
         try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
@@ -12099,6 +12394,7 @@ extension CreateDomainInput {
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -12227,6 +12523,17 @@ extension DissociatePackagesInput {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
         try writer["PackageList"].writeList(value.packageList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InsightFeedbackInput {
+
+    static func write(value: InsightFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entity"].write(value.entity, with: OpenSearchClientTypes.InsightFeedbackEntity.write(value:to:))
+        try writer["FeedbackText"].write(value.feedbackText)
+        try writer["InsightId"].write(value.insightId)
+        try writer["Thumbs"].write(value.thumbs)
     }
 }
 
@@ -12374,6 +12681,7 @@ extension UpdateDomainConfigInput {
         try writer["DryRunMode"].write(value.dryRunMode)
         try writer["EBSOptions"].write(value.ebsOptions, with: OpenSearchClientTypes.EBSOptions.write(value:to:))
         try writer["EncryptionAtRestOptions"].write(value.encryptionAtRestOptions, with: OpenSearchClientTypes.EncryptionAtRestOptions.write(value:to:))
+        try writer["EngineMode"].write(value.engineMode)
         try writer["IPAddressType"].write(value.ipAddressType)
         try writer["IdentityCenterOptions"].write(value.identityCenterOptions, with: OpenSearchClientTypes.IdentityCenterOptionsInput.write(value:to:))
         try writer["LogPublishingOptions"].writeMap(value.logPublishingOptions, valueWritingClosure: OpenSearchClientTypes.LogPublishingOption.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -12381,6 +12689,7 @@ extension UpdateDomainConfigInput {
         try writer["OffPeakWindowOptions"].write(value.offPeakWindowOptions, with: OpenSearchClientTypes.OffPeakWindowOptions.write(value:to:))
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
+        try writer["UseCase"].write(value.useCase)
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
     }
 }
@@ -13191,6 +13500,18 @@ extension GetUpgradeStatusOutput {
         value.stepStatus = try reader["StepStatus"].readIfPresent()
         value.upgradeName = try reader["UpgradeName"].readIfPresent()
         value.upgradeStep = try reader["UpgradeStep"].readIfPresent()
+        return value
+    }
+}
+
+extension InsightFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InsightFeedbackOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InsightFeedbackOutput()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -14661,6 +14982,25 @@ enum GetUpgradeStatusOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InsightFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16281,6 +16621,8 @@ extension OpenSearchClientTypes.DomainConfig {
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsStatus.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptionsStatus.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptionsStatus.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent(with: OpenSearchClientTypes.UseCaseStatus.read(from:))
+        value.engineMode = try reader["EngineMode"].readIfPresent(with: OpenSearchClientTypes.EngineModeStatus.read(from:))
         return value
     }
 }
@@ -16440,6 +16782,8 @@ extension OpenSearchClientTypes.DomainStatus {
         value.aimlOptions = try reader["AIMLOptions"].readIfPresent(with: OpenSearchClientTypes.AIMLOptionsOutput.read(from:))
         value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOptions.read(from:))
         value.automatedSnapshotPauseOptions = try reader["AutomatedSnapshotPauseOptions"].readIfPresent(with: OpenSearchClientTypes.AutomatedSnapshotPauseOptions.read(from:))
+        value.useCase = try reader["UseCase"].readIfPresent()
+        value.engineMode = try reader["EngineMode"].readIfPresent()
         return value
     }
 }
@@ -16543,6 +16887,17 @@ extension OpenSearchClientTypes.EncryptionAtRestOptionsStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.EncryptionAtRestOptionsStatus()
         value.options = try reader["Options"].readIfPresent(with: OpenSearchClientTypes.EncryptionAtRestOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.EngineModeStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.EngineModeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.EngineModeStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
         value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -16707,6 +17062,15 @@ extension OpenSearchClientTypes.Insight {
 extension OpenSearchClientTypes.InsightEntity {
 
     static func write(value: OpenSearchClientTypes.InsightEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension OpenSearchClientTypes.InsightFeedbackEntity {
+
+    static func write(value: OpenSearchClientTypes.InsightFeedbackEntity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Type"].write(value.type)
         try writer["Value"].write(value.value)
@@ -17559,6 +17923,17 @@ extension OpenSearchClientTypes.UpgradeStepItem {
         value.upgradeStepStatus = try reader["UpgradeStepStatus"].readIfPresent()
         value.issues = try reader["Issues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.UseCaseStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.UseCaseStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.UseCaseStatus()
+        value.options = try reader["Options"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent(with: OpenSearchClientTypes.OptionStatus.read(from:))
         return value
     }
 }

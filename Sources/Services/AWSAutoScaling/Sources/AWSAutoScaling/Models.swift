@@ -954,12 +954,14 @@ extension AutoScalingClientTypes {
     public enum CapacityDistributionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case balancedBestEffort
         case balancedOnly
+        case reservationsThenBalanced
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityDistributionStrategy] {
             return [
                 .balancedBestEffort,
-                .balancedOnly
+                .balancedOnly,
+                .reservationsThenBalanced
             ]
         }
 
@@ -972,6 +974,7 @@ extension AutoScalingClientTypes {
             switch self {
             case .balancedBestEffort: return "balanced-best-effort"
             case .balancedOnly: return "balanced-only"
+            case .reservationsThenBalanced: return "reservations-then-balanced"
             case let .sdkUnknown(s): return s
             }
         }
@@ -987,6 +990,8 @@ extension AutoScalingClientTypes {
         /// * balanced-only - If launches fail in an Availability Zone, Auto Scaling will continue to attempt to launch in the unhealthy zone to preserve a balanced distribution.
         ///
         /// * balanced-best-effort - If launches fail in an Availability Zone, Auto Scaling will attempt to launch in another healthy Availability Zone instead.
+        ///
+        /// * reservations-then-balanced - Auto Scaling will first attempt to launch into your Capacity Reservations, and then balance any remaining capacity across the healthy Availability Zones.
         public var capacityDistributionStrategy: AutoScalingClientTypes.CapacityDistributionStrategy?
 
         public init(

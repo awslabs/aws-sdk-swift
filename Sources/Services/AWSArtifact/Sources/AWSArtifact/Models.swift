@@ -16,6 +16,7 @@ import enum ClientRuntime.ErrorFault
 import enum Smithy.ClientError
 import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -25,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension ArtifactClientTypes {
 
@@ -463,6 +465,648 @@ extension ArtifactClientTypes {
     }
 }
 
+extension ArtifactClientTypes {
+
+    /// File content structure for compliance inquiry uploads.
+    public struct InquiryFileContent: Swift.Sendable {
+        /// Binary content of the uploaded file.
+        /// This member is required.
+        public var content: Foundation.Data?
+        /// List of file sections/sheets to process.
+        public var fileSections: [Swift.String]?
+
+        public init(
+            content: Foundation.Data? = nil,
+            fileSections: [Swift.String]? = nil
+        ) {
+            self.content = content
+            self.fileSections = fileSections
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Content for creating a compliance inquiry - either a single query or file content.
+    public enum InquiryContent: Swift.Sendable {
+        /// Single text query for AI-generated answer.
+        case query(Swift.String)
+        /// File content with multiple questions.
+        case filecontent(ArtifactClientTypes.InquiryFileContent)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum InquirySupportMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiOnly
+        case fullSupport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InquirySupportMode] {
+            return [
+                .aiOnly,
+                .fullSupport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aiOnly: return "AI_ONLY"
+            case .fullSupport: return "FULL_SUPPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateComplianceInquiryInput: Swift.Sendable {
+    /// Idempotency token for the request.
+    public var clientToken: Swift.String?
+    /// Content for creating a compliance inquiry - either a single query or file content.
+    /// This member is required.
+    public var inquiryContent: ArtifactClientTypes.InquiryContent?
+    /// Title of the inquiry.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Support mode for inquiry processing. Only supported for file upload mode. Defaults to AI_ONLY if not specified.
+    public var supportMode: ArtifactClientTypes.InquirySupportMode?
+    /// Tags to associate with the compliance inquiry resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        inquiryContent: ArtifactClientTypes.InquiryContent? = nil,
+        name: Swift.String? = nil,
+        supportMode: ArtifactClientTypes.InquirySupportMode? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.inquiryContent = inquiryContent
+        self.name = name
+        self.supportMode = supportMode
+        self.tags = tags
+    }
+}
+
+extension CreateComplianceInquiryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateComplianceInquiryInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), supportMode: \(Swift.String(describing: supportMode)), tags: \(Swift.String(describing: tags)), inquiryContent: \"CONTENT_REDACTED\")"}
+}
+
+extension ArtifactClientTypes {
+
+    public enum InputSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case file
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputSource] {
+            return [
+                .file,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .file: return "FILE"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum InquiryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case humanReview
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InquiryStatus] {
+            return [
+                .completed,
+                .failed,
+                .humanReview,
+                .processing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .humanReview: return "HUMAN_REVIEW"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum InquiryStatusMessage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completedWithErrors
+        case humanReviewInProgress
+        case internalError
+        case inProgress
+        case malwareDetectedError
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InquiryStatusMessage] {
+            return [
+                .completedWithErrors,
+                .humanReviewInProgress,
+                .internalError,
+                .inProgress,
+                .malwareDetectedError,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completedWithErrors: return "Compliance inquiry processing is complete. One or more queries encountered errors during processing."
+            case .humanReviewInProgress: return "Human review is in progress."
+            case .internalError: return "An internal error occurred while processing the inquiry. Try again at a later time."
+            case .inProgress: return "Compliance inquiry processing is in-progress."
+            case .malwareDetectedError: return "Malware was detected on the file. Provide a new file and try again."
+            case .success: return "Compliance inquiry processing is complete."
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Summary information about a compliance inquiry.
+    public struct InquirySummary: Swift.Sendable {
+        /// ARN of the compliance inquiry resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Timestamp indicating when the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Unique resource ID for the compliance inquiry.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Type of inquiry content (text or file).
+        /// This member is required.
+        public var inputSource: ArtifactClientTypes.InputSource?
+        /// Title of the inquiry.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Current processing status of the inquiry.
+        /// This member is required.
+        public var status: ArtifactClientTypes.InquiryStatus?
+        /// Status message providing additional context.
+        /// This member is required.
+        public var statusMessage: ArtifactClientTypes.InquiryStatusMessage?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            inputSource: ArtifactClientTypes.InputSource? = nil,
+            name: Swift.String? = nil,
+            status: ArtifactClientTypes.InquiryStatus? = nil,
+            statusMessage: ArtifactClientTypes.InquiryStatusMessage? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.inputSource = inputSource
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct CreateComplianceInquiryOutput: Swift.Sendable {
+    /// Summary information about the created compliance inquiry.
+    public var complianceInquirySummary: ArtifactClientTypes.InquirySummary?
+    /// Tags associated with the compliance inquiry resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        complianceInquirySummary: ArtifactClientTypes.InquirySummary? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.complianceInquirySummary = complianceInquirySummary
+        self.tags = tags
+    }
+}
+
+public struct ExportComplianceInquiryInput: Swift.Sendable {
+    /// Unique resource ID for the compliance inquiry.
+    /// This member is required.
+    public var complianceInquiryId: Swift.String?
+    /// When true, include citations in the exported document.
+    public var includeCitations: Swift.Bool?
+    /// List of query identifiers to include in the export.
+    public var queryIdentifiers: [Swift.Int]?
+
+    public init(
+        complianceInquiryId: Swift.String? = nil,
+        includeCitations: Swift.Bool? = nil,
+        queryIdentifiers: [Swift.Int]? = nil
+    ) {
+        self.complianceInquiryId = complianceInquiryId
+        self.includeCitations = includeCitations
+        self.queryIdentifiers = queryIdentifiers
+    }
+}
+
+public struct ExportComplianceInquiryOutput: Swift.Sendable {
+    /// Presigned S3 URL to access the exported compliance inquiry report.
+    public var documentPresignedUrl: Swift.String?
+    /// Tags associated with the compliance inquiry resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        documentPresignedUrl: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.documentPresignedUrl = documentPresignedUrl
+        self.tags = tags
+    }
+}
+
+extension ExportComplianceInquiryOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ExportComplianceInquiryOutput(tags: \(Swift.String(describing: tags)), documentPresignedUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetComplianceInquiryMetadataInput: Swift.Sendable {
+    /// Unique resource ID for the compliance inquiry.
+    /// This member is required.
+    public var complianceInquiryId: Swift.String?
+
+    public init(
+        complianceInquiryId: Swift.String? = nil
+    ) {
+        self.complianceInquiryId = complianceInquiryId
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Detailed information about a compliance inquiry.
+    public struct InquiryDetail: Swift.Sendable {
+        /// ARN of the compliance inquiry resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Timestamp indicating when the resource was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// Unique resource ID for the compliance inquiry.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Type of inquiry content (text or file).
+        /// This member is required.
+        public var inputSource: ArtifactClientTypes.InputSource?
+        /// Title of the inquiry.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Current processing status of the inquiry.
+        /// This member is required.
+        public var status: ArtifactClientTypes.InquiryStatus?
+        /// Status message providing additional context.
+        /// This member is required.
+        public var statusMessage: ArtifactClientTypes.InquiryStatusMessage?
+        /// Support mode for this inquiry. AI_ONLY provides AI-generated responses. FULL_SUPPORT includes human expert review.
+        public var supportMode: ArtifactClientTypes.InquirySupportMode?
+        /// Timestamp indicating when the resource was last modified.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            inputSource: ArtifactClientTypes.InputSource? = nil,
+            name: Swift.String? = nil,
+            status: ArtifactClientTypes.InquiryStatus? = nil,
+            statusMessage: ArtifactClientTypes.InquiryStatusMessage? = nil,
+            supportMode: ArtifactClientTypes.InquirySupportMode? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.id = id
+            self.inputSource = inputSource
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+            self.supportMode = supportMode
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetComplianceInquiryMetadataOutput: Swift.Sendable {
+    /// Detailed information about the compliance inquiry.
+    public var complianceInquiryDetail: ArtifactClientTypes.InquiryDetail?
+    /// Tags associated with the compliance inquiry resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        complianceInquiryDetail: ArtifactClientTypes.InquiryDetail? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.complianceInquiryDetail = complianceInquiryDetail
+        self.tags = tags
+    }
+}
+
+public struct ListComplianceInquiriesInput: Swift.Sendable {
+    /// Maximum number of resources to return in the paginated response.
+    public var maxResults: Swift.Int?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListComplianceInquiriesOutput: Swift.Sendable {
+    /// List of compliance inquiry resources.
+    public var complianceInquiries: [ArtifactClientTypes.InquirySummary]?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+
+    public init(
+        complianceInquiries: [ArtifactClientTypes.InquirySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.complianceInquiries = complianceInquiries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListComplianceInquiryQueriesInput: Swift.Sendable {
+    /// Unique resource ID for the compliance inquiry.
+    /// This member is required.
+    public var complianceInquiryId: Swift.String?
+    /// Maximum number of resources to return in the paginated response.
+    public var maxResults: Swift.Int?
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+
+    public init(
+        complianceInquiryId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.complianceInquiryId = complianceInquiryId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Citation information for AI-generated responses.
+    public struct Citation: Swift.Sendable {
+        /// Content text from the compliance source.
+        public var sourceContent: Swift.String?
+        /// Label identifying the compliance source.
+        public var sourceLabel: Swift.String?
+        /// Link to the compliance source.
+        public var sourceLink: Swift.String?
+
+        public init(
+            sourceContent: Swift.String? = nil,
+            sourceLabel: Swift.String? = nil,
+            sourceLink: Swift.String? = nil
+        ) {
+            self.sourceContent = sourceContent
+            self.sourceLabel = sourceLabel
+            self.sourceLink = sourceLink
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum ReviewType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ai
+        case human
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReviewType] {
+            return [
+                .ai,
+                .human
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ai: return "AI"
+            case .human: return "HUMAN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum QueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case processing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryStatus] {
+            return [
+                .completed,
+                .failed,
+                .processing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    public enum QueryStatusMessage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalError
+        case inProgress
+        case pendingHumanReview
+        case restricted
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryStatusMessage] {
+            return [
+                .internalError,
+                .inProgress,
+                .pendingHumanReview,
+                .restricted,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "An internal error occurred while processing the query. Try again at a later time."
+            case .inProgress: return "Query processing is in-progress."
+            case .pendingHumanReview: return "Query is pending human review."
+            case .restricted: return "Query contains restricted or unsupported content."
+            case .success: return "Query processing is complete."
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// A versioned snapshot of a response edit.
+    public struct ResponseVersion: Swift.Sendable {
+        /// The response text for this version.
+        /// This member is required.
+        public var responseText: Swift.String?
+        /// ISO 8601 timestamp of when this edit was made.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            responseText: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.responseText = responseText
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension ArtifactClientTypes {
+
+    /// Summary information about a single query within a compliance inquiry.
+    public struct QuerySummary: Swift.Sendable {
+        /// Supporting citations for the response.
+        public var citations: [ArtifactClientTypes.Citation]?
+        /// Timestamp when the query was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The actual query text.
+        /// This member is required.
+        public var query: Swift.String?
+        /// Sequential identifier of the query within the inquiry.
+        /// This member is required.
+        public var queryIdentifier: Swift.Int?
+        /// Generated response to the query.
+        public var response: Swift.String?
+        /// Type of review for the response.
+        public var reviewType: ArtifactClientTypes.ReviewType?
+        /// Current processing status of the query.
+        /// This member is required.
+        public var status: ArtifactClientTypes.QueryStatus?
+        /// Descriptive status message.
+        /// This member is required.
+        public var statusMessage: ArtifactClientTypes.QueryStatusMessage?
+        /// Ordered list of response version history entries, oldest first.
+        public var updatedResponseVersions: [ArtifactClientTypes.ResponseVersion]?
+
+        public init(
+            citations: [ArtifactClientTypes.Citation]? = nil,
+            createdAt: Foundation.Date? = nil,
+            query: Swift.String? = nil,
+            queryIdentifier: Swift.Int? = nil,
+            response: Swift.String? = nil,
+            reviewType: ArtifactClientTypes.ReviewType? = nil,
+            status: ArtifactClientTypes.QueryStatus? = nil,
+            statusMessage: ArtifactClientTypes.QueryStatusMessage? = nil,
+            updatedResponseVersions: [ArtifactClientTypes.ResponseVersion]? = nil
+        ) {
+            self.citations = citations
+            self.createdAt = createdAt
+            self.query = query
+            self.queryIdentifier = queryIdentifier
+            self.response = response
+            self.reviewType = reviewType
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedResponseVersions = updatedResponseVersions
+        }
+    }
+}
+
+public struct ListComplianceInquiryQueriesOutput: Swift.Sendable {
+    /// Pagination token to request the next page of resources.
+    public var nextToken: Swift.String?
+    /// List of compliance query summaries.
+    public var queries: [ArtifactClientTypes.QuerySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        queries: [ArtifactClientTypes.QuerySummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.queries = queries
+    }
+}
+
 public struct ListCustomerAgreementsInput: Swift.Sendable {
     /// Maximum number of resources to return in the paginated response.
     public var maxResults: Swift.Int?
@@ -586,6 +1230,29 @@ public struct ListCustomerAgreementsOutput: Swift.Sendable {
     ) {
         self.customerAgreements = customerAgreements
         self.nextToken = nextToken
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// Tags associated with the resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
     }
 }
 
@@ -971,10 +1638,89 @@ public struct ListReportVersionsOutput: Swift.Sendable {
     }
 }
 
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Tags to add to the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// Tag keys to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CreateComplianceInquiryInput {
+
+    static func urlPathProvider(_ value: CreateComplianceInquiryInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/create"
+    }
+}
+
+extension ExportComplianceInquiryInput {
+
+    static func urlPathProvider(_ value: ExportComplianceInquiryInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/export"
+    }
+}
+
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
         return "/v1/account-settings/get"
+    }
+}
+
+extension GetComplianceInquiryMetadataInput {
+
+    static func urlPathProvider(_ value: GetComplianceInquiryMetadataInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/getMetadata"
+    }
+}
+
+extension GetComplianceInquiryMetadataInput {
+
+    static func queryItemProvider(_ value: GetComplianceInquiryMetadataInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let complianceInquiryId = value.complianceInquiryId else {
+            let message = "Creating a URL Query Item failed. complianceInquiryId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let complianceInquiryIdQueryItem = Smithy.URIQueryItem(name: "complianceInquiryId".urlPercentEncoding(), value: Swift.String(complianceInquiryId).urlPercentEncoding())
+        items.append(complianceInquiryIdQueryItem)
+        return items
     }
 }
 
@@ -1059,6 +1805,58 @@ extension GetTermForReportInput {
     }
 }
 
+extension ListComplianceInquiriesInput {
+
+    static func urlPathProvider(_ value: ListComplianceInquiriesInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/list"
+    }
+}
+
+extension ListComplianceInquiriesInput {
+
+    static func queryItemProvider(_ value: ListComplianceInquiriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListComplianceInquiryQueriesInput {
+
+    static func urlPathProvider(_ value: ListComplianceInquiryQueriesInput) -> Swift.String? {
+        return "/v1/compliance-inquiry/listQueries"
+    }
+}
+
+extension ListComplianceInquiryQueriesInput {
+
+    static func queryItemProvider(_ value: ListComplianceInquiryQueriesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let complianceInquiryId = value.complianceInquiryId else {
+            let message = "Creating a URL Query Item failed. complianceInquiryId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let complianceInquiryIdQueryItem = Smithy.URIQueryItem(name: "complianceInquiryId".urlPercentEncoding(), value: Swift.String(complianceInquiryId).urlPercentEncoding())
+        items.append(complianceInquiryIdQueryItem)
+        return items
+    }
+}
+
 extension ListCustomerAgreementsInput {
 
     static func urlPathProvider(_ value: ListCustomerAgreementsInput) -> Swift.String? {
@@ -1134,10 +1932,78 @@ extension ListReportVersionsInput {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension PutAccountSettingsInput {
 
     static func urlPathProvider(_ value: PutAccountSettingsInput) -> Swift.String? {
         return "/v1/account-settings/put"
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension CreateComplianceInquiryInput {
+
+    static func write(value: CreateComplianceInquiryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["inquiryContent"].write(value.inquiryContent, with: ArtifactClientTypes.InquiryContent.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["supportMode"].write(value.supportMode)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ExportComplianceInquiryInput {
+
+    static func write(value: ExportComplianceInquiryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["complianceInquiryId"].write(value.complianceInquiryId)
+        try writer["includeCitations"].write(value.includeCitations)
+        try writer["queryIdentifiers"].writeList(value.queryIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1149,6 +2015,40 @@ extension PutAccountSettingsInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateComplianceInquiryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateComplianceInquiryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateComplianceInquiryOutput()
+        value.complianceInquirySummary = try reader["complianceInquirySummary"].readIfPresent(with: ArtifactClientTypes.InquirySummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ExportComplianceInquiryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExportComplianceInquiryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ExportComplianceInquiryOutput()
+        value.documentPresignedUrl = try reader["documentPresignedUrl"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountSettingsOutput {
@@ -1157,6 +2057,19 @@ extension GetAccountSettingsOutput {
         let reader = responseReader
         var value = GetAccountSettingsOutput()
         value.accountSettings = try reader["accountSettings"].readIfPresent(with: ArtifactClientTypes.AccountSettings.read(from:))
+        return value
+    }
+}
+
+extension GetComplianceInquiryMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetComplianceInquiryMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetComplianceInquiryMetadataOutput()
+        value.complianceInquiryDetail = try reader["complianceInquiryDetail"].readIfPresent(with: ArtifactClientTypes.InquiryDetail.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -1194,6 +2107,32 @@ extension GetTermForReportOutput {
         var value = GetTermForReportOutput()
         value.documentPresignedUrl = try reader["documentPresignedUrl"].readIfPresent()
         value.termToken = try reader["termToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListComplianceInquiriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListComplianceInquiriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListComplianceInquiriesOutput()
+        value.complianceInquiries = try reader["complianceInquiries"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.InquirySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListComplianceInquiryQueriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListComplianceInquiryQueriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListComplianceInquiryQueriesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.QuerySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1237,6 +2176,18 @@ extension ListReportVersionsOutput {
     }
 }
 
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension PutAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountSettingsOutput {
@@ -1246,6 +2197,56 @@ extension PutAccountSettingsOutput {
         var value = PutAccountSettingsOutput()
         value.accountSettings = try reader["accountSettings"].readIfPresent(with: ArtifactClientTypes.AccountSettings.read(from:))
         return value
+    }
+}
+
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+enum CreateComplianceInquiryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ExportComplianceInquiryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1262,6 +2263,24 @@ enum GetAccountSettingsOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetComplianceInquiryMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1328,6 +2347,42 @@ enum GetTermForReportOutputError {
     }
 }
 
+enum ListComplianceInquiriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListComplianceInquiryQueriesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCustomerAgreementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1383,6 +2438,24 @@ enum ListReportVersionsOutputError {
     }
 }
 
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutAccountSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1396,6 +2469,42 @@ enum PutAccountSettingsOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1448,38 +2557,6 @@ extension InternalServerException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -1514,12 +2591,56 @@ extension ValidationException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ArtifactClientTypes.AccountSettings {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.AccountSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ArtifactClientTypes.AccountSettings()
         value.notificationSubscriptionStatus = try reader["notificationSubscriptionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ArtifactClientTypes.Citation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.Citation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.Citation()
+        value.sourceLabel = try reader["sourceLabel"].readIfPresent()
+        value.sourceContent = try reader["sourceContent"].readIfPresent()
+        value.sourceLink = try reader["sourceLink"].readIfPresent()
         return value
     }
 }
@@ -1542,6 +2663,82 @@ extension ArtifactClientTypes.CustomerAgreementSummary {
         value.acceptanceTerms = try reader["acceptanceTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.terminateTerms = try reader["terminateTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension ArtifactClientTypes.InquiryContent {
+
+    static func write(value: ArtifactClientTypes.InquiryContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .filecontent(filecontent):
+                try writer["fileContent"].write(filecontent, with: ArtifactClientTypes.InquiryFileContent.write(value:to:))
+            case let .query(query):
+                try writer["query"].write(query)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ArtifactClientTypes.InquiryDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.InquiryDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.InquiryDetail()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? .sdkUnknown("")
+        value.inputSource = try reader["inputSource"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.supportMode = try reader["supportMode"].readIfPresent()
+        return value
+    }
+}
+
+extension ArtifactClientTypes.InquiryFileContent {
+
+    static func write(value: ArtifactClientTypes.InquiryFileContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["fileSections"].writeList(value.fileSections, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ArtifactClientTypes.InquirySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.InquirySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.InquirySummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? .sdkUnknown("")
+        value.inputSource = try reader["inputSource"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ArtifactClientTypes.QuerySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.QuerySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.QuerySummary()
+        value.queryIdentifier = try reader["queryIdentifier"].readIfPresent() ?? 0
+        value.query = try reader["query"].readIfPresent() ?? ""
+        value.response = try reader["response"].readIfPresent()
+        value.reviewType = try reader["reviewType"].readIfPresent()
+        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedResponseVersions = try reader["updatedResponseVersions"].readListIfPresent(memberReadingClosure: ArtifactClientTypes.ResponseVersion.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1595,6 +2792,17 @@ extension ArtifactClientTypes.ReportSummary {
         value.productName = try reader["productName"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.acceptanceType = try reader["acceptanceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ArtifactClientTypes.ResponseVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.ResponseVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.ResponseVersion()
+        value.responseText = try reader["responseText"].readIfPresent() ?? ""
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

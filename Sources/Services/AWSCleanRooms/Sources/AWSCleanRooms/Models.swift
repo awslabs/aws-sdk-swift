@@ -1234,11 +1234,15 @@ extension CleanRoomsClientTypes {
     public struct AnalysisRuleCustom: Swift.Sendable {
         /// An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query.
         public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The list of allowed additional analyses for the custom analysis rule.
+        public var allowedAdditionalAnalyses: [Swift.String]?
         /// The ARN of the analysis templates that are allowed by the custom analysis rule.
         /// This member is required.
         public var allowedAnalyses: [Swift.String]?
         /// The IDs of the Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
         public var allowedAnalysisProviders: [Swift.String]?
+        /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the configured table.
+        public var allowedResultReceivers: [Swift.String]?
         /// The differential privacy configuration.
         public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
         /// A list of columns that aren't allowed to be shown in the query output.
@@ -1246,14 +1250,18 @@ extension CleanRoomsClientTypes {
 
         public init(
             additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
             allowedAnalyses: [Swift.String]? = nil,
             allowedAnalysisProviders: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil,
             differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
             disallowedOutputColumns: [Swift.String]? = nil
         ) {
             self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
             self.allowedAnalyses = allowedAnalyses
             self.allowedAnalysisProviders = allowedAnalysisProviders
+            self.allowedResultReceivers = allowedResultReceivers
             self.differentialPrivacy = differentialPrivacy
             self.disallowedOutputColumns = disallowedOutputColumns
         }
@@ -3040,6 +3048,12 @@ extension CleanRoomsClientTypes {
         case collaborationAnalysisRuleNotConfigured
         case differentialPrivacyPolicyNotConfigured
         case idMappingTableNotPopulated
+        case intermediateTableAnalysisRuleMissing
+        case intermediateTableBaseTableRemoved
+        case intermediateTableDisallowedByDataProvider
+        case intermediateTableInheritedConstraintsViolated
+        case intermediateTableNotPopulated
+        case intermediateTableRetentionPeriodExpired
         case resultReceiversNotAllowed
         case resultReceiversNotConfigured
         case sdkUnknown(Swift.String)
@@ -3055,6 +3069,12 @@ extension CleanRoomsClientTypes {
                 .collaborationAnalysisRuleNotConfigured,
                 .differentialPrivacyPolicyNotConfigured,
                 .idMappingTableNotPopulated,
+                .intermediateTableAnalysisRuleMissing,
+                .intermediateTableBaseTableRemoved,
+                .intermediateTableDisallowedByDataProvider,
+                .intermediateTableInheritedConstraintsViolated,
+                .intermediateTableNotPopulated,
+                .intermediateTableRetentionPeriodExpired,
                 .resultReceiversNotAllowed,
                 .resultReceiversNotConfigured
             ]
@@ -3076,6 +3096,12 @@ extension CleanRoomsClientTypes {
             case .collaborationAnalysisRuleNotConfigured: return "COLLABORATION_ANALYSIS_RULE_NOT_CONFIGURED"
             case .differentialPrivacyPolicyNotConfigured: return "DIFFERENTIAL_PRIVACY_POLICY_NOT_CONFIGURED"
             case .idMappingTableNotPopulated: return "ID_MAPPING_TABLE_NOT_POPULATED"
+            case .intermediateTableAnalysisRuleMissing: return "INTERMEDIATE_TABLE_ANALYSIS_RULE_MISSING"
+            case .intermediateTableBaseTableRemoved: return "INTERMEDIATE_TABLE_BASE_TABLE_REMOVED"
+            case .intermediateTableDisallowedByDataProvider: return "INTERMEDIATE_TABLE_DISALLOWED_BY_DATA_PROVIDER"
+            case .intermediateTableInheritedConstraintsViolated: return "INTERMEDIATE_TABLE_INHERITED_CONSTRAINTS_VIOLATED"
+            case .intermediateTableNotPopulated: return "INTERMEDIATE_TABLE_NOT_POPULATED"
+            case .intermediateTableRetentionPeriodExpired: return "INTERMEDIATE_TABLE_RETENTION_PERIOD_EXPIRED"
             case .resultReceiversNotAllowed: return "RESULT_RECEIVERS_NOT_ALLOWED"
             case .resultReceiversNotConfigured: return "RESULT_RECEIVERS_NOT_CONFIGURED"
             case let .sdkUnknown(s): return s
@@ -3169,6 +3195,22 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the schema type properties for a configured table association.
+    public struct ConfiguredTableAssociationSchemaTypeProperties: Swift.Sendable {
+        /// The unique identifier of the configured table association.
+        /// This member is required.
+        public var configuredTableAssociationId: Swift.String?
+
+        public init(
+            configuredTableAssociationId: Swift.String? = nil
+        ) {
+            self.configuredTableAssociationId = configuredTableAssociationId
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum IdNamespaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case source
         case target
@@ -3221,14 +3263,34 @@ extension CleanRoomsClientTypes {
 
     /// Additional properties that are specific to the type of the associated schema.
     public struct IdMappingTableSchemaTypeProperties: Swift.Sendable {
+        /// The unique identifier of the ID mapping table.
+        public var idMappingTableId: Swift.String?
         /// Defines which ID namespace associations are used to create the ID mapping table.
         /// This member is required.
         public var idMappingTableInputSource: [CleanRoomsClientTypes.IdMappingTableInputSource]?
 
         public init(
+            idMappingTableId: Swift.String? = nil,
             idMappingTableInputSource: [CleanRoomsClientTypes.IdMappingTableInputSource]? = nil
         ) {
+            self.idMappingTableId = idMappingTableId
             self.idMappingTableInputSource = idMappingTableInputSource
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the schema type properties for an intermediate table.
+    public struct IntermediateTableSchemaTypeProperties: Swift.Sendable {
+        /// The unique identifier of the intermediate table.
+        /// This member is required.
+        public var intermediateTableId: Swift.String?
+
+        public init(
+            intermediateTableId: Swift.String? = nil
+        ) {
+            self.intermediateTableId = intermediateTableId
         }
     }
 }
@@ -3239,6 +3301,10 @@ extension CleanRoomsClientTypes {
     public enum SchemaTypeProperties: Swift.Sendable {
         /// The ID mapping table for the schema type properties.
         case idmappingtable(CleanRoomsClientTypes.IdMappingTableSchemaTypeProperties)
+        /// The schema type properties for an intermediate table.
+        case intermediatetable(CleanRoomsClientTypes.IntermediateTableSchemaTypeProperties)
+        /// The schema type properties for a configured table association.
+        case configuredtableassociation(CleanRoomsClientTypes.ConfiguredTableAssociationSchemaTypeProperties)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3276,12 +3342,14 @@ extension CleanRoomsClientTypes {
 
     public enum SchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case idMappingTable
+        case intermediateTable
         case table
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SchemaType] {
             return [
                 .idMappingTable,
+                .intermediateTable,
                 .table
             ]
         }
@@ -3294,6 +3362,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .idMappingTable: return "ID_MAPPING_TABLE"
+            case .intermediateTable: return "INTERMEDIATE_TABLE"
             case .table: return "TABLE"
             case let .sdkUnknown(s): return s
             }
@@ -3572,7 +3641,7 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query and job compute costs.
     public struct JobComputePaymentConfig: Swift.Sendable {
-        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the collaboration member to pay for query and job compute costs (FALSE). Exactly one member can be configured to pay for query and job compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs.
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the collaboration member to pay for query and job compute costs (FALSE). One or more members can be configured as payer candidates for query and job compute costs. An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs.
         /// This member is required.
         public var isResponsible: Swift.Bool?
 
@@ -3588,7 +3657,7 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's model inference payment responsibilities set by the collaboration creator.
     public struct ModelInferencePaymentConfig: Swift.Sendable {
-        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE) or has not configured the collaboration member to pay for model inference costs (FALSE). Exactly one member can be configured to pay for model inference costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for model inference costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model inference costs (TRUE) or has not configured the collaboration member to pay for model inference costs (FALSE). One or more members can be configured as payer candidates for model inference costs. If the collaboration creator hasn't specified anyone as the member paying for model inference costs, then the member who can query is the default payer.
         /// This member is required.
         public var isResponsible: Swift.Bool?
 
@@ -3604,7 +3673,7 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's model training payment responsibilities set by the collaboration creator.
     public struct ModelTrainingPaymentConfig: Swift.Sendable {
-        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE) or has not configured the collaboration member to pay for model training costs (FALSE). Exactly one member can be configured to pay for model training costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for model training costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for model training costs (TRUE) or has not configured the collaboration member to pay for model training costs (FALSE). One or more members can be configured as payer candidates for model training costs. If the collaboration creator hasn't specified anyone as the member paying for model training costs, then the member who can query is the default payer.
         /// This member is required.
         public var isResponsible: Swift.Bool?
 
@@ -3659,7 +3728,7 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
     public struct QueryComputePaymentConfig: Swift.Sendable {
-        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). Exactly one member can be configured to pay for query compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer. An error is returned if the collaboration creator sets a FALSE value for the member who can query.
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query compute costs (TRUE) or has not configured the collaboration member to pay for query compute costs (FALSE). One or more members can be configured as payer candidates for query compute costs. If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
         /// This member is required.
         public var isResponsible: Swift.Bool?
 
@@ -3838,7 +3907,6 @@ public struct CreateCollaborationInput: Swift.Sendable {
     /// The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
     public var dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata?
     /// A description of the collaboration provided by the collaboration owner.
-    /// This member is required.
     public var description: Swift.String?
     /// An indicator as to whether metrics have been enabled or disabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false.
     public var isMetricsEnabled: Swift.Bool?
@@ -3865,7 +3933,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         creatorMemberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
         creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
         dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
-        description: Swift.String? = nil,
+        description: Swift.String? = "",
         isMetricsEnabled: Swift.Bool? = nil,
         jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus? = nil,
         members: [CleanRoomsClientTypes.MemberSpecification]? = nil,
@@ -6433,6 +6501,110 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case baseTableRemoved
+        case created
+        case disallowedByDataProvider
+        case populateFailed
+        case populateStarted
+        case populateSuccess
+        case retentionPeriodExpired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStatus] {
+            return [
+                .baseTableRemoved,
+                .created,
+                .disallowedByDataProvider,
+                .populateFailed,
+                .populateStarted,
+                .populateSuccess,
+                .retentionPeriodExpired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .baseTableRemoved: return "BASE_TABLE_REMOVED"
+            case .created: return "CREATED"
+            case .disallowedByDataProvider: return "DISALLOWED_BY_DATA_PROVIDER"
+            case .populateFailed: return "POPULATE_FAILED"
+            case .populateStarted: return "POPULATE_STARTED"
+            case .populateSuccess: return "POPULATE_SUCCESS"
+            case .retentionPeriodExpired: return "RETENTION_PERIOD_EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ChildResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intermediateTable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChildResourceType] {
+            return [
+                .intermediateTable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intermediateTable: return "INTERMEDIATE_TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains information about a child resource of a given resource in a collaboration.
+    public struct ChildResource: Swift.Sendable {
+        /// The Amazon Web Services account ID of the member who owns the child resource.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+        /// The unique identifier of the child resource.
+        public var resourceId: Swift.String?
+        /// The name of the child resource.
+        /// This member is required.
+        public var resourceName: Swift.String?
+        /// The current status of the child resource.
+        public var resourceStatus: CleanRoomsClientTypes.ResourceStatus?
+        /// The type of the child resource.
+        /// This member is required.
+        public var resourceType: CleanRoomsClientTypes.ChildResourceType?
+
+        public init(
+            ownerAccountId: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            resourceStatus: CleanRoomsClientTypes.ResourceStatus? = nil,
+            resourceType: CleanRoomsClientTypes.ChildResourceType? = nil
+        ) {
+            self.ownerAccountId = ownerAccountId
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceStatus = resourceStatus
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A configured table association links a configured table to a collaboration.
     public struct ConfiguredTableAssociation: Swift.Sendable {
         /// The analysis rule types for the configured table association.
@@ -6440,6 +6612,8 @@ extension CleanRoomsClientTypes {
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
+        /// The child resources that depend on this configured table association.
+        public var childResources: [CleanRoomsClientTypes.ChildResource]?
         /// The unique ARN for the configured table that the association refers to.
         /// This member is required.
         public var configuredTableArn: Swift.String?
@@ -6473,6 +6647,7 @@ extension CleanRoomsClientTypes {
         public init(
             analysisRuleTypes: [CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType]? = nil,
             arn: Swift.String? = nil,
+            childResources: [CleanRoomsClientTypes.ChildResource]? = nil,
             configuredTableArn: Swift.String? = nil,
             configuredTableId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
@@ -6486,6 +6661,7 @@ extension CleanRoomsClientTypes {
         ) {
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
+            self.childResources = childResources
             self.configuredTableArn = configuredTableArn
             self.configuredTableId = configuredTableId
             self.createTime = createTime
@@ -7568,6 +7744,8 @@ extension CleanRoomsClientTypes {
         /// The Amazon Resource Name (ARN) of the ID mapping table.
         /// This member is required.
         public var arn: Swift.String?
+        /// The child resources that depend on this ID mapping table.
+        public var childResources: [CleanRoomsClientTypes.ChildResource]?
         /// The Amazon Resource Name (ARN) of the collaboration that contains this ID mapping table.
         /// This member is required.
         public var collaborationArn: Swift.String?
@@ -7605,6 +7783,7 @@ extension CleanRoomsClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            childResources: [CleanRoomsClientTypes.ChildResource]? = nil,
             collaborationArn: Swift.String? = nil,
             collaborationId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
@@ -7619,6 +7798,7 @@ extension CleanRoomsClientTypes {
             updateTime: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.childResources = childResources
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
             self.createTime = createTime
@@ -8219,6 +8399,1424 @@ public struct UpdateIdNamespaceAssociationOutput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsClientTypes {
+
+    /// Contains the SQL parameters used to populate an intermediate table.
+    public struct PopulationAnalysisSqlParameters: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the analysis template to use for populating the intermediate table.
+        public var analysisTemplateArn: Swift.String?
+        /// The SQL query string used to populate the intermediate table. Maximum length of 500,000 characters.
+        public var queryString: Swift.String?
+
+        public init(
+            analysisTemplateArn: Swift.String? = nil,
+            queryString: Swift.String? = nil
+        ) {
+            self.analysisTemplateArn = analysisTemplateArn
+            self.queryString = queryString
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.PopulationAnalysisSqlParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the configuration that defines the analysis used to populate an intermediate table.
+    public enum PopulationAnalysisConfiguration: Swift.Sendable {
+        /// The SQL parameters for the population analysis, including the query string or analysis template ARN.
+        case sqlparameters(CleanRoomsClientTypes.PopulationAnalysisSqlParameters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateIntermediateTableInput: Swift.Sendable {
+    /// A description of the intermediate table.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data.
+    public var kmsKeyArn: Swift.String?
+    /// The unique identifier of the membership where the intermediate table is created.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The display name for the intermediate table.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The configuration that defines the analysis used to populate the intermediate table. This configuration contains the SQL query or analysis template reference.
+    /// This member is required.
+    public var populationAnalysisConfiguration: CleanRoomsClientTypes.PopulationAnalysisConfiguration?
+    /// The number of days to retain populated data versions. Minimum value of 1, maximum value of 365.
+    public var retentionInDays: Swift.Int?
+    /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        populationAnalysisConfiguration: CleanRoomsClientTypes.PopulationAnalysisConfiguration? = nil,
+        retentionInDays: Swift.Int? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.kmsKeyArn = kmsKeyArn
+        self.membershipIdentifier = membershipIdentifier
+        self.name = name
+        self.populationAnalysisConfiguration = populationAnalysisConfiguration
+        self.retentionInDays = retentionInDays
+        self.tags = tags
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum IntermediateTableAnalysisRuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntermediateTableAnalysisRuleType] {
+            return [
+                .custom
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum PopulateIntermediateTableAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case query
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PopulateIntermediateTableAnalysisType] {
+            return [
+                .query
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .query: return "QUERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum BaseTableDependencyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case idMappingTable
+        case intermediateTable
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaseTableDependencyType] {
+            return [
+                .idMappingTable,
+                .intermediateTable,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .idMappingTable: return "ID_MAPPING_TABLE"
+            case .intermediateTable: return "INTERMEDIATE_TABLE"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains information about a parent table that contributes an additional analyses constraint.
+    public struct InheritedAdditionalAnalysesSource: Swift.Sendable {
+        /// The unique identifier of the parent table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the parent table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID of the member who owns the parent table.
+        /// This member is required.
+        public var sourceAccountId: Swift.String?
+        /// The type of the parent table.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.BaseTableDependencyType?
+        /// The additional analyses setting defined on the parent table.
+        /// This member is required.
+        public var value: CleanRoomsClientTypes.AdditionalAnalyses?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil,
+            type: CleanRoomsClientTypes.BaseTableDependencyType? = nil,
+            value: CleanRoomsClientTypes.AdditionalAnalyses? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.sourceAccountId = sourceAccountId
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the inherited additional analyses constraint and its sources from parent tables.
+    public struct InheritedAdditionalAnalyses: Swift.Sendable {
+        /// The list of parent tables that contribute to this inherited constraint.
+        /// This member is required.
+        public var sources: [CleanRoomsClientTypes.InheritedAdditionalAnalysesSource]?
+        /// The effective additional analyses setting inherited from parent tables.
+        /// This member is required.
+        public var value: CleanRoomsClientTypes.AdditionalAnalyses?
+
+        public init(
+            sources: [CleanRoomsClientTypes.InheritedAdditionalAnalysesSource]? = nil,
+            value: CleanRoomsClientTypes.AdditionalAnalyses? = nil
+        ) {
+            self.sources = sources
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains information about a parent table that contributes an allowed additional analyses constraint.
+    public struct InheritedAllowedAdditionalAnalysesSource: Swift.Sendable {
+        /// The unique identifier of the parent table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the parent table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID of the member who owns the parent table.
+        /// This member is required.
+        public var sourceAccountId: Swift.String?
+        /// The type of the parent table.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.BaseTableDependencyType?
+        /// The allowed additional analyses defined on the parent table.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil,
+            type: CleanRoomsClientTypes.BaseTableDependencyType? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.sourceAccountId = sourceAccountId
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the inherited allowed additional analyses constraint and its sources from parent tables.
+    public struct InheritedAllowedAdditionalAnalyses: Swift.Sendable {
+        /// The list of parent tables that contribute to this inherited constraint.
+        /// This member is required.
+        public var sources: [CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource]?
+        /// The effective list of allowed additional analyses inherited from parent tables.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            sources: [CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource]? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.sources = sources
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains information about a parent table that contributes an allowed result receivers constraint.
+    public struct InheritedAllowedResultReceiversSource: Swift.Sendable {
+        /// The unique identifier of the parent table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the parent table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID of the member who owns the parent table.
+        /// This member is required.
+        public var sourceAccountId: Swift.String?
+        /// The type of the parent table.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.BaseTableDependencyType?
+        /// The allowed result receiver account IDs defined on the parent table.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil,
+            type: CleanRoomsClientTypes.BaseTableDependencyType? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.sourceAccountId = sourceAccountId
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the inherited allowed result receivers constraint and its sources from parent tables.
+    public struct InheritedAllowedResultReceivers: Swift.Sendable {
+        /// The list of parent tables that contribute to this inherited constraint.
+        /// This member is required.
+        public var sources: [CleanRoomsClientTypes.InheritedAllowedResultReceiversSource]?
+        /// The effective list of Amazon Web Services account IDs allowed to receive results, inherited from parent tables.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            sources: [CleanRoomsClientTypes.InheritedAllowedResultReceiversSource]? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.sources = sources
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains column lineage information that traces a disallowed output column back to its source in a base table.
+    public struct ColumnLineageEntry: Swift.Sendable {
+        /// The name of the column in the intermediate table.
+        /// This member is required.
+        public var column: Swift.String?
+        /// The Amazon Web Services account ID of the owner of the source table.
+        /// This member is required.
+        public var sourceAccountId: Swift.String?
+        /// The name of the column in the source table.
+        /// This member is required.
+        public var sourceColumn: Swift.String?
+        /// The unique identifier of the source table.
+        /// This member is required.
+        public var sourceId: Swift.String?
+        /// The name of the source table.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// The type of the source table.
+        /// This member is required.
+        public var sourceType: CleanRoomsClientTypes.BaseTableDependencyType?
+
+        public init(
+            column: Swift.String? = nil,
+            sourceAccountId: Swift.String? = nil,
+            sourceColumn: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sourceName: Swift.String? = nil,
+            sourceType: CleanRoomsClientTypes.BaseTableDependencyType? = nil
+        ) {
+            self.column = column
+            self.sourceAccountId = sourceAccountId
+            self.sourceColumn = sourceColumn
+            self.sourceId = sourceId
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the inherited disallowed output columns constraint and the column lineage tracing each column to its source.
+    public struct InheritedDisallowedOutputColumns: Swift.Sendable {
+        /// The lineage information that traces each disallowed output column back to its source in a parent table.
+        /// This member is required.
+        public var columnLineage: [CleanRoomsClientTypes.ColumnLineageEntry]?
+        /// The list of column names that are disallowed from appearing in query output, inherited from parent tables.
+        /// This member is required.
+        public var value: [Swift.String]?
+
+        public init(
+            columnLineage: [CleanRoomsClientTypes.ColumnLineageEntry]? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.columnLineage = columnLineage
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the privacy constraints inherited from parent tables for an intermediate table version.
+    public struct IntermediateTableInheritedConstraints: Swift.Sendable {
+        /// The inherited additional analyses constraint.
+        public var additionalAnalyses: CleanRoomsClientTypes.InheritedAdditionalAnalyses?
+        /// The inherited allowed additional analyses constraint.
+        public var allowedAdditionalAnalyses: CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses?
+        /// The inherited allowed result receivers constraint.
+        public var allowedResultReceivers: CleanRoomsClientTypes.InheritedAllowedResultReceivers?
+        /// The inherited disallowed output columns constraint.
+        public var disallowedOutputColumns: CleanRoomsClientTypes.InheritedDisallowedOutputColumns?
+
+        public init(
+            additionalAnalyses: CleanRoomsClientTypes.InheritedAdditionalAnalyses? = nil,
+            allowedAdditionalAnalyses: CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses? = nil,
+            allowedResultReceivers: CleanRoomsClientTypes.InheritedAllowedResultReceivers? = nil,
+            disallowedOutputColumns: CleanRoomsClientTypes.InheritedDisallowedOutputColumns? = nil
+        ) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+            self.disallowedOutputColumns = disallowedOutputColumns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the details of the currently active version of an intermediate table.
+    public struct IntermediateTableActiveVersion: Swift.Sendable {
+        /// The identifier of the protected query that created this version.
+        /// This member is required.
+        public var analysisId: Swift.String?
+        /// The type of analysis that created this version.
+        /// This member is required.
+        public var analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType?
+        /// The time when this version expires based on the retention period.
+        public var expirationTime: Foundation.Date?
+        /// The privacy constraints inherited from parent tables at the time this version was populated.
+        /// This member is required.
+        public var inheritedConstraints: CleanRoomsClientTypes.IntermediateTableInheritedConstraints?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt this version's data.
+        public var kmsKeyArn: Swift.String?
+        /// The runtime parameters that were used when populating this version.
+        public var parameters: [Swift.String: Swift.String]?
+        /// The unique identifier of the active version.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType? = nil,
+            expirationTime: Foundation.Date? = nil,
+            inheritedConstraints: CleanRoomsClientTypes.IntermediateTableInheritedConstraints? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.analysisId = analysisId
+            self.analysisType = analysisType
+            self.expirationTime = expirationTime
+            self.inheritedConstraints = inheritedConstraints
+            self.kmsKeyArn = kmsKeyArn
+            self.parameters = parameters
+            self.versionId = versionId
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableActiveVersion: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IntermediateTableActiveVersion(analysisId: \(Swift.String(describing: analysisId)), analysisType: \(Swift.String(describing: analysisType)), expirationTime: \(Swift.String(describing: expirationTime)), inheritedConstraints: \(Swift.String(describing: inheritedConstraints)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), versionId: \(Swift.String(describing: versionId)), parameters: \"CONTENT_REDACTED\")"}
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the schema definition of an intermediate table.
+    public struct IntermediateTableSchema: Swift.Sendable {
+        /// The list of columns in the intermediate table schema.
+        /// This member is required.
+        public var columns: [CleanRoomsClientTypes.Column]?
+
+        public init(
+            columns: [CleanRoomsClientTypes.Column]? = nil
+        ) {
+            self.columns = columns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum IntermediateTableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case baseTableRemoved
+        case created
+        case disallowedByDataProvider
+        case populateFailed
+        case populateStarted
+        case populateSuccess
+        case retentionPeriodExpired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntermediateTableStatus] {
+            return [
+                .baseTableRemoved,
+                .created,
+                .disallowedByDataProvider,
+                .populateFailed,
+                .populateStarted,
+                .populateSuccess,
+                .retentionPeriodExpired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .baseTableRemoved: return "BASE_TABLE_REMOVED"
+            case .created: return "CREATED"
+            case .disallowedByDataProvider: return "DISALLOWED_BY_DATA_PROVIDER"
+            case .populateFailed: return "POPULATE_FAILED"
+            case .populateStarted: return "POPULATE_STARTED"
+            case .populateSuccess: return "POPULATE_SUCCESS"
+            case .retentionPeriodExpired: return "RETENTION_PERIOD_EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum BaseTableParentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case direct
+        case `indirect`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaseTableParentType] {
+            return [
+                .direct,
+                .indirect
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "DIRECT"
+            case .indirect: return "INDIRECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains information about a base table that an intermediate table depends on.
+    public struct IntermediateTableDependency: Swift.Sendable {
+        /// The Amazon Web Services account ID of the member who owns the dependency table.
+        /// This member is required.
+        public var creatorAccountId: Swift.String?
+        /// The unique identifier of the dependency table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the dependency table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Whether the dependency is direct or indirect. A direct dependency is a table explicitly referenced in the stored query, while an indirect dependency is referenced through another intermediate table.
+        /// This member is required.
+        public var parentType: CleanRoomsClientTypes.BaseTableParentType?
+        /// The type of the dependency table.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.BaseTableDependencyType?
+
+        public init(
+            creatorAccountId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parentType: CleanRoomsClientTypes.BaseTableParentType? = nil,
+            type: CleanRoomsClientTypes.BaseTableDependencyType? = nil
+        ) {
+            self.creatorAccountId = creatorAccountId
+            self.id = id
+            self.name = name
+            self.parentType = parentType
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the details of an intermediate table in Clean Rooms. An intermediate table stores a query definition and its materialized results within a collaboration.
+    public struct IntermediateTable: Swift.Sendable {
+        /// The types of analysis rules associated with the intermediate table.
+        public var analysisRuleTypes: [CleanRoomsClientTypes.IntermediateTableAnalysisRuleType]?
+        /// The Amazon Resource Name (ARN) of the intermediate table.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The child resources that depend on this intermediate table.
+        public var childResources: [CleanRoomsClientTypes.ChildResource]?
+        /// The Amazon Resource Name (ARN) of the collaboration that contains the intermediate table.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that contains the intermediate table.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time the intermediate table was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The description of the intermediate table.
+        public var description: Swift.String?
+        /// The unique identifier of the intermediate table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The details of the currently active version of the intermediate table.
+        public var intermediateTableVersion: CleanRoomsClientTypes.IntermediateTableActiveVersion?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the intermediate table data.
+        public var kmsKeyArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the membership that contains the intermediate table.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The unique identifier of the membership that contains the intermediate table.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the intermediate table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The analysis configuration that defines the query used to populate the intermediate table.
+        /// This member is required.
+        public var populationAnalysisConfiguration: CleanRoomsClientTypes.PopulationAnalysisConfiguration?
+        /// The number of days that populated data is retained before expiring.
+        public var retentionInDays: Swift.Int?
+        /// The schema of the intermediate table, containing column definitions. Available after the table has been successfully populated.
+        public var schema: CleanRoomsClientTypes.IntermediateTableSchema?
+        /// The current status of the intermediate table.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.IntermediateTableStatus?
+        /// The reason for the current status of the intermediate table.
+        public var statusReason: Swift.String?
+        /// The list of base tables that this intermediate table depends on.
+        public var tableDependencies: [CleanRoomsClientTypes.IntermediateTableDependency]?
+        /// The time the intermediate table was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            analysisRuleTypes: [CleanRoomsClientTypes.IntermediateTableAnalysisRuleType]? = nil,
+            arn: Swift.String? = nil,
+            childResources: [CleanRoomsClientTypes.ChildResource]? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            intermediateTableVersion: CleanRoomsClientTypes.IntermediateTableActiveVersion? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            populationAnalysisConfiguration: CleanRoomsClientTypes.PopulationAnalysisConfiguration? = nil,
+            retentionInDays: Swift.Int? = nil,
+            schema: CleanRoomsClientTypes.IntermediateTableSchema? = nil,
+            status: CleanRoomsClientTypes.IntermediateTableStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tableDependencies: [CleanRoomsClientTypes.IntermediateTableDependency]? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.analysisRuleTypes = analysisRuleTypes
+            self.arn = arn
+            self.childResources = childResources
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.intermediateTableVersion = intermediateTableVersion
+            self.kmsKeyArn = kmsKeyArn
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.populationAnalysisConfiguration = populationAnalysisConfiguration
+            self.retentionInDays = retentionInDays
+            self.schema = schema
+            self.status = status
+            self.statusReason = statusReason
+            self.tableDependencies = tableDependencies
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct CreateIntermediateTableOutput: Swift.Sendable {
+    /// The intermediate table that was created.
+    /// This member is required.
+    public var intermediateTable: CleanRoomsClientTypes.IntermediateTable?
+
+    public init(
+        intermediateTable: CleanRoomsClientTypes.IntermediateTable? = nil
+    ) {
+        self.intermediateTable = intermediateTable
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the custom analysis rule configuration for an intermediate table.
+    public struct IntermediateTableAnalysisRuleCustom: Swift.Sendable {
+        /// The setting that controls whether additional analyses are allowed on the intermediate table.
+        public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The list of allowed additional analyses for the intermediate table.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The list of allowed analyses that can be performed on the intermediate table.
+        public var allowedAnalyses: [Swift.String]?
+        /// The list of Amazon Web Services account IDs for the allowed analysis providers.
+        public var allowedAnalysisProviders: [Swift.String]?
+        /// The list of Amazon Web Services account IDs that are allowed to receive results from queries run on the intermediate table.
+        public var allowedResultReceivers: [Swift.String]?
+        /// Specifies the unique identifier for your users.
+        public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
+        /// The list of columns that are not allowed in the query output.
+        public var disallowedOutputColumns: [Swift.String]?
+
+        public init(
+            additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedAnalyses: [Swift.String]? = nil,
+            allowedAnalysisProviders: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil,
+            differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
+            disallowedOutputColumns: [Swift.String]? = nil
+        ) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedAnalyses = allowedAnalyses
+            self.allowedAnalysisProviders = allowedAnalysisProviders
+            self.allowedResultReceivers = allowedResultReceivers
+            self.differentialPrivacy = differentialPrivacy
+            self.disallowedOutputColumns = disallowedOutputColumns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the version 1 policy for an intermediate table analysis rule.
+    public enum IntermediateTableAnalysisRulePolicyV1: Swift.Sendable {
+        /// The custom analysis rule policy.
+        case custom(CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the policy for an intermediate table analysis rule.
+    public enum IntermediateTableAnalysisRulePolicy: Swift.Sendable {
+        /// The version 1 policy for the analysis rule.
+        case v1(CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateIntermediateTableAnalysisRuleInput: Swift.Sendable {
+    /// The analysis rule policy to apply to the intermediate table.
+    /// This member is required.
+    public var analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy?
+    /// The type of analysis rule to create. Currently, only CUSTOM is supported.
+    /// This member is required.
+    public var analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType?
+    /// The unique identifier of the intermediate table for which to create the analysis rule.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy? = nil,
+        analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.analysisRulePolicy = analysisRulePolicy
+        self.analysisRuleType = analysisRuleType
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the details of an analysis rule for an intermediate table.
+    public struct IntermediateTableAnalysisRule: Swift.Sendable {
+        /// The policy of the analysis rule.
+        /// This member is required.
+        public var analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy?
+        /// The type of the analysis rule.
+        /// This member is required.
+        public var analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType?
+        /// The time the analysis rule was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the intermediate table associated with this analysis rule.
+        /// This member is required.
+        public var intermediateTableArn: Swift.String?
+        /// The unique identifier of the intermediate table associated with this analysis rule.
+        /// This member is required.
+        public var intermediateTableIdentifier: Swift.String?
+        /// The time the analysis rule was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy? = nil,
+            analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType? = nil,
+            createTime: Foundation.Date? = nil,
+            intermediateTableArn: Swift.String? = nil,
+            intermediateTableIdentifier: Swift.String? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.analysisRulePolicy = analysisRulePolicy
+            self.analysisRuleType = analysisRuleType
+            self.createTime = createTime
+            self.intermediateTableArn = intermediateTableArn
+            self.intermediateTableIdentifier = intermediateTableIdentifier
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct CreateIntermediateTableAnalysisRuleOutput: Swift.Sendable {
+    /// The analysis rule that was created for the intermediate table.
+    /// This member is required.
+    public var analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule?
+
+    public init(
+        analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule? = nil
+    ) {
+        self.analysisRule = analysisRule
+    }
+}
+
+public struct DeleteIntermediateTableInput: Swift.Sendable {
+    /// The unique identifier of the intermediate table to delete.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct DeleteIntermediateTableOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteIntermediateTableAnalysisRuleInput: Swift.Sendable {
+    /// The type of analysis rule to delete. Currently, only CUSTOM is supported.
+    /// This member is required.
+    public var analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType?
+    /// The unique identifier of the intermediate table from which to delete the analysis rule.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.analysisRuleType = analysisRuleType
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct DeleteIntermediateTableAnalysisRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetIntermediateTableInput: Swift.Sendable {
+    /// The unique identifier of the intermediate table to retrieve.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct GetIntermediateTableOutput: Swift.Sendable {
+    /// The intermediate table retrieved.
+    /// This member is required.
+    public var intermediateTable: CleanRoomsClientTypes.IntermediateTable?
+
+    public init(
+        intermediateTable: CleanRoomsClientTypes.IntermediateTable? = nil
+    ) {
+        self.intermediateTable = intermediateTable
+    }
+}
+
+public struct GetIntermediateTableAnalysisRuleInput: Swift.Sendable {
+    /// The type of analysis rule to retrieve. Currently, only CUSTOM is supported.
+    /// This member is required.
+    public var analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType?
+    /// The unique identifier of the intermediate table for which to retrieve the analysis rule.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.analysisRuleType = analysisRuleType
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct GetIntermediateTableAnalysisRuleOutput: Swift.Sendable {
+    /// The analysis rule for the intermediate table.
+    /// This member is required.
+    public var analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule?
+
+    public init(
+        analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule? = nil
+    ) {
+        self.analysisRule = analysisRule
+    }
+}
+
+public struct ListIntermediateTablesInput: Swift.Sendable {
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    public var maxResults: Swift.Int?
+    /// The unique identifier of the membership for which to list intermediate tables.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains summary information about an intermediate table.
+    public struct IntermediateTableSummary: Swift.Sendable {
+        /// The types of analysis rules associated with the intermediate table.
+        public var analysisRuleTypes: [CleanRoomsClientTypes.IntermediateTableAnalysisRuleType]?
+        /// The Amazon Resource Name (ARN) of the intermediate table.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the collaboration that contains the intermediate table.
+        /// This member is required.
+        public var collaborationArn: Swift.String?
+        /// The unique identifier of the collaboration that contains the intermediate table.
+        /// This member is required.
+        public var collaborationId: Swift.String?
+        /// The time the intermediate table was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The description of the intermediate table.
+        public var description: Swift.String?
+        /// The unique identifier of the intermediate table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The Amazon Resource Name (ARN) of the membership that contains the intermediate table.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The unique identifier of the membership that contains the intermediate table.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The name of the intermediate table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The number of days that populated data is retained before expiring.
+        public var retentionInDays: Swift.Int?
+        /// The current status of the intermediate table.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.IntermediateTableStatus?
+        /// The time the intermediate table was last updated.
+        /// This member is required.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            analysisRuleTypes: [CleanRoomsClientTypes.IntermediateTableAnalysisRuleType]? = nil,
+            arn: Swift.String? = nil,
+            collaborationArn: Swift.String? = nil,
+            collaborationId: Swift.String? = nil,
+            createTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            retentionInDays: Swift.Int? = nil,
+            status: CleanRoomsClientTypes.IntermediateTableStatus? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.analysisRuleTypes = analysisRuleTypes
+            self.arn = arn
+            self.collaborationArn = collaborationArn
+            self.collaborationId = collaborationId
+            self.createTime = createTime
+            self.description = description
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.name = name
+            self.retentionInDays = retentionInDays
+            self.status = status
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct ListIntermediateTablesOutput: Swift.Sendable {
+    /// The list of intermediate table summaries.
+    /// This member is required.
+    public var intermediateTableSummaries: [CleanRoomsClientTypes.IntermediateTableSummary]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        intermediateTableSummaries: [CleanRoomsClientTypes.IntermediateTableSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.intermediateTableSummaries = intermediateTableSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListIntermediateTableVersionsInput: Swift.Sendable {
+    /// The unique identifier of the intermediate table for which to list versions.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    public var maxResults: Swift.Int?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        intermediateTableIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum IntermediateTableVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case populateFailed
+        case populateStarted
+        case populateSuccess
+        case retentionPeriodExpired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntermediateTableVersionStatus] {
+            return [
+                .populateFailed,
+                .populateStarted,
+                .populateSuccess,
+                .retentionPeriodExpired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .populateFailed: return "POPULATE_FAILED"
+            case .populateStarted: return "POPULATE_STARTED"
+            case .populateSuccess: return "POPULATE_SUCCESS"
+            case .retentionPeriodExpired: return "RETENTION_PERIOD_EXPIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains summary information about a version of an intermediate table.
+    public struct IntermediateTableVersionSummary: Swift.Sendable {
+        /// The identifier of the protected query that created this version.
+        /// This member is required.
+        public var analysisId: Swift.String?
+        /// The type of analysis that created this version.
+        /// This member is required.
+        public var analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType?
+        /// The time the version was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The time when this version expires based on the retention period.
+        public var expirationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt this version's data.
+        public var kmsKeyArn: Swift.String?
+        /// The status of the version.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.IntermediateTableVersionStatus?
+        /// The unique identifier of the intermediate table that this version belongs to.
+        /// This member is required.
+        public var tableId: Swift.String?
+        /// The unique identifier of the version.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType? = nil,
+            createTime: Foundation.Date? = nil,
+            expirationTime: Foundation.Date? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            status: CleanRoomsClientTypes.IntermediateTableVersionStatus? = nil,
+            tableId: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.analysisId = analysisId
+            self.analysisType = analysisType
+            self.createTime = createTime
+            self.expirationTime = expirationTime
+            self.kmsKeyArn = kmsKeyArn
+            self.status = status
+            self.tableId = tableId
+            self.versionId = versionId
+        }
+    }
+}
+
+public struct ListIntermediateTableVersionsOutput: Swift.Sendable {
+    /// The list of intermediate table version summaries.
+    /// This member is required.
+    public var intermediateTableVersionSummaries: [CleanRoomsClientTypes.IntermediateTableVersionSummary]?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        intermediateTableVersionSummaries: [CleanRoomsClientTypes.IntermediateTableVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.intermediateTableVersionSummaries = intermediateTableVersionSummaries
+        self.nextToken = nextToken
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration properties that define the compute environment settings for workers in Clean Rooms. These properties enable customization of the underlying compute environment to optimize performance for your specific workloads.
+    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
+        /// The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        case spark([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
+    public struct WorkerComputeConfiguration: Swift.Sendable {
+        /// The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128.
+        public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
+        /// The worker compute configuration type.
+        public var type: CleanRoomsClientTypes.WorkerComputeType?
+
+        public init(
+            number: Swift.Int? = nil,
+            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
+            type: CleanRoomsClientTypes.WorkerComputeType? = nil
+        ) {
+            self.number = number
+            self.properties = properties
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The compute configuration for an intermediate table population operation.
+    public enum IntermediateTableComputeConfiguration: Swift.Sendable {
+        /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
+        case querycomputeconfiguration(CleanRoomsClientTypes.WorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct PopulateIntermediateTableInput: Swift.Sendable {
+    /// The account ID of the member that pays for the analysis compute costs.
+    public var analysisPayerAccountId: Swift.String?
+    /// The compute configuration for the population query execution.
+    public var computeConfiguration: CleanRoomsClientTypes.IntermediateTableComputeConfiguration?
+    /// The unique identifier of the intermediate table to populate.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The runtime parameter values that override the defaults in the stored query.
+    public var parameters: [Swift.String: Swift.String]?
+
+    public init(
+        analysisPayerAccountId: Swift.String? = nil,
+        computeConfiguration: CleanRoomsClientTypes.IntermediateTableComputeConfiguration? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        parameters: [Swift.String: Swift.String]? = nil
+    ) {
+        self.analysisPayerAccountId = analysisPayerAccountId
+        self.computeConfiguration = computeConfiguration
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+        self.parameters = parameters
+    }
+}
+
+extension PopulateIntermediateTableInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PopulateIntermediateTableInput(analysisPayerAccountId: \(Swift.String(describing: analysisPayerAccountId)), computeConfiguration: \(Swift.String(describing: computeConfiguration)), intermediateTableIdentifier: \(Swift.String(describing: intermediateTableIdentifier)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), parameters: \"CONTENT_REDACTED\")"}
+}
+
+public struct PopulateIntermediateTableOutput: Swift.Sendable {
+    /// The identifier for the protected query execution. Use this value with GetProtectedQuery to track the population progress.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The type of analysis performed to populate the intermediate table.
+    /// This member is required.
+    public var analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType?
+    /// The unique identifier of the version created by this population operation.
+    /// This member is required.
+    public var versionId: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        analysisType: CleanRoomsClientTypes.PopulateIntermediateTableAnalysisType? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.analysisType = analysisType
+        self.versionId = versionId
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains the name and type of a column in an intermediate table.
+    public struct IntermediateTableColumn: Swift.Sendable {
+        /// The name of the column.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the column.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct UpdateIntermediateTableInput: Swift.Sendable {
+    /// The list of columns with updated type definitions. Only the type of existing columns can be updated.
+    public var columns: [CleanRoomsClientTypes.IntermediateTableColumn]?
+    /// A new description for the intermediate table.
+    public var description: Swift.String?
+    /// The unique identifier of the intermediate table to update.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) of the customer-managed KMS key to use for encrypting future population data.
+    public var kmsKeyArn: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        columns: [CleanRoomsClientTypes.IntermediateTableColumn]? = nil,
+        description: Swift.String? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.columns = columns
+        self.description = description
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.kmsKeyArn = kmsKeyArn
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct UpdateIntermediateTableOutput: Swift.Sendable {
+    /// The updated intermediate table.
+    /// This member is required.
+    public var intermediateTable: CleanRoomsClientTypes.IntermediateTable?
+
+    public init(
+        intermediateTable: CleanRoomsClientTypes.IntermediateTable? = nil
+    ) {
+        self.intermediateTable = intermediateTable
+    }
+}
+
+public struct UpdateIntermediateTableAnalysisRuleInput: Swift.Sendable {
+    /// The updated analysis rule policy for the intermediate table.
+    /// This member is required.
+    public var analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy?
+    /// The type of analysis rule to update. Currently, only CUSTOM is supported.
+    /// This member is required.
+    public var analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType?
+    /// The unique identifier of the intermediate table for which to update the analysis rule.
+    /// This member is required.
+    public var intermediateTableIdentifier: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        analysisRulePolicy: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy? = nil,
+        analysisRuleType: CleanRoomsClientTypes.IntermediateTableAnalysisRuleType? = nil,
+        intermediateTableIdentifier: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.analysisRulePolicy = analysisRulePolicy
+        self.analysisRuleType = analysisRuleType
+        self.intermediateTableIdentifier = intermediateTableIdentifier
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct UpdateIntermediateTableAnalysisRuleOutput: Swift.Sendable {
+    /// The updated analysis rule for the intermediate table.
+    /// This member is required.
+    public var analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule?
+
+    public init(
+        analysisRule: CleanRoomsClientTypes.IntermediateTableAnalysisRule? = nil
+    ) {
+        self.analysisRule = analysisRule
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
     /// This member is required.
@@ -8416,7 +10014,7 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the payment responsibilities accepted by the collaboration member for query and job compute costs.
     public struct MembershipJobComputePaymentConfig: Swift.Sendable {
-        /// Indicates whether the collaboration member has accepted to pay for job compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There is only one member who pays for queries and jobs. An error message is returned for the following reasons:
+        /// Indicates whether the collaboration member has accepted to pay for job compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There can be one or more members who are designated as payer candidates for queries and jobs. An error message is returned for the following reasons:
         ///
         /// * If you set the value to FALSE but you are responsible to pay for query and job compute costs.
         ///
@@ -8782,6 +10380,32 @@ public struct DeleteMembershipOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisallowIntermediateTableInput: Swift.Sendable {
+    /// Specifies whether to cascade the disallow action to descendant intermediate tables. Default is true.
+    public var includeDescendants: Swift.Bool?
+    /// The name of the intermediate table to disallow.
+    /// This member is required.
+    public var intermediateTableName: Swift.String?
+    /// The unique identifier of the membership that contains the intermediate table to disallow.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+
+    public init(
+        includeDescendants: Swift.Bool? = nil,
+        intermediateTableName: Swift.String? = nil,
+        membershipIdentifier: Swift.String? = nil
+    ) {
+        self.includeDescendants = includeDescendants
+        self.intermediateTableName = intermediateTableName
+        self.membershipIdentifier = membershipIdentifier
+    }
+}
+
+public struct DisallowIntermediateTableOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetMembershipInput: Swift.Sendable {
     /// The identifier for a membership resource.
     /// This member is required.
@@ -8820,16 +10444,6 @@ public struct GetProtectedJobInput: Swift.Sendable {
     ) {
         self.membershipIdentifier = membershipIdentifier
         self.protectedJobIdentifier = protectedJobIdentifier
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configuration properties that define the compute environment settings for workers in Clean Rooms. These properties enable customization of the underlying compute environment to optimize performance for your specific workloads.
-    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
-        /// The Spark configuration properties for SQL and PySpark workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
-        case spark([Swift.String: Swift.String])
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -9238,58 +10852,6 @@ public struct GetProtectedQueryInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
-    public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cr1x
-        case cr4x
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [WorkerComputeType] {
-            return [
-                .cr1x,
-                .cr4x
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cr1x: return "CR.1X"
-            case .cr4x: return "CR.4X"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
-    public struct WorkerComputeConfiguration: Swift.Sendable {
-        /// The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128.
-        public var number: Swift.Int?
-        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
-        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
-        /// The worker compute configuration type.
-        public var type: CleanRoomsClientTypes.WorkerComputeType?
-
-        public init(
-            number: Swift.Int? = nil,
-            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
-            type: CleanRoomsClientTypes.WorkerComputeType? = nil
-        ) {
-            self.number = number
-            self.properties = properties
-            self.type = type
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
     /// The configuration of the compute resources for an analysis with the Spark analytics engine.
     public enum ComputeConfiguration: Swift.Sendable {
         /// The worker configuration for the compute environment.
@@ -9496,6 +11058,32 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the output configuration of an intermediate table when a protected query populates it.
+    public struct IntermediateTableOutputConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the intermediate table.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique identifier of the intermediate table.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the intermediate table.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains configuration details for protected query output.
     public enum ProtectedQueryOutputConfiguration: Swift.Sendable {
         /// Required configuration for a protected query with an s3 output type.
@@ -9504,6 +11092,8 @@ extension CleanRoomsClientTypes {
         case member(CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration)
         /// Required configuration for a protected query with a distribute output type.
         case distribute(CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration)
+        /// The intermediate table output configuration, present when the protected query was triggered by a populate operation.
+        case intermediatetable(CleanRoomsClientTypes.IntermediateTableOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10173,6 +11763,8 @@ extension CleanRoomsClientTypes {
         /// The unique ID of the protected query.
         /// This member is required.
         public var id: Swift.String?
+        /// The intermediate table configuration, present when the protected query was triggered by a populate operation.
+        public var intermediateTableConfiguration: CleanRoomsClientTypes.IntermediateTableOutputConfiguration?
         /// The unique ARN for the membership that initiated the protected query.
         /// This member is required.
         public var membershipArn: Swift.String?
@@ -10191,6 +11783,7 @@ extension CleanRoomsClientTypes {
         public init(
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            intermediateTableConfiguration: CleanRoomsClientTypes.IntermediateTableOutputConfiguration? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
             queryComputePayerAccountId: Swift.String? = nil,
@@ -10199,6 +11792,7 @@ extension CleanRoomsClientTypes {
         ) {
             self.createTime = createTime
             self.id = id
+            self.intermediateTableConfiguration = intermediateTableConfiguration
             self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.queryComputePayerAccountId = queryComputePayerAccountId
@@ -11233,6 +12827,29 @@ extension CreateIdNamespaceAssociationInput {
     }
 }
 
+extension CreateIntermediateTableInput {
+
+    static func urlPathProvider(_ value: CreateIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables"
+    }
+}
+
+extension CreateIntermediateTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: CreateIntermediateTableAnalysisRuleInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/analysisRule"
+    }
+}
+
 extension CreateMembershipInput {
 
     static func urlPathProvider(_ value: CreateMembershipInput) -> Swift.String? {
@@ -11364,6 +12981,35 @@ extension DeleteIdNamespaceAssociationInput {
     }
 }
 
+extension DeleteIntermediateTableInput {
+
+    static func urlPathProvider(_ value: DeleteIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteIntermediateTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: DeleteIntermediateTableAnalysisRuleInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        guard let analysisRuleType = value.analysisRuleType else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension DeleteMemberInput {
 
     static func urlPathProvider(_ value: DeleteMemberInput) -> Swift.String? {
@@ -11397,6 +13043,16 @@ extension DeletePrivacyBudgetTemplateInput {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/privacybudgettemplates/\(privacyBudgetTemplateIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DisallowIntermediateTableInput {
+
+    static func urlPathProvider(_ value: DisallowIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/disallowIntermediateTable"
     }
 }
 
@@ -11576,6 +13232,35 @@ extension GetIdNamespaceAssociationInput {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/idnamespaceassociations/\(idNamespaceAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetIntermediateTableInput {
+
+    static func urlPathProvider(_ value: GetIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetIntermediateTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: GetIntermediateTableAnalysisRuleInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        guard let analysisRuleType = value.analysisRuleType else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -12007,6 +13692,61 @@ extension ListIdNamespaceAssociationsInput {
     }
 }
 
+extension ListIntermediateTablesInput {
+
+    static func urlPathProvider(_ value: ListIntermediateTablesInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables"
+    }
+}
+
+extension ListIntermediateTablesInput {
+
+    static func queryItemProvider(_ value: ListIntermediateTablesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListIntermediateTableVersionsInput {
+
+    static func urlPathProvider(_ value: ListIntermediateTableVersionsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListIntermediateTableVersionsInput {
+
+    static func queryItemProvider(_ value: ListIntermediateTableVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMembersInput {
 
     static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
@@ -12235,6 +13975,19 @@ extension PopulateIdMappingTableInput {
     }
 }
 
+extension PopulateIntermediateTableInput {
+
+    static func urlPathProvider(_ value: PopulateIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/populate"
+    }
+}
+
 extension PreviewPrivacyImpactInput {
 
     static func urlPathProvider(_ value: PreviewPrivacyImpactInput) -> Swift.String? {
@@ -12425,6 +14178,35 @@ extension UpdateIdNamespaceAssociationInput {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/idnamespaceassociations/\(idNamespaceAssociationIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateIntermediateTableInput {
+
+    static func urlPathProvider(_ value: UpdateIntermediateTableInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateIntermediateTableAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: UpdateIntermediateTableAnalysisRuleInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let intermediateTableIdentifier = value.intermediateTableIdentifier else {
+            return nil
+        }
+        guard let analysisRuleType = value.analysisRuleType else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/intermediateTables/\(intermediateTableIdentifier.urlPercentEncoding())/analysisRule/\(analysisRuleType.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -12627,6 +14409,28 @@ extension CreateIdNamespaceAssociationInput {
     }
 }
 
+extension CreateIntermediateTableInput {
+
+    static func write(value: CreateIntermediateTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["name"].write(value.name)
+        try writer["populationAnalysisConfiguration"].write(value.populationAnalysisConfiguration, with: CleanRoomsClientTypes.PopulationAnalysisConfiguration.write(value:to:))
+        try writer["retentionInDays"].write(value.retentionInDays)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateIntermediateTableAnalysisRuleInput {
+
+    static func write(value: CreateIntermediateTableAnalysisRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisRulePolicy"].write(value.analysisRulePolicy, with: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy.write(value:to:))
+        try writer["analysisRuleType"].write(value.analysisRuleType)
+    }
+}
+
 extension CreateMembershipInput {
 
     static func write(value: CreateMembershipInput?, to writer: SmithyJSON.Writer) throws {
@@ -12653,11 +14457,30 @@ extension CreatePrivacyBudgetTemplateInput {
     }
 }
 
+extension DisallowIntermediateTableInput {
+
+    static func write(value: DisallowIntermediateTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeDescendants"].write(value.includeDescendants)
+        try writer["intermediateTableName"].write(value.intermediateTableName)
+    }
+}
+
 extension PopulateIdMappingTableInput {
 
     static func write(value: PopulateIdMappingTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["jobType"].write(value.jobType)
+    }
+}
+
+extension PopulateIntermediateTableInput {
+
+    static func write(value: PopulateIntermediateTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisPayerAccountId"].write(value.analysisPayerAccountId)
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.IntermediateTableComputeConfiguration.write(value:to:))
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12790,6 +14613,24 @@ extension UpdateIdNamespaceAssociationInput {
         try writer["description"].write(value.description)
         try writer["idMappingConfig"].write(value.idMappingConfig, with: CleanRoomsClientTypes.IdMappingConfig.write(value:to:))
         try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateIntermediateTableInput {
+
+    static func write(value: UpdateIntermediateTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columns"].writeList(value.columns, memberWritingClosure: CleanRoomsClientTypes.IntermediateTableColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["description"].write(value.description)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+}
+
+extension UpdateIntermediateTableAnalysisRuleInput {
+
+    static func write(value: UpdateIntermediateTableAnalysisRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisRulePolicy"].write(value.analysisRulePolicy, with: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy.write(value:to:))
     }
 }
 
@@ -12989,6 +14830,30 @@ extension CreateIdNamespaceAssociationOutput {
     }
 }
 
+extension CreateIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntermediateTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntermediateTableOutput()
+        value.intermediateTable = try reader["intermediateTable"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTable.read(from:))
+        return value
+    }
+}
+
+extension CreateIntermediateTableAnalysisRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntermediateTableAnalysisRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIntermediateTableAnalysisRuleOutput()
+        value.analysisRule = try reader["analysisRule"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableAnalysisRule.read(from:))
+        return value
+    }
+}
+
 extension CreateMembershipOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMembershipOutput {
@@ -13076,6 +14941,20 @@ extension DeleteIdNamespaceAssociationOutput {
     }
 }
 
+extension DeleteIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntermediateTableOutput {
+        return DeleteIntermediateTableOutput()
+    }
+}
+
+extension DeleteIntermediateTableAnalysisRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIntermediateTableAnalysisRuleOutput {
+        return DeleteIntermediateTableAnalysisRuleOutput()
+    }
+}
+
 extension DeleteMemberOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMemberOutput {
@@ -13094,6 +14973,13 @@ extension DeletePrivacyBudgetTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePrivacyBudgetTemplateOutput {
         return DeletePrivacyBudgetTemplateOutput()
+    }
+}
+
+extension DisallowIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisallowIntermediateTableOutput {
+        return DisallowIntermediateTableOutput()
     }
 }
 
@@ -13261,6 +15147,30 @@ extension GetIdNamespaceAssociationOutput {
         let reader = responseReader
         var value = GetIdNamespaceAssociationOutput()
         value.idNamespaceAssociation = try reader["idNamespaceAssociation"].readIfPresent(with: CleanRoomsClientTypes.IdNamespaceAssociation.read(from:))
+        return value
+    }
+}
+
+extension GetIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntermediateTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntermediateTableOutput()
+        value.intermediateTable = try reader["intermediateTable"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTable.read(from:))
+        return value
+    }
+}
+
+extension GetIntermediateTableAnalysisRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIntermediateTableAnalysisRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIntermediateTableAnalysisRuleOutput()
+        value.analysisRule = try reader["analysisRule"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableAnalysisRule.read(from:))
         return value
     }
 }
@@ -13506,6 +15416,32 @@ extension ListIdNamespaceAssociationsOutput {
     }
 }
 
+extension ListIntermediateTablesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIntermediateTablesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIntermediateTablesOutput()
+        value.intermediateTableSummaries = try reader["intermediateTableSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.IntermediateTableSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListIntermediateTableVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIntermediateTableVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIntermediateTableVersionsOutput()
+        value.intermediateTableVersionSummaries = try reader["intermediateTableVersionSummaries"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.IntermediateTableVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMembersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMembersOutput {
@@ -13617,6 +15553,20 @@ extension PopulateIdMappingTableOutput {
         let reader = responseReader
         var value = PopulateIdMappingTableOutput()
         value.idMappingJobId = try reader["idMappingJobId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PopulateIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PopulateIntermediateTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PopulateIntermediateTableOutput()
+        value.analysisId = try reader["analysisId"].readIfPresent() ?? ""
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13787,6 +15737,30 @@ extension UpdateIdNamespaceAssociationOutput {
         let reader = responseReader
         var value = UpdateIdNamespaceAssociationOutput()
         value.idNamespaceAssociation = try reader["idNamespaceAssociation"].readIfPresent(with: CleanRoomsClientTypes.IdNamespaceAssociation.read(from:))
+        return value
+    }
+}
+
+extension UpdateIntermediateTableOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntermediateTableOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntermediateTableOutput()
+        value.intermediateTable = try reader["intermediateTable"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTable.read(from:))
+        return value
+    }
+}
+
+extension UpdateIntermediateTableAnalysisRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntermediateTableAnalysisRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntermediateTableAnalysisRuleOutput()
+        value.analysisRule = try reader["analysisRule"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableAnalysisRule.read(from:))
         return value
     }
 }
@@ -14090,6 +16064,46 @@ enum CreateIdNamespaceAssociationOutputError {
     }
 }
 
+enum CreateIntermediateTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateIntermediateTableAnalysisRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateMembershipOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14295,6 +16309,44 @@ enum DeleteIdNamespaceAssociationOutputError {
     }
 }
 
+enum DeleteIntermediateTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIntermediateTableAnalysisRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteMemberOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14342,6 +16394,25 @@ enum DeletePrivacyBudgetTemplateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisallowIntermediateTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -14585,6 +16656,42 @@ enum GetIdMappingTableOutputError {
 }
 
 enum GetIdNamespaceAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntermediateTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIntermediateTableAnalysisRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14942,6 +17049,42 @@ enum ListIdNamespaceAssociationsOutputError {
     }
 }
 
+enum ListIntermediateTablesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListIntermediateTableVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMembersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15083,6 +17226,26 @@ enum ListTagsForResourceOutputError {
 }
 
 enum PopulateIdMappingTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PopulateIntermediateTableOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15364,6 +17527,43 @@ enum UpdateIdNamespaceAssociationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntermediateTableOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIntermediateTableAnalysisRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -15711,8 +17911,10 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
     static func write(value: CleanRoomsClientTypes.AnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalAnalyses"].write(value.additionalAnalyses)
+        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalyses"].writeList(value.allowedAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedAnalysisProviders"].writeList(value.allowedAnalysisProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["differentialPrivacy"].write(value.differentialPrivacy, with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.write(value:to:))
         try writer["disallowedOutputColumns"].writeList(value.disallowedOutputColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -15725,6 +17927,8 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
         value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
         value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16127,6 +18331,20 @@ extension CleanRoomsClientTypes.ChangeSpecification {
     }
 }
 
+extension CleanRoomsClientTypes.ChildResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ChildResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ChildResource()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceName = try reader["resourceName"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.resourceStatus = try reader["resourceStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.Collaboration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Collaboration {
@@ -16427,6 +18645,21 @@ extension CleanRoomsClientTypes.ColumnClassificationDetails {
     }
 }
 
+extension CleanRoomsClientTypes.ColumnLineageEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ColumnLineageEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ColumnLineageEntry()
+        value.column = try reader["column"].readIfPresent() ?? ""
+        value.sourceColumn = try reader["sourceColumn"].readIfPresent() ?? ""
+        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
+        value.sourceId = try reader["sourceId"].readIfPresent() ?? ""
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.ComputeConfiguration {
 
     static func write(value: CleanRoomsClientTypes.ComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16614,6 +18847,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociation {
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.childResources = try reader["childResources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ChildResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16738,6 +18972,16 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1 {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationSchemaTypeProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationSchemaTypeProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConfiguredTableAssociationSchemaTypeProperties()
+        value.configuredTableAssociationId = try reader["configuredTableAssociationId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -17102,6 +19346,7 @@ extension CleanRoomsClientTypes.IdMappingTable {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.inputReferenceProperties = try reader["inputReferenceProperties"].readIfPresent(with: CleanRoomsClientTypes.IdMappingTableInputReferenceProperties.read(from:))
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.childResources = try reader["childResources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ChildResource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17150,6 +19395,7 @@ extension CleanRoomsClientTypes.IdMappingTableSchemaTypeProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.IdMappingTableSchemaTypeProperties()
         value.idMappingTableInputSource = try reader["idMappingTableInputSource"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.IdMappingTableInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.idMappingTableId = try reader["idMappingTableId"].readIfPresent()
         return value
     }
 }
@@ -17251,6 +19497,354 @@ extension CleanRoomsClientTypes.IdNamespaceAssociationSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.inputReferenceProperties = try reader["inputReferenceProperties"].readIfPresent(with: CleanRoomsClientTypes.IdNamespaceAssociationInputReferencePropertiesSummary.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAdditionalAnalyses {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAdditionalAnalyses {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAdditionalAnalyses()
+        value.value = try reader["value"].readIfPresent() ?? .sdkUnknown("")
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.InheritedAdditionalAnalysesSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAdditionalAnalysesSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAdditionalAnalysesSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAdditionalAnalysesSource()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses()
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAllowedAdditionalAnalysesSource()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAllowedResultReceivers {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAllowedResultReceivers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAllowedResultReceivers()
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.InheritedAllowedResultReceiversSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedAllowedResultReceiversSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedAllowedResultReceiversSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedAllowedResultReceiversSource()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.InheritedDisallowedOutputColumns {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.InheritedDisallowedOutputColumns {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.InheritedDisallowedOutputColumns()
+        value.value = try reader["value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.columnLineage = try reader["columnLineage"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ColumnLineageEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTable()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.childResources = try reader["childResources"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ChildResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.populationAnalysisConfiguration = try reader["populationAnalysisConfiguration"].readIfPresent(with: CleanRoomsClientTypes.PopulationAnalysisConfiguration.read(from:))
+        value.retentionInDays = try reader["retentionInDays"].readIfPresent()
+        value.tableDependencies = try reader["tableDependencies"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.IntermediateTableDependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intermediateTableVersion = try reader["intermediateTableVersion"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableActiveVersion.read(from:))
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.IntermediateTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schema = try reader["schema"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableSchema.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableActiveVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableActiveVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableActiveVersion()
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        value.analysisId = try reader["analysisId"].readIfPresent() ?? ""
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.inheritedConstraints = try reader["inheritedConstraints"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableInheritedConstraints.read(from:))
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableAnalysisRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableAnalysisRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableAnalysisRule()
+        value.intermediateTableIdentifier = try reader["intermediateTableIdentifier"].readIfPresent() ?? ""
+        value.intermediateTableArn = try reader["intermediateTableArn"].readIfPresent() ?? ""
+        value.analysisRulePolicy = try reader["analysisRulePolicy"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy.read(from:))
+        value.analysisRuleType = try reader["analysisRuleType"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalAnalyses"].write(value.additionalAnalyses)
+        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedAnalyses"].writeList(value.allowedAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedAnalysisProviders"].writeList(value.allowedAnalysisProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["differentialPrivacy"].write(value.differentialPrivacy, with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.write(value:to:))
+        try writer["disallowedOutputColumns"].writeList(value.disallowedOutputColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom()
+        value.allowedAnalyses = try reader["allowedAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAnalysisProviders = try reader["allowedAnalysisProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
+        value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .v1(v1):
+                try writer["v1"].write(v1, with: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "v1":
+                return .v1(try reader["v1"].read(with: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1 {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableAnalysisRulePolicyV1 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "custom":
+                return .custom(try reader["custom"].read(with: CleanRoomsClientTypes.IntermediateTableAnalysisRuleCustom.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableColumn {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .querycomputeconfiguration(querycomputeconfiguration):
+                try writer["queryComputeConfiguration"].write(querycomputeconfiguration, with: CleanRoomsClientTypes.WorkerComputeConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableDependency {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableDependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableDependency()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.parentType = try reader["parentType"].readIfPresent() ?? .sdkUnknown("")
+        value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableInheritedConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableInheritedConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableInheritedConstraints()
+        value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent(with: CleanRoomsClientTypes.InheritedAdditionalAnalyses.read(from:))
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readIfPresent(with: CleanRoomsClientTypes.InheritedAllowedAdditionalAnalyses.read(from:))
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readIfPresent(with: CleanRoomsClientTypes.InheritedAllowedResultReceivers.read(from:))
+        value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readIfPresent(with: CleanRoomsClientTypes.InheritedDisallowedOutputColumns.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableOutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.IntermediateTableOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableOutputConfiguration()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableSchema {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableSchema()
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableSchemaTypeProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableSchemaTypeProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableSchemaTypeProperties()
+        value.intermediateTableId = try reader["intermediateTableId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
+        value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.retentionInDays = try reader["retentionInDays"].readIfPresent()
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.IntermediateTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.IntermediateTableVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IntermediateTableVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.IntermediateTableVersionSummary()
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
+        value.tableId = try reader["tableId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.analysisId = try reader["analysisId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -17666,6 +20260,47 @@ extension CleanRoomsClientTypes.PaymentConfiguration {
         value.queryCompute = try reader["queryCompute"].readIfPresent(with: CleanRoomsClientTypes.QueryComputePaymentConfig.read(from:))
         value.machineLearning = try reader["machineLearning"].readIfPresent(with: CleanRoomsClientTypes.MLPaymentConfig.read(from:))
         value.jobCompute = try reader["jobCompute"].readIfPresent(with: CleanRoomsClientTypes.JobComputePaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.PopulationAnalysisConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.PopulationAnalysisConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sqlparameters(sqlparameters):
+                try writer["sqlParameters"].write(sqlparameters, with: CleanRoomsClientTypes.PopulationAnalysisSqlParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PopulationAnalysisConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "sqlParameters":
+                return .sqlparameters(try reader["sqlParameters"].read(with: CleanRoomsClientTypes.PopulationAnalysisSqlParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.PopulationAnalysisSqlParameters {
+
+    static func write(value: CleanRoomsClientTypes.PopulationAnalysisSqlParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisTemplateArn"].write(value.analysisTemplateArn)
+        try writer["queryString"].write(value.queryString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.PopulationAnalysisSqlParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.PopulationAnalysisSqlParameters()
+        value.queryString = try reader["queryString"].readIfPresent()
+        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent()
         return value
     }
 }
@@ -18237,6 +20872,8 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
         switch value {
             case let .distribute(distribute):
                 try writer["distribute"].write(distribute, with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.write(value:to:))
+            case let .intermediatetable(intermediatetable):
+                try writer["intermediateTable"].write(intermediatetable, with: CleanRoomsClientTypes.IntermediateTableOutputConfiguration.write(value:to:))
             case let .member(member):
                 try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.write(value:to:))
             case let .s3(s3):
@@ -18256,6 +20893,8 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
                 return .member(try reader["member"].read(with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.read(from:)))
             case "distribute":
                 return .distribute(try reader["distribute"].read(with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.read(from:)))
+            case "intermediateTable":
+                return .intermediatetable(try reader["intermediateTable"].read(with: CleanRoomsClientTypes.IntermediateTableOutputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18370,6 +21009,7 @@ extension CleanRoomsClientTypes.ProtectedQuerySummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.receiverConfigurations = try reader["receiverConfigurations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ReceiverConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.queryComputePayerAccountId = try reader["queryComputePayerAccountId"].readIfPresent()
+        value.intermediateTableConfiguration = try reader["intermediateTableConfiguration"].readIfPresent(with: CleanRoomsClientTypes.IntermediateTableOutputConfiguration.read(from:))
         return value
     }
 }
@@ -18528,6 +21168,10 @@ extension CleanRoomsClientTypes.SchemaTypeProperties {
         switch name {
             case "idMappingTable":
                 return .idmappingtable(try reader["idMappingTable"].read(with: CleanRoomsClientTypes.IdMappingTableSchemaTypeProperties.read(from:)))
+            case "intermediateTable":
+                return .intermediatetable(try reader["intermediateTable"].read(with: CleanRoomsClientTypes.IntermediateTableSchemaTypeProperties.read(from:)))
+            case "configuredTableAssociation":
+                return .configuredtableassociation(try reader["configuredTableAssociation"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationSchemaTypeProperties.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

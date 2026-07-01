@@ -16,6 +16,174 @@ import struct SmithyWaitersAPI.WaiterOutcome
 
 extension ACMClient {
 
+    static func acmeDomainValidationValidatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAcmeDomainValidationInput, result: Swift.Result<DescribeAcmeDomainValidationOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeDomainValidation.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "VALID"
+                guard case .success(let output) = result else { return false }
+                let acmeDomainValidation = output.acmeDomainValidation
+                let status = acmeDomainValidation?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "VALID")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeAcmeDomainValidationInput, result: Swift.Result<DescribeAcmeDomainValidationOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeDomainValidation.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "INVALID"
+                guard case .success(let output) = result else { return false }
+                let acmeDomainValidation = output.acmeDomainValidation
+                let status = acmeDomainValidation?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "INVALID")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeAcmeDomainValidationInput, result: Swift.Result<DescribeAcmeDomainValidationOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeDomainValidation.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "VALIDATING"
+                guard case .success(let output) = result else { return false }
+                let acmeDomainValidation = output.acmeDomainValidation
+                let status = acmeDomainValidation?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "VALIDATING")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 300.0)
+    }
+
+    /// Initiates waiting for the AcmeDomainValidationValidated event on the describeAcmeDomainValidation operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeAcmeDomainValidationInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilAcmeDomainValidationValidated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAcmeDomainValidationInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAcmeDomainValidationOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.acmeDomainValidationValidatedWaiterConfig(), operation: self.describeAcmeDomainValidation(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func acmeDomainValidationDeletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAcmeDomainValidationInput, result: Swift.Result<DescribeAcmeDomainValidationOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+            }),
+            .init(state: .retry, matcher: { (input: DescribeAcmeDomainValidationInput, result: Swift.Result<DescribeAcmeDomainValidationOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeDomainValidation.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let acmeDomainValidation = output.acmeDomainValidation
+                let status = acmeDomainValidation?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "DELETING")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeDomainValidationInput, DescribeAcmeDomainValidationOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 300.0)
+    }
+
+    /// Initiates waiting for the AcmeDomainValidationDeleted event on the describeAcmeDomainValidation operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeAcmeDomainValidationInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilAcmeDomainValidationDeleted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAcmeDomainValidationInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAcmeDomainValidationOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.acmeDomainValidationDeletedWaiterConfig(), operation: self.describeAcmeDomainValidation(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func acmeEndpointActiveWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAcmeEndpointInput, result: Swift.Result<DescribeAcmeEndpointOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeEndpoint.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "ACTIVE"
+                guard case .success(let output) = result else { return false }
+                let acmeEndpoint = output.acmeEndpoint
+                let status = acmeEndpoint?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "ACTIVE")
+            }),
+            .init(state: .failure, matcher: { (input: DescribeAcmeEndpointInput, result: Swift.Result<DescribeAcmeEndpointOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeEndpoint.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "FAILED"
+                guard case .success(let output) = result else { return false }
+                let acmeEndpoint = output.acmeEndpoint
+                let status = acmeEndpoint?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "FAILED")
+            }),
+            .init(state: .retry, matcher: { (input: DescribeAcmeEndpointInput, result: Swift.Result<DescribeAcmeEndpointOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeEndpoint.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATING"
+                guard case .success(let output) = result else { return false }
+                let acmeEndpoint = output.acmeEndpoint
+                let status = acmeEndpoint?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "CREATING")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 300.0)
+    }
+
+    /// Initiates waiting for the AcmeEndpointActive event on the describeAcmeEndpoint operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeAcmeEndpointInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilAcmeEndpointActive(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAcmeEndpointInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAcmeEndpointOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.acmeEndpointActiveWaiterConfig(), operation: self.describeAcmeEndpoint(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func acmeEndpointDeletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeAcmeEndpointInput, result: Swift.Result<DescribeAcmeEndpointOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "ResourceNotFoundException"
+            }),
+            .init(state: .retry, matcher: { (input: DescribeAcmeEndpointInput, result: Swift.Result<DescribeAcmeEndpointOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "AcmeEndpoint.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETING"
+                guard case .success(let output) = result else { return false }
+                let acmeEndpoint = output.acmeEndpoint
+                let status = acmeEndpoint?.status
+                return SmithyWaitersAPI.JMESUtils.compare(status, ==, "DELETING")
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeAcmeEndpointInput, DescribeAcmeEndpointOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 300.0)
+    }
+
+    /// Initiates waiting for the AcmeEndpointDeleted event on the describeAcmeEndpoint operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeAcmeEndpointInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilAcmeEndpointDeleted(options: SmithyWaitersAPI.WaiterOptions, input: DescribeAcmeEndpointInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeAcmeEndpointOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.acmeEndpointDeletedWaiterConfig(), operation: self.describeAcmeEndpoint(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func certificateValidatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeCertificateInput, DescribeCertificateOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeCertificateInput, result: Swift.Result<DescribeCertificateOutput, Swift.Error>) -> Bool in
