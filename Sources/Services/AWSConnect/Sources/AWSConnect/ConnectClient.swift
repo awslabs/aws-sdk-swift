@@ -21102,6 +21102,79 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendOutboundWebNotification` operation on the `Connect` service.
+    ///
+    /// Sends an outbound web notification to a customer's web browser for outbound campaigns. For more information about outbound campaigns, see [Set up Connect Customer outbound campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html). Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendOutboundWebNotificationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendOutboundWebNotificationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func sendOutboundWebNotification(input: SendOutboundWebNotificationInput) async throws -> SendOutboundWebNotificationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendOutboundWebNotification")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(SendOutboundWebNotificationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendOutboundWebNotificationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendOutboundWebNotificationOutput>(SendOutboundWebNotificationOutput.httpOutput(from:), SendOutboundWebNotificationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendOutboundWebNotificationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendOutboundWebNotificationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendOutboundWebNotificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendOutboundWebNotificationInput, SendOutboundWebNotificationOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendOutboundWebNotification")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartAttachedFileUpload` operation on the `Connect` service.
     ///
     /// Provides a pre-signed Amazon S3 URL in response for uploading your content. You may only use this API to upload attachments to an [Connect Customer Case](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) or [Connect Customer Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html).

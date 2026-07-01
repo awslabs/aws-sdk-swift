@@ -30311,6 +30311,187 @@ public struct SendOutboundEmailOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectClientTypes {
+
+    /// Configuration for the recommender used to generate personalized recommendations included in an outbound web notification.
+    public struct RecommenderConfig: Swift.Sendable {
+        /// A map of contextual key-value pairs supplied to the recommender to influence the recommendations returned.
+        public var context: [Swift.String: Swift.String]?
+        /// The name of the Amazon Personalize domain that hosts the recommender.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The name of the recommender used to generate the recommendations.
+        /// This member is required.
+        public var recommenderName: Swift.String?
+
+        public init(
+            context: [Swift.String: Swift.String]? = nil,
+            domainName: Swift.String? = nil,
+            recommenderName: Swift.String? = nil
+        ) {
+            self.context = context
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Optional attributes used to populate the content of an outbound web notification, such as recommender configuration for personalized content.
+    public struct ContentAttributes: Swift.Sendable {
+        /// Configuration for the recommender used to generate personalized recommendations for the notification content.
+        public var recommenderConfig: ConnectClientTypes.RecommenderConfig?
+
+        public init(
+            recommenderConfig: ConnectClientTypes.RecommenderConfig? = nil
+        ) {
+            self.recommenderConfig = recommenderConfig
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum NotificationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case widgetAction
+        case widgetView
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NotificationType] {
+            return [
+                .widgetAction,
+                .widgetView
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .widgetAction: return "WIDGET_ACTION"
+            case .widgetView: return "WIDGET_VIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The content of an outbound web notification, including the notification type, the view to render, and any optional attributes used to populate the view.
+    public struct WebNotificationContent: Swift.Sendable {
+        /// Optional attributes used to populate the notification content, such as recommender configuration for personalized content.
+        public var attributes: ConnectClientTypes.ContentAttributes?
+        /// The type of web notification to send.
+        /// This member is required.
+        public var type: ConnectClientTypes.NotificationType?
+        /// The Amazon Resource Name (ARN) of the view to render for the notification.
+        public var viewArn: Swift.String?
+
+        public init(
+            attributes: ConnectClientTypes.ContentAttributes? = nil,
+            type: ConnectClientTypes.NotificationType? = nil,
+            viewArn: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.type = type
+            self.viewArn = viewArn
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The destination for an outbound web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+    public struct WidgetDestination: Swift.Sendable {
+        /// The identifier of the customer profile associated with the browser session that should receive the notification.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The identifier of the communication widget that delivers the notification to the customer's browser.
+        /// This member is required.
+        public var widgetId: Swift.String?
+
+        public init(
+            profileId: Swift.String? = nil,
+            widgetId: Swift.String? = nil
+        ) {
+            self.profileId = profileId
+            self.widgetId = widgetId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The source of an outbound web notification. Identifies the campaign and outbound request that triggered the notification.
+    public struct WebNotificationSource: Swift.Sendable {
+        /// Information about the campaign that triggered the web notification, including the campaign identifier and outbound request identifier.
+        /// This member is required.
+        public var sourceCampaign: ConnectClientTypes.SourceCampaign?
+
+        public init(
+            sourceCampaign: ConnectClientTypes.SourceCampaign? = nil
+        ) {
+            self.sourceCampaign = sourceCampaign
+        }
+    }
+}
+
+public struct SendOutboundWebNotificationInput: Swift.Sendable {
+    /// A unique identifier for the customer's web browser instance to which the notification is being sent.
+    /// This member is required.
+    public var browserId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The content of the web notification, including the notification type, the view to render, and any optional attributes used to populate it.
+    /// This member is required.
+    public var content: ConnectClientTypes.WebNotificationContent?
+    /// The destination for the web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+    /// This member is required.
+    public var destination: ConnectClientTypes.WidgetDestination?
+    /// The timestamp, in Unix epoch time format, at which the web notification expires. After this time, the notification is no longer delivered to the customer's browser.
+    /// This member is required.
+    public var expiresAt: Foundation.Date?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// A unique identifier for the customer's web session to which the notification is being sent.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The source of the web notification. A SourceCampaign object identifies the campaign and outbound request that triggered this notification.
+    /// This member is required.
+    public var source: ConnectClientTypes.WebNotificationSource?
+
+    public init(
+        browserId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        content: ConnectClientTypes.WebNotificationContent? = nil,
+        destination: ConnectClientTypes.WidgetDestination? = nil,
+        expiresAt: Foundation.Date? = nil,
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        source: ConnectClientTypes.WebNotificationSource? = nil
+    ) {
+        self.browserId = browserId
+        self.clientToken = clientToken
+        self.content = content
+        self.destination = destination
+        self.expiresAt = expiresAt
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+        self.source = source
+    }
+}
+
+public struct SendOutboundWebNotificationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StartAttachedFileUploadInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) and [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html). This value must be a valid ARN.
     /// This member is required.
@@ -41897,6 +42078,16 @@ extension SendOutboundEmailInput {
     }
 }
 
+extension SendOutboundWebNotificationInput {
+
+    static func urlPathProvider(_ value: SendOutboundWebNotificationInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/instance/\(instanceId.urlPercentEncoding())/outbound-web-notification"
+    }
+}
+
 extension StartAttachedFileUploadInput {
 
     static func urlPathProvider(_ value: StartAttachedFileUploadInput) -> Swift.String? {
@@ -44483,6 +44674,20 @@ extension SendOutboundEmailInput {
         try writer["FromEmailAddress"].write(value.fromEmailAddress, with: ConnectClientTypes.EmailAddressInfo.write(value:to:))
         try writer["SourceCampaign"].write(value.sourceCampaign, with: ConnectClientTypes.SourceCampaign.write(value:to:))
         try writer["TrafficType"].write(value.trafficType)
+    }
+}
+
+extension SendOutboundWebNotificationInput {
+
+    static func write(value: SendOutboundWebNotificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrowserId"].write(value.browserId)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Content"].write(value.content, with: ConnectClientTypes.WebNotificationContent.write(value:to:))
+        try writer["Destination"].write(value.destination, with: ConnectClientTypes.WidgetDestination.write(value:to:))
+        try writer["ExpiresAt"].writeTimestamp(value.expiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["SessionId"].write(value.sessionId)
+        try writer["Source"].write(value.source, with: ConnectClientTypes.WebNotificationSource.write(value:to:))
     }
 }
 
@@ -48700,6 +48905,13 @@ extension SendOutboundEmailOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendOutboundEmailOutput {
         return SendOutboundEmailOutput()
+    }
+}
+
+extension SendOutboundWebNotificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendOutboundWebNotificationOutput {
+        return SendOutboundWebNotificationOutput()
     }
 }
 
@@ -54794,6 +55006,24 @@ enum SendOutboundEmailOutputError {
     }
 }
 
+enum SendOutboundWebNotificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartAttachedFileUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -58325,6 +58555,14 @@ extension ConnectClientTypes.ContactSearchSummarySegmentAttributeValue {
         value.valueString = try reader["ValueString"].readIfPresent()
         value.valueMap = try reader["ValueMap"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension ConnectClientTypes.ContentAttributes {
+
+    static func write(value: ConnectClientTypes.ContentAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecommenderConfig"].write(value.recommenderConfig, with: ConnectClientTypes.RecommenderConfig.write(value:to:))
     }
 }
 
@@ -62655,6 +62893,16 @@ extension ConnectClientTypes.RealTimeContactAnalysisTranscriptItemWithContent {
     }
 }
 
+extension ConnectClientTypes.RecommenderConfig {
+
+    static func write(value: ConnectClientTypes.RecommenderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Context"].writeMap(value.context, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DomainName"].write(value.domainName)
+        try writer["RecommenderName"].write(value.recommenderName)
+    }
+}
+
 extension ConnectClientTypes.RecordingInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RecordingInfo {
@@ -64507,6 +64755,33 @@ extension ConnectClientTypes.VoiceRecordingConfiguration {
         guard let value else { return }
         try writer["IvrRecordingTrack"].write(value.ivrRecordingTrack)
         try writer["VoiceRecordingTrack"].write(value.voiceRecordingTrack)
+    }
+}
+
+extension ConnectClientTypes.WebNotificationContent {
+
+    static func write(value: ConnectClientTypes.WebNotificationContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].write(value.attributes, with: ConnectClientTypes.ContentAttributes.write(value:to:))
+        try writer["Type"].write(value.type)
+        try writer["ViewArn"].write(value.viewArn)
+    }
+}
+
+extension ConnectClientTypes.WebNotificationSource {
+
+    static func write(value: ConnectClientTypes.WebNotificationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceCampaign"].write(value.sourceCampaign, with: ConnectClientTypes.SourceCampaign.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.WidgetDestination {
+
+    static func write(value: ConnectClientTypes.WidgetDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProfileId"].write(value.profileId)
+        try writer["WidgetId"].write(value.widgetId)
     }
 }
 

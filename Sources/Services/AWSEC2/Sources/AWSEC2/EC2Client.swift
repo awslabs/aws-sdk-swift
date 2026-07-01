@@ -3682,14 +3682,16 @@ extension EC2Client {
     ///
     /// * assessing
     ///
-    /// * scheduled
+    /// * scheduled — requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down. The cancellation charge depends on how close the reservation is to its start date.
     ///
     /// * active and there is no commitment duration or the commitment duration has elapsed.
     ///
-    /// * active during the commitment duration, if you provide a cancellation quote ID and accept the cancellation charges. Use CreateCapacityReservationCancellationQuote to generate a quote. The Capacity Reservation transitions to cancelling while charges are applied.
+    /// * active during the commitment duration — requires a cancellation quote. Use CreateCapacityReservationCancellationQuote to generate a quote, then pass the quote ID with ApplyCancellationCharges set to commitment-wind-down. The Capacity Reservation transitions to cancelling while charges are applied.
+    ///
+    /// * delayed — the commitment duration is waived, so no cancellation charge applies.
     ///
     ///
-    /// You can't modify or cancel a Capacity Block. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html). If a future-dated Capacity Reservation enters the delayed state, the commitment duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
+    /// You can't modify or cancel a Capacity Block. For more information, see [Capacity Blocks for ML](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-capacity-blocks.html). Instances running in the reserved capacity continue running until you stop them. Stopped instances that target the Capacity Reservation can no longer launch. Modify these instances to either target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation that has matching attributes and sufficient capacity.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelCapacityReservationInput`)
     ///
@@ -8049,7 +8051,7 @@ extension EC2Client {
 
     /// Performs the `CreatePlacementGroup` operation on the `EC2` service.
     ///
-    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. A precision-time placement group places instances on supported hardware with direct access to high-precision time sources in AWS infrastructure. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
+    /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group. A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. A precision-time placement group places instances on supported hardware with direct access to high-precision time sources in Amazon Web Services infrastructure. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePlacementGroupInput`)
     ///
@@ -17918,6 +17920,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAccountVpcEncryptionControl` operation on the `EC2` service.
+    ///
+    /// Describes the account-level VPC Encryption Control configuration for your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountVpcEncryptionControlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAccountVpcEncryptionControlOutput`)
+    public func describeAccountVpcEncryptionControl(input: DescribeAccountVpcEncryptionControlInput) async throws -> DescribeAccountVpcEncryptionControlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountVpcEncryptionControl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>(DescribeAccountVpcEncryptionControlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountVpcEncryptionControlOutput>(DescribeAccountVpcEncryptionControlOutput.httpOutput(from:), DescribeAccountVpcEncryptionControlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountVpcEncryptionControlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountVpcEncryptionControlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountVpcEncryptionControlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountVpcEncryptionControlInput, DescribeAccountVpcEncryptionControlOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountVpcEncryptionControl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -39456,6 +39521,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "LockSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyAccountVpcEncryptionControl` operation on the `EC2` service.
+    ///
+    /// Modifies the account-level VPC Encryption Control configuration. This sets the encryption control mode and resource exclusions that apply to the VPCs in your account. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyAccountVpcEncryptionControlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyAccountVpcEncryptionControlOutput`)
+    public func modifyAccountVpcEncryptionControl(input: ModifyAccountVpcEncryptionControlInput) async throws -> ModifyAccountVpcEncryptionControlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyAccountVpcEncryptionControl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>(ModifyAccountVpcEncryptionControlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAccountVpcEncryptionControlOutput>(ModifyAccountVpcEncryptionControlOutput.httpOutput(from:), ModifyAccountVpcEncryptionControlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAccountVpcEncryptionControlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyAccountVpcEncryptionControlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyAccountVpcEncryptionControlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyAccountVpcEncryptionControlInput, ModifyAccountVpcEncryptionControlOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyAccountVpcEncryptionControl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
