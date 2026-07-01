@@ -17,7 +17,7 @@ import struct AWSSDKHTTPAuth.SigV4AuthScheme
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PanoramaClientEndpointPlugin: Plugin {
+public class SupportAuthZClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -29,7 +29,7 @@ public class PanoramaClientEndpointPlugin: Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        guard var config = clientConfiguration as? PanoramaClient.PanoramaClientConfig else { return }
+        guard var config = clientConfiguration as? SupportAuthZClient.SupportAuthZClientConfig else { return }
         config.endpointResolver = self.endpointResolver
         guard let modifiedConfig = config as? Config else { return }
         clientConfiguration = modifiedConfig
@@ -41,8 +41,8 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? PanoramaClient.PanoramaClientConfig {
-            config.authSchemeResolver = DefaultPanoramaAuthSchemeResolver()
+        if var config = clientConfiguration as? SupportAuthZClient.SupportAuthZClientConfig {
+            config.authSchemeResolver = DefaultSupportAuthZAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
@@ -52,14 +52,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class PanoramaClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class SupportAuthZClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: PanoramaAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: SupportAuthZAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.authSchemePreference = authSchemePreference ?? []
@@ -68,7 +68,7 @@ public class PanoramaClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? PanoramaClient.PanoramaClientConfig {
+        if var config = clientConfiguration as? SupportAuthZClient.SupportAuthZClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

@@ -1247,6 +1247,7 @@ extension ObservabilityAdminClientTypes {
         case access
         case application
         case connection
+        case s3ServerAccess
         case securityFinding
         case usage
         case sdkUnknown(Swift.String)
@@ -1256,6 +1257,7 @@ extension ObservabilityAdminClientTypes {
                 .access,
                 .application,
                 .connection,
+                .s3ServerAccess,
                 .securityFinding,
                 .usage
             ]
@@ -1271,6 +1273,7 @@ extension ObservabilityAdminClientTypes {
             case .access: return "ACCESS_LOGS"
             case .application: return "APPLICATION_LOGS"
             case .connection: return "CONNECTION_LOGS"
+            case .s3ServerAccess: return "S3_SERVER_ACCESS_LOGS"
             case .securityFinding: return "SECURITY_FINDING_LOGS"
             case .usage: return "USAGE_LOGS"
             case let .sdkUnknown(s): return s
@@ -1628,6 +1631,7 @@ extension ObservabilityAdminClientTypes {
         case awsMskCluster
         case awsOtelEnrichment
         case awsRoute53ResolverResolverEndpoint
+        case awsS3Bucket
         case awsSecurityHub
         case awsSecurityHubHubv2
         case awsWafV2WebAcl
@@ -1651,6 +1655,7 @@ extension ObservabilityAdminClientTypes {
                 .awsMskCluster,
                 .awsOtelEnrichment,
                 .awsRoute53ResolverResolverEndpoint,
+                .awsS3Bucket,
                 .awsSecurityHub,
                 .awsSecurityHubHubv2,
                 .awsWafV2WebAcl
@@ -1680,6 +1685,7 @@ extension ObservabilityAdminClientTypes {
             case .awsMskCluster: return "AWS::MSK::Cluster"
             case .awsOtelEnrichment: return "AWS::CloudWatch::OTelEnrichment"
             case .awsRoute53ResolverResolverEndpoint: return "AWS::Route53Resolver::ResolverEndpoint"
+            case .awsS3Bucket: return "AWS::S3::Bucket"
             case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsSecurityHubHubv2: return "AWS::SecurityHub::HubV2"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
@@ -3117,6 +3123,37 @@ extension ObservabilityAdminClientTypes {
     }
 }
 
+extension ObservabilityAdminClientTypes {
+
+    public enum SignalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Log signal type. The pipeline processes log records.
+        case log
+        /// Metric signal type. The pipeline processes metric records.
+        case metric
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalType] {
+            return [
+                .log,
+                .metric
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .log: return "LOG"
+            case .metric: return "METRIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct TestTelemetryPipelineInput: Swift.Sendable {
     /// The pipeline configuration to test with the provided sample records.
     /// This member is required.
@@ -3124,13 +3161,17 @@ public struct TestTelemetryPipelineInput: Swift.Sendable {
     /// The sample records to process through the pipeline configuration for testing purposes.
     /// This member is required.
     public var records: [ObservabilityAdminClientTypes.Record]?
+    /// The type of telemetry signal to test. If not specified, defaults to log processing.
+    public var signalType: ObservabilityAdminClientTypes.SignalType?
 
     public init(
         configuration: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration? = nil,
-        records: [ObservabilityAdminClientTypes.Record]? = nil
+        records: [ObservabilityAdminClientTypes.Record]? = nil,
+        signalType: ObservabilityAdminClientTypes.SignalType? = nil
     ) {
         self.configuration = configuration
         self.records = records
+        self.signalType = signalType
     }
 }
 
@@ -3832,6 +3873,7 @@ extension TestTelemetryPipelineInput {
         guard let value else { return }
         try writer["Configuration"].write(value.configuration, with: ObservabilityAdminClientTypes.TelemetryPipelineConfiguration.write(value:to:))
         try writer["Records"].writeList(value.records, memberWritingClosure: ObservabilityAdminClientTypes.Record.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SignalType"].write(value.signalType)
     }
 }
 

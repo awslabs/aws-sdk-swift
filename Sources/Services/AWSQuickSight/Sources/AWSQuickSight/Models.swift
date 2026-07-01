@@ -32578,40 +32578,6 @@ extension QuickSightClientTypes.CustomSql: Swift.CustomDebugStringConvertible {
 
 extension QuickSightClientTypes {
 
-    /// A physical table type for relational data sources.
-    public struct RelationalTable: Swift.Sendable {
-        /// The catalog associated with a table.
-        public var catalog: Swift.String?
-        /// The Amazon Resource Name (ARN) for the data source.
-        /// This member is required.
-        public var dataSourceArn: Swift.String?
-        /// The column schema of the table.
-        /// This member is required.
-        public var inputColumns: [QuickSightClientTypes.InputColumn]?
-        /// The name of the relational table.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The schema name. This name applies to certain relational database engines.
-        public var schema: Swift.String?
-
-        public init(
-            catalog: Swift.String? = nil,
-            dataSourceArn: Swift.String? = nil,
-            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
-            name: Swift.String? = nil,
-            schema: Swift.String? = nil
-        ) {
-            self.catalog = catalog
-            self.dataSourceArn = dataSourceArn
-            self.inputColumns = inputColumns
-            self.name = name
-            self.schema = schema
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     public enum FileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case clf
         case csv
@@ -32717,6 +32683,70 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A physical table type that contains the schema and upload settings for a file-based data source.
+    public struct FileSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the data source.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The column schema of the file.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+        /// The zero-based index of the sheet to use within the file. For files that contain multiple sheets, this identifies which sheet to read. Files that contain a single sheet, or that have no concept of sheets, use sheet 0.
+        /// This member is required.
+        public var sheetIndex: Swift.Int
+        /// Information about the format for the source file.
+        public var uploadSettings: QuickSightClientTypes.UploadSettings?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
+            sheetIndex: Swift.Int = 0,
+            uploadSettings: QuickSightClientTypes.UploadSettings? = nil
+        ) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.sheetIndex = sheetIndex
+            self.uploadSettings = uploadSettings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A physical table type for relational data sources.
+    public struct RelationalTable: Swift.Sendable {
+        /// The catalog associated with a table.
+        public var catalog: Swift.String?
+        /// The Amazon Resource Name (ARN) for the data source.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The column schema of the table.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+        /// The name of the relational table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The schema name. This name applies to certain relational database engines.
+        public var schema: Swift.String?
+
+        public init(
+            catalog: Swift.String? = nil,
+            dataSourceArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
+            name: Swift.String? = nil,
+            schema: Swift.String? = nil
+        ) {
+            self.catalog = catalog
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.name = name
+            self.schema = schema
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A physical table type for an S3 data source.
     public struct S3Source: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the data source.
@@ -32793,10 +32823,12 @@ extension QuickSightClientTypes {
         case relationaltable(QuickSightClientTypes.RelationalTable)
         /// A physical table type built from the results of the custom SQL query.
         case customsql(QuickSightClientTypes.CustomSql)
-        /// A physical table type for as S3 data source.
+        /// A physical table type for an S3 data source.
         case s3source(QuickSightClientTypes.S3Source)
         /// A physical table type for Software-as-a-Service (SaaS) sources.
         case saastable(QuickSightClientTypes.SaaSTable)
+        /// A physical table type for a file data source.
+        case filesource(QuickSightClientTypes.FileSource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -77006,6 +77038,27 @@ extension QuickSightClientTypes.FieldTooltipItem {
     }
 }
 
+extension QuickSightClientTypes.FileSource {
+
+    static func write(value: QuickSightClientTypes.FileSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceArn"].write(value.dataSourceArn)
+        try writer["InputColumns"].writeList(value.inputColumns, memberWritingClosure: QuickSightClientTypes.InputColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SheetIndex"].write(value.sheetIndex)
+        try writer["UploadSettings"].write(value.uploadSettings, with: QuickSightClientTypes.UploadSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FileSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FileSource()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.uploadSettings = try reader["UploadSettings"].readIfPresent(with: QuickSightClientTypes.UploadSettings.read(from:))
+        value.sheetIndex = try reader["SheetIndex"].readIfPresent() ?? 0
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension QuickSightClientTypes.FilledMapAggregatedFieldWells {
 
     static func write(value: QuickSightClientTypes.FilledMapAggregatedFieldWells?, to writer: SmithyJSON.Writer) throws {
@@ -82586,6 +82639,8 @@ extension QuickSightClientTypes.PhysicalTable {
         switch value {
             case let .customsql(customsql):
                 try writer["CustomSql"].write(customsql, with: QuickSightClientTypes.CustomSql.write(value:to:))
+            case let .filesource(filesource):
+                try writer["FileSource"].write(filesource, with: QuickSightClientTypes.FileSource.write(value:to:))
             case let .relationaltable(relationaltable):
                 try writer["RelationalTable"].write(relationaltable, with: QuickSightClientTypes.RelationalTable.write(value:to:))
             case let .s3source(s3source):
@@ -82609,6 +82664,8 @@ extension QuickSightClientTypes.PhysicalTable {
                 return .s3source(try reader["S3Source"].read(with: QuickSightClientTypes.S3Source.read(from:)))
             case "SaaSTable":
                 return .saastable(try reader["SaaSTable"].read(with: QuickSightClientTypes.SaaSTable.read(from:)))
+            case "FileSource":
+                return .filesource(try reader["FileSource"].read(with: QuickSightClientTypes.FileSource.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

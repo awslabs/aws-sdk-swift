@@ -8913,7 +8913,7 @@ extension ECSClientTypes {
         /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         /// This member is required.
         public var rollback: Swift.Bool
-        /// The threshold configuration that controls when the deployment circuit breaker triggers. For more information, see [ThresholdConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ThresholdConfiguration.html).
+        /// The threshold configuration that controls when the deployment circuit breaker triggers.
         public var thresholdConfiguration: ECSClientTypes.ThresholdConfiguration?
 
         public init(

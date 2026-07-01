@@ -280,22 +280,14 @@ public struct CreateEnvironmentEC2Input: Swift.Sendable {
     public var dryRun: Swift.Bool?
     /// The identifier for the Amazon Machine Image (AMI) that's used to create the EC2 instance. To choose an AMI for the instance, you must specify a valid AMI alias or a valid Amazon EC2 Systems Manager (SSM) path. We recommend using Amazon Linux 2023 as the AMI to create your environment as it is fully supported. From December 16, 2024, Ubuntu 18.04 will be removed from the list of available imageIds for Cloud9. This change is necessary as Ubuntu 18.04 has ended standard support on May 31, 2023. This change will only affect direct API consumers, and not Cloud9 console users. Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we recommend you choose Ubuntu 22.04. AMI aliases
     ///
-    /// * Amazon Linux 2: amazonlinux-2-x86_64
-    ///
     /// * Amazon Linux 2023 (recommended): amazonlinux-2023-x86_64
-    ///
-    /// * Ubuntu 18.04: ubuntu-18.04-x86_64
     ///
     /// * Ubuntu 22.04: ubuntu-22.04-x86_64
     ///
     ///
     /// SSM paths
     ///
-    /// * Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64
-    ///
     /// * Amazon Linux 2023 (recommended): resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64
-    ///
-    /// * Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
     ///
     /// * Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64
     /// This member is required.

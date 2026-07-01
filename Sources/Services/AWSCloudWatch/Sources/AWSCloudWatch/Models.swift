@@ -1968,6 +1968,42 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    /// An evaluation window that advances each time the alarm is evaluated, forming a rolling time window. This is the default evaluation window. A sliding window has no additional configuration options. Choose a sliding window when you need the fastest detection and the calendar boundaries of the data don't matter, such as for continuous performance, latency, or resource-exhaustion monitoring.
+    public struct SlidingWindow: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// An evaluation window that aligns the evaluated range to fixed clock boundaries that match the alarm's period, such as the top of the hour, midnight, or the start of the calendar week, optionally in a specific time zone. When you use a wall clock window, the alarm's period must be 1 minute (60 seconds), 5 minutes (300 seconds), 1 hour (3,600 seconds), 1 day (86,400 seconds), or 1 week (604,800 seconds). Other period values aren't supported with a wall clock window. Choose a wall clock window when your monitoring is tied to a business or calendar period, such as daily reports, batch jobs, or backups, or when you want alarm evaluations to match the periods shown on a metric dashboard.
+    public struct WallClockWindow: Swift.Sendable {
+        /// The time zone to use when the alarm aligns the evaluation window to clock boundaries. You can specify an IANA time zone name (for example, America/New_York), a fixed UTC offset (for example, +05:30), or an offset-prefixed identifier (for example, UTC+05:30). The offset must be aligned to a multiple of 5 minutes. If you don't specify a time zone, CloudWatch uses UTC. The time zone affects window alignment for all periods, including periods of one hour or shorter.
+        public var timezone: Swift.String?
+
+        public init(
+            timezone: Swift.String? = nil
+        ) {
+            self.timezone = timezone
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// The evaluation window that an alarm uses to select the range of metric data that it evaluates each time it runs. This is a union type. Set exactly one of its members, SlidingWindow or WallClockWindow. If you don't set EvaluationWindow, the alarm uses a SlidingWindow by default. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+    public enum EvaluationWindow: Swift.Sendable {
+        /// A wall clock window, which aligns the evaluated range to fixed clock boundaries that match the alarm's period, such as the top of the hour, midnight, or the start of the calendar week.
+        case wallclockwindow(CloudWatchClientTypes.WallClockWindow)
+        /// A sliding window, which advances each time the alarm is evaluated, forming a rolling time window. This is the default evaluation window.
+        case slidingwindow(CloudWatchClientTypes.SlidingWindow)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CloudWatchClientTypes {
+
     public enum Statistic: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case average
         case maximum
@@ -2036,6 +2072,8 @@ extension CloudWatchClientTypes {
         public var evaluationPeriods: Swift.Int?
         /// If the value of this field is PARTIAL_DATA, it indicates that not all the available data was able to be retrieved due to quota limitations. For more information, see [Create alarms on Metrics Insights queries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Metrics_Insights_Alarm.html). If the value of this field is EVALUATION_ERROR, it indicates configuration errors in alarm setup that require review and correction. Refer to StateReason field of the alarm for more details. If the value of this field is EVALUATION_FAILURE, it indicates temporary CloudWatch issues. We recommend manual monitoring until the issue is resolved
         public var evaluationState: CloudWatchClientTypes.EvaluationState?
+        /// The evaluation window that the alarm uses to select the range of metric data that it evaluates. This is either a sliding window or a wall clock window. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+        public var evaluationWindow: CloudWatchClientTypes.EvaluationWindow?
         /// The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
         public var extendedStatistic: Swift.String?
         /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
@@ -2086,6 +2124,7 @@ extension CloudWatchClientTypes {
             evaluationInterval: Swift.Int? = nil,
             evaluationPeriods: Swift.Int? = nil,
             evaluationState: CloudWatchClientTypes.EvaluationState? = nil,
+            evaluationWindow: CloudWatchClientTypes.EvaluationWindow? = nil,
             extendedStatistic: Swift.String? = nil,
             insufficientDataActions: [Swift.String]? = nil,
             metricName: Swift.String? = nil,
@@ -2118,6 +2157,7 @@ extension CloudWatchClientTypes {
             self.evaluationInterval = evaluationInterval
             self.evaluationPeriods = evaluationPeriods
             self.evaluationState = evaluationState
+            self.evaluationWindow = evaluationWindow
             self.extendedStatistic = extendedStatistic
             self.insufficientDataActions = insufficientDataActions
             self.metricName = metricName
@@ -4304,6 +4344,8 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var evaluationInterval: Swift.Int?
     /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N.
     public var evaluationPeriods: Swift.Int?
+    /// The evaluation window that the alarm uses to select the range of metric data that it evaluates. Specify either a sliding window or a wall clock window. If you omit this parameter, the alarm uses a sliding window. A sliding window advances each time the alarm is evaluated, forming a rolling time window. A wall clock window aligns the evaluated range to fixed clock boundaries, such as the top of the hour or the start of the day. You can use EvaluationWindow with any type of metric alarm except alarms that are based on a PromQL query. For more information, see [Alarm evaluation windows](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/alarm-evaluation-window.html) in the CloudWatch User Guide.
+    public var evaluationWindow: CloudWatchClientTypes.EvaluationWindow?
     /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:
     ///
     /// * p90
@@ -4452,6 +4494,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         evaluationCriteria: CloudWatchClientTypes.EvaluationCriteria? = nil,
         evaluationInterval: Swift.Int? = nil,
         evaluationPeriods: Swift.Int? = nil,
+        evaluationWindow: CloudWatchClientTypes.EvaluationWindow? = nil,
         extendedStatistic: Swift.String? = nil,
         insufficientDataActions: [Swift.String]? = nil,
         metricName: Swift.String? = nil,
@@ -4477,6 +4520,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         self.evaluationCriteria = evaluationCriteria
         self.evaluationInterval = evaluationInterval
         self.evaluationPeriods = evaluationPeriods
+        self.evaluationWindow = evaluationWindow
         self.extendedStatistic = extendedStatistic
         self.insufficientDataActions = insufficientDataActions
         self.metricName = metricName

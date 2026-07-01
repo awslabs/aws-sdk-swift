@@ -4201,6 +4201,7 @@ extension DescribeVolumesModificationsInput: ClientRuntime.PaginateToken {
         return DescribeVolumesModificationsInput(
             dryRun: self.dryRun,
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxResults: self.maxResults,
             nextToken: token,
             volumeIds: self.volumeIds

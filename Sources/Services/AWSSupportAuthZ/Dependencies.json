@@ -1,5 +1,5 @@
 {
-  "modelPath": "codegen/sdk-codegen/aws-models/panorama.json",
+  "modelPath": "codegen/sdk-codegen/aws-models/supportauthz.json",
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",

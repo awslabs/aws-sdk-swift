@@ -865,7 +865,7 @@ extension CodeBuildClientTypes {
         public var computeType: CodeBuildClientTypes.ComputeType?
         /// A list of one or more security groups IDs. Security groups configured for Docker servers should allow ingress network traffic from the VPC configured in the project. They should allow ingress on port 9876.
         public var securityGroupIds: [Swift.String]?
-        /// A DockerServerStatus object to use for this docker server.
+        /// A DockerServerStatus object to use for this docker server. Note that status is only an output and cannot be passed in as an input.
         public var status: CodeBuildClientTypes.DockerServerStatus?
 
         public init(
@@ -954,6 +954,38 @@ extension CodeBuildClientTypes {
             fleetArn: Swift.String? = nil
         ) {
             self.fleetArn = fleetArn
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum HostKernel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linuxKernel4
+        case linuxKernel6
+        case linuxKernelLatest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HostKernel] {
+            return [
+                .linuxKernel4,
+                .linuxKernel6,
+                .linuxKernelLatest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linuxKernel4: return "LINUX_KERNEL_4"
+            case .linuxKernel6: return "LINUX_KERNEL_6"
+            case .linuxKernelLatest: return "LINUX_KERNEL_LATEST"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1160,6 +1192,17 @@ extension CodeBuildClientTypes {
         public var environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]?
         /// A ProjectFleet object to use for this build project.
         public var fleet: CodeBuildClientTypes.ProjectFleet?
+        /// The host operating system kernel used for on-demand builds in the build project. The host kernel does not affect the build environment operating system, which is determined by the image you specify. Valid values are:
+        ///
+        /// * LINUX_KERNEL_4: Runs on an Amazon Linux 2 host (kernel 4.x).
+        ///
+        /// * LINUX_KERNEL_6: Runs on an Amazon Linux 2023 host (kernel 6.x).
+        ///
+        /// * LINUX_KERNEL_LATEST: Runs on the latest supported host kernel.
+        ///
+        ///
+        /// This setting applies to the LINUX_CONTAINER, ARM_CONTAINER, LINUX_EC2, and ARM_EC2 environment types. It is not applicable to Windows, Lambda, or Mac environment types.
+        public var hostKernel: CodeBuildClientTypes.HostKernel?
         /// The image tag or image digest that identifies the Docker image to use for this build project. Use the following formats:
         ///
         /// * For an image tag: /:. For example, in the Docker repository that CodeBuild uses to manage its Docker images, this would be aws/codebuild/standard:4.0.
@@ -1195,6 +1238,7 @@ extension CodeBuildClientTypes {
             dockerServer: CodeBuildClientTypes.DockerServer? = nil,
             environmentVariables: [CodeBuildClientTypes.EnvironmentVariable]? = nil,
             fleet: CodeBuildClientTypes.ProjectFleet? = nil,
+            hostKernel: CodeBuildClientTypes.HostKernel? = nil,
             image: Swift.String? = nil,
             imagePullCredentialsType: CodeBuildClientTypes.ImagePullCredentialsType? = nil,
             privilegedMode: Swift.Bool? = nil,
@@ -1207,6 +1251,7 @@ extension CodeBuildClientTypes {
             self.dockerServer = dockerServer
             self.environmentVariables = environmentVariables
             self.fleet = fleet
+            self.hostKernel = hostKernel
             self.image = image
             self.imagePullCredentialsType = imagePullCredentialsType
             self.privilegedMode = privilegedMode
@@ -6709,6 +6754,8 @@ public struct StartBuildInput: Swift.Sendable {
     public var gitCloneDepthOverride: Swift.Int?
     /// Information about the Git submodules configuration for this build of an CodeBuild build project.
     public var gitSubmodulesConfigOverride: CodeBuildClientTypes.GitSubmodulesConfig?
+    /// The host operating system kernel for this build that overrides the one specified in the build project.
+    public var hostKernelOverride: CodeBuildClientTypes.HostKernel?
     /// A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 5 minutes. If you repeat the StartBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
     public var idempotencyToken: Swift.String?
     /// The name of an image for this build that overrides the one specified in the build project.
@@ -6764,6 +6811,7 @@ public struct StartBuildInput: Swift.Sendable {
         fleetOverride: CodeBuildClientTypes.ProjectFleet? = nil,
         gitCloneDepthOverride: Swift.Int? = nil,
         gitSubmodulesConfigOverride: CodeBuildClientTypes.GitSubmodulesConfig? = nil,
+        hostKernelOverride: CodeBuildClientTypes.HostKernel? = nil,
         idempotencyToken: Swift.String? = nil,
         imageOverride: Swift.String? = nil,
         imagePullCredentialsTypeOverride: CodeBuildClientTypes.ImagePullCredentialsType? = nil,
@@ -6798,6 +6846,7 @@ public struct StartBuildInput: Swift.Sendable {
         self.fleetOverride = fleetOverride
         self.gitCloneDepthOverride = gitCloneDepthOverride
         self.gitSubmodulesConfigOverride = gitSubmodulesConfigOverride
+        self.hostKernelOverride = hostKernelOverride
         self.idempotencyToken = idempotencyToken
         self.imageOverride = imageOverride
         self.imagePullCredentialsTypeOverride = imagePullCredentialsTypeOverride

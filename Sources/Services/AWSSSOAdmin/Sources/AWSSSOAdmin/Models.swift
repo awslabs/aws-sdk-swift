@@ -3095,6 +3095,33 @@ public struct GetPermissionsBoundaryForPermissionSetOutput: Swift.Sendable {
 
 extension SSOAdminClientTypes {
 
+    /// Contains information about an enabled Region of an IAM Identity Center instance, including the Region name, status, date added, and whether it is the primary Region.
+    public struct RegionMetadata: Swift.Sendable {
+        /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the instance creation time.
+        public var addedDate: Foundation.Date?
+        /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public var isPrimaryRegion: Swift.Bool
+        /// The Amazon Web Services Region name.
+        public var regionName: Swift.String?
+        /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region extension workflow is in progress), or REMOVING (Region removal workflow is in progress).
+        public var status: SSOAdminClientTypes.RegionStatus?
+
+        public init(
+            addedDate: Foundation.Date? = nil,
+            isPrimaryRegion: Swift.Bool = false,
+            regionName: Swift.String? = nil,
+            status: SSOAdminClientTypes.RegionStatus? = nil
+        ) {
+            self.addedDate = addedDate
+            self.isPrimaryRegion = isPrimaryRegion
+            self.regionName = regionName
+            self.status = status
+        }
+    }
+}
+
+extension SSOAdminClientTypes {
+
     /// Provides information about the IAM Identity Center instance.
     public struct InstanceMetadata: Swift.Sendable {
         /// The date and time that the Identity Center instance was created.
@@ -3107,6 +3134,10 @@ extension SSOAdminClientTypes {
         public var name: Swift.String?
         /// The Amazon Web Services account ID number of the owner of the Identity Center instance.
         public var ownerAccountId: Swift.String?
+        /// The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public var primaryRegion: Swift.String?
+        /// The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.
+        public var regions: [SSOAdminClientTypes.RegionMetadata]?
         /// The current status of this Identity Center instance.
         public var status: SSOAdminClientTypes.InstanceStatus?
         /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance creation fails, this field contains information about the cause, which may include issues with KMS key configuration or insufficient permissions.
@@ -3118,6 +3149,8 @@ extension SSOAdminClientTypes {
             instanceArn: Swift.String? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
+            primaryRegion: Swift.String? = nil,
+            regions: [SSOAdminClientTypes.RegionMetadata]? = nil,
             status: SSOAdminClientTypes.InstanceStatus? = nil,
             statusReason: Swift.String? = nil
         ) {
@@ -3126,6 +3159,8 @@ extension SSOAdminClientTypes {
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.primaryRegion = primaryRegion
+            self.regions = regions
             self.status = status
             self.statusReason = statusReason
         }
@@ -3862,33 +3897,6 @@ public struct ListRegionsInput: Swift.Sendable {
         self.instanceArn = instanceArn
         self.maxResults = maxResults
         self.nextToken = nextToken
-    }
-}
-
-extension SSOAdminClientTypes {
-
-    /// Contains information about an enabled Region of an IAM Identity Center instance, including the Region name, status, date added, and whether it is the primary Region.
-    public struct RegionMetadata: Swift.Sendable {
-        /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the instance creation time.
-        public var addedDate: Foundation.Date?
-        /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
-        public var isPrimaryRegion: Swift.Bool
-        /// The Amazon Web Services Region name.
-        public var regionName: Swift.String?
-        /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region extension workflow is in progress), or REMOVING (Region removal workflow is in progress).
-        public var status: SSOAdminClientTypes.RegionStatus?
-
-        public init(
-            addedDate: Foundation.Date? = nil,
-            isPrimaryRegion: Swift.Bool = false,
-            regionName: Swift.String? = nil,
-            status: SSOAdminClientTypes.RegionStatus? = nil
-        ) {
-            self.addedDate = addedDate
-            self.isPrimaryRegion = isPrimaryRegion
-            self.regionName = regionName
-            self.status = status
-        }
     }
 }
 
