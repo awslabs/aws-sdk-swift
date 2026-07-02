@@ -10298,19 +10298,23 @@ public struct PutOrganizationConfigRuleInput: Swift.Sendable {
     public var organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata?
     /// An OrganizationManagedRuleMetadata object. This object specifies organization managed rule metadata such as resource type and ID of Amazon Web Services resource along with the rule identifier. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic.
     public var organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata?
+    /// The tags for the organization Config rule. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
 
     public init(
         excludedAccounts: [Swift.String]? = nil,
         organizationConfigRuleName: Swift.String? = nil,
         organizationCustomPolicyRuleMetadata: ConfigClientTypes.OrganizationCustomPolicyRuleMetadata? = nil,
         organizationCustomRuleMetadata: ConfigClientTypes.OrganizationCustomRuleMetadata? = nil,
-        organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil
+        organizationManagedRuleMetadata: ConfigClientTypes.OrganizationManagedRuleMetadata? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil
     ) {
         self.excludedAccounts = excludedAccounts
         self.organizationConfigRuleName = organizationConfigRuleName
         self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
         self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
         self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
+        self.tags = tags
     }
 }
 
@@ -10337,6 +10341,8 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
     /// Name of the organization conformance pack you want to create.
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
+    /// The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
     /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     public var templateBody: Swift.String?
     /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
@@ -10348,6 +10354,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
         deliveryS3KeyPrefix: Swift.String? = nil,
         excludedAccounts: [Swift.String]? = nil,
         organizationConformancePackName: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil
     ) {
@@ -10356,6 +10363,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
         self.excludedAccounts = excludedAccounts
         self.organizationConformancePackName = organizationConformancePackName
+        self.tags = tags
         self.templateBody = templateBody
         self.templateS3Uri = templateS3Uri
     }
