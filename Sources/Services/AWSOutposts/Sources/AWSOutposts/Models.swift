@@ -69,7 +69,7 @@ extension OutpostsClientTypes {
         /// The name of the contact.
         /// This member is required.
         public var contactName: Swift.String?
-        /// The phone number of the contact.
+        /// The phone number of the contact, including the country code (for example, +12065550100).
         /// This member is required.
         public var contactPhoneNumber: Swift.String?
         /// The ISO-3166 two-letter country code for the address.

@@ -8315,6 +8315,103 @@ public struct GetLogDeliveryConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension CognitoIdentityProviderClientTypes {
+
+    public enum LimitClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiCategory
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LimitClass] {
+            return [
+                .apiCategory
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiCategory: return "API_CATEGORY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The class and attributes that identify a specific limit at the account level.
+    public struct LimitDefinitionType: Swift.Sendable {
+        /// The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation.
+        /// This member is required.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The class of the limit. For API rate limits, this is API_CATEGORY.
+        /// This member is required.
+        public var limitClass: CognitoIdentityProviderClientTypes.LimitClass?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            limitClass: CognitoIdentityProviderClientTypes.LimitClass? = nil
+        ) {
+            self.attributes = attributes
+            self.limitClass = limitClass
+        }
+    }
+}
+
+public struct GetProvisionedLimitInput: Swift.Sendable {
+    /// The limit to retrieve. Specify the limit class and the attributes that identify the limit.
+    /// This member is required.
+    public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+
+    public init(
+        limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil
+    ) {
+        self.limitDefinition = limitDefinition
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The limit definition and current limit values for a provisioned limit.
+    public struct LimitType: Swift.Sendable {
+        /// The default (free) limit value, in requests per second (RPS). This is the rate included at no additional cost.
+        /// This member is required.
+        public var freeLimitValue: Swift.Int
+        /// The definition that identifies this limit, including the class and attributes.
+        /// This member is required.
+        public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+        /// The provisioned limit value, in requests per second (RPS). This is the rate that Amazon Cognito currently enforces for your account.
+        /// This member is required.
+        public var provisionedLimitValue: Swift.Int
+
+        public init(
+            freeLimitValue: Swift.Int = 0,
+            limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil,
+            provisionedLimitValue: Swift.Int = 0
+        ) {
+            self.freeLimitValue = freeLimitValue
+            self.limitDefinition = limitDefinition
+            self.provisionedLimitValue = provisionedLimitValue
+        }
+    }
+}
+
+public struct GetProvisionedLimitOutput: Swift.Sendable {
+    /// The provisioned and default limit values for the requested limit.
+    /// This member is required.
+    public var limit: CognitoIdentityProviderClientTypes.LimitType?
+
+    public init(
+        limit: CognitoIdentityProviderClientTypes.LimitType? = nil
+    ) {
+        self.limit = limit
+    }
+}
+
 /// Request to get a signing certificate from Amazon Cognito.
 public struct GetSigningCertificateInput: Swift.Sendable {
     /// The ID of the user pool where you want to view the signing certificate.
@@ -10562,6 +10659,58 @@ public struct UpdateManagedLoginBrandingOutput: Swift.Sendable {
         managedLoginBranding: CognitoIdentityProviderClientTypes.ManagedLoginBrandingType? = nil
     ) {
         self.managedLoginBranding = managedLoginBranding
+    }
+}
+
+/// The request exceeded your account's service quota. To increase your limit, use or submit a Service Quotas increase request.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct UpdateProvisionedLimitInput: Swift.Sendable {
+    /// The limit to update. Specify the limit class and the attributes that identify the limit.
+    /// This member is required.
+    public var limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType?
+    /// The provisioned rate to set, in requests per second (RPS).
+    /// This member is required.
+    public var requestedLimitValue: Swift.Int?
+
+    public init(
+        limitDefinition: CognitoIdentityProviderClientTypes.LimitDefinitionType? = nil,
+        requestedLimitValue: Swift.Int? = 0
+    ) {
+        self.limitDefinition = limitDefinition
+        self.requestedLimitValue = requestedLimitValue
+    }
+}
+
+public struct UpdateProvisionedLimitOutput: Swift.Sendable {
+    /// The updated provisioned and default limit values.
+    /// This member is required.
+    public var limit: CognitoIdentityProviderClientTypes.LimitType?
+
+    public init(
+        limit: CognitoIdentityProviderClientTypes.LimitType? = nil
+    ) {
+        self.limit = limit
     }
 }
 
