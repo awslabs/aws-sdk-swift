@@ -6142,6 +6142,55 @@ public struct GetScheduledQueryHistoryOutput: Swift.Sendable {
     }
 }
 
+public struct GetStorageTierPolicyInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum StorageTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case intelligentTiering
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageTier] {
+            return [
+                .intelligentTiering,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetStorageTierPolicyOutput: Swift.Sendable {
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The current storage tier for the account.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        lastUpdatedTime: Swift.Int? = nil,
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.storageTier = storageTier
+    }
+}
+
 public struct GetTransformerInput: Swift.Sendable {
     /// Specify either the name or ARN of the log group to return transformer information for. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN.
     /// This member is required.
@@ -7933,7 +7982,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.
     ///
-    /// * For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.
+    /// * For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.
     ///
     /// * For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.
     ///
@@ -7976,6 +8025,8 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
+    ///
+    /// * For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.
     ///
     /// * For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.
     ///
@@ -8457,6 +8508,33 @@ public struct PutRetentionPolicyInput: Swift.Sendable {
     ) {
         self.logGroupName = logGroupName
         self.retentionInDays = retentionInDays
+    }
+}
+
+public struct PutStorageTierPolicyInput: Swift.Sendable {
+    /// The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+    /// This member is required.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.storageTier = storageTier
+    }
+}
+
+public struct PutStorageTierPolicyOutput: Swift.Sendable {
+    /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+    public var lastUpdatedTime: Swift.Int?
+    /// The storage tier that was set.
+    public var storageTier: CloudWatchLogsClientTypes.StorageTier?
+
+    public init(
+        lastUpdatedTime: Swift.Int? = nil,
+        storageTier: CloudWatchLogsClientTypes.StorageTier? = nil
+    ) {
+        self.lastUpdatedTime = lastUpdatedTime
+        self.storageTier = storageTier
     }
 }
 
