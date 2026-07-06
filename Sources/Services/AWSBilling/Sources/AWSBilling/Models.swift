@@ -59,6 +59,56 @@ extension BillingClientTypes {
     }
 }
 
+extension BillingClientTypes {
+
+    /// A monetary amount with a currency code. Used throughout the Billing API to represent credit balances, allocations, and adjustments.
+    public struct Amount: Swift.Sendable {
+        /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
+        /// This member is required.
+        public var currencyAmount: Swift.String?
+        /// The ISO 4217 currency code for the amount (for example, USD).
+        /// This member is required.
+        public var currencyCode: Swift.String?
+
+        public init(
+            currencyAmount: Swift.String? = nil,
+            currencyCode: Swift.String? = nil
+        ) {
+            self.currencyAmount = currencyAmount
+            self.currencyCode = currencyCode
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afterDiscounts
+        case beforeCrossServiceDiscounts
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationType] {
+            return [
+                .afterDiscounts,
+                .beforeCrossServiceDiscounts
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afterDiscounts: return "AFTER_DISCOUNTS"
+            case .beforeCrossServiceDiscounts: return "BEFORE_CROSS_SERVICE_DISCOUNTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Exception thrown when a billing view's health status prevents an operation from being performed. This may occur if the billing view is in a state other than HEALTHY.
 public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -622,6 +672,223 @@ public struct DisassociateSourceViewsOutput: Swift.Sendable {
     }
 }
 
+extension BillingClientTypes {
+
+    public enum BillingFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billingAlerts
+        case creditLevelSharing
+        case creditPreferenceOptions
+        case creditSharing
+        case creditSharingHistory
+        case riSharing
+        case riSharingHistory
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingFeature] {
+            return [
+                .billingAlerts,
+                .creditLevelSharing,
+                .creditPreferenceOptions,
+                .creditSharing,
+                .creditSharingHistory,
+                .riSharing,
+                .riSharingHistory
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billingAlerts: return "BILLING_ALERTS"
+            case .creditLevelSharing: return "CREDIT_LEVEL_SHARING"
+            case .creditPreferenceOptions: return "CREDIT_PREFERENCE_OPTIONS"
+            case .creditSharing: return "CREDIT_SHARING"
+            case .creditSharingHistory: return "CREDIT_SHARING_HISTORY"
+            case .riSharing: return "RI_SHARING"
+            case .riSharingHistory: return "RI_SHARING_HISTORY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum BillingFeatureFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case preferenceKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BillingFeatureFilterName] {
+            return [
+                .preferenceKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .preferenceKey: return "PREFERENCE_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A filter that narrows the set of preferences returned by GetBillingPreferences.
+    public struct BillingFeatureFilter: Swift.Sendable {
+        /// The filter name. Currently the only supported value is PREFERENCE_KEY.
+        public var name: BillingClientTypes.BillingFeatureFilterName?
+        /// The filter values to match. For PREFERENCE_KEY, supply 1 to 10 preference key values to match.
+        public var value: [Swift.String]?
+
+        public init(
+            name: BillingClientTypes.BillingFeatureFilterName? = nil,
+            value: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+public struct GetBillingPreferencesInput: Swift.Sendable {
+    /// The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS, RI_SHARING, RI_SHARING_HISTORY, CREDIT_SHARING, CREDIT_SHARING_HISTORY, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS.
+    /// This member is required.
+    public var features: [BillingClientTypes.BillingFeature]?
+    /// Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY, which accepts 1 to 10 values to match preference keys.
+    public var filters: [BillingClientTypes.BillingFeatureFilter]?
+    /// The maximum number of records to return per page. Range: 1 to 50. Default: 50.
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        features: [BillingClientTypes.BillingFeature]? = nil,
+        filters: [BillingClientTypes.BillingFeatureFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.features = features
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A specific billing period identified by year and month.
+    public struct BillingPeriod: Swift.Sendable {
+        /// The month of the billing period as an integer between 1 and 12.
+        /// This member is required.
+        public var month: Swift.Int?
+        /// The four-digit year of the billing period.
+        /// This member is required.
+        public var year: Swift.Int?
+
+        public init(
+            month: Swift.Int? = nil,
+            year: Swift.Int? = nil
+        ) {
+            self.month = month
+            self.year = year
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum PreferenceValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PreferenceValue] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A single billing preference entry returned by GetBillingPreferences.
+    public struct BillingPreferenceSummary: Swift.Sendable {
+        /// The associated Amazon Web Services account ID. Populated for account-list keys; null otherwise.
+        public var accountId: Swift.String?
+        /// The display name of the account. Populated together with accountId; null otherwise.
+        public var accountName: Swift.String?
+        /// The billing period associated with the preference change. Populated only for the history features RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY.
+        public var billingPeriod: BillingClientTypes.BillingPeriod?
+        /// The feature this preference belongs to.
+        /// This member is required.
+        public var feature: BillingClientTypes.BillingFeature?
+        /// The preference key. Format depends on the feature.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The preference value. Valid values: ENABLED or DISABLED.
+        /// This member is required.
+        public var value: BillingClientTypes.PreferenceValue?
+
+        public init(
+            accountId: Swift.String? = nil,
+            accountName: Swift.String? = nil,
+            billingPeriod: BillingClientTypes.BillingPeriod? = nil,
+            feature: BillingClientTypes.BillingFeature? = nil,
+            key: Swift.String? = nil,
+            value: BillingClientTypes.PreferenceValue? = nil
+        ) {
+            self.accountId = accountId
+            self.accountName = accountName
+            self.billingPeriod = billingPeriod
+            self.feature = feature
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct GetBillingPreferencesOutput: Swift.Sendable {
+    /// The list of preference entries matching the request.
+    /// This member is required.
+    public var billingPreferences: [BillingClientTypes.BillingPreferenceSummary]?
+    /// Pagination token. Present when more pages are available; null when there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        billingPreferences: [BillingClientTypes.BillingPreferenceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.billingPreferences = billingPreferences
+        self.nextToken = nextToken
+    }
+}
+
 public struct GetBillingViewInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     /// This member is required.
@@ -845,6 +1112,307 @@ public struct GetBillingViewOutput: Swift.Sendable {
         billingView: BillingClientTypes.BillingViewElement? = nil
     ) {
         self.billingView = billingView
+    }
+}
+
+public struct GetCreditAllocationHistoryInput: Swift.Sendable {
+    /// The Amazon Web Services account ID whose allocation history to retrieve. Must be a 12-digit numeric string.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// Filters the result to a single credit. When omitted, returns allocation entries for all credits.
+    public var creditId: Swift.Int?
+    /// Inclusive end date as Unix epoch seconds.
+    /// This member is required.
+    public var endDate: Foundation.Date?
+    /// The maximum number of records to return per page. Range: 1 to 1000. Default: 100.
+    public var maxResults: Swift.Int?
+    /// Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Inclusive start date as Unix epoch seconds. Must be on or before endDate. The range from startDate to endDate cannot exceed 24 billing months.
+    /// This member is required.
+    public var startDate: Foundation.Date?
+
+    public init(
+        accountId: Swift.String? = nil,
+        creditId: Swift.Int? = nil,
+        endDate: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startDate: Foundation.Date? = nil
+    ) {
+        self.accountId = accountId
+        self.creditId = creditId
+        self.endDate = endDate
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startDate = startDate
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A single entry in the credit allocation history, representing how a credit was applied to a specific service during a billing month.
+    public struct CreditAllocationHistoryEntry: Swift.Sendable {
+        /// The Amazon Web Services account the credit was applied to.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Web Services service the credit was applied to.
+        /// This member is required.
+        public var appliedServiceName: Swift.String?
+        /// The billing month of the application in YYYY-MM format.
+        /// This member is required.
+        public var billingMonth: Swift.String?
+        /// The amount of credit applied. Negative values represent credits that reduced the bill.
+        /// This member is required.
+        public var creditAmount: BillingClientTypes.Amount?
+        /// The identifier of the credit that was applied.
+        /// This member is required.
+        public var creditId: Swift.String?
+        /// A human-readable description of the credit allocation.
+        public var description: Swift.String?
+        /// true when the entry was applied to an in-flight bill that has not yet been finalized.
+        /// This member is required.
+        public var isEstimatedBill: Swift.Bool?
+
+        public init(
+            accountId: Swift.String? = nil,
+            appliedServiceName: Swift.String? = nil,
+            billingMonth: Swift.String? = nil,
+            creditAmount: BillingClientTypes.Amount? = nil,
+            creditId: Swift.String? = nil,
+            description: Swift.String? = nil,
+            isEstimatedBill: Swift.Bool? = nil
+        ) {
+            self.accountId = accountId
+            self.appliedServiceName = appliedServiceName
+            self.billingMonth = billingMonth
+            self.creditAmount = creditAmount
+            self.creditId = creditId
+            self.description = description
+            self.isEstimatedBill = isEstimatedBill
+        }
+    }
+}
+
+public struct GetCreditAllocationHistoryOutput: Swift.Sendable {
+    /// Allocation entries sorted by billingMonth in descending order.
+    public var creditAllocationHistoryList: [BillingClientTypes.CreditAllocationHistoryEntry]?
+    /// Billing months in YYYY-MM format that failed to return data. Non-empty only when partialResults is true.
+    public var failedMonths: [Swift.String]?
+    /// Pagination token. Present when more pages are available; null when there are no more results.
+    public var nextToken: Swift.String?
+    /// true when data could not be retrieved for one or more billing months. The failedMonths field lists which months are missing.
+    /// This member is required.
+    public var partialResults: Swift.Bool?
+
+    public init(
+        creditAllocationHistoryList: [BillingClientTypes.CreditAllocationHistoryEntry]? = nil,
+        failedMonths: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        partialResults: Swift.Bool? = nil
+    ) {
+        self.creditAllocationHistoryList = creditAllocationHistoryList
+        self.failedMonths = failedMonths
+        self.nextToken = nextToken
+        self.partialResults = partialResults
+    }
+}
+
+public struct GetCreditsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID. Must be a 12-digit numeric string.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The end date for the credit period as Unix epoch seconds. Must not be a future date and must be on or after startDate. Defaults to the current date when omitted.
+    public var endDate: Foundation.Date?
+    /// When true and the caller is the management account, the response aggregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId.
+    public var payerAccountFlag: Swift.Bool?
+    /// The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.
+    /// This member is required.
+    public var startDate: Foundation.Date?
+
+    public init(
+        accountId: Swift.String? = nil,
+        endDate: Foundation.Date? = nil,
+        payerAccountFlag: Swift.Bool? = nil,
+        startDate: Foundation.Date? = nil
+    ) {
+        self.accountId = accountId
+        self.endDate = endDate
+        self.payerAccountFlag = payerAccountFlag
+        self.startDate = startDate
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum CreditSharingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case costCategoryRule
+        case custom
+        case `default`
+        case disabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CreditSharingType] {
+            return [
+                .costCategoryRule,
+                .custom,
+                .default,
+                .disabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .costCategoryRule: return "COST_CATEGORY_RULE"
+            case .custom: return "CUSTOM"
+            case .default: return "DEFAULT"
+            case .disabled: return "DISABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    public enum CreditStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CreditStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Detailed information about an Amazon Web Services credit, including its identifier, type, monetary amounts, applicable products, sharing configuration, and current enabled status.
+    public struct CreditData: Swift.Sendable {
+        /// Whether the owning account has account-level credit sharing turned on.
+        public var accountHasCreditSharingEnabled: Swift.Bool?
+        /// The Amazon Web Services account ID that owns the credit.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The names of Amazon Web Services services this credit applies to.
+        public var applicableProductNames: [Swift.String]?
+        /// When the credit is applied during bill computation. Valid values: BEFORE_CROSS_SERVICE_DISCOUNTS, AFTER_DISCOUNTS.
+        public var applicationType: BillingClientTypes.ApplicationType?
+        /// The Amazon Resource Name (ARN) of the Cost Category controlling the credit's sharing scope. Present only when creditSharingType is COST_CATEGORY_RULE.
+        public var costCategoryArn: Swift.String?
+        /// The display configuration for the credit in the Amazon Web Services Billing console.
+        public var creditConsoleVisibility: Swift.String?
+        /// The unique identifier for the credit.
+        /// This member is required.
+        public var creditId: Swift.String?
+        /// The sharing configuration for the credit. Valid values: DEFAULT, DISABLED, CUSTOM, COST_CATEGORY_RULE.
+        public var creditSharingType: BillingClientTypes.CreditSharingType?
+        /// Whether the credit participates in billing runs. Valid values: ENABLED, DISABLED.
+        public var creditStatus: BillingClientTypes.CreditStatus?
+        /// The type of credit. Examples: Promotion, Refund, TrueUp.
+        /// This member is required.
+        public var creditType: Swift.String?
+        /// A human-readable description of the credit.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The date the credit expires, as Unix epoch seconds.
+        public var endDate: Foundation.Date?
+        /// The estimated remaining balance, including in-flight (open) bills that have not yet been finalized.
+        public var estimatedAmount: BillingClientTypes.Amount?
+        /// The date the credit balance reached zero, as Unix epoch seconds.
+        public var exhaustDate: Foundation.Date?
+        /// The initial amount of the credit when it was issued.
+        /// This member is required.
+        public var initialAmount: BillingClientTypes.Amount?
+        /// Restricts which purchase types this credit applies to. When null or omitted, the credit applies to all purchase types.
+        public var purchaseTypeApplications: [Swift.String]?
+        /// The unused balance of the credit.
+        /// This member is required.
+        public var remainingAmount: BillingClientTypes.Amount?
+        /// The rule name within the Cost Category. Present only when creditSharingType is COST_CATEGORY_RULE.
+        public var ruleName: Swift.String?
+        /// The Amazon Web Services account IDs entitled to apply this credit.
+        public var shareableAccounts: [Swift.String]?
+        /// The date the credit becomes valid, as Unix epoch seconds.
+        /// This member is required.
+        public var startDate: Foundation.Date?
+
+        public init(
+            accountHasCreditSharingEnabled: Swift.Bool? = nil,
+            accountId: Swift.String? = nil,
+            applicableProductNames: [Swift.String]? = nil,
+            applicationType: BillingClientTypes.ApplicationType? = nil,
+            costCategoryArn: Swift.String? = nil,
+            creditConsoleVisibility: Swift.String? = nil,
+            creditId: Swift.String? = nil,
+            creditSharingType: BillingClientTypes.CreditSharingType? = nil,
+            creditStatus: BillingClientTypes.CreditStatus? = nil,
+            creditType: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endDate: Foundation.Date? = nil,
+            estimatedAmount: BillingClientTypes.Amount? = nil,
+            exhaustDate: Foundation.Date? = nil,
+            initialAmount: BillingClientTypes.Amount? = nil,
+            purchaseTypeApplications: [Swift.String]? = nil,
+            remainingAmount: BillingClientTypes.Amount? = nil,
+            ruleName: Swift.String? = nil,
+            shareableAccounts: [Swift.String]? = nil,
+            startDate: Foundation.Date? = nil
+        ) {
+            self.accountHasCreditSharingEnabled = accountHasCreditSharingEnabled
+            self.accountId = accountId
+            self.applicableProductNames = applicableProductNames
+            self.applicationType = applicationType
+            self.costCategoryArn = costCategoryArn
+            self.creditConsoleVisibility = creditConsoleVisibility
+            self.creditId = creditId
+            self.creditSharingType = creditSharingType
+            self.creditStatus = creditStatus
+            self.creditType = creditType
+            self.description = description
+            self.endDate = endDate
+            self.estimatedAmount = estimatedAmount
+            self.exhaustDate = exhaustDate
+            self.initialAmount = initialAmount
+            self.purchaseTypeApplications = purchaseTypeApplications
+            self.remainingAmount = remainingAmount
+            self.ruleName = ruleName
+            self.shareableAccounts = shareableAccounts
+            self.startDate = startDate
+        }
+    }
+}
+
+public struct GetCreditsOutput: Swift.Sendable {
+    /// The list of credits matching the request. Returns an empty list when no credits exist.
+    public var credits: [BillingClientTypes.CreditData]?
+
+    public init(
+        credits: [BillingClientTypes.CreditData]? = nil
+    ) {
+        self.credits = credits
     }
 }
 
@@ -1076,6 +1644,23 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct RedeemCreditsInput: Swift.Sendable {
+    /// The promotional credit code to redeem.
+    /// This member is required.
+    public var promoCode: Swift.String?
+
+    public init(
+        promoCode: Swift.String? = nil
+    ) {
+        self.promoCode = promoCode
+    }
+}
+
+public struct RedeemCreditsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -1116,6 +1701,49 @@ public struct UntagResourceInput: Swift.Sendable {
 }
 
 public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension BillingClientTypes {
+
+    /// A single key/value entry used to update a billing preference.
+    public struct BillingPreferenceForKey: Swift.Sendable {
+        /// The preference key. Format depends on the feature being updated.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The preference value. Valid values: ENABLED or DISABLED.
+        /// This member is required.
+        public var value: BillingClientTypes.PreferenceValue?
+
+        public init(
+            key: Swift.String? = nil,
+            value: BillingClientTypes.PreferenceValue? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+public struct UpdateBillingPreferencesInput: Swift.Sendable {
+    /// Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS, all keys must reference the same creditId.
+    /// This member is required.
+    public var billingPreferencesPerKey: [BillingClientTypes.BillingPreferenceForKey]?
+    /// The feature to update. Valid values: BILLING_ALERTS, RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS. The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY) are read-only and cannot be updated.
+    /// This member is required.
+    public var feature: BillingClientTypes.BillingFeature?
+
+    public init(
+        billingPreferencesPerKey: [BillingClientTypes.BillingPreferenceForKey]? = nil,
+        feature: BillingClientTypes.BillingFeature? = nil
+    ) {
+        self.billingPreferencesPerKey = billingPreferencesPerKey
+        self.feature = feature
+    }
+}
+
+public struct UpdateBillingPreferencesOutput: Swift.Sendable {
 
     public init() { }
 }
