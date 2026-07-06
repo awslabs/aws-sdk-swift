@@ -13,6 +13,28 @@ import XCTest
  *  Regression tests for protection against change in generated release notes markdown content.
  */
 class ReleaseNotesBuilderTests: CLITestCase {
+
+    private let includedTestCommits = [
+        "fix: Correct X",
+        "feat: Add Y",
+        "docs: Document Z",
+        "refactor: Change A",
+        "perf: Speed up B",
+        "test: Try out C",
+    ]
+
+    private let omittedTestCommits = [
+        "build: fix B",
+        "chore: docs A",
+        "ci: perf C",
+        "style: feat S",
+        "whatever: refactor Z",
+        "Update test",
+        "fixup! Correct X",
+        "testing the new endpoint",
+        "performance review notes",
+    ]
+
     /* Reusable feature strings */
 
     // New feature 1
@@ -82,7 +104,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
         { "features": [\(feature1), \(feature2), \(feature3)] }
         """
         setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
-        let builder = try setUpBuilder(testCommits: ["fix: Fix X", "feat: Feat Y"])
+        let builder = try setUpBuilder(testCommits: includedTestCommits)
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
@@ -92,8 +114,12 @@ class ReleaseNotesBuilderTests: CLITestCase {
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
         ### Miscellaneous
-        * fix: Fix X
-        * feat: Feat Y
+        * fix: Correct X
+        * feat: Add Y
+        * docs: Document Z
+        * refactor: Change A
+        * perf: Speed up B
+        * test: Try out C
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -105,15 +131,19 @@ class ReleaseNotesBuilderTests: CLITestCase {
         { "features": [\(feature3)] }
         """
         setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
-        let builder = try setUpBuilder(testCommits: ["fix: Fix X", "feat: Feat Y"])
+        let builder = try setUpBuilder(testCommits: includedTestCommits)
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
         ### Service Documentation
         * **AWS Service 3**: Doc update description C.
         ### Miscellaneous
-        * fix: Fix X
-        * feat: Feat Y
+        * fix: Correct X
+        * feat: Add Y
+        * docs: Document Z
+        * refactor: Change A
+        * perf: Speed up B
+        * test: Try out C
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -125,7 +155,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
         { "features": [\(feature1), \(feature2)] }
         """
         setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
-        let builder = try setUpBuilder(testCommits: ["fix: Fix X", "feat: Feat Y"])
+        let builder = try setUpBuilder(testCommits: includedTestCommits)
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
@@ -133,8 +163,12 @@ class ReleaseNotesBuilderTests: CLITestCase {
         * **AWS Service 1**: New feature description A.
         * **AWS Service 2**: New feature description B.
         ### Miscellaneous
-        * fix: Fix X
-        * feat: Feat Y
+        * fix: Correct X
+        * feat: Add Y
+        * docs: Document Z
+        * refactor: Change A
+        * perf: Speed up B
+        * test: Try out C
 
         **Full Changelog**: https://github.com/awslabs/aws-sdk-swift/compare/1.0.0...1.0.1
         """
@@ -166,7 +200,7 @@ class ReleaseNotesBuilderTests: CLITestCase {
         { "features":[] }
         """
         setUpBuildRequestAndMappingJSONs(buildRequest, mapping)
-        let builder = try setUpBuilder(testCommits: ["chore: Commit A", "Update X"])
+        let builder = try setUpBuilder(testCommits: omittedTestCommits)
         let releaseNotes = try builder.build()
         let expected = """
         ## What's Changed
