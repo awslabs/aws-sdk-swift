@@ -6200,6 +6200,84 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetStorageTierPolicy` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns the storage tier policy for your account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetStorageTierPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetStorageTierPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func getStorageTierPolicy(input: GetStorageTierPolicyInput) async throws -> GetStorageTierPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.getStorageTierPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getStorageTierPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageTierPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStorageTierPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(overrides: ["X-Amz-Target": "Logs_20140328.GetStorageTierPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStorageTierPolicyInput, GetStorageTierPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStorageTierPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTransformer` operation on the `CloudWatchLogs` service.
     ///
     /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use [DescribeAccountPolicies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html).
@@ -8557,6 +8635,84 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutRetentionPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutStorageTierPolicy` operation on the `CloudWatchLogs` service.
+    ///
+    /// Sets the storage tier policy for your account. When you set the storage tier to INTELLIGENT_TIERING, CloudWatch Logs automatically moves your log data between storage tiers based on access patterns to optimize costs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutStorageTierPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutStorageTierPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func putStorageTierPolicy(input: PutStorageTierPolicyInput) async throws -> PutStorageTierPolicyOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchLogsClient.putStorageTierPolicyOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putStorageTierPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutStorageTierPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutStorageTierPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(overrides: ["X-Amz-Target": "Logs_20140328.PutStorageTierPolicy"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch Logs"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutStorageTierPolicyInput, PutStorageTierPolicyOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutStorageTierPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

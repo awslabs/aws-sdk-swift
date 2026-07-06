@@ -8521,6 +8521,96 @@ public struct GetIndexOutput: Swift.Sendable {
     }
 }
 
+public struct GetMigrationInput: Swift.Sendable {
+    /// The unique identifier of the migration job to retrieve.
+    /// This member is required.
+    public var migrationId: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Contains error details for a migration that failed or completed with errors.
+    public struct MigrationError: Swift.Sendable {
+        /// The error code identifying the type of failure.
+        public var code: Swift.String?
+        /// A human-readable description of the error.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The source configuration for a migration, specifying the data source from which to export saved objects.
+    public struct MigrationSource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the data source to migrate saved objects from.
+        /// This member is required.
+        public var datasourceArn: Swift.String?
+
+        public init(
+            datasourceArn: Swift.String? = nil
+        ) {
+            self.datasourceArn = datasourceArn
+        }
+    }
+}
+
+public struct GetMigrationOutput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application associated with the migration.
+    public var applicationId: Swift.String?
+    /// The date and time when the migration job was created.
+    public var createdAt: Foundation.Date?
+    /// Error details if the migration failed or completed with errors.
+    public var error: OpenSearchClientTypes.MigrationError?
+    /// The number of saved objects exported from the source data source.
+    public var exportedCount: Swift.Int
+    /// The number of saved objects successfully imported into the target workspace.
+    public var importedCount: Swift.Int
+    /// The unique identifier of the migration job.
+    public var migrationId: Swift.String?
+    /// The source configuration for the migration, including the data source ARN.
+    public var source: OpenSearchClientTypes.MigrationSource?
+    /// The current status of the migration job. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+    public var status: Swift.String?
+    /// The date and time when the migration job was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        error: OpenSearchClientTypes.MigrationError? = nil,
+        exportedCount: Swift.Int = 0,
+        importedCount: Swift.Int = 0,
+        migrationId: Swift.String? = nil,
+        source: OpenSearchClientTypes.MigrationSource? = nil,
+        status: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.applicationId = applicationId
+        self.createdAt = createdAt
+        self.error = error
+        self.exportedCount = exportedCount
+        self.importedCount = importedCount
+        self.migrationId = migrationId
+        self.source = source
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
 /// Container for the request parameters to the GetPackageVersionHistory operation.
 public struct GetPackageVersionHistoryInput: Swift.Sendable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -9722,6 +9812,92 @@ public struct ListInstanceTypeDetailsOutput: Swift.Sendable {
     }
 }
 
+public struct ListMigrationsInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application to list migrations for.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Filters the results by migration status. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+    public var status: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A summary of a migration job, including its status and progress.
+    public struct MigrationSummary: Swift.Sendable {
+        /// The unique identifier of the OpenSearch application associated with the migration.
+        public var applicationId: Swift.String?
+        /// The date and time when the migration job was created.
+        public var createdAt: Foundation.Date?
+        /// Error details if the migration failed or completed with errors.
+        public var error: OpenSearchClientTypes.MigrationError?
+        /// The number of saved objects exported from the source data source.
+        public var exportedCount: Swift.Int
+        /// The number of saved objects successfully imported into the target workspace.
+        public var importedCount: Swift.Int
+        /// The unique identifier of the migration job.
+        public var migrationId: Swift.String?
+        /// The source configuration for the migration.
+        public var source: OpenSearchClientTypes.MigrationSource?
+        /// The current status of the migration job.
+        public var status: Swift.String?
+        /// The date and time when the migration job was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            error: OpenSearchClientTypes.MigrationError? = nil,
+            exportedCount: Swift.Int = 0,
+            importedCount: Swift.Int = 0,
+            migrationId: Swift.String? = nil,
+            source: OpenSearchClientTypes.MigrationSource? = nil,
+            status: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.applicationId = applicationId
+            self.createdAt = createdAt
+            self.error = error
+            self.exportedCount = exportedCount
+            self.importedCount = importedCount
+            self.migrationId = migrationId
+            self.source = source
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListMigrationsOutput: Swift.Sendable {
+    /// A list of migration job summaries for the specified application.
+    public var migrations: [OpenSearchClientTypes.MigrationSummary]?
+    /// The pagination token to use in a subsequent call to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        migrations: [OpenSearchClientTypes.MigrationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.migrations = migrations
+        self.nextToken = nextToken
+    }
+}
+
 /// Container for the request parameters to the ListPackagesForDomain operation.
 public struct ListPackagesForDomainInput: Swift.Sendable {
     /// The name of the domain for which you want to list associated packages.
@@ -10337,6 +10513,142 @@ public struct StartDomainMaintenanceOutput: Swift.Sendable {
         maintenanceId: Swift.String? = nil
     ) {
         self.maintenanceId = maintenanceId
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Identifies a specific saved object by its type and unique identifier.
+    public struct SavedObjectIdentifier: Swift.Sendable {
+        /// The unique identifier of the saved object.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the saved object, such as dashboard, visualization, index-pattern, search, or query.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Options to filter the scope of saved objects to export during a migration.
+    public struct ExportOptions: Swift.Sendable {
+        /// Specifies whether to include all objects referenced by the exported objects, recursively.
+        public var includeReferencesDeep: Swift.Bool?
+        /// A list of specific saved objects to include in the migration, identified by type and ID.
+        public var objects: [OpenSearchClientTypes.SavedObjectIdentifier]?
+        /// A list of saved object types to include in the migration. Valid values include dashboard, visualization, index-pattern, search, and query.
+        public var types: [Swift.String]?
+
+        public init(
+            includeReferencesDeep: Swift.Bool? = nil,
+            objects: [OpenSearchClientTypes.SavedObjectIdentifier]? = nil,
+            types: [Swift.String]? = nil
+        ) {
+            self.includeReferencesDeep = includeReferencesDeep
+            self.objects = objects
+            self.types = types
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The target workspace configuration for a migration. You can specify an existing workspace by ID or request creation of a new workspace.
+    public struct MigrationWorkspace: Swift.Sendable {
+        /// Specifies whether to create a new workspace as the migration target. If true, you must also specify name.
+        public var createWorkspace: Swift.Bool?
+        /// The name of the new workspace to create. Required when createWorkspace is true.
+        public var name: Swift.String?
+        /// The type of the new workspace to create.
+        public var type: Swift.String?
+        /// The unique identifier of an existing workspace to use as the migration target. Specify either this parameter or createWorkspace.
+        public var workspaceId: Swift.String?
+
+        public init(
+            createWorkspace: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            workspaceId: Swift.String? = nil
+        ) {
+            self.createWorkspace = createWorkspace
+            self.name = name
+            self.type = type
+            self.workspaceId = workspaceId
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The configuration options for a saved objects migration job.
+    public struct MigrationOptions: Swift.Sendable {
+        /// The strategy for resolving conflicts when saved objects already exist in the target workspace. Valid values are CREATE_NEW_COPIES, which creates new objects with unique IDs, and overwrite, which replaces existing objects.
+        public var conflictResolution: Swift.String?
+        /// Options to filter the scope of saved objects to export from the source.
+        public var exportOptions: OpenSearchClientTypes.ExportOptions?
+        /// The data source from which to export saved objects.
+        /// This member is required.
+        public var source: OpenSearchClientTypes.MigrationSource?
+        /// The target workspace configuration for importing saved objects. You can specify an existing workspace or request creation of a new workspace.
+        /// This member is required.
+        public var workspace: OpenSearchClientTypes.MigrationWorkspace?
+
+        public init(
+            conflictResolution: Swift.String? = nil,
+            exportOptions: OpenSearchClientTypes.ExportOptions? = nil,
+            source: OpenSearchClientTypes.MigrationSource? = nil,
+            workspace: OpenSearchClientTypes.MigrationWorkspace? = nil
+        ) {
+            self.conflictResolution = conflictResolution
+            self.exportOptions = exportOptions
+            self.source = source
+            self.workspace = workspace
+        }
+    }
+}
+
+public struct StartMigrationInput: Swift.Sendable {
+    /// The unique identifier of the OpenSearch application to migrate saved objects into.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon OpenSearch Service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolution strategy.
+    /// This member is required.
+    public var migrationOptions: OpenSearchClientTypes.MigrationOptions?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        migrationOptions: OpenSearchClientTypes.MigrationOptions? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.migrationOptions = migrationOptions
+    }
+}
+
+public struct StartMigrationOutput: Swift.Sendable {
+    /// The unique identifier of the migration job.
+    public var migrationId: Swift.String?
+    /// The initial status of the migration job. The status is PENDING when a migration is first created.
+    public var status: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+        self.status = status
     }
 }
 
@@ -11677,6 +11989,16 @@ extension GetIndexInput {
     }
 }
 
+extension GetMigrationInput {
+
+    static func urlPathProvider(_ value: GetMigrationInput) -> Swift.String? {
+        guard let migrationId = value.migrationId else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/app-migrations/\(migrationId.urlPercentEncoding())"
+    }
+}
+
 extension GetPackageVersionHistoryInput {
 
     static func urlPathProvider(_ value: GetPackageVersionHistoryInput) -> Swift.String? {
@@ -11938,6 +12260,39 @@ extension ListInstanceTypeDetailsInput {
     }
 }
 
+extension ListMigrationsInput {
+
+    static func urlPathProvider(_ value: ListMigrationsInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/app-migrations"
+    }
+}
+
+extension ListMigrationsInput {
+
+    static func queryItemProvider(_ value: ListMigrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let applicationId = value.applicationId else {
+            let message = "Creating a URL Query Item failed. applicationId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let applicationIdQueryItem = Smithy.URIQueryItem(name: "applicationId".urlPercentEncoding(), value: Swift.String(applicationId).urlPercentEncoding())
+        items.append(applicationIdQueryItem)
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPackagesForDomainInput {
 
     static func urlPathProvider(_ value: ListPackagesForDomainInput) -> Swift.String? {
@@ -12162,6 +12517,13 @@ extension StartDomainMaintenanceInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/domainMaintenance"
+    }
+}
+
+extension StartMigrationInput {
+
+    static func urlPathProvider(_ value: StartMigrationInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/app-migrations"
     }
 }
 
@@ -12619,6 +12981,16 @@ extension StartDomainMaintenanceInput {
         guard let value else { return }
         try writer["Action"].write(value.action)
         try writer["NodeId"].write(value.nodeId)
+    }
+}
+
+extension StartMigrationInput {
+
+    static func write(value: StartMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationId"].write(value.applicationId)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["migrationOptions"].write(value.migrationOptions, with: OpenSearchClientTypes.MigrationOptions.write(value:to:))
     }
 }
 
@@ -13463,6 +13835,26 @@ extension GetIndexOutput {
     }
 }
 
+extension GetMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMigrationOutput()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["error"].readIfPresent(with: OpenSearchClientTypes.MigrationError.read(from:))
+        value.exportedCount = try reader["exportedCount"].readIfPresent() ?? 0
+        value.importedCount = try reader["importedCount"].readIfPresent() ?? 0
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: OpenSearchClientTypes.MigrationSource.read(from:))
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetPackageVersionHistoryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPackageVersionHistoryOutput {
@@ -13627,6 +14019,19 @@ extension ListInstanceTypeDetailsOutput {
         var value = ListInstanceTypeDetailsOutput()
         value.instanceTypeDetails = try reader["InstanceTypeDetails"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.InstanceTypeDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMigrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMigrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMigrationsOutput()
+        value.migrations = try reader["migrations"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.MigrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -13807,6 +14212,19 @@ extension StartDomainMaintenanceOutput {
         let reader = responseReader
         var value = StartDomainMaintenanceOutput()
         value.maintenanceId = try reader["MaintenanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMigrationOutput()
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -14935,6 +15353,24 @@ enum GetIndexOutputError {
     }
 }
 
+enum GetMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetPackageVersionHistoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15163,6 +15599,23 @@ enum ListInstanceTypeDetailsOutputError {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMigrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -15421,6 +15874,25 @@ enum StartDomainMaintenanceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -16924,6 +17396,16 @@ extension OpenSearchClientTypes.ErrorDetails {
     }
 }
 
+extension OpenSearchClientTypes.ExportOptions {
+
+    static func write(value: OpenSearchClientTypes.ExportOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["includeReferencesDeep"].write(value.includeReferencesDeep)
+        try writer["objects"].writeList(value.objects, memberWritingClosure: OpenSearchClientTypes.SavedObjectIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension OpenSearchClientTypes.Filter {
 
     static func write(value: OpenSearchClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
@@ -17237,6 +17719,72 @@ extension OpenSearchClientTypes.MasterUserOptions {
         try writer["MasterUserARN"].write(value.masterUserARN)
         try writer["MasterUserName"].write(value.masterUserName)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
+    }
+}
+
+extension OpenSearchClientTypes.MigrationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationOptions {
+
+    static func write(value: OpenSearchClientTypes.MigrationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conflictResolution"].write(value.conflictResolution)
+        try writer["exportOptions"].write(value.exportOptions, with: OpenSearchClientTypes.ExportOptions.write(value:to:))
+        try writer["source"].write(value.source, with: OpenSearchClientTypes.MigrationSource.write(value:to:))
+        try writer["workspace"].write(value.workspace, with: OpenSearchClientTypes.MigrationWorkspace.write(value:to:))
+    }
+}
+
+extension OpenSearchClientTypes.MigrationSource {
+
+    static func write(value: OpenSearchClientTypes.MigrationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasourceArn"].write(value.datasourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationSource()
+        value.datasourceArn = try reader["datasourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.MigrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.MigrationSummary()
+        value.migrationId = try reader["migrationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: OpenSearchClientTypes.MigrationSource.read(from:))
+        value.exportedCount = try reader["exportedCount"].readIfPresent() ?? 0
+        value.importedCount = try reader["importedCount"].readIfPresent() ?? 0
+        value.error = try reader["error"].readIfPresent(with: OpenSearchClientTypes.MigrationError.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.MigrationWorkspace {
+
+    static func write(value: OpenSearchClientTypes.MigrationWorkspace?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createWorkspace"].write(value.createWorkspace)
+        try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
+        try writer["workspaceId"].write(value.workspaceId)
     }
 }
 
@@ -17711,6 +18259,15 @@ extension OpenSearchClientTypes.SAMLOptionsOutput {
         value.rolesKey = try reader["RolesKey"].readIfPresent()
         value.sessionTimeoutMinutes = try reader["SessionTimeoutMinutes"].readIfPresent()
         return value
+    }
+}
+
+extension OpenSearchClientTypes.SavedObjectIdentifier {
+
+    static func write(value: OpenSearchClientTypes.SavedObjectIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
     }
 }
 
