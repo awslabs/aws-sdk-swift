@@ -32,7 +32,7 @@ struct ReleaseNotesBuilder {
 
     func buildSDKChangeSection() -> [String] {
         let formattedCommits = commits
-            .filter { $0.hasPrefix("feat") || $0.hasPrefix("fix") }
+            .filter { commit in ["fix", "feat", "docs", "refactor", "perf", "test"].contains { commit.hasPrefix("\($0):") } }
             .map { "* \($0)" }
             .joined(separator: .newline)
         if (!formattedCommits.isEmpty) {
