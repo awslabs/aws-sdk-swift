@@ -29,6 +29,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Internal server error.
@@ -1870,8 +1871,14 @@ extension SecurityHubClientTypes {
         public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
         /// The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Services service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource. Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public var resourceId: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id
+        public var resourceOwnerAccountId: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id
+        public var resourceOwnerOrgId: [SecurityHubClientTypes.StringFilter]?
         /// The partition in which the resource that the finding pertains to is located. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourcePartition: [SecurityHubClientTypes.StringFilter]?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public var resourceProvider: [SecurityHubClientTypes.StringFilter]?
         /// The Amazon Web Services Region where the resource that a finding pertains to is located. Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public var resourceRegion: [SecurityHubClientTypes.StringFilter]?
         /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed. Array Members: Minimum number of 1 item. Maximum number of 20 items.
@@ -1922,7 +1929,10 @@ extension SecurityHubClientTypes {
             resourceApplicationName: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceDetailsOther: [SecurityHubClientTypes.MapFilter]? = nil,
             resourceId: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceOwnerAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceOwnerOrgId: [SecurityHubClientTypes.StringFilter]? = nil,
             resourcePartition: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceProvider: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceRegion: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceTags: [SecurityHubClientTypes.MapFilter]? = nil,
             resourceType: [SecurityHubClientTypes.StringFilter]? = nil,
@@ -1961,7 +1971,10 @@ extension SecurityHubClientTypes {
             self.resourceApplicationName = resourceApplicationName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourcePartition = resourcePartition
+            self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -19665,6 +19678,8 @@ extension SecurityHubClientTypes {
         public var awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public var awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails?
+        /// Details about an Azure resource that is related to a finding.
+        public var azureResource: Smithy.Document?
         /// Details about an external code repository with which you can connect your Amazon Web Services resources. The connection is established through Amazon Inspector.
         public var codeRepository: SecurityHubClientTypes.CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
@@ -19774,6 +19789,7 @@ extension SecurityHubClientTypes {
             awsWafv2RuleGroup: SecurityHubClientTypes.AwsWafv2RuleGroupDetails? = nil,
             awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails? = nil,
             awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails? = nil,
+            azureResource: Smithy.Document? = nil,
             codeRepository: SecurityHubClientTypes.CodeRepositoryDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
             other: [Swift.String: Swift.String]? = nil
@@ -19875,9 +19891,59 @@ extension SecurityHubClientTypes {
             self.awsWafv2RuleGroup = awsWafv2RuleGroup
             self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
+            self.azureResource = azureResource
             self.codeRepository = codeRepository
             self.container = container
             self.other = other
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the account that owns a resource, for example, an Azure Subscription or Amazon Web Services Account.
+    public struct ResourceOwnerAccount: Swift.Sendable {
+        /// The unique identifier of the account that owns the resource, for example, Azure Subscription Id or Amazon Web Services Account Id.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the organization that owns a resource, for example, an Azure Tenant.
+    public struct ResourceOwnerOrg: Swift.Sendable {
+        /// The unique identifier of the organization that owns the resource, for example, Azure Tenant Id.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the owner of a resource, including the account and organization that the resource belongs to.
+    public struct ResourceOwner: Swift.Sendable {
+        /// Information about the account that owns the resource, for example, an Azure Subscription or Amazon Web Services Account.
+        public var account: SecurityHubClientTypes.ResourceOwnerAccount?
+        /// Information about the organization that owns the resource, for example, an Azure Tenant.
+        public var org: SecurityHubClientTypes.ResourceOwnerOrg?
+
+        public init(
+            account: SecurityHubClientTypes.ResourceOwnerAccount? = nil,
+            org: SecurityHubClientTypes.ResourceOwnerOrg? = nil
+        ) {
+            self.account = account
+            self.org = org
         }
     }
 }
@@ -19888,13 +19954,19 @@ extension SecurityHubClientTypes {
         case aws
         case awsCn
         case awsUsGov
+        case awsUsIso
+        case awsUsIsoB
+        case azureCloud
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Partition] {
             return [
                 .aws,
                 .awsCn,
-                .awsUsGov
+                .awsUsGov,
+                .awsUsIso,
+                .awsUsIsoB,
+                .azureCloud
             ]
         }
 
@@ -19908,6 +19980,38 @@ extension SecurityHubClientTypes {
             case .aws: return "aws"
             case .awsCn: return "aws-cn"
             case .awsUsGov: return "aws-us-gov"
+            case .awsUsIso: return "aws-us-iso"
+            case .awsUsIsoB: return "aws-us-iso-b"
+            case .azureCloud: return "AzureCloud"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum CloudProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudProviderName] {
+            return [
+                .aws,
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "Azure"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19929,8 +20033,12 @@ extension SecurityHubClientTypes {
         /// The canonical identifier for the given resource type.
         /// This member is required.
         public var id: Swift.String?
+        /// Information about the account and organization that own the resource.
+        public var owner: SecurityHubClientTypes.ResourceOwner?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public var partition: SecurityHubClientTypes.Partition?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public var provider: SecurityHubClientTypes.CloudProviderName?
         /// The canonical Amazon Web Services external Region name where this resource is located. Length Constraints: Minimum length of 1. Maximum length of 16.
         public var region: Swift.String?
         /// Identifies the role of the resource in the finding. A resource is either the actor or target of the finding activity,
@@ -19947,7 +20055,9 @@ extension SecurityHubClientTypes {
             dataClassification: SecurityHubClientTypes.DataClassificationDetails? = nil,
             details: SecurityHubClientTypes.ResourceDetails? = nil,
             id: Swift.String? = nil,
+            owner: SecurityHubClientTypes.ResourceOwner? = nil,
             partition: SecurityHubClientTypes.Partition? = nil,
+            provider: SecurityHubClientTypes.CloudProviderName? = nil,
             region: Swift.String? = nil,
             resourceRole: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -19958,7 +20068,9 @@ extension SecurityHubClientTypes {
             self.dataClassification = dataClassification
             self.details = details
             self.id = id
+            self.owner = owner
             self.partition = partition
+            self.provider = provider
             self.region = region
             self.resourceRole = resourceRole
             self.tags = tags
@@ -20986,8 +21098,14 @@ extension SecurityHubClientTypes {
         public var resourceDetailsOther: [SecurityHubClientTypes.MapFilter]?
         /// The canonical identifier for the given resource type.
         public var resourceId: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id
+        public var resourceOwnerAccountId: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id
+        public var resourceOwnerOrgId: [SecurityHubClientTypes.StringFilter]?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public var resourcePartition: [SecurityHubClientTypes.StringFilter]?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public var resourceProvider: [SecurityHubClientTypes.StringFilter]?
         /// The canonical Amazon Web Services external Region name where this resource is located.
         public var resourceRegion: [SecurityHubClientTypes.StringFilter]?
         /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
@@ -21147,7 +21265,10 @@ extension SecurityHubClientTypes {
             resourceContainerName: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceDetailsOther: [SecurityHubClientTypes.MapFilter]? = nil,
             resourceId: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceOwnerAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceOwnerOrgId: [SecurityHubClientTypes.StringFilter]? = nil,
             resourcePartition: [SecurityHubClientTypes.StringFilter]? = nil,
+            resourceProvider: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceRegion: [SecurityHubClientTypes.StringFilter]? = nil,
             resourceTags: [SecurityHubClientTypes.MapFilter]? = nil,
             resourceType: [SecurityHubClientTypes.StringFilter]? = nil,
@@ -21252,7 +21373,10 @@ extension SecurityHubClientTypes {
             self.resourceContainerName = resourceContainerName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourcePartition = resourcePartition
+            self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -21297,6 +21421,129 @@ extension SecurityHubClientTypes {
         ) {
             self.id = id
             self.productArn = productArn
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The type of scope for an Azure connector. Valid values are TENANT (monitor all subscriptions in the tenant) and SUBSCRIPTION (monitor specific subscriptions).
+    public enum ScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case subscription
+        case tenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeType] {
+            return [
+                .subscription,
+                .tenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .subscription: return "SUBSCRIPTION"
+            case .tenant: return "TENANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The scope configuration for an Azure connector, defining the tenant or subscription scope.
+    public struct AzureScopeConfiguration: Swift.Sendable {
+        /// The type of scope. Valid values are tenant and subscription.
+        /// This member is required.
+        public var scopeType: SecurityHubClientTypes.ScopeType?
+        /// The list of scope values, such as subscription IDs, when the scope type is subscription.
+        public var scopeValues: [Swift.String]?
+
+        public init(
+            scopeType: SecurityHubClientTypes.ScopeType? = nil,
+            scopeValues: [Swift.String]? = nil
+        ) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The detailed Azure configuration for a connector.
+    public struct AzureDetail: Swift.Sendable {
+        /// The ARN of the AWS Config connector used to establish the connection to Azure.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of Azure regions being monitored.
+        /// This member is required.
+        public var azureRegions: [Swift.String]?
+        /// The scope configuration that defines which Azure resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            azureRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The configuration for connecting to an Azure environment.
+    public struct AzureProviderConfiguration: Swift.Sendable {
+        /// The ARN of the AWS Config connector used to establish the connection to Azure.
+        /// This member is required.
+        public var awsConfigConnectorArn: Swift.String?
+        /// The list of Azure regions to monitor.
+        /// This member is required.
+        public var azureRegions: [Swift.String]?
+        /// The scope configuration that defines which Azure resources are monitored.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration?
+
+        public init(
+            awsConfigConnectorArn: Swift.String? = nil,
+            azureRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration? = nil
+        ) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The configuration for updating an Azure connector's scope and regions.
+    public struct AzureUpdateConfiguration: Swift.Sendable {
+        /// The updated list of Azure regions to monitor.
+        /// This member is required.
+        public var azureRegions: [Swift.String]?
+        /// The updated scope configuration.
+        /// This member is required.
+        public var scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration?
+
+        public init(
+            azureRegions: [Swift.String]? = nil,
+            scopeConfiguration: SecurityHubClientTypes.AzureScopeConfiguration? = nil
+        ) {
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
         }
     }
 }
@@ -21360,6 +21607,35 @@ public struct BatchDisableStandardsInput: Swift.Sendable {
         standardsSubscriptionArns: [Swift.String]? = nil
     ) {
         self.standardsSubscriptionArns = standardsSubscriptionArns
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum StandardsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandardsProvider] {
+            return [
+                .aws,
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "Azure"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -21436,13 +21712,15 @@ extension SecurityHubClientTypes {
         case internalError
         case maximumNumberOfConfigRulesExceeded
         case noAvailableConfigurationRecorder
+        case noAvailableMulticloudConnector
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StatusReasonCode] {
             return [
                 .internalError,
                 .maximumNumberOfConfigRulesExceeded,
-                .noAvailableConfigurationRecorder
+                .noAvailableConfigurationRecorder,
+                .noAvailableMulticloudConnector
             ]
         }
 
@@ -21456,6 +21734,7 @@ extension SecurityHubClientTypes {
             case .internalError: return "INTERNAL_ERROR"
             case .maximumNumberOfConfigRulesExceeded: return "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
             case .noAvailableConfigurationRecorder: return "NO_AVAILABLE_CONFIGURATION_RECORDER"
+            case .noAvailableMulticloudConnector: return "NO_AVAILABLE_MULTICLOUD_CONNECTOR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -21482,6 +21761,8 @@ extension SecurityHubClientTypes {
 
     /// A resource that represents your subscription to a supported standard.
     public struct StandardsSubscription: Swift.Sendable {
+        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         /// This member is required.
         public var standardsArn: Swift.String?
@@ -21514,6 +21795,7 @@ extension SecurityHubClientTypes {
         public var standardsSubscriptionArn: Swift.String?
 
         public init(
+            provider: SecurityHubClientTypes.StandardsProvider? = nil,
             standardsArn: Swift.String? = nil,
             standardsControlsUpdatable: SecurityHubClientTypes.StandardsControlsUpdatable? = nil,
             standardsInput: [Swift.String: Swift.String]? = nil,
@@ -21521,6 +21803,7 @@ extension SecurityHubClientTypes {
             standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason? = nil,
             standardsSubscriptionArn: Swift.String? = nil
         ) {
+            self.provider = provider
             self.standardsArn = standardsArn
             self.standardsControlsUpdatable = standardsControlsUpdatable
             self.standardsInput = standardsInput
@@ -21849,6 +22132,35 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum SecurityControlsProvider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityControlsProvider] {
+            return [
+                .aws,
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .azure: return "Azure"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum ControlStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -21951,6 +22263,8 @@ extension SecurityHubClientTypes {
         public var lastUpdateReason: Swift.String?
         /// An object that identifies the name of a control parameter, its current value, and whether it has been customized.
         public var parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]?
+        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
@@ -21976,6 +22290,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             lastUpdateReason: Swift.String? = nil,
             parameters: [Swift.String: SecurityHubClientTypes.ParameterConfiguration]? = nil,
+            provider: SecurityHubClientTypes.SecurityControlsProvider? = nil,
             remediationUrl: Swift.String? = nil,
             securityControlArn: Swift.String? = nil,
             securityControlId: Swift.String? = nil,
@@ -21987,6 +22302,7 @@ extension SecurityHubClientTypes {
             self.description = description
             self.lastUpdateReason = lastUpdateReason
             self.parameters = parameters
+            self.provider = provider
             self.remediationUrl = remediationUrl
             self.securityControlArn = securityControlArn
             self.securityControlId = securityControlId
@@ -23177,6 +23493,11 @@ extension SecurityHubClientTypes {
         case resourcesImageRegistryUid
         case resourcesImageRepositoryName
         case resourcesImageUid
+        case resourcesName
+        case resourcesOwnerAccountName
+        case resourcesOwnerAccountUid
+        case resourcesOwnerOrgUid
+        case resourcesProvider
         case resourcesRegion
         case resourcesSubnetInfoUid
         case resourcesType
@@ -23252,6 +23573,11 @@ extension SecurityHubClientTypes {
                 .resourcesImageRegistryUid,
                 .resourcesImageRepositoryName,
                 .resourcesImageUid,
+                .resourcesName,
+                .resourcesOwnerAccountName,
+                .resourcesOwnerAccountUid,
+                .resourcesOwnerOrgUid,
+                .resourcesProvider,
                 .resourcesRegion,
                 .resourcesSubnetInfoUid,
                 .resourcesType,
@@ -23333,6 +23659,11 @@ extension SecurityHubClientTypes {
             case .resourcesImageRegistryUid: return "resources.image.registry_uid"
             case .resourcesImageRepositoryName: return "resources.image.repository_name"
             case .resourcesImageUid: return "resources.image.uid"
+            case .resourcesName: return "resources.name"
+            case .resourcesOwnerAccountName: return "resources.owner.account.name"
+            case .resourcesOwnerAccountUid: return "resources.owner.account.uid"
+            case .resourcesOwnerOrgUid: return "resources.owner.org.uid"
+            case .resourcesProvider: return "resources.provider"
             case .resourcesRegion: return "resources.region"
             case .resourcesSubnetInfoUid: return "resources.subnet_info.uid"
             case .resourcesType: return "resources.type"
@@ -23628,12 +23959,14 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum ConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
         case jiraCloud
         case servicenow
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectorProviderName] {
             return [
+                .azure,
                 .jiraCloud,
                 .servicenow
             ]
@@ -23646,6 +23979,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azure: return "AZURE"
             case .jiraCloud: return "JIRA_CLOUD"
             case .servicenow: return "SERVICENOW"
             case let .sdkUnknown(s): return s
@@ -23658,17 +23992,21 @@ extension SecurityHubClientTypes {
 
     public enum ConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connected
+        case degraded
         case failedToConnect
         case pendingAuthorization
         case pendingConfiguration
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectorStatus] {
             return [
                 .connected,
+                .degraded,
                 .failedToConnect,
                 .pendingAuthorization,
-                .pendingConfiguration
+                .pendingConfiguration,
+                .unknown
             ]
         }
 
@@ -23680,12 +24018,128 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .connected: return "CONNECTED"
+            case .degraded: return "DEGRADED"
             case .failedToConnect: return "FAILED_TO_CONNECT"
             case .pendingAuthorization: return "PENDING_AUTHORIZATION"
             case .pendingConfiguration: return "PENDING_CONFIGURATION"
+            case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum EnablementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enabled
+        case failedToDelete
+        case failedToEnable
+        case failedToUpdate
+        case pendingDeletion
+        case pendingEnablement
+        case pendingUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnablementStatus] {
+            return [
+                .enabled,
+                .failedToDelete,
+                .failedToEnable,
+                .failedToUpdate,
+                .pendingDeletion,
+                .pendingEnablement,
+                .pendingUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case .failedToDelete: return "FAILED_TO_DELETE"
+            case .failedToEnable: return "FAILED_TO_ENABLE"
+            case .failedToUpdate: return "FAILED_TO_UPDATE"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case .pendingEnablement: return "PENDING_ENABLEMENT"
+            case .pendingUpdate: return "PENDING_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the configuration and status of a Jira Cloud integration.
+    public struct JiraCloudDetail: Swift.Sendable {
+        /// The status of the authorization between Jira Cloud and the service.
+        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
+        /// The URL to provide to customers for OAuth auth code flow.
+        public var authUrl: Swift.String?
+        /// The cloud id of the Jira Cloud.
+        public var cloudId: Swift.String?
+        /// The URL domain of your Jira Cloud instance.
+        public var domain: Swift.String?
+        /// The projectKey of Jira Cloud.
+        public var projectKey: Swift.String?
+
+        public init(
+            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
+            authUrl: Swift.String? = nil,
+            cloudId: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            projectKey: Swift.String? = nil
+        ) {
+            self.authStatus = authStatus
+            self.authUrl = authUrl
+            self.cloudId = cloudId
+            self.domain = domain
+            self.projectKey = projectKey
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about a ServiceNow ITSM integration.
+    public struct ServiceNowDetail: Swift.Sendable {
+        /// The status of the authorization between ServiceNow and the service.
+        /// This member is required.
+        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
+        /// The instanceName of ServiceNow ITSM.
+        public var instanceName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
+            instanceName: Swift.String? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.authStatus = authStatus
+            self.instanceName = instanceName
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The third-party provider detail for a service configuration.
+    public enum ProviderDetail: Swift.Sendable {
+        /// Details about a Jira Cloud integration.
+        case jiracloud(SecurityHubClientTypes.JiraCloudDetail)
+        /// Details about a ServiceNow ITSM integration.
+        case servicenow(SecurityHubClientTypes.ServiceNowDetail)
+        /// Details about a Microsoft Azure CSPM integration.
+        case azure(SecurityHubClientTypes.AzureDetail)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -23695,14 +24149,18 @@ extension SecurityHubClientTypes {
     public struct ProviderSummary: Swift.Sendable {
         /// The status for the connectorV2.
         public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+        /// The third-party provider detail for a service configuration.
+        public var providerConfiguration: SecurityHubClientTypes.ProviderDetail?
         /// The name of the provider.
         public var providerName: SecurityHubClientTypes.ConnectorProviderName?
 
         public init(
             connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+            providerConfiguration: SecurityHubClientTypes.ProviderDetail? = nil,
             providerName: SecurityHubClientTypes.ConnectorProviderName? = nil
         ) {
             self.connectorStatus = connectorStatus
+            self.providerConfiguration = providerConfiguration
             self.providerName = providerName
         }
     }
@@ -23722,6 +24180,10 @@ extension SecurityHubClientTypes {
         public var createdAt: Foundation.Date?
         /// The description of the connectorV2.
         public var description: Swift.String?
+        /// The enablement status of the connector.
+        public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
+        /// The reason for the current enablement status. Provides additional context when the connector is in a failed state.
+        public var enablementStatusReason: Swift.String?
         /// The Name field contains the user-defined name assigned to the integration connector. This helps identify and manage multiple connectors within Security Hub.
         /// This member is required.
         public var name: Swift.String?
@@ -23734,6 +24196,8 @@ extension SecurityHubClientTypes {
             connectorId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil,
+            enablementStatusReason: Swift.String? = nil,
             name: Swift.String? = nil,
             providerSummary: SecurityHubClientTypes.ProviderSummary? = nil
         ) {
@@ -23741,6 +24205,8 @@ extension SecurityHubClientTypes {
             self.connectorId = connectorId
             self.createdAt = createdAt
             self.description = description
+            self.enablementStatus = enablementStatus
+            self.enablementStatusReason = enablementStatusReason
             self.name = name
             self.providerSummary = providerSummary
         }
@@ -24116,6 +24582,142 @@ public struct CreateConfigurationPolicyOutput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    /// The cloud provider configuration for creating a connector. This is a union type that currently supports Azure.
+    public enum CspmProviderConfiguration: Swift.Sendable {
+        /// The Azure provider configuration.
+        case azure(SecurityHubClientTypes.AzureProviderConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateConnectorInput: Swift.Sendable {
+    /// A unique identifier used to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The description of the connector.
+    public var description: Swift.String?
+    /// The name of the connector. Must be unique within the account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The configuration for the cloud provider to connect to. Currently supports Azure.
+    /// This member is required.
+    public var provider: SecurityHubClientTypes.CspmProviderConfiguration?
+    /// The tags to add to the connector resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provider: SecurityHubClientTypes.CspmProviderConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.provider = provider
+        self.tags = tags
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The connectivity status of a CSPM connector.
+    public enum CspmConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case degraded
+        case failedToConnect
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CspmConnectorStatus] {
+            return [
+                .connected,
+                .degraded,
+                .failedToConnect,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .degraded: return "DEGRADED"
+            case .failedToConnect: return "FAILED_TO_CONNECT"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The enablement status of a CSPM connector. Indicates the lifecycle state of the connector resource.
+    public enum CspmEnablementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enabled
+        case pendingDeletion
+        case pendingEnablement
+        case pendingUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CspmEnablementStatus] {
+            return [
+                .enabled,
+                .pendingDeletion,
+                .pendingEnablement,
+                .pendingUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case .pendingEnablement: return "PENDING_ENABLEMENT"
+            case .pendingUpdate: return "PENDING_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    /// This member is required.
+    public var connectorArn: Swift.String?
+    /// The unique identifier of the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The connectivity status of the connector.
+    public var connectorStatus: SecurityHubClientTypes.CspmConnectorStatus?
+    /// The enablement status of the connector.
+    public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        connectorStatus: SecurityHubClientTypes.CspmConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
+        self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// The initial configuration settings required to establish an integration between Security Hub and Jira Cloud.
     public struct JiraCloudProviderConfiguration: Swift.Sendable {
         /// The project key for a JiraCloud instance.
@@ -24158,6 +24760,8 @@ extension SecurityHubClientTypes {
         case jiracloud(SecurityHubClientTypes.JiraCloudProviderConfiguration)
         /// The configuration settings required to establish an integration with ServiceNow ITSM.
         case servicenow(SecurityHubClientTypes.ServiceNowProviderConfiguration)
+        /// The configuration settings required to establish a CSPM integration with Microsoft Azure.
+        case azure(SecurityHubClientTypes.AzureProviderConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -24206,17 +24810,21 @@ public struct CreateConnectorV2Output: Swift.Sendable {
     public var connectorId: Swift.String?
     /// The current status of the connectorV2.
     public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+    /// The enablement status of the connector after creation.
+    public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
 
     public init(
         authUrl: Swift.String? = nil,
         connectorArn: Swift.String? = nil,
         connectorId: Swift.String? = nil,
-        connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil
+        connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil
     ) {
         self.authUrl = authUrl
         self.connectorArn = connectorArn
         self.connectorId = connectorId
         self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
     }
 }
 
@@ -24413,6 +25021,214 @@ public struct CreateTicketV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    /// The name of the cloud provider for a CSPM connector.
+    public enum CspmConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CspmConnectorProviderName] {
+            return [
+                .azure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "AZURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The detailed cloud provider configuration for a connector. This is a union type that currently supports Azure.
+    public enum CspmProviderDetail: Swift.Sendable {
+        /// The Azure provider detail.
+        case azure(SecurityHubClientTypes.AzureDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of the cloud provider configuration for a connector.
+    public struct CspmProviderSummary: Swift.Sendable {
+        /// The connectivity status of the connector.
+        public var connectorStatus: SecurityHubClientTypes.CspmConnectorStatus?
+        /// The provider configuration details.
+        public var providerConfiguration: SecurityHubClientTypes.CspmProviderDetail?
+        /// The name of the cloud provider.
+        public var providerName: SecurityHubClientTypes.CspmConnectorProviderName?
+
+        public init(
+            connectorStatus: SecurityHubClientTypes.CspmConnectorStatus? = nil,
+            providerConfiguration: SecurityHubClientTypes.CspmProviderDetail? = nil,
+            providerName: SecurityHubClientTypes.CspmConnectorProviderName? = nil
+        ) {
+            self.connectorStatus = connectorStatus
+            self.providerConfiguration = providerConfiguration
+            self.providerName = providerName
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of a CSPM connector.
+    public struct CspmConnectorSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public var connectorArn: Swift.String?
+        /// The unique identifier of the connector.
+        public var connectorId: Swift.String?
+        /// The ISO 8601 UTC timestamp indicating when the connector was created.
+        public var createdAt: Foundation.Date?
+        /// The service principal that created the connector.
+        public var createdBy: Swift.String?
+        /// The description of the connector.
+        public var description: Swift.String?
+        /// The enablement status of the connector.
+        public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+        /// The name of the connector.
+        public var name: Swift.String?
+        /// A summary of the cloud provider configuration for the connector.
+        public var providerSummary: SecurityHubClientTypes.CspmProviderSummary?
+
+        public init(
+            connectorArn: Swift.String? = nil,
+            connectorId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            description: Swift.String? = nil,
+            enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil,
+            name: Swift.String? = nil,
+            providerSummary: SecurityHubClientTypes.CspmProviderSummary? = nil
+        ) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.enablementStatus = enablementStatus
+            self.name = name
+            self.providerSummary = providerSummary
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The error code for a connector health issue.
+    public enum HealthIssueCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authenticationFailure
+        case discoveryFailure
+        case noHealthData
+        case recordingFailure
+        case streamAuthorizationFailure
+        case streamDisconnected
+        case streamLimitExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthIssueCode] {
+            return [
+                .authenticationFailure,
+                .discoveryFailure,
+                .noHealthData,
+                .recordingFailure,
+                .streamAuthorizationFailure,
+                .streamDisconnected,
+                .streamLimitExceeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authenticationFailure: return "AUTHENTICATION_FAILURE"
+            case .discoveryFailure: return "DISCOVERY_FAILURE"
+            case .noHealthData: return "NO_HEALTH_DATA"
+            case .recordingFailure: return "RECORDING_FAILURE"
+            case .streamAuthorizationFailure: return "STREAM_AUTHORIZATION_FAILURE"
+            case .streamDisconnected: return "STREAM_DISCONNECTED"
+            case .streamLimitExceeded: return "STREAM_LIMIT_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Represents a specific health issue detected for a connector.
+    public struct HealthIssue: Swift.Sendable {
+        /// The error code that identifies the type of health issue.
+        /// This member is required.
+        public var code: SecurityHubClientTypes.HealthIssueCode?
+        /// A human-readable message that describes the health issue.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: SecurityHubClientTypes.HealthIssueCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the operational status and health of a CSPM connector.
+    public struct CspmHealthCheck: Swift.Sendable {
+        /// The connectivity status of the connector.
+        /// This member is required.
+        public var connectorStatus: SecurityHubClientTypes.CspmConnectorStatus?
+        /// A list of health issues associated with the connector.
+        public var issues: [SecurityHubClientTypes.HealthIssue]?
+        /// The ISO 8601 UTC timestamp indicating when the health status was last checked.
+        /// This member is required.
+        public var lastCheckedAt: Foundation.Date?
+        /// A message describing the reason for the current connector status.
+        public var message: Swift.String?
+
+        public init(
+            connectorStatus: SecurityHubClientTypes.CspmConnectorStatus? = nil,
+            issues: [SecurityHubClientTypes.HealthIssue]? = nil,
+            lastCheckedAt: Foundation.Date? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.connectorStatus = connectorStatus
+            self.issues = issues
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The cloud provider configuration for updating a connector. This is a union type that currently supports Azure.
+    public enum CspmProviderUpdateConfiguration: Swift.Sendable {
+        /// The Azure update configuration.
+        case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum SecurityControlProperty: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case parameters
         case sdkUnknown(Swift.String)
@@ -24535,6 +25351,29 @@ public struct DeleteConfigurationPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConnectorInput: Swift.Sendable {
+    /// The unique identifier of the connector to delete.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+    }
+}
+
+public struct DeleteConnectorOutput: Swift.Sendable {
+    /// The enablement status of the connector after the delete request.
+    public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+
+    public init(
+        enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil
+    ) {
+        self.enablementStatus = enablementStatus
+    }
+}
+
 public struct DeleteConnectorV2Input: Swift.Sendable {
     /// The UUID of the connectorV2 to identify connectorV2 resource.
     /// This member is required.
@@ -24548,8 +25387,14 @@ public struct DeleteConnectorV2Input: Swift.Sendable {
 }
 
 public struct DeleteConnectorV2Output: Swift.Sendable {
+    /// The enablement status of the connector after deletion.
+    public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
 
-    public init() { }
+    public init(
+        enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil
+    ) {
+        self.enablementStatus = enablementStatus
+    }
 }
 
 public struct DeleteFindingAggregatorInput: Swift.Sendable {
@@ -25055,16 +25900,69 @@ public struct DescribeSecurityHubV2Input: Swift.Sendable {
     public init() { }
 }
 
+extension SecurityHubClientTypes {
+
+    /// The enablement status of a feature. Valid values: ENABLED | DISABLED.
+    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Contains the status and metadata for an opt-in feature.
+    public struct FeatureDetail: Swift.Sendable {
+        /// The current enablement status of the feature. Valid values: ENABLED | DISABLED.
+        public var featureStatus: SecurityHubClientTypes.FeatureStatus?
+        /// The date and time when the feature status was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            featureStatus: SecurityHubClientTypes.FeatureStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.featureStatus = featureStatus
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 public struct DescribeSecurityHubV2Output: Swift.Sendable {
+    /// A map of opt-in features and their current status and metadata for the account in the current Region.
+    public var features: [Swift.String: SecurityHubClientTypes.FeatureDetail]?
     /// The ARN of the service resource.
     public var hubV2Arn: Swift.String?
     /// The date and time when the service was enabled in the account.
     public var subscribedAt: Swift.String?
 
     public init(
+        features: [Swift.String: SecurityHubClientTypes.FeatureDetail]? = nil,
         hubV2Arn: Swift.String? = nil,
         subscribedAt: Swift.String? = nil
     ) {
+        self.features = features
         self.hubV2Arn = hubV2Arn
         self.subscribedAt = subscribedAt
     }
@@ -25075,13 +25973,17 @@ public struct DescribeStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
+    /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources.
+    public var providers: [SecurityHubClientTypes.StandardsProvider]?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        providers: [SecurityHubClientTypes.StandardsProvider]? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.providers = providers
     }
 }
 
@@ -25114,6 +26016,8 @@ extension SecurityHubClientTypes {
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
+        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        public var provider: SecurityHubClientTypes.StandardsProvider?
         /// The ARN of the standard.
         public var standardsArn: Swift.String?
         /// Provides details about the management of a standard.
@@ -25123,12 +26027,14 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             enabledByDefault: Swift.Bool? = nil,
             name: Swift.String? = nil,
+            provider: SecurityHubClientTypes.StandardsProvider? = nil,
             standardsArn: Swift.String? = nil,
             standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy? = nil
         ) {
             self.description = description
             self.enabledByDefault = enabledByDefault
             self.name = name
+            self.provider = provider
             self.standardsArn = standardsArn
             self.standardsManagedBy = standardsManagedBy
         }
@@ -25313,6 +26219,50 @@ public struct DisableSecurityHubOutput: Swift.Sendable {
     public init() { }
 }
 
+extension SecurityHubClientTypes {
+
+    /// The name of an opt-in feature. Valid values: NETWORK_SCANNING.
+    public enum FeatureName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case networkScanning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureName] {
+            return [
+                .networkScanning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .networkScanning: return "NETWORK_SCANNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DisableSecurityHubFeatureV2Input: Swift.Sendable {
+    /// The name of the feature to disable.
+    /// This member is required.
+    public var featureName: SecurityHubClientTypes.FeatureName?
+
+    public init(
+        featureName: SecurityHubClientTypes.FeatureName? = nil
+    ) {
+        self.featureName = featureName
+    }
+}
+
+public struct DisableSecurityHubFeatureV2Output: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisableSecurityHubV2Input: Swift.Sendable {
 
     public init() { }
@@ -25434,6 +26384,23 @@ public struct EnableSecurityHubInput: Swift.Sendable {
 }
 
 public struct EnableSecurityHubOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableSecurityHubFeatureV2Input: Swift.Sendable {
+    /// The name of the feature to enable.
+    /// This member is required.
+    public var featureName: SecurityHubClientTypes.FeatureName?
+
+    public init(
+        featureName: SecurityHubClientTypes.FeatureName? = nil
+    ) {
+        self.featureName = featureName
+    }
+}
+
+public struct EnableSecurityHubFeatureV2Output: Swift.Sendable {
 
     public init() { }
 }
@@ -25609,6 +26576,10 @@ extension SecurityHubClientTypes {
         case findingType
         case providerName
         case region
+        case resourceCloudProviders
+        case resourceOwnerIds
+        case resourceOwnerOrganizationIds
+        case resourceRegions
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FindingsTrendsStringField] {
@@ -25622,7 +26593,11 @@ extension SecurityHubClientTypes {
                 .findingStatus,
                 .findingType,
                 .providerName,
-                .region
+                .region,
+                .resourceCloudProviders,
+                .resourceOwnerIds,
+                .resourceOwnerOrganizationIds,
+                .resourceRegions
             ]
         }
 
@@ -25643,6 +26618,10 @@ extension SecurityHubClientTypes {
             case .findingType: return "finding_types"
             case .providerName: return "finding_provider"
             case .region: return "region"
+            case .resourceCloudProviders: return "resource_cloud_providers"
+            case .resourceOwnerIds: return "resource_owner_ids"
+            case .resourceOwnerOrganizationIds: return "resource_owner_organization_ids"
+            case .resourceRegions: return "resource_regions"
             case let .sdkUnknown(s): return s
             }
         }
@@ -25653,7 +26632,35 @@ extension SecurityHubClientTypes {
 
     /// A filter for string-based fields in findings trend data.
     public struct FindingsTrendsStringFilter: Swift.Sendable {
-        /// The name of the findings field to filter on.
+        /// The name of the findings field to filter on. You can specify one of the following fields.
+        ///
+        /// * account_id – The Amazon Web Services account ID associated with the finding.
+        ///
+        /// * region – The Amazon Web Services Region associated with the finding.
+        ///
+        /// * finding_types – The finding types associated with the finding.
+        ///
+        /// * finding_status – The status of the finding.
+        ///
+        /// * finding_cve_ids – The Common Vulnerabilities and Exposures (CVE) identifiers associated with the finding.
+        ///
+        /// * finding_compliance_status – The compliance status of the finding.
+        ///
+        /// * finding_control_id – The identifier of the security control associated with the finding.
+        ///
+        /// * finding_class_name – The finding class, such as Compliance Finding.
+        ///
+        /// * finding_provider – The name of the product that generated the finding.
+        ///
+        /// * finding_activity_name – The activity name associated with the finding.
+        ///
+        /// * resource_cloud_providers – The cloud providers of the resources that the finding is associated with. Valid values are AWS and Azure.
+        ///
+        /// * resource_regions – The Regions of the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as eastus.
+        ///
+        /// * resource_owner_ids – The identifiers of the accounts that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.
+        ///
+        /// * resource_owner_organization_ids – The identifiers of the organizations that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.
         public var fieldName: SecurityHubClientTypes.FindingsTrendsStringField?
         /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
@@ -25869,6 +26876,71 @@ public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
     }
 }
 
+public struct GetConnectorInput: Swift.Sendable {
+    /// The unique identifier of the connector to retrieve.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+    }
+}
+
+public struct GetConnectorOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connector.
+    public var connectorArn: Swift.String?
+    /// The unique identifier of the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The ISO 8601 UTC timestamp indicating when the connector was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The service principal that created the connector.
+    public var createdBy: Swift.String?
+    /// The description of the connector.
+    public var description: Swift.String?
+    /// The enablement status of the connector.
+    public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+    /// The health status of the connector, including connectivity status and last check time.
+    /// This member is required.
+    public var health: SecurityHubClientTypes.CspmHealthCheck?
+    /// The ISO 8601 UTC timestamp indicating when the connector was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The cloud provider configuration details for the connector.
+    /// This member is required.
+    public var providerDetail: SecurityHubClientTypes.CspmProviderDetail?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil,
+        health: SecurityHubClientTypes.CspmHealthCheck? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        providerDetail: SecurityHubClientTypes.CspmProviderDetail? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.enablementStatus = enablementStatus
+        self.health = health
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.providerDetail = providerDetail
+    }
+}
+
 public struct GetConnectorV2Input: Swift.Sendable {
     /// The UUID of the connectorV2 to identify connectorV2 resource.
     /// This member is required.
@@ -25888,6 +26960,8 @@ extension SecurityHubClientTypes {
         /// The status of the connectorV2.
         /// This member is required.
         public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+        /// A list of health issues associated with the connector, including error codes and messages.
+        public var issues: [SecurityHubClientTypes.HealthIssue]?
         /// ISO 8601 UTC timestamp for the time check the health status of the connectorV2.
         /// This member is required.
         public var lastCheckedAt: Foundation.Date?
@@ -25896,81 +26970,15 @@ extension SecurityHubClientTypes {
 
         public init(
             connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+            issues: [SecurityHubClientTypes.HealthIssue]? = nil,
             lastCheckedAt: Foundation.Date? = nil,
             message: Swift.String? = nil
         ) {
             self.connectorStatus = connectorStatus
+            self.issues = issues
             self.lastCheckedAt = lastCheckedAt
             self.message = message
         }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Information about the configuration and status of a Jira Cloud integration.
-    public struct JiraCloudDetail: Swift.Sendable {
-        /// The status of the authorization between Jira Cloud and the service.
-        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
-        /// The URL to provide to customers for OAuth auth code flow.
-        public var authUrl: Swift.String?
-        /// The cloud id of the Jira Cloud.
-        public var cloudId: Swift.String?
-        /// The URL domain of your Jira Cloud instance.
-        public var domain: Swift.String?
-        /// The projectKey of Jira Cloud.
-        public var projectKey: Swift.String?
-
-        public init(
-            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
-            authUrl: Swift.String? = nil,
-            cloudId: Swift.String? = nil,
-            domain: Swift.String? = nil,
-            projectKey: Swift.String? = nil
-        ) {
-            self.authStatus = authStatus
-            self.authUrl = authUrl
-            self.cloudId = cloudId
-            self.domain = domain
-            self.projectKey = projectKey
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Information about a ServiceNow ITSM integration.
-    public struct ServiceNowDetail: Swift.Sendable {
-        /// The status of the authorization between ServiceNow and the service.
-        /// This member is required.
-        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
-        /// The instanceName of ServiceNow ITSM.
-        public var instanceName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the ServiceNow credentials.
-        /// This member is required.
-        public var secretArn: Swift.String?
-
-        public init(
-            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
-            instanceName: Swift.String? = nil,
-            secretArn: Swift.String? = nil
-        ) {
-            self.authStatus = authStatus
-            self.instanceName = instanceName
-            self.secretArn = secretArn
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// The third-party provider detail for a service configuration.
-    public enum ProviderDetail: Swift.Sendable {
-        /// Details about a Jira Cloud integration.
-        case jiracloud(SecurityHubClientTypes.JiraCloudDetail)
-        /// Details about a ServiceNow ITSM integration.
-        case servicenow(SecurityHubClientTypes.ServiceNowDetail)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -25985,6 +26993,10 @@ public struct GetConnectorV2Output: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the connectorV2.
     public var description: Swift.String?
+    /// The enablement status of the connector.
+    public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
+    /// The reason for the current enablement status. Provides additional context when the connector is in a failed state.
+    public var enablementStatusReason: Swift.String?
     /// The current health status for connectorV2
     /// This member is required.
     public var health: SecurityHubClientTypes.HealthCheck?
@@ -26005,6 +27017,8 @@ public struct GetConnectorV2Output: Swift.Sendable {
         connectorId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
+        enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil,
+        enablementStatusReason: Swift.String? = nil,
         health: SecurityHubClientTypes.HealthCheck? = nil,
         kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
@@ -26015,6 +27029,8 @@ public struct GetConnectorV2Output: Swift.Sendable {
         self.connectorId = connectorId
         self.createdAt = createdAt
         self.description = description
+        self.enablementStatus = enablementStatus
+        self.enablementStatusReason = enablementStatusReason
         self.health = health
         self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
@@ -26028,16 +27044,20 @@ public struct GetEnabledStandardsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
+    /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources.
+    public var providers: [SecurityHubClientTypes.StandardsProvider]?
     /// The list of the standards subscription ARNs for the standards to retrieve.
     public var standardsSubscriptionArns: [Swift.String]?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        providers: [SecurityHubClientTypes.StandardsProvider]? = nil,
         standardsSubscriptionArns: [Swift.String]? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.providers = providers
         self.standardsSubscriptionArns = standardsSubscriptionArns
     }
 }
@@ -26294,6 +27314,13 @@ extension SecurityHubClientTypes {
         case metadataProductName
         case metadataProductUid
         case metadataProductVendorName
+        case resourcesCloudPartition
+        case resourcesName
+        case resourcesOwnerAccountName
+        case resourcesOwnerAccountUid
+        case resourcesOwnerOrgUid
+        case resourcesProvider
+        case resourcesRegion
         case resourcesType
         case resourcesUid
         case severity
@@ -26322,6 +27349,13 @@ extension SecurityHubClientTypes {
                 .metadataProductName,
                 .metadataProductUid,
                 .metadataProductVendorName,
+                .resourcesCloudPartition,
+                .resourcesName,
+                .resourcesOwnerAccountName,
+                .resourcesOwnerAccountUid,
+                .resourcesOwnerOrgUid,
+                .resourcesProvider,
+                .resourcesRegion,
                 .resourcesType,
                 .resourcesUid,
                 .severity,
@@ -26356,6 +27390,13 @@ extension SecurityHubClientTypes {
             case .metadataProductName: return "metadata.product.name"
             case .metadataProductUid: return "metadata.product.uid"
             case .metadataProductVendorName: return "metadata.product.vendor_name"
+            case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesName: return "resources.name"
+            case .resourcesOwnerAccountName: return "resources.owner.account.name"
+            case .resourcesOwnerAccountUid: return "resources.owner.account.uid"
+            case .resourcesOwnerOrgUid: return "resources.owner.org.uid"
+            case .resourcesProvider: return "resources.provider"
+            case .resourcesRegion: return "resources.region"
             case .resourcesType: return "resources.type"
             case .resourcesUid: return "resources.uid"
             case .severity: return "severity"
@@ -27159,26 +28200,38 @@ extension SecurityHubClientTypes {
 
     public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
+        case accountName
         case findingType
         case productName
         case region
         case resourceCategory
+        case resourceCloudPartition
         case resourceGuid
         case resourceId
         case resourceName
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
         case resourceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourcesStringField] {
             return [
                 .accountId,
+                .accountName,
                 .findingType,
                 .productName,
                 .region,
                 .resourceCategory,
+                .resourceCloudPartition,
                 .resourceGuid,
                 .resourceId,
                 .resourceName,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
                 .resourceType
             ]
         }
@@ -27191,13 +28244,19 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .accountName: return "AccountName"
             case .findingType: return "FindingsSummary.FindingType"
             case .productName: return "FindingsSummary.ProductName"
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
             case .resourceGuid: return "ResourceGuid"
             case .resourceId: return "ResourceId"
             case .resourceName: return "ResourceName"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
             case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
@@ -27228,20 +28287,32 @@ extension SecurityHubClientTypes {
 
     public enum ResourceGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
+        case accountName
         case findingType
         case region
         case resourceCategory
+        case resourceCloudPartition
         case resourceName
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
         case resourceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceGroupByField] {
             return [
                 .accountId,
+                .accountName,
                 .findingType,
                 .region,
                 .resourceCategory,
+                .resourceCloudPartition,
                 .resourceName,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
                 .resourceType
             ]
         }
@@ -27254,10 +28325,16 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .accountName: return "AccountName"
             case .findingType: return "FindingsSummary.FindingType"
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
             case .resourceName: return "ResourceName"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
             case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
@@ -27298,6 +28375,10 @@ extension SecurityHubClientTypes {
         case accountId
         case region
         case resourceCategory
+        case resourceCloudProvider
+        case resourceOwnerId
+        case resourceOwnerOrganizationId
+        case resourceRegion
         case resourceType
         case sdkUnknown(Swift.String)
 
@@ -27306,6 +28387,10 @@ extension SecurityHubClientTypes {
                 .accountId,
                 .region,
                 .resourceCategory,
+                .resourceCloudProvider,
+                .resourceOwnerId,
+                .resourceOwnerOrganizationId,
+                .resourceRegion,
                 .resourceType
             ]
         }
@@ -27320,6 +28405,10 @@ extension SecurityHubClientTypes {
             case .accountId: return "account_id"
             case .region: return "region"
             case .resourceCategory: return "resource_category"
+            case .resourceCloudProvider: return "resource_cloud_provider"
+            case .resourceOwnerId: return "resource_owner_id"
+            case .resourceOwnerOrganizationId: return "resource_owner_organization_id"
+            case .resourceRegion: return "resource_region"
             case .resourceType: return "resource_type"
             case let .sdkUnknown(s): return s
             }
@@ -27331,7 +28420,23 @@ extension SecurityHubClientTypes {
 
     /// A filter for string-based fields in resources trend data, such as resource type or account ID.
     public struct ResourcesTrendsStringFilter: Swift.Sendable {
-        /// The name of the resources field to filter on, such as resourceType, accountId, or region.
+        /// The name of the resources field to filter on. You can specify one of the following fields.
+        ///
+        /// * account_id – The Amazon Web Services account ID that owns the resource.
+        ///
+        /// * region – The Amazon Web Services Region of the resource.
+        ///
+        /// * resource_type – The type of the resource.
+        ///
+        /// * resource_category – The category of the resource.
+        ///
+        /// * resource_cloud_provider – The cloud provider of the resource. Valid values are AWS and Azure.
+        ///
+        /// * resource_region – The Region of the resource. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as eastus.
+        ///
+        /// * resource_owner_id – The identifier of the account that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.
+        ///
+        /// * resource_owner_organization_id – The identifier of the organization that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.
         public var fieldName: SecurityHubClientTypes.ResourcesTrendsStringField?
         /// A string filter for filtering Security Hub CSPM findings.
         public var filter: SecurityHubClientTypes.StringFilter?
@@ -27501,6 +28606,7 @@ extension SecurityHubClientTypes {
         case compute
         case database
         case identity
+        case messaging
         case network
         case other
         case storage
@@ -27513,6 +28619,7 @@ extension SecurityHubClientTypes {
                 .compute,
                 .database,
                 .identity,
+                .messaging,
                 .network,
                 .other,
                 .storage
@@ -27531,6 +28638,7 @@ extension SecurityHubClientTypes {
             case .compute: return "Compute"
             case .database: return "Database"
             case .identity: return "Identity"
+            case .messaging: return "Messaging"
             case .network: return "Network"
             case .other: return "Other"
             case .storage: return "Storage"
@@ -27565,16 +28673,20 @@ extension SecurityHubClientTypes {
 
     /// Provides comprehensive details about an Amazon Web Services resource and its associated security findings.
     public struct ResourceResult: Swift.Sendable {
-        /// The Amazon Web Services account that owns the resource.
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
         /// This member is required.
         public var accountId: Swift.String?
+        /// The name of the Amazon Web Services account that's associated with the resource.
+        public var accountName: Swift.String?
         /// An aggregated view of security findings associated with a resource.
         public var findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]?
-        /// The Amazon Web Services Region where the resource is located.
+        /// The Amazon Web Services Region that recorded the resource data in Security Hub.
         /// This member is required.
         public var region: Swift.String?
         /// The grouping where the resource belongs.
         public var resourceCategory: SecurityHubClientTypes.ResourceCategory?
+        /// The cloud partition where the resource exists. For Amazon Web Services, valid values include aws, aws-cn, and aws-us-gov. This field isn't returned for cloud providers that don't use partitions.
+        public var resourceCloudPartition: Swift.String?
         /// The configuration details of a resource.
         /// This member is required.
         public var resourceConfig: Smithy.Document?
@@ -27590,35 +28702,56 @@ extension SecurityHubClientTypes {
         public var resourceId: Swift.String?
         /// The name of the resource.
         public var resourceName: Swift.String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public var resourceOwnerAccountId: Swift.String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public var resourceOwnerOrgId: Swift.String?
+        /// The cloud provider where the resource exists. Valid values are AWS and Azure. This field is always included.
+        public var resourceProvider: Swift.String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2). This field is always included.
+        public var resourceRegion: Swift.String?
         /// The key-value pairs associated with a resource.
         public var resourceTags: [SecurityHubClientTypes.ResourceTag]?
         /// The type of resource.
+        /// This member is required.
         public var resourceType: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
+            accountName: Swift.String? = nil,
             findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
             region: Swift.String? = nil,
             resourceCategory: SecurityHubClientTypes.ResourceCategory? = nil,
+            resourceCloudPartition: Swift.String? = nil,
             resourceConfig: Smithy.Document? = nil,
             resourceCreationTimeDt: Swift.String? = nil,
             resourceDetailCaptureTimeDt: Swift.String? = nil,
             resourceGuid: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
+            resourceOwnerAccountId: Swift.String? = nil,
+            resourceOwnerOrgId: Swift.String? = nil,
+            resourceProvider: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
             resourceTags: [SecurityHubClientTypes.ResourceTag]? = nil,
             resourceType: Swift.String? = nil
         ) {
             self.accountId = accountId
+            self.accountName = accountName
             self.findingsSummary = findingsSummary
             self.region = region
             self.resourceCategory = resourceCategory
+            self.resourceCloudPartition = resourceCloudPartition
             self.resourceConfig = resourceConfig
             self.resourceCreationTimeDt = resourceCreationTimeDt
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
             self.resourceGuid = resourceGuid
             self.resourceId = resourceId
             self.resourceName = resourceName
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceProvider = resourceProvider
+            self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
         }
@@ -27717,6 +28850,8 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// An object that provides a security control parameter name, description, and the options for customizing it. This object is excluded for a control that doesn't support custom parameters.
         public var parameterDefinitions: [Swift.String: SecurityHubClientTypes.ParameterDefinition]?
+        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        public var provider: SecurityHubClientTypes.SecurityControlsProvider?
         /// A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         /// This member is required.
         public var remediationUrl: Swift.String?
@@ -27735,6 +28870,7 @@ extension SecurityHubClientTypes {
             customizableProperties: [SecurityHubClientTypes.SecurityControlProperty]? = nil,
             description: Swift.String? = nil,
             parameterDefinitions: [Swift.String: SecurityHubClientTypes.ParameterDefinition]? = nil,
+            provider: SecurityHubClientTypes.SecurityControlsProvider? = nil,
             remediationUrl: Swift.String? = nil,
             securityControlId: Swift.String? = nil,
             severityRating: SecurityHubClientTypes.SeverityRating? = nil,
@@ -27744,6 +28880,7 @@ extension SecurityHubClientTypes {
             self.customizableProperties = customizableProperties
             self.description = description
             self.parameterDefinitions = parameterDefinitions
+            self.provider = provider
             self.remediationUrl = remediationUrl
             self.securityControlId = securityControlId
             self.severityRating = severityRating
@@ -27956,9 +29093,54 @@ public struct ListConfigurationPolicyAssociationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectorsInput: Swift.Sendable {
+    /// The connectivity status to filter connectors by.
+    public var connectorStatus: SecurityHubClientTypes.CspmConnectorStatus?
+    /// The enablement status to filter connectors by.
+    public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The pagination token to request the next page of results.
+    public var nextToken: Swift.String?
+    /// The name of the cloud provider to filter connectors by.
+    public var providerName: SecurityHubClientTypes.CspmConnectorProviderName?
+
+    public init(
+        connectorStatus: SecurityHubClientTypes.CspmConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        providerName: SecurityHubClientTypes.CspmConnectorProviderName? = nil
+    ) {
+        self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.providerName = providerName
+    }
+}
+
+public struct ListConnectorsOutput: Swift.Sendable {
+    /// An array of connector summaries.
+    /// This member is required.
+    public var connectors: [SecurityHubClientTypes.CspmConnectorSummary]?
+    /// The pagination token to use to request the next page of results. If there are no additional results, this value is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectors: [SecurityHubClientTypes.CspmConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectors = connectors
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListConnectorsV2Input: Swift.Sendable {
     /// The status for the connectorV2.
     public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+    /// The enablement status to filter connectors by.
+    public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
     /// The maximum number of results to be returned.
     public var maxResults: Swift.Int?
     /// The pagination token per the Amazon Web Services Pagination standard
@@ -27968,11 +29150,13 @@ public struct ListConnectorsV2Input: Swift.Sendable {
 
     public init(
         connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         providerName: SecurityHubClientTypes.ConnectorProviderName? = nil
     ) {
         self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.providerName = providerName
@@ -28162,16 +29346,20 @@ public struct ListSecurityControlDefinitionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// Optional pagination parameter.
     public var nextToken: Swift.String?
+    /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources.
+    public var providers: [SecurityHubClientTypes.SecurityControlsProvider]?
     /// The Amazon Resource Name (ARN) of the standard that you want to view controls for.
     public var standardsArn: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        providers: [SecurityHubClientTypes.SecurityControlsProvider]? = nil,
         standardsArn: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.providers = providers
         self.standardsArn = standardsArn
     }
 }
@@ -28325,6 +29513,8 @@ extension SecurityHubClientTypes {
         case jiracloud(SecurityHubClientTypes.JiraCloudUpdateConfiguration)
         /// The parameters required to update the configuration for a ServiceNow integration.
         case servicenow(SecurityHubClientTypes.ServiceNowUpdateConfiguration)
+        /// The parameters required to update the configuration for a Microsoft Azure CSPM integration.
+        case azure(SecurityHubClientTypes.AzureUpdateConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -28642,6 +29832,41 @@ public struct UpdateConfigurationPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateConnectorInput: Swift.Sendable {
+    /// The unique identifier of the connector to update.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The updated description of the connector.
+    public var description: Swift.String?
+    /// The updated cloud provider configuration for the connector.
+    public var provider: SecurityHubClientTypes.CspmProviderUpdateConfiguration?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        provider: SecurityHubClientTypes.CspmProviderUpdateConfiguration? = nil
+    ) {
+        self.connectorId = connectorId
+        self.description = description
+        self.provider = provider
+    }
+}
+
+public struct UpdateConnectorOutput: Swift.Sendable {
+    /// The connectivity status of the connector after the update.
+    public var connectorStatus: SecurityHubClientTypes.CspmConnectorStatus?
+    /// The enablement status of the connector after the update.
+    public var enablementStatus: SecurityHubClientTypes.CspmEnablementStatus?
+
+    public init(
+        connectorStatus: SecurityHubClientTypes.CspmConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.CspmEnablementStatus? = nil
+    ) {
+        self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
+    }
+}
+
 public struct UpdateConnectorV2Input: Swift.Sendable {
     /// The UUID of the connectorV2 to identify connectorV2 resource.
     /// This member is required.
@@ -28663,8 +29888,18 @@ public struct UpdateConnectorV2Input: Swift.Sendable {
 }
 
 public struct UpdateConnectorV2Output: Swift.Sendable {
+    /// The status of the connector after the update.
+    public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+    /// The enablement status of the connector after the update.
+    public var enablementStatus: SecurityHubClientTypes.EnablementStatus?
 
-    public init() { }
+    public init(
+        connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+        enablementStatus: SecurityHubClientTypes.EnablementStatus? = nil
+    ) {
+        self.connectorStatus = connectorStatus
+        self.enablementStatus = enablementStatus
+    }
 }
 
 public struct UpdateFindingAggregatorInput: Swift.Sendable {
@@ -29539,6 +30774,13 @@ extension CreateConfigurationPolicyInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func urlPathProvider(_ value: CreateConnectorInput) -> Swift.String? {
+        return "/connectors"
+    }
+}
+
 extension CreateConnectorV2Input {
 
     static func urlPathProvider(_ value: CreateConnectorV2Input) -> Swift.String? {
@@ -29618,6 +30860,16 @@ extension DeleteConfigurationPolicyInput {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteConnectorInput) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectors/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -29774,6 +31026,12 @@ extension DescribeStandardsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let providers = value.providers {
+            providers.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "Providers".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         return items
     }
 }
@@ -29828,6 +31086,16 @@ extension DisableSecurityHubInput {
     }
 }
 
+extension DisableSecurityHubFeatureV2Input {
+
+    static func urlPathProvider(_ value: DisableSecurityHubFeatureV2Input) -> Swift.String? {
+        guard let featureName = value.featureName else {
+            return nil
+        }
+        return "/hubv2/feature/\(featureName.rawValue.urlPercentEncoding())"
+    }
+}
+
 extension DisableSecurityHubV2Input {
 
     static func urlPathProvider(_ value: DisableSecurityHubV2Input) -> Swift.String? {
@@ -29874,6 +31142,16 @@ extension EnableSecurityHubInput {
 
     static func urlPathProvider(_ value: EnableSecurityHubInput) -> Swift.String? {
         return "/accounts"
+    }
+}
+
+extension EnableSecurityHubFeatureV2Input {
+
+    static func urlPathProvider(_ value: EnableSecurityHubFeatureV2Input) -> Swift.String? {
+        guard let featureName = value.featureName else {
+            return nil
+        }
+        return "/hubv2/feature/\(featureName.rawValue.urlPercentEncoding())"
     }
 }
 
@@ -29935,6 +31213,16 @@ extension GetConfigurationPolicyAssociationInput {
 
     static func urlPathProvider(_ value: GetConfigurationPolicyAssociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/get"
+    }
+}
+
+extension GetConnectorInput {
+
+    static func urlPathProvider(_ value: GetConnectorInput) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectors/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -30212,6 +31500,41 @@ extension ListConfigurationPolicyAssociationsInput {
     }
 }
 
+extension ListConnectorsInput {
+
+    static func urlPathProvider(_ value: ListConnectorsInput) -> Swift.String? {
+        return "/connectors"
+    }
+}
+
+extension ListConnectorsInput {
+
+    static func queryItemProvider(_ value: ListConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let providerName = value.providerName {
+            let providerNameQueryItem = Smithy.URIQueryItem(name: "ProviderName".urlPercentEncoding(), value: Swift.String(providerName.rawValue).urlPercentEncoding())
+            items.append(providerNameQueryItem)
+        }
+        if let enablementStatus = value.enablementStatus {
+            let enablementStatusQueryItem = Smithy.URIQueryItem(name: "EnablementStatus".urlPercentEncoding(), value: Swift.String(enablementStatus.rawValue).urlPercentEncoding())
+            items.append(enablementStatusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let connectorStatus = value.connectorStatus {
+            let connectorStatusQueryItem = Smithy.URIQueryItem(name: "ConnectorStatus".urlPercentEncoding(), value: Swift.String(connectorStatus.rawValue).urlPercentEncoding())
+            items.append(connectorStatusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListConnectorsV2Input {
 
     static func urlPathProvider(_ value: ListConnectorsV2Input) -> Swift.String? {
@@ -30226,6 +31549,10 @@ extension ListConnectorsV2Input {
         if let providerName = value.providerName {
             let providerNameQueryItem = Smithy.URIQueryItem(name: "ProviderName".urlPercentEncoding(), value: Swift.String(providerName.rawValue).urlPercentEncoding())
             items.append(providerNameQueryItem)
+        }
+        if let enablementStatus = value.enablementStatus {
+            let enablementStatusQueryItem = Smithy.URIQueryItem(name: "EnablementStatus".urlPercentEncoding(), value: Swift.String(enablementStatus.rawValue).urlPercentEncoding())
+            items.append(enablementStatusQueryItem)
         }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -30389,6 +31716,12 @@ extension ListSecurityControlDefinitionsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let providers = value.providers {
+            providers.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "Providers".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         return items
     }
 }
@@ -30526,6 +31859,16 @@ extension UpdateConfigurationPolicyInput {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateConnectorInput) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectors/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -30783,6 +32126,18 @@ extension CreateConfigurationPolicyInput {
     }
 }
 
+extension CreateConnectorInput {
+
+    static func write(value: CreateConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Provider"].write(value.provider, with: SecurityHubClientTypes.CspmProviderConfiguration.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateConnectorV2Input {
 
     static func write(value: CreateConnectorV2Input?, to writer: SmithyJSON.Writer) throws {
@@ -30934,6 +32289,7 @@ extension GetEnabledStandardsInput {
         guard let value else { return }
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["Providers"].writeList(value.providers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityHubClientTypes.StandardsProvider>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StandardsSubscriptionArns"].writeList(value.standardsSubscriptionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -31141,6 +32497,15 @@ extension UpdateConfigurationPolicyInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["UpdatedReason"].write(value.updatedReason)
+    }
+}
+
+extension UpdateConnectorInput {
+
+    static func write(value: UpdateConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Provider"].write(value.provider, with: SecurityHubClientTypes.CspmProviderUpdateConfiguration.write(value:to:))
     }
 }
 
@@ -31459,6 +32824,21 @@ extension CreateConfigurationPolicyOutput {
     }
 }
 
+extension CreateConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectorOutput()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent() ?? ""
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateConnectorV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorV2Output {
@@ -31470,6 +32850,7 @@ extension CreateConnectorV2Output {
         value.connectorArn = try reader["ConnectorArn"].readIfPresent() ?? ""
         value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
         return value
     }
 }
@@ -31571,10 +32952,27 @@ extension DeleteConfigurationPolicyOutput {
     }
 }
 
+extension DeleteConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteConnectorOutput()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteConnectorV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorV2Output {
-        return DeleteConnectorV2Output()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteConnectorV2Output()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -31697,6 +33095,7 @@ extension DescribeSecurityHubV2Output {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeSecurityHubV2Output()
+        value.features = try reader["Features"].readMapIfPresent(valueReadingClosure: SecurityHubClientTypes.FeatureDetail.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.hubV2Arn = try reader["HubV2Arn"].readIfPresent()
         value.subscribedAt = try reader["SubscribedAt"].readIfPresent()
         return value
@@ -31747,6 +33146,13 @@ extension DisableSecurityHubOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSecurityHubOutput {
         return DisableSecurityHubOutput()
+    }
+}
+
+extension DisableSecurityHubFeatureV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSecurityHubFeatureV2Output {
+        return DisableSecurityHubFeatureV2Output()
     }
 }
 
@@ -31807,6 +33213,13 @@ extension EnableSecurityHubOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableSecurityHubOutput {
         return EnableSecurityHubOutput()
+    }
+}
+
+extension EnableSecurityHubFeatureV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableSecurityHubFeatureV2Output {
+        return EnableSecurityHubFeatureV2Output()
     }
 }
 
@@ -31913,6 +33326,27 @@ extension GetConfigurationPolicyAssociationOutput {
     }
 }
 
+extension GetConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorOutput()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        value.health = try reader["Health"].readIfPresent(with: SecurityHubClientTypes.CspmHealthCheck.read(from:))
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.providerDetail = try reader["ProviderDetail"].readIfPresent(with: SecurityHubClientTypes.CspmProviderDetail.read(from:))
+        return value
+    }
+}
+
 extension GetConnectorV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorV2Output {
@@ -31924,6 +33358,8 @@ extension GetConnectorV2Output {
         value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["Description"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        value.enablementStatusReason = try reader["EnablementStatusReason"].readIfPresent()
         value.health = try reader["Health"].readIfPresent(with: SecurityHubClientTypes.HealthCheck.read(from:))
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -32233,6 +33669,19 @@ extension ListConfigurationPolicyAssociationsOutput {
     }
 }
 
+extension ListConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorsOutput()
+        value.connectors = try reader["Connectors"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.CspmConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListConnectorsV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorsV2Output {
@@ -32449,10 +33898,29 @@ extension UpdateConfigurationPolicyOutput {
     }
 }
 
+extension UpdateConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectorOutput()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateConnectorV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorV2Output {
-        return UpdateConnectorV2Output()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectorV2Output()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -32857,6 +34325,27 @@ enum CreateConfigurationPolicyOutputError {
     }
 }
 
+enum CreateConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateConnectorV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33038,6 +34527,26 @@ enum DeleteConfigurationPolicyOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33326,6 +34835,24 @@ enum DisableSecurityHubOutputError {
     }
 }
 
+enum DisableSecurityHubFeatureV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableSecurityHubV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33447,6 +34974,24 @@ enum EnableSecurityHubOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableSecurityHubFeatureV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -33577,6 +35122,26 @@ enum GetConfigurationPolicyAssociationOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -34022,6 +35587,26 @@ enum ListConfigurationPolicyAssociationsOutputError {
     }
 }
 
+enum ListConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListConnectorsV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -34335,6 +35920,26 @@ enum UpdateConfigurationPolicyOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -35131,7 +36736,10 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters {
         try writer["ResourceApplicationName"].writeList(value.resourceApplicationName, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceDetailsOther"].writeList(value.resourceDetailsOther, memberWritingClosure: SecurityHubClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceId"].writeList(value.resourceId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceOwnerAccountId"].writeList(value.resourceOwnerAccountId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceOwnerOrgId"].writeList(value.resourceOwnerOrgId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourcePartition"].writeList(value.resourcePartition, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceProvider"].writeList(value.resourceProvider, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceRegion"].writeList(value.resourceRegion, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: SecurityHubClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].writeList(value.resourceType, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -35186,6 +36794,9 @@ extension SecurityHubClientTypes.AutomationRulesFindingFilters {
         value.resourceApplicationArn = try reader["ResourceApplicationArn"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceApplicationName = try reader["ResourceApplicationName"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.awsAccountName = try reader["AwsAccountName"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceProvider = try reader["ResourceProvider"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -45441,7 +47052,10 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters {
         try writer["ResourceContainerName"].writeList(value.resourceContainerName, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceDetailsOther"].writeList(value.resourceDetailsOther, memberWritingClosure: SecurityHubClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceId"].writeList(value.resourceId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceOwnerAccountId"].writeList(value.resourceOwnerAccountId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceOwnerOrgId"].writeList(value.resourceOwnerOrgId, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourcePartition"].writeList(value.resourcePartition, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceProvider"].writeList(value.resourceProvider, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceRegion"].writeList(value.resourceRegion, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: SecurityHubClientTypes.MapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ResourceType"].writeList(value.resourceType, memberWritingClosure: SecurityHubClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -45574,6 +47188,9 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters {
         value.awsAccountName = try reader["AwsAccountName"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceApplicationName = try reader["ResourceApplicationName"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceApplicationArn = try reader["ResourceApplicationArn"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceProvider = try reader["ResourceProvider"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -46546,6 +48163,54 @@ extension SecurityHubClientTypes.AwsXrayEncryptionConfigDetails {
     }
 }
 
+extension SecurityHubClientTypes.AzureDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AzureDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AzureDetail()
+        value.awsConfigConnectorArn = try reader["AWSConfigConnectorArn"].readIfPresent() ?? ""
+        value.scopeConfiguration = try reader["ScopeConfiguration"].readIfPresent(with: SecurityHubClientTypes.AzureScopeConfiguration.read(from:))
+        value.azureRegions = try reader["AzureRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AzureProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.AzureProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSConfigConnectorArn"].write(value.awsConfigConnectorArn)
+        try writer["AzureRegions"].writeList(value.azureRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.AzureScopeConfiguration.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.AzureScopeConfiguration {
+
+    static func write(value: SecurityHubClientTypes.AzureScopeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScopeType"].write(value.scopeType)
+        try writer["ScopeValues"].writeList(value.scopeValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AzureScopeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AzureScopeConfiguration()
+        value.scopeType = try reader["ScopeType"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeValues = try reader["ScopeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AzureUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.AzureUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AzureRegions"].writeList(value.azureRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeConfiguration"].write(value.scopeConfiguration, with: SecurityHubClientTypes.AzureScopeConfiguration.write(value:to:))
+    }
+}
+
 extension SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
@@ -46902,6 +48567,8 @@ extension SecurityHubClientTypes.ConnectorSummary {
         value.description = try reader["Description"].readIfPresent()
         value.providerSummary = try reader["ProviderSummary"].readIfPresent(with: SecurityHubClientTypes.ProviderSummary.read(from:))
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        value.enablementStatusReason = try reader["EnablementStatusReason"].readIfPresent()
         return value
     }
 }
@@ -46970,6 +48637,88 @@ extension SecurityHubClientTypes.Criteria {
                 return .ocsffindingcriteria(try reader["OcsfFindingCriteria"].read(with: SecurityHubClientTypes.OcsfFindingFilters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.CspmConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CspmConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CspmConnectorSummary()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.providerSummary = try reader["ProviderSummary"].readIfPresent(with: SecurityHubClientTypes.CspmProviderSummary.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.enablementStatus = try reader["EnablementStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.CspmHealthCheck {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CspmHealthCheck {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CspmHealthCheck()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent()
+        value.lastCheckedAt = try reader["LastCheckedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.issues = try reader["Issues"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.HealthIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.CspmProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.CspmProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.CspmProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CspmProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.CspmProviderSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CspmProviderSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CspmProviderSummary()
+        value.providerName = try reader["ProviderName"].readIfPresent()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.providerConfiguration = try reader["ProviderConfiguration"].readIfPresent(with: SecurityHubClientTypes.CspmProviderDetail.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.CspmProviderUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.CspmProviderUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 }
@@ -47170,6 +48919,17 @@ extension SecurityHubClientTypes.ExternalIntegrationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ExternalIntegrationConfiguration()
         value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.FeatureDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FeatureDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.FeatureDetail()
+        value.featureStatus = try reader["FeatureStatus"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -47466,6 +49226,18 @@ extension SecurityHubClientTypes.HealthCheck {
         value.connectorStatus = try reader["ConnectorStatus"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent()
         value.lastCheckedAt = try reader["LastCheckedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.issues = try reader["Issues"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.HealthIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.HealthIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.HealthIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.HealthIssue()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -48513,6 +50285,8 @@ extension SecurityHubClientTypes.ProviderConfiguration {
     static func write(value: SecurityHubClientTypes.ProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureProviderConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudProviderConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -48533,6 +50307,8 @@ extension SecurityHubClientTypes.ProviderDetail {
                 return .jiracloud(try reader["JiraCloud"].read(with: SecurityHubClientTypes.JiraCloudDetail.read(from:)))
             case "ServiceNow":
                 return .servicenow(try reader["ServiceNow"].read(with: SecurityHubClientTypes.ServiceNowDetail.read(from:)))
+            case "Azure":
+                return .azure(try reader["Azure"].read(with: SecurityHubClientTypes.AzureDetail.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -48546,6 +50322,7 @@ extension SecurityHubClientTypes.ProviderSummary {
         var value = SecurityHubClientTypes.ProviderSummary()
         value.providerName = try reader["ProviderName"].readIfPresent()
         value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
+        value.providerConfiguration = try reader["ProviderConfiguration"].readIfPresent(with: SecurityHubClientTypes.ProviderDetail.read(from:))
         return value
     }
 }
@@ -48555,6 +50332,8 @@ extension SecurityHubClientTypes.ProviderUpdateConfiguration {
     static func write(value: SecurityHubClientTypes.ProviderUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azure(azure):
+                try writer["Azure"].write(azure, with: SecurityHubClientTypes.AzureUpdateConfiguration.write(value:to:))
             case let .jiracloud(jiracloud):
                 try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudUpdateConfiguration.write(value:to:))
             case let .servicenow(servicenow):
@@ -48684,7 +50463,9 @@ extension SecurityHubClientTypes.Resource {
         try writer["DataClassification"].write(value.dataClassification, with: SecurityHubClientTypes.DataClassificationDetails.write(value:to:))
         try writer["Details"].write(value.details, with: SecurityHubClientTypes.ResourceDetails.write(value:to:))
         try writer["Id"].write(value.id)
+        try writer["Owner"].write(value.owner, with: SecurityHubClientTypes.ResourceOwner.write(value:to:))
         try writer["Partition"].write(value.partition)
+        try writer["Provider"].write(value.provider)
         try writer["Region"].write(value.region)
         try writer["ResourceRole"].write(value.resourceRole)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -48698,6 +50479,8 @@ extension SecurityHubClientTypes.Resource {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.partition = try reader["Partition"].readIfPresent()
         value.region = try reader["Region"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent(with: SecurityHubClientTypes.ResourceOwner.read(from:))
         value.resourceRole = try reader["ResourceRole"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.dataClassification = try reader["DataClassification"].readIfPresent(with: SecurityHubClientTypes.DataClassificationDetails.read(from:))
@@ -48809,6 +50592,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         try writer["AwsWafv2RuleGroup"].write(value.awsWafv2RuleGroup, with: SecurityHubClientTypes.AwsWafv2RuleGroupDetails.write(value:to:))
         try writer["AwsWafv2WebAcl"].write(value.awsWafv2WebAcl, with: SecurityHubClientTypes.AwsWafv2WebAclDetails.write(value:to:))
         try writer["AwsXrayEncryptionConfig"].write(value.awsXrayEncryptionConfig, with: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails.write(value:to:))
+        try writer["AzureResource"].write(value.azureResource)
         try writer["CodeRepository"].write(value.codeRepository, with: SecurityHubClientTypes.CodeRepositoryDetails.write(value:to:))
         try writer["Container"].write(value.container, with: SecurityHubClientTypes.ContainerDetails.write(value:to:))
         try writer["Other"].writeMap(value.other, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -48917,6 +50701,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         value.awsS3AccessPoint = try reader["AwsS3AccessPoint"].readIfPresent(with: SecurityHubClientTypes.AwsS3AccessPointDetails.read(from:))
         value.awsEc2ClientVpnEndpoint = try reader["AwsEc2ClientVpnEndpoint"].readIfPresent(with: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.read(from:))
         value.codeRepository = try reader["CodeRepository"].readIfPresent(with: SecurityHubClientTypes.CodeRepositoryDetails.read(from:))
+        value.azureResource = try reader["AzureResource"].readIfPresent()
         return value
     }
 }
@@ -48943,6 +50728,53 @@ extension SecurityHubClientTypes.ResourceGroupByRule {
     }
 }
 
+extension SecurityHubClientTypes.ResourceOwner {
+
+    static func write(value: SecurityHubClientTypes.ResourceOwner?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Account"].write(value.account, with: SecurityHubClientTypes.ResourceOwnerAccount.write(value:to:))
+        try writer["Org"].write(value.org, with: SecurityHubClientTypes.ResourceOwnerOrg.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceOwner()
+        value.account = try reader["Account"].readIfPresent(with: SecurityHubClientTypes.ResourceOwnerAccount.read(from:))
+        value.org = try reader["Org"].readIfPresent(with: SecurityHubClientTypes.ResourceOwnerOrg.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceOwnerAccount {
+
+    static func write(value: SecurityHubClientTypes.ResourceOwnerAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceOwnerAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceOwnerAccount()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceOwnerOrg {
+
+    static func write(value: SecurityHubClientTypes.ResourceOwnerOrg?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceOwnerOrg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceOwnerOrg()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.ResourceResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceResult {
@@ -48951,9 +50783,15 @@ extension SecurityHubClientTypes.ResourceResult {
         value.resourceGuid = try reader["ResourceGuid"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.accountName = try reader["AccountName"].readIfPresent()
         value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceProvider = try reader["ResourceProvider"].readIfPresent()
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readIfPresent()
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readIfPresent()
+        value.resourceCloudPartition = try reader["ResourceCloudPartition"].readIfPresent()
+        value.resourceRegion = try reader["ResourceRegion"].readIfPresent()
         value.resourceCategory = try reader["ResourceCategory"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.resourceCreationTimeDt = try reader["ResourceCreationTimeDt"].readIfPresent()
         value.resourceDetailCaptureTimeDt = try reader["ResourceDetailCaptureTimeDt"].readIfPresent() ?? ""
@@ -49527,6 +51365,7 @@ extension SecurityHubClientTypes.SecurityControl {
         value.updateStatus = try reader["UpdateStatus"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SecurityHubClientTypes.ParameterConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdateReason = try reader["LastUpdateReason"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
         return value
     }
 }
@@ -49561,6 +51400,7 @@ extension SecurityHubClientTypes.SecurityControlDefinition {
         value.currentRegionAvailability = try reader["CurrentRegionAvailability"].readIfPresent() ?? .sdkUnknown("")
         value.customizableProperties = try reader["CustomizableProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityHubClientTypes.SecurityControlProperty>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameterDefinitions = try reader["ParameterDefinitions"].readMapIfPresent(valueReadingClosure: SecurityHubClientTypes.ParameterDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.provider = try reader["Provider"].readIfPresent()
         return value
     }
 }
@@ -49863,6 +51703,7 @@ extension SecurityHubClientTypes.Standard {
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.enabledByDefault = try reader["EnabledByDefault"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
         value.standardsManagedBy = try reader["StandardsManagedBy"].readIfPresent(with: SecurityHubClientTypes.StandardsManagedBy.read(from:))
         return value
     }
@@ -49994,6 +51835,7 @@ extension SecurityHubClientTypes.StandardsSubscription {
         value.standardsStatus = try reader["StandardsStatus"].readIfPresent() ?? .sdkUnknown("")
         value.standardsControlsUpdatable = try reader["StandardsControlsUpdatable"].readIfPresent()
         value.standardsStatusReason = try reader["StandardsStatusReason"].readIfPresent(with: SecurityHubClientTypes.StandardsStatusReason.read(from:))
+        value.provider = try reader["Provider"].readIfPresent()
         return value
     }
 }

@@ -4976,6 +4976,115 @@ public struct CreateAttachedFileOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// The type of entity associated with an authorization code in Connect Customer.
+    public enum AuthCodeEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerProfile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthCodeEntityType] {
+            return [
+                .customerProfile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerProfile: return "CUSTOMER_PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the scope configuration for an authorization code. Defines the permissions and access boundaries for the session.
+    public struct AuthScope: Swift.Sendable {
+        /// The name of the Customer Profiles domain to scope the session to.
+        public var domainName: Swift.String?
+        /// The identifier of the entity to scope the session to.
+        public var entityId: Swift.String?
+        /// The type of entity to scope the session to.
+        /// This member is required.
+        public var entityType: ConnectClientTypes.AuthCodeEntityType?
+        /// The list of security profile identifiers to scope the session to. Maximum of 10 security profiles.
+        public var securityProfileIds: [Swift.String]?
+
+        public init(
+            domainName: Swift.String? = nil,
+            entityId: Swift.String? = nil,
+            entityType: ConnectClientTypes.AuthCodeEntityType? = nil,
+            securityProfileIds: [Swift.String]? = nil
+        ) {
+            self.domainName = domainName
+            self.entityId = entityId
+            self.entityType = entityType
+            self.securityProfileIds = securityProfileIds
+        }
+    }
+}
+
+public struct CreateAuthCodeInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum duration of the session, in minutes. Minimum value of 1440 (24 hours). Maximum value of 43200 (30 days). If no value is provided, the session will expire after 400 days.
+    public var maxSessionDurationMinutes: Swift.Int?
+    /// The scope for the authorization code. Defines the permissions and access boundaries for the session.
+    /// This member is required.
+    public var scope: ConnectClientTypes.AuthScope?
+    /// The duration of inactivity, in minutes, after which the session expires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days).
+    /// This member is required.
+    public var sessionInactivityDurationMinutes: Swift.Int?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxSessionDurationMinutes: Swift.Int? = nil,
+        scope: ConnectClientTypes.AuthScope? = nil,
+        sessionInactivityDurationMinutes: Swift.Int? = 0
+    ) {
+        self.instanceId = instanceId
+        self.maxSessionDurationMinutes = maxSessionDurationMinutes
+        self.scope = scope
+        self.sessionInactivityDurationMinutes = sessionInactivityDurationMinutes
+    }
+}
+
+public struct CreateAuthCodeOutput: Swift.Sendable {
+    /// The authorization code to use for establishing a session.
+    public var authCode: Swift.String?
+    /// The identifier of the entity associated with the authorization code.
+    public var entityId: Swift.String?
+    /// The type of entity associated with the authorization code.
+    public var entityType: ConnectClientTypes.AuthCodeEntityType?
+    /// The identifier of the session created with the authorization code.
+    public var sessionId: Swift.String?
+
+    public init(
+        authCode: Swift.String? = nil,
+        entityId: Swift.String? = nil,
+        entityType: ConnectClientTypes.AuthCodeEntityType? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.authCode = authCode
+        self.entityId = entityId
+        self.entityType = entityType
+        self.sessionId = sessionId
+    }
+}
+
+extension CreateAuthCodeOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAuthCodeOutput(entityId: \(Swift.String(describing: entityId)), entityType: \(Swift.String(describing: entityType)), sessionId: \(Swift.String(describing: sessionId)), authCode: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
     public enum InitiateAs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case connectedToUser
@@ -12179,6 +12288,28 @@ public struct DeleteSecurityProfileInput: Swift.Sendable {
         self.instanceId = instanceId
         self.securityProfileId = securityProfileId
     }
+}
+
+public struct DeleteSessionInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the session to delete.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.sessionId = sessionId
+    }
+}
+
+public struct DeleteSessionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteTaskTemplateInput: Swift.Sendable {
@@ -37839,6 +37970,16 @@ extension CreateAttachedFileInput {
     }
 }
 
+extension CreateAuthCodeInput {
+
+    static func urlPathProvider(_ value: CreateAuthCodeInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/auth/code/\(instanceId.urlPercentEncoding())"
+    }
+}
+
 extension CreateContactInput {
 
     static func urlPathProvider(_ value: CreateContactInput) -> Swift.String? {
@@ -38617,6 +38758,19 @@ extension DeleteSecurityProfileInput {
             return nil
         }
         return "/security-profiles/\(instanceId.urlPercentEncoding())/\(securityProfileId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteSessionInput {
+
+    static func urlPathProvider(_ value: DeleteSessionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/auth/sessions/\(instanceId.urlPercentEncoding())/\(sessionId.urlPercentEncoding())"
     }
 }
 
@@ -43538,6 +43692,16 @@ extension CreateAttachedFileInput {
     }
 }
 
+extension CreateAuthCodeInput {
+
+    static func write(value: CreateAuthCodeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxSessionDurationMinutes"].write(value.maxSessionDurationMinutes)
+        try writer["Scope"].write(value.scope, with: ConnectClientTypes.AuthScope.write(value:to:))
+        try writer["SessionInactivityDurationMinutes"].write(value.sessionInactivityDurationMinutes)
+    }
+}
+
 extension CreateContactInput {
 
     static func write(value: CreateContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -45993,6 +46157,21 @@ extension CreateAttachedFileOutput {
     }
 }
 
+extension CreateAuthCodeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAuthCodeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAuthCodeOutput()
+        value.authCode = try reader["AuthCode"].readIfPresent()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.sessionId = try reader["SessionId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContactOutput {
@@ -46632,6 +46811,13 @@ extension DeleteSecurityProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSecurityProfileOutput {
         return DeleteSecurityProfileOutput()
+    }
+}
+
+extension DeleteSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSessionOutput {
+        return DeleteSessionOutput()
     }
 }
 
@@ -50384,6 +50570,25 @@ enum CreateAttachedFileOutputError {
     }
 }
 
+enum CreateAuthCodeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateContactOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51577,6 +51782,25 @@ enum DeleteSecurityProfileOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -52934,6 +53158,7 @@ enum GetFederationTokenOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UserNotFoundException": return try UserNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -57749,6 +57974,17 @@ extension ConnectClientTypes.AuthenticationProfileSummary {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         return value
+    }
+}
+
+extension ConnectClientTypes.AuthScope {
+
+    static func write(value: ConnectClientTypes.AuthScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainName"].write(value.domainName)
+        try writer["EntityId"].write(value.entityId)
+        try writer["EntityType"].write(value.entityType)
+        try writer["SecurityProfileIds"].writeList(value.securityProfileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

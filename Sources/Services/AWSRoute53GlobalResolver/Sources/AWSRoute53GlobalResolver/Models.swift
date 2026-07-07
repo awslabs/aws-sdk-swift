@@ -4343,8 +4343,7 @@ public struct ListHostedZoneAssociationsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A pagination token used for large sets of results that can't be returned in a single response.
     public var nextToken: Swift.String?
-    /// Amazon Resource Name (ARN) of the DNS view.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) of the DNS view to list hosted zone associations for. This parameter is optional; if you omit it, all hosted zone associations in your Amazon Web Services account are returned.
     public var resourceArn: Swift.String?
 
     public init(
@@ -4485,6 +4484,112 @@ public struct UpdateHostedZoneAssociationOutput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.status = status
         self.updatedAt = updatedAt
+    }
+}
+
+public struct ListSharedDNSViewsInput: Swift.Sendable {
+    /// The maximum number of results to retrieve in a single call.
+    public var maxResults: Swift.Int?
+    /// A pagination token used for large sets of results that can't be returned in a single response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension Route53GlobalResolverClientTypes {
+
+    /// Summary information about a DNS view that has been shared with your Amazon Web Services account through Amazon Web Services RAM.
+    public struct SharedDNSViewSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the DNS view.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The unique string that identifies the request and ensures idempotency.
+        /// This member is required.
+        public var clientToken: Swift.String?
+        /// The date and time when the DNS view was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the DNS view.
+        public var description: Swift.String?
+        /// Whether DNSSEC validation is enabled for the DNS view.
+        /// This member is required.
+        public var dnssecValidation: Route53GlobalResolverClientTypes.DnsSecValidationType?
+        /// Whether EDNS Client Subnet injection is enabled for the DNS view.
+        /// This member is required.
+        public var ednsClientSubnet: Route53GlobalResolverClientTypes.EdnsClientSubnetType?
+        /// Whether firewall rules fail open when they cannot be evaluated.
+        /// This member is required.
+        public var firewallRulesFailOpen: Route53GlobalResolverClientTypes.FirewallRulesFailOpenType?
+        /// The ID of the global resolver that the DNS view is associated with.
+        /// This member is required.
+        public var globalResolverId: Swift.String?
+        /// The unique identifier of the DNS view.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the DNS view.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the DNS view and shared it with your Amazon Web Services account.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+        /// The current status of the DNS view.
+        /// This member is required.
+        public var status: Route53GlobalResolverClientTypes.ProfileResourceStatus?
+        /// The date and time when the DNS view was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            clientToken: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            dnssecValidation: Route53GlobalResolverClientTypes.DnsSecValidationType? = nil,
+            ednsClientSubnet: Route53GlobalResolverClientTypes.EdnsClientSubnetType? = nil,
+            firewallRulesFailOpen: Route53GlobalResolverClientTypes.FirewallRulesFailOpenType? = nil,
+            globalResolverId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
+            status: Route53GlobalResolverClientTypes.ProfileResourceStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.clientToken = clientToken
+            self.createdAt = createdAt
+            self.description = description
+            self.dnssecValidation = dnssecValidation
+            self.ednsClientSubnet = ednsClientSubnet
+            self.firewallRulesFailOpen = firewallRulesFailOpen
+            self.globalResolverId = globalResolverId
+            self.id = id
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListSharedDNSViewsOutput: Swift.Sendable {
+    /// An array of information about the DNS views shared with your Amazon Web Services account, including the Amazon Web Services account that owns each DNS view.
+    /// This member is required.
+    public var dnsViews: [Route53GlobalResolverClientTypes.SharedDNSViewSummary]?
+    /// A pagination token used for large sets of results that can't be returned in a single response. Provide this token in the next call to get the results not returned in this call.
+    public var nextToken: Swift.String?
+
+    public init(
+        dnsViews: [Route53GlobalResolverClientTypes.SharedDNSViewSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dnsViews = dnsViews
+        self.nextToken = nextToken
     }
 }
 
@@ -5140,10 +5245,7 @@ extension ListGlobalResolversInput {
 extension ListHostedZoneAssociationsInput {
 
     static func urlPathProvider(_ value: ListHostedZoneAssociationsInput) -> Swift.String? {
-        guard let resourceArn = value.resourceArn else {
-            return nil
-        }
-        return "/hosted-zone-associations/resource-arn/\(resourceArn.urlPercentEncoding(encodeForwardSlash: false))"
+        return "/hosted-zone-associations"
     }
 }
 
@@ -5158,6 +5260,10 @@ extension ListHostedZoneAssociationsInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let resourceArn = value.resourceArn {
+            let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
         }
         return items
     }
@@ -5176,6 +5282,29 @@ extension ListManagedFirewallDomainListsInput {
 extension ListManagedFirewallDomainListsInput {
 
     static func queryItemProvider(_ value: ListManagedFirewallDomainListsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next_token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSharedDNSViewsInput {
+
+    static func urlPathProvider(_ value: ListSharedDNSViewsInput) -> Swift.String? {
+        return "/shared-dns-views"
+    }
+}
+
+extension ListSharedDNSViewsInput {
+
+    static func queryItemProvider(_ value: ListSharedDNSViewsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -6203,6 +6332,19 @@ extension ListManagedFirewallDomainListsOutput {
     }
 }
 
+extension ListSharedDNSViewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSharedDNSViewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSharedDNSViewsOutput()
+        value.dnsViews = try reader["dnsViews"].readListIfPresent(memberReadingClosure: Route53GlobalResolverClientTypes.SharedDNSViewSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -7058,6 +7200,23 @@ enum ListManagedFirewallDomainListsOutputError {
     }
 }
 
+enum ListSharedDNSViewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7655,6 +7814,28 @@ extension Route53GlobalResolverClientTypes.ManagedFirewallDomainListsItem {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.managedListType = try reader["managedListType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.SharedDNSViewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.SharedDNSViewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.SharedDNSViewSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clientToken = try reader["clientToken"].readIfPresent() ?? ""
+        value.dnssecValidation = try reader["dnssecValidation"].readIfPresent() ?? .sdkUnknown("")
+        value.ednsClientSubnet = try reader["ednsClientSubnet"].readIfPresent() ?? .sdkUnknown("")
+        value.firewallRulesFailOpen = try reader["firewallRulesFailOpen"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         return value
     }
 }

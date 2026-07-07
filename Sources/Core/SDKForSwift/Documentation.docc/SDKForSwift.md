@@ -677,6 +677,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPartnerCentralChannel](/sdk-for-swift/latest/api/awspartnercentralchannel/documentation/awspartnercentralchannel)
 
+[AWSPartnerCentralRevenueMeasurement](/sdk-for-swift/latest/api/awspartnercentralrevenuemeasurement/documentation/awspartnercentralrevenuemeasurement)
+
 [AWSPartnerCentralSelling](/sdk-for-swift/latest/api/awspartnercentralselling/documentation/awspartnercentralselling)
 
 [AWSPaymentCryptography](/sdk-for-swift/latest/api/awspaymentcryptography/documentation/awspaymentcryptography)

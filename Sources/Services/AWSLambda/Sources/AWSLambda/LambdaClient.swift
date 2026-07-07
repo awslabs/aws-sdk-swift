@@ -792,6 +792,10 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func checkpointDurableExecution(input: CheckpointDurableExecutionInput) async throws -> CheckpointDurableExecutionOutput {
@@ -2378,6 +2382,10 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -2404,6 +2412,7 @@ extension LambdaClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(GetDurableExecutionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(GetDurableExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDurableExecutionOutput>(GetDurableExecutionOutput.httpOutput(from:), GetDurableExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDurableExecutionInput, GetDurableExecutionOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -2446,6 +2455,10 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -2515,6 +2528,10 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
     public func getDurableExecutionState(input: GetDurableExecutionStateInput) async throws -> GetDurableExecutionStateOutput {
@@ -5767,6 +5784,10 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -5908,6 +5929,10 @@ extension LambdaClient {
     /// __Possible Exceptions:__
     /// - `CallbackTimeoutException` : The callback ID token has either expired or the callback associated with the token has already been closed.
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).
@@ -5979,6 +6004,10 @@ extension LambdaClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid.
+    /// - `KMSAccessDeniedException` : Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+    /// - `KMSDisabledException` : Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+    /// - `KMSInvalidStateException` : Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+    /// - `KMSNotFoundException` : Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).

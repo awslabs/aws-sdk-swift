@@ -286,6 +286,7 @@ extension SSMClientTypes {
     public enum ResourceTypeForTagging: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case association
         case automation
+        case cloudConnector
         case document
         case maintenanceWindow
         case managedInstance
@@ -299,6 +300,7 @@ extension SSMClientTypes {
             return [
                 .association,
                 .automation,
+                .cloudConnector,
                 .document,
                 .maintenanceWindow,
                 .managedInstance,
@@ -318,6 +320,7 @@ extension SSMClientTypes {
             switch self {
             case .association: return "Association"
             case .automation: return "Automation"
+            case .cloudConnector: return "CloudConnector"
             case .document: return "Document"
             case .maintenanceWindow: return "MaintenanceWindow"
             case .managedInstance: return "ManagedInstance"
@@ -1254,7 +1257,7 @@ extension SSMClientTypes {
         public var excludeAccounts: [Swift.String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public var executionRoleName: Swift.String?
-        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false. This parameter is not supported by State Manager.
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
         public var includeChildOrganizationUnits: Swift.Bool
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public var regions: [Swift.String]?
@@ -1343,7 +1346,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
     /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [SSMClientTypes.Tag]?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts. The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -1805,6 +1808,190 @@ public struct CreateAssociationBatchOutput: Swift.Sendable {
     ) {
         self.failed = failed
         self.successful = successful
+    }
+}
+
+/// An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The unique ID of the resource referenced in the failed request.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type of the resource referenced in the failed request.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The code for the Amazon Web Services service that owns the quota.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Information about an Azure subscription targeted by the cloud connector.
+    public struct AzureSubscription: Swift.Sendable {
+        /// The display name of the Azure subscription.
+        public var displayName: Swift.String?
+        /// The ID of the Azure subscription.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            displayName: Swift.String? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.displayName = displayName
+            self.id = id
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The target resources in the third-party cloud environment.
+    public enum ConfigurationTargets: Swift.Sendable {
+        /// A list of Azure subscriptions to target.
+        case subscriptions([SSMClientTypes.AzureSubscription])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The access details and targets for connecting to a Microsoft Azure tenant, including the application registration used for authentication and the subscriptions to target.
+    public struct AzureConfiguration: Swift.Sendable {
+        /// The display name of the Azure application registration.
+        public var applicationDisplayName: Swift.String?
+        /// The ID of the Azure application registration used for authentication.
+        /// This member is required.
+        public var applicationId: Swift.String?
+        /// The target Azure subscriptions for the cloud connector.
+        public var targets: SSMClientTypes.ConfigurationTargets?
+        /// The display name of the Azure tenant.
+        public var tenantDisplayName: Swift.String?
+        /// The ID of the Azure tenant.
+        /// This member is required.
+        public var tenantId: Swift.String?
+
+        public init(
+            applicationDisplayName: Swift.String? = nil,
+            applicationId: Swift.String? = nil,
+            targets: SSMClientTypes.ConfigurationTargets? = nil,
+            tenantDisplayName: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.applicationDisplayName = applicationDisplayName
+            self.applicationId = applicationId
+            self.targets = targets
+            self.tenantDisplayName = tenantDisplayName
+            self.tenantId = tenantId
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The configuration that provides access details and targets for connecting to a third-party cloud environment.
+    public enum CloudConnectorConfiguration: Swift.Sendable {
+        /// The access details and targets for connecting to a Microsoft Azure environment.
+        case azureconfiguration(SSMClientTypes.AzureConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateCloudConnectorInput: Swift.Sendable {
+    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+    /// This member is required.
+    public var configConnectorArn: Swift.String?
+    /// The configuration details for connecting to the third-party cloud environment.
+    /// This member is required.
+    public var configuration: SSMClientTypes.CloudConnectorConfiguration?
+    /// A description for the cloud connector.
+    public var description: Swift.String?
+    /// A friendly name for the cloud connector.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the cloud connector uses to communicate with the third-party cloud environment.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment.
+    public var tags: [SSMClientTypes.Tag]?
+
+    public init(
+        configConnectorArn: Swift.String? = nil,
+        configuration: SSMClientTypes.CloudConnectorConfiguration? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [SSMClientTypes.Tag]? = nil
+    ) {
+        self.configConnectorArn = configConnectorArn
+        self.configuration = configuration
+        self.description = description
+        self.displayName = displayName
+        self.roleArn = roleArn
+        self.tags = tags
+    }
+}
+
+public struct CreateCloudConnectorOutput: Swift.Sendable {
+    /// The ID of the cloud connector that was created.
+    public var cloudConnectorId: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
     }
 }
 
@@ -3240,7 +3427,7 @@ extension SSMClientTypes {
 
     /// Defines an approval rule for a patch baseline.
     public struct PatchRule: Swift.Sendable {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If the day represented by 7 is 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If a patch is released at 2025-11-09T18:00:00Z and ApproveAfterDays is set to 7, the patch will be approved after 2025-11-16T18:00:00Z. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveAfterDays: Swift.Int?
         /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2025-11-16. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If you enter the date 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveUntilDate: Swift.String?
@@ -3883,6 +4070,52 @@ public struct DeleteAssociationOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The specified parameter to be shared could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteCloudConnectorInput: Swift.Sendable {
+    /// The ID of the cloud connector to delete.
+    /// This member is required.
+    public var cloudConnectorId: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+    }
+}
+
+public struct DeleteCloudConnectorOutput: Swift.Sendable {
+    /// The ID of the cloud connector that was deleted.
+    public var cloudConnectorId: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+    }
+}
+
 /// You must disassociate a document from all managed nodes before you can delete it.
 public struct AssociatedInstances: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "AssociatedInstances" }
@@ -4410,29 +4643,6 @@ public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledErr
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "MalformedResourcePolicyDocumentException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified parameter to be shared could not be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -6730,17 +6940,17 @@ extension SSMClientTypes {
 
     /// The filters to describe or get information about your managed nodes.
     public struct InstanceInformationStringFilter: Swift.Sendable {
-        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}
         ///
         /// * Valid values for the AssociationStatus filter key: Success | Pending | Failed
         ///
         /// * Valid values for the PingStatus filter key: Online | ConnectionLost | Inactive (deprecated)
         ///
-        /// * Valid values for the PlatformType filter key: Windows | Linux | MacOS
+        /// * Valid values for the PlatformTypes filter key: Windows | Linux | MacOS
         ///
         /// * Valid values for the ResourceType filter key: EC2Instance | ManagedInstance
         ///
-        /// * Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing
+        /// * Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines
         ///
         /// * Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         /// This member is required.
@@ -6936,13 +7146,15 @@ extension SSMClientTypes {
         case awsEc2Instance
         case awsIotThing
         case awsSsmManagedinstance
+        case azureInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceType] {
             return [
                 .awsEc2Instance,
                 .awsIotThing,
-                .awsSsmManagedinstance
+                .awsSsmManagedinstance,
+                .azureInstance
             ]
         }
 
@@ -6956,6 +7168,7 @@ extension SSMClientTypes {
             case .awsEc2Instance: return "AWS::EC2::Instance"
             case .awsIotThing: return "AWS::IoT::Thing"
             case .awsSsmManagedinstance: return "AWS::SSM::ManagedInstance"
+            case .azureInstance: return "Microsoft.Compute/virtualMachines"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7006,7 +7219,9 @@ extension SSMClientTypes {
         public var resourceType: SSMClientTypes.ResourceType?
         /// The ID of the source resource. For IoT Greengrass devices, SourceId is the Thing name.
         public var sourceId: Swift.String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        /// The location of the source resource in the third-party cloud environment.
+        public var sourceLocation: Swift.String?
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines.
         public var sourceType: SSMClientTypes.SourceType?
 
         public init(
@@ -7030,6 +7245,7 @@ extension SSMClientTypes {
             registrationDate: Foundation.Date? = nil,
             resourceType: SSMClientTypes.ResourceType? = nil,
             sourceId: Swift.String? = nil,
+            sourceLocation: Swift.String? = nil,
             sourceType: SSMClientTypes.SourceType? = nil
         ) {
             self.activationId = activationId
@@ -7052,6 +7268,7 @@ extension SSMClientTypes {
             self.registrationDate = registrationDate
             self.resourceType = resourceType
             self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
             self.sourceType = sourceType
         }
     }
@@ -7757,6 +7974,8 @@ extension SSMClientTypes {
         public var associationOverview: SSMClientTypes.InstanceAggregatedAssociationOverview?
         /// The status of the State Manager association applied to the managed node.
         public var associationStatus: Swift.String?
+        /// The Availability Zone where the managed node is located.
+        public var availabilityZone: Swift.String?
         /// The fully qualified host name of the managed node.
         public var computerName: Swift.String?
         /// The IAM role used in the hybrid activation to register the node with Systems Manager.
@@ -7797,7 +8016,9 @@ extension SSMClientTypes {
         public var resourceType: Swift.String?
         /// The ID of the source resource.
         public var sourceId: Swift.String?
-        /// The type of the source resource.
+        /// The location of the source resource in the third-party cloud environment.
+        public var sourceLocation: Swift.String?
+        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines.
         public var sourceType: SSMClientTypes.SourceType?
 
         public init(
@@ -7806,6 +8027,7 @@ extension SSMClientTypes {
             architecture: Swift.String? = nil,
             associationOverview: SSMClientTypes.InstanceAggregatedAssociationOverview? = nil,
             associationStatus: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
             computerName: Swift.String? = nil,
             iamRole: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -7826,6 +8048,7 @@ extension SSMClientTypes {
             registrationDate: Foundation.Date? = nil,
             resourceType: Swift.String? = nil,
             sourceId: Swift.String? = nil,
+            sourceLocation: Swift.String? = nil,
             sourceType: SSMClientTypes.SourceType? = nil
         ) {
             self.activationId = activationId
@@ -7833,6 +8056,7 @@ extension SSMClientTypes {
             self.architecture = architecture
             self.associationOverview = associationOverview
             self.associationStatus = associationStatus
+            self.availabilityZone = availabilityZone
             self.computerName = computerName
             self.iamRole = iamRole
             self.instanceId = instanceId
@@ -7853,6 +8077,7 @@ extension SSMClientTypes {
             self.registrationDate = registrationDate
             self.resourceType = resourceType
             self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
             self.sourceType = sourceType
         }
     }
@@ -8827,7 +9052,7 @@ extension SSMClientTypes {
         public var serviceRoleArn: Swift.String?
         /// The targets (either managed nodes or tags). Managed nodes are specified using Key=instanceids,Values=,. Tags are specified using Key=,Values=.
         public var targets: [SSMClientTypes.Target]?
-        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Amazon Web Services Systems Manager (SSM document) name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN.
+        /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Amazon Web Services Systems Manager (SSM document) name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN. Maintenance Window does not validate the TaskArn when you register a task. A successful registration does not guarantee that the TaskArn is valid.
         public var taskArn: Swift.String?
         /// The parameters that should be passed to the task when it is run. TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see [MaintenanceWindowTaskInvocationParameters].
         public var taskParameters: [Swift.String: SSMClientTypes.MaintenanceWindowTaskParameterValueExpression]?
@@ -10676,6 +10901,57 @@ public struct GetCalendarStateOutput: Swift.Sendable {
         self.atTime = atTime
         self.nextTransitionTime = nextTransitionTime
         self.state = state
+    }
+}
+
+public struct GetCloudConnectorInput: Swift.Sendable {
+    /// The ID of the cloud connector to retrieve information about.
+    /// This member is required.
+    public var cloudConnectorId: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+    }
+}
+
+public struct GetCloudConnectorOutput: Swift.Sendable {
+    /// The ARN of the cloud connector.
+    public var cloudConnectorArn: Swift.String?
+    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+    public var configConnectorArn: Swift.String?
+    /// The configuration details for the third-party cloud environment connection.
+    public var configuration: SSMClientTypes.CloudConnectorConfiguration?
+    /// The date and time the cloud connector was created.
+    public var createdAt: Foundation.Date?
+    /// The description of the cloud connector.
+    public var description: Swift.String?
+    /// The friendly name of the cloud connector.
+    public var displayName: Swift.String?
+    /// The ARN of the IAM role used by the cloud connector.
+    public var roleArn: Swift.String?
+    /// The date and time the cloud connector was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        cloudConnectorArn: Swift.String? = nil,
+        configConnectorArn: Swift.String? = nil,
+        configuration: SSMClientTypes.CloudConnectorConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        roleArn: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.cloudConnectorArn = cloudConnectorArn
+        self.configConnectorArn = configConnectorArn
+        self.configuration = configuration
+        self.createdAt = createdAt
+        self.description = description
+        self.displayName = displayName
+        self.roleArn = roleArn
+        self.updatedAt = updatedAt
     }
 }
 
@@ -13094,7 +13370,7 @@ public struct GetPatchBaselineOutput: Swift.Sendable {
 }
 
 public struct GetPatchBaselineForPatchGroupInput: Swift.Sendable {
-    /// Returns the operating system rule specified for patch groups using the patch baseline.
+    /// Returns the operating system rule specified for patch groups using the patch baseline. The default value is WINDOWS.
     public var operatingSystem: SSMClientTypes.OperatingSystem?
     /// The name of the patch group whose patch baseline should be retrieved.
     /// This member is required.
@@ -13359,6 +13635,7 @@ extension SSMClientTypes {
     public enum AssociationFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case associationid
         case associationname
+        case cloudconnectorid
         case instanceid
         case lastexecutedafter
         case lastexecutedbefore
@@ -13371,6 +13648,7 @@ extension SSMClientTypes {
             return [
                 .associationid,
                 .associationname,
+                .cloudconnectorid,
                 .instanceid,
                 .lastexecutedafter,
                 .lastexecutedbefore,
@@ -13389,6 +13667,7 @@ extension SSMClientTypes {
             switch self {
             case .associationid: return "AssociationId"
             case .associationname: return "AssociationName"
+            case .cloudconnectorid: return "CloudConnectorId"
             case .instanceid: return "InstanceId"
             case .lastexecutedafter: return "LastExecutedAfter"
             case .lastexecutedbefore: return "LastExecutedBefore"
@@ -13645,6 +13924,123 @@ public struct ListAssociationVersionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.associationVersions = associationVersions
+        self.nextToken = nextToken
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum CloudConnectorFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case subscriptionid
+        case tenantid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudConnectorFilterKey] {
+            return [
+                .subscriptionid,
+                .tenantid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .subscriptionid: return "SubscriptionId"
+            case .tenantid: return "TenantId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// A filter for listing cloud connectors.
+    public struct CloudConnectorFilter: Swift.Sendable {
+        /// The name of the filter key.
+        public var filterKey: SSMClientTypes.CloudConnectorFilterKey?
+        /// The filter values. Valid values for each filter key are as follows: SubscriptionId The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE. TenantId The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant.
+        public var filterValues: [Swift.String]?
+
+        public init(
+            filterKey: SSMClientTypes.CloudConnectorFilterKey? = nil,
+            filterValues: [Swift.String]? = nil
+        ) {
+            self.filterKey = filterKey
+            self.filterValues = filterValues
+        }
+    }
+}
+
+public struct ListCloudConnectorsInput: Swift.Sendable {
+    /// One or more filters to limit the cloud connectors returned in the response.
+    public var filters: [SSMClientTypes.CloudConnectorFilter]?
+    /// The maximum number of items to return for this call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [SSMClientTypes.CloudConnectorFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Summary information about a cloud connector.
+    public struct CloudConnectorSummary: Swift.Sendable {
+        /// The ID of the cloud connector.
+        public var cloudConnectorId: Swift.String?
+        /// The date and time the cloud connector was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the cloud connector.
+        public var description: Swift.String?
+        /// The friendly name of the cloud connector.
+        public var displayName: Swift.String?
+        /// The ARN of the IAM role used by the cloud connector.
+        public var roleArn: Swift.String?
+        /// The date and time the cloud connector was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            cloudConnectorId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.cloudConnectorId = cloudConnectorId
+            self.createdAt = createdAt
+            self.description = description
+            self.displayName = displayName
+            self.roleArn = roleArn
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListCloudConnectorsOutput: Swift.Sendable {
+    /// A list of cloud connector summary objects.
+    public var cloudConnectors: [SSMClientTypes.CloudConnectorSummary]?
+    /// The token to use when requesting the next set of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudConnectors: [SSMClientTypes.CloudConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cloudConnectors = cloudConnectors
         self.nextToken = nextToken
     }
 }
@@ -15203,6 +15599,8 @@ extension SSMClientTypes {
         case accountId
         case agentType
         case agentVersion
+        case availabilityZone
+        case availabilityZoneId
         case computerName
         case instanceId
         case instanceStatus
@@ -15215,6 +15613,9 @@ extension SSMClientTypes {
         case platformVersion
         case region
         case resourceType
+        case sourceId
+        case sourceLocation
+        case sourceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NodeFilterKey] {
@@ -15222,6 +15623,8 @@ extension SSMClientTypes {
                 .accountId,
                 .agentType,
                 .agentVersion,
+                .availabilityZone,
+                .availabilityZoneId,
                 .computerName,
                 .instanceId,
                 .instanceStatus,
@@ -15233,7 +15636,10 @@ extension SSMClientTypes {
                 .platformType,
                 .platformVersion,
                 .region,
-                .resourceType
+                .resourceType,
+                .sourceId,
+                .sourceLocation,
+                .sourceType
             ]
         }
 
@@ -15247,6 +15653,8 @@ extension SSMClientTypes {
             case .accountId: return "AccountId"
             case .agentType: return "AgentType"
             case .agentVersion: return "AgentVersion"
+            case .availabilityZone: return "AvailabilityZone"
+            case .availabilityZoneId: return "AvailabilityZoneId"
             case .computerName: return "ComputerName"
             case .instanceId: return "InstanceId"
             case .instanceStatus: return "InstanceStatus"
@@ -15259,6 +15667,9 @@ extension SSMClientTypes {
             case .platformVersion: return "PlatformVersion"
             case .region: return "Region"
             case .resourceType: return "ResourceType"
+            case .sourceId: return "SourceId"
+            case .sourceLocation: return "SourceLocation"
+            case .sourceType: return "SourceType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15385,6 +15796,10 @@ extension SSMClientTypes {
         public var agentType: Swift.String?
         /// The version number of the agent installed on the node.
         public var agentVersion: Swift.String?
+        /// The Availability Zone where the managed node is located.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the managed node is located.
+        public var availabilityZoneId: Swift.String?
         /// The fully qualified host name of the managed node.
         public var computerName: Swift.String?
         /// The current status of the managed node.
@@ -15393,6 +15808,8 @@ extension SSMClientTypes {
         public var ipAddress: Swift.String?
         /// Indicates whether the node is managed by Systems Manager.
         public var managedStatus: SSMClientTypes.ManagedStatus?
+        /// The name assigned to the managed node.
+        public var name: Swift.String?
         /// The name of the operating system platform running on your managed node.
         public var platformName: Swift.String?
         /// The operating system platform type of the managed node.
@@ -15401,29 +15818,47 @@ extension SSMClientTypes {
         public var platformVersion: Swift.String?
         /// The type of instance, either an EC2 instance or another supported machine type in a hybrid fleet.
         public var resourceType: SSMClientTypes.ResourceType?
+        /// The ID of the source resource. For IoT Greengrass devices, SourceId is the Thing name.
+        public var sourceId: Swift.String?
+        /// The location of the source resource in the third-party cloud environment.
+        public var sourceLocation: Swift.String?
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        public var sourceType: SSMClientTypes.SourceType?
 
         public init(
             agentType: Swift.String? = nil,
             agentVersion: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             computerName: Swift.String? = nil,
             instanceStatus: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
             managedStatus: SSMClientTypes.ManagedStatus? = nil,
+            name: Swift.String? = nil,
             platformName: Swift.String? = nil,
             platformType: SSMClientTypes.PlatformType? = nil,
             platformVersion: Swift.String? = nil,
-            resourceType: SSMClientTypes.ResourceType? = nil
+            resourceType: SSMClientTypes.ResourceType? = nil,
+            sourceId: Swift.String? = nil,
+            sourceLocation: Swift.String? = nil,
+            sourceType: SSMClientTypes.SourceType? = nil
         ) {
             self.agentType = agentType
             self.agentVersion = agentVersion
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.computerName = computerName
             self.instanceStatus = instanceStatus
             self.ipAddress = ipAddress
             self.managedStatus = managedStatus
+            self.name = name
             self.platformName = platformName
             self.platformType = platformType
             self.platformVersion = platformVersion
             self.resourceType = resourceType
+            self.sourceId = sourceId
+            self.sourceLocation = sourceLocation
+            self.sourceType = sourceType
         }
     }
 }
@@ -15537,21 +15972,25 @@ extension SSMClientTypes {
 
     public enum NodeAttributeName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentVersion
+        case availabilityZone
         case platformName
         case platformType
         case platformVersion
         case region
         case resourceType
+        case sourceType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NodeAttributeName] {
             return [
                 .agentVersion,
+                .availabilityZone,
                 .platformName,
                 .platformType,
                 .platformVersion,
                 .region,
-                .resourceType
+                .resourceType,
+                .sourceType
             ]
         }
 
@@ -15563,11 +16002,13 @@ extension SSMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .agentVersion: return "AgentVersion"
+            case .availabilityZone: return "AvailabilityZone"
             case .platformName: return "PlatformName"
             case .platformType: return "PlatformType"
             case .platformVersion: return "PlatformVersion"
             case .region: return "Region"
             case .resourceType: return "ResourceType"
+            case .sourceType: return "SourceType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17822,48 +18263,6 @@ public struct SendCommandOutput: Swift.Sendable {
     }
 }
 
-/// The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The quota code recognized by the Amazon Web Services Service Quotas service.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The unique ID of the resource referenced in the failed request.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The resource type of the resource referenced in the failed request.
-        public internal(set) var resourceType: Swift.String? = nil
-        /// The code for the Amazon Web Services service that owns the quota.
-        /// This member is required.
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-        self.properties.serviceCode = serviceCode
-    }
-}
-
 public struct StartAccessRequestInput: Swift.Sendable {
     /// A brief description explaining why you are requesting access to the node.
     /// This member is required.
@@ -18569,7 +18968,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var scheduleOffset: Swift.Int?
     /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts. The TargetLocationAlarmConfiguration parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -18679,6 +19078,41 @@ public struct UpdateAssociationStatusOutput: Swift.Sendable {
         associationDescription: SSMClientTypes.AssociationDescription? = nil
     ) {
         self.associationDescription = associationDescription
+    }
+}
+
+public struct UpdateCloudConnectorInput: Swift.Sendable {
+    /// The ID of the cloud connector to update.
+    /// This member is required.
+    public var cloudConnectorId: Swift.String?
+    /// The updated configuration details for connecting to the third-party cloud environment.
+    public var configuration: SSMClientTypes.CloudConnectorConfiguration?
+    /// A new description for the cloud connector.
+    public var description: Swift.String?
+    /// A new friendly name for the cloud connector.
+    public var displayName: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil,
+        configuration: SSMClientTypes.CloudConnectorConfiguration? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+        self.configuration = configuration
+        self.description = description
+        self.displayName = displayName
+    }
+}
+
+public struct UpdateCloudConnectorOutput: Swift.Sendable {
+    /// The ID of the cloud connector that was updated.
+    public var cloudConnectorId: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
     }
 }
 
@@ -19666,6 +20100,202 @@ public struct UpdateServiceSettingInput: Swift.Sendable {
 public struct UpdateServiceSettingOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct ValidateCloudConnectorInput: Swift.Sendable {
+    /// The ID of the cloud connector to validate.
+    /// This member is required.
+    public var cloudConnectorId: Swift.String?
+    /// The maximum number of validation findings to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudConnectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.cloudConnectorId = cloudConnectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ValidationFindingCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsRoleAssumptionFailed
+        case outboundWebIdentityFederationDisabled
+        case providerCredentialCreationFailed
+        case subscriptionAccessible
+        case targetInaccessible
+        case targetStateWarning
+        case targetUnusable
+        case tenantSummary
+        case webIdentityTokenFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationFindingCode] {
+            return [
+                .awsRoleAssumptionFailed,
+                .outboundWebIdentityFederationDisabled,
+                .providerCredentialCreationFailed,
+                .subscriptionAccessible,
+                .targetInaccessible,
+                .targetStateWarning,
+                .targetUnusable,
+                .tenantSummary,
+                .webIdentityTokenFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsRoleAssumptionFailed: return "AwsRoleAssumptionFailed"
+            case .outboundWebIdentityFederationDisabled: return "OutboundWebIdentityFederationDisabled"
+            case .providerCredentialCreationFailed: return "ProviderCredentialCreationFailed"
+            case .subscriptionAccessible: return "SubscriptionAccessible"
+            case .targetInaccessible: return "TargetInaccessible"
+            case .targetStateWarning: return "TargetStateWarning"
+            case .targetUnusable: return "TargetUnusable"
+            case .tenantSummary: return "TenantSummary"
+            case .webIdentityTokenFailed: return "WebIdentityTokenFailed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ValidationFindingScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureSubscription
+        case azureTenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationFindingScopeType] {
+            return [
+                .azureSubscription,
+                .azureTenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azureSubscription: return "azure:subscription"
+            case .azureTenant: return "azure:tenant"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// Identifies the specific resource scope of a validation finding.
+    public struct ValidationFindingScope: Swift.Sendable {
+        /// The ID of the resource within the scope.
+        public var id: Swift.String?
+        /// The type of the resource scope.
+        public var type: SSMClientTypes.ValidationFindingScopeType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: SSMClientTypes.ValidationFindingScopeType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum ValidationFindingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case info
+        case warn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationFindingType] {
+            return [
+                .error,
+                .info,
+                .warn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// A validation finding from a cloud connector validation check.
+    public struct ValidationFinding: Swift.Sendable {
+        /// A code that identifies the specific validation finding.
+        public var code: SSMClientTypes.ValidationFindingCode?
+        /// A message that describes the validation finding.
+        public var message: Swift.String?
+        /// A message from the third-party cloud provider related to the validation finding.
+        public var providerMessage: Swift.String?
+        /// The scope of the validation finding, identifying the specific resource affected.
+        public var scope: SSMClientTypes.ValidationFindingScope?
+        /// The type of the validation finding.
+        public var type: SSMClientTypes.ValidationFindingType?
+
+        public init(
+            code: SSMClientTypes.ValidationFindingCode? = nil,
+            message: Swift.String? = nil,
+            providerMessage: Swift.String? = nil,
+            scope: SSMClientTypes.ValidationFindingScope? = nil,
+            type: SSMClientTypes.ValidationFindingType? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.providerMessage = providerMessage
+            self.scope = scope
+            self.type = type
+        }
+    }
+}
+
+public struct ValidateCloudConnectorOutput: Swift.Sendable {
+    /// The token to use when requesting the next set of items.
+    public var nextToken: Swift.String?
+    /// A list of validation findings for the cloud connector.
+    public var validationFindings: [SSMClientTypes.ValidationFinding]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        validationFindings: [SSMClientTypes.ValidationFinding]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.validationFindings = validationFindings
+    }
 }
 
 extension SSMClientTypes {

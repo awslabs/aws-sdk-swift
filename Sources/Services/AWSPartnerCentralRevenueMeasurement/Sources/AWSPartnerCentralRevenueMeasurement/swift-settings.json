@@ -1,0 +1,8 @@
+{
+    "service": "com.amazonaws.partnercentralrevenuemeasurement#PartnerCentralRevenueMeasurement",
+    "module": "AWSPartnerCentralRevenueMeasurement",
+    "sdkId": "PartnerCentral Revenue Measurement",
+    "internalClient": false,
+    "operations": [],
+    "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-revenue-measurement.json"
+}

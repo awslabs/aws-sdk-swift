@@ -1519,6 +1519,110 @@ public struct UpdateCapacityProviderOutput: Swift.Sendable {
     }
 }
 
+/// Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
+public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSAccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
+public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSDisabledException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
+public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSInvalidStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
+public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KMSNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 extension LambdaClientTypes {
 
     public enum OperationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4284,18 +4388,22 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout and retention period for execution history.
+    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
     public struct DurableConfig: Swift.Sendable {
         /// The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations.
         public var executionTimeout: Swift.Int?
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public var kmsKeyArn: Swift.String?
         /// The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API.
         public var retentionPeriodInDays: Swift.Int?
 
         public init(
             executionTimeout: Swift.Int? = nil,
+            kmsKeyArn: Swift.String? = nil,
             retentionPeriodInDays: Swift.Int? = nil
         ) {
             self.executionTimeout = executionTimeout
+            self.kmsKeyArn = kmsKeyArn
             self.retentionPeriodInDays = retentionPeriodInDays
         }
     }
@@ -7334,110 +7442,6 @@ public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// Lambda couldn't decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
-public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSAccessDeniedException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// Lambda couldn't decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
-public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSDisabledException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// Lambda couldn't decrypt the environment variables because the state of the KMS key used is not valid for Decrypt. Check the function's KMS key settings.
-public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSInvalidStateException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-/// Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
-public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "KMSNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
 /// The Lambda function doesn't support the invocation mode requested. For example, calling Invoke with InvocationType=RequestResponse on a function configured for asynchronous-only invocation, or vice versa. For more information about invocation types, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/invocation-options.html).
 public struct ModeNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7936,7 +7940,7 @@ extension LambdaClientTypes {
 public struct InvokeInput: Swift.Sendable {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
     public var clientContext: Swift.String?
-    /// Optional unique name for the durable execution. When you start your special function, you can give it a unique name to identify this specific execution. It's like giving a nickname to a task.
+    /// A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a duplicate. If the payload differs, Lambda returns a DurableExecutionAlreadyStartedException error. If not specified, Lambda generates a unique identifier automatically. For more information, see [Execution names](https://docs.aws.amazon.com/lambda/latest/dg/durable-execution-idempotency.html#durable-idempotency-execution-names).
     public var durableExecutionName: Swift.String?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -8982,7 +8986,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// A description of the function.
     public var description: Swift.String?
-    /// Configuration settings for durable functions. Allows updating execution timeout and retention period for functions with durability enabled.
+    /// Configuration settings for [durable functions](https://docs.aws.amazon.com/lambda/latest/dg/durable-functions.html), including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
@@ -9912,11 +9916,15 @@ public struct GetDurableExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
     public var durableExecutionArn: Swift.String?
+    /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true.
+    public var includeExecutionData: Swift.Bool?
 
     public init(
-        durableExecutionArn: Swift.String? = nil
+        durableExecutionArn: Swift.String? = nil,
+        includeExecutionData: Swift.Bool? = nil
     ) {
         self.durableExecutionArn = durableExecutionArn
+        self.includeExecutionData = includeExecutionData
     }
 }
 
@@ -9975,6 +9983,8 @@ extension LambdaClientTypes {
 
 /// The response from the GetDurableExecution operation, containing detailed information about the durable execution.
 public struct GetDurableExecutionOutput: Swift.Sendable {
+    /// Configuration settings for the durable execution, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+    public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
     public var durableExecutionArn: Swift.String?
@@ -9985,6 +9995,8 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var endTimestamp: Foundation.Date?
     /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
     public var error: LambdaClientTypes.ErrorObject?
+    /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
+    public var executionDataIncluded: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
     /// This member is required.
     public var functionArn: Swift.String?
@@ -10004,10 +10016,12 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var version: Swift.String?
 
     public init(
+        durableConfig: LambdaClientTypes.DurableConfig? = nil,
         durableExecutionArn: Swift.String? = nil,
         durableExecutionName: Swift.String? = nil,
         endTimestamp: Foundation.Date? = nil,
         error: LambdaClientTypes.ErrorObject? = nil,
+        executionDataIncluded: Swift.Bool? = nil,
         functionArn: Swift.String? = nil,
         inputPayload: Swift.String? = nil,
         result: Swift.String? = nil,
@@ -10016,10 +10030,12 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
         traceHeader: LambdaClientTypes.TraceHeader? = nil,
         version: Swift.String? = nil
     ) {
+        self.durableConfig = durableConfig
         self.durableExecutionArn = durableExecutionArn
         self.durableExecutionName = durableExecutionName
         self.endTimestamp = endTimestamp
         self.error = error
+        self.executionDataIncluded = executionDataIncluded
         self.functionArn = functionArn
         self.inputPayload = inputPayload
         self.result = result
@@ -10032,7 +10048,7 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
 
 extension GetDurableExecutionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDurableExecutionOutput(durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
+        "GetDurableExecutionOutput(durableConfig: \(Swift.String(describing: durableConfig)), durableExecutionArn: \(Swift.String(describing: durableExecutionArn)), durableExecutionName: \(Swift.String(describing: durableExecutionName)), endTimestamp: \(Swift.String(describing: endTimestamp)), error: \(Swift.String(describing: error)), executionDataIncluded: \(Swift.String(describing: executionDataIncluded)), functionArn: \(Swift.String(describing: functionArn)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), traceHeader: \(Swift.String(describing: traceHeader)), version: \(Swift.String(describing: version)), inputPayload: \"CONTENT_REDACTED\", result: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDurableExecutionHistoryInput: Swift.Sendable {
@@ -11473,6 +11489,8 @@ extension LambdaClientTypes {
         /// The Amazon Resource Name (ARN) of the Lambda function.
         /// This member is required.
         public var functionArn: Swift.String?
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public var kmsKeyArn: Swift.String?
         /// The date and time when the durable execution started, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
         /// This member is required.
         public var startTimestamp: Foundation.Date?
@@ -11485,6 +11503,7 @@ extension LambdaClientTypes {
             durableExecutionName: Swift.String? = nil,
             endTimestamp: Foundation.Date? = nil,
             functionArn: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
             startTimestamp: Foundation.Date? = nil,
             status: LambdaClientTypes.ExecutionStatus? = nil
         ) {
@@ -11492,6 +11511,7 @@ extension LambdaClientTypes {
             self.durableExecutionName = durableExecutionName
             self.endTimestamp = endTimestamp
             self.functionArn = functionArn
+            self.kmsKeyArn = kmsKeyArn
             self.startTimestamp = startTimestamp
             self.status = status
         }
@@ -12492,6 +12512,18 @@ extension GetDurableExecutionInput {
             return nil
         }
         return "/2025-12-01/durable-executions/\(durableExecutionArn.urlPercentEncoding())"
+    }
+}
+
+extension GetDurableExecutionInput {
+
+    static func queryItemProvider(_ value: GetDurableExecutionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includeExecutionData = value.includeExecutionData {
+            let includeExecutionDataQueryItem = Smithy.URIQueryItem(name: "IncludeExecutionData".urlPercentEncoding(), value: Swift.String(includeExecutionData).urlPercentEncoding())
+            items.append(includeExecutionDataQueryItem)
+        }
+        return items
     }
 }
 
@@ -14524,10 +14556,12 @@ extension GetDurableExecutionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetDurableExecutionOutput()
+        value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent() ?? ""
         value.durableExecutionName = try reader["DurableExecutionName"].readIfPresent() ?? ""
         value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        value.executionDataIncluded = try reader["ExecutionDataIncluded"].readIfPresent()
         value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
         value.inputPayload = try reader["InputPayload"].readIfPresent()
         value.result = try reader["Result"].readIfPresent()
@@ -15610,6 +15644,10 @@ enum CheckpointDurableExecutionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16000,6 +16038,10 @@ enum GetDurableExecutionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16017,6 +16059,10 @@ enum GetDurableExecutionHistoryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16034,6 +16080,10 @@ enum GetDurableExecutionStateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -16908,6 +16958,10 @@ enum SendDurableExecutionCallbackFailureOutputError {
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16944,6 +16998,10 @@ enum SendDurableExecutionCallbackSuccessOutputError {
         switch baseError.code {
             case "CallbackTimeoutException": return try CallbackTimeoutException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -16961,6 +17019,10 @@ enum StopDurableExecutionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "KMSAccessDeniedException": return try KMSAccessDeniedException.makeError(baseError: baseError)
+            case "KMSDisabledException": return try KMSDisabledException.makeError(baseError: baseError)
+            case "KMSInvalidStateException": return try KMSInvalidStateException.makeError(baseError: baseError)
+            case "KMSNotFoundException": return try KMSNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -17266,6 +17328,62 @@ extension PublicPolicyException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> PublicPolicyException {
         let reader = baseError.errorBodyReader
         var value = PublicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSAccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KMSAccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSDisabledException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSDisabledException {
+        let reader = baseError.errorBodyReader
+        var value = KMSDisabledException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSInvalidStateException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSInvalidStateException {
+        let reader = baseError.errorBodyReader
+        var value = KMSInvalidStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KMSNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = KMSNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -17645,62 +17763,6 @@ extension InvalidZipFileException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidZipFileException {
         let reader = baseError.errorBodyReader
         var value = InvalidZipFileException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSAccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSAccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = KMSAccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSDisabledException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSDisabledException {
-        let reader = baseError.errorBodyReader
-        var value = KMSDisabledException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSInvalidStateException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSInvalidStateException {
-        let reader = baseError.errorBodyReader
-        var value = KMSInvalidStateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KMSNotFoundException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> KMSNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = KMSNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -18472,12 +18534,14 @@ extension LambdaClientTypes.DurableConfig {
     static func write(value: LambdaClientTypes.DurableConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ExecutionTimeout"].write(value.executionTimeout)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
         try writer["RetentionPeriodInDays"].write(value.retentionPeriodInDays)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DurableConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.DurableConfig()
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent()
         value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
         return value
@@ -18706,6 +18770,7 @@ extension LambdaClientTypes.Execution {
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         return value
     }
 }

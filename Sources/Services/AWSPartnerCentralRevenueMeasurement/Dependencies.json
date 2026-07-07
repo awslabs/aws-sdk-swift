@@ -1,5 +1,5 @@
 {
-  "modelPath": "codegen/sdk-codegen/aws-models/inspector2.json",
+  "modelPath": "codegen/sdk-codegen/aws-models/partnercentral-revenue-measurement.json",
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
@@ -10,11 +10,8 @@
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
-    "SmithyJSON",
-    "SmithyReadWrite",
+    "SmithyRPCv2CBOR",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTimestamps",
-    "SmithyWaitersAPI"
+    "SmithyRetriesAPI"
   ]
 }

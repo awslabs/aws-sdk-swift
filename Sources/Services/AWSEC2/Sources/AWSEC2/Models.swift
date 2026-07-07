@@ -47974,6 +47974,16 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * image-id - The ID of the image.
     ///
+    /// * image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.
+    ///
+    /// * image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.
+    ///
+    /// * image-watermark.source-image-region - The Region where the watermark was originally attached.
+    ///
+    /// * image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.
+    ///
+    /// * image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).
+    ///
     /// * image-type - The image type (machine | kernel | ramdisk).
     ///
     /// * is-public - A Boolean that indicates whether the image is public.
@@ -47993,6 +48003,8 @@ public struct DescribeImagesInput: Swift.Sendable {
     /// * product-code - The product code.
     ///
     /// * product-code.type - The type of the product code (marketplace).
+    ///
+    /// * public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.
     ///
     /// * ramdisk-id - The RAM disk ID.
     ///
@@ -48433,6 +48445,8 @@ extension EC2ClientTypes {
         public var productCodes: [EC2ClientTypes.ProductCode]?
         /// Indicates whether the image has public launch permissions. The value is true if this image has public launch permissions or false if it has only implicit and explicit launch permissions.
         public var `public`: Swift.Bool?
+        /// The name of the public Systems Manager parameter that resolves to this AMI, under the aws/service/ namespace.
+        public var publicSsmParameterName: Swift.String?
         /// The RAM disk associated with the image, if any. Only applicable for machine images.
         public var ramdiskId: Swift.String?
         /// The device name of the root device volume (for example, /dev/sda1).
@@ -48486,6 +48500,7 @@ extension EC2ClientTypes {
             platformDetails: Swift.String? = nil,
             productCodes: [EC2ClientTypes.ProductCode]? = nil,
             `public`: Swift.Bool? = nil,
+            publicSsmParameterName: Swift.String? = nil,
             ramdiskId: Swift.String? = nil,
             rootDeviceName: Swift.String? = nil,
             rootDeviceType: EC2ClientTypes.DeviceType? = nil,
@@ -48525,6 +48540,7 @@ extension EC2ClientTypes {
             self.platformDetails = platformDetails
             self.productCodes = productCodes
             self.`public` = `public`
+            self.publicSsmParameterName = publicSsmParameterName
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.rootDeviceType = rootDeviceType
@@ -125430,6 +125446,7 @@ extension EC2ClientTypes.Image {
         value.sourceImageId = try reader["sourceImageId"].readIfPresent()
         value.sourceImageRegion = try reader["sourceImageRegion"].readIfPresent()
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
+        value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
