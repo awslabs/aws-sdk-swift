@@ -615,7 +615,7 @@ extension GeoPlacesClient {
 extension GeoPlacesClient {
     /// Performs the `Autocomplete` operation on the `GeoPlaces` service.
     ///
-    /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. For more information, see [Autocomplete](https://docs.aws.amazon.com/location/latest/developerguide/autocomplete.html) in the Amazon Location Service Developer Guide.
+    /// Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. For more information, see [Autocomplete](https://docs.aws.amazon.com/location/latest/developerguide/autocomplete.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `AutocompleteInput`)
     ///
@@ -687,7 +687,7 @@ extension GeoPlacesClient {
 
     /// Performs the `Geocode` operation on the `GeoPlaces` service.
     ///
-    /// Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see [Geocode](https://docs.aws.amazon.com/location/latest/developerguide/geocode.html) in the Amazon Location Service Developer Guide.
+    /// Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. For more information, see [Geocode](https://docs.aws.amazon.com/location/latest/developerguide/geocode.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GeocodeInput`)
     ///
@@ -900,7 +900,7 @@ extension GeoPlacesClient {
 
     /// Performs the `SearchNearby` operation on the `GeoPlaces` service.
     ///
-    /// SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. For more information, see [Search Nearby](https://docs.aws.amazon.com/location/latest/developerguide/search-nearby.html) in the Amazon Location Service Developer Guide.
+    /// SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. For more information, see [Search Nearby](https://docs.aws.amazon.com/location/latest/developerguide/search-nearby.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchNearbyInput`)
     ///

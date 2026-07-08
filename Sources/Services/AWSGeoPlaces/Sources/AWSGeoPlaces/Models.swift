@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You don't have sufficient access to perform this action.
@@ -52,22 +53,78 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension GeoPlacesClientTypes {
 
+    public enum AccessPointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delivery
+        case emergency
+        case entrance
+        case loading
+        case other
+        case parking
+        case taxi
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessPointType] {
+            return [
+                .delivery,
+                .emergency,
+                .entrance,
+                .loading,
+                .other,
+                .parking,
+                .taxi
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .delivery: return "Delivery"
+            case .emergency: return "Emergency"
+            case .entrance: return "Entrance"
+            case .loading: return "Loading"
+            case .other: return "Other"
+            case .parking: return "Parking"
+            case .taxi: return "Taxi"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
     /// Position of the access point represented by longitude and latitude for a vehicle.
     public struct AccessPoint: Swift.Sendable {
+        /// A short textual description of the access point, such as "North Entrance".
+        public var label: Swift.String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public var position: [Swift.Double]?
+        /// Set to true for the primary access position when the place has more than one access point.
+        public var primary: Swift.Bool?
+        /// The type of access point, indicating its intended use. Only applies to results of type place.
+        public var type: GeoPlacesClientTypes.AccessPointType?
 
         public init(
-            position: [Swift.Double]? = nil
+            label: Swift.String? = nil,
+            position: [Swift.Double]? = nil,
+            primary: Swift.Bool? = nil,
+            type: GeoPlacesClientTypes.AccessPointType? = nil
         ) {
+            self.label = label
             self.position = position
+            self.primary = primary
+            self.type = type
         }
     }
 }
 
 extension GeoPlacesClientTypes.AccessPoint: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AccessPoint(position: \"CONTENT_REDACTED\")"}
+        "AccessPoint(type: \(Swift.String(describing: type)), label: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", primary: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -242,7 +299,7 @@ extension GeoPlacesClientTypes {
         public var baseName: Swift.String?
         /// Indicates the official directional identifiers assigned to highways.
         public var direction: Swift.String?
-        /// A [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        /// A [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public var language: Swift.String?
         /// A prefix is a directional identifier that precedes, but is not included in, the base name of a road. Example: E for East.
         public var `prefix`: Swift.String?
@@ -468,7 +525,7 @@ extension GeoPlacesClientTypes {
 
     /// How to pronounce the various components of the address or place.
     public struct PhonemeTranscription: Swift.Sendable {
-        /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public var language: Swift.String?
         /// Boolean which indicates if it the preferred pronunciation.
         public var preferred: Swift.Bool?
@@ -535,6 +592,169 @@ extension GeoPlacesClientTypes {
             self.subBlock = subBlock
             self.subDistrict = subDistrict
             self.subRegion = subRegion
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
+    public enum AddressTranslationComponent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case district
+        case locality
+        case region
+        case subRegion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AddressTranslationComponent] {
+            return [
+                .district,
+                .locality,
+                .region,
+                .subRegion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .district: return "District"
+            case .locality: return "Locality"
+            case .region: return "Region"
+            case .subRegion: return "SubRegion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
+    public enum TranslationNameType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abbreviation
+        case areaCode
+        case baseName
+        case exonym
+        case shortened
+        case synonym
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TranslationNameType] {
+            return [
+                .abbreviation,
+                .areaCode,
+                .baseName,
+                .exonym,
+                .shortened,
+                .synonym
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abbreviation: return "Abbreviation"
+            case .areaCode: return "AreaCode"
+            case .baseName: return "BaseName"
+            case .exonym: return "Exonym"
+            case .shortened: return "Shortened"
+            case .synonym: return "Synonym"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
+    /// A translation or alternative name for an address component.
+    public struct TranslationName: Swift.Sendable {
+        /// A [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language code for the translation name.
+        public var language: Swift.String?
+        /// If true, indicates this is the primary name variant for the given language.
+        public var primary: Swift.Bool?
+        /// If true, indicates this name is a transliterated version rather than a native script translation.
+        public var transliterated: Swift.Bool?
+        /// The type of translation name. Valid values are Abbreviation, AreaCode, BaseName, Exonym, Shortened, and Synonym.
+        /// This member is required.
+        public var type: GeoPlacesClientTypes.TranslationNameType?
+        /// The translated or alternative name value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            language: Swift.String? = nil,
+            primary: Swift.Bool? = nil,
+            transliterated: Swift.Bool? = nil,
+            type: GeoPlacesClientTypes.TranslationNameType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.language = language
+            self.primary = primary
+            self.transliterated = transliterated
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension GeoPlacesClientTypes.TranslationName: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslationName(language: \(Swift.String(describing: language)), type: \(Swift.String(describing: type)), primary: \"CONTENT_REDACTED\", transliterated: \"CONTENT_REDACTED\", value: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoPlacesClientTypes {
+
+    public enum AdminNamesPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternative
+        case primary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdminNamesPreference] {
+            return [
+                .alternative,
+                .primary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternative: return "Alternative"
+            case .primary: return "Primary"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
+    /// The official administrative names for an address component, returned when AddressNamesMode is set to Administrative.
+    public struct AdminNames: Swift.Sendable {
+        /// A list of translation names for the administrative address component, including name variants and translations in available languages.
+        /// This member is required.
+        public var names: [GeoPlacesClientTypes.TranslationName]?
+        /// Indicates the preference level of the administrative name. Valid values are Primary and Alternative.
+        public var preference: GeoPlacesClientTypes.AdminNamesPreference?
+
+        public init(
+            names: [GeoPlacesClientTypes.TranslationName]? = nil,
+            preference: GeoPlacesClientTypes.AdminNamesPreference? = nil
+        ) {
+            self.names = names
+            self.preference = preference
         }
     }
 }
@@ -611,9 +831,7 @@ extension GeoPlacesClientTypes {
 extension GeoPlacesClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse
-        /// The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed
         /// The required input is missing.
         case missing
@@ -745,14 +963,26 @@ extension GeoPlacesClientTypes.FilterCircle: Swift.CustomDebugStringConvertible 
 extension GeoPlacesClientTypes {
 
     public enum AutocompleteFilterPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case country
+        case interpolatedAddress
+        case intersection
         case locality
+        case pointAddress
         case postalCode
+        case region
+        case street
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutocompleteFilterPlaceType] {
             return [
+                .country,
+                .interpolatedAddress,
+                .intersection,
                 .locality,
-                .postalCode
+                .pointAddress,
+                .postalCode,
+                .region,
+                .street
             ]
         }
 
@@ -763,8 +993,14 @@ extension GeoPlacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .country: return "Country"
+            case .interpolatedAddress: return "InterpolatedAddress"
+            case .intersection: return "Intersection"
             case .locality: return "Locality"
+            case .pointAddress: return "PointAddress"
             case .postalCode: return "PostalCode"
+            case .region: return "Region"
+            case .street: return "Street"
             case let .sdkUnknown(s): return s
             }
         }
@@ -833,12 +1069,14 @@ extension GeoPlacesClientTypes {
 extension GeoPlacesClientTypes {
 
     public enum PostalCodeMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enumerateSpannedDistricts
         case enumerateSpannedLocalities
         case mergeAllSpannedLocalities
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PostalCodeMode] {
             return [
+                .enumerateSpannedDistricts,
                 .enumerateSpannedLocalities,
                 .mergeAllSpannedLocalities
             ]
@@ -851,6 +1089,7 @@ extension GeoPlacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .enumerateSpannedDistricts: return "EnumerateSpannedDistricts"
             case .enumerateSpannedLocalities: return "EnumerateSpannedLocalities"
             case .mergeAllSpannedLocalities: return "MergeAllSpannedLocalities"
             case let .sdkUnknown(s): return s
@@ -870,7 +1109,7 @@ public struct AutocompleteInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.AutocompleteIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 5
     public var maxResults: Swift.Int?
@@ -904,7 +1143,7 @@ public struct AutocompleteInput: Swift.Sendable {
     ///
     /// * VNM: Vietnam's view on the Paracel Islands and Spratly Islands
     public var politicalView: Swift.String?
-    /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned.
+    /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
     public var postalCodeMode: GeoPlacesClientTypes.PostalCodeMode?
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText, and QueryID are mutually exclusive.
     /// This member is required.
@@ -1190,9 +1429,11 @@ extension GeoPlacesClientTypes {
         public var address: GeoPlacesClientTypes.Address?
         /// The distance in meters between the center of the search area and this result. Useful to evaluate how far away from the original bias position the result is.
         public var distance: Swift.Int
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public var estimatedPointAddress: Swift.Bool?
         /// Indicates the starting and ending index of the place in the text query that match the found title.
         public var highlights: GeoPlacesClientTypes.AutocompleteHighlights?
-        /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public var language: Swift.String?
         /// The PlaceId of the place associated with this result. This can be used to look up additional details about the result via GetPlace.
         /// This member is required.
@@ -1209,6 +1450,7 @@ extension GeoPlacesClientTypes {
         public init(
             address: GeoPlacesClientTypes.Address? = nil,
             distance: Swift.Int = 0,
+            estimatedPointAddress: Swift.Bool? = nil,
             highlights: GeoPlacesClientTypes.AutocompleteHighlights? = nil,
             language: Swift.String? = nil,
             placeId: Swift.String? = nil,
@@ -1218,6 +1460,7 @@ extension GeoPlacesClientTypes {
         ) {
             self.address = address
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.highlights = highlights
             self.language = language
             self.placeId = placeId
@@ -1230,7 +1473,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.AutocompleteResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AutocompleteResultItem(address: \(Swift.String(describing: address)), highlights: \(Swift.String(describing: highlights)), language: \(Swift.String(describing: language)), distance: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "AutocompleteResultItem(address: \(Swift.String(describing: address)), highlights: \(Swift.String(describing: highlights)), language: \(Swift.String(describing: language)), distance: \"CONTENT_REDACTED\", estimatedPointAddress: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct AutocompleteOutput: Swift.Sendable {
@@ -1349,6 +1592,36 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes {
 
+    /// A reference to a third-party supplier's identifier for a place, enabling correlation of places across external systems.
+    public struct CrossReference: Swift.Sendable {
+        /// The name of the third-party data supplier (for example, Yelp or TripAdvisor).
+        /// This member is required.
+        public var source: Swift.String?
+        /// The list of place category identifiers this supplier reference relates to.
+        public var sourceCategories: [GeoPlacesClientTypes.Category]?
+        /// The place identifier assigned by the third-party supplier.
+        /// This member is required.
+        public var sourcePlaceId: Swift.String?
+
+        public init(
+            source: Swift.String? = nil,
+            sourceCategories: [GeoPlacesClientTypes.Category]? = nil,
+            sourcePlaceId: Swift.String? = nil
+        ) {
+            self.source = source
+            self.sourceCategories = sourceCategories
+            self.sourcePlaceId = sourcePlaceId
+        }
+    }
+}
+
+extension GeoPlacesClientTypes.CrossReference: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CrossReference(sourceCategories: \(Swift.String(describing: sourceCategories)), source: \"CONTENT_REDACTED\", sourcePlaceId: \"CONTENT_REDACTED\")"}
+}
+
+extension GeoPlacesClientTypes {
+
     /// List of Food types offered by this result.
     public struct FoodType: Swift.Sendable {
         /// The Food Type Id.
@@ -1413,22 +1686,59 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes {
 
+    public enum GeocodeAddressNamesMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case administrative
+        case matched
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeocodeAddressNamesMode] {
+            return [
+                .administrative,
+                .matched
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .administrative: return "Administrative"
+            case .matched: return "Matched"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
     public enum GeocodeFilterPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case country
         case interpolatedAddress
         case intersection
         case locality
         case pointAddress
+        case pointOfInterest
         case postalCode
+        case region
+        case secondaryAddress
         case street
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GeocodeFilterPlaceType] {
             return [
+                .country,
                 .interpolatedAddress,
                 .intersection,
                 .locality,
                 .pointAddress,
+                .pointOfInterest,
                 .postalCode,
+                .region,
+                .secondaryAddress,
                 .street
             ]
         }
@@ -1440,11 +1750,15 @@ extension GeoPlacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .country: return "Country"
             case .interpolatedAddress: return "InterpolatedAddress"
             case .intersection: return "Intersection"
             case .locality: return "Locality"
             case .pointAddress: return "PointAddress"
+            case .pointOfInterest: return "PointOfInterest"
             case .postalCode: return "PostalCode"
+            case .region: return "Region"
+            case .secondaryAddress: return "SecondaryAddress"
             case .street: return "Street"
             case let .sdkUnknown(s): return s
             }
@@ -1558,6 +1872,10 @@ extension GeoPlacesClientTypes.GeocodeQueryComponents: Swift.CustomDebugStringCo
 public struct GeocodeInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result.
     public var additionalFeatures: [GeoPlacesClientTypes.GeocodeAdditionalFeature]?
+    /// Specifies how address names are returned. If not set, the service returns normalized (official) names by default. When set to Matched, address names in the response are based on the input query rather than official names. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+    public var addressNamesMode: GeoPlacesClientTypes.GeocodeAddressNamesMode?
+    /// Specifies which address components to include translations for. Translations include all name variants and alternative names for the requested fields in all available languages. Valid values are District, Locality, Region, and SubRegion.
+    public var addressTranslations: [GeoPlacesClientTypes.AddressTranslationComponent]?
     /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.
     public var biasPosition: [Swift.Double]?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
@@ -1566,12 +1884,14 @@ public struct GeocodeInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.GeocodeIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
     /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
     public var politicalView: Swift.String?
+    /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
+    public var postalCodeMode: GeoPlacesClientTypes.PostalCodeMode?
     /// A structured free text query allows you to search for places by the name or text representation of specific properties of the place.
     public var queryComponents: GeoPlacesClientTypes.GeocodeQueryComponents?
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
@@ -1579,6 +1899,8 @@ public struct GeocodeInput: Swift.Sendable {
 
     public init(
         additionalFeatures: [GeoPlacesClientTypes.GeocodeAdditionalFeature]? = nil,
+        addressNamesMode: GeoPlacesClientTypes.GeocodeAddressNamesMode? = nil,
+        addressTranslations: [GeoPlacesClientTypes.AddressTranslationComponent]? = nil,
         biasPosition: [Swift.Double]? = nil,
         filter: GeoPlacesClientTypes.GeocodeFilter? = nil,
         intendedUse: GeoPlacesClientTypes.GeocodeIntendedUse? = nil,
@@ -1586,10 +1908,13 @@ public struct GeocodeInput: Swift.Sendable {
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         politicalView: Swift.String? = nil,
+        postalCodeMode: GeoPlacesClientTypes.PostalCodeMode? = nil,
         queryComponents: GeoPlacesClientTypes.GeocodeQueryComponents? = nil,
         queryText: Swift.String? = nil
     ) {
         self.additionalFeatures = additionalFeatures
+        self.addressNamesMode = addressNamesMode
+        self.addressTranslations = addressTranslations
         self.biasPosition = biasPosition
         self.filter = filter
         self.intendedUse = intendedUse
@@ -1597,6 +1922,7 @@ public struct GeocodeInput: Swift.Sendable {
         self.language = language
         self.maxResults = maxResults
         self.politicalView = politicalView
+        self.postalCodeMode = postalCodeMode
         self.queryComponents = queryComponents
         self.queryText = queryText
     }
@@ -1604,7 +1930,7 @@ public struct GeocodeInput: Swift.Sendable {
 
 extension GeocodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), queryComponents: \(Swift.String(describing: queryComponents)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
+        "GeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), addressNamesMode: \(Swift.String(describing: addressNamesMode)), addressTranslations: \(Swift.String(describing: addressTranslations)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), postalCodeMode: \(Swift.String(describing: postalCodeMode)), queryComponents: \(Swift.String(describing: queryComponents)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -1808,6 +2134,8 @@ extension GeoPlacesClientTypes {
         public var district: [GeoPlacesClientTypes.ParsedQueryComponent]?
         /// The city or locality of the address. Example: Vancouver.
         public var locality: [GeoPlacesClientTypes.ParsedQueryComponent]?
+        /// Additional information extracted from the query that does not correspond to standard address components.
+        public var otherComponents: [GeoPlacesClientTypes.ParsedQueryComponent]?
         /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should possess.
         public var postalCode: [GeoPlacesClientTypes.ParsedQueryComponent]?
         /// The region or state results should be present in. Example: North Rhine-Westphalia.
@@ -1830,6 +2158,7 @@ extension GeoPlacesClientTypes {
             country: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
             district: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
             locality: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
+            otherComponents: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
             postalCode: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
             region: [GeoPlacesClientTypes.ParsedQueryComponent]? = nil,
             secondaryAddressComponents: [GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent]? = nil,
@@ -1844,6 +2173,7 @@ extension GeoPlacesClientTypes {
             self.country = country
             self.district = district
             self.locality = locality
+            self.otherComponents = otherComponents
             self.postalCode = postalCode
             self.region = region
             self.secondaryAddressComponents = secondaryAddressComponents
@@ -2109,6 +2439,33 @@ extension GeoPlacesClientTypes.TimeZone: Swift.CustomDebugStringConvertible {
 
 extension GeoPlacesClientTypes {
 
+    /// Translation details for the address, including alternative names and translations in available languages.
+    public struct TranslationDetails: Swift.Sendable {
+        /// A list of administrative names and translations for the district address component.
+        public var district: [GeoPlacesClientTypes.AdminNames]?
+        /// A list of administrative names and translations for the locality address component.
+        public var locality: [GeoPlacesClientTypes.AdminNames]?
+        /// A list of administrative names and translations for the region address component.
+        public var region: [GeoPlacesClientTypes.AdminNames]?
+        /// A list of administrative names and translations for the sub-region address component.
+        public var subRegion: [GeoPlacesClientTypes.AdminNames]?
+
+        public init(
+            district: [GeoPlacesClientTypes.AdminNames]? = nil,
+            locality: [GeoPlacesClientTypes.AdminNames]? = nil,
+            region: [GeoPlacesClientTypes.AdminNames]? = nil,
+            subRegion: [GeoPlacesClientTypes.AdminNames]? = nil
+        ) {
+            self.district = district
+            self.locality = locality
+            self.region = region
+            self.subRegion = subRegion
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
     /// The Geocoded result.
     public struct GeocodeResultItem: Swift.Sendable {
         /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
@@ -2121,6 +2478,8 @@ extension GeoPlacesClientTypes {
         public var categories: [GeoPlacesClientTypes.Category]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public var estimatedPointAddress: Swift.Bool?
         /// List of food types offered by this result.
         public var foodTypes: [GeoPlacesClientTypes.FoodType]?
         /// All Intersections that are near the provided address.
@@ -2152,6 +2511,8 @@ extension GeoPlacesClientTypes {
         /// The localized display name of this result item based on request parameter language.
         /// This member is required.
         public var title: Swift.String?
+        /// All name translations and alternative names for the requested address fields in all available languages.
+        public var translations: GeoPlacesClientTypes.TranslationDetails?
 
         public init(
             accessPoints: [GeoPlacesClientTypes.AccessPoint]? = nil,
@@ -2159,6 +2520,7 @@ extension GeoPlacesClientTypes {
             addressNumberCorrected: Swift.Bool? = nil,
             categories: [GeoPlacesClientTypes.Category]? = nil,
             distance: Swift.Int = 0,
+            estimatedPointAddress: Swift.Bool? = nil,
             foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
             intersections: [GeoPlacesClientTypes.Intersection]? = nil,
             mainAddress: GeoPlacesClientTypes.RelatedPlace? = nil,
@@ -2172,13 +2534,15 @@ extension GeoPlacesClientTypes {
             postalCodeDetails: [GeoPlacesClientTypes.PostalCodeDetails]? = nil,
             secondaryAddresses: [GeoPlacesClientTypes.RelatedPlace]? = nil,
             timeZone: GeoPlacesClientTypes.TimeZone? = nil,
-            title: Swift.String? = nil
+            title: Swift.String? = nil,
+            translations: GeoPlacesClientTypes.TranslationDetails? = nil
         ) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.foodTypes = foodTypes
             self.intersections = intersections
             self.mainAddress = mainAddress
@@ -2193,13 +2557,14 @@ extension GeoPlacesClientTypes {
             self.secondaryAddresses = secondaryAddresses
             self.timeZone = timeZone
             self.title = title
+            self.translations = translations
         }
     }
 }
 
 extension GeoPlacesClientTypes.GeocodeResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GeocodeResultItem(accessPoints: \(Swift.String(describing: accessPoints)), address: \(Swift.String(describing: address)), categories: \(Swift.String(describing: categories)), foodTypes: \(Swift.String(describing: foodTypes)), intersections: \(Swift.String(describing: intersections)), mainAddress: \(Swift.String(describing: mainAddress)), matchScores: \(Swift.String(describing: matchScores)), parsedQuery: \(Swift.String(describing: parsedQuery)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), secondaryAddresses: \(Swift.String(describing: secondaryAddresses)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "GeocodeResultItem(accessPoints: \(Swift.String(describing: accessPoints)), address: \(Swift.String(describing: address)), categories: \(Swift.String(describing: categories)), foodTypes: \(Swift.String(describing: foodTypes)), intersections: \(Swift.String(describing: intersections)), mainAddress: \(Swift.String(describing: mainAddress)), matchScores: \(Swift.String(describing: matchScores)), parsedQuery: \(Swift.String(describing: parsedQuery)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), secondaryAddresses: \(Swift.String(describing: secondaryAddresses)), timeZone: \(Swift.String(describing: timeZone)), translations: \(Swift.String(describing: translations)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", estimatedPointAddress: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct GeocodeOutput: Swift.Sendable {
@@ -2223,6 +2588,7 @@ extension GeoPlacesClientTypes {
     public enum GetPlaceAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case contact
+        case crossReferences
         case phonemes
         case secondaryAddresses
         case timeZone
@@ -2232,6 +2598,7 @@ extension GeoPlacesClientTypes {
             return [
                 .access,
                 .contact,
+                .crossReferences,
                 .phonemes,
                 .secondaryAddresses,
                 .timeZone
@@ -2247,9 +2614,36 @@ extension GeoPlacesClientTypes {
             switch self {
             case .access: return "Access"
             case .contact: return "Contact"
+            case .crossReferences: return "CrossReferences"
             case .phonemes: return "Phonemes"
             case .secondaryAddresses: return "SecondaryAddresses"
             case .timeZone: return "TimeZone"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
+    public enum GetPlaceAddressNamesMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case administrative
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GetPlaceAddressNamesMode] {
+            return [
+                .administrative
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .administrative: return "Administrative"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2290,11 +2684,13 @@ extension GeoPlacesClientTypes {
 public struct GetPlaceInput: Swift.Sendable {
     /// A list of optional additional parameters such as time zone that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.GetPlaceAdditionalFeature]?
+    /// Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+    public var addressNamesMode: GeoPlacesClientTypes.GetPlaceAddressNamesMode?
     /// Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers. When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the [user agreement](https://aws.amazon.com/location/sla/) and [service pricing structure](https://aws.amazon.com/location/pricing/) to determine the correct setting for your use case.
     public var intendedUse: GeoPlacesClientTypes.GetPlaceIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// The PlaceId of the place you wish to receive the information for.
     /// This member is required.
@@ -2304,6 +2700,7 @@ public struct GetPlaceInput: Swift.Sendable {
 
     public init(
         additionalFeatures: [GeoPlacesClientTypes.GetPlaceAdditionalFeature]? = nil,
+        addressNamesMode: GeoPlacesClientTypes.GetPlaceAddressNamesMode? = nil,
         intendedUse: GeoPlacesClientTypes.GetPlaceIntendedUse? = nil,
         key: Swift.String? = nil,
         language: Swift.String? = nil,
@@ -2311,6 +2708,7 @@ public struct GetPlaceInput: Swift.Sendable {
         politicalView: Swift.String? = nil
     ) {
         self.additionalFeatures = additionalFeatures
+        self.addressNamesMode = addressNamesMode
         self.intendedUse = intendedUse
         self.key = key
         self.language = language
@@ -2321,7 +2719,7 @@ public struct GetPlaceInput: Swift.Sendable {
 
 extension GetPlaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPlaceInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), key: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
+        "GetPlaceInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), addressNamesMode: \(Swift.String(describing: addressNamesMode)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), key: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -2403,6 +2801,32 @@ extension GeoPlacesClientTypes {
     }
 }
 
+extension GeoPlacesClientTypes {
+
+    public enum PlaceAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case driveThrough
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlaceAttribute] {
+            return [
+                .driveThrough
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .driveThrough: return "DriveThrough"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetPlaceOutput: Swift.Sendable {
     /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var accessPoints: [GeoPlacesClientTypes.AccessPoint]?
@@ -2418,6 +2842,10 @@ public struct GetPlaceOutput: Swift.Sendable {
     public var categories: [GeoPlacesClientTypes.Category]?
     /// List of potential contact methods for the result/place. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var contacts: GeoPlacesClientTypes.Contacts?
+    /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+    public var crossReferences: [GeoPlacesClientTypes.CrossReference]?
+    /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+    public var estimatedPointAddress: Swift.Bool?
     /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var foodTypes: [GeoPlacesClientTypes.FoodType]?
     /// The main address corresponding to a place of type Secondary Address. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
@@ -2428,6 +2856,8 @@ public struct GetPlaceOutput: Swift.Sendable {
     public var openingHours: [GeoPlacesClientTypes.OpeningHours]?
     /// How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
+    /// A list of place attributes for the result, such as whether the business offers drive-through service.
+    public var placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]?
     /// The PlaceId of the place you wish to receive the information for.
     /// This member is required.
     public var placeId: Swift.String?
@@ -2459,11 +2889,14 @@ public struct GetPlaceOutput: Swift.Sendable {
         businessChains: [GeoPlacesClientTypes.BusinessChain]? = nil,
         categories: [GeoPlacesClientTypes.Category]? = nil,
         contacts: GeoPlacesClientTypes.Contacts? = nil,
+        crossReferences: [GeoPlacesClientTypes.CrossReference]? = nil,
+        estimatedPointAddress: Swift.Bool? = nil,
         foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
         mainAddress: GeoPlacesClientTypes.RelatedPlace? = nil,
         mapView: [Swift.Double]? = nil,
         openingHours: [GeoPlacesClientTypes.OpeningHours]? = nil,
         phonemes: GeoPlacesClientTypes.PhonemeDetails? = nil,
+        placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]? = nil,
         placeId: Swift.String? = nil,
         placeType: GeoPlacesClientTypes.PlaceType? = nil,
         politicalView: Swift.String? = nil,
@@ -2481,11 +2914,14 @@ public struct GetPlaceOutput: Swift.Sendable {
         self.businessChains = businessChains
         self.categories = categories
         self.contacts = contacts
+        self.crossReferences = crossReferences
+        self.estimatedPointAddress = estimatedPointAddress
         self.foodTypes = foodTypes
         self.mainAddress = mainAddress
         self.mapView = mapView
         self.openingHours = openingHours
         self.phonemes = phonemes
+        self.placeAttributes = placeAttributes
         self.placeId = placeId
         self.placeType = placeType
         self.politicalView = politicalView
@@ -2500,7 +2936,7 @@ public struct GetPlaceOutput: Swift.Sendable {
 
 extension GetPlaceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPlaceOutput(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), foodTypes: \(Swift.String(describing: foodTypes)), mainAddress: \(Swift.String(describing: mainAddress)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), pricingBucket: \(Swift.String(describing: pricingBucket)), secondaryAddresses: \(Swift.String(describing: secondaryAddresses)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "GetPlaceOutput(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), crossReferences: \(Swift.String(describing: crossReferences)), foodTypes: \(Swift.String(describing: foodTypes)), mainAddress: \(Swift.String(describing: mainAddress)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), pricingBucket: \(Swift.String(describing: pricingBucket)), secondaryAddresses: \(Swift.String(describing: secondaryAddresses)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", estimatedPointAddress: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeAttributes: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -2537,11 +2973,39 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes {
 
+    public enum ReverseGeocodeAddressNamesMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case administrative
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReverseGeocodeAddressNamesMode] {
+            return [
+                .administrative
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .administrative: return "Administrative"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoPlacesClientTypes {
+
     public enum ReverseGeocodeFilterPlaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case interpolatedAddress
         case intersection
         case locality
         case pointAddress
+        case pointOfInterest
+        case secondaryAddress
         case street
         case sdkUnknown(Swift.String)
 
@@ -2551,6 +3015,8 @@ extension GeoPlacesClientTypes {
                 .intersection,
                 .locality,
                 .pointAddress,
+                .pointOfInterest,
+                .secondaryAddress,
                 .street
             ]
         }
@@ -2566,6 +3032,8 @@ extension GeoPlacesClientTypes {
             case .intersection: return "Intersection"
             case .locality: return "Locality"
             case .pointAddress: return "PointAddress"
+            case .pointOfInterest: return "PointOfInterest"
+            case .secondaryAddress: return "SecondaryAddress"
             case .street: return "Street"
             case let .sdkUnknown(s): return s
             }
@@ -2622,6 +3090,8 @@ extension GeoPlacesClientTypes {
 public struct ReverseGeocodeInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature]?
+    /// Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+    public var addressNamesMode: GeoPlacesClientTypes.ReverseGeocodeAddressNamesMode?
     /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     public var filter: GeoPlacesClientTypes.ReverseGeocodeFilter?
     /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
@@ -2630,7 +3100,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.ReverseGeocodeIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 1
     public var maxResults: Swift.Int?
@@ -2644,6 +3114,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
 
     public init(
         additionalFeatures: [GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature]? = nil,
+        addressNamesMode: GeoPlacesClientTypes.ReverseGeocodeAddressNamesMode? = nil,
         filter: GeoPlacesClientTypes.ReverseGeocodeFilter? = nil,
         heading: Swift.Double? = 0.0,
         intendedUse: GeoPlacesClientTypes.ReverseGeocodeIntendedUse? = nil,
@@ -2655,6 +3126,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
         queryRadius: Swift.Int? = nil
     ) {
         self.additionalFeatures = additionalFeatures
+        self.addressNamesMode = addressNamesMode
         self.filter = filter
         self.heading = heading
         self.intendedUse = intendedUse
@@ -2669,7 +3141,7 @@ public struct ReverseGeocodeInput: Swift.Sendable {
 
 extension ReverseGeocodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReverseGeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), heading: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryPosition: \"CONTENT_REDACTED\", queryRadius: \"CONTENT_REDACTED\")"}
+        "ReverseGeocodeInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), addressNamesMode: \(Swift.String(describing: addressNamesMode)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), heading: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryPosition: \"CONTENT_REDACTED\", queryRadius: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -2686,10 +3158,14 @@ extension GeoPlacesClientTypes {
         public var categories: [GeoPlacesClientTypes.Category]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public var estimatedPointAddress: Swift.Bool?
         /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var foodTypes: [GeoPlacesClientTypes.FoodType]?
         /// All Intersections that are near the provided address. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var intersections: [GeoPlacesClientTypes.Intersection]?
+        /// The main address corresponding to a place of type Secondary Address.
+        public var mainAddress: GeoPlacesClientTypes.RelatedPlace?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public var mapView: [Swift.Double]?
         /// The PlaceId of the place you wish to receive the information for.
@@ -2716,8 +3192,10 @@ extension GeoPlacesClientTypes {
             addressNumberCorrected: Swift.Bool? = nil,
             categories: [GeoPlacesClientTypes.Category]? = nil,
             distance: Swift.Int = 0,
+            estimatedPointAddress: Swift.Bool? = nil,
             foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
             intersections: [GeoPlacesClientTypes.Intersection]? = nil,
+            mainAddress: GeoPlacesClientTypes.RelatedPlace? = nil,
             mapView: [Swift.Double]? = nil,
             placeId: Swift.String? = nil,
             placeType: GeoPlacesClientTypes.PlaceType? = nil,
@@ -2732,8 +3210,10 @@ extension GeoPlacesClientTypes {
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.foodTypes = foodTypes
             self.intersections = intersections
+            self.mainAddress = mainAddress
             self.mapView = mapView
             self.placeId = placeId
             self.placeType = placeType
@@ -2748,7 +3228,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.ReverseGeocodeResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ReverseGeocodeResultItem(accessPoints: \(Swift.String(describing: accessPoints)), address: \(Swift.String(describing: address)), categories: \(Swift.String(describing: categories)), foodTypes: \(Swift.String(describing: foodTypes)), intersections: \(Swift.String(describing: intersections)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "ReverseGeocodeResultItem(accessPoints: \(Swift.String(describing: accessPoints)), address: \(Swift.String(describing: address)), categories: \(Swift.String(describing: categories)), foodTypes: \(Swift.String(describing: foodTypes)), intersections: \(Swift.String(describing: intersections)), mainAddress: \(Swift.String(describing: mainAddress)), postalCodeDetails: \(Swift.String(describing: postalCodeDetails)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", estimatedPointAddress: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct ReverseGeocodeOutput: Swift.Sendable {
@@ -2772,6 +3252,7 @@ extension GeoPlacesClientTypes {
     public enum SearchNearbyAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case contact
+        case crossReferences
         case phonemes
         case timeZone
         case sdkUnknown(Swift.String)
@@ -2780,6 +3261,7 @@ extension GeoPlacesClientTypes {
             return [
                 .access,
                 .contact,
+                .crossReferences,
                 .phonemes,
                 .timeZone
             ]
@@ -2794,6 +3276,7 @@ extension GeoPlacesClientTypes {
             switch self {
             case .access: return "Access"
             case .contact: return "Contact"
+            case .crossReferences: return "CrossReferences"
             case .phonemes: return "Phonemes"
             case .timeZone: return "TimeZone"
             case let .sdkUnknown(s): return s
@@ -2890,7 +3373,7 @@ public struct SearchNearbyInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.SearchNearbyIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
@@ -2952,6 +3435,8 @@ extension GeoPlacesClientTypes {
         public var categories: [GeoPlacesClientTypes.Category]?
         /// List of potential contact methods for the result/place.
         public var contacts: GeoPlacesClientTypes.Contacts?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public var crossReferences: [GeoPlacesClientTypes.CrossReference]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
         /// List of food types offered by this result.
@@ -2962,6 +3447,8 @@ extension GeoPlacesClientTypes {
         public var openingHours: [GeoPlacesClientTypes.OpeningHours]?
         /// How the various components of the result's address are pronounced in various languages.
         public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public var placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         /// This member is required.
         public var placeId: Swift.String?
@@ -2986,11 +3473,13 @@ extension GeoPlacesClientTypes {
             businessChains: [GeoPlacesClientTypes.BusinessChain]? = nil,
             categories: [GeoPlacesClientTypes.Category]? = nil,
             contacts: GeoPlacesClientTypes.Contacts? = nil,
+            crossReferences: [GeoPlacesClientTypes.CrossReference]? = nil,
             distance: Swift.Int = 0,
             foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
             mapView: [Swift.Double]? = nil,
             openingHours: [GeoPlacesClientTypes.OpeningHours]? = nil,
             phonemes: GeoPlacesClientTypes.PhonemeDetails? = nil,
+            placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]? = nil,
             placeId: Swift.String? = nil,
             placeType: GeoPlacesClientTypes.PlaceType? = nil,
             politicalView: Swift.String? = nil,
@@ -3005,11 +3494,13 @@ extension GeoPlacesClientTypes {
             self.businessChains = businessChains
             self.categories = categories
             self.contacts = contacts
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -3022,7 +3513,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.SearchNearbyResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchNearbyResultItem(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), foodTypes: \(Swift.String(describing: foodTypes)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "SearchNearbyResultItem(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), crossReferences: \(Swift.String(describing: crossReferences)), foodTypes: \(Swift.String(describing: foodTypes)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeAttributes: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchNearbyOutput: Swift.Sendable {
@@ -3050,6 +3541,7 @@ extension GeoPlacesClientTypes {
     public enum SearchTextAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case contact
+        case crossReferences
         case phonemes
         case timeZone
         case sdkUnknown(Swift.String)
@@ -3058,6 +3550,7 @@ extension GeoPlacesClientTypes {
             return [
                 .access,
                 .contact,
+                .crossReferences,
                 .phonemes,
                 .timeZone
             ]
@@ -3072,6 +3565,7 @@ extension GeoPlacesClientTypes {
             switch self {
             case .access: return "Access"
             case .contact: return "Contact"
+            case .crossReferences: return "CrossReferences"
             case .phonemes: return "Phonemes"
             case .timeZone: return "TimeZone"
             case let .sdkUnknown(s): return s
@@ -3139,6 +3633,38 @@ extension GeoPlacesClientTypes {
     }
 }
 
+extension GeoPlacesClientTypes {
+
+    public enum SearchTextTravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case car
+        case scooter
+        case truck
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchTextTravelMode] {
+            return [
+                .car,
+                .scooter,
+                .truck
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .car: return "Car"
+            case .scooter: return "Scooter"
+            case .truck: return "Truck"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct SearchTextInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     public var additionalFeatures: [GeoPlacesClientTypes.SearchTextAdditionalFeature]?
@@ -3150,7 +3676,7 @@ public struct SearchTextInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.SearchTextIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// An optional limit for the number of results returned in a single call. Default value: 20
     public var maxResults: Swift.Int?
@@ -3162,6 +3688,8 @@ public struct SearchTextInput: Swift.Sendable {
     public var queryId: Swift.String?
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. Exactly one of the following fields must be set: QueryText or QueryId.
     public var queryText: Swift.String?
+    /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
+    public var travelMode: GeoPlacesClientTypes.SearchTextTravelMode?
 
     public init(
         additionalFeatures: [GeoPlacesClientTypes.SearchTextAdditionalFeature]? = nil,
@@ -3174,7 +3702,8 @@ public struct SearchTextInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         politicalView: Swift.String? = nil,
         queryId: Swift.String? = nil,
-        queryText: Swift.String? = nil
+        queryText: Swift.String? = nil,
+        travelMode: GeoPlacesClientTypes.SearchTextTravelMode? = nil
     ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
@@ -3187,12 +3716,13 @@ public struct SearchTextInput: Swift.Sendable {
         self.politicalView = politicalView
         self.queryId = queryId
         self.queryText = queryText
+        self.travelMode = travelMode
     }
 }
 
 extension SearchTextInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchTextInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryId: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
+        "SearchTextInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), travelMode: \(Swift.String(describing: travelMode)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryId: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -3213,16 +3743,20 @@ extension GeoPlacesClientTypes {
         public var categories: [GeoPlacesClientTypes.Category]?
         /// List of potential contact methods for the result/place.
         public var contacts: GeoPlacesClientTypes.Contacts?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public var crossReferences: [GeoPlacesClientTypes.CrossReference]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
         /// List of food types offered by this result.
         public var foodTypes: [GeoPlacesClientTypes.FoodType]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public var mapView: [Swift.Double]?
-        /// List of opening hours objects.
+        /// List of opening hours objects. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var openingHours: [GeoPlacesClientTypes.OpeningHours]?
         /// How the various components of the result's address are pronounced in various languages.
         public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public var placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         /// This member is required.
         public var placeId: Swift.String?
@@ -3247,11 +3781,13 @@ extension GeoPlacesClientTypes {
             businessChains: [GeoPlacesClientTypes.BusinessChain]? = nil,
             categories: [GeoPlacesClientTypes.Category]? = nil,
             contacts: GeoPlacesClientTypes.Contacts? = nil,
+            crossReferences: [GeoPlacesClientTypes.CrossReference]? = nil,
             distance: Swift.Int = 0,
             foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
             mapView: [Swift.Double]? = nil,
             openingHours: [GeoPlacesClientTypes.OpeningHours]? = nil,
             phonemes: GeoPlacesClientTypes.PhonemeDetails? = nil,
+            placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]? = nil,
             placeId: Swift.String? = nil,
             placeType: GeoPlacesClientTypes.PlaceType? = nil,
             politicalView: Swift.String? = nil,
@@ -3266,11 +3802,13 @@ extension GeoPlacesClientTypes {
             self.businessChains = businessChains
             self.categories = categories
             self.contacts = contacts
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -3283,7 +3821,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.SearchTextResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchTextResultItem(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), foodTypes: \(Swift.String(describing: foodTypes)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "SearchTextResultItem(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), contacts: \(Swift.String(describing: contacts)), crossReferences: \(Swift.String(describing: crossReferences)), foodTypes: \(Swift.String(describing: foodTypes)), openingHours: \(Swift.String(describing: openingHours)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), addressNumberCorrected: \"CONTENT_REDACTED\", distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeAttributes: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchTextOutput: Swift.Sendable {
@@ -3311,6 +3849,7 @@ extension GeoPlacesClientTypes {
     public enum SuggestAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case access
         case core
+        case crossReferences
         case phonemes
         case timeZone
         case sdkUnknown(Swift.String)
@@ -3319,6 +3858,7 @@ extension GeoPlacesClientTypes {
             return [
                 .access,
                 .core,
+                .crossReferences,
                 .phonemes,
                 .timeZone
             ]
@@ -3333,6 +3873,7 @@ extension GeoPlacesClientTypes {
             switch self {
             case .access: return "Access"
             case .core: return "Core"
+            case .crossReferences: return "CrossReferences"
             case .phonemes: return "Phonemes"
             case .timeZone: return "TimeZone"
             case let .sdkUnknown(s): return s
@@ -3396,6 +3937,38 @@ extension GeoPlacesClientTypes {
     }
 }
 
+extension GeoPlacesClientTypes {
+
+    public enum SuggestTravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case car
+        case scooter
+        case truck
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuggestTravelMode] {
+            return [
+                .car,
+                .scooter,
+                .truck
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .car: return "Car"
+            case .scooter: return "Scooter"
+            case .truck: return "Truck"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct SuggestInput: Swift.Sendable {
     /// A list of optional additional parameters, such as time zone, that can be requested for each result. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the Core and TimeZone values.
     public var additionalFeatures: [GeoPlacesClientTypes.SuggestAdditionalFeature]?
@@ -3407,7 +3980,7 @@ public struct SuggestInput: Swift.Sendable {
     public var intendedUse: GeoPlacesClientTypes.SuggestIntendedUse?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
-    /// A list of [BCP 47](https://en.wikipedia.org/wiki/IETF_language_tag) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    /// A list of [BCP 47](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     public var language: Swift.String?
     /// Maximum number of query terms to be returned for use with a search text query. Not supported in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
     public var maxQueryRefinements: Swift.Int?
@@ -3418,6 +3991,8 @@ public struct SuggestInput: Swift.Sendable {
     /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form. The fields QueryText and QueryID are mutually exclusive.
     /// This member is required.
     public var queryText: Swift.String?
+    /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
+    public var travelMode: GeoPlacesClientTypes.SuggestTravelMode?
 
     public init(
         additionalFeatures: [GeoPlacesClientTypes.SuggestAdditionalFeature]? = nil,
@@ -3429,7 +4004,8 @@ public struct SuggestInput: Swift.Sendable {
         maxQueryRefinements: Swift.Int? = nil,
         maxResults: Swift.Int? = nil,
         politicalView: Swift.String? = nil,
-        queryText: Swift.String? = nil
+        queryText: Swift.String? = nil,
+        travelMode: GeoPlacesClientTypes.SuggestTravelMode? = nil
     ) {
         self.additionalFeatures = additionalFeatures
         self.biasPosition = biasPosition
@@ -3441,12 +4017,13 @@ public struct SuggestInput: Swift.Sendable {
         self.maxResults = maxResults
         self.politicalView = politicalView
         self.queryText = queryText
+        self.travelMode = travelMode
     }
 }
 
 extension SuggestInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SuggestInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxQueryRefinements: \(Swift.String(describing: maxQueryRefinements)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
+        "SuggestInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), filter: \(Swift.String(describing: filter)), intendedUse: \(Swift.String(describing: intendedUse)), language: \(Swift.String(describing: language)), maxQueryRefinements: \(Swift.String(describing: maxQueryRefinements)), maxResults: \(Swift.String(describing: maxResults)), travelMode: \(Swift.String(describing: travelMode)), biasPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", queryText: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -3533,6 +4110,8 @@ extension GeoPlacesClientTypes {
         public var businessChains: [GeoPlacesClientTypes.BusinessChain]?
         /// Categories of results that results must belong to.
         public var categories: [GeoPlacesClientTypes.Category]?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public var crossReferences: [GeoPlacesClientTypes.CrossReference]?
         /// The distance in meters from the QueryPosition.
         public var distance: Swift.Int
         /// List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
@@ -3541,6 +4120,8 @@ extension GeoPlacesClientTypes {
         public var mapView: [Swift.Double]?
         /// How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/GrabMaps.html) customers.
         public var phonemes: GeoPlacesClientTypes.PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public var placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         public var placeId: Swift.String?
         /// A PlaceType is a category that the result place must belong to.
@@ -3558,10 +4139,12 @@ extension GeoPlacesClientTypes {
             address: GeoPlacesClientTypes.Address? = nil,
             businessChains: [GeoPlacesClientTypes.BusinessChain]? = nil,
             categories: [GeoPlacesClientTypes.Category]? = nil,
+            crossReferences: [GeoPlacesClientTypes.CrossReference]? = nil,
             distance: Swift.Int = 0,
             foodTypes: [GeoPlacesClientTypes.FoodType]? = nil,
             mapView: [Swift.Double]? = nil,
             phonemes: GeoPlacesClientTypes.PhonemeDetails? = nil,
+            placeAttributes: [GeoPlacesClientTypes.PlaceAttribute]? = nil,
             placeId: Swift.String? = nil,
             placeType: GeoPlacesClientTypes.PlaceType? = nil,
             politicalView: Swift.String? = nil,
@@ -3573,10 +4156,12 @@ extension GeoPlacesClientTypes {
             self.address = address
             self.businessChains = businessChains
             self.categories = categories
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -3588,7 +4173,7 @@ extension GeoPlacesClientTypes {
 
 extension GeoPlacesClientTypes.SuggestPlaceResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SuggestPlaceResult(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), foodTypes: \(Swift.String(describing: foodTypes)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
+        "SuggestPlaceResult(accessPoints: \(Swift.String(describing: accessPoints)), accessRestrictions: \(Swift.String(describing: accessRestrictions)), address: \(Swift.String(describing: address)), businessChains: \(Swift.String(describing: businessChains)), categories: \(Swift.String(describing: categories)), crossReferences: \(Swift.String(describing: crossReferences)), foodTypes: \(Swift.String(describing: foodTypes)), phonemes: \(Swift.String(describing: phonemes)), timeZone: \(Swift.String(describing: timeZone)), distance: \"CONTENT_REDACTED\", mapView: \"CONTENT_REDACTED\", placeAttributes: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", placeType: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", position: \"CONTENT_REDACTED\")"}
 }
 
 extension GeoPlacesClientTypes {
@@ -3797,6 +4382,10 @@ extension GetPlaceInput {
             let languageQueryItem = Smithy.URIQueryItem(name: "language".urlPercentEncoding(), value: Swift.String(language).urlPercentEncoding())
             items.append(languageQueryItem)
         }
+        if let addressNamesMode = value.addressNamesMode {
+            let addressNamesModeQueryItem = Smithy.URIQueryItem(name: "address-names-mode".urlPercentEncoding(), value: Swift.String(addressNamesMode.rawValue).urlPercentEncoding())
+            items.append(addressNamesModeQueryItem)
+        }
         if let politicalView = value.politicalView {
             let politicalViewQueryItem = Smithy.URIQueryItem(name: "political-view".urlPercentEncoding(), value: Swift.String(politicalView).urlPercentEncoding())
             items.append(politicalViewQueryItem)
@@ -3906,12 +4495,15 @@ extension GeocodeInput {
     static func write(value: GeocodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdditionalFeatures"].writeList(value.additionalFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.GeocodeAdditionalFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AddressNamesMode"].write(value.addressNamesMode)
+        try writer["AddressTranslations"].writeList(value.addressTranslations, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.AddressTranslationComponent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["BiasPosition"].writeList(value.biasPosition, memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Filter"].write(value.filter, with: GeoPlacesClientTypes.GeocodeFilter.write(value:to:))
         try writer["IntendedUse"].write(value.intendedUse)
         try writer["Language"].write(value.language)
         try writer["MaxResults"].write(value.maxResults)
         try writer["PoliticalView"].write(value.politicalView)
+        try writer["PostalCodeMode"].write(value.postalCodeMode)
         try writer["QueryComponents"].write(value.queryComponents, with: GeoPlacesClientTypes.GeocodeQueryComponents.write(value:to:))
         try writer["QueryText"].write(value.queryText)
     }
@@ -3922,6 +4514,7 @@ extension ReverseGeocodeInput {
     static func write(value: ReverseGeocodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdditionalFeatures"].writeList(value.additionalFeatures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GeoPlacesClientTypes.ReverseGeocodeAdditionalFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AddressNamesMode"].write(value.addressNamesMode)
         try writer["Filter"].write(value.filter, with: GeoPlacesClientTypes.ReverseGeocodeFilter.write(value:to:))
         try writer["Heading"].write(value.heading)
         try writer["IntendedUse"].write(value.intendedUse)
@@ -3963,6 +4556,7 @@ extension SearchTextInput {
         try writer["PoliticalView"].write(value.politicalView)
         try writer["QueryId"].write(value.queryId)
         try writer["QueryText"].write(value.queryText)
+        try writer["TravelMode"].write(value.travelMode)
     }
 }
 
@@ -3979,6 +4573,7 @@ extension SuggestInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["PoliticalView"].write(value.politicalView)
         try writer["QueryText"].write(value.queryText)
+        try writer["TravelMode"].write(value.travelMode)
     }
 }
 
@@ -4029,11 +4624,14 @@ extension GetPlaceOutput {
         value.businessChains = try reader["BusinessChains"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.BusinessChain.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contacts = try reader["Contacts"].readIfPresent(with: GeoPlacesClientTypes.Contacts.read(from:))
+        value.crossReferences = try reader["CrossReferences"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.CrossReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.estimatedPointAddress = try reader["EstimatedPointAddress"].readIfPresent()
         value.foodTypes = try reader["FoodTypes"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.FoodType.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mainAddress = try reader["MainAddress"].readIfPresent(with: GeoPlacesClientTypes.RelatedPlace.read(from:))
         value.mapView = try reader["MapView"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         value.openingHours = try reader["OpeningHours"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.OpeningHours.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.phonemes = try reader["Phonemes"].readIfPresent(with: GeoPlacesClientTypes.PhonemeDetails.read(from:))
+        value.placeAttributes = try reader["PlaceAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoPlacesClientTypes.PlaceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placeId = try reader["PlaceId"].readIfPresent() ?? ""
         value.placeType = try reader["PlaceType"].readIfPresent() ?? .sdkUnknown("")
         value.politicalView = try reader["PoliticalView"].readIfPresent()
@@ -4288,6 +4886,9 @@ extension GeoPlacesClientTypes.AccessPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GeoPlacesClientTypes.AccessPoint()
         value.position = try reader["Position"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
         return value
     }
 }
@@ -4368,6 +4969,17 @@ extension GeoPlacesClientTypes.AddressComponentPhonemes {
     }
 }
 
+extension GeoPlacesClientTypes.AdminNames {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AdminNames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.AdminNames()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.TranslationName.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.preference = try reader["Preference"].readIfPresent()
+        return value
+    }
+}
+
 extension GeoPlacesClientTypes.AutocompleteAddressHighlights {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.AutocompleteAddressHighlights {
@@ -4426,6 +5038,7 @@ extension GeoPlacesClientTypes.AutocompleteResultItem {
         value.language = try reader["Language"].readIfPresent()
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.highlights = try reader["Highlights"].readIfPresent(with: GeoPlacesClientTypes.AutocompleteHighlights.read(from:))
+        value.estimatedPointAddress = try reader["EstimatedPointAddress"].readIfPresent()
         return value
     }
 }
@@ -4513,6 +5126,18 @@ extension GeoPlacesClientTypes.CountryHighlights {
     }
 }
 
+extension GeoPlacesClientTypes.CrossReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.CrossReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.CrossReference()
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        value.sourcePlaceId = try reader["SourcePlaceId"].readIfPresent() ?? ""
+        value.sourceCategories = try reader["SourceCategories"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Category.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GeoPlacesClientTypes.FilterCircle {
 
     static func write(value: GeoPlacesClientTypes.FilterCircle?, to writer: SmithyJSON.Writer) throws {
@@ -4572,6 +5197,7 @@ extension GeoPlacesClientTypes.GeocodeParsedQueryAddressComponents {
         value.addressNumber = try reader["AddressNumber"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ParsedQueryComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.building = try reader["Building"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ParsedQueryComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.secondaryAddressComponents = try reader["SecondaryAddressComponents"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ParsedQuerySecondaryAddressComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.otherComponents = try reader["OtherComponents"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.ParsedQueryComponent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4615,6 +5241,8 @@ extension GeoPlacesClientTypes.GeocodeResultItem {
         value.intersections = try reader["Intersections"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Intersection.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mainAddress = try reader["MainAddress"].readIfPresent(with: GeoPlacesClientTypes.RelatedPlace.read(from:))
         value.secondaryAddresses = try reader["SecondaryAddresses"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.RelatedPlace.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.translations = try reader["Translations"].readIfPresent(with: GeoPlacesClientTypes.TranslationDetails.read(from:))
+        value.estimatedPointAddress = try reader["EstimatedPointAddress"].readIfPresent()
         return value
     }
 }
@@ -4826,6 +5454,8 @@ extension GeoPlacesClientTypes.ReverseGeocodeResultItem {
         value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.intersections = try reader["Intersections"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.Intersection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mainAddress = try reader["MainAddress"].readIfPresent(with: GeoPlacesClientTypes.RelatedPlace.read(from:))
+        value.estimatedPointAddress = try reader["EstimatedPointAddress"].readIfPresent()
         return value
     }
 }
@@ -4868,6 +5498,8 @@ extension GeoPlacesClientTypes.SearchNearbyResultItem {
         value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.phonemes = try reader["Phonemes"].readIfPresent(with: GeoPlacesClientTypes.PhonemeDetails.read(from:))
+        value.placeAttributes = try reader["PlaceAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoPlacesClientTypes.PlaceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.crossReferences = try reader["CrossReferences"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.CrossReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4905,6 +5537,8 @@ extension GeoPlacesClientTypes.SearchTextResultItem {
         value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.phonemes = try reader["Phonemes"].readIfPresent(with: GeoPlacesClientTypes.PhonemeDetails.read(from:))
+        value.placeAttributes = try reader["PlaceAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoPlacesClientTypes.PlaceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.crossReferences = try reader["CrossReferences"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.CrossReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5019,6 +5653,8 @@ extension GeoPlacesClientTypes.SuggestPlaceResult {
         value.timeZone = try reader["TimeZone"].readIfPresent(with: GeoPlacesClientTypes.TimeZone.read(from:))
         value.politicalView = try reader["PoliticalView"].readIfPresent()
         value.phonemes = try reader["Phonemes"].readIfPresent(with: GeoPlacesClientTypes.PhonemeDetails.read(from:))
+        value.placeAttributes = try reader["PlaceAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GeoPlacesClientTypes.PlaceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.crossReferences = try reader["CrossReferences"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.CrossReference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5056,6 +5692,33 @@ extension GeoPlacesClientTypes.TimeZone {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.offset = try reader["Offset"].readIfPresent()
         value.offsetSeconds = try reader["OffsetSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.TranslationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.TranslationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.TranslationDetails()
+        value.locality = try reader["Locality"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AdminNames.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.region = try reader["Region"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AdminNames.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.district = try reader["District"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AdminNames.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subRegion = try reader["SubRegion"].readListIfPresent(memberReadingClosure: GeoPlacesClientTypes.AdminNames.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GeoPlacesClientTypes.TranslationName {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GeoPlacesClientTypes.TranslationName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GeoPlacesClientTypes.TranslationName()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.language = try reader["Language"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.primary = try reader["Primary"].readIfPresent()
+        value.transliterated = try reader["Transliterated"].readIfPresent()
         return value
     }
 }

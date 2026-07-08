@@ -1797,6 +1797,25 @@ public struct CreateFuotaTaskOutput: Swift.Sendable {
 
 extension IoTWirelessClientTypes {
 
+    /// The default session parameters for the multicast group.
+    public struct DefaultSessionParametersMulticast: Swift.Sendable {
+        /// Downlink data rate.
+        public var dlDr: Swift.Int?
+        /// Downlink frequency.
+        public var dlFreq: Swift.Int?
+
+        public init(
+            dlDr: Swift.Int? = nil,
+            dlFreq: Swift.Int? = nil
+        ) {
+            self.dlDr = dlDr
+            self.dlFreq = dlFreq
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
     /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
     public enum DlClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case classb
@@ -1848,6 +1867,8 @@ extension IoTWirelessClientTypes {
 
     /// The LoRaWAN information that is to be used with the multicast group.
     public struct LoRaWANMulticast: Swift.Sendable {
+        /// The default session parameters for the multicast group.
+        public var defaultSessionParameters: IoTWirelessClientTypes.DefaultSessionParametersMulticast?
         /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
         public var dlClass: IoTWirelessClientTypes.DlClass?
         /// Specify the list of gateways to which you want to send the multicast downlink messages. The multicast message will be sent to each gateway in the list, with the transmission interval as the time interval between each message.
@@ -1856,10 +1877,12 @@ extension IoTWirelessClientTypes {
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
 
         public init(
+            defaultSessionParameters: IoTWirelessClientTypes.DefaultSessionParametersMulticast? = nil,
             dlClass: IoTWirelessClientTypes.DlClass? = nil,
             participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast? = nil,
             rfRegion: IoTWirelessClientTypes.SupportedRfRegion? = nil
         ) {
+            self.defaultSessionParameters = defaultSessionParameters
             self.dlClass = dlClass
             self.participatingGateways = participatingGateways
             self.rfRegion = rfRegion
@@ -4897,6 +4920,8 @@ extension IoTWirelessClientTypes {
 
     /// The LoRaWAN information that is to be returned from getting multicast group information.
     public struct LoRaWANMulticastGet: Swift.Sendable {
+        /// The default session parameters for the multicast group.
+        public var defaultSessionParameters: IoTWirelessClientTypes.DefaultSessionParametersMulticast?
         /// DlClass for LoRaWAM, valid values are ClassB and ClassC.
         public var dlClass: IoTWirelessClientTypes.DlClass?
         /// Number of devices that are associated to the multicast group.
@@ -4909,12 +4934,14 @@ extension IoTWirelessClientTypes {
         public var rfRegion: IoTWirelessClientTypes.SupportedRfRegion?
 
         public init(
+            defaultSessionParameters: IoTWirelessClientTypes.DefaultSessionParametersMulticast? = nil,
             dlClass: IoTWirelessClientTypes.DlClass? = nil,
             numberOfDevicesInGroup: Swift.Int? = nil,
             numberOfDevicesRequested: Swift.Int? = nil,
             participatingGateways: IoTWirelessClientTypes.ParticipatingGatewaysMulticast? = nil,
             rfRegion: IoTWirelessClientTypes.SupportedRfRegion? = nil
         ) {
+            self.defaultSessionParameters = defaultSessionParameters
             self.dlClass = dlClass
             self.numberOfDevicesInGroup = numberOfDevicesInGroup
             self.numberOfDevicesRequested = numberOfDevicesRequested
@@ -14495,6 +14522,23 @@ extension IoTWirelessClientTypes.DakCertificateMetadata {
     }
 }
 
+extension IoTWirelessClientTypes.DefaultSessionParametersMulticast {
+
+    static func write(value: IoTWirelessClientTypes.DefaultSessionParametersMulticast?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DlDr"].write(value.dlDr)
+        try writer["DlFreq"].write(value.dlFreq)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.DefaultSessionParametersMulticast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTWirelessClientTypes.DefaultSessionParametersMulticast()
+        value.dlDr = try reader["DlDr"].readIfPresent()
+        value.dlFreq = try reader["DlFreq"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTWirelessClientTypes.Destinations {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.Destinations {
@@ -15108,6 +15152,7 @@ extension IoTWirelessClientTypes.LoRaWANMulticast {
 
     static func write(value: IoTWirelessClientTypes.LoRaWANMulticast?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DefaultSessionParameters"].write(value.defaultSessionParameters, with: IoTWirelessClientTypes.DefaultSessionParametersMulticast.write(value:to:))
         try writer["DlClass"].write(value.dlClass)
         try writer["ParticipatingGateways"].write(value.participatingGateways, with: IoTWirelessClientTypes.ParticipatingGatewaysMulticast.write(value:to:))
         try writer["RfRegion"].write(value.rfRegion)
@@ -15124,6 +15169,7 @@ extension IoTWirelessClientTypes.LoRaWANMulticastGet {
         value.numberOfDevicesRequested = try reader["NumberOfDevicesRequested"].readIfPresent()
         value.numberOfDevicesInGroup = try reader["NumberOfDevicesInGroup"].readIfPresent()
         value.participatingGateways = try reader["ParticipatingGateways"].readIfPresent(with: IoTWirelessClientTypes.ParticipatingGatewaysMulticast.read(from:))
+        value.defaultSessionParameters = try reader["DefaultSessionParameters"].readIfPresent(with: IoTWirelessClientTypes.DefaultSessionParametersMulticast.read(from:))
         return value
     }
 }

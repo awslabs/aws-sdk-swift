@@ -114,9 +114,9 @@ extension AppConfigClientTypes {
 
 extension AppConfigClientTypes {
 
-    /// Configuration settings for vended metrics.
+    /// The configuration settings for vended metrics in your AppConfig account.
     public struct VendedMetricsSettings: Swift.Sendable {
-        /// Whether vended metrics are enabled for the account.
+        /// Specifies whether vended metrics are enabled for the account.
         public var enabled: Swift.Bool?
 
         public init(
@@ -936,7 +936,7 @@ extension AppConfigClientTypes {
     public struct FlagValue: Swift.Sendable {
         /// The attribute values associated with this flag value.
         public var attributeValues: [Swift.String: AppConfigClientTypes.AttributeValue]?
-        /// Whether the feature flag is enabled for this treatment.
+        /// Specifies whether the feature flag is enabled for this treatment.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -1681,7 +1681,7 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Sendable {
 public struct GetAccountSettingsOutput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
-    /// Configuration for vended metrics in the account.
+    /// The configuration for vended metrics in the account.
     public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
@@ -3791,7 +3791,7 @@ public struct StartDeploymentOutput: Swift.Sendable {
 
 extension AppConfigClientTypes {
 
-    /// Optional deployment parameters for an experiment run, including extension parameters and tags.
+    /// The deployment parameters for an experiment run, including dynamic extension parameters and tags.
     public struct DeploymentParameters: Swift.Sendable {
         /// A map of extension parameters for the deployment.
         public var dynamicExtensionParameters: [Swift.String: Swift.String]?
@@ -3817,7 +3817,7 @@ public struct StartExperimentRunInput: Swift.Sendable {
     /// The application ID or name.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
-    /// Optional deployment parameters including a KMS key for encryption.
+    /// The deployment parameters for the experiment run, including a KMS key identifier for encryption.
     public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
     /// A description of this experiment run.
     public var description: Swift.String?
@@ -4031,7 +4031,7 @@ public struct StopExperimentRunInput: Swift.Sendable {
     /// The application ID or name.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
-    /// Optional deployment parameters for the stop operation.
+    /// The deployment parameters for the stop operation.
     public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
     /// The experiment definition ID or name.
     /// This member is required.
@@ -4150,7 +4150,7 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UpdateAccountSettingsInput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
-    /// Configuration for vended metrics in the account.
+    /// The configuration for vended metrics in the account.
     public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
@@ -4165,7 +4165,7 @@ public struct UpdateAccountSettingsInput: Swift.Sendable {
 public struct UpdateAccountSettingsOutput: Swift.Sendable {
     /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html) or for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
     public var deletionProtection: AppConfigClientTypes.DeletionProtectionSettings?
-    /// Configuration for vended metrics in the account.
+    /// The configuration for vended metrics in the account.
     public var vendedMetrics: AppConfigClientTypes.VendedMetricsSettings?
 
     public init(
@@ -4452,7 +4452,7 @@ public struct UpdateExperimentDefinitionInput: Swift.Sendable {
     public var hypothesis: Swift.String?
     /// Updated launch criteria.
     public var launchCriteria: Swift.String?
-    /// An updated list of treatments.
+    /// The updated list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
     public var treatments: [AppConfigClientTypes.TreatmentInput]?
 
     public init(
@@ -4552,7 +4552,7 @@ public struct UpdateExperimentRunInput: Swift.Sendable {
     /// The application ID or name.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
-    /// Updated deployment parameters.
+    /// The updated deployment parameters for the experiment run.
     public var deploymentParameters: AppConfigClientTypes.DeploymentParameters?
     /// An updated description for the experiment run.
     public var description: Swift.String?
@@ -4564,7 +4564,7 @@ public struct UpdateExperimentRunInput: Swift.Sendable {
     /// The run number to update.
     /// This member is required.
     public var run: Swift.Int?
-    /// Updated treatment assignment overrides.
+    /// The updated treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.
     public var treatmentOverrides: AppConfigClientTypes.TreatmentOverrides?
 
     public init(
@@ -7661,6 +7661,7 @@ enum StopExperimentRunOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

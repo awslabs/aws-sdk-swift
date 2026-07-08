@@ -94,9 +94,14 @@ extension Resiliencehubv2Client {
 extension ListFailureModeAssessmentsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFailureModeAssessmentsInput {
         return ListFailureModeAssessmentsInput(
+            assessmentStatuses: self.assessmentStatuses,
+            endedBefore: self.endedBefore,
             maxResults: self.maxResults,
             nextToken: token,
-            serviceArn: self.serviceArn
+            serviceArn: self.serviceArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            startedAfter: self.startedAfter
         )}
 }
 
@@ -254,8 +259,10 @@ extension ListResourcesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListResourcesInput {
         return ListResourcesInput(
             awsRegion: self.awsRegion,
+            billable: self.billable,
             maxResults: self.maxResults,
             nextToken: token,
+            resourceTypes: self.resourceTypes,
             serviceArn: self.serviceArn,
             serviceFunctionId: self.serviceFunctionId
         )}

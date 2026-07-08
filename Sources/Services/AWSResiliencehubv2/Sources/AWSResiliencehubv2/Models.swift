@@ -87,6 +87,8 @@ extension Resiliencehubv2ClientTypes {
     public struct Achievability: Swift.Sendable {
         /// The achievability status of the availability SLO target for the service.
         public var availabilitySlo: Resiliencehubv2ClientTypes.AchievabilityStatus?
+        /// The achievability status of the data recovery time between backups for the service.
+        public var dataRecoveryTimeBetweenBackups: Resiliencehubv2ClientTypes.AchievabilityStatus?
         /// The achievability status of the multi-AZ RTO and RPO targets for the service.
         public var multiAzRtoRpo: Resiliencehubv2ClientTypes.AchievabilityStatus?
         /// The achievability status of the multi-Region RTO and RPO targets for the service.
@@ -94,10 +96,12 @@ extension Resiliencehubv2ClientTypes {
 
         public init(
             availabilitySlo: Resiliencehubv2ClientTypes.AchievabilityStatus? = nil,
+            dataRecoveryTimeBetweenBackups: Resiliencehubv2ClientTypes.AchievabilityStatus? = nil,
             multiAzRtoRpo: Resiliencehubv2ClientTypes.AchievabilityStatus? = nil,
             multiRegionRtoRpo: Resiliencehubv2ClientTypes.AchievabilityStatus? = nil
         ) {
             self.availabilitySlo = availabilitySlo
+            self.dataRecoveryTimeBetweenBackups = dataRecoveryTimeBetweenBackups
             self.multiAzRtoRpo = multiAzRtoRpo
             self.multiRegionRtoRpo = multiRegionRtoRpo
         }
@@ -343,6 +347,33 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// The field by which to sort failure mode assessment results.
+    public enum AssessmentSortField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case startedAt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentSortField] {
+            return [
+                .startedAt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .startedAt: return "STARTED_AT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     public enum AssessmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case inProgress
@@ -382,16 +413,28 @@ extension Resiliencehubv2ClientTypes {
 extension Resiliencehubv2ClientTypes {
 
     public enum AssessmentStep: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case designAnalysis
+        case failureModeFindingsConsolidation
+        case failureModeFindingsEnrichment
+        case inputValidation
+        case policyValidation
         case resilienceAssessment
         case serviceFunctionGeneration
         case topologyEnhancement
+        case topologyGeneration
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssessmentStep] {
             return [
+                .designAnalysis,
+                .failureModeFindingsConsolidation,
+                .failureModeFindingsEnrichment,
+                .inputValidation,
+                .policyValidation,
                 .resilienceAssessment,
                 .serviceFunctionGeneration,
-                .topologyEnhancement
+                .topologyEnhancement,
+                .topologyGeneration
             ]
         }
 
@@ -402,9 +445,15 @@ extension Resiliencehubv2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .designAnalysis: return "DESIGN_ANALYSIS"
+            case .failureModeFindingsConsolidation: return "FAILURE_MODE_FINDINGS_CONSOLIDATION"
+            case .failureModeFindingsEnrichment: return "FAILURE_MODE_FINDINGS_ENRICHMENT"
+            case .inputValidation: return "INPUT_VALIDATION"
+            case .policyValidation: return "POLICY_VALIDATION"
             case .resilienceAssessment: return "RESILIENCE_ASSESSMENT"
             case .serviceFunctionGeneration: return "SERVICE_FUNCTION_GENERATION"
             case .topologyEnhancement: return "TOPOLOGY_ENHANCEMENT"
+            case .topologyGeneration: return "TOPOLOGY_GENERATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1548,6 +1597,10 @@ extension Resiliencehubv2ClientTypes {
 
     /// Configuration for dependency discovery on a service.
     public struct DependencyDiscoveryConfig: Swift.Sendable {
+        /// The count of resources eligible for dependency attribution.
+        public var eligibleResourceCount: Swift.Int?
+        /// A status message for dependency discovery, displayed during the initialization state.
+        public var message: Swift.String?
         /// The current status of dependency discovery.
         /// This member is required.
         public var status: Resiliencehubv2ClientTypes.DependencyDiscoveryStatus?
@@ -1555,9 +1608,13 @@ extension Resiliencehubv2ClientTypes {
         public var updatedAt: Foundation.Date?
 
         public init(
+            eligibleResourceCount: Swift.Int? = nil,
+            message: Swift.String? = nil,
             status: Resiliencehubv2ClientTypes.DependencyDiscoveryStatus? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
+            self.eligibleResourceCount = eligibleResourceCount
+            self.message = message
             self.status = status
             self.updatedAt = updatedAt
         }
@@ -3538,7 +3595,41 @@ public struct ListDependenciesOutput: Swift.Sendable {
     }
 }
 
+extension Resiliencehubv2ClientTypes {
+
+    /// The order in which to sort results.
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListFailureModeAssessmentsInput: Swift.Sendable {
+    /// Specifies the assessment statuses to include in the results.
+    public var assessmentStatuses: [Resiliencehubv2ClientTypes.AssessmentStatus]?
+    /// Specifies that only assessments that ended at or before this timestamp appear in the results.
+    public var endedBefore: Foundation.Date?
     /// Pagination page size.
     public var maxResults: Swift.Int?
     /// Pagination token.
@@ -3546,15 +3637,31 @@ public struct ListFailureModeAssessmentsInput: Swift.Sendable {
     /// ARN identifier.
     /// This member is required.
     public var serviceArn: Swift.String?
+    /// The field to use for sorting failure mode assessments.
+    public var sortBy: Resiliencehubv2ClientTypes.AssessmentSortField?
+    /// The sort order for results.
+    public var sortOrder: Resiliencehubv2ClientTypes.SortOrder?
+    /// Specifies that only assessments that started at or after this timestamp appear in the results.
+    public var startedAfter: Foundation.Date?
 
     public init(
+        assessmentStatuses: [Resiliencehubv2ClientTypes.AssessmentStatus]? = nil,
+        endedBefore: Foundation.Date? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
-        serviceArn: Swift.String? = nil
+        serviceArn: Swift.String? = nil,
+        sortBy: Resiliencehubv2ClientTypes.AssessmentSortField? = nil,
+        sortOrder: Resiliencehubv2ClientTypes.SortOrder? = nil,
+        startedAfter: Foundation.Date? = nil
     ) {
+        self.assessmentStatuses = assessmentStatuses
+        self.endedBefore = endedBefore
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.serviceArn = serviceArn
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.startedAfter = startedAfter
     }
 }
 
@@ -3784,10 +3891,14 @@ public struct ListReportsOutput: Swift.Sendable {
 public struct ListResourcesInput: Swift.Sendable {
     /// Filter resources by AWS Region.
     public var awsRegion: Swift.String?
+    /// Specifies whether to filter non-billable resources. When true (the default), the operation returns only billable resources.
+    public var billable: Swift.Bool?
     /// Pagination page size.
     public var maxResults: Swift.Int?
     /// Pagination token.
     public var nextToken: Swift.String?
+    /// The CloudFormation resource types to include in the response.
+    public var resourceTypes: [Swift.String]?
     /// ARN identifier.
     /// This member is required.
     public var serviceArn: Swift.String?
@@ -3796,14 +3907,18 @@ public struct ListResourcesInput: Swift.Sendable {
 
     public init(
         awsRegion: Swift.String? = nil,
+        billable: Swift.Bool? = nil,
         maxResults: Swift.Int? = 100,
         nextToken: Swift.String? = nil,
+        resourceTypes: [Swift.String]? = nil,
         serviceArn: Swift.String? = nil,
         serviceFunctionId: Swift.String? = nil
     ) {
         self.awsRegion = awsRegion
+        self.billable = billable
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.resourceTypes = resourceTypes
         self.serviceArn = serviceArn
         self.serviceFunctionId = serviceFunctionId
     }
@@ -4611,22 +4726,38 @@ extension Resiliencehubv2ClientTypes {
 
     /// Contains summary information about a service topology edge.
     public struct ServiceTopologyEdgeSummary: Swift.Sendable {
+        /// The AWS account ID of the destination resource.
+        public var destinationAccount: Swift.String?
+        /// The AWS Region of the destination resource.
+        public var destinationRegion: Swift.String?
         /// The identifier of the destination resource.
         /// This member is required.
         public var destinationResourceIdentifier: Swift.String?
         /// The properties of the topology edge.
         public var properties: [Resiliencehubv2ClientTypes.EdgePropertySummary]?
+        /// The AWS account ID of the source resource.
+        public var sourceAccount: Swift.String?
+        /// The AWS Region of the source resource.
+        public var sourceRegion: Swift.String?
         /// The identifier of the source resource.
         /// This member is required.
         public var sourceResourceIdentifier: Swift.String?
 
         public init(
+            destinationAccount: Swift.String? = nil,
+            destinationRegion: Swift.String? = nil,
             destinationResourceIdentifier: Swift.String? = nil,
             properties: [Resiliencehubv2ClientTypes.EdgePropertySummary]? = nil,
+            sourceAccount: Swift.String? = nil,
+            sourceRegion: Swift.String? = nil,
             sourceResourceIdentifier: Swift.String? = nil
         ) {
+            self.destinationAccount = destinationAccount
+            self.destinationRegion = destinationRegion
             self.destinationResourceIdentifier = destinationResourceIdentifier
             self.properties = properties
+            self.sourceAccount = sourceAccount
+            self.sourceRegion = sourceRegion
             self.sourceResourceIdentifier = sourceResourceIdentifier
         }
     }
@@ -6024,6 +6155,10 @@ extension ListFailureModeAssessmentsInput {
 
     static func queryItemProvider(_ value: ListFailureModeAssessmentsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let endedBefore = value.endedBefore {
+            let endedBeforeQueryItem = Smithy.URIQueryItem(name: "endedBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endedBefore)).urlPercentEncoding())
+            items.append(endedBeforeQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -6032,12 +6167,30 @@ extension ListFailureModeAssessmentsInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
         guard let serviceArn = value.serviceArn else {
             let message = "Creating a URL Query Item failed. serviceArn is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
         let serviceArnQueryItem = Smithy.URIQueryItem(name: "serviceArn".urlPercentEncoding(), value: Swift.String(serviceArn).urlPercentEncoding())
         items.append(serviceArnQueryItem)
+        if let startedAfter = value.startedAfter {
+            let startedAfterQueryItem = Smithy.URIQueryItem(name: "startedAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startedAfter)).urlPercentEncoding())
+            items.append(startedAfterQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let assessmentStatuses = value.assessmentStatuses {
+            assessmentStatuses.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "assessmentStatuses".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         return items
     }
 }
@@ -6181,6 +6334,12 @@ extension ListResourcesInput {
 
     static func queryItemProvider(_ value: ListResourcesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let resourceTypes = value.resourceTypes {
+            resourceTypes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let serviceFunctionId = value.serviceFunctionId {
             let serviceFunctionIdQueryItem = Smithy.URIQueryItem(name: "serviceFunctionId".urlPercentEncoding(), value: Swift.String(serviceFunctionId).urlPercentEncoding())
             items.append(serviceFunctionIdQueryItem)
@@ -6203,6 +6362,10 @@ extension ListResourcesInput {
         }
         let serviceArnQueryItem = Smithy.URIQueryItem(name: "serviceArn".urlPercentEncoding(), value: Swift.String(serviceArn).urlPercentEncoding())
         items.append(serviceArnQueryItem)
+        if let billable = value.billable {
+            let billableQueryItem = Smithy.URIQueryItem(name: "billable".urlPercentEncoding(), value: Swift.String(billable).urlPercentEncoding())
+            items.append(billableQueryItem)
+        }
         return items
     }
 }
@@ -8523,6 +8686,7 @@ extension Resiliencehubv2ClientTypes.Achievability {
         value.availabilitySlo = try reader["availabilitySlo"].readIfPresent()
         value.multiAzRtoRpo = try reader["multiAzRtoRpo"].readIfPresent()
         value.multiRegionRtoRpo = try reader["multiRegionRtoRpo"].readIfPresent()
+        value.dataRecoveryTimeBetweenBackups = try reader["dataRecoveryTimeBetweenBackups"].readIfPresent()
         return value
     }
 }
@@ -8680,6 +8844,8 @@ extension Resiliencehubv2ClientTypes.DependencyDiscoveryConfig {
         var value = Resiliencehubv2ClientTypes.DependencyDiscoveryConfig()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eligibleResourceCount = try reader["eligibleResourceCount"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -9509,6 +9675,10 @@ extension Resiliencehubv2ClientTypes.ServiceTopologyEdgeSummary {
         var value = Resiliencehubv2ClientTypes.ServiceTopologyEdgeSummary()
         value.sourceResourceIdentifier = try reader["sourceResourceIdentifier"].readIfPresent() ?? ""
         value.destinationResourceIdentifier = try reader["destinationResourceIdentifier"].readIfPresent() ?? ""
+        value.sourceRegion = try reader["sourceRegion"].readIfPresent()
+        value.destinationRegion = try reader["destinationRegion"].readIfPresent()
+        value.sourceAccount = try reader["sourceAccount"].readIfPresent()
+        value.destinationAccount = try reader["destinationAccount"].readIfPresent()
         value.properties = try reader["properties"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.EdgePropertySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

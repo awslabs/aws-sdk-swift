@@ -1534,6 +1534,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// Configuration for inbound JWT-based authorization, specifying how incoming requests should be authenticated.
     public struct CustomJWTAuthorizerConfiguration: Swift.Sendable {
+        /// A map that associates each scope in allowedScopes with a corresponding advertised scope value. The advertised scope appears in OAuth protected resource metadata and WWW-Authenticate response headers. Use this parameter when the scope that clients request from your identity provider differs from the scope in the validated token. Each key is a scope from allowedScopes that the service uses for token validation. Each value is the corresponding scope that the service advertises to clients. Scopes without a mapping entry appear unchanged to clients.
+        public var advertisedScopeMapping: [Swift.String: Swift.String]?
         /// Represents individual audience values that are validated in the incoming JWT token validation process.
         public var allowedAudience: [Swift.String]?
         /// Represents individual client IDs that are validated in the incoming JWT token validation process.
@@ -1553,6 +1555,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]?
 
         public init(
+            advertisedScopeMapping: [Swift.String: Swift.String]? = nil,
             allowedAudience: [Swift.String]? = nil,
             allowedClients: [Swift.String]? = nil,
             allowedScopes: [Swift.String]? = nil,
@@ -1562,6 +1565,7 @@ extension BedrockAgentCoreControlClientTypes {
             privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
             privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil
         ) {
+            self.advertisedScopeMapping = advertisedScopeMapping
             self.allowedAudience = allowedAudience
             self.allowedClients = allowedClients
             self.allowedScopes = allowedScopes
@@ -8096,7 +8100,15 @@ extension BedrockAgentCoreControlClientTypes {
         /// The HTTPS endpoint that the gateway forwards requests to for this passthrough target.
         /// This member is required.
         public var endpoint: Swift.String?
-        /// The application protocol the passthrough target implements. Required for passthrough targets.
+        /// The application protocol that the passthrough target implements. This value is required for passthrough targets:
+        ///
+        /// * MCP - The Model Context Protocol.
+        ///
+        /// * A2A - The Agent-to-Agent protocol.
+        ///
+        /// * INFERENCE - The protocol for routing requests to a large language model (LLM) provider.
+        ///
+        /// * CUSTOM - A custom application protocol.
         /// This member is required.
         public var protocolType: BedrockAgentCoreControlClientTypes.PassthroughProtocolType?
         /// The API schema configuration that defines the structure of the passthrough target's API.
@@ -30846,6 +30858,7 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advertisedScopeMapping"].writeMap(value.advertisedScopeMapping, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["allowedAudience"].writeList(value.allowedAudience, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedClients"].writeList(value.allowedClients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedScopes"].writeList(value.allowedScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -30863,6 +30876,7 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         value.allowedAudience = try reader["allowedAudience"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedClients = try reader["allowedClients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedScopes = try reader["allowedScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.advertisedScopeMapping = try reader["advertisedScopeMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.customClaims = try reader["customClaims"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
         value.privateEndpointOverrides = try reader["privateEndpointOverrides"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.read(from:), memberNodeInfo: "member", isFlattened: false)

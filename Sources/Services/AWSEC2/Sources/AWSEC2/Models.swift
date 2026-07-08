@@ -28643,15 +28643,17 @@ public struct CreateReplaceRootVolumeTaskInput: Swift.Sendable {
     public var deleteReplacedRootVolume: Swift.Bool?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
-    /// The ID of the AMI to use to restore the root volume. The specified AMI must have the same product code, billing information, architecture type, and virtualization type as that of the instance. If you want to restore the replacement volume from a specific snapshot, or if you want to restore it to its launch state, omit this parameter.
+    /// The ID of the AMI to use to restore the root volume. The specified AMI must have the same product code, billing information, architecture type, and virtualization type as that of the instance. If you want to restore the replacement volume from a specific snapshot, if you want to restore it to its launch state, or if you want to replace the root volume with a specified volume, omit this parameter.
     public var imageId: Swift.String?
     /// The ID of the instance for which to replace the root volume.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The ID of the snapshot from which to restore the replacement root volume. The specified snapshot must be a snapshot that you previously created from the original root volume. If you want to restore the replacement root volume to the initial launch state, or if you want to restore the replacement root volume from an AMI, omit this parameter.
+    /// The ID of the snapshot from which to restore the replacement root volume. The specified snapshot must be a snapshot that you previously created from the original root volume. If you want to restore the replacement root volume to the initial launch state, if you want to restore the replacement root volume from an AMI, or if you want to replace the root volume with a specified volume, omit this parameter.
     public var snapshotId: Swift.String?
     /// The tags to apply to the root volume replacement task.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+    /// The ID of the volume to use as the replacement root volume. The specified volume must be in the same Availability Zone as the instance, must be in the available state, and must not be attached to an instance. If the original root volume is encrypted, the specified volume must also be encrypted. If you want to restore the replacement root volume from a specific snapshot, an AMI, or to its launch state, omit this parameter.
+    public var volumeId: Swift.String?
     /// Specifies the Amazon EBS Provisioned Rate for Volume Initialization (volume initialization rate), in MiB/s, at which to download the snapshot blocks from Amazon S3 to the replacement root volume. This is also known as volume initialization. Specifying a volume initialization rate ensures that the volume is initialized at a predictable and consistent rate after creation. Omit this parameter if:
     ///
     /// * You want to create the volume using fast snapshot restore. You must specify a snapshot that is enabled for fast snapshot restore. In this case, the volume is fully initialized at creation. If you specify a snapshot that is enabled for fast snapshot restore and a volume initialization rate, the volume will be initialized at the specified rate instead of fast snapshot restore.
@@ -28670,6 +28672,7 @@ public struct CreateReplaceRootVolumeTaskInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         snapshotId: Swift.String? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
+        volumeId: Swift.String? = nil,
         volumeInitializationRate: Swift.Int? = nil
     ) {
         self.clientToken = clientToken
@@ -28679,6 +28682,7 @@ public struct CreateReplaceRootVolumeTaskInput: Swift.Sendable {
         self.instanceId = instanceId
         self.snapshotId = snapshotId
         self.tagSpecifications = tagSpecifications
+        self.volumeId = volumeId
         self.volumeInitializationRate = volumeInitializationRate
     }
 }
@@ -91923,6 +91927,7 @@ extension CreateReplaceRootVolumeTaskInput {
         if !(value.tagSpecifications?.isEmpty ?? true) {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+        try writer["VolumeId"].write(value.volumeId)
         try writer["VolumeInitializationRate"].write(value.volumeInitializationRate)
         try writer["Action"].write("CreateReplaceRootVolumeTask")
         try writer["Version"].write("2016-11-15")

@@ -3447,7 +3447,7 @@ extension Resiliencehubv2Client {
 
     /// Performs the `StartFailureModeAssessment` operation on the `Resiliencehubv2` service.
     ///
-    /// Start a failure mode assessment.
+    /// Starts a failure mode assessment.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartFailureModeAssessmentInput`)
     ///

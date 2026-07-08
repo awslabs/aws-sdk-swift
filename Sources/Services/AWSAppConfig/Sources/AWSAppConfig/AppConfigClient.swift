@@ -3458,7 +3458,7 @@ extension AppConfigClient {
 
     /// Performs the `StartExperimentRun` operation on the `AppConfig` service.
     ///
-    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition.
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition. Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see [AppConfig pricing](https://aws.amazon.com/systems-manager/pricing/).
     ///
     /// - Parameter input: [no documentation found] (Type: `StartExperimentRunInput`)
     ///
@@ -3607,6 +3607,7 @@ extension AppConfigClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
     public func stopExperimentRun(input: StopExperimentRunInput) async throws -> StopExperimentRunOutput {
